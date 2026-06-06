@@ -35,12 +35,12 @@ export default function CourseCard({ course }) {
         {course.description}
       </p>
 
-      <div className="mt-5 flex items-center justify-between border-t border-ink/15 pt-4">
-        <span className="text-xs uppercase tracking-wider text-ink">
+      <div className="mt-4 sm:mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-ink/15 pt-3 sm:pt-4">
+        <span className="text-[10px] sm:text-xs uppercase tracking-wider text-ink">
           {course.duration} · {course.language}
         </span>
         {course.price && (
-          <span className="font-medium text-lg text-orange">
+          <span className="font-medium text-base sm:text-lg text-orange">
             ₹{Number(course.price).toLocaleString("en-IN")}
           </span>
         )}

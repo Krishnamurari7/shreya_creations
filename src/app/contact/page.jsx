@@ -29,7 +29,7 @@ export default async function ContactPage() {
       />
 
       {site.mapEmbedUrl && (
-        <section className="mx-auto max-w-6xl px-4 sm:px-5 pb-6 sm:pb-8 relative z-20 reveal">
+        <section className="page-container max-w-6xl pb-6 sm:pb-8 relative z-20 reveal">
           <div className="glass rounded-2xl sm:rounded-3xl overflow-hidden aspect-video max-h-[420px] border border-ink/15 relative">
             <iframe
               src={site.mapEmbedUrl}
@@ -48,11 +48,11 @@ export default async function ContactPage() {
         </section>
       )}
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-5 pb-6 sm:pb-8 grid lg:grid-cols-12 gap-8 lg:gap-12 items-start relative z-20">
-        <div className="lg:col-span-6 reveal">
+      <section className="page-container max-w-6xl pb-6 sm:pb-8 grid lg:grid-cols-12 gap-8 lg:gap-12 items-start relative z-20">
+        <div className="lg:col-span-6 reveal order-2 lg:order-1">
           <ContactInfoCards site={site} wa={wa} />
         </div>
-        <div className="lg:col-span-6 reveal">
+        <div className="lg:col-span-6 reveal order-1 lg:order-2">
           <div className="relative">
             <ContactForm number={site.whatsapp} />
             <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-orange/5 blur-3xl -z-10" />

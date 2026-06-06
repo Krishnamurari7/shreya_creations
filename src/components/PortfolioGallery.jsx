@@ -109,7 +109,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                 position="top"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-left backdrop-blur-[2px]">
+              <div className="portfolio-card-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 text-left backdrop-blur-[2px]">
                 {item.category && (
                   <span className="text-[10px] uppercase tracking-widest text-orange font-semibold mb-1">
                     {item.category}

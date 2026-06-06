@@ -106,9 +106,11 @@ export default function HomepageClient({
 
   return (
     <div className="relative z-10 w-full overflow-x-hidden bg-cream">
+      <div className="pointer-events-none absolute top-32 -left-20 h-64 w-64 rounded-full bg-orange/6 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute top-[40%] -right-24 h-72 w-72 rounded-full bg-purple/5 blur-3xl" aria-hidden />
 
       {/* ===== HERO BANNER ===== */}
-      <section className="hero-floral-bg relative pt-[var(--header-offset)] pb-10 sm:pb-14">
+      <section className="hero-floral-bg relative pt-[var(--header-offset)] pb-10 sm:pb-14 lg:pb-16">
         <div className="page-container w-full grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           <div className="flex flex-col justify-center py-6 sm:py-8 lg:py-12 order-2 lg:order-1 text-center lg:text-left">
             <span className="text-purple uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[10px] sm:text-xs font-semibold mb-3 sm:mb-4">
@@ -201,6 +203,9 @@ export default function HomepageClient({
 
       {/* ===== QUICK CATEGORY LINKS ===== */}
       <section className="page-container pb-10 sm:pb-14">
+        <div className="section-ornament mb-6 sm:mb-8 reveal" aria-hidden>
+          <span className="text-gold text-xs">✦</span>
+        </div>
         <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-5 max-w-4xl mx-auto">
           {CATEGORY_LINKS.map((cat, i) => (
             <Link
@@ -483,7 +488,7 @@ export default function HomepageClient({
                 style={{ transitionDelay: `${(idx % 4) * 70}ms` }}
               >
                 <CardImage src={item.image} alt={item.title} ratio="3/4" position="top" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent flex flex-col justify-end p-3 sm:p-4">
+                <div className="portfolio-card-overlay absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
                   {item.category && (
                     <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-orange font-semibold">
                       {item.category}

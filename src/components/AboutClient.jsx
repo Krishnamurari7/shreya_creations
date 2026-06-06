@@ -23,26 +23,34 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
   return (
     <>
-      <section className="page-container max-w-6xl py-8 sm:py-12 grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center relative z-20">
+      <section className="page-container max-w-6xl py-6 sm:py-10 grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center relative z-20">
         <div className="absolute -top-10 right-1/4 h-40 w-40 rounded-full bg-orange/5 blur-3xl pointer-events-none" />
-        <div className="lg:col-span-7 space-y-5 sm:space-y-6 reveal text-center lg:text-left">
-          <span className="inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase">
-            {site.founded || "15+ Years Experience"}
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink leading-tight">
+        <div className="lg:col-span-5 relative flex justify-center reveal">
+          <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-purple/10 blur-2xl -z-10" />
+          <div className="relative w-full max-w-[280px] sm:max-w-md rounded-2xl sm:rounded-[2rem] overflow-hidden glass border border-orange/25 shadow-2xl p-2 sm:p-3 group transition-transform duration-500 hover:-translate-y-1">
+            <CardImage src={heroImage} alt="Atelier" ratio="3/4" position="top" className="rounded-3xl" />
+            <div className="absolute inset-2 sm:inset-3 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10 pointer-events-none rounded-3xl" />
+            {site.founded && (
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 glass rounded-full px-4 py-1.5 border border-gold/30 text-[10px] uppercase tracking-widest text-orange font-semibold whitespace-nowrap">
+                {site.founded}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="lg:col-span-7 space-y-4 sm:space-y-5 reveal text-center lg:text-left">
+          <span className="section-eyebrow">{lang === "hi" ? "हमारी कहानी" : "Our Story"}</span>
+          <h2 className="section-title mt-2">
             {heroBefore}{" "}
             <span className="text-gold-gradient">{heroHighlight}</span>
           </h2>
-          <p className="text-ink font-normal leading-relaxed text-base sm:text-lg max-w-xl mx-auto lg:mx-0">{intro}</p>
-          {aboutExtra && <p className="text-ink font-normal leading-relaxed text-sm sm:text-base max-w-xl mx-auto lg:mx-0">{aboutExtra}</p>}
-        </div>
-
-        <div className="lg:col-span-5 relative flex justify-center reveal order-first lg:order-none">
-          <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-purple/10 blur-2xl -z-10" />
-          <div className="relative w-full max-w-xs sm:max-w-md rounded-2xl sm:rounded-[2rem] overflow-hidden glass border border-orange/25 shadow-2xl p-2 sm:p-3 group">
-            <CardImage src={heroImage} alt="Atelier" ratio="3/4" position="top" className="rounded-3xl" />
-            <div className="absolute inset-2 sm:inset-3 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10 pointer-events-none rounded-3xl" />
-          </div>
+          <div className="hairline max-w-xs mx-auto lg:mx-0 lg:max-w-sm" />
+          <p className="text-muted font-normal leading-relaxed text-base sm:text-lg max-w-xl mx-auto lg:mx-0">{intro}</p>
+          {aboutExtra && (
+            <p className="text-ink font-normal leading-relaxed text-sm sm:text-base max-w-xl mx-auto lg:mx-0 border-l-2 border-orange/30 pl-4 lg:pl-5 text-left">
+              {aboutExtra}
+            </p>
+          )}
         </div>
       </section>
 

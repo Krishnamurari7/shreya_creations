@@ -9,7 +9,10 @@ export function TrustWall({ items, localize = false }) {
 
 export function Testimonials({ items }) {
   return (
-    <div className="flex gap-4 sm:gap-5 overflow-x-auto no-bar pb-4 snap-x snap-mandatory -mx-1 px-1">
+    <div className="relative">
+      <div className="pointer-events-none absolute left-0 top-0 bottom-4 w-6 sm:w-10 bg-gradient-to-r from-cream to-transparent z-10" aria-hidden />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-4 w-6 sm:w-10 bg-gradient-to-l from-cream to-transparent z-10" aria-hidden />
+      <div className="flex gap-4 sm:gap-5 overflow-x-auto no-bar pb-4 snap-x snap-mandatory -mx-1 px-1">
       {items.map((t, i) => (
         <Glass3DCard
           key={t.id || i}
@@ -40,6 +43,7 @@ export function Testimonials({ items }) {
           </Float3D>
         </Glass3DCard>
       ))}
+      </div>
     </div>
   );
 }

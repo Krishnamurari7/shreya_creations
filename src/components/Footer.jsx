@@ -92,8 +92,8 @@ export default function Footer({ site }) {
         <div className="mx-auto max-w-7xl px-4 sm:px-5 pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
           <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
             {/* Brand column */}
-            <div className="sm:col-span-2 lg:col-span-5">
-              <div className="flex items-center gap-3 sm:gap-4">
+            <div className="sm:col-span-2 lg:col-span-5 text-center sm:text-left">
+              <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo.png"
@@ -111,7 +111,7 @@ export default function Footer({ site }) {
                 </div>
               </div>
 
-              <p className="mt-6 max-w-md text-ink font-normal leading-relaxed">
+              <p className="mt-6 max-w-md mx-auto sm:mx-0 text-ink font-normal leading-relaxed">
                 {intro ||
                   "Couture stitching, bespoke fashion design & courses. Every order, enrolment and enquiry happens on WhatsApp."}
               </p>

@@ -26,7 +26,7 @@ export default function LocalizedPageHeader({
       <div className="absolute bottom-0 right-1/4 w-48 h-48 rounded-full bg-golden/5 blur-3xl -z-10 pointer-events-none" />
 
       {eyebrowText && (
-        <span className="inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-6 shadow-sm">
+        <span className="inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase mb-5 sm:mb-6 shadow-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-orange animate-pulse" />
           {eyebrowText}
         </span>

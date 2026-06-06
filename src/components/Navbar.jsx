@@ -37,6 +37,7 @@ export default function Navbar({ site }) {
   const t = UI[lang];
   const links = ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const prevPath = useRef(pathname);
   const wa = waLink(site?.whatsapp, greetingMessage());
@@ -70,8 +71,15 @@ export default function Navbar({ site }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, closeMenu]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
       <AnnouncementBar items={site?.heroMarquee} />
 
       <div className="site-header-inner">

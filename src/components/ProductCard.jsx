@@ -29,14 +29,14 @@ export default function ProductCard({ product, variant = "boutique", whatsapp })
           </button>
         </Link>
 
-        <div className="flex flex-col flex-1 p-4">
+        <div className="flex flex-col flex-1 p-3 sm:p-4">
           <Link href={`/shop/${product.slug}`}>
-            <h3 className="font-body text-sm text-ink leading-snug group-hover:text-purple transition-colors line-clamp-2">
+            <h3 className="font-body text-xs sm:text-sm text-ink leading-snug group-hover:text-purple transition-colors line-clamp-2">
               {product.title}
             </h3>
           </Link>
           {product.price && (
-            <span className="mt-1.5 font-medium text-base text-orange">
+            <span className="mt-1 sm:mt-1.5 font-medium text-sm sm:text-base text-orange">
               ₹{Number(product.price).toLocaleString("en-IN")}
             </span>
           )}
@@ -44,9 +44,9 @@ export default function ProductCard({ product, variant = "boutique", whatsapp })
             href={wa}
             target={whatsapp ? "_blank" : undefined}
             rel={whatsapp ? "noopener noreferrer" : undefined}
-            className="btn-purple mt-auto pt-4 w-full rounded-md py-2.5 sm:py-3 text-center text-[10px] sm:text-[11px] tracking-widest min-h-[44px] flex items-center justify-center"
+            className="btn-purple mt-auto pt-3 sm:pt-4 w-full rounded-md py-2.5 sm:py-3 text-center text-[9px] sm:text-[11px] tracking-widest min-h-[44px] flex items-center justify-center"
           >
-            ADD TO CART
+            ORDER ON WHATSAPP
           </a>
         </div>
       </div>

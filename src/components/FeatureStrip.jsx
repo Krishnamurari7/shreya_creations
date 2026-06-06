@@ -7,7 +7,7 @@ export default function FeatureStrip({ items = [] }) {
   if (!items.length) return null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-5 pb-8 sm:pb-10 relative z-20">
+    <section className="page-container pb-8 sm:pb-10 relative z-20">
       <div className="features-bar">
         <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-5 sm:gap-6">
           {items.map((item, i) => {

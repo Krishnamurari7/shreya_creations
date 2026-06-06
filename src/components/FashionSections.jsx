@@ -40,7 +40,7 @@ export function Services({ items }) {
 
 export function DesignProcess({ steps }) {
   return (
-    <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+    <div className="relative grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
       <div className="hidden lg:block absolute top-7 left-[12%] right-[12%] hairline" />
       {steps.map((s, i) => (
         <div key={i} className="relative text-center reveal" style={{ transitionDelay: `${i * 100}ms` }}>
