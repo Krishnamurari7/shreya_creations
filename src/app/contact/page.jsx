@@ -7,7 +7,7 @@ import { getSiteSettings } from "@/lib/data";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Contact — Shreya Creations" };
+export const metadata = { title: "Contact — Shreya creation" };
 
 const DEFAULT_SUBTITLE =
   "We're just a message away — order a custom garment, enroll in a class, or ask anything.";

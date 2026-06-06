@@ -8,7 +8,7 @@ import { TrustWall } from "@/components/Sections";
 import { getPortfolio, getSiteSettings, getTrustStats } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Portfolio — Shreya Creations" };
+export const metadata = { title: "Portfolio — Shreya creation" };
 
 export default async function PortfolioPage() {
   const [items, site, trust] = await Promise.all([getPortfolio(), getSiteSettings(), getTrustStats()]);
@@ -21,7 +21,7 @@ export default async function PortfolioPage() {
         eyebrowHi={portfolio.headerEyebrowHi}
         title={portfolio.headerTitle || "Portfolio"}
         titleHi={portfolio.headerTitleHi}
-        subtitle={portfolio.headerSubtitle || "A curated lookbook of lehengas, gowns, blouses and bridal pieces crafted at our Prayagraj atelier."}
+        subtitle={portfolio.headerSubtitle || "A curated lookbook of lehengas, gowns, blouses and bridal pieces crafted at our Patna atelier."}
         subtitleHi={portfolio.headerSubtitleHi}
       />
 
@@ -36,7 +36,7 @@ export default async function PortfolioPage() {
           title={portfolio.trustTitle || "Trusted craftsmanship"}
           titleHi={portfolio.trustTitleHi}
         />
-        <TrustWall items={trust} />
+        <TrustWall items={trust} localize />
       </section>
 
       <section className="mx-auto max-w-6xl px-4 sm:px-5 pb-12 sm:pb-16 relative z-20">

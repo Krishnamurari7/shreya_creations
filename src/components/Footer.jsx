@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
-import { UI } from "@/lib/i18n";
+import { UI, pickLocalized, pickTeamMember } from "@/lib/i18n";
+import { DEFAULT_TEAM } from "@/lib/seed";
 
 const NAV_ROUTES = [
   { href: "/", key: "home" },
@@ -42,10 +43,17 @@ export default function Footer({ site }) {
   const navLinks = NAV_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const policyLinks = POLICY_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const wa = waLink(site?.whatsapp, greetingMessage());
-  const marqueeText =
-    lang === "hi" && site?.taglineHi
-      ? site.taglineHi
-      : [site?.tagline, site?.taglineHi].filter(Boolean).join("  ·  ");
+  const boutique = pickLocalized(site, lang, "boutique", "boutiqueHi");
+  const tagline = pickLocalized(site, lang, "tagline", "taglineHi");
+  const intro = pickLocalized(site, lang, "intro", "introHi");
+  const teamMembers = (site?.pages?.about?.teamMembers?.length
+    ? site.pages.about.teamMembers
+    : DEFAULT_TEAM
+  ).map((m) => pickTeamMember(m, lang));
+  const marqueeText = [boutique, tagline].filter(Boolean).join("  ·  ");
+  const brandName = site?.brand || "Shreya creation";
+  const [brandFirst, ...brandRest] = brandName.split(" ");
+  const brandSecond = brandRest.join(" ") || "creation";
 
   return (
     <footer className="relative z-[2] overflow-hidden">
@@ -80,7 +88,7 @@ export default function Footer({ site }) {
         </div>
       )}
 
-      <div className="relative border-t border-ink/15 bg-gradient-to-b from-cream/40 via-muted to-white">
+      <div className="relative border-t border-gold/20 bg-cream">
         <div className="mx-auto max-w-7xl px-4 sm:px-5 pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
           <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
             {/* Brand column */}
@@ -89,28 +97,40 @@ export default function Footer({ site }) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo.png"
-                  alt="Shreya Creations"
+                  alt={brandName}
                   className="h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem] rounded-full object-cover ring-2 ring-orange/30 shadow-lg shadow-orange/20 transition-transform duration-500 hover:scale-105 shrink-0"
                 />
                 <div>
-                  <h3 className="font-display text-2xl sm:text-3xl text-ink leading-none md:text-4xl">
-                    Shreya <span className="text-gold-gradient">Creations</span>
+                  <h3 className="font-display text-2xl sm:text-3xl leading-none md:text-4xl">
+                    <span className="text-brand-gold">{brandFirst}</span>{" "}
+                    <span className="text-brand-purple">{brandSecond}</span>
                   </h3>
-                  <span className="mt-1 block text-[10px] uppercase tracking-[0.28em] text-purple-dark">
-                    {site?.boutique || "The Fashion Boutique"}
+                  <span className="mt-1 block text-[10px] uppercase tracking-[0.28em] text-purple">
+                    {boutique || "From Skill to Business"}
                   </span>
                 </div>
               </div>
 
               <p className="mt-6 max-w-md text-ink font-normal leading-relaxed">
-                {site?.intro ||
+                {intro ||
                   "Couture stitching, bespoke fashion design & courses. Every order, enrolment and enquiry happens on WhatsApp."}
               </p>
 
-              {site?.tagline && (
+              {tagline && (
                 <p className="mt-4 inline-block rounded-full border border-orange/20 bg-orange/5 px-4 py-1.5 text-xs tracking-wide text-orange-dark">
-                  {site.tagline}
+                  {tagline}
                 </p>
+              )}
+
+              {teamMembers.length > 0 && (
+                <div className="mt-5 space-y-1.5 text-sm text-ink">
+                  {teamMembers.map((member) => (
+                    <p key={member.name}>
+                      <span className="font-medium">{member.name}</span>
+                      <span className="text-muted"> — {member.role}</span>
+                    </p>
+                  ))}
+                </div>
               )}
 
               {/* WhatsApp CTA */}
@@ -226,7 +246,7 @@ export default function Footer({ site }) {
 
         <div className="site-footer-bottom mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:px-5 py-4 sm:py-5 sm:flex-row sm:gap-4">
           <p className="text-center text-[11px] sm:text-xs text-ink sm:text-left leading-relaxed max-w-full break-words px-1 sm:px-0">
-            © {new Date().getFullYear()} Shreya Creations
+            © {new Date().getFullYear()} {brandName}
             {site?.founded ? ` · ${site.founded}` : ""}
             {site?.city ? ` · ${site.city}` : ""}
           </p>

@@ -5,31 +5,60 @@
 // Image URLs here are royalty-free Unsplash placeholders. Replace them with your
 // own photos via the admin panel (stored in Supabase Storage).
 
+export const DEFAULT_TEAM = [
+  {
+    name: "Sanjay Kumar Mishra",
+    nameHi: "संजय कुमार मिश्रा",
+    role: "Founder",
+    roleHi: "संस्थापक",
+  },
+  {
+    name: "Sangi Shreya",
+    nameHi: "संगी श्रेया",
+    role: "Director & Lead Mentor",
+    roleHi: "निदेशक और मुख्य मेंटर",
+  },
+];
+
 export const SITE = {
-  brand: "Shreya Creations",
-  boutique: "The Fashion Boutique",
-  tagline: "Get your stitching wear in 24 hours",
-  taglineHi: "अपने सिले कपड़े प्राप्त करें — 24 घंटे में!",
+  brand: "Shreya creation",
+  boutique: "From Skill to Business",
+  boutiqueHi: "कौशल से कारोबार तक",
+  tagline: "Stitched outfits in 24 hours",
+  taglineHi: "मात्र 24 घंटे में सिले कपड़े प्राप्त करें",
   intro:
-    "Shreya Creations — Prayagraj ki fashion boutique aur training institute. Bespoke stitching, bridal couture, aur tailoring, embroidery, boutique skills jaise 50+ job-oriented courses — rozgaar ke liye tayyar.",
-  city: "Prayagraj, India",
-  founded: "Since 2005",
+    "Shreya creation — Patna's fashion boutique & training institute. From skill to business: bespoke stitching, bridal couture, and 50+ job-oriented fashion courses. Get stitched outfits in just 24 hours.",
+  introHi:
+    "श्रेया क्रिएशन — पटना की फैशन बुटीक और ट्रेनिंग इंस्टिट्यूट। कौशल से कारोबार तक — कस्टम सिलाई, ब्राइडल कउचर और 50+ रोज़गार-उन्मुख फैशन कोर्स। मात्र 24 घंटे में सिले कपड़े प्राप्त करें।",
+  city: "Patna, Bihar, India",
+  founded: "15+ Years Experience",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919031105666",
   email: "hello@shreyacreations.in",
   phone: "+91 90311 05666 / 79031 55125",
-  address: "Civil Lines, Prayagraj, Uttar Pradesh, India",
+  address: "Shreya creation, Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001",
+  mapEmbedUrl:
+    "https://maps.google.com/maps?q=Shreya+Creation+Sisodiya+Place+East+Boring+Canal+Road+Patna+Bihar+800001&hl=en&z=16&output=embed",
   socials: {
     instagram: "https://www.instagram.com/shreya.creationss/",
     youtube: "",
     facebook: "",
   },
+  heroMarquee: [
+    "24 घंटे में सिले कपड़े",
+    "कौशल से कारोबार तक",
+    "मात्र 24 घंटे में सिले कपड़े प्राप्त करें",
+    "PREMIUM QUALITY",
+    "FREE SHIPPING ON ORDERS ABOVE ₹999",
+    "EASY RETURNS",
+    "SECURE PAYMENTS",
+  ],
 };
 
 export const TRUST = [
-  { label: "Outfits delivered", value: "5,000+" },
-  { label: "Students taught", value: "300+" },
-  { label: "Years of craft", value: "19+" },
-  { label: "Express delivery", value: "24 hrs" },
+  { label: "Outfits delivered", labelHi: "आउटफिट डिलीवर", value: "5,000+" },
+  { label: "Students taught", labelHi: "छात्र प्रशिक्षित", value: "300+" },
+  { label: "Years of experience", labelHi: "वर्षों का अनुभव", value: "15+" },
+  { label: "Express delivery", labelHi: "एक्सप्रेस डिलीवरी", value: "24 hrs" },
 ];
 
 // Fashion-design services / expertise

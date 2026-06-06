@@ -20,12 +20,55 @@ function JsonField({ label, hint, value, onChange }) {
   );
 }
 
+function AnnouncementListField({ items, onChange }) {
+  const update = (index, value) => {
+    const next = [...items];
+    next[index] = value;
+    onChange(next);
+  };
+
+  const add = () => onChange([...items, ""]);
+  const remove = (index) => onChange(items.filter((_, i) => i !== index));
+
+  return (
+    <div>
+      <label className={ADMIN_LABEL}>Top announcement bar</label>
+      <p className={`${ADMIN_MUTED} mb-3`}>
+        Scrolling messages at the top of every page. One line per message.
+      </p>
+      <div className="space-y-2">
+        {items.map((line, index) => (
+          <div key={index} className="flex gap-2 items-center">
+            <input
+              value={line}
+              onChange={(e) => update(index, e.target.value)}
+              placeholder="e.g. FREE SHIPPING ON ORDERS ABOVE ₹999"
+              className={`${ADMIN_INPUT} flex-1`}
+            />
+            <button
+              type="button"
+              onClick={() => remove(index)}
+              className="shrink-0 text-xs text-marigold hover:underline px-2"
+              aria-label="Remove message"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
+      <button type="button" onClick={add} className="mt-3 text-sm text-gold hover:underline">
+        + Add message
+      </button>
+    </div>
+  );
+}
+
 export default function ContentAdmin() {
   const configured = isSupabaseConfigured();
   const [form, setForm] = useState({
     about_body: "",
     about_body_hi: "",
-    hero_marquee: "[]",
+    hero_marquee: [],
     services: "[]",
     process_steps: "[]",
     instagram_embed: "",
@@ -48,7 +91,9 @@ export default function ContentAdmin() {
         setForm({
           about_body: data.about_body || "",
           about_body_hi: data.about_body_hi || "",
-          hero_marquee: JSON.stringify(data.hero_marquee || [], null, 2),
+          hero_marquee: (data.hero_marquee || []).map((item) =>
+            typeof item === "string" ? item : item?.text || ""
+          ),
           services: JSON.stringify(data.services || [], null, 2),
           process_steps: JSON.stringify(data.process_steps || [], null, 2),
           instagram_embed: data.instagram_embed || "",
@@ -75,7 +120,7 @@ export default function ContentAdmin() {
         id: 1,
         about_body: form.about_body,
         about_body_hi: form.about_body_hi,
-        hero_marquee: JSON.parse(form.hero_marquee),
+        hero_marquee: form.hero_marquee.map((line) => line.trim()).filter(Boolean),
         services: JSON.parse(form.services),
         process_steps: JSON.parse(form.process_steps),
         instagram_embed: form.instagram_embed,
@@ -106,7 +151,7 @@ export default function ContentAdmin() {
     <div>
       <AdminPageHeader
         title="Site content"
-        subtitle="Hero marquee, services, process steps, and about copy."
+        subtitle="Header announcement bar, boutique service cards, and about copy."
       />
       <div className="glass admin-form-card admin-form-card--wide space-y-5">
         <div>
@@ -128,8 +173,11 @@ export default function ContentAdmin() {
           <label className={ADMIN_LABEL}>About body (Hindi)</label>
           <textarea rows={4} value={form.about_body_hi} onChange={(e) => setForm((f) => ({ ...f, about_body_hi: e.target.value }))} className={ADMIN_INPUT} />
         </div>
-        <JsonField label="Hero marquee (JSON array of strings)" value={form.hero_marquee} onChange={(v) => setForm((f) => ({ ...f, hero_marquee: v }))} />
-        <JsonField label="Services (JSON array)" hint='[{"title":"...","text":"...","accent":"orange"}]' value={form.services} onChange={(v) => setForm((f) => ({ ...f, services: v }))} />
+        <AnnouncementListField
+          items={form.hero_marquee}
+          onChange={(hero_marquee) => setForm((f) => ({ ...f, hero_marquee }))}
+        />
+        <JsonField label="Boutique services (JSON array)" hint='[{"title":"...","text":"...","accent":"orange"}] — shown in Homepage → Boutique Services Overview' value={form.services} onChange={(v) => setForm((f) => ({ ...f, services: v }))} />
         <JsonField label="Process steps (JSON array)" hint='[{"step":"Consult","text":"..."}]' value={form.process_steps} onChange={(v) => setForm((f) => ({ ...f, process_steps: v }))} />
         <p className="admin-muted">
           About page copy, pillars & images: edit in{" "}

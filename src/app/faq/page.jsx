@@ -5,7 +5,7 @@ import PageCTA from "@/components/PageCTA";
 import { getFaqs, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "FAQ — Shreya Creations" };
+export const metadata = { title: "FAQ — Shreya creation" };
 
 export default async function FaqPage() {
   const [faqs, site] = await Promise.all([getFaqs(), getSiteSettings()]);

@@ -7,6 +7,7 @@ function normalizeSettings(data) {
   return {
     ...data,
     taglineHi: data.tagline_hi ?? data.taglineHi,
+    boutiqueHi: data.boutique_hi ?? data.boutiqueHi,
     introHi: data.intro_hi ?? data.introHi,
     aboutBody: data.about_body ?? data.aboutBody,
     aboutBodyHi: data.about_body_hi ?? data.aboutBodyHi,

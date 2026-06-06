@@ -6,7 +6,7 @@ import PageCTA from "@/components/PageCTA";
 import { getProducts, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Shop — Shreya Creations" };
+export const metadata = { title: "Shop — Shreya creation" };
 
 export default async function ShopPage() {
   const [products, site] = await Promise.all([getProducts(), getSiteSettings()]);
@@ -25,7 +25,7 @@ export default async function ShopPage() {
         subtitleHi={shop.headerSubtitleHi}
       />
       <FeatureStrip items={shop.features || []} />
-      <ShopBrowser products={products} />
+      <ShopBrowser products={products} whatsapp={site.whatsapp} />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(shop)} />
     </PageShell>
   );

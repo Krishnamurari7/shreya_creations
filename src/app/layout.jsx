@@ -16,9 +16,9 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { getSiteSettings } from "@/lib/data";
 
 export const metadata = {
-  title: "Shreya Creations — Couture Atelier & Fashion Courses",
+  title: "Shreya creation — From Skill to Business",
   description:
-    "Lehengas, gowns, blouses and bridal wear stitched to your size in 24 hours. Plus fashion-design courses. Order & enroll on WhatsApp.",
+    "कौशल से कारोबार तक — bespoke stitching, bridal couture & fashion courses in Patna. Get stitched outfits in just 24 hours. Order on WhatsApp.",
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -29,7 +29,7 @@ export const metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "Shreya Creations",
+    title: "Shreya creation",
     description: "Couture stitching & fashion courses. Order on WhatsApp.",
     type: "website",
   },
@@ -38,7 +38,7 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#ffffff",
+  themeColor: "#FFF9F0",
 };
 
 export default async function RootLayout({ children }) {

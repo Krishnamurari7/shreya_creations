@@ -44,7 +44,7 @@ export const WA_FLOWS = {
           hi: "आप कैसे पढ़ना चाहेंगे?",
         },
         options: [
-          { en: "In-studio (Prayagraj)", hi: "स्टूडियो में (प्रयागराज)" },
+          { en: "In-studio (Patna)", hi: "स्टूडियो में (पटना)" },
           { en: "Online guidance", hi: "ऑनलाइन गाइडेंस" },
           { en: "Either works", hi: "दोनों ठीक हैं" },
         ],
@@ -54,7 +54,7 @@ export const WA_FLOWS = {
       const L = lang === "hi";
       const lines = L
         ? [
-            "नमस्ते Shreya Creations! 🙏",
+            "नमस्ते Shreya creation! 🙏",
             "मैं आपके फैशन कोर्स में एनरोल करना चाहता/चाहती हूँ।",
             "",
             `📚 कोर्स: ${answers.course_type || "-"}`,
@@ -62,7 +62,7 @@ export const WA_FLOWS = {
             `🏫 मोड: ${answers.mode || "-"}`,
           ]
         : [
-            "Hello Shreya Creations! 🙏",
+            "Hello Shreya creation! 🙏",
             "I would like to enroll in your fashion course.",
             "",
             `📚 Course: ${answers.course_type || "-"}`,
@@ -142,7 +142,7 @@ export const WA_FLOWS = {
       const L = lang === "hi";
       const lines = L
         ? [
-            "नमस्ते Shreya Creations! 🙏",
+            "नमस्ते Shreya creation! 🙏",
             "मैं कस्टम डिज़ाइनर आउटफिट अपने माप पर सिलवाना चाहता/चाहती हूँ।",
             "",
             `👗 परिधान: ${answers.garment || "-"}`,
@@ -151,7 +151,7 @@ export const WA_FLOWS = {
             `🧵 कपड़ा: ${answers.fabric || "-"}`,
           ]
         : [
-            "Hello Shreya Creations! 🙏",
+            "Hello Shreya creation! 🙏",
             "I would like a custom designer outfit stitched to my size.",
             "",
             `👗 Garment: ${answers.garment || "-"}`,
@@ -218,7 +218,7 @@ export const WA_FLOWS = {
       const L = lang === "hi";
       const lines = L
         ? [
-            "नमस्ते Shreya Creations! 🙏",
+            "नमस्ते Shreya creation! 🙏",
             "मुझे जल्दी एक आउटफिट चाहिए — 24 घंटे एक्सप्रेस सिलाई।",
             "",
             `👗 स्टाइल: ${answers.style || "-"}`,
@@ -226,7 +226,7 @@ export const WA_FLOWS = {
             `📏 माप: ${answers.size || "-"}`,
           ]
         : [
-            "Hello Shreya Creations! 🙏",
+            "Hello Shreya creation! 🙏",
             "I have an urgent requirement — 24-hour express tailoring.",
             "",
             `👗 Style: ${answers.style || "-"}`,
@@ -280,14 +280,14 @@ export const WA_FLOWS = {
       const L = lang === "hi";
       const lines = L
         ? [
-            "नमस्ते Shreya Creations! 🙏",
+            "नमस्ते Shreya creation! 🙏",
             "मुझे आपकी डिज़ाइन टीम से बात करनी है।",
             "",
             `💬 विषय: ${answers.topic || "-"}`,
             `⏰ जवाब: ${answers.urgency || "-"}`,
           ]
         : [
-            "Hello Shreya Creations! 🙏",
+            "Hello Shreya creation! 🙏",
             "I have a general query and would love to connect with your designer.",
             "",
             `💬 Topic: ${answers.topic || "-"}`,
@@ -352,7 +352,7 @@ export const WA_FLOWS = {
       const item = pageTitle || (L ? "यह प्रोडक्ट" : "this product");
       const lines = L
         ? [
-            "नमस्ते Shreya Creations! 🙏",
+            "नमस्ते Shreya creation! 🙏",
             `मुझे *${item}* में रुचि है।`,
             "",
             `🛍️ कार्य: ${answers.action || "-"}`,
@@ -360,7 +360,7 @@ export const WA_FLOWS = {
             `🧵 कपड़ा: ${answers.fabric || "-"}`,
           ]
         : [
-            "Hello Shreya Creations! 🙏",
+            "Hello Shreya creation! 🙏",
             `I'm interested in *${item}*.`,
             "",
             `🛍️ Action: ${answers.action || "-"}`,
@@ -415,7 +415,7 @@ export const WA_FLOWS = {
           hi: "आप कैसे पढ़ना चाहेंगे?",
         },
         options: [
-          { en: "In-studio (Prayagraj)", hi: "स्टूडियो में (प्रयागराज)" },
+          { en: "In-studio (Patna)", hi: "स्टूडियो में (पटना)" },
           { en: "Online guidance", hi: "ऑनलाइन गाइडेंस" },
           { en: "Either works", hi: "दोनों ठीक हैं" },
         ],
@@ -426,7 +426,7 @@ export const WA_FLOWS = {
       const course = pageTitle || (L ? "यह कोर्स" : "this course");
       const lines = L
         ? [
-            "नमस्ते Shreya Creations! 🙏",
+            "नमस्ते Shreya creation! 🙏",
             `मैं *${course}* में एनरोल करना चाहता/चाहती हूँ।`,
             "",
             `🕐 बैच: ${answers.batch || "-"}`,
@@ -434,7 +434,7 @@ export const WA_FLOWS = {
             `🏫 मोड: ${answers.mode || "-"}`,
           ]
         : [
-            "Hello Shreya Creations! 🙏",
+            "Hello Shreya creation! 🙏",
             `I'd like to enroll in *${course}*.`,
             "",
             `🕐 Batch: ${answers.batch || "-"}`,

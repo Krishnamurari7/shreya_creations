@@ -5,7 +5,7 @@ import PageCTA from "@/components/PageCTA";
 import { getLookbookPosts, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Lookbook — Shreya Creations" };
+export const metadata = { title: "Lookbook — Shreya creation" };
 
 export default async function LookbookPage() {
   const [posts, site] = await Promise.all([getLookbookPosts(), getSiteSettings()]);

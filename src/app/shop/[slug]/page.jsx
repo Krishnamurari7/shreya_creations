@@ -7,7 +7,7 @@ import { Glass3DCard } from "@/components/Glass3DCard";
 
 export async function generateMetadata({ params }) {
   const product = await getProductBySlug(params.slug);
-  return { title: product ? `${product.title} — Shreya Creations` : "Shop — Shreya Creations" };
+  return { title: product ? `${product.title} — Shreya creation` : "Shop — Shreya creation" };
 }
 
 export default async function ProductDetail({ params }) {

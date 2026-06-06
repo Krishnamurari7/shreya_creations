@@ -14,10 +14,10 @@ export default function CourseBrowser({ courses }) {
   const filtered = active === "All" ? courses : courses.filter((c) => c.category === active);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-5 pb-10 sm:pb-12 relative z-20">
+    <div className="page-container pb-10 sm:pb-12 relative z-20">
       {/* Category Pills Card Wrapper */}
       <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 border-ink/15 mb-8 sm:mb-12 flex justify-center shadow-xl">
-        <div className="flex flex-wrap gap-2.5 justify-center">
+        <div className="filter-pills justify-center md:justify-center md:flex-wrap">
           {categories.map((c) => {
             const isSelected = active === c;
             return (
@@ -44,9 +44,9 @@ export default function CourseBrowser({ courses }) {
           <p className="text-ink mt-4 font-normal text-base">No fashion courses are currently open in this category.</p>
         </Glass3DCard>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 justify-items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 items-stretch">
           {filtered.map((c) => (
-            <div key={c.id} className="reveal w-full flex justify-center">
+            <div key={c.id} className="reveal w-full h-full">
               <CourseCard course={c} />
             </div>
           ))}

@@ -14,7 +14,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 const COPY = {
   en: {
     welcome:
-      "Namaste! 🙏 Welcome to Shreya Creations. Select an option below — we'll ask a few quick follow-ups, then open WhatsApp with your details ready.",
+      "Namaste! 🙏 Welcome to Shreya creation. Select an option below — we'll ask a few quick follow-ups, then open WhatsApp with your details ready.",
     replies: "Replies within minutes",
     close: "Close Chat",
     open: "Open WhatsApp Support",
@@ -30,7 +30,7 @@ const COPY = {
   },
   hi: {
     welcome:
-      "नमस्ते! 🙏 Shreya Creations में आपका स्वागत है। नीचे एक विकल्प चुनें — कुछ सवालों के बाद WhatsApp आपके विवरण के साथ खुलेगा।",
+      "नमस्ते! 🙏 Shreya creation में आपका स्वागत है। नीचे एक विकल्प चुनें — कुछ सवालों के बाद WhatsApp आपके विवरण के साथ खुलेगा।",
     replies: "कुछ मिनटों में जवाब",
     close: "चैट बंद करें",
     open: "WhatsApp सहायता खोलें",
@@ -201,11 +201,11 @@ export default function WhatsAppAssistant({ number }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.png"
-              alt="Shreya Creations"
+              alt="Shreya creation"
               className="h-10 w-10 rounded-full object-cover border border-white/20"
             />
             <div>
-              <h4 className="font-display text-lg leading-tight text-white">Shreya Atelier</h4>
+              <h4 className="font-display text-lg leading-tight text-white">Shreya creation</h4>
               <span className="text-[10px] text-ink flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
                 {t.replies}

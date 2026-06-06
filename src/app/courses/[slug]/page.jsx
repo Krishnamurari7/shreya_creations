@@ -7,7 +7,7 @@ import SyllabusGrid from "@/components/SyllabusGrid";
 
 export async function generateMetadata({ params }) {
   const course = await getCourseBySlug(params.slug);
-  return { title: course ? `${course.title} — Shreya Creations` : "Courses — Shreya Creations" };
+  return { title: course ? `${course.title} — Shreya creation` : "Courses — Shreya creation" };
 }
 
 export default async function CourseDetail({ params }) {

@@ -6,9 +6,10 @@ import AdminPageHeader from "@/components/admin/AdminPageHeader";
 
 const FIELDS = [
   { name: "brand", label: "Brand name" },
-  { name: "boutique", label: "Boutique tagline", hint: "e.g. The Fashion Boutique" },
-  { name: "tagline", label: "Tagline (English)" },
-  { name: "taglineHi", label: "Tagline (Hindi)", col: "tagline_hi" },
+  { name: "boutique", label: "Brand message (English)", hint: "e.g. From Skill to Business" },
+  { name: "boutiqueHi", label: "Brand message (Hindi)", col: "boutique_hi", hint: "e.g. कौशल से कारोबार तक" },
+  { name: "tagline", label: "Service USP (English)", hint: "e.g. Stitched outfits in 24 hours" },
+  { name: "taglineHi", label: "Service USP (Hindi)", col: "tagline_hi", hint: "e.g. मात्र 24 घंटे में सिले कपड़े प्राप्त करें" },
   { name: "intro", label: "Intro / about line (English)", type: "textarea" },
   { name: "introHi", label: "Intro (Hindi)", col: "intro_hi", type: "textarea" },
   { name: "whatsapp", label: "WhatsApp number", hint: "International format, no +, e.g. 919876543210" },
@@ -16,7 +17,7 @@ const FIELDS = [
   { name: "email", label: "Email" },
   { name: "address", label: "Address", type: "textarea" },
   { name: "city", label: "City" },
-  { name: "founded", label: "Founded label", hint: "e.g. Since 2005" },
+  { name: "founded", label: "Founded label", hint: "e.g. 15+ Years Experience" },
   { name: "instagram", label: "Instagram URL", path: ["socials", "instagram"] },
   { name: "youtube", label: "YouTube URL", path: ["socials", "youtube"] },
   { name: "facebook", label: "Facebook URL", path: ["socials", "facebook"] },

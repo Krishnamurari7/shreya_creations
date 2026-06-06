@@ -1,7 +1,7 @@
 {
-  "name": "Shreya Creations — The Fashion Boutique",
-  "short_name": "Shreya Creations",
-  "description": "Couture stitching, fashion design & courses. Order on WhatsApp.",
+  "name": "Shreya creation — कौशल से कारोबार तक",
+  "short_name": "Shreya creation",
+  "description": "24 घंटे में सिले कपड़े — bespoke stitching, fashion design & courses. Order on WhatsApp.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -1,27 +1,10 @@
 "use client";
 
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
+import TrustStats from "@/components/TrustStats";
 
-export function TrustWall({ items }) {
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-      {items.map((t, i) => (
-        <Glass3DCard
-          key={i}
-          layered
-          className="rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center reveal"
-          style={{ transitionDelay: `${i * 80}ms` }}
-        >
-          <Float3D translateZ="55">
-            <div className="font-display text-2xl sm:text-4xl md:text-5xl text-gold-gradient">{t.value}</div>
-          </Float3D>
-          <Float3D translateZ="30" className="mt-2">
-            <div className="text-xs uppercase tracking-[0.18em] text-ink">{t.label}</div>
-          </Float3D>
-        </Glass3DCard>
-      ))}
-    </div>
-  );
+export function TrustWall({ items, localize = false }) {
+  return <TrustStats items={items} localize={localize} />;
 }
 
 export function Testimonials({ items }) {

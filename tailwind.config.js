@@ -7,19 +7,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Brand palette: orange · cream · golden · purple (light theme)
-        ink: "#1a1028",
-        wine: "#2a1045",
-        maroon: "#4c1d6e",
-        ivory: "#faf6ee",
-        cream: "#f4ebd0",
-        sand: "#e8dcc8",
-        surface: "#ffffff",
-        muted: "#f7f4ef",
-        orange: { DEFAULT: "#e65c00", light: "#ff9e42", dark: "#c2410c" },
-        golden: { DEFAULT: "#d4af37", light: "#f5d78e", dark: "#a67c1e" },
-        purple: { DEFAULT: "#8b5cf6", light: "#c4b5fd", dark: "#5b21b6" },
-        gold: "#d4af37",
+        // Boutique palette: cream · deep purple · orange-gold · lavender
+        ink: "#2d2438",
+        wine: "#4A154B",
+        maroon: "#3d1039",
+        ivory: "#FFF9F0",
+        cream: "#FFF9F0",
+        sand: "#f5ebe0",
+        surface: "#FFF9F0",
+        muted: "#faf3e8",
+        lavender: "#D1C4E9",
+        orange: { DEFAULT: "#D48131", light: "#e8a05a", dark: "#b86a22" },
+        golden: { DEFAULT: "#D48131", light: "#e8b86a", dark: "#a67c1e" },
+        purple: { DEFAULT: "#4A154B", light: "#D1C4E9", dark: "#3d1039" },
+        gold: "#c9a227",
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],

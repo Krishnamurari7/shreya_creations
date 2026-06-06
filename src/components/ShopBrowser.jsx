@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import ProductCard from "@/components/ProductCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
 
-export default function ShopBrowser({ products }) {
+export default function ShopBrowser({ products, whatsapp }) {
   const categories = useMemo(() => {
     const set = new Set(products.map((p) => p.category).filter(Boolean));
     return ["All", ...set];
@@ -26,11 +26,11 @@ export default function ShopBrowser({ products }) {
   }, [products, active, query]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-5 pb-10 sm:pb-12 relative z-20">
+    <div className="page-container pb-10 sm:pb-12 relative z-20">
       {/* Search and Filters Header */}
       <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 md:p-8 border-ink/15 mb-8 sm:mb-12 flex flex-col md:flex-row gap-4 sm:gap-6 items-stretch md:items-center justify-between shadow-xl">
         {/* Category selection */}
-        <div className="flex flex-wrap gap-2.5 justify-center md:justify-start w-full md:w-auto">
+        <div className="filter-pills justify-start md:justify-start w-full md:w-auto md:flex-wrap">
           {categories.map((c) => {
             const isSelected = active === c;
             return (
@@ -72,10 +72,10 @@ export default function ShopBrowser({ products }) {
           <p className="text-ink mt-4 font-normal text-base">No couture pieces match your search query.</p>
         </Glass3DCard>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 justify-items-stretch">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filtered.map((p) => (
-            <div key={p.id} className="reveal w-full flex justify-center">
-              <ProductCard product={p} />
+            <div key={p.id} className="reveal w-full h-full">
+              <ProductCard product={p} variant="boutique" whatsapp={whatsapp} />
             </div>
           ))}
         </div>

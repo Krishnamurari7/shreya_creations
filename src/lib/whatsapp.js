@@ -25,13 +25,13 @@ export function courseMessage(course, url) {
 }
 
 export function greetingMessage() {
-  return "Hi Shreya Creations! 👋 I came across your website and have a question.";
+  return "Hi Shreya creation! 👋 I came across your website and have a question.";
 }
 
 export function portfolioMessage() {
-  return "Hi Shreya Creations! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.";
+  return "Hi Shreya creation! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.";
 }
 
 export function enquiryMessage(name, msg) {
-  return `Hi Shreya Creations! 👋\nName: ${name || "-"}\n${msg || ""}`.trim();
+  return `Hi Shreya creation! 👋\nName: ${name || "-"}\n${msg || ""}`.trim();
 }

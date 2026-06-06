@@ -7,6 +7,7 @@ create table if not exists public.settings (
   id               int primary key default 1,
   brand            text,
   boutique         text,
+  boutique_hi      text,
   tagline          text,
   tagline_hi       text,
   intro            text,

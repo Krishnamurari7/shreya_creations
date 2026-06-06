@@ -59,3 +59,12 @@ export function pickTrust(item, lang) {
     value: item.value,
   };
 }
+
+export function pickTeamMember(member, lang) {
+  const nameHi = member.name_hi ?? member.nameHi;
+  const roleHi = member.role_hi ?? member.roleHi;
+  return {
+    name: lang === "hi" && nameHi ? nameHi : member.name,
+    role: lang === "hi" && roleHi ? roleHi : member.role,
+  };
+}

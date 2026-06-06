@@ -124,7 +124,7 @@ export default function PagesAdmin() {
     <div>
       <AdminPageHeader
         title="Page editor"
-        subtitle="Edit headers, feature cards, CTAs and copy for every public page — English & Hindi."
+        subtitle="Homepage sections (Hero, Why Choose Us, Courses, Services, Founder, Success, Contact) and all page copy — English & Hindi."
       />
 
       <div className="admin-tabs" role="tablist" aria-label="Page sections">
@@ -159,6 +159,20 @@ export default function PagesAdmin() {
             <SectionHeading>Section titles</SectionHeading>
             <BilingualField label="Pillars section title" enKey="pillars_title" hiKey="pillars_title_hi" values={page} onChange={onChange} />
             <BilingualField label="Trust section title" enKey="trust_title" hiKey="trust_title_hi" values={page} onChange={onChange} />
+            <SectionHeading>Leadership team</SectionHeading>
+            <BilingualField label="Team section title" enKey="team_title" hiKey="team_title_hi" values={page} onChange={onChange} />
+            <RepeaterField
+              label="Team members"
+              items={page.team_members || []}
+              onChange={(v) => onChange("team_members", v)}
+              addLabel="Add team member"
+              fields={[
+                { key: "name", label: "Name (EN)" },
+                { key: "name_hi", label: "Name (HI)" },
+                { key: "role", label: "Role (EN)", wide: true },
+                { key: "role_hi", label: "Role (HI)", wide: true },
+              ]}
+            />
             <RepeaterField
               label="About pillars"
               items={pillars}

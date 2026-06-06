@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import CardImage from "@/components/CardImage";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -31,14 +32,9 @@ export default function LookbookGrid({ posts = [] }) {
         <Glass3DCard layered className="rounded-2xl sm:rounded-[2rem] overflow-hidden border-orange/20 reveal group">
           <div className="grid md:grid-cols-2 gap-0">
             {featured.image && (
-              <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[320px] overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={featured.image}
-                  alt={featured.title}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/30" />
+              <div className="relative h-full min-h-[280px] md:min-h-[320px]">
+                <CardImage src={featured.image} alt={featured.title} ratio="fill" position="top" className="h-full min-h-[280px] md:min-h-[320px]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/30 pointer-events-none" />
               </div>
             )}
             <Float3D translateZ="50" className="p-6 sm:p-10 flex flex-col justify-center">
@@ -59,14 +55,9 @@ export default function LookbookGrid({ posts = [] }) {
           {rest.map((p) => (
             <Glass3DCard key={p.id} layered className="rounded-2xl sm:rounded-3xl overflow-hidden reveal group">
               {p.image && (
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80" />
+                <div className="relative">
+                  <CardImage src={p.image} alt={p.title} ratio="3/4" position="top" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 pointer-events-none" />
                 </div>
               )}
               <Float3D translateZ="40" className="p-5 sm:p-6 -mt-16 relative z-10">

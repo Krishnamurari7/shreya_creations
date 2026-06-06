@@ -40,15 +40,15 @@ export function Services({ items }) {
 
 export function DesignProcess({ steps }) {
   return (
-    <div className="relative grid md:grid-cols-4 gap-6">
-      <div className="hidden md:block absolute top-7 left-[12%] right-[12%] hairline" />
+    <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      <div className="hidden lg:block absolute top-7 left-[12%] right-[12%] hairline" />
       {steps.map((s, i) => (
         <div key={i} className="relative text-center reveal" style={{ transitionDelay: `${i * 100}ms` }}>
-          <div className="mx-auto grid place-items-center h-14 w-14 rounded-full glass text-gold font-display text-2xl relative z-10">
+          <div className="mx-auto grid place-items-center h-12 w-12 sm:h-14 sm:w-14 rounded-full glass text-gold font-display text-xl sm:text-2xl relative z-10 border border-gold/25">
             {i + 1}
           </div>
-          <h3 className="font-display text-2xl text-ink mt-4">{s.step}</h3>
-          <p className="mt-2 text-ink font-normal text-sm leading-relaxed">{s.text}</p>
+          <h3 className="font-display text-xl sm:text-2xl text-ink mt-3 sm:mt-4">{s.step}</h3>
+          <p className="mt-2 text-ink font-normal text-sm leading-relaxed max-w-xs mx-auto">{s.text}</p>
         </div>
       ))}
     </div>

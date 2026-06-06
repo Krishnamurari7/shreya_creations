@@ -6,7 +6,7 @@ import PageCTA from "@/components/PageCTA";
 import { getCourses, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Courses — Shreya Creations" };
+export const metadata = { title: "Courses — Shreya creation" };
 
 export default async function CoursesPage() {
   const [courses, site] = await Promise.all([getCourses(), getSiteSettings()]);

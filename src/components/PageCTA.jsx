@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 
@@ -47,47 +46,41 @@ export default function PageCTA({
   const wa = waLink(whatsapp, waMessage || greetingMessage());
 
   return (
-    <section className={`mx-auto max-w-5xl px-4 sm:px-5 pt-8 pb-10 sm:pt-12 sm:pb-14 relative z-20 ${className}`}>
-      <Glass3DCard
-        layered
-        className="rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-14 text-center relative overflow-hidden border-orange/30 bg-orange/5 reveal"
-      >
-        <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-orange/10 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-purple/10 blur-3xl pointer-events-none" />
-
-        <Float3D translateZ="50">
-          <h2 className="font-display text-2xl sm:text-4xl md:text-5xl text-ink leading-tight">
-            {heading}
-            {highlight ? (
-              <>
-                {" "}
-                <span className="text-gold-gradient">{highlight}</span>
-              </>
-            ) : null}
-          </h2>
-        </Float3D>
-        <Float3D translateZ="40" className="mt-4">
-          <p className="text-ink font-normal max-w-md mx-auto text-sm leading-relaxed px-1">{body}</p>
-        </Float3D>
-        <Float3D translateZ="60" className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
+    <section className={`page-container max-w-5xl pt-6 pb-10 sm:pt-10 sm:pb-14 relative z-20 ${className}`}>
+      <div className="collection-banner rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-14 text-center reveal relative">
+        <div className="absolute -top-10 left-1/4 h-32 w-32 rounded-full bg-orange/20 blur-3xl pointer-events-none" aria-hidden />
+        <div className="absolute -bottom-8 right-1/4 h-28 w-28 rounded-full bg-lavender/15 blur-3xl pointer-events-none" aria-hidden />
+        <div className="relative z-[1]">
+        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl text-white leading-tight text-balance">
+          {heading}
+          {highlight ? (
+            <>
+              {" "}
+              <span className="text-orange">{highlight}</span>
+            </>
+          ) : null}
+        </h2>
+        <p className="text-white/80 font-normal max-w-md mx-auto text-sm leading-relaxed px-1 mt-4">{body}</p>
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
           <a
             href={wa}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold rounded-full px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0"
+            className="btn-gold-outline rounded-md px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0"
           >
             {primary}
           </a>
           {secondaryHref && (
             <Link
               href={secondaryHref}
-              className="btn-ghost rounded-full px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0 text-center"
+              className="rounded-md px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0 text-center text-white border border-white/40 hover:bg-white/10 transition-colors text-sm uppercase tracking-wider"
             >
               {secondary}
             </Link>
           )}
-        </Float3D>
-      </Glass3DCard>
+        </div>
+        </div>
+      </div>
     </section>
   );
 }

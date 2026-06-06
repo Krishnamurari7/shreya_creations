@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import CardImage from "@/components/CardImage";
 import { Glass3DCard } from "@/components/Glass3DCard";
 
 export default function PortfolioGallery({ items = [], fullPage = false }) {
+  const [mounted, setMounted] = useState(false);
   const categories = useMemo(() => {
     const set = new Set(items.map((i) => i.category).filter(Boolean));
     return ["All", ...Array.from(set).sort()];
@@ -33,6 +36,8 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
     setLightboxIndex((i) => (i === null ? null : (i + 1) % filtered.length));
   }, [filtered.length]);
 
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
     if (lightboxIndex === null) return;
     const onKey = (e) => {
@@ -49,7 +54,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
   }, [lightboxIndex, closeLightbox, goPrev, goNext]);
 
   const filterBar = (
-    <div className={`flex flex-wrap gap-2.5 ${fullPage ? "justify-center md:justify-start" : "justify-center"}`}>
+    <div className={`filter-pills gap-2.5 ${fullPage ? "justify-start md:flex-wrap" : "justify-center md:flex-wrap"}`}>
       {categories.map((c) => {
         const isSelected = active === c;
         return (
@@ -97,15 +102,12 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
               className="group relative block w-full overflow-hidden rounded-3xl glass border border-ink/15 hover:border-orange/35 transition-all duration-500 reveal shadow-lg break-inside-avoid"
               style={{ transitionDelay: `${(idx % 8) * 50}ms` }}
             >
-              <div className="overflow-hidden relative aspect-[3/4]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.image}
-                  alt={item.title || "Portfolio piece"}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-              </div>
+              <CardImage
+                src={item.image}
+                alt={item.title || "Portfolio piece"}
+                ratio="3/4"
+                position="top"
+              />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-left backdrop-blur-[2px]">
                 {item.category && (
@@ -127,89 +129,93 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
         </div>
       )}
 
-      <AnimatePresence>
-        {lightbox && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeLightbox}
-            className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-xl grid place-items-center p-4 sm:p-8"
-            role="dialog"
-            aria-modal="true"
-            aria-label={lightbox.title}
-          >
-            {filtered.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goPrev();
-                  }}
-                  className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full glass border border-orange/25 text-ink hover:border-orange/50 transition-colors z-10"
-                  aria-label="Previous"
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goNext();
-                  }}
-                  className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full glass border border-orange/25 text-ink hover:border-orange/50 transition-colors z-10"
-                  aria-label="Next"
-                >
-                  ›
-                </button>
-              </>
-            )}
-
-            <motion.div
-              key={lightbox.id || lightbox.title}
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-3xl w-full glass rounded-3xl p-3 border border-orange/25 shadow-2xl bg-white"
-            >
-              <div className="overflow-hidden rounded-2xl aspect-[4/5] sm:aspect-auto sm:max-h-[75vh] bg-cream/30">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={lightbox.image}
-                  alt={lightbox.title}
-                  className="w-full h-full object-contain mx-auto rounded-2xl max-h-[75vh]"
-                />
-              </div>
-
-              <div className="p-4 text-center">
-                {lightbox.category && (
-                  <span className="text-xs uppercase tracking-widest text-orange font-semibold">
-                    {lightbox.category}
-                  </span>
-                )}
-                <p className="font-display text-2xl sm:text-3xl text-gold-gradient mt-1">{lightbox.title}</p>
-                {filtered.length > 1 && (
-                  <p className="text-[10px] uppercase tracking-widest text-ink mt-2">
-                    {(lightboxIndex ?? 0) + 1} / {filtered.length}
-                  </p>
-                )}
-              </div>
-
-              <button
-                type="button"
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {lightbox && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 onClick={closeLightbox}
-                className="absolute top-2 right-2 sm:-top-3 sm:-right-3 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-orange text-white border border-orange-light/20 flex items-center justify-center text-sm shadow-lg hover:rotate-90 hover:scale-105 transition-all duration-300"
-                aria-label="Close"
+                className="fixed inset-0 z-[10050] bg-black/85 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8"
+                role="dialog"
+                aria-modal="true"
+                aria-label={lightbox.title}
               >
-                ✕
-              </button>
-            </motion.div>
-          </motion.div>
+                {filtered.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goPrev();
+                      }}
+                      className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full glass border border-orange/25 text-ink hover:border-orange/50 transition-colors z-10"
+                      aria-label="Previous"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goNext();
+                      }}
+                      className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full glass border border-orange/25 text-ink hover:border-orange/50 transition-colors z-10"
+                      aria-label="Next"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
+
+                <motion.div
+                  key={lightbox.id || lightbox.title}
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.95, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-full max-w-4xl glass rounded-3xl p-3 sm:p-4 border border-orange/25 shadow-2xl bg-white"
+                >
+                  <div className="flex items-center justify-center rounded-2xl overflow-hidden bg-cream/30 min-h-[200px] max-h-[min(78vh,720px)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={lightbox.image}
+                      alt={lightbox.title}
+                      className="block max-h-[min(78vh,720px)] max-w-full w-auto h-auto object-contain"
+                    />
+                  </div>
+
+                  <div className="p-4 text-center">
+                    {lightbox.category && (
+                      <span className="text-xs uppercase tracking-widest text-orange font-semibold">
+                        {lightbox.category}
+                      </span>
+                    )}
+                    <p className="font-display text-2xl sm:text-3xl text-gold-gradient mt-1">{lightbox.title}</p>
+                    {filtered.length > 1 && (
+                      <p className="text-[10px] uppercase tracking-widest text-ink mt-2">
+                        {(lightboxIndex ?? 0) + 1} / {filtered.length}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={closeLightbox}
+                    className="absolute top-2 right-2 sm:-top-3 sm:-right-3 h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-orange text-white border border-orange-light/20 flex items-center justify-center text-sm shadow-lg hover:rotate-90 hover:scale-105 transition-all duration-300"
+                    aria-label="Close"
+                  >
+                    ✕
+                  </button>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </div>
   );
 }

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
-import { UI } from "@/lib/i18n";
+import { UI, pickLocalized } from "@/lib/i18n";
+import AnnouncementBar from "@/components/AnnouncementBar";
 
 const ROUTES = [
   { href: "/", key: "home" },
@@ -14,7 +15,6 @@ const ROUTES = [
   { href: "/portfolio", key: "portfolio" },
   { href: "/about", key: "about" },
   { href: "/contact", key: "contact" },
-  { href: "/faq", key: "faq" },
 ];
 
 function MenuIcon({ open }) {
@@ -37,19 +37,15 @@ export default function Navbar({ site }) {
   const t = UI[lang];
   const links = ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const prevPath = useRef(pathname);
   const wa = waLink(site?.whatsapp, greetingMessage());
+  const boutiqueTagline = pickLocalized(site, lang, "boutique", "boutiqueHi") || "From Skill to Business";
+  const brandName = site?.brand || "Shreya creation";
+  const [brandFirst, ...brandRest] = brandName.split(" ");
+  const brandSecond = brandRest.join(" ") || "creation";
 
   const closeMenu = useCallback(() => setOpen(false), []);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (prevPath.current !== pathname) {
@@ -74,26 +70,26 @@ export default function Navbar({ site }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, closeMenu]);
 
-  const barClass = scrolled ? "is-scrolled" : "";
-
   return (
-    <header className={`site-header ${barClass}`}>
+    <header className="site-header">
+      <AnnouncementBar items={site?.heroMarquee} />
+
       <div className="site-header-inner">
         {/* Mobile logo bar */}
         <div className="nav-mobile-bar">
           <Link href="/" onClick={closeMenu} className="nav-mobile-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Shreya Creations" className="nav-mobile-logo" />
+            <img src="/logo.png" alt={brandName} className="nav-mobile-logo" />
             <span className="nav-mobile-text">
-              <span className="nav-mobile-title">
-                Shreya <span className="text-gold-gradient">Creations</span>
+              <span className="nav-mobile-title font-display">
+                <span className="text-brand-gold">{brandFirst}</span>{" "}
+                <span className="text-brand-purple">{brandSecond}</span>
               </span>
-              <span className="nav-mobile-tagline">The Fashion Boutique</span>
+              <span className="nav-mobile-tagline">{boutiqueTagline}</span>
             </span>
           </Link>
         </div>
 
-        {/* Menu button — fixed, NOT inside any lg:hidden parent */}
         <button
           type="button"
           className="nav-menu-btn"
@@ -109,12 +105,13 @@ export default function Navbar({ site }) {
         <nav className="nav-desktop-bar" aria-label="Main navigation">
           <Link href="/" className="nav-desktop-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Shreya Creations" className="nav-desktop-logo" />
+            <img src="/logo.png" alt={brandName} className="nav-desktop-logo ring-2 ring-gold/40" />
             <span className="nav-desktop-text">
-              <span className="nav-desktop-title">
-                Shreya <span className="text-gold-gradient">Creations</span>
+              <span className="nav-desktop-title font-display text-xl">
+                <span className="text-brand-gold">{brandFirst}</span>{" "}
+                <span className="text-brand-purple">{brandSecond}</span>
               </span>
-              <span className="nav-desktop-tagline">The Fashion Boutique</span>
+              <span className="nav-desktop-tagline">{boutiqueTagline}</span>
             </span>
           </Link>
 
@@ -128,18 +125,19 @@ export default function Navbar({ site }) {
             ))}
           </ul>
 
-          <button
-            type="button"
-            onClick={toggle}
-            className="btn-ghost rounded-full px-3 py-1.5 text-xs uppercase tracking-wider shrink-0"
-            aria-label="Toggle language"
-          >
-            {t.language}
-          </button>
-
-          <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-gold nav-desktop-wa">
-            {t.chatWhatsApp}
-          </a>
+          <div className="nav-desktop-icons">
+            <button
+              type="button"
+              onClick={toggle}
+              className="btn-ghost rounded-full px-3 py-1.5 text-[10px] uppercase tracking-wider shrink-0 hidden xl:inline-flex"
+              aria-label="Toggle language"
+            >
+              {t.language}
+            </button>
+            <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-purple nav-desktop-wa hidden lg:inline-flex">
+              {t.chatWhatsApp}
+            </a>
+          </div>
         </nav>
       </div>
 
@@ -168,7 +166,7 @@ export default function Navbar({ site }) {
               <button type="button" onClick={toggle} className="btn-ghost rounded-full py-2.5 text-sm">
                 {t.language}
               </button>
-              <a href={wa} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="btn-gold nav-mobile-drawer-wa">
+              <a href={wa} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="btn-purple nav-mobile-drawer-wa">
                 {t.chatWhatsApp}
               </a>
             </div>

@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const page = await getPolicyPage(params.slug);
-  return { title: page ? `${page.title} — Shreya Creations` : "Policy" };
+  return { title: page ? `${page.title} — Shreya creation` : "Policy" };
 }
 
 export default async function PolicyPage({ params }) {

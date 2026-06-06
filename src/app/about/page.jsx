@@ -5,7 +5,7 @@ import PageCTA from "@/components/PageCTA";
 import { getSiteSettings, getTrustStats } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "About — Shreya Creations" };
+export const metadata = { title: "About — Shreya creation" };
 
 export default async function AboutPage() {
   const [site, trust] = await Promise.all([getSiteSettings(), getTrustStats()]);
@@ -16,7 +16,7 @@ export default async function AboutPage() {
       <LocalizedPageHeader
         eyebrow={about.headerEyebrow || site.boutique || "Our story"}
         eyebrowHi={about.headerEyebrowHi}
-        title={about.headerTitle || "About Shreya Creations"}
+        title={about.headerTitle || "About Shreya creation"}
         titleHi={about.headerTitleHi}
         subtitle={about.headerSubtitle || site.tagline}
         subtitleHi={about.headerSubtitleHi}
