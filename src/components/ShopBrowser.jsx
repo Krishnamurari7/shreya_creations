@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import ProductCard from "@/components/ProductCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
+import { staggerDelay } from "@/lib/motion";
 
 export default function ShopBrowser({ products, whatsapp }) {
   const categories = useMemo(() => {
@@ -28,9 +29,9 @@ export default function ShopBrowser({ products, whatsapp }) {
   return (
     <div className="page-container pb-10 sm:pb-12 relative z-20">
       {/* Search and Filters Header */}
-      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 md:p-8 border-ink/15 mb-8 sm:mb-12 flex flex-col md:flex-row gap-4 sm:gap-6 items-stretch md:items-center justify-between shadow-xl">
+      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 lg:p-8 border-ink/15 mb-8 sm:mb-12 flex flex-col lg:flex-row gap-4 sm:gap-6 items-stretch lg:items-center justify-between shadow-xl reveal">
         {/* Category selection */}
-        <div className="filter-pills justify-start md:justify-start w-full md:w-auto md:flex-wrap">
+        <div className="filter-pills justify-start w-full lg:w-auto lg:flex-wrap">
           {categories.map((c) => {
             const isSelected = active === c;
             return (
@@ -50,7 +51,7 @@ export default function ShopBrowser({ products, whatsapp }) {
         </div>
 
         {/* Search bar */}
-        <div className="relative w-full md:w-72 shrink-0">
+        <div className="relative w-full lg:w-72 shrink-0">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -72,9 +73,9 @@ export default function ShopBrowser({ products, whatsapp }) {
           <p className="text-ink mt-4 font-normal text-base">No couture pieces match your search query.</p>
         </Glass3DCard>
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {filtered.map((p) => (
-            <div key={p.id} className="reveal w-full h-full">
+        <div className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          {filtered.map((p, i) => (
+            <div key={p.id} className="reveal w-full h-full" style={staggerDelay(i, 60)}>
               <ProductCard product={p} variant="boutique" whatsapp={whatsapp} />
             </div>
           ))}

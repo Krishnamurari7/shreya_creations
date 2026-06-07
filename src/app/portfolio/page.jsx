@@ -29,7 +29,7 @@ export default async function PortfolioPage() {
         <PortfolioGallery items={items} fullPage />
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-5 py-12 sm:py-16 relative z-20">
+      <section className="page-container max-w-6xl py-12 sm:py-16 lg:py-20 relative z-20 trust-stats-section">
         <LocalizedSectionHeader
           eyebrow={portfolio.trustEyebrow || "By the numbers"}
           eyebrowHi={portfolio.trustEyebrowHi}
@@ -39,7 +39,7 @@ export default async function PortfolioPage() {
         <TrustWall items={trust} localize />
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-5 pb-12 sm:pb-16 relative z-20">
+      <section className="page-container max-w-6xl pb-12 sm:pb-16 relative z-20">
         <LocalizedSectionHeader
           eyebrow={portfolio.craftEyebrow || "Specialities"}
           eyebrowHi={portfolio.craftEyebrowHi}

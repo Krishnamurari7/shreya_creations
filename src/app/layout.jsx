@@ -13,6 +13,8 @@ import Footer from "@/components/Footer";
 import WhatsAppAssistant from "@/components/WhatsAppAssistant";
 import ScrollReveal from "@/components/ScrollReveal";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import ThemeScript from "@/components/ThemeScript";
 import { getSiteSettings } from "@/lib/data";
 
 export const metadata = {
@@ -38,21 +40,25 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   themeColor: "#FFF9F0",
 };
 
 export default async function RootLayout({ children }) {
   const site = await getSiteSettings();
   return (
-    <html lang={site.defaultLanguage === "hi" ? "hi" : "en"}>
+    <html lang={site.defaultLanguage === "hi" ? "hi" : "en"} suppressHydrationWarning>
       <body className="bg-atmosphere">
-        <LanguageProvider defaultLang={site.defaultLanguage}>
-          <ScrollReveal />
-          <Navbar site={site} />
-          <main className="relative z-0 flex-1 min-w-0 w-full overflow-x-hidden">{children}</main>
-          <Footer site={site} />
-          <WhatsAppAssistant number={site.whatsapp} />
-        </LanguageProvider>
+        <ThemeScript />
+        <ThemeProvider>
+          <LanguageProvider defaultLang={site.defaultLanguage}>
+            <ScrollReveal />
+            <Navbar site={site} />
+            <main className="relative z-0 flex-1 min-w-0 w-full overflow-x-hidden">{children}</main>
+            <Footer site={site} />
+            <WhatsAppAssistant number={site.whatsapp} />
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

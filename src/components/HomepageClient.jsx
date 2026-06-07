@@ -6,6 +6,7 @@ import CardImage from "@/components/CardImage";
 import CourseCard from "@/components/CourseCard";
 import ProductCard from "@/components/ProductCard";
 import CollectionBanner from "@/components/CollectionBanner";
+import CategoryCards from "@/components/CategoryCards";
 import { Testimonials, TrustWall } from "@/components/Sections";
 import { Services, DesignProcess } from "@/components/FashionSections";
 import { waLink } from "@/lib/whatsapp";
@@ -15,31 +16,48 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage, pageBottomCtaProps } from "@/lib/cms";
 import { pickLocalized } from "@/lib/i18n";
 
-function SectionHeader({ home, lang, eyebrowKey, titleKey, subtitleKey, className = "" }) {
+function SectionHeader({
+  home,
+  lang,
+  eyebrowKey,
+  titleKey,
+  titleHighlightKey,
+  subtitleKey,
+  className = "",
+}) {
   const eyebrow = pickPage(home, lang, eyebrowKey, `${eyebrowKey}Hi`);
   const title = pickPage(home, lang, titleKey, `${titleKey}Hi`);
+  const highlight = titleHighlightKey
+    ? pickPage(home, lang, titleHighlightKey, `${titleHighlightKey}Hi`)
+    : "";
   const subtitle = subtitleKey ? pickPage(home, lang, subtitleKey, `${subtitleKey}Hi`) : "";
   return (
-    <div className={`text-center mb-8 sm:mb-12 px-1 reveal ${className}`}>
-      {eyebrow && (
-        <span className="text-orange uppercase tracking-[0.25em] text-xs font-semibold">{eyebrow}</span>
-      )}
+    <div className={`text-center mb-6 sm:mb-10 px-1 reveal ${className}`}>
+      {eyebrow && <span className="section-eyebrow">{eyebrow}</span>}
       {title && (
-        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-ink mt-2 leading-tight">{title}</h2>
+        <h2 className="section-title mt-2 leading-tight text-balance">
+          {title}
+          {highlight && (
+            <>
+              {" "}
+              <span className="highlight-shimmer">{highlight}</span>
+            </>
+          )}
+        </h2>
       )}
       {subtitle && (
-        <p className="mt-3 text-ink font-normal max-w-2xl mx-auto text-sm leading-relaxed">{subtitle}</p>
+        <p className="mt-3 text-muted font-normal max-w-2xl mx-auto text-sm sm:text-base leading-relaxed text-pretty">
+          {subtitle}
+        </p>
       )}
-      <div className="hairline max-w-xs mx-auto mt-6" />
+      {(eyebrow || title) && (
+        <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+          <span className="text-gold text-xs">✦</span>
+        </div>
+      )}
     </div>
   );
 }
-
-const CATEGORY_LINKS = [
-  { href: "/shop", label: "Shop", labelHi: "शॉप", sub: "Made-to-order couture", subHi: "ऑर्डर पर कउचर", color: "orange" },
-  { href: "/courses", label: "Courses", labelHi: "कोर्स", sub: "50+ fashion programs", subHi: "50+ फैशन प्रोग्राम", color: "lavender" },
-  { href: "/portfolio", label: "Portfolio", labelHi: "पोर्टफोलियो", sub: "Bridal & festive wear", subHi: "ब्राइडल और फेस्टिव", color: "purple" },
-];
 
 export default function HomepageClient({
   site,
@@ -118,7 +136,7 @@ export default function HomepageClient({
             </span>
 
             <h1 className="font-display text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl leading-[1.08] text-balance">
-              <span className="text-brand-gold block sm:inline">
+              <span className="highlight-shimmer block sm:inline">
                 {pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi")}
               </span>{" "}
               <span className="text-brand-purple">
@@ -202,53 +220,19 @@ export default function HomepageClient({
       />
 
       {/* ===== QUICK CATEGORY LINKS ===== */}
-      <section className="page-container pb-10 sm:pb-14">
-        <div className="section-ornament mb-6 sm:mb-8 reveal" aria-hidden>
-          <span className="text-gold text-xs">✦</span>
-        </div>
-        <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-5 max-w-4xl mx-auto">
-          {CATEGORY_LINKS.map((cat, i) => (
-            <Link
-              key={cat.href}
-              href={cat.href}
-              className={`category-arch-card category-arch-card--${cat.color} reveal`}
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
-              <span className="font-display text-lg sm:text-xl">
-                {lang === "hi" ? cat.labelHi : cat.label}
-              </span>
-              <span className="text-[10px] sm:text-xs mt-1 opacity-90 uppercase tracking-wider">
-                {lang === "hi" ? cat.subHi : cat.sub}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <CategoryCards lang={lang} />
 
       {/* ===== COURSES OVERVIEW ===== */}
-      <section className="section-muted py-12 sm:py-24 relative z-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-5">
+      <section className="section-muted py-12 sm:py-20 lg:py-24 relative z-20">
+        <div className="page-container max-w-7xl">
           <SectionHeader
             home={home}
             lang={lang}
             eyebrowKey="coursesEyebrow"
-            titleKey="coursesTitle"
+            titleKey="academyHeading"
+            titleHighlightKey="academyHeadingHighlight"
             subtitleKey="coursesSubtitle"
           />
-
-          <div className="text-center mb-10 sm:mb-14 reveal px-1">
-            <span className="inline-flex items-center gap-2 bg-orange/10 border border-orange/20 text-orange px-4 py-1.5 rounded-full text-xs font-medium tracking-[0.2em] uppercase mb-5">
-              <span className="h-1.5 w-1.5 rounded-full bg-orange animate-pulse" />
-              {pickPage(home, lang, "academyBadge", "academyBadgeHi")}
-            </span>
-            <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-ink leading-tight">
-              {pickPage(home, lang, "academyHeading", "academyHeadingHi")}{" "}
-              <span className="text-gold-gradient">{pickPage(home, lang, "academyHeadingHighlight", "academyHeadingHighlightHi")}</span>
-            </h3>
-            <p className="mt-4 text-ink font-normal max-w-2xl mx-auto text-sm leading-relaxed">
-              {pickPage(home, lang, "academySubheading", "academySubheadingHi")}
-            </p>
-          </div>
 
           <Glass3DCard
             layered
@@ -261,9 +245,9 @@ export default function HomepageClient({
               <Float3D translateZ="50" className="w-full">
                 <div className="flex flex-col h-full">
                   <div className="flex flex-wrap items-center gap-3 mb-5">
-                    <span className="inline-flex items-center gap-1.5 max-w-full text-[10px] sm:text-[11px] uppercase tracking-widest text-purple-dark font-semibold bg-purple/10 border border-purple/25 px-3 py-1.5 rounded-full">
+                    <span className="inline-flex items-center gap-1.5 min-w-0 max-w-full text-[10px] sm:text-[11px] uppercase tracking-widest text-purple-dark font-semibold bg-purple/10 border border-purple/25 px-3 py-1.5 rounded-full">
                       <span aria-hidden className="shrink-0">📍</span>
-                      <span className="line-clamp-2 sm:line-clamp-none sm:truncate">{academyDetails.location}</span>
+                      <span className="min-w-0 line-clamp-2 sm:line-clamp-none sm:truncate">{academyDetails.location}</span>
                     </span>
                   </div>
 
@@ -289,7 +273,7 @@ export default function HomepageClient({
                     ))}
                   </ul>
 
-                  <div className="mt-8 grid grid-cols-3 gap-3 pt-6 border-t border-ink/15">
+                  <div className="mt-8 grid grid-cols-1 min-[380px]:grid-cols-3 gap-3 pt-6 border-t border-ink/15">
                     {academyDetails.highlights.map((h, i) => (
                       <div key={i} className="text-center sm:text-left">
                         <div className={`font-display text-2xl sm:text-3xl font-semibold ${i === 1 ? "text-purple-dark" : "text-orange"}`}>

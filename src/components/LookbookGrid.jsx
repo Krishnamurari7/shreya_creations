@@ -4,6 +4,7 @@ import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
+import { staggerDelay } from "@/lib/motion";
 
 export default function LookbookGrid({ posts = [] }) {
   const { lang } = useLanguage();
@@ -29,7 +30,7 @@ export default function LookbookGrid({ posts = [] }) {
   return (
     <div className="space-y-6 sm:space-y-8">
       {featured && (
-        <Glass3DCard layered className="rounded-2xl sm:rounded-[2rem] overflow-hidden border-orange/20 reveal group">
+        <Glass3DCard layered className="rounded-2xl sm:rounded-[2rem] overflow-hidden border-orange/20 reveal interactive-card group">
           <div className="grid md:grid-cols-2 gap-0">
             {featured.image && (
               <div className="relative h-full min-h-[280px] md:min-h-[320px]">
@@ -52,8 +53,13 @@ export default function LookbookGrid({ posts = [] }) {
 
       {rest.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {rest.map((p) => (
-            <Glass3DCard key={p.id} layered className="rounded-2xl sm:rounded-3xl overflow-hidden reveal group">
+          {rest.map((p, i) => (
+            <Glass3DCard
+              key={p.id}
+              layered
+              className="rounded-2xl sm:rounded-3xl overflow-hidden reveal interactive-card group"
+              style={staggerDelay(i, 90)}
+            >
               {p.image && (
                 <div className="relative">
                   <CardImage src={p.image} alt={p.title} ratio="3/4" position="top" />

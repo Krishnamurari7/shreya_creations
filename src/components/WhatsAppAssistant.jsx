@@ -221,7 +221,7 @@ export default function WhatsAppAssistant({ number }) {
           </div>
 
           {/* Chat body */}
-          <div ref={bodyRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-white min-h-0">
+          <div ref={bodyRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-surface min-h-0">
             {chat.map((msg, i) => (
               <div
                 key={i}

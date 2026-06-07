@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import CardImage from "@/components/CardImage";
 import { Glass3DCard } from "@/components/Glass3DCard";
+import { staggerDelay } from "@/lib/motion";
 
 export default function PortfolioGallery({ items = [], fullPage = false }) {
   const [mounted, setMounted] = useState(false);
@@ -75,9 +76,9 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
   );
 
   return (
-    <div className={fullPage ? "mx-auto max-w-7xl px-4 sm:px-5 pb-6 sm:pb-8 relative z-20" : ""}>
+    <div className={fullPage ? "page-container max-w-7xl pb-6 sm:pb-8 relative z-20" : ""}>
       {fullPage ? (
-        <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 md:p-8 border-ink/15 mb-8 sm:mb-10 flex flex-col sm:flex-row gap-4 sm:gap-5 items-stretch sm:items-center justify-between shadow-xl">
+        <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 md:p-8 border-ink/15 mb-8 sm:mb-10 flex flex-col sm:flex-row gap-4 sm:gap-5 items-stretch sm:items-center justify-between shadow-xl reveal">
           {filterBar}
           <p className="text-xs uppercase tracking-widest text-ink shrink-0">
             {filtered.length} {filtered.length === 1 ? "piece" : "pieces"}
@@ -99,8 +100,8 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
               key={item.id || `${item.title}-${idx}`}
               type="button"
               onClick={() => openLightbox(item)}
-              className="group relative block w-full overflow-hidden rounded-3xl glass border border-ink/15 hover:border-orange/35 transition-all duration-500 reveal shadow-lg break-inside-avoid"
-              style={{ transitionDelay: `${(idx % 8) * 50}ms` }}
+              className="group relative block w-full overflow-hidden rounded-3xl glass border border-ink/15 hover:border-orange/35 transition-all duration-500 reveal interactive-card shadow-lg break-inside-avoid"
+              style={staggerDelay(idx % 8, 50)}
             >
               <CardImage
                 src={item.image}
@@ -177,7 +178,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                   exit={{ scale: 0.95, opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                   onClick={(e) => e.stopPropagation()}
-                  className="relative w-full max-w-4xl glass rounded-3xl p-3 sm:p-4 border border-orange/25 shadow-2xl bg-white"
+                  className="relative w-full max-w-4xl glass rounded-3xl p-3 sm:p-4 border border-orange/25 shadow-2xl bg-surface"
                 >
                   <div className="flex items-center justify-center rounded-2xl overflow-hidden bg-cream/30 min-h-[200px] max-h-[min(78vh,720px)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}

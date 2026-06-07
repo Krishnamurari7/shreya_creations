@@ -23,7 +23,7 @@ export default async function LookbookPage() {
         subtitle={lookbook.headerSubtitle || "Curated looks from the atelier — trends, styling tips and behind-the-scenes from our studio."}
         subtitleHi={lookbook.headerSubtitleHi}
       />
-      <div className="mx-auto max-w-6xl px-4 sm:px-5 pb-6 sm:pb-8 relative z-20">
+      <div className="mx-auto max-w-6xl page-container pb-6 sm:pb-8 relative z-20">
         <LookbookGrid posts={posts} />
       </div>
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(lookbook)} />

@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import CourseCard from "@/components/CourseCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
+import { staggerDelay } from "@/lib/motion";
 
 export default function CourseBrowser({ courses }) {
   const categories = useMemo(() => {
@@ -14,9 +15,9 @@ export default function CourseBrowser({ courses }) {
   const filtered = active === "All" ? courses : courses.filter((c) => c.category === active);
 
   return (
-    <div className="page-container pb-10 sm:pb-12 relative z-20">
+    <div className="page-container pb-10 sm:pb-12 relative z-20 -mt-1">
       {/* Category Pills Card Wrapper */}
-      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 border-ink/15 mb-8 sm:mb-12 flex justify-center shadow-xl">
+      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 border-ink/15 mb-8 sm:mb-12 flex justify-center shadow-xl reveal">
         <div className="filter-pills justify-center md:justify-center md:flex-wrap">
           {categories.map((c) => {
             const isSelected = active === c;
@@ -45,8 +46,8 @@ export default function CourseBrowser({ courses }) {
         </Glass3DCard>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 items-stretch">
-          {filtered.map((c) => (
-            <div key={c.id} className="reveal w-full h-full">
+          {filtered.map((c, i) => (
+            <div key={c.id} className="reveal w-full h-full" style={staggerDelay(i, 70)}>
               <CourseCard course={c} />
             </div>
           ))}

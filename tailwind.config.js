@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./src/app/**/*.{js,jsx}",
     "./src/components/**/*.{js,jsx}",
@@ -8,14 +9,14 @@ module.exports = {
     extend: {
       colors: {
         // Boutique palette: cream · deep purple · orange-gold · lavender
-        ink: "#2d2438",
+        ink: "var(--text)",
         wine: "#4A154B",
         maroon: "#3d1039",
-        ivory: "#FFF9F0",
-        cream: "#FFF9F0",
-        sand: "#f5ebe0",
-        surface: "#FFF9F0",
-        muted: "#faf3e8",
+        ivory: "var(--cream)",
+        cream: "var(--cream)",
+        sand: "var(--sand)",
+        surface: "var(--surface)",
+        muted: "var(--surface-muted)",
         lavender: "#D1C4E9",
         orange: { DEFAULT: "#D48131", light: "#e8a05a", dark: "#b86a22" },
         golden: { DEFAULT: "#D48131", light: "#e8b86a", dark: "#a67c1e" },

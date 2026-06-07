@@ -5,6 +5,7 @@ import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickFaq } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { staggerDelay } from "@/lib/motion";
 
 export default function FaqList({ faqs }) {
   const { lang } = useLanguage();
@@ -23,7 +24,7 @@ export default function FaqList({ faqs }) {
   }, [faqs, query, lang]);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 sm:px-5 pb-6 sm:pb-8 relative z-20">
+    <div className="mx-auto max-w-3xl page-container pb-6 sm:pb-8 relative z-20">
       <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-5 border-ink/15 mb-6 sm:mb-8 reveal">
         <div className="relative">
           <input
@@ -56,11 +57,12 @@ export default function FaqList({ faqs }) {
             key={i}
             layered
             className={cn(
-              "rounded-3xl overflow-hidden transition-all duration-300",
+              "rounded-3xl overflow-hidden transition-all duration-300 reveal interactive-card",
               isOpen
                 ? "border-orange/40 shadow-[0_15px_40px_-15px_rgba(230,92,0,0.15)] bg-orange/[0.03]"
                 : "border-ink/15 hover:border-orange/25"
             )}
+            style={staggerDelay(i, 70)}
           >
             <button
               type="button"

@@ -30,7 +30,7 @@ function SocialIcon({ href, label, children }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="group flex h-10 w-10 items-center justify-center rounded-full border border-orange/20 bg-white text-ink transition-all duration-300 hover:border-purple/40 hover:bg-orange/5 hover:text-orange hover:shadow-md hover:shadow-orange/10"
+      className="group flex h-10 w-10 items-center justify-center rounded-full border border-orange/20 bg-surface text-ink transition-all duration-300 hover:border-purple/40 hover:bg-orange/5 hover:text-orange hover:shadow-md hover:shadow-orange/10"
     >
       {children}
     </a>
@@ -252,7 +252,7 @@ export default function Footer({ site }) {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 sm:gap-x-5 text-[11px] sm:text-xs text-ink max-w-full">
             {policyLinks.map((p) => (
-              <Link key={p.href} href={p.href} className="hover:text-orange transition-colors whitespace-nowrap">
+              <Link key={p.href} href={p.href} className="hover:text-orange transition-colors">
                 {p.label}
               </Link>
             ))}
@@ -262,7 +262,7 @@ export default function Footer({ site }) {
             <span className="hidden md:inline text-[10px] uppercase tracking-[0.18em] text-purple-dark whitespace-nowrap">
               Couture · Courses · WhatsApp
             </span>
-            <Link href="/admin" className="transition-colors hover:text-orange/70 whitespace-nowrap">
+            <Link href="/admin" className="transition-colors hover:text-orange/70">
               Admin
             </Link>
           </div>

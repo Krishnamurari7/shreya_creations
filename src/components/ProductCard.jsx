@@ -19,7 +19,7 @@ export default function ProductCard({ product, variant = "boutique", whatsapp })
           <CardImage src={cover} alt={product.title} ratio="3/4" position="top" />
           <button
             type="button"
-            className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-purple shadow-sm transition-colors hover:text-orange"
+            className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface/90 text-purple shadow-sm transition-colors hover:text-orange"
             aria-label="Add to wishlist"
             onClick={(e) => e.preventDefault()}
           >

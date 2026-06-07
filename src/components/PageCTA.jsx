@@ -1,8 +1,10 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
+import { fadeUp } from "@/lib/motion";
 
 const COPY = {
   en: {
@@ -36,6 +38,7 @@ export default function PageCTA({
   className = "",
 }) {
   const { lang } = useLanguage();
+  const reduceMotion = useReducedMotion();
   const t = COPY[lang] || COPY.en;
 
   const heading = lang === "hi" && titleHi ? titleHi : title || t.title;
@@ -47,40 +50,57 @@ export default function PageCTA({
 
   return (
     <section className={`page-container max-w-5xl pt-6 pb-10 sm:pt-10 sm:pb-14 relative z-20 ${className}`}>
-      <div className="collection-banner rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-14 text-center reveal relative">
-        <div className="absolute -top-10 left-1/4 h-32 w-32 rounded-full bg-orange/20 blur-3xl pointer-events-none" aria-hidden />
-        <div className="absolute -bottom-8 right-1/4 h-28 w-28 rounded-full bg-lavender/15 blur-3xl pointer-events-none" aria-hidden />
+      <motion.div
+        className="collection-banner rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-14 text-center reveal relative overflow-hidden"
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+        custom={0}
+        variants={fadeUp}
+      >
+        <motion.div
+          className="absolute -top-10 left-1/4 h-32 w-32 rounded-full bg-orange/20 blur-3xl pointer-events-none"
+          animate={reduceMotion ? undefined : { scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden
+        />
+        <motion.div
+          className="absolute -bottom-8 right-1/4 h-28 w-28 rounded-full bg-lavender/15 blur-3xl pointer-events-none"
+          animate={reduceMotion ? undefined : { scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          aria-hidden
+        />
         <div className="relative z-[1]">
-        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl text-white leading-tight text-balance">
-          {heading}
-          {highlight ? (
-            <>
-              {" "}
-              <span className="text-orange">{highlight}</span>
-            </>
-          ) : null}
-        </h2>
-        <p className="text-white/80 font-normal max-w-md mx-auto text-sm leading-relaxed px-1 mt-4">{body}</p>
-        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
-          <a
-            href={wa}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-gold-outline rounded-md px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0"
-          >
-            {primary}
-          </a>
-          {secondaryHref && (
-            <Link
-              href={secondaryHref}
-              className="rounded-md px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0 text-center text-white border border-white/40 hover:bg-white/10 transition-colors text-sm uppercase tracking-wider"
+          <h2 className="font-display text-2xl sm:text-4xl md:text-5xl text-white leading-tight text-balance">
+            {heading}
+            {highlight ? (
+              <>
+                {" "}
+                <span className="text-orange">{highlight}</span>
+              </>
+            ) : null}
+          </h2>
+          <p className="text-white/80 font-normal max-w-md mx-auto text-sm leading-relaxed px-1 mt-4 text-pretty">{body}</p>
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center">
+            <a
+              href={wa}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold-outline rounded-md px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0 transition-transform duration-300 hover:-translate-y-0.5"
             >
-              {secondary}
-            </Link>
-          )}
+              {primary}
+            </a>
+            {secondaryHref && (
+              <Link
+                href={secondaryHref}
+                className="rounded-md px-6 sm:px-9 py-3.5 sm:py-4 inline-block w-full sm:w-auto max-w-sm mx-auto sm:mx-0 text-center text-white border border-white/40 hover:bg-white/10 transition-all duration-300 hover:-translate-y-0.5 text-sm uppercase tracking-wider"
+              >
+                {secondary}
+              </Link>
+            )}
+          </div>
         </div>
-        </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

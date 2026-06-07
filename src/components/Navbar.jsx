@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
+import { useTheme } from "@/components/ThemeProvider";
 import { UI, pickLocalized } from "@/lib/i18n";
 import AnnouncementBar from "@/components/AnnouncementBar";
 
@@ -16,6 +17,22 @@ const ROUTES = [
   { href: "/about", key: "about" },
   { href: "/contact", key: "contact" },
 ];
+
+function ThemeIcon({ dark }) {
+  if (dark) {
+    return (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+        <circle cx="12" cy="12" r="4" />
+        <path strokeLinecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+    </svg>
+  );
+}
 
 function MenuIcon({ open }) {
   if (open) {
@@ -34,6 +51,7 @@ function MenuIcon({ open }) {
 
 export default function Navbar({ site }) {
   const { lang, toggle } = useLanguage();
+  const { isDark, toggle: toggleTheme } = useTheme();
   const t = UI[lang];
   const links = ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const [open, setOpen] = useState(false);
@@ -56,8 +74,10 @@ export default function Navbar({ site }) {
   }, [pathname, closeMenu]);
 
   useEffect(() => {
+    document.body.classList.toggle("nav-open", open);
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
+      document.body.classList.remove("nav-open");
       document.body.style.overflow = "";
     };
   }, [open]);
@@ -100,6 +120,16 @@ export default function Navbar({ site }) {
 
         <button
           type="button"
+          onClick={toggleTheme}
+          className="nav-theme-btn nav-theme-btn--mobile lg:hidden"
+          aria-label={isDark ? t.lightMode : t.darkMode}
+          title={isDark ? t.lightMode : t.darkMode}
+        >
+          <ThemeIcon dark={isDark} />
+        </button>
+
+        <button
+          type="button"
           className="nav-menu-btn"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -134,6 +164,15 @@ export default function Navbar({ site }) {
           </ul>
 
           <div className="nav-desktop-icons">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="btn-ghost nav-theme-btn rounded-full shrink-0 hidden lg:inline-flex"
+              aria-label={isDark ? t.lightMode : t.darkMode}
+              title={isDark ? t.lightMode : t.darkMode}
+            >
+              <ThemeIcon dark={isDark} />
+            </button>
             <button
               type="button"
               onClick={toggle}
@@ -171,7 +210,16 @@ export default function Navbar({ site }) {
             </ul>
 
             <div className="nav-mobile-drawer-footer flex flex-col gap-3">
-              <button type="button" onClick={toggle} className="btn-ghost rounded-full py-2.5 text-sm">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="btn-ghost nav-mobile-drawer-action gap-2"
+                aria-label={isDark ? t.lightMode : t.darkMode}
+              >
+                <ThemeIcon dark={isDark} />
+                {isDark ? t.lightMode : t.darkMode}
+              </button>
+              <button type="button" onClick={toggle} className="btn-ghost nav-mobile-drawer-action">
                 {t.language}
               </button>
               <a href={wa} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="btn-purple nav-mobile-drawer-wa">
