@@ -98,7 +98,7 @@ export default function Footer({ site }) {
                 <img
                   src="/logo.png"
                   alt={brandName}
-                  className="h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem] rounded-full object-cover ring-2 ring-orange/30 shadow-lg shadow-orange/20 transition-transform duration-500 hover:scale-105 shrink-0"
+                  className="h-14 sm:h-16 w-auto max-w-[10rem] object-contain transition-transform duration-500 hover:scale-105 shrink-0"
                 />
                 <div>
                   <h3 className="font-display text-2xl sm:text-3xl leading-none md:text-4xl">

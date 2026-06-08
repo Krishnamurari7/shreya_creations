@@ -202,7 +202,7 @@ export default function WhatsAppAssistant({ number }) {
             <img
               src="/logo.png"
               alt="Shreya creation"
-              className="h-10 w-10 rounded-full object-cover border border-white/20"
+              className="h-10 w-auto max-w-[4.5rem] object-contain"
             />
             <div>
               <h4 className="font-display text-lg leading-tight text-white">Shreya creation</h4>

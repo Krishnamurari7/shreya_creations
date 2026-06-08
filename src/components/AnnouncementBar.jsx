@@ -30,7 +30,7 @@ function ItemGroup({ items, copy }) {
     <span className="announcement-bar__group">
       {items.map((text, i) => (
         <span key={`${copy}-${i}`} className="announcement-bar__item">
-          {i > 0 && <span className="announcement-bar__sep" aria-hidden>•</span>}
+          {i > 0 && <span className="announcement-bar__sep" aria-hidden>✦</span>}
           <span>{text}</span>
         </span>
       ))}

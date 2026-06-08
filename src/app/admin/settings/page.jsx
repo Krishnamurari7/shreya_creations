@@ -32,6 +32,23 @@ export default function SettingsAdmin() {
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
 
+  const loadForm = (data) => ({
+    brand: data.brand || "",
+    boutique: data.boutique || "",
+    boutique_hi: data.boutique_hi || "",
+    tagline: data.tagline || "",
+    tagline_hi: data.tagline_hi || "",
+    intro: data.intro || "",
+    intro_hi: data.intro_hi || "",
+    whatsapp: data.whatsapp || "",
+    phone: data.phone || "",
+    email: data.email || "",
+    address: data.address || "",
+    city: data.city || "",
+    founded: data.founded || "",
+    socials: data.socials || {},
+  });
+
   useEffect(() => {
     (async () => {
       if (!configured) {
@@ -40,7 +57,7 @@ export default function SettingsAdmin() {
       }
       const supabase = createClient();
       const { data } = await supabase.from("settings").select("*").eq("id", 1).single();
-      if (data) setForm({ socials: {}, ...data });
+      if (data) setForm(loadForm(data));
       setLoading(false);
     })();
   }, [configured]);
@@ -67,7 +84,11 @@ export default function SettingsAdmin() {
       setSaving(false);
       return;
     }
-    const { error } = await supabase.from("settings").upsert({ ...form, id: 1 });
+    const { error } = await supabase.from("settings").upsert({
+      id: 1,
+      ...loadForm(form),
+      updated_at: new Date().toISOString(),
+    });
     setSaving(false);
     setMsg(
       error

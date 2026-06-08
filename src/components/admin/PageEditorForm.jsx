@@ -160,6 +160,29 @@ export function HomeTab({ home, patchPage }) {
         ]}
       />
 
+      <SectionHeading>Collection Showcase</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="collection_eyebrow" hiKey="collection_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title" enKey="collection_title" hiKey="collection_title_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Body" enKey="collection_body" hiKey="collection_body_hi" values={home} onChange={onChange} />
+      <BilingualField label="Button label" enKey="collection_cta_label" hiKey="collection_cta_label_hi" values={home} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Button link</label>
+        <input
+          value={home.collection_cta_href || ""}
+          onChange={(e) => onChange("collection_cta_href", e.target.value)}
+          placeholder="/portfolio"
+          className={ADMIN_INPUT}
+        />
+      </div>
+      <div>
+        <label className={ADMIN_LABEL}>Left showcase image</label>
+        <ImageUploader multiple={false} value={home.collection_image_left || ""} onChange={(url) => onChange("collection_image_left", url)} />
+      </div>
+      <div>
+        <label className={ADMIN_LABEL}>Right showcase image</label>
+        <ImageUploader multiple={false} value={home.collection_image_right || ""} onChange={(url) => onChange("collection_image_right", url)} />
+      </div>
+
       <SectionHeading>Courses Overview</SectionHeading>
       <BilingualField label="Eyebrow" enKey="courses_eyebrow" hiKey="courses_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="courses_title" hiKey="courses_title_hi" values={home} onChange={onChange} />

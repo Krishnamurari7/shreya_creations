@@ -61,8 +61,6 @@ export default function Navbar({ site }) {
   const wa = waLink(site?.whatsapp, greetingMessage());
   const boutiqueTagline = pickLocalized(site, lang, "boutique", "boutiqueHi") || "From Skill to Business";
   const brandName = site?.brand || "Shreya creation";
-  const [brandFirst, ...brandRest] = brandName.split(" ");
-  const brandSecond = brandRest.join(" ") || "creation";
 
   const closeMenu = useCallback(() => setOpen(false), []);
 
@@ -109,10 +107,6 @@ export default function Navbar({ site }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt={brandName} className="nav-mobile-logo" />
             <span className="nav-mobile-text">
-              <span className="nav-mobile-title font-display">
-                <span className="text-brand-gold">{brandFirst}</span>{" "}
-                <span className="text-brand-purple">{brandSecond}</span>
-              </span>
               <span className="nav-mobile-tagline">{boutiqueTagline}</span>
             </span>
           </Link>
@@ -143,12 +137,8 @@ export default function Navbar({ site }) {
         <nav className="nav-desktop-bar" aria-label="Main navigation">
           <Link href="/" className="nav-desktop-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt={brandName} className="nav-desktop-logo ring-2 ring-gold/40" />
+            <img src="/logo.png" alt={brandName} className="nav-desktop-logo" />
             <span className="nav-desktop-text">
-              <span className="nav-desktop-title font-display text-xl">
-                <span className="text-brand-gold">{brandFirst}</span>{" "}
-                <span className="text-brand-purple">{brandSecond}</span>
-              </span>
               <span className="nav-desktop-tagline">{boutiqueTagline}</span>
             </span>
           </Link>
@@ -181,7 +171,10 @@ export default function Navbar({ site }) {
             >
               {t.language}
             </button>
-            <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-purple nav-desktop-wa hidden lg:inline-flex">
+            <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-purple nav-desktop-wa nav-wa-cta hidden lg:inline-flex">
+              <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.436.002 9.861-4.417 9.864-9.858.002-2.636-1.02-5.115-2.879-6.978-1.859-1.862-4.331-2.887-6.974-2.889-5.439 0-9.864 4.417-9.868 9.86-.001 1.57.418 3.101 1.21 4.47l-.995 3.633 3.738-.979c1.378.75 2.766 1.139 4.239 1.14z" />
+              </svg>
               {t.chatWhatsApp}
             </a>
           </div>
@@ -199,6 +192,11 @@ export default function Navbar({ site }) {
           <button type="button" aria-label="Close menu" className="nav-mobile-drawer-backdrop" onClick={closeMenu} />
 
           <nav className="nav-mobile-drawer-panel" aria-label="Mobile navigation links">
+            <div className="nav-mobile-drawer-head">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt={brandName} className="nav-mobile-drawer-logo" />
+              <p className="nav-mobile-drawer-tagline">{boutiqueTagline}</p>
+            </div>
             <ul className="nav-mobile-drawer-list">
               {links.map((l) => (
                 <li key={l.href}>
