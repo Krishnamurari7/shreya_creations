@@ -143,6 +143,21 @@ export function HomeTab({ home, patchPage }) {
       <BilingualField label="Floating card title" enKey="hero_card_title" hiKey="hero_card_title_hi" values={home} onChange={onChange} />
       <BilingualField label="Floating card text" enKey="hero_card_text" hiKey="hero_card_text_hi" values={home} onChange={onChange} />
 
+      <SectionHeading>Hero Identity Tiles</SectionHeading>
+      <p className="admin-muted">Two chips under the hero subtitle that instantly show what Shreya creation is (institute + boutique).</p>
+      <div>
+        <label className={ADMIN_LABEL}>Tile 1 icon</label>
+        <input value={home.hero_tile1_icon || ""} onChange={(e) => onChange("hero_tile1_icon", e.target.value)} placeholder="🎓" className={ADMIN_INPUT} />
+      </div>
+      <BilingualField label="Tile 1 title" enKey="hero_tile1_title" hiKey="hero_tile1_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="Tile 1 subtitle" enKey="hero_tile1_sub" hiKey="hero_tile1_sub_hi" values={home} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Tile 2 icon</label>
+        <input value={home.hero_tile2_icon || ""} onChange={(e) => onChange("hero_tile2_icon", e.target.value)} placeholder="🧵" className={ADMIN_INPUT} />
+      </div>
+      <BilingualField label="Tile 2 title" enKey="hero_tile2_title" hiKey="hero_tile2_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="Tile 2 subtitle" enKey="hero_tile2_sub" hiKey="hero_tile2_sub_hi" values={home} onChange={onChange} />
+
       <SectionHeading>Why Choose Us</SectionHeading>
       <BilingualField label="Eyebrow" enKey="why_choose_eyebrow" hiKey="why_choose_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="why_choose_title" hiKey="why_choose_title_hi" values={home} onChange={onChange} />
@@ -229,6 +244,25 @@ export function HomeTab({ home, patchPage }) {
       <BilingualField label="Note headline" enKey="academy_note" hiKey="academy_note_hi" values={home} onChange={onChange} />
       <BilingualField label="Note subtext" enKey="academy_note_sub" hiKey="academy_note_sub_hi" values={home} onChange={onChange} />
 
+      <SectionHeading>Video Section (YouTube)</SectionHeading>
+      <p className="admin-muted">
+        Paste a YouTube link or embed URL. The section appears on the homepage only when a valid video URL is set.
+      </p>
+      <BilingualField label="Eyebrow" enKey="video_eyebrow" hiKey="video_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title" enKey="video_title" hiKey="video_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title highlight" enKey="video_title_highlight" hiKey="video_title_highlight_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="video_subtitle" hiKey="video_subtitle_hi" values={home} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>YouTube video URL</label>
+        <input
+          value={home.video_url || ""}
+          onChange={(e) => onChange("video_url", e.target.value)}
+          placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
+          className={ADMIN_INPUT}
+        />
+        <p className="admin-muted mt-1">Also accepts youtu.be links or https://www.youtube.com/embed/VIDEO_ID</p>
+      </div>
+
       <SectionHeading>Boutique Services Overview</SectionHeading>
       <BilingualField label="Eyebrow" enKey="services_eyebrow" hiKey="services_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="services_title" hiKey="services_title_hi" values={home} onChange={onChange} />
@@ -237,15 +271,24 @@ export function HomeTab({ home, patchPage }) {
         Service cards: edit in <a href="/admin/content" className="text-gold hover:underline">Site content</a> → Services (JSON).
       </p>
 
-      <SectionHeading>Founder Message</SectionHeading>
+      <SectionHeading>Founder Message (slider)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="founder_eyebrow" hiKey="founder_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="founder_title" hiKey="founder_title_hi" values={home} onChange={onChange} />
+      <p className="admin-muted">Slide 1 — Sanjay Kumar Mishra (Founder)</p>
       <BilingualTextarea label="Quote" enKey="founder_quote" hiKey="founder_quote_hi" values={home} onChange={onChange} rows={4} />
       <BilingualField label="Name" enKey="founder_name" hiKey="founder_name_hi" values={home} onChange={onChange} />
       <BilingualField label="Role" enKey="founder_role" hiKey="founder_role_hi" values={home} onChange={onChange} />
       <div>
         <label className={ADMIN_LABEL}>Founder photo</label>
         <ImageUploader multiple={false} value={home.founder_image || ""} onChange={(url) => onChange("founder_image", url)} />
+      </div>
+      <p className="admin-muted">Slide 2 — Sangi Shreya (Director & Lead Mentor)</p>
+      <BilingualTextarea label="Quote" enKey="mentor_quote" hiKey="mentor_quote_hi" values={home} onChange={onChange} rows={4} />
+      <BilingualField label="Name" enKey="mentor_name" hiKey="mentor_name_hi" values={home} onChange={onChange} />
+      <BilingualField label="Role" enKey="mentor_role" hiKey="mentor_role_hi" values={home} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Director photo</label>
+        <ImageUploader multiple={false} value={home.mentor_image || ""} onChange={(url) => onChange("mentor_image", url)} />
       </div>
 
       <SectionHeading>Student Success</SectionHeading>

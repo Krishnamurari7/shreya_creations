@@ -73,7 +73,7 @@ export default function Footer({ site }) {
 
       {/* Tagline marquee */}
       {marqueeText && (
-        <div className="border-y border-ink/15 bg-cream/40 py-3 backdrop-blur-sm">
+        <div className="footer-marquee-bar border-y border-ink/15 bg-cream/40 py-3 backdrop-blur-sm">
           <div className="marquee-container">
             <div className="marquee-content text-[11px] uppercase tracking-[0.35em] text-ink font-normal">
               {[...Array(4)].map((_, i) => (
@@ -101,7 +101,7 @@ export default function Footer({ site }) {
                   className="h-14 sm:h-16 w-auto max-w-[10rem] object-contain transition-transform duration-500 hover:scale-105 shrink-0"
                 />
                 <div>
-                  <h3 className="font-display text-2xl sm:text-3xl leading-none md:text-4xl">
+                  <h3 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-none text-balance break-words">
                     <span className="text-brand-gold">{brandFirst}</span>{" "}
                     <span className="text-brand-purple">{brandSecond}</span>
                   </h3>
@@ -149,7 +149,7 @@ export default function Footer({ site }) {
 
             {/* Explore */}
             <div className="lg:col-span-3">
-              <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-orange">
+              <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-orange">
                 <span className="h-px w-8 bg-gradient-to-r from-orange to-transparent" aria-hidden />
                 Explore
               </h4>
@@ -170,7 +170,7 @@ export default function Footer({ site }) {
 
             {/* Reach us */}
             <div className="lg:col-span-4">
-              <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-orange">
+              <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-orange">
                 <span className="h-px w-8 bg-gradient-to-r from-orange to-transparent" aria-hidden />
                 Reach us
               </h4>

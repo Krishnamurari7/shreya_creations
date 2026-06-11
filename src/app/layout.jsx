@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppAssistant from "@/components/WhatsAppAssistant";
 import ScrollReveal from "@/components/ScrollReveal";
+import SiteProtection from "@/components/SiteProtection";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ThemeScript from "@/components/ThemeScript";
@@ -41,7 +42,10 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#FFF9F0",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0c0812" },
+    { media: "(prefers-color-scheme: light)", color: "#FFF9F0" },
+  ],
 };
 
 export default async function RootLayout({ children }) {
@@ -53,6 +57,7 @@ export default async function RootLayout({ children }) {
         <ThemeProvider>
           <LanguageProvider defaultLang={site.defaultLanguage}>
             <ScrollReveal />
+            <SiteProtection />
             <Navbar site={site} />
             <main className="relative z-0 flex-1 min-w-0 w-full overflow-x-hidden">{children}</main>
             <Footer site={site} />

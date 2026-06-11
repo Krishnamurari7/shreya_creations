@@ -10,7 +10,7 @@ export default function PageHeader({ eyebrow, title, subtitle }) {
           {eyebrow}
         </span>
       )}
-      <h1 className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-ink leading-tight mt-2 font-normal text-balance px-1">
+      <h1 className="page-hero-title mt-2 font-normal text-balance px-1">
         {title}
       </h1>
       {subtitle && (

@@ -81,7 +81,7 @@ export default function CourseDetailClient({ course, site, syllabus }) {
               <span className="inline-flex bg-orange/10 border border-orange/20 text-orange px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-widest uppercase mb-4 shadow-sm">
                 {course.category}
               </span>
-              <h1 className="font-display text-3xl sm:text-5xl md:text-6xl text-ink leading-tight font-normal text-balance">
+              <h1 className="page-hero-title font-normal text-balance">
                 {course.title}
               </h1>
             </div>

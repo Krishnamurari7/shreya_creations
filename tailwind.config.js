@@ -10,17 +10,17 @@ module.exports = {
       colors: {
         // Boutique palette: cream · deep purple · orange-gold · lavender
         ink: "var(--text)",
-        wine: "#4A154B",
-        maroon: "#3d1039",
+        wine: "var(--purple)",
+        maroon: "var(--purple-dark)",
         ivory: "var(--cream)",
         cream: "var(--cream)",
         sand: "var(--sand)",
         surface: "var(--surface)",
         muted: "var(--surface-muted)",
-        lavender: "#D1C4E9",
+        lavender: "var(--lavender)",
         orange: { DEFAULT: "#D48131", light: "#e8a05a", dark: "#b86a22" },
         golden: { DEFAULT: "#D48131", light: "#e8b86a", dark: "#a67c1e" },
-        purple: { DEFAULT: "#4A154B", light: "#D1C4E9", dark: "#3d1039" },
+        purple: { DEFAULT: "var(--purple)", light: "var(--lavender)", dark: "var(--purple-dark)" },
         gold: "#c9a227",
       },
       fontFamily: {

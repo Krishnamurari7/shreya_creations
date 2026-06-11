@@ -124,7 +124,7 @@ export default function PagesAdmin() {
     <div>
       <AdminPageHeader
         title="Page editor"
-        subtitle="Homepage sections (Hero, Why Choose Us, Courses, Services, Founder, Success, Contact) and all page copy — English & Hindi."
+        subtitle="Homepage sections (Hero, Why Choose Us, Courses, Video, Services, Founder, Success, Contact) and all page copy — English & Hindi."
       />
 
       <div className="admin-tabs" role="tablist" aria-label="Page sections">

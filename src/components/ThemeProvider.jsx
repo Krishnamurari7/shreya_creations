@@ -23,6 +23,10 @@ function applyTheme(theme) {
   const isDark = theme === "dark";
   document.documentElement.classList.toggle("dark", isDark);
   document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  if (themeMeta) {
+    themeMeta.setAttribute("content", isDark ? "#0c0812" : "#FFF9F0");
+  }
 }
 
 export function ThemeProvider({ children }) {

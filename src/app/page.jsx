@@ -7,7 +7,7 @@ import {
   getSiteSettings,
   getTrustStats,
 } from "@/lib/data";
-import { SERVICES, PROCESS } from "@/lib/seed";
+import { PROCESS } from "@/lib/seed";
 
 export default async function HomePage() {
   const [site, products, courses, portfolio, testimonials, trust] = await Promise.all([
@@ -27,7 +27,6 @@ export default async function HomePage() {
       portfolio={portfolio}
       testimonials={testimonials}
       trust={trust}
-      services={site.services?.length ? site.services : SERVICES}
       processSteps={site.processSteps?.length ? site.processSteps : PROCESS}
     />
   );
