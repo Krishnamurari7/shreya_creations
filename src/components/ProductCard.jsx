@@ -15,8 +15,13 @@ export default function ProductCard({ product, variant = "boutique", whatsapp })
 
     return (
       <div className="boutique-product-card group flex flex-col h-full">
-        <Link href={`/shop/${product.slug}`} className="relative block">
+        <Link href={`/shop/${product.slug}`} className="product-card-media relative block">
           <CardImage src={cover} alt={product.title} ratio="3/4" position="top" />
+          <div className="product-card-overlay" aria-hidden>
+            <span className="product-card-overlay__label">
+              View details <span>→</span>
+            </span>
+          </div>
           <button
             type="button"
             className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface/90 text-purple shadow-sm transition-colors hover:text-orange"

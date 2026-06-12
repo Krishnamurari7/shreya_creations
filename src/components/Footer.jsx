@@ -30,7 +30,7 @@ function SocialIcon({ href, label, children }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="group flex h-10 w-10 items-center justify-center rounded-full border border-orange/20 bg-surface text-ink transition-all duration-300 hover:border-purple/40 hover:bg-orange/5 hover:text-orange hover:shadow-md hover:shadow-orange/10"
+      className="footer-social-icon group flex h-10 w-10 items-center justify-center rounded-full border border-orange/20 bg-surface text-ink hover:border-purple/40 hover:bg-orange/5 hover:text-orange"
     >
       {children}
     </a>
@@ -92,7 +92,7 @@ export default function Footer({ site }) {
         <div className="mx-auto max-w-7xl px-4 sm:px-5 pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
           <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
             {/* Brand column */}
-            <div className="sm:col-span-2 lg:col-span-5 text-center sm:text-left">
+            <div className="sm:col-span-2 lg:col-span-5 text-center sm:text-left reveal">
               <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -148,7 +148,7 @@ export default function Footer({ site }) {
             </div>
 
             {/* Explore */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-3 reveal" style={{ transitionDelay: "80ms" }}>
               <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-orange">
                 <span className="h-px w-8 bg-gradient-to-r from-orange to-transparent" aria-hidden />
                 Explore
@@ -169,7 +169,7 @@ export default function Footer({ site }) {
             </div>
 
             {/* Reach us */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-4 reveal" style={{ transitionDelay: "160ms" }}>
               <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-orange">
                 <span className="h-px w-8 bg-gradient-to-r from-orange to-transparent" aria-hidden />
                 Reach us

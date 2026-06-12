@@ -270,8 +270,8 @@ export default function HomepageClient({
       <div className="pointer-events-none absolute top-[40%] -right-24 h-72 w-72 rounded-full bg-purple/5 blur-3xl" aria-hidden />
 
       {/* ===== HERO BANNER ===== */}
-      <section className="hero-floral-bg relative pt-[var(--header-offset)] pb-10 sm:pb-14 lg:pb-16 overflow-hidden">
-        <div className="page-container w-full grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+      <section className="hero-floral-bg hero-mesh-bg relative pt-[var(--header-offset)] pb-10 sm:pb-14 lg:pb-16 overflow-hidden">
+        <div className="page-container w-full grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center relative z-[1]">
           <div className="flex flex-col justify-center py-6 sm:py-8 lg:py-12 order-2 lg:order-1 text-center lg:text-left">
             <span className="anim-rise inline-flex items-center gap-2 self-center lg:self-start text-purple uppercase tracking-[0.18em] sm:tracking-[0.25em] text-xs font-semibold mb-3 sm:mb-4 rounded-full border border-purple/20 bg-purple/5 px-4 py-1.5">
               <span className="sparkle-pulse text-gold" aria-hidden>✦</span>
@@ -296,12 +296,12 @@ export default function HomepageClient({
                 {heroTiles.map((t, i) => (
                   <div
                     key={i}
-                    className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left backdrop-blur-sm ${
+                    className={`hero-tile flex items-center gap-3 rounded-xl border px-4 py-3 text-left backdrop-blur-sm ${
                       t.accent === "purple" ? "border-purple/25 bg-purple/5" : "border-orange/30 bg-orange/5"
                     }`}
                   >
                     <span
-                      className={`grid place-items-center h-10 w-10 shrink-0 rounded-lg text-lg ${
+                      className={`hero-tile__icon grid place-items-center h-10 w-10 shrink-0 rounded-lg text-lg ${
                         t.accent === "purple" ? "bg-purple/10" : "bg-orange/10"
                       }`}
                       aria-hidden
@@ -404,8 +404,12 @@ export default function HomepageClient({
           <div className="features-bar">
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
               {whyChooseFeatures.map((f, i) => (
-                <div key={i} className="text-center reveal px-1" style={{ transitionDelay: `${i * 60}ms` }}>
-                  <div className={`text-xl sm:text-2xl mb-1.5 sm:mb-2 ${f.color === "orange" ? "text-orange" : "text-purple"}`}>
+                <div key={i} className="feature-card text-center reveal px-1" style={{ transitionDelay: `${i * 60}ms` }}>
+                  <div
+                    className={`feature-card__icon ${
+                      f.color === "orange" ? "bg-orange/10 text-orange border border-orange/20" : "bg-purple/10 text-purple border border-purple/20"
+                    }`}
+                  >
                     {f.icon}
                   </div>
                   <h3 className="font-body text-xs sm:text-sm font-semibold text-ink leading-snug">{f.title}</h3>
