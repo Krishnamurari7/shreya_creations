@@ -126,9 +126,12 @@ create table if not exists public.contact_inquiries (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz default now(),
   name        text,
+  phone       text,
   message     text,
   source      text default 'contact_form'
 );
+
+alter table public.contact_inquiries add column if not exists phone text;
 
 -- API roles must have table grants (RLS alone is not enough)
 grant usage on schema public to anon, authenticated;

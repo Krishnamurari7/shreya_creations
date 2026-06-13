@@ -55,8 +55,18 @@ export default function CategoryCards({ lang = "en" }) {
 
   return (
     <section className="page-container pb-10 sm:pb-14">
-      <div className="section-ornament mb-6 sm:mb-8 reveal" aria-hidden>
-        <span className="text-gold text-xs">✦</span>
+      <div className="text-center mb-6 sm:mb-10 reveal section-header-glass">
+        <span className="section-eyebrow">
+          <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>✦</span>
+          {lang === "hi" ? "त्वरित लिंक" : "Quick Explore"}
+        </span>
+        <h2 className="section-title mt-3 text-balance">
+          {lang === "hi" ? "शुरू करें " : "Start with "}
+          <span className="highlight-shimmer">{lang === "hi" ? "यहाँ से" : "Here"}</span>
+        </h2>
+        <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+          <span className="text-gold text-xs">✦</span>
+        </div>
       </div>
 
       <motion.div

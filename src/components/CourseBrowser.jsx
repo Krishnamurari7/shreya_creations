@@ -28,7 +28,7 @@ export default function CourseBrowser({ courses }) {
                 className={`px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300 ${
                   isSelected
                     ? "btn-gold tab-active-glow"
-                    : "bg-ink/5 border border-ink/15 text-ink hover:border-orange/40 hover:text-ink"
+                    : "filter-pill rounded-full px-5 py-2.5 text-xs uppercase tracking-wider font-medium"
                 }`}
               >
                 {c}

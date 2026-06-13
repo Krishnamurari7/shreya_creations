@@ -32,6 +32,9 @@ export function portfolioMessage() {
   return "Hi Shreya creation! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.";
 }
 
-export function enquiryMessage(name, msg) {
-  return `Hi Shreya creation! 👋\nName: ${name || "-"}\n${msg || ""}`.trim();
+export function enquiryMessage(name, msg, phone) {
+  const lines = ["Hi Shreya creation! 👋", `Name: ${name || "-"}`];
+  if (phone?.trim()) lines.push(`Phone: ${phone.trim()}`);
+  if (msg?.trim()) lines.push(msg.trim());
+  return lines.join("\n");
 }

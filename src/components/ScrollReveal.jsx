@@ -12,6 +12,9 @@ export default function ScrollReveal() {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             e.target.classList.add("in");
+            if (e.target.hasAttribute("data-stagger")) {
+              e.target.querySelectorAll(".reveal").forEach((child) => child.classList.add("in"));
+            }
             io.unobserve(e.target);
           }
         });
@@ -24,6 +27,18 @@ export default function ScrollReveal() {
         if (!observed.has(el)) {
           observed.add(el);
           io.observe(el);
+        }
+      });
+
+      document.querySelectorAll("[data-stagger]").forEach((group) => {
+        if (!observed.has(group)) {
+          observed.add(group);
+          io.observe(group);
+          group.querySelectorAll(".reveal").forEach((child) => {
+            if (!observed.has(child)) {
+              observed.add(child);
+            }
+          });
         }
       });
     };

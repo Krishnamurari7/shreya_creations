@@ -45,7 +45,7 @@ export function Testimonials({ items }) {
 
   return (
     <div className="relative reveal">
-      <div className="testimonials-marquee">
+      <div className="testimonials-marquee no-bar">
         <div className="testimonials-marquee__track pb-4 px-1">
           {duplicated.map((t, i) => (
             <TestimonialCard key={`${t.id || t.name}-${i}`} t={t} i={i} />

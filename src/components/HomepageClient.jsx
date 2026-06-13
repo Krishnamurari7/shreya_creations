@@ -11,12 +11,14 @@ import { Testimonials, TrustWall } from "@/components/Sections";
 import { DesignProcess } from "@/components/FashionSections";
 import { toYoutubeEmbedUrl } from "@/lib/youtube";
 import VideoShowcase from "@/components/VideoShowcase";
-import { waLink } from "@/lib/whatsapp";
+import { waLink, greetingMessage } from "@/lib/whatsapp";
 import PageCTA from "@/components/PageCTA";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage, pageBottomCtaProps } from "@/lib/cms";
 import { pickLocalized, pickTrust } from "@/lib/i18n";
+import InquiryPopup from "@/components/InquiryPopup";
+import HeroImageSlider from "@/components/HeroImageSlider";
 
 function SectionHeader({
   home,
@@ -34,8 +36,13 @@ function SectionHeader({
     : "";
   const subtitle = subtitleKey ? pickPage(home, lang, subtitleKey, `${subtitleKey}Hi`) : "";
   return (
-    <div className={`text-center mb-6 sm:mb-10 px-1 reveal ${className}`}>
-      {eyebrow && <span className="section-eyebrow">{eyebrow}</span>}
+    <div className={`text-center mb-6 sm:mb-10 px-1 reveal section-header-glass ${className}`}>
+      {eyebrow && (
+        <span className="section-eyebrow">
+          <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>✦</span>
+          {eyebrow}
+        </span>
+      )}
       {title && (
         <h2 className="section-title mt-2 leading-tight text-balance">
           {title}
@@ -77,31 +84,39 @@ function FounderMessageSlider({ slides }) {
   return (
     <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
       <div className="lg:col-span-5 flex justify-center reveal reveal-left">
-        <div className="relative w-full max-w-sm rounded-2xl overflow-hidden glass border border-orange/25 p-2 sm:p-3 shadow-xl">
-          {slides.map((s, i) => (
-            <div
-              key={s.name}
-              className={`transition-opacity duration-700 ease-in-out ${i === active ? "opacity-100" : "opacity-0 absolute inset-2 sm:inset-3 pointer-events-none"}`}
-              aria-hidden={i !== active}
-            >
-              <CardImage src={s.image} alt={s.name} ratio="3/4" position="top" className="rounded-xl" />
+        <div className="relative w-full max-w-sm">
+          <div className="gradient-ring rounded-3xl p-[3px] shadow-glow">
+            <div className="rounded-[calc(1.5rem-3px)] overflow-hidden glass border-0 p-2 sm:p-3">
+              {slides.map((s, i) => (
+                <div
+                  key={s.name}
+                  className={`transition-all duration-700 ease-in-out ${i === active ? "opacity-100 scale-100" : "opacity-0 scale-[0.98] absolute inset-2 sm:inset-3 pointer-events-none"}`}
+                  aria-hidden={i !== active}
+                >
+                  <CardImage src={s.image} alt={s.name} ratio="3/4" position="top" className="rounded-2xl" />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <span className="hero-float-badge hero-float-badge--bottom hidden sm:inline-flex">
+            <span className="hero-float-badge__dot" aria-hidden />
+            {slides[active]?.role || "Founder"}
+          </span>
         </div>
       </div>
       <div className="lg:col-span-7 text-center lg:text-left reveal reveal-right">
-        <div className="relative min-h-[12rem] sm:min-h-[10rem]">
+        <div className="founder-quote-card relative min-h-[12rem] sm:min-h-[10rem]">
           {slides.map((s, i) => (
             <div
               key={s.name}
               className={`transition-opacity duration-700 ease-in-out ${i === active ? "opacity-100" : "opacity-0 absolute inset-0 pointer-events-none"}`}
               aria-hidden={i !== active}
             >
-              <blockquote className="font-display text-xl sm:text-2xl md:text-3xl text-ink leading-relaxed italic">
+              <blockquote className="font-display text-xl sm:text-2xl md:text-3xl text-ink leading-relaxed italic pl-1">
                 &ldquo;{s.quote}&rdquo;
               </blockquote>
               <div className="mt-8 flex flex-col sm:flex-row items-center lg:items-start gap-2 sm:gap-4">
-                <div className="h-12 w-12 rounded-full bg-purple/10 grid place-items-center font-display text-xl text-purple shrink-0">
+                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-orange/20 to-purple/20 grid place-items-center font-display text-xl text-purple shrink-0 ring-2 ring-orange/25">
                   {(s.name || "S").charAt(0)}
                 </div>
                 <div>
@@ -117,7 +132,7 @@ function FounderMessageSlider({ slides }) {
             <button
               type="button"
               onClick={() => setActive((i) => (i - 1 + count) % count)}
-              className="h-9 w-9 rounded-full border border-orange/30 text-orange hover:bg-orange/10 transition-colors"
+              className="h-10 w-10 rounded-full border border-orange/30 text-orange hover:bg-orange/10 hover:scale-105 transition-all"
               aria-label="Previous message"
             >
               ‹
@@ -128,7 +143,7 @@ function FounderMessageSlider({ slides }) {
                   key={s.name}
                   type="button"
                   onClick={() => setActive(i)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${i === active ? "w-8 bg-orange" : "w-2.5 bg-orange/30 hover:bg-orange/50"}`}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${i === active ? "w-8 bg-gradient-to-r from-orange to-purple" : "w-2.5 bg-orange/30 hover:bg-orange/50"}`}
                   aria-label={`Show message from ${s.name}`}
                   aria-current={i === active ? "true" : undefined}
                 />
@@ -137,7 +152,7 @@ function FounderMessageSlider({ slides }) {
             <button
               type="button"
               onClick={() => setActive((i) => (i + 1) % count)}
-              className="h-9 w-9 rounded-full border border-orange/30 text-orange hover:bg-orange/10 transition-colors"
+              className="h-10 w-10 rounded-full border border-orange/30 text-orange hover:bg-orange/10 hover:scale-105 transition-all"
               aria-label="Next message"
             >
               ›
@@ -239,10 +254,18 @@ export default function HomepageClient({
     siteIntro ||
     "Job-oriented fashion & stitching courses, plus bespoke boutique stitching in 24 hours.";
   const heroImage = home.heroImage || "/hero_studio_banner.png";
-  const heroCtaLabel = pickPage(home, lang, "heroCtaLabel", "heroCtaLabelHi") || "Explore Courses";
-  const heroCtaHref = home.heroCtaHref || "/courses";
   const founderImage = home.founderImage || "/atelier_details.png";
   const mentorImage = home.mentorImage || "/hero_studio_banner.png";
+  const heroSlides = useMemo(() => {
+    const fromCms = home.heroImages;
+    if (Array.isArray(fromCms) && fromCms.length) {
+      return fromCms.filter(Boolean);
+    }
+    const fallbacks = [heroImage, founderImage, mentorImage].filter(Boolean);
+    return [...new Set(fallbacks)];
+  }, [home.heroImages, heroImage, founderImage, mentorImage]);
+  const heroCtaLabel = pickPage(home, lang, "heroCtaLabel", "heroCtaLabelHi") || "Explore Courses";
+  const heroCtaHref = home.heroCtaHref || "/courses";
 
   const founderSlides = useMemo(
     () => [
@@ -264,16 +287,37 @@ export default function HomepageClient({
 
   const videoEmbedUrl = toYoutubeEmbedUrl(home.videoUrl);
 
+  const quickLinks = useMemo(
+    () => [
+      { href: "/shop", icon: "🪡", label: lang === "hi" ? "शॉप" : "Shop" },
+      { href: "/courses", icon: "🎓", label: lang === "hi" ? "कोर्स" : "Courses" },
+      { href: "/portfolio", icon: "✨", label: lang === "hi" ? "पोर्टफोलियो" : "Portfolio" },
+      { href: "/contact", icon: "💬", label: lang === "hi" ? "संपर्क" : "Contact" },
+    ],
+    [lang]
+  );
+
+  const exploreChips = useMemo(
+    () => [
+      { href: "/shop", icon: "👗", label: lang === "hi" ? "ब्राइडल वियर" : "Bridal Wear" },
+      { href: "/courses", icon: "📐", label: lang === "hi" ? "फैशन कोर्स" : "Fashion Courses" },
+      { href: "/portfolio", icon: "💍", label: lang === "hi" ? "कस्टम सिलाई" : "Custom Stitching" },
+      { href: waLink(site.whatsapp, greetingMessage()), icon: "📱", label: "WhatsApp Order", external: true },
+      { href: "/about", icon: "🏛️", label: lang === "hi" ? "हमारी कहानी" : "Our Story" },
+    ],
+    [lang, site.whatsapp]
+  );
+
   return (
     <div className="relative z-10 w-full overflow-x-hidden bg-cream">
       <div className="pointer-events-none absolute top-32 -left-20 h-64 w-64 rounded-full bg-orange/6 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute top-[40%] -right-24 h-72 w-72 rounded-full bg-purple/5 blur-3xl" aria-hidden />
 
       {/* ===== HERO BANNER ===== */}
-      <section className="hero-floral-bg hero-mesh-bg relative pt-[var(--header-offset)] pb-10 sm:pb-14 lg:pb-16 overflow-hidden">
-        <div className="page-container w-full grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center relative z-[1]">
-          <div className="flex flex-col justify-center py-6 sm:py-8 lg:py-12 order-2 lg:order-1 text-center lg:text-left">
-            <span className="anim-rise inline-flex items-center gap-2 self-center lg:self-start text-purple uppercase tracking-[0.18em] sm:tracking-[0.25em] text-xs font-semibold mb-3 sm:mb-4 rounded-full border border-purple/20 bg-purple/5 px-4 py-1.5">
+      <section className="home-hero hero-floral-bg hero-mesh-bg relative pt-[var(--header-offset)] pb-10 sm:pb-14 lg:pb-8 overflow-hidden">
+        <div className="page-container w-full grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-14 items-center relative z-[1] flex-1">
+          <div className="home-hero__content flex flex-col justify-center py-6 sm:py-8 lg:py-12 order-2 lg:order-1 text-center lg:text-left">
+            <span className="anim-rise inline-flex items-center gap-2 self-center lg:self-start text-purple uppercase tracking-[0.18em] sm:tracking-[0.25em] text-xs font-semibold mb-3 sm:mb-4 rounded-full surface-badge px-4 py-2">
               <span className="sparkle-pulse text-gold" aria-hidden>✦</span>
               {pickPage(home, lang, "heroBadge", "heroBadgeHi")}
             </span>
@@ -322,20 +366,29 @@ export default function HomepageClient({
             <div className="anim-rise anim-delay-3 mt-6 sm:mt-8 flex flex-col min-[480px]:flex-row flex-wrap gap-3 justify-center lg:justify-start">
               <Link
                 href={heroCtaHref}
-                className="btn-purple inline-flex items-center justify-center gap-2 rounded-md px-6 sm:px-8 py-3 sm:py-3.5 w-full sm:w-auto text-xs sm:text-sm btn-mobile"
+                className="btn-purple inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 w-full sm:w-auto text-xs sm:text-sm btn-mobile"
               >
                 {heroCtaLabel} <span aria-hidden>›</span>
               </Link>
               <Link
                 href="/shop"
-                className="btn-ghost inline-flex items-center justify-center gap-2 rounded-md px-6 sm:px-8 py-3 sm:py-3.5 w-full sm:w-auto text-xs sm:text-sm btn-mobile"
+                className="btn-ghost inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 w-full sm:w-auto text-xs sm:text-sm btn-mobile"
               >
                 {lang === "hi" ? "बुटीक शॉप देखें" : "Visit Boutique Shop"}
               </Link>
             </div>
 
+            <nav className="anim-rise anim-delay-4 hero-quick-nav mt-5 sm:mt-6" aria-label="Quick navigation">
+              {quickLinks.map((link) => (
+                <Link key={link.href} href={link.href} className="hero-quick-nav__link">
+                  <span className="hero-quick-nav__icon" aria-hidden>{link.icon}</span>
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
             {heroStats.length > 0 && (
-              <div className="anim-rise anim-delay-4 hero-stat-chips mt-7 sm:mt-9 justify-center lg:justify-start">
+              <div className="anim-rise anim-delay-4 hero-stat-chips mt-6 sm:mt-8 justify-center lg:justify-start">
                 {heroStats.map((s, i) => (
                   <div key={i} className="hero-stat-chip">
                     <span className="hero-stat-chip__value">{s.value}</span>
@@ -352,28 +405,67 @@ export default function HomepageClient({
             <span className="pointer-events-none absolute top-6 left-2 sm:left-8 text-gold text-lg sparkle-pulse" aria-hidden>✦</span>
             <span className="pointer-events-none absolute bottom-12 right-2 sm:right-6 text-orange text-sm sparkle-pulse [animation-delay:-1.4s]" aria-hidden>✦</span>
 
-            <div className="anim-hero-media hero-arch-frame w-full max-w-[280px] sm:max-w-md shadow-xl relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={heroImage}
-                alt="Shreya creation ethnic wear"
-                className="w-full h-full object-cover"
+            <div className="anim-hero-media hero-media-wrap w-full max-w-[280px] sm:max-w-md lg:max-w-lg relative">
+              <span className="hero-float-badge hero-float-badge--top hidden sm:inline-flex">
+                <span className="hero-float-badge__dot" aria-hidden />
+                {lang === "hi" ? "24 घंटे सिलाई" : "24hr Stitching"}
+              </span>
+              <HeroImageSlider
+                slides={heroSlides}
+                lang={lang}
+                overlay={
+                  (home.heroCardTitle || home.heroCardText) ? (
+                    <div className="absolute bottom-4 left-4 right-4 z-10 glass rounded-2xl px-4 py-3 border border-purple/20 backdrop-blur-md float-soft pointer-events-none">
+                      <p className="font-display text-sm text-ink font-semibold">
+                        {pickPage(home, lang, "heroCardTitle", "heroCardTitleHi")}
+                      </p>
+                      <p className="text-xs text-muted mt-0.5">
+                        {pickPage(home, lang, "heroCardText", "heroCardTextHi")}
+                      </p>
+                    </div>
+                  ) : null
+                }
               />
-              {(home.heroCardTitle || home.heroCardText) && (
-                <div className="absolute bottom-4 left-4 right-4 z-10 glass rounded-xl px-4 py-3 border border-purple/20 backdrop-blur-md float-soft">
-                  <p className="font-display text-sm text-ink font-semibold">
-                    {pickPage(home, lang, "heroCardTitle", "heroCardTitleHi")}
-                  </p>
-                  <p className="text-xs text-muted mt-0.5">
-                    {pickPage(home, lang, "heroCardText", "heroCardTextHi")}
-                  </p>
-                </div>
-              )}
+              <span className="hero-float-badge hero-float-badge--bottom hidden sm:inline-flex">
+                <span className="hero-float-badge__dot" aria-hidden />
+                Patna · Bihar
+              </span>
             </div>
           </div>
         </div>
 
+        <div className="scroll-hint reveal" aria-hidden>
+          <span>{lang === "hi" ? "नीचे स्क्रॉल करें" : "Scroll"}</span>
+          <span className="scroll-hint__line" />
+        </div>
       </section>
+
+      {/* ===== EXPLORE STRIP ===== */}
+      <div className="home-explore-strip">
+        <div className="page-container">
+          <div className="home-explore-strip__inner reveal">
+            {exploreChips.map((chip) =>
+              chip.external ? (
+                <a
+                  key={chip.label}
+                  href={chip.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="home-explore-chip"
+                >
+                  <span className="home-explore-chip__icon" aria-hidden>{chip.icon}</span>
+                  {chip.label}
+                </a>
+              ) : (
+                <Link key={chip.label} href={chip.href} className="home-explore-chip">
+                  <span className="home-explore-chip__icon" aria-hidden>{chip.icon}</span>
+                  {chip.label}
+                </Link>
+              )
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* ===== BRAND MARQUEE RIBBON ===== */}
       <div className="brand-ribbon" aria-hidden>
@@ -402,7 +494,7 @@ export default function HomepageClient({
             titleKey="whyChooseTitle"
           />
           <div className="features-bar">
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6" data-stagger>
               {whyChooseFeatures.map((f, i) => (
                 <div key={i} className="feature-card text-center reveal px-1" style={{ transitionDelay: `${i * 60}ms` }}>
                   <div
@@ -432,7 +524,7 @@ export default function HomepageClient({
       <CategoryCards lang={lang} />
 
       {/* ===== COURSES OVERVIEW ===== */}
-      <section className="section-muted py-12 sm:py-20 lg:py-24 relative z-20">
+      <section className="home-academy-bg section-muted py-12 sm:py-20 lg:py-24 relative z-20">
         <div className="page-container max-w-7xl">
           <SectionHeader
             home={home}
@@ -582,9 +674,12 @@ export default function HomepageClient({
               <div className="hairline max-w-xs mx-auto mt-6" />
             </div>
           )}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+          <div className="home-bento reveal" data-stagger>
             {products.slice(0, 4).map((p, i) => (
-              <div key={p.id} className="reveal reveal-zoom h-full" style={{ transitionDelay: `${(i % 4) * 80}ms` }}>
+              <div
+                key={p.id}
+                className={`home-bento__item reveal reveal-zoom h-full ${i === 0 ? "home-bento__featured" : ""}`}
+              >
                 <ProductCard product={p} variant="boutique" whatsapp={site.whatsapp} />
               </div>
             ))}
@@ -639,13 +734,12 @@ export default function HomepageClient({
               <div className="hairline max-w-xs mx-auto mt-6" />
             </div>
           )}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="home-bento reveal" data-stagger>
             {portfolio.slice(0, 4).map((item, idx) => (
               <Link
                 key={item.id || idx}
                 href="/portfolio"
-                className="group relative block overflow-hidden rounded-2xl glass border border-ink/15 hover:border-orange/35 transition-all duration-500 reveal shadow-md"
-                style={{ transitionDelay: `${(idx % 4) * 70}ms` }}
+                className={`home-bento__item group relative block overflow-hidden glass border border-ink/15 hover:border-orange/35 transition-all duration-500 reveal shadow-md ${idx === 0 ? "home-bento__featured" : ""}`}
               >
                 <CardImage src={item.image} alt={item.title} ratio="3/4" position="top" />
                 <div className="portfolio-card-overlay absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 sm:p-4">
@@ -718,6 +812,8 @@ export default function HomepageClient({
 
       {/* ===== CONTACT SECTION ===== */}
       <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} className="pt-12 pb-8 sm:pt-20 sm:pb-12" />
+
+      <InquiryPopup source="home_popup" />
     </div>
   );
 }

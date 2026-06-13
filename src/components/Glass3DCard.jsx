@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 
 export const glassCardStyles =
-  "relative group/card glass border border-ink/8 hover:shadow-[0_12px_32px_rgba(230,92,0,0.1)] hover:border-orange/25 transition-[box-shadow,border-color] duration-500";
+  "relative group/card glass border border-ink/8 hover:shadow-lift hover:border-orange/30 hover:-translate-y-1 transition-all duration-500";
 
 export function CardGlow({ className }) {
   return (

@@ -41,7 +41,7 @@ export default function ShopBrowser({ products, whatsapp }) {
                 className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300 ${
                   isSelected
                     ? "btn-gold tab-active-glow"
-                    : "bg-ink/5 border border-ink/15 text-ink hover:border-orange/40 hover:text-ink"
+                    : "filter-pill rounded-full px-5 py-2.5 text-xs uppercase tracking-wider font-medium"
                 }`}
               >
                 {c}
@@ -56,7 +56,7 @@ export default function ShopBrowser({ products, whatsapp }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search our couture pieces..."
-            className="w-full bg-ink/5 border border-ink/15 hover:border-orange/35 rounded-full pl-11 pr-5 py-3 text-sm text-ink placeholder:text-ink/55 focus:border-orange focus:ring-1 focus:ring-orange/30 focus:outline-none transition-all duration-300 font-light"
+            className="w-full field-surface rounded-full pl-11 pr-5 py-3 text-sm font-light"
           />
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -73,7 +73,7 @@ export default function ShopBrowser({ products, whatsapp }) {
           <p className="text-ink mt-4 font-normal text-base">No couture pieces match your search query.</p>
         </Glass3DCard>
       ) : (
-        <div className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filtered.map((p, i) => (
             <div key={p.id} className="reveal w-full h-full" style={staggerDelay(i, 60)}>
               <ProductCard product={p} variant="boutique" whatsapp={whatsapp} />

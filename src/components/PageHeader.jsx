@@ -5,7 +5,7 @@ export default function PageHeader({ eyebrow, title, subtitle }) {
       <div className="absolute top-1/3 left-1/4 w-60 h-60 rounded-full bg-purple/5 blur-3xl -z-10 pointer-events-none float-soft [animation-delay:-2s]" aria-hidden />
 
       {eyebrow && (
-        <span className="anim-rise inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-6 shadow-sm">
+        <span className="anim-rise inline-flex items-center gap-1.5 surface-badge text-orange px-4 py-2 rounded-full text-xs font-semibold tracking-widest uppercase mb-6">
           <span className="sparkle-pulse text-gold" aria-hidden>✦</span>
           {eyebrow}
         </span>

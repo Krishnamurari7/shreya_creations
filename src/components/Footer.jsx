@@ -88,7 +88,7 @@ export default function Footer({ site }) {
         </div>
       )}
 
-      <div className="relative border-t border-gold/20 bg-cream">
+      <div className="relative border-t border-gold/20 footer-glass">
         <div className="mx-auto max-w-7xl px-4 sm:px-5 pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
           <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
             {/* Brand column */}

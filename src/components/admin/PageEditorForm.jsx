@@ -137,8 +137,17 @@ export function HomeTab({ home, patchPage }) {
         />
       </div>
       <div>
-        <label className={ADMIN_LABEL}>Hero banner image</label>
+        <label className={ADMIN_LABEL}>Hero banner image (fallback)</label>
         <ImageUploader multiple={false} value={home.hero_image || ""} onChange={(url) => onChange("hero_image", url)} />
+      </div>
+      <div>
+        <ImageUploader
+          label="Hero slider images"
+          multiple
+          value={home.hero_images || []}
+          onChange={(urls) => onChange("hero_images", urls)}
+        />
+        <p className="admin-muted mt-1">Multiple images rotate in the homepage hero. Order = slide order.</p>
       </div>
       <BilingualField label="Floating card title" enKey="hero_card_title" hiKey="hero_card_title_hi" values={home} onChange={onChange} />
       <BilingualField label="Floating card text" enKey="hero_card_text" hiKey="hero_card_text_hi" values={home} onChange={onChange} />

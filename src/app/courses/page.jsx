@@ -1,7 +1,7 @@
 import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import FeatureStrip from "@/components/FeatureStrip";
-import CourseBrowser from "@/components/CourseBrowser";
+import CoursesPageClient from "@/components/CoursesPageClient";
 import PageCTA from "@/components/PageCTA";
 import { getCourses, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
@@ -25,7 +25,7 @@ export default async function CoursesPage() {
         subtitleHi={coursesPage.headerSubtitleHi}
       />
       <FeatureStrip items={coursesPage.features || []} />
-      <CourseBrowser courses={courses} />
+      <CoursesPageClient courses={courses} />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(coursesPage)} />
     </PageShell>
   );

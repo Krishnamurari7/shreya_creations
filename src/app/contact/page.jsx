@@ -21,8 +21,10 @@ export default async function ContactPage() {
       <LocalizedPageHeader
         eyebrow={contact.headerEyebrow || "Say hello"}
         eyebrowHi={contact.headerEyebrowHi}
-        title={contact.headerTitle || "Contact Us"}
+        title={contact.headerTitle || "Contact"}
         titleHi={contact.headerTitleHi}
+        highlight={contact.headerHighlight || "Us"}
+        highlightHi={contact.headerHighlightHi || "करें"}
         subtitle={contact.headerSubtitle || DEFAULT_SUBTITLE}
         subtitleHi={contact.headerSubtitleHi}
       />

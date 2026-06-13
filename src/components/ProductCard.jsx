@@ -49,7 +49,7 @@ export default function ProductCard({ product, variant = "boutique", whatsapp })
             href={wa}
             target={whatsapp ? "_blank" : undefined}
             rel={whatsapp ? "noopener noreferrer" : undefined}
-            className="btn-purple mt-auto pt-3 sm:pt-4 w-full rounded-md py-2.5 sm:py-3 text-center text-[9px] sm:text-[11px] tracking-widest min-h-[44px] flex items-center justify-center"
+            className="btn-purple mt-auto pt-3 sm:pt-4 w-full py-2.5 sm:py-3 text-center text-[9px] sm:text-[11px] tracking-widest min-h-[44px] flex items-center justify-center"
           >
             ORDER ON WHATSAPP
           </a>

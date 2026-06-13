@@ -31,7 +31,7 @@ export default function FaqList({ faqs }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={lang === "hi" ? "प्रश्न खोजें..." : "Search questions..."}
-            className="w-full bg-ink/5 border border-ink/15 hover:border-orange/35 rounded-full pl-11 pr-5 py-3 text-sm text-ink placeholder:text-ink/55 focus:border-orange focus:ring-1 focus:ring-orange/30 focus:outline-none transition-all duration-300 font-light"
+            className="w-full field-surface rounded-full pl-11 pr-5 py-3 text-sm font-light"
           />
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">

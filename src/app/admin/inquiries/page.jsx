@@ -32,7 +32,7 @@ export default function InquiriesAdmin() {
     <div>
       <AdminPageHeader
         title="Contact inquiries"
-        subtitle="Saved when visitors use the contact form (they also open WhatsApp)."
+        subtitle="Saved from the contact form and home/courses popups."
       />
       {loading ? (
         <p className="admin-muted">Loading…</p>
@@ -46,7 +46,17 @@ export default function InquiriesAdmin() {
                 <span className="font-medium">{r.name}</span>
                 <span>{new Date(r.created_at).toLocaleString()}</span>
               </div>
-              <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">{r.message}</p>
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs admin-muted mt-1">
+                {r.phone && <span>📱 {r.phone}</span>}
+                {r.source && (
+                  <span className="uppercase tracking-wider">
+                    {r.source.replace(/_/g, " ")}
+                  </span>
+                )}
+              </div>
+              {r.message && (
+                <p className="text-sm whitespace-pre-wrap break-words leading-relaxed mt-2">{r.message}</p>
+              )}
             </li>
           ))}
         </ul>
