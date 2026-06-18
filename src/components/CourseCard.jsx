@@ -5,7 +5,87 @@ import CardImage from "@/components/CardImage";
 import { CardGlow, glassCardStyles } from "@/components/Glass3DCard";
 import { cn } from "@/lib/utils";
 
-export default function CourseCard({ course }) {
+function reviewCountFromSlug(slug = "") {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i += 1) {
+    hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
+  }
+  return 80 + (hash % 420);
+}
+
+function StarRating({ count, className = "" }) {
+  return (
+    <div className={cn("featured-course-card__rating", className)}>
+      <span className="featured-course-card__stars" aria-hidden>
+        {"★".repeat(5)}
+      </span>
+      <span className="featured-course-card__reviews">({count})</span>
+    </div>
+  );
+}
+
+export default function CourseCard({ course, variant = "default", featuredIndex = 0, lang = "en" }) {
+  if (variant === "featured") {
+    const comparePrice = course.compare_price ?? course.original_price;
+    const price = course.price ? Number(course.price) : null;
+    const showCompare = comparePrice && price && Number(comparePrice) > price;
+    const discountPct =
+      showCompare ? Math.round((1 - price / Number(comparePrice)) * 100) : null;
+    const reviews = reviewCountFromSlug(course.slug);
+    const showBestseller = featuredIndex === 0 || course.badge === "bestseller";
+
+    return (
+      <article className="featured-course-card group/card flex flex-col h-full">
+        <Link href={`/courses/${course.slug}`} className="featured-course-card__media block">
+          <CardImage src={course.image} alt={course.title} ratio="16/10" position="top" />
+          {discountPct != null && discountPct > 0 && (
+            <span className="featured-course-card__badge featured-course-card__badge--sale">
+              {discountPct}% OFF
+            </span>
+          )}
+          {showBestseller && (
+            <span className="featured-course-card__badge featured-course-card__badge--bestseller">
+              Bestseller
+            </span>
+          )}
+        </Link>
+
+        <div className="featured-course-card__body flex flex-col flex-1">
+          {course.category && (
+            <span className="featured-course-card__category">{course.category}</span>
+          )}
+
+          <Link href={`/courses/${course.slug}`}>
+            <h3 className="featured-course-card__title">{course.title}</h3>
+          </Link>
+
+          <StarRating count={reviews} />
+
+          {price != null && (
+            <div className="featured-course-card__pricing">
+              <span className="featured-course-card__price">
+                ₹{price.toLocaleString("en-IN")}
+              </span>
+              {showCompare && (
+                <span className="featured-course-card__compare">
+                  ₹{Number(comparePrice).toLocaleString("en-IN")}
+                </span>
+              )}
+            </div>
+          )}
+
+          <Link
+            href={`/courses/${course.slug}`}
+            className="featured-course-card__enroll btn-primary mt-auto"
+          >
+            {course.cta_label || (lang === "hi" ? "अभी एनरोल करें" : "Enroll Now")}
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
+      </article>
+    );
+  }
+
   return (
     <Link
       href={`/courses/${course.slug}`}

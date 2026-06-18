@@ -7,7 +7,7 @@ import { Glass3DCard } from "@/components/Glass3DCard";
 import SectionHeading from "@/components/SectionHeading";
 import AmbientGlows from "@/components/AmbientGlows";
 import { useLanguage } from "@/components/LanguageProvider";
-import { pickLocalized } from "@/lib/i18n";
+import { pickLocalized, pickBrandMessage, pickServiceUsp } from "@/lib/i18n";
 import { pickPage, pickPillar } from "@/lib/cms";
 import { fadeUp, staggerDelay } from "@/lib/motion";
 import TeamSection from "@/components/TeamSection";
@@ -20,8 +20,10 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
   const aboutExtra = pickLocalized(site, lang, "aboutBody", "aboutBodyHi");
   const pillarList = (pillars || site.aboutPillars || []).map((p) => pickPillar(p, lang));
 
-  const heroBefore = pickPage(about, lang, "heroTitleBefore", "heroTitleBeforeHi");
-  const heroHighlight = pickPage(about, lang, "heroTitleHighlight", "heroTitleHighlightHi");
+  const heroBefore =
+    pickPage(about, "hi", "heroTitleBefore", "heroTitleBeforeHi") || `${pickBrandMessage(site)} —`;
+  const heroHighlight =
+    pickPage(about, "hi", "heroTitleHighlight", "heroTitleHighlightHi") || `${pickServiceUsp(site)}।`;
   const pillarsTitle = pickPage(about, lang, "pillarsTitle", "pillarsTitleHi");
   const trustTitle = pickPage(about, lang, "trustTitle", "trustTitleHi");
   const heroImage = about.heroImage || "/atelier_details.png";
@@ -41,7 +43,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
           custom={0.1}
           variants={fadeUp}
         >
-          <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-purple/10 blur-2xl -z-10" aria-hidden />
+          <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-orange/10 blur-2xl -z-10" aria-hidden />
           <motion.div
             className="relative w-full max-w-[280px] sm:max-w-md about-hero-frame"
             animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
@@ -110,7 +112,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
                     style={staggerDelay(i, 100)}
                   >
                     <span
-                      className={`absolute left-0 top-0 h-full w-1 ${isPurple ? "bg-purple" : "bg-orange"} opacity-70 group-hover:w-1.5 transition-all duration-300 z-[3]`}
+                      className={`absolute left-0 top-0 h-full w-1 ${isPurple ? "bg-orange" : "bg-orange"} opacity-70 group-hover:w-1.5 transition-all duration-300 z-[3]`}
                       aria-hidden
                     />
                     <div className="text-4xl sm:text-5xl mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">

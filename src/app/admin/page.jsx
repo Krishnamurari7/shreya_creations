@@ -30,7 +30,7 @@ export default async function Dashboard() {
           enable editing.
         </div>
       ) : (
-        <div className="mb-6 glass rounded-2xl p-4 sm:p-5 border border-purple/30 text-purple-light text-sm leading-relaxed">
+        <div className="mb-6 glass rounded-2xl p-4 sm:p-5 border border-orange/30 text-orange-light text-sm leading-relaxed">
           <strong>Supabase connected.</strong> Changes you save appear on the live site instantly.
         </div>
       )}

@@ -153,7 +153,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
               ✓
             </span>
             <p className="mt-4 text-ink font-normal leading-relaxed">{t.success}</p>
-            <button type="button" onClick={close} className="btn-purple rounded-full px-8 py-3 mt-6 text-xs tracking-widest uppercase">
+            <button type="button" onClick={close} className="btn-primary rounded-full px-8 py-3 mt-6 text-xs tracking-widest uppercase">
               {t.close}
             </button>
           </div>

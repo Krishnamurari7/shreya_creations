@@ -3,18 +3,16 @@
 import Link from "next/link";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
-import { UI, pickLocalized, pickTeamMember } from "@/lib/i18n";
-import { DEFAULT_TEAM } from "@/lib/seed";
+import { UI, pickLocalized, pickBrandMessage, pickServiceUsp } from "@/lib/i18n";
+import PopularCategories from "@/components/PopularCategories";
 
 const NAV_ROUTES = [
   { href: "/", key: "home" },
-  { href: "/shop", key: "shop" },
   { href: "/courses", key: "courses" },
+  { href: "/shop", key: "shop" },
   { href: "/portfolio", key: "portfolio" },
   { href: "/about", key: "about" },
   { href: "/contact", key: "contact" },
-  { href: "/faq", key: "faq" },
-  { href: "/lookbook", key: "lookbook" },
 ];
 
 const POLICY_ROUTES = [
@@ -30,7 +28,7 @@ function SocialIcon({ href, label, children }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="footer-social-icon group flex h-10 w-10 items-center justify-center rounded-full border border-orange/20 bg-surface text-ink hover:border-purple/40 hover:bg-orange/5 hover:text-orange"
+      className="footer-social-icon group flex h-10 w-10 items-center justify-center rounded-full border border-orange/20 bg-surface text-ink hover:border-orange/40 hover:bg-orange/5 hover:text-orange"
     >
       {children}
     </a>
@@ -43,21 +41,13 @@ export default function Footer({ site }) {
   const navLinks = NAV_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const policyLinks = POLICY_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const wa = waLink(site?.whatsapp, greetingMessage());
-  const boutique = pickLocalized(site, lang, "boutique", "boutiqueHi");
-  const tagline = pickLocalized(site, lang, "tagline", "taglineHi");
+  const boutique = pickBrandMessage(site);
+  const tagline = pickServiceUsp(site);
   const intro = pickLocalized(site, lang, "intro", "introHi");
-  const teamMembers = (site?.pages?.about?.teamMembers?.length
-    ? site.pages.about.teamMembers
-    : DEFAULT_TEAM
-  ).map((m) => pickTeamMember(m, lang));
-  const marqueeText = [boutique, tagline].filter(Boolean).join("  ·  ");
   const brandName = site?.brand || "Shreya creation";
-  const [brandFirst, ...brandRest] = brandName.split(" ");
-  const brandSecond = brandRest.join(" ") || "creation";
 
   return (
     <footer className="relative z-[2] overflow-hidden">
-      {/* Top glow & gradient edge */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange/50 to-transparent"
         aria-hidden
@@ -67,32 +57,15 @@ export default function Footer({ site }) {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute -top-24 right-1/4 h-56 w-56 rounded-full bg-purple/10 blur-[90px]"
+        className="pointer-events-none absolute -top-24 right-1/4 h-56 w-56 rounded-full bg-gold/10 blur-[90px]"
         aria-hidden
       />
 
-      {/* Tagline marquee */}
-      {marqueeText && (
-        <div className="footer-marquee-bar border-y border-ink/15 bg-cream/40 py-3 backdrop-blur-sm">
-          <div className="marquee-container">
-            <div className="marquee-content text-[11px] uppercase tracking-[0.35em] text-ink font-normal">
-              {[...Array(4)].map((_, i) => (
-                <span key={i} className="inline-flex items-center gap-3">
-                  <span className="text-orange">✦</span>
-                  {marqueeText}
-                  <span className="text-purple-dark">✦</span>
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="relative border-t border-gold/20 footer-glass">
-        <div className="mx-auto max-w-7xl px-4 sm:px-5 pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
-          <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-5 pt-10 pb-4 sm:pt-14 sm:pb-6 lg:pt-16 lg:pb-8">
+          <div className="footer-rrc-grid">
             {/* Brand column */}
-            <div className="sm:col-span-2 lg:col-span-5 text-center sm:text-left reveal">
+            <div className="text-center sm:text-left reveal">
               <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -101,19 +74,18 @@ export default function Footer({ site }) {
                   className="h-14 sm:h-16 w-auto max-w-[10rem] object-contain transition-transform duration-500 hover:scale-105 shrink-0"
                 />
                 <div>
-                  <h3 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-none text-balance break-words">
-                    <span className="text-brand-gold">{brandFirst}</span>{" "}
-                    <span className="text-brand-purple">{brandSecond}</span>
+                  <h3 className="font-display text-xl sm:text-2xl leading-none text-balance break-words text-brand-gold">
+                    {brandName}
                   </h3>
-                  <span className="mt-1 block text-[10px] uppercase tracking-[0.28em] text-purple">
-                    {boutique || "From Skill to Business"}
+                  <span className="mt-1 block text-[10px] uppercase tracking-[0.28em] text-orange">
+                    {boutique}
                   </span>
                 </div>
               </div>
 
-              <p className="mt-6 max-w-md mx-auto sm:mx-0 text-ink font-normal leading-relaxed">
+              <p className="mt-5 max-w-md mx-auto sm:mx-0 text-ink font-normal leading-relaxed text-sm">
                 {intro ||
-                  "Couture stitching, bespoke fashion design & courses. Every order, enrolment and enquiry happens on WhatsApp."}
+                  "Empowering learners with practical fashion skills, bespoke stitching, and creative education."}
               </p>
 
               {tagline && (
@@ -122,18 +94,12 @@ export default function Footer({ site }) {
                 </p>
               )}
 
-              {teamMembers.length > 0 && (
-                <div className="mt-5 space-y-1.5 text-sm text-ink">
-                  {teamMembers.map((member) => (
-                    <p key={member.name}>
-                      <span className="font-medium">{member.name}</span>
-                      <span className="text-muted"> — {member.role}</span>
-                    </p>
-                  ))}
-                </div>
-              )}
+              <div className="footer-trust-badges justify-center sm:justify-start">
+                <span className="footer-trust-badge">✦ 15+ Years</span>
+                <span className="footer-trust-badge">✦ 300+ Students</span>
+                <span className="footer-trust-badge">✦ 24hr Stitching</span>
+              </div>
 
-              {/* WhatsApp CTA */}
               <a
                 href={wa}
                 target="_blank"
@@ -147,11 +113,10 @@ export default function Footer({ site }) {
               </a>
             </div>
 
-            {/* Explore */}
-            <div className="lg:col-span-3 reveal" style={{ transitionDelay: "80ms" }}>
-              <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-orange">
-                <span className="h-px w-8 bg-gradient-to-r from-orange to-transparent" aria-hidden />
-                Explore
+            {/* Quick Links */}
+            <div className="reveal" style={{ transitionDelay: "80ms" }}>
+              <h4 className="footer-col-title">
+                {lang === "hi" ? "त्वरित लिंक" : "Quick Links"}
               </h4>
               <ul className="space-y-3 font-normal">
                 {navLinks.map((l) => (
@@ -168,24 +133,17 @@ export default function Footer({ site }) {
               </ul>
             </div>
 
-            {/* Reach us */}
-            <div className="lg:col-span-4 reveal" style={{ transitionDelay: "160ms" }}>
-              <h4 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-orange">
-                <span className="h-px w-8 bg-gradient-to-r from-orange to-transparent" aria-hidden />
-                Reach us
+            {/* Popular Categories */}
+            <div className="reveal" style={{ transitionDelay: "120ms" }}>
+              <PopularCategories compact />
+            </div>
+
+            {/* Contact */}
+            <div className="reveal" style={{ transitionDelay: "160ms" }}>
+              <h4 className="footer-col-title">
+                {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </h4>
               <ul className="space-y-4 text-sm font-normal text-ink">
-                {site?.address && (
-                  <li className="flex gap-3">
-                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange/10 text-orange">
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </span>
-                    <span className="leading-relaxed">{site.address}</span>
-                  </li>
-                )}
                 {site?.phone && (
                   <li className="flex gap-3">
                     <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange/10 text-orange">
@@ -210,9 +168,20 @@ export default function Footer({ site }) {
                     </a>
                   </li>
                 )}
+                {site?.address && (
+                  <li className="flex gap-3">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange/10 text-orange">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </span>
+                    <span className="leading-relaxed">{site.address}</span>
+                  </li>
+                )}
               </ul>
 
-              <p className="mt-6 text-[10px] uppercase tracking-[0.2em] text-purple-dark">Follow our atelier</p>
+              <p className="mt-6 text-[10px] uppercase tracking-[0.2em] text-orange-dark">Follow us</p>
               <div className="mt-3 flex flex-wrap gap-2.5">
                 {site?.socials?.instagram && (
                   <SocialIcon href={site.socials.instagram} label="Instagram">
@@ -259,8 +228,8 @@ export default function Footer({ site }) {
             <span className="hidden md:inline text-ink" aria-hidden>
               |
             </span>
-            <span className="hidden md:inline text-[10px] uppercase tracking-[0.18em] text-purple-dark whitespace-nowrap">
-              Couture · Courses · WhatsApp
+            <span className="hidden md:inline text-[10px] uppercase tracking-[0.18em] text-orange-dark whitespace-nowrap">
+              Made with ❤️ for India&apos;s fashion community
             </span>
             <Link href="/admin" className="transition-colors hover:text-orange/70">
               Admin

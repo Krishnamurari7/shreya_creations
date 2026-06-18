@@ -15,7 +15,7 @@ export default function FeatureStrip({ items = [] }) {
           {items.map((item, i) => {
             const title = lang === "hi" && item.titleHi ? item.titleHi : item.title;
             const desc = lang === "hi" && item.descHi ? item.descHi : item.desc;
-            const isPurple = i % 2 === 1;
+            const isGold = i % 2 === 1;
             return (
               <Glass3DCard
                 key={i}
@@ -23,11 +23,11 @@ export default function FeatureStrip({ items = [] }) {
                 style={staggerDelay(i, 80)}
               >
                 <span
-                  className={`absolute left-0 top-0 h-full w-1 ${isPurple ? "bg-purple" : "bg-orange"} opacity-70 group-hover:w-1.5 transition-all duration-300 z-[3]`}
+                  className={`absolute left-0 top-0 h-full w-1 ${isGold ? "bg-gold" : "bg-orange"} opacity-70 group-hover:w-1.5 transition-all duration-300 z-[3]`}
                   aria-hidden
                 />
                 <div
-                  className={`text-2xl sm:text-3xl mb-3 transition-transform duration-300 group-hover:scale-110 ${isPurple ? "text-purple" : "text-orange"}`}
+                  className={`text-2xl sm:text-3xl mb-3 transition-transform duration-300 group-hover:scale-110 ${isGold ? "text-gold" : "text-orange"}`}
                 >
                   {item.emoji}
                 </div>

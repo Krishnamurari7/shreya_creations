@@ -80,7 +80,7 @@ export default function TrustStats({ items, localize = true }) {
           style={{ transitionDelay: `${i * 90}ms` }}
         >
           <div className="trust-stat__inner">
-            <MetricValue value={t.value} accent={i % 2 === 0 ? "gold" : "purple"} />
+            <MetricValue value={t.value} accent={i % 2 === 0 ? "gold" : "orange"} />
             <p className="trust-stat__label">{t.label}</p>
           </div>
         </article>

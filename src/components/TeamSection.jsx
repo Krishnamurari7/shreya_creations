@@ -35,7 +35,7 @@ export default function TeamSection({ aboutPage }) {
             style={{ transitionDelay: `${i * 120}ms` }}
           >
             <div className="team-avatar-ring mx-auto mb-5">
-              <div className="flex h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem] items-center justify-center rounded-full bg-purple/10 text-2xl font-display text-purple">
+              <div className="flex h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem] items-center justify-center rounded-full bg-orange/10 text-2xl font-display text-orange">
                 {member.name.charAt(0)}
               </div>
             </div>

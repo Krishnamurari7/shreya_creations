@@ -18,7 +18,7 @@ function resolveItems(raw, lang) {
       if (item && typeof item === "object") {
         const hi = item.text_hi ?? item.textHi;
         const en = item.text ?? item.en ?? "";
-        return (lang === "hi" && hi ? hi : en).trim();
+        return (hi || en).trim();
       }
       return "";
     })

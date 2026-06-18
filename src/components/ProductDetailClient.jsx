@@ -92,10 +92,10 @@ export default function ProductDetailClient({ product, site, images }) {
 
             <div className="space-y-4 pt-4">
               <ProductActions product={product} number={site.whatsapp} />
-              <Glass3DCard className="rounded-2xl p-4 border-purple/15 bg-purple/5 flex items-start gap-3 transition-transform duration-300 hover:-translate-y-0.5">
+              <Glass3DCard className="rounded-2xl p-4 border-orange/15 bg-orange/5 flex items-start gap-3 transition-transform duration-300 hover:-translate-y-0.5">
                 <span className="text-base">💬</span>
                 <p className="text-xs text-ink font-normal leading-relaxed">
-                  <strong className="text-purple-dark font-medium uppercase tracking-wider text-[9px] block mb-0.5">
+                  <strong className="text-orange-dark font-medium uppercase tracking-wider text-[9px] block mb-0.5">
                     WhatsApp Customization Flow
                   </strong>
                   No online checkout needed. We consult, take custom sizing, review boutique templates, and process

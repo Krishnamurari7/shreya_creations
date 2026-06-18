@@ -121,9 +121,9 @@ export default function VideoShowcase({ home, embedUrl }) {
       : ["Studio tour", "Live stitching demo", "Meet the mentors"];
 
   return (
-    <section className="video-showcase-section py-14 sm:py-20 lg:py-24">
+    <section id="video-showcase" className="video-showcase-section py-14 sm:py-20 lg:py-24">
       <div className="pointer-events-none absolute top-16 left-[8%] h-48 w-48 rounded-full bg-orange/8 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute bottom-10 right-[6%] h-56 w-56 rounded-full bg-purple/6 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute bottom-10 right-[6%] h-56 w-56 rounded-full bg-orange/6 blur-3xl" aria-hidden />
       <span className="pointer-events-none absolute top-24 right-[18%] text-gold text-sm sparkle-pulse hidden sm:block" aria-hidden>
         ✦
       </span>
@@ -169,7 +169,7 @@ export default function VideoShowcase({ home, embedUrl }) {
                 >
                   <span
                     className={`grid place-items-center h-8 w-8 shrink-0 rounded-lg text-xs font-display font-semibold ${
-                      i % 2 === 0 ? "bg-orange/10 text-orange" : "bg-purple/10 text-purple"
+                      i % 2 === 0 ? "bg-orange/10 text-orange" : "bg-orange/10 text-orange"
                     }`}
                   >
                     {String(i + 1).padStart(2, "0")}

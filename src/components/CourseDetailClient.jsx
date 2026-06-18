@@ -107,10 +107,10 @@ export default function CourseDetailClient({ course, site, syllabus }) {
 
             <div className="pt-4 space-y-4">
               <CourseActions course={course} number={site.whatsapp} />
-              <Glass3DCard className="rounded-2xl p-4 border-purple/15 bg-purple/5 flex items-start gap-3 transition-transform duration-300 hover:-translate-y-0.5">
+              <Glass3DCard className="rounded-2xl p-4 border-orange/15 bg-orange/5 flex items-start gap-3 transition-transform duration-300 hover:-translate-y-0.5">
                 <span className="text-base">🎓</span>
                 <p className="text-xs text-ink font-normal leading-relaxed">
-                  <strong className="text-purple-dark font-medium uppercase tracking-wider text-[9px] block mb-0.5">
+                  <strong className="text-orange-dark font-medium uppercase tracking-wider text-[9px] block mb-0.5">
                     Academy Direct Admission Flow
                   </strong>
                   Enrolling is finished entirely over WhatsApp chat. We review batch timings, prepare your studio

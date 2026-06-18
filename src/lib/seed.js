@@ -25,7 +25,7 @@ export const SITE = {
   boutique: "From Skill to Business",
   boutiqueHi: "कौशल से कारोबार तक",
   tagline: "Stitched outfits in 24 hours",
-  taglineHi: "मात्र 24 घंटे में सिले कपड़े प्राप्त करें",
+  taglineHi: "24 घंटे में सिले कपड़े",
   intro:
     "Shreya creation — Patna's fashion boutique & training institute. From skill to business: bespoke stitching, bridal couture, and 50+ job-oriented fashion courses. Get stitched outfits in just 24 hours.",
   introHi:
@@ -71,7 +71,7 @@ export const SERVICES = [
   {
     title: "Bridal & Couture",
     text: "Show-stopping lehengas, gowns and bridal ensembles designed for your big day.",
-    accent: "purple",
+    accent: "gold",
   },
   {
     title: "Fashion Design Courses",
@@ -81,7 +81,7 @@ export const SERVICES = [
   {
     title: "Pattern & Embroidery",
     text: "Custom motifs with zardozi, aari and mirror work that make each piece unique.",
-    accent: "purple",
+    accent: "gold",
   },
   {
     title: "Styling Consultation",
@@ -91,7 +91,7 @@ export const SERVICES = [
   {
     title: "24-hour Express Stitching",
     text: "In a hurry? Many ready styles are stitched and delivered within a single day.",
-    accent: "purple",
+    accent: "gold",
   },
 ];
 

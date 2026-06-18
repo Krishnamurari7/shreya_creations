@@ -8,10 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Boutique palette: cream · deep purple · orange-gold · lavender
+        // Boutique palette: cream · orange-gold · ink
         ink: "var(--text)",
-        wine: "var(--purple)",
-        maroon: "var(--purple-dark)",
+        wine: "var(--accent)",
+        maroon: "var(--orange-dark)",
         ivory: "var(--cream)",
         cream: "var(--cream)",
         sand: "var(--sand)",
@@ -20,7 +20,6 @@ module.exports = {
         lavender: "var(--lavender)",
         orange: { DEFAULT: "#D48131", light: "#e8a05a", dark: "#b86a22" },
         golden: { DEFAULT: "#D48131", light: "#e8b86a", dark: "#a67c1e" },
-        purple: { DEFAULT: "var(--purple)", light: "var(--lavender)", dark: "var(--purple-dark)" },
         gold: "#c9a227",
       },
       fontFamily: {
@@ -64,7 +63,7 @@ module.exports = {
         "5xl": "2.5rem",
       },
       boxShadow: {
-        glow: "0 0 40px rgba(212, 129, 49, 0.15), 0 0 80px rgba(74, 21, 75, 0.08)",
+        glow: "0 0 40px rgba(212, 129, 49, 0.15), 0 0 80px rgba(212, 129, 49, 0.08)",
         lift: "var(--shadow-lift)",
         card: "var(--shadow-soft)",
       },

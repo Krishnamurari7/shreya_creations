@@ -45,6 +45,28 @@ export const UI = {
   },
 };
 
+export const BRAND_MESSAGE_HI = "कौशल से कारोबार तक";
+export const SERVICE_USP_HI = "24 घंटे में सिले कपड़े";
+
+/** Brand message — always Hindi sitewide. */
+export function pickBrandMessage(site) {
+  return site?.boutiqueHi || site?.boutique_hi || BRAND_MESSAGE_HI;
+}
+
+/** Normalizes tagline variants to the canonical Service USP. */
+export function normalizeServiceUsp(text) {
+  const cleaned = (text || "")
+    .replace(/^मात्र\s+/, "")
+    .replace(/\s+प्राप्त करें\.?$/, "")
+    .trim();
+  return cleaned || SERVICE_USP_HI;
+}
+
+/** Service USP — always Hindi sitewide. */
+export function pickServiceUsp(site) {
+  return normalizeServiceUsp(site?.taglineHi || site?.tagline_hi);
+}
+
 export function pickLocalized(item, lang, enKey, hiKey) {
   if (lang === "hi" && item?.[hiKey]) return item[hiKey];
   return item?.[enKey] ?? item?.[enKey?.replace("Hi", "")] ?? "";

@@ -1,17 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import CardImage from "@/components/CardImage";
 import { motion, useReducedMotion } from "framer-motion";
 
 const CARDS = [
+  {
+    href: "/about",
+    label: "Our Studio",
+    labelHi: "हमारा स्टूडियो",
+    sub: "Patna · Since 2010",
+    subHi: "पटना · 2010 से",
+    image: "/slider4.png",
+  },
   {
     href: "/shop",
     label: "Shop",
     labelHi: "शॉप",
     sub: "Made-to-order couture",
     subHi: "ऑर्डर पर कउचर",
-    icon: "🪡",
-    theme: "orange",
+    image: "/slider2.png",
   },
   {
     href: "/courses",
@@ -19,8 +27,7 @@ const CARDS = [
     labelHi: "कोर्स",
     sub: "50+ fashion programs",
     subHi: "50+ फैशन प्रोग्राम",
-    icon: "✂️",
-    theme: "lavender",
+    image: "/slider3.png",
   },
   {
     href: "/portfolio",
@@ -28,34 +35,54 @@ const CARDS = [
     labelHi: "पोर्टफोलियो",
     sub: "Bridal & festive wear",
     subHi: "ब्राइडल और फेस्टिव",
-    icon: "✨",
-    theme: "purple",
+    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
   },
 ];
 
 const container = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.05 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.04 },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
   },
 };
+
+function LinkCard({ card, lang }) {
+  const label = lang === "hi" ? card.labelHi : card.label;
+  const sub = lang === "hi" ? card.subHi : card.sub;
+
+  return (
+    <Link href={card.href} className="quick-explore-card group">
+      <div className="quick-explore-card__copy">
+        <span className="quick-explore-card__title font-display">{label}</span>
+        <span className="quick-explore-card__sub">{sub}</span>
+        <span className="quick-explore-card__arrow" aria-hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </span>
+      </div>
+      <div className="quick-explore-card__media" aria-hidden>
+        <CardImage src={card.image} alt="" ratio="fill" position="top" />
+      </div>
+    </Link>
+  );
+}
 
 export default function CategoryCards({ lang = "en" }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="page-container pb-10 sm:pb-14">
-      <div className="text-center mb-6 sm:mb-10 reveal section-header-glass">
+    <section className="quick-explore page-container pb-10 sm:pb-14">
+      <div className="text-center mb-6 sm:mb-8 reveal section-header-glass">
         <span className="section-eyebrow">
           <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>✦</span>
           {lang === "hi" ? "त्वरित लिंक" : "Quick Explore"}
@@ -70,40 +97,21 @@ export default function CategoryCards({ lang = "en" }) {
       </div>
 
       <motion.div
-        className="category-cards-grid"
+        className="quick-explore__grid"
         variants={reduceMotion ? undefined : container}
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-40px" }}
       >
-        {CARDS.map((cat) => {
-          const label = lang === "hi" ? cat.labelHi : cat.label;
-          const sub = lang === "hi" ? cat.subHi : cat.sub;
-
-          return (
-            <motion.div key={cat.href} variants={reduceMotion ? undefined : item} className="h-full">
-              <Link href={cat.href} className={`category-card category-card--${cat.theme} group`}>
-                <span className="category-card__shine" aria-hidden />
-                <span className="category-card__orb" aria-hidden />
-
-                <span className="category-card__icon" aria-hidden>
-                  {cat.icon}
-                </span>
-
-                <span className="category-card__body">
-                  <span className="category-card__title font-display">{label}</span>
-                  <span className="category-card__sub">{sub}</span>
-                </span>
-
-                <span className="category-card__arrow" aria-hidden>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </span>
-              </Link>
-            </motion.div>
-          );
-        })}
+        {CARDS.map((card) => (
+          <motion.div
+            key={card.href}
+            variants={reduceMotion ? undefined : item}
+            className="quick-explore__cell"
+          >
+            <LinkCard card={card} lang={lang} />
+          </motion.div>
+        ))}
       </motion.div>
     </section>
   );

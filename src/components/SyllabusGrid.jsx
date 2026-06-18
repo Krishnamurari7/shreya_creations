@@ -16,7 +16,7 @@ export default function SyllabusGrid({ items }) {
               style={staggerDelay(i, 80)}
             >
               <span
-                className={`absolute left-0 top-0 h-full w-1 ${isPurple ? "bg-purple" : "bg-orange"} opacity-70 group-hover:w-1.5 transition-all duration-300 z-[3]`}
+                className={`absolute left-0 top-0 h-full w-1 ${isPurple ? "bg-orange" : "bg-orange"} opacity-70 group-hover:w-1.5 transition-all duration-300 z-[3]`}
                 aria-hidden
               />
               <Float3D translateZ="55">

@@ -17,11 +17,12 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ThemeScript from "@/components/ThemeScript";
 import { getSiteSettings } from "@/lib/data";
+import { BRAND_MESSAGE_HI, SERVICE_USP_HI } from "@/lib/i18n";
 
 export const metadata = {
-  title: "Shreya creation — From Skill to Business",
+  title: `Shreya creation — ${BRAND_MESSAGE_HI}`,
   description:
-    "कौशल से कारोबार तक — bespoke stitching, bridal couture & fashion courses in Patna. Get stitched outfits in just 24 hours. Order on WhatsApp.",
+    `${BRAND_MESSAGE_HI} — bespoke stitching, bridal couture & fashion courses in Patna. ${SERVICE_USP_HI}. Order on WhatsApp.`,
   manifest: "/manifest.json",
   icons: {
     icon: [
