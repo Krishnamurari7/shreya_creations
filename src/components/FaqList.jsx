@@ -59,7 +59,7 @@ export default function FaqList({ faqs }) {
             className={cn(
               "rounded-3xl overflow-hidden transition-all duration-300 reveal interactive-card",
               isOpen
-                ? "border-orange/40 shadow-[0_15px_40px_-15px_rgba(230,92,0,0.15)] bg-orange/[0.03]"
+                ? "border-orange/40 shadow-[0_15px_40px_-15px_rgba(232,93,34,0.15)] bg-orange/[0.03]"
                 : "border-ink/15 hover:border-orange/25"
             )}
             style={staggerDelay(i, 70)}
@@ -102,7 +102,7 @@ export default function FaqList({ faqs }) {
             <div
               className={cn(
                 "transition-all duration-300 ease-in-out overflow-hidden",
-                isOpen ? "max-h-[400px] border-t border-ink/15" : "max-h-0"
+                isOpen ? "max-h-[min(80vh,1200px)] border-t border-ink/15" : "max-h-0"
               )}
             >
               <Float3D translateZ="35" className="px-4 sm:px-7 py-4 sm:py-6 text-ink font-normal leading-relaxed text-sm sm:text-base bg-cream/30">

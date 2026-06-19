@@ -81,7 +81,7 @@ export default function PopularCategories({ className = "", compact = false }) {
           {title}
         </span>
         <h2 className="section-title mt-3 text-balance">{heading}</h2>
-        <p className="mt-3 text-muted font-normal max-w-xl mx-auto text-sm sm:text-base leading-relaxed text-pretty">
+        <p className="mt-3 section-lead max-w-xl mx-auto">
           {subtitle}
         </p>
         <div className="section-ornament mt-5 sm:mt-6" aria-hidden>

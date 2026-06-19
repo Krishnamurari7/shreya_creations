@@ -183,9 +183,9 @@ export default function ContactPageSections({ site, wa }) {
           className="mb-8 sm:mb-10 lg:mb-12"
         />
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start min-w-0 w-full">
           <motion.div
-            className="lg:col-span-5 xl:col-span-5 order-2 lg:order-1"
+            className="lg:col-span-5 xl:col-span-5 order-2 lg:order-1 min-w-0 w-full"
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}
@@ -196,7 +196,7 @@ export default function ContactPageSections({ site, wa }) {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-7 xl:col-span-7 order-1 lg:order-2 lg:sticky lg:top-[calc(var(--header-offset)+1.5rem)]"
+            className="lg:col-span-7 xl:col-span-7 order-1 lg:order-2 lg:sticky lg:top-[calc(var(--header-offset)+1.5rem)] min-w-0 w-full"
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}

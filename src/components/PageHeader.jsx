@@ -10,7 +10,7 @@ export default function PageHeader({ eyebrow, title, subtitle }) {
           {eyebrow}
         </span>
       )}
-      <h1 className="anim-rise anim-delay-1 page-hero-title mt-2 font-normal text-balance px-1">
+      <h1 className="anim-rise anim-delay-1 page-hero-title mt-2 text-balance px-1">
         {title}
       </h1>
       {subtitle && (

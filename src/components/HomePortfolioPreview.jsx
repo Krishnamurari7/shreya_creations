@@ -38,7 +38,7 @@ function PortfolioSectionHeader({ home, lang }) {
         {highlight && <> <span className="highlight-shimmer">{highlight}</span></>}
       </h2>
       {subtitle && (
-        <p className="mt-3 text-muted font-normal max-w-2xl mx-auto text-sm sm:text-base leading-relaxed text-pretty">
+        <p className="mt-3 section-lead max-w-2xl mx-auto">
           {subtitle}
         </p>
       )}

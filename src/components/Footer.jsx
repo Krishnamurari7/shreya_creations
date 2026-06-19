@@ -114,11 +114,11 @@ export default function Footer({ site }) {
             </div>
 
             {/* Quick Links */}
-            <div className="reveal" style={{ transitionDelay: "80ms" }}>
+            <div className="reveal text-center sm:text-left" style={{ transitionDelay: "80ms" }}>
               <h4 className="footer-col-title">
                 {lang === "hi" ? "त्वरित लिंक" : "Quick Links"}
               </h4>
-              <ul className="space-y-3 font-normal">
+              <ul className="space-y-3 font-normal flex flex-col items-center sm:items-start">
                 {navLinks.map((l) => (
                   <li key={l.href}>
                     <Link
@@ -134,16 +134,16 @@ export default function Footer({ site }) {
             </div>
 
             {/* Popular Categories */}
-            <div className="reveal" style={{ transitionDelay: "120ms" }}>
+            <div className="reveal text-center sm:text-left" style={{ transitionDelay: "120ms" }}>
               <PopularCategories compact />
             </div>
 
             {/* Contact */}
-            <div className="reveal" style={{ transitionDelay: "160ms" }}>
+            <div className="reveal text-center sm:text-left" style={{ transitionDelay: "160ms" }}>
               <h4 className="footer-col-title">
                 {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </h4>
-              <ul className="space-y-4 text-sm font-normal text-ink">
+              <ul className="space-y-4 text-sm font-normal text-ink flex flex-col items-center sm:items-start">
                 {site?.phone && (
                   <li className="flex gap-3">
                     <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange/10 text-orange">

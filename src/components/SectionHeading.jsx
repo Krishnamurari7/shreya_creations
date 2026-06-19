@@ -8,7 +8,7 @@ export default function SectionHeading({ eyebrow, title, subtitle, className = "
       {eyebrow && <span className="section-eyebrow">{eyebrow}</span>}
       {title && <h2 className="section-title mt-2 text-balance">{title}</h2>}
       {subtitle && (
-        <p className="mt-3 text-muted font-normal max-w-xl mx-auto text-sm sm:text-base leading-relaxed text-pretty">
+        <p className={`mt-3 section-lead max-w-xl ${align === "left" ? "mx-0" : "mx-auto"}`}>
           {subtitle}
         </p>
       )}

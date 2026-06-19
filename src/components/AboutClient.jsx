@@ -33,11 +33,11 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
   return (
     <>
-      <section className="page-container max-w-6xl py-8 sm:py-12 lg:py-16 grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center relative z-20 overflow-hidden">
+      <section className="page-container max-w-6xl py-8 sm:py-12 lg:py-16 grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center relative z-20 overflow-hidden min-w-0 w-full">
         <AmbientGlows />
 
         <motion.div
-          className="lg:col-span-5 relative flex justify-center order-1 lg:order-none"
+          className="lg:col-span-5 relative flex justify-center order-1 lg:order-none min-w-0"
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
           custom={0.1}
@@ -49,7 +49,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="relative w-full rounded-2xl sm:rounded-[2rem] overflow-hidden glass border border-orange/25 shadow-2xl p-2 sm:p-3 group transition-transform duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_48px_rgba(212,129,49,0.15)]">
+            <div className="relative w-full rounded-2xl sm:rounded-[2rem] overflow-hidden glass border border-orange/25 shadow-2xl p-2 sm:p-3 group transition-transform duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_48px_rgba(232,93,34,0.15)]">
               <CardImage src={heroImage} alt="Atelier" ratio="3/4" position="top" className="rounded-3xl" />
               <div className="absolute inset-2 sm:inset-3 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10 pointer-events-none rounded-3xl" />
               {site.founded && (
@@ -67,7 +67,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
         </motion.div>
 
         <motion.div
-          className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left order-2 lg:order-none"
+          className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left order-2 lg:order-none min-w-0"
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
           custom={0.25}
@@ -96,7 +96,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             className="pointer-events-none absolute inset-0 opacity-40"
             style={{
               background:
-                "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,129,49,0.07), transparent 60%)",
+                "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(232,93,34,0.07), transparent 60%)",
             }}
             aria-hidden
           />

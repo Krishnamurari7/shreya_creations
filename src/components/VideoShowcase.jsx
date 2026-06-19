@@ -135,8 +135,8 @@ export default function VideoShowcase({ home, embedUrl }) {
       </span>
 
       <div className="page-section page-container relative z-10 max-w-6xl">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          <div className="lg:col-span-5 text-center lg:text-left reveal reveal-left">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center min-w-0 w-full">
+          <div className="lg:col-span-5 text-center lg:text-left reveal reveal-left min-w-0">
             {eyebrow && <span className="section-eyebrow">{eyebrow}</span>}
             {title && (
               <h2 className="section-title mt-2 leading-tight text-balance">
@@ -180,7 +180,7 @@ export default function VideoShowcase({ home, embedUrl }) {
             </ul>
           </div>
 
-          <div className="lg:col-span-7 reveal reveal-right">
+          <div className="lg:col-span-7 reveal reveal-right min-w-0 w-full">
             <Glass3DCard
               layered
               glow

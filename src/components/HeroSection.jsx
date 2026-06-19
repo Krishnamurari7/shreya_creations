@@ -63,7 +63,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
       <HeroBackgroundSlider slides={slides} active={active} />
 
       <div className="page-container relative z-[2]">
-        <div className="home-hero__grid grid lg:grid-cols-[1.05fr_0.95fr] gap-5 sm:gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center">
+        <div className="home-hero__grid grid lg:grid-cols-[1.05fr_0.95fr] gap-5 sm:gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center min-w-0 w-full">
           {/* Left — static copy */}
           <div className="home-hero__content order-2 lg:order-1 text-center lg:text-left lg:py-1">
             <h1 className="anim-rise home-hero__title text-balance">

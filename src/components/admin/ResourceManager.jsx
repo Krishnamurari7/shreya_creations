@@ -162,7 +162,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
                 type="checkbox"
                 checked={!!editing?.[f.name]}
                 onChange={(e) => setEditing({ ...editing, [f.name]: e.target.checked })}
-                className="h-4 w-4 accent-[#c9a24b]"
+                className="h-4 w-4 accent-[#E85D22]"
               />
               {f.label}
             </label>

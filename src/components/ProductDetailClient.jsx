@@ -32,9 +32,9 @@ export default function ProductDetailClient({ product, site, images }) {
           </Link>
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start min-w-0 w-full">
           <motion.div
-            className="lg:col-span-6 w-full order-1"
+            className="lg:col-span-6 w-full min-w-0 order-1"
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
             custom={0.1}
@@ -44,7 +44,7 @@ export default function ProductDetailClient({ product, site, images }) {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-6 lg:pl-0 xl:pl-6 space-y-6 order-2"
+            className="lg:col-span-6 lg:pl-0 xl:pl-6 space-y-6 order-2 min-w-0"
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
             custom={0.2}
@@ -54,7 +54,7 @@ export default function ProductDetailClient({ product, site, images }) {
               <span className="inline-flex bg-orange/10 border border-orange/20 text-orange px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-widest uppercase mb-4 shadow-sm">
                 {product.category}
               </span>
-              <h1 className="page-hero-title font-normal text-balance">
+              <h1 className="page-hero-title text-balance">
                 {product.title}
               </h1>
             </div>

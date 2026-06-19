@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import CardImage from "@/components/CardImage";
-import CollectionBanner from "@/components/CollectionBanner";
 import CategoryCards from "@/components/CategoryCards";
 import { Testimonials, TrustWall } from "@/components/Sections";
 import { DesignProcess } from "@/components/FashionSections";
@@ -17,6 +16,7 @@ import HeroSection from "@/components/HeroSection";
 import HomeShopPreview from "@/components/HomeShopPreview";
 import HomePortfolioPreview from "@/components/HomePortfolioPreview";
 import HomeCoursesPreview from "@/components/HomeCoursesPreview";
+import ExploreCategories from "@/components/ExploreCategories";
 
 function SectionHeader({
   home,
@@ -58,7 +58,7 @@ function SectionHeader({
         </h2>
       )}
       {subtitle && (
-        <p className="mt-3 text-muted font-normal max-w-2xl mx-auto text-sm sm:text-base leading-relaxed text-pretty">
+        <p className="mt-3 section-lead max-w-2xl mx-auto">
           {subtitle}
         </p>
       )}
@@ -115,7 +115,7 @@ function FounderMessageSlider({ slides }) {
               className={`transition-opacity duration-700 ease-in-out ${i === active ? "opacity-100 relative" : "opacity-0 absolute inset-0 pointer-events-none"}`}
               aria-hidden={i !== active}
             >
-              <blockquote className="founder-quote-card__text font-display text-ink leading-snug italic">
+              <blockquote className="founder-quote-card__text text-ink leading-snug italic font-normal">
                 &ldquo;{s.quote}&rdquo;
               </blockquote>
               <div className="mt-4 sm:mt-5 flex flex-col sm:flex-row items-center lg:items-start gap-2 sm:gap-3">
@@ -206,7 +206,6 @@ export default function HomepageClient({
   }, [whyChooseFeatures, lang]);
 
 
-  const heroImage = home.heroImage || "/slider1.png";
   const founderImage = home.founderImage || "/133.png";
   const mentorImage = home.mentorImage || "/hero_studio_banner.png";
 
@@ -329,13 +328,6 @@ export default function HomepageClient({
 
       <HomeCoursesPreview courses={courses} home={home} />
 
-      {/* ===== COLLECTION SHOWCASE ===== */}
-      <CollectionBanner
-        home={home}
-        fallbackLeft={heroImage}
-        fallbackRight={founderImage}
-      />
-
       {/* ===== SHOP PREVIEW ===== */}
       <HomeShopPreview products={products} home={home} lang={lang} whatsapp={site.whatsapp} />
 
@@ -358,6 +350,9 @@ export default function HomepageClient({
 
       {/* ===== PORTFOLIO PREVIEW ===== */}
       <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
+
+      {/* ===== EXPLORE CATEGORIES ===== */}
+      <ExploreCategories courses={courses} products={products} />
 
       {/* ===== DESIGN PROCESS ===== */}
       {processSteps.length > 0 && (

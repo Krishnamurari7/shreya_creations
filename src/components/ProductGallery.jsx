@@ -56,7 +56,7 @@ export default function ProductGallery({ images, title }) {
                 onClick={() => setActive(i)}
                 className={`h-20 w-16 sm:h-24 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl overflow-hidden p-1 transition-all duration-300 ${
                   isSelected
-                    ? "glass border-orange shadow-[0_4px_15px_rgba(212,129,49,0.2)] scale-95"
+                    ? "glass border-orange shadow-[0_4px_15px_rgba(232,93,34,0.2)] scale-95"
                     : "glass border-ink/15 opacity-55 hover:opacity-100 hover:scale-[0.98]"
                 }`}
               >

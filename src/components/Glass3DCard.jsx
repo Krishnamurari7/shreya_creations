@@ -14,7 +14,7 @@ export function CardGlow({ className }) {
       )}
       style={{
         background:
-          "radial-gradient(350px circle at 50% 50%, rgba(230, 92, 0, 0.08), transparent 80%)",
+          "radial-gradient(350px circle at 50% 50%, rgba(232, 93, 34, 0.08), transparent 80%)",
       }}
     />
   );

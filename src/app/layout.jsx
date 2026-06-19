@@ -1,13 +1,8 @@
 import "./globals.css";
-// Self-hosted fonts (bundled, no build-time network fetch)
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/500.css";
-import "@fontsource/cormorant-garamond/600.css";
-import "@fontsource/cormorant-garamond/700.css";
-import "@fontsource/jost/300.css";
 import "@fontsource/jost/400.css";
 import "@fontsource/jost/500.css";
 import "@fontsource/jost/600.css";
+import "@fontsource/jost/700.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppAssistant from "@/components/WhatsAppAssistant";

@@ -10,7 +10,7 @@ export default function WhatsAppAssistant({ number }) {
   const href = waLink(number, greetingMessage());
 
   return (
-    <div className="wa-assistant-root fixed z-50 flex flex-col items-end max-w-[calc(100vw-2rem)]">
+    <div className="wa-assistant-root fixed z-50 flex flex-col items-end max-w-[calc(100dvw-2rem)]">
       <a
         href={href}
         target="_blank"

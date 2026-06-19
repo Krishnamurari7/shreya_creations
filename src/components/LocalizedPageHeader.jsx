@@ -40,7 +40,7 @@ export default function LocalizedPageHeader({
           </span>
         )}
 
-        <h1 className="page-hero-title mt-2 font-normal text-balance px-1">
+        <h1 className="page-hero-title mt-2 text-balance px-1">
           {titleText}
           {highlightText && (
             <>
@@ -51,7 +51,7 @@ export default function LocalizedPageHeader({
         </h1>
 
         {subtitleText && (
-          <p className="mt-4 text-muted font-normal text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed text-pretty px-1">
+          <p className="mt-4 section-lead max-w-2xl mx-auto px-1">
             {subtitleText}
           </p>
         )}
