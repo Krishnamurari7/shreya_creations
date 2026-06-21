@@ -80,9 +80,10 @@ export function pickFaq(faq, lang) {
 }
 
 export function pickTrust(item, lang) {
+  const valueHi = item.value_hi ?? item.valueHi;
   return {
     label: lang === "hi" && item.labelHi ? item.labelHi : item.label,
-    value: item.value,
+    value: lang === "hi" && valueHi ? valueHi : item.value,
   };
 }
 

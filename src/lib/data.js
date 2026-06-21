@@ -13,6 +13,7 @@ function normalizeSettings(data) {
     aboutBodyHi: data.about_body_hi ?? data.aboutBodyHi,
     aboutPillars: data.about_pillars ?? data.aboutPillars ?? [],
     mapEmbedUrl: data.map_embed_url ?? data.mapEmbedUrl,
+    foundedHi: data.founded_hi ?? data.foundedHi,
     processSteps: data.process_steps ?? data.processSteps ?? [],
     heroMarquee: data.hero_marquee ?? data.heroMarquee ?? [],
     instagramEmbed: data.instagram_embed ?? data.instagramEmbed,
@@ -132,7 +133,12 @@ export async function getTrustStats() {
       .eq("published", true)
       .order("sort_order", { ascending: true });
     if (!data?.length) return seed.TRUST;
-    return data.map((r) => ({ label: r.label, labelHi: r.label_hi, value: r.value }));
+    return data.map((r) => ({
+      label: r.label,
+      labelHi: r.label_hi,
+      value: r.value,
+      valueHi: r.value_hi,
+    }));
   } catch {
     return seed.TRUST;
   }

@@ -6364,6 +6364,261 @@ html.dark .category-card--gold:focus-visible {
   pointer-events: none;
 }
 
+/* About page — stat chips, mission band, quote card */
+.about-hero__portrait {
+  width: clamp(11rem, 28vw, 16rem);
+}
+
+.about-hero__float-chip {
+  position: absolute;
+  top: 0.5rem;
+  right: -0.5rem;
+  z-index: 5;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: rgba(255, 251, 245, 0.92);
+  border: 1px solid rgba(232, 93, 34, 0.28);
+  box-shadow: 0 8px 24px rgba(232, 93, 34, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.about-stat-chips {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.625rem;
+  max-width: 32rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .about-stat-chips {
+    margin-inline: 0;
+  }
+}
+
+.about-stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 1rem;
+  background: rgba(255, 251, 245, 0.85);
+  border: 1px solid rgba(0, 77, 44, 0.2);
+  box-shadow: 0 4px 16px rgba(232, 93, 34, 0.06);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.about-stat-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(232, 93, 34, 0.1);
+}
+
+.about-stat-chip__icon {
+  font-size: 1.125rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.about-stat-chip__value {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.about-stat-chip__label {
+  font-size: 0.625rem;
+  color: var(--muted);
+  line-height: 1.3;
+  margin-top: 0.1rem;
+}
+
+.about-quote-card {
+  position: relative;
+  padding: 1.15rem 1.25rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(145deg, rgba(255, 251, 245, 0.95), rgba(255, 251, 245, 0.78));
+  border: 1px solid rgba(232, 93, 34, 0.22);
+  box-shadow: 0 8px 28px rgba(232, 93, 34, 0.08);
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .about-quote-card {
+    margin-inline: 0;
+  }
+}
+
+.about-quote-card__text {
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+  padding-left: 0.25rem;
+}
+
+.about-quote-card::before {
+  content: "\201C";
+  position: absolute;
+  top: 0.15rem;
+  left: 0.85rem;
+  font-size: 2.75rem;
+  line-height: 1;
+  color: rgba(232, 93, 34, 0.18);
+  pointer-events: none;
+}
+
+.about-mission-band {
+  padding: 0.75rem 0 1.5rem;
+}
+
+.about-mission-band__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.875rem;
+  padding: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .about-mission-band__inner {
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    gap: 1rem;
+  }
+}
+
+.about-mission-band__pill {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.25rem 1.15rem;
+  border-radius: 1.25rem;
+  text-align: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.about-mission-band__pill:hover {
+  transform: translateY(-3px);
+}
+
+.about-mission-band__pill--brand {
+  background: linear-gradient(145deg, rgba(0, 77, 44, 0.12), rgba(255, 251, 245, 0.94));
+  border: 1.5px solid rgba(0, 77, 44, 0.32);
+  box-shadow: 0 8px 28px rgba(0, 77, 44, 0.08);
+}
+
+.about-mission-band__pill--usp {
+  background: linear-gradient(145deg, rgba(232, 93, 34, 0.14), rgba(255, 251, 245, 0.94));
+  border: 1.5px solid rgba(232, 93, 34, 0.38);
+  box-shadow: 0 10px 32px rgba(232, 93, 34, 0.12);
+}
+
+.about-mission-band__icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--gold);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 77, 44, 0.22);
+}
+
+.about-mission-band__icon--bolt {
+  color: var(--orange);
+  border-color: rgba(232, 93, 34, 0.3);
+}
+
+.about-mission-band__tag {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.25rem;
+}
+
+.about-mission-band__pill--usp .about-mission-band__tag {
+  color: var(--orange);
+}
+
+.about-mission-band__headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw + 0.5rem, 1.35rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.about-mission-band__headline--usp {
+  color: var(--orange);
+}
+
+.about-mission-band__divider {
+  display: none;
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(to bottom, transparent, rgba(232, 93, 34, 0.25), transparent);
+}
+
+@media (min-width: 768px) {
+  .about-mission-band__divider {
+    display: block;
+  }
+}
+
+.about-pillar-card__index {
+  position: absolute;
+  top: 1rem;
+  right: 1.15rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(232, 93, 34, 0.12);
+  pointer-events: none;
+  transition: color 0.35s ease;
+}
+
+.about-pillar-card:hover .about-pillar-card__index {
+  color: rgba(232, 93, 34, 0.22);
+}
+
+.team-card__photo-ring {
+  width: 5.5rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .team-card__photo-ring {
+    width: 6.5rem;
+  }
+}
+
+.team-card__photo-inner {
+  width: 100%;
+}
+
+.team-card__photo.card-media {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+
+.team-card--photo:hover .team-card__photo-ring {
+  transform: scale(1.04);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .about-pillar-card {
   transition:
     opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
@@ -8129,6 +8384,27 @@ html.dark .about-quote {
   border-color: var(--border-strong);
 }
 
+html.dark .about-stat-chip,
+html.dark .about-quote-card,
+html.dark .about-hero__float-chip {
+  background: var(--surface);
+  border-color: var(--border-strong);
+}
+
+html.dark .about-mission-band__pill--brand {
+  background: linear-gradient(145deg, rgba(0, 77, 44, 0.18), rgba(18, 14, 26, 0.92));
+  border-color: rgba(0, 77, 44, 0.35);
+}
+
+html.dark .about-mission-band__pill--usp {
+  background: linear-gradient(145deg, rgba(232, 93, 34, 0.16), rgba(18, 14, 26, 0.92));
+  border-color: rgba(232, 93, 34, 0.32);
+}
+
+html.dark .about-mission-band__icon {
+  background: rgba(255, 255, 255, 0.06);
+}
+
 html.dark .features-bar {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -9015,6 +9291,15 @@ html.dark .featured-course-card {
 
 html.dark .featured-course-card__body {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+}
+
+/* ===== Courses listing page ===== */
+.courses-browser__toolbar .home-courses-preview__filters {
+  margin-bottom: 0;
+}
+
+.courses-browser__count {
+  font-variant-numeric: tabular-nums;
 }
 
 /* ——— Explore Categories (homepage) ——— */

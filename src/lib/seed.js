@@ -20,6 +20,16 @@ export const DEFAULT_TEAM = [
   },
 ];
 
+/** Canonical site stats — keep identical wording everywhere on the site. */
+export const SITE_STATS = {
+  yearsEn: "17+ Years",
+  yearsHi: "17+ वर्ष",
+  studentsEn: "2000+ Students",
+  studentsHi: "2000+ छात्र",
+  lineEn: "17+ Years · 2000+ Students",
+  lineHi: "17+ वर्ष · 2000+ छात्र",
+};
+
 export const SITE = {
   brand: "Shreya creation",
   boutique: "From Skill to Business",
@@ -27,38 +37,63 @@ export const SITE = {
   tagline: "Stitched outfits in 24 hours",
   taglineHi: "24 घंटे में सिले कपड़े",
   intro:
-    "Shreya creation — Patna's fashion boutique & training institute. From skill to business: bespoke stitching, bridal couture, and 50+ job-oriented fashion courses. Get stitched outfits in just 24 hours.",
+    "Shreya Creation — Patna's skill development boutique and job-oriented training institute with 17+ Years of experience. We have trained 2000+ learners in stitching, fashion design, boutique management, and self-employment — turning skill into business.",
   introHi:
-    "श्रेया क्रिएशन — पटना की फैशन बुटीक और ट्रेनिंग इंस्टिट्यूट। कौशल से कारोबार तक — कस्टम सिलाई, ब्राइडल कउचर और 50+ रोज़गार-उन्मुख फैशन कोर्स। मात्र 24 घंटे में सिले कपड़े प्राप्त करें।",
+    "श्रेया क्रिएशन — 17+ वर्ष के अनुभव के साथ पटना का कौशल विकास, बुटीक और रोज़गार-उन्मुख प्रशिक्षण संस्थान। हम सिलाई, फैशन डिज़ाइन, बुटीक प्रबंधन और स्वरोजगार में 2000+ छात्राओं को प्रशिक्षित कर रहे हैं — कौशल से कारोबार तक।",
+  aboutBody:
+    "Founded by Sanjay Kumar Mishra, Shreya Creation is dedicated to practical skills, self-employment, and job opportunities for women and youth. We don't just teach sewing — we prepare the path to self-reliance. Our specialties include practical training, fashion designing, boutique management, job-oriented courses, and business guidance.",
+  aboutBodyHi:
+    "संस्थापक संजय कुमार मिश्रा के नेतृत्व में श्रेया क्रिएशन महिलाओं और युवाओं को व्यावहारिक कौशल, स्वरोजगार और रोज़गार के अवसर प्रदान करने के लिए समर्पित है। हम केवल सिलाई नहीं सिखाते, हम आत्मनिर्भरता का मार्ग तैयार करते हैं। हमारी विशेषताएँ — प्रैक्टिकल ट्रेनिंग, फैशन डिज़ाइनिंग, बुटीक मैनेजमेंट, जॉब ओरिएंटेड कोर्स और बिज़नेस गाइडेंस।",
   city: "Patna, Bihar, India",
-  founded: "15+ Years Experience",
+  founded: SITE_STATS.yearsEn,
+  foundedHi: SITE_STATS.yearsHi,
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919031105666",
   email: "hello@shreyacreations.in",
-  phone: "+91 90311 05666 / 79031 55125",
-  address: "Shreya creation, Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001",
+  phone: "+91 91175 55125 / 95073 63125",
+  address: "Shreya Creation, Sisodiya Place, East Boring Canal Road, Sri Krishna Puri, Patna, Bihar 800001",
   mapEmbedUrl:
     "https://maps.google.com/maps?q=Shreya+Creation+Sisodiya+Place+East+Boring+Canal+Road+Patna+Bihar+800001&hl=en&z=16&output=embed",
   socials: {
     instagram: "https://www.instagram.com/shreya.creationss/",
     youtube: "",
-    facebook: "",
+    facebook: "https://www.facebook.com/shreyascreation",
   },
   heroMarquee: [
-    "24 घंटे में सिले कपड़े",
+    SITE_STATS.yearsEn,
+    SITE_STATS.yearsHi,
     "कौशल से कारोबार तक",
-    "मात्र 24 घंटे में सिले कपड़े प्राप्त करें",
-    "PREMIUM QUALITY",
-    "FREE SHIPPING ON ORDERS ABOVE ₹999",
-    "EASY RETURNS",
-    "SECURE PAYMENTS",
+    SITE_STATS.yearsEn,
+    "BEGINNER FRIENDLY",
+    "100% PRACTICAL TRAINING",
+    "24 घंटे में सिले कपड़े",
   ],
 };
 
 export const TRUST = [
-  { label: "Outfits delivered", labelHi: "आउटफिट डिलीवर", value: "5,000+" },
-  { label: "Students taught", labelHi: "छात्र प्रशिक्षित", value: "300+" },
-  { label: "Years of experience", labelHi: "वर्षों का अनुभव", value: "15+" },
-  { label: "Express delivery", labelHi: "एक्सप्रेस डिलीवरी", value: "24 hrs" },
+  {
+    value: "17+",
+    valueHi: "17+",
+    label: "Years Experience",
+    labelHi: "वर्ष अनुभव",
+  },
+  {
+    value: "2000+",
+    valueHi: "2000+",
+    label: "Students Trained",
+    labelHi: "प्रशिक्षित छात्र",
+  },
+  {
+    value: "100%",
+    valueHi: "100%",
+    label: "Practical Training",
+    labelHi: "प्रैक्टिकल ट्रेनिंग",
+  },
+  {
+    value: "Patna",
+    valueHi: "पटना",
+    label: "Based in Bihar",
+    labelHi: "बिहार में स्थित",
+  },
 ];
 
 // Fashion-design services / expertise
@@ -198,23 +233,31 @@ export const PRODUCT_CATEGORIES = ["All", "Lehenga", "Gown", "Blouse", "Suit", "
 export const COURSES = [
   {
     id: "c1",
-    slug: "fashion-designing-fundamentals",
-    title: "Fashion Designing Fundamentals",
-    category: "Fashion Design",
-    price: 9999,
-    duration: "3 months",
-    language: "Hindi & English",
+    slug: "basic-suit-blouse-course",
+    title: "Basic Suit & Blouse Course",
+    category: "Stitching",
+    price: 4995,
+    compare_price: 7999,
+    badge: "bestseller",
+    duration: "2 months",
+    language: "Hindi",
     published: true,
     description:
-      "From sketching to fabric selection — learn the foundations of fashion design with hands-on projects.",
+      "If you want to learn sewing to make your own clothes or start working in a boutique, this course is for you. In 2 months, build a strong foundation in salwar, kurti, and blouse cutting & stitching — and start earning ₹7,000+ per month with basic orders.",
     syllabus: [
-      "Design sketching & illustration",
-      "Fabric science & selection",
-      "Colour theory & mood boards",
-      "Building your first collection",
+      "Week 1 — Foundation & Machine Training: tailoring tools, sewing machine handling, measurement practice, hemming, hook & eye, basic stitching",
+      "Week 2 — Salwar Making: basic mayani salwar, dori salwar, half elastic half belt pant, finishing techniques",
+      "Week 3 — Plazo & Kurti Basics: plazo pant, straight fit kurti, neck finishing practice",
+      "Week 4 — Designer Kurti Module: A-line kurti, A-line frock, deep neck lining kurti, 6 types of neck patterns",
+      "Week 5 — Advanced Kurti Module: straight fit half collar kurti, princess cut kurti, piping application, kurti finishing",
+      "Week 6 — Basic Blouse Module: plain blouse measurement, cutting & stitching, round shape lining blouse, V shape lining blouse",
+      "Week 7 — Designer Blouse Module: princess cut blouse, sweetheart neck blouse, plus size blouse taking, 10 types of blouse neck styles",
+      "Week 8 — Boutique Finishing Skills: dori making, latkan making, piping making & attaching, final garment finishing, practice & assessment",
+      "Final Project: 1 Salwar/Pant, 1 Kurti, 1 Designer Kurti, 1 Blouse",
+      "Career outcome: boutique helper/assistant tailor, basic orders from home, strong base for advanced fashion design",
     ],
     preview_video: "",
-    image: img("1556905055-8f358a7a47b2"),
+    image: img("1581655353564-df123a1eb820"),
   },
   {
     id: "c2",
@@ -345,19 +388,39 @@ export const POLICIES = {
 
 export const FAQS = [
   {
-    q: "How do I place an order?",
-    a: "Browse the shop, open any product, and tap “Order on WhatsApp”. A prefilled message opens with the item details — we finish the order, measurements and payment right there in chat.",
+    q: "How do I enroll in a course?",
+    a: "Our 7-step admission process: (1) Counseling & course selection, (2) Fill the admission form with your details, (3) Submit 2 passport photos, Aadhaar copy, and educational certificate if required, (4) Pay fees via cash, UPI, bank transfer, or EMI if available, (5) Receive your admission number and student ID, (6) Attend orientation & starter kit briefing, (7) Regular training begins in your assigned batch.",
+    qHi: "कोर्स में एडमिशन कैसे लें?",
+    aHi: "7-चरणीय प्रवेश प्रक्रिया: (1) काउंसलिंग और कोर्स चयन, (2) एडमिशन फॉर्म भरें, (3) 2 पासपोर्ट फोटो, आधार कॉपी और शैक्षणिक प्रमाणपत्र जमा करें, (4) नकद, UPI, बैंक ट्रांसफर या EMI से फीस जमा करें, (5) एडमिशन नंबर और स्टूडेंट ID प्राप्त करें, (6) ओरिएंटेशन और स्टार्टर किट, (7) निर्धारित बैच में कक्षाएँ शुरू।",
   },
   {
-    q: "Do you stitch to my exact measurements?",
-    a: "Yes! Most outfits are stitchable. Open a stitchable product and tap “Stitch to my size” — we’ll guide you through sharing your measurements over WhatsApp.",
+    q: "What are the batch timings?",
+    a: "We offer three batches: Morning (9:00 AM – 12:00 PM), Afternoon (12:00 PM – 3:00 PM), and Evening (3:00 PM – 6:00 PM). Timings may vary — confirm your preferred slot on WhatsApp.",
+    qHi: "बैच का समय क्या है?",
+    aHi: "तीन बैच — सुबह (9:00 – 12:00), दोपहर (12:00 – 3:00), शाम (3:00 – 6:00)। WhatsApp पर अपना बैच कन्फर्म करें।",
+  },
+  {
+    q: "What is the Basic Suit & Blouse Course fee and duration?",
+    a: "The Basic Suit & Blouse Course is ₹4,995 for 2 months. It covers salwar, kurti, and blouse cutting & stitching — from foundation training to boutique finishing skills. Optional tools kit is available for ₹2,550.",
+    qHi: "बेसिक सूट और ब्लाउज कोर्स की फीस और अवधि?",
+    aHi: "बेसिक सूट और ब्लाउज कोर्स — ₹4,995, 2 महीने। सलवार, कुर्ती और ब्लाउज की कटिंग और सिलाई। वैकल्पिक टूल्स किट ₹2,550।",
+  },
+  {
+    q: "How do I place a boutique order?",
+    a: "Browse the shop, open any product, and tap “Order on WhatsApp”. A prefilled message opens with the item details — we finish the order, measurements and payment right there in chat.",
+    qHi: "बुटीक ऑर्डर कैसे करें?",
+    aHi: "शॉप में प्रोडक्ट खोलें और “Order on WhatsApp” टैप करें — चैट में माप, पेमेंट और डिलीवरी तय हो जाती है।",
   },
   {
     q: "Is 24-hour express delivery really available?",
     a: "For many ready styles, yes. Express timelines depend on the design and customisation — confirm with us on WhatsApp.",
+    qHi: "24 घंटे में डिलीवरी संभव है?",
+    aHi: "कई स्टाइल के लिए हाँ। डिज़ाइन और कस्टमाइज़ेशन पर निर्भर — WhatsApp पर कन्फर्म करें।",
   },
   {
-    q: "How do the courses work?",
-    a: "Pick a course, tap “Enroll on WhatsApp”, and we’ll share batch timings, access and payment details directly.",
+    q: "What payment methods do you accept?",
+    a: "We accept cash, UPI, bank transfer, and EMI (if available). Course fees can be paid at the institute or via digital payment.",
+    qHi: "भुगतान के कौन से विकल्प हैं?",
+    aHi: "नकद, UPI, बैंक ट्रांसफर और EMI (यदि उपलब्ध)। कोर्स फीस संस्थान में या डिजिटल पेमेंट से।",
   },
 ];

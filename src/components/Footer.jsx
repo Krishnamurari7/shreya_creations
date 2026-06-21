@@ -5,6 +5,7 @@ import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI, pickLocalized, pickBrandMessage, pickServiceUsp } from "@/lib/i18n";
 import PopularCategories from "@/components/PopularCategories";
+import { SITE_STATS } from "@/lib/seed";
 
 const NAV_ROUTES = [
   { href: "/", key: "home" },
@@ -95,9 +96,9 @@ export default function Footer({ site }) {
               )}
 
               <div className="footer-trust-badges justify-center sm:justify-start">
-                <span className="footer-trust-badge">✦ 15+ Years</span>
-                <span className="footer-trust-badge">✦ 300+ Students</span>
-                <span className="footer-trust-badge">✦ 24hr Stitching</span>
+                <span className="footer-trust-badge">
+                  ✦ {lang === "hi" ? SITE_STATS.yearsHi : SITE_STATS.yearsEn}
+                </span>
               </div>
 
               <a
@@ -216,7 +217,9 @@ export default function Footer({ site }) {
         <div className="site-footer-bottom mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:px-5 py-4 sm:py-5 sm:flex-row sm:gap-4">
           <p className="text-center text-[11px] sm:text-xs text-ink sm:text-left leading-relaxed max-w-full break-words px-1 sm:px-0">
             © {new Date().getFullYear()} {brandName}
-            {site?.founded ? ` · ${site.founded}` : ""}
+            {pickLocalized(site, lang, "founded", "foundedHi")
+              ? ` · ${pickLocalized(site, lang, "founded", "foundedHi")}`
+              : ""}
             {site?.city ? ` · ${site.city}` : ""}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 sm:gap-x-5 text-[11px] sm:text-xs text-ink max-w-full">

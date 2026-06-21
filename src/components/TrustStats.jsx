@@ -81,7 +81,7 @@ export default function TrustStats({ items, localize = true }) {
         >
           <div className="trust-stat__inner">
             <MetricValue value={t.value} accent={i % 2 === 0 ? "gold" : "orange"} />
-            <p className="trust-stat__label">{t.label}</p>
+            {t.label ? <p className="trust-stat__label">{t.label}</p> : null}
           </div>
         </article>
       ))}

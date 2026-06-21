@@ -2,12 +2,14 @@
 
 import { useLanguage } from "@/components/LanguageProvider";
 
+import { SITE_STATS } from "@/lib/seed";
+
 const DEFAULT_ITEMS = [
-  "24 घंटे में सिले कपड़े",
+  SITE_STATS.yearsEn,
+  SITE_STATS.yearsHi,
   "कौशल से कारोबार तक",
-  "मात्र 24 घंटे में सिले कपड़े प्राप्त करें",
-  "PREMIUM QUALITY",
-  "FREE SHIPPING ON ORDERS ABOVE ₹999",
+  SITE_STATS.yearsEn,
+  "24 घंटे में सिले कपड़े",
 ];
 
 function resolveItems(raw, lang) {

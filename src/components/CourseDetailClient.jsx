@@ -7,10 +7,26 @@ import { Glass3DCard } from "@/components/Glass3DCard";
 import SyllabusGrid from "@/components/SyllabusGrid";
 import SectionHeading from "@/components/SectionHeading";
 import AmbientGlows from "@/components/AmbientGlows";
+import { useLanguage } from "@/components/LanguageProvider";
 import { fadeUp } from "@/lib/motion";
 
 export default function CourseDetailClient({ course, site, syllabus }) {
   const reduceMotion = useReducedMotion();
+  const { lang } = useLanguage();
+
+  const backLabel = lang === "hi" ? "सभी कोर्स पर वापस" : "Back to Courses";
+  const durationLabel = lang === "hi" ? "अवधि" : "Duration";
+  const languageLabel = lang === "hi" ? "भाषा" : "Language";
+  const feeLabel = lang === "hi" ? "फीस" : "Fee";
+  const noPreview = lang === "hi" ? "कोई प्रीव्यू उपलब्ध नहीं" : "No preview available";
+  const roadmapEyebrow = lang === "hi" ? "कोर्स रोडमैप" : "Course Roadmap";
+  const roadmapTitle = lang === "hi" ? "आप क्या सीखेंगे" : "What you'll learn";
+  const admissionTitle =
+    lang === "hi" ? "7-चरण एडमिशन प्रक्रिया" : "7-Step Admission Process";
+  const admissionBody =
+    lang === "hi"
+      ? "WhatsApp पर एनरोल करें — काउंसलिंग, फॉर्म, दस्तावेज़ सत्यापन, फीस (कैश/UPI/बैंक), एडमिशन कन्फर्मेशन, ओरिएंटेशन और बैच असाइनमेंट। सुबह (9–12), दोपहर (12–3), या शाम (3–6) के बैच उपलब्ध।"
+      : "Enroll via WhatsApp — counseling, form submission, document verification, fee payment (cash/UPI/bank transfer), admission confirmation, orientation, and batch assignment. Morning (9–12), Afternoon (12–3), or Evening (3–6) batches available.";
 
   return (
     <div className="relative z-10 w-full overflow-x-hidden">
@@ -29,7 +45,7 @@ export default function CourseDetailClient({ course, site, syllabus }) {
             className="inline-flex items-center gap-2 text-orange hover:text-orange-dark text-sm font-semibold tracking-wider uppercase group transition-colors mb-8"
           >
             <span className="group-hover:-translate-x-1.5 transition-transform duration-300">←</span>
-            Back to Courses
+            {backLabel}
           </Link>
         </motion.div>
 
@@ -64,7 +80,7 @@ export default function CourseDetailClient({ course, site, syllabus }) {
                 />
               ) : (
                 <div className="h-full w-full rounded-[1.5rem] sm:rounded-[2rem] bg-cream/40 flex items-center justify-center text-ink">
-                  No preview available
+                  {noPreview}
                 </div>
               )}
             </motion.div>
@@ -88,14 +104,14 @@ export default function CourseDetailClient({ course, site, syllabus }) {
 
             <div className="flex flex-wrap gap-2 sm:gap-3 py-2 border-y border-ink/15">
               <span className="bg-ink/5 border border-ink/15 px-3 sm:px-4 py-2 rounded-full text-xs font-light text-ink flex items-center gap-1.5">
-                ⏳ Duration: <strong className="font-semibold text-orange">{course.duration}</strong>
+                ⏳ {durationLabel}: <strong className="font-semibold text-orange">{course.duration}</strong>
               </span>
               <span className="bg-ink/5 border border-ink/15 px-3 sm:px-4 py-2 rounded-full text-xs font-light text-ink flex items-center gap-1.5">
-                🗣 Language: <strong className="font-semibold text-orange">{course.language}</strong>
+                🗣 {languageLabel}: <strong className="font-semibold text-orange">{course.language}</strong>
               </span>
               {course.price && (
                 <span className="bg-orange/5 border border-orange/20 px-3 sm:px-4 py-2 rounded-full text-xs font-light text-ink flex items-center gap-1.5">
-                  💰 Fee:{" "}
+                  💰 {feeLabel}:{" "}
                   <strong className="highlight-shimmer font-semibold">
                     ₹{Number(course.price).toLocaleString("en-IN")}
                   </strong>
@@ -111,10 +127,9 @@ export default function CourseDetailClient({ course, site, syllabus }) {
                 <span className="text-base">🎓</span>
                 <p className="text-xs text-ink font-normal leading-relaxed">
                   <strong className="text-orange-dark font-medium uppercase tracking-wider text-[9px] block mb-0.5">
-                    Academy Direct Admission Flow
+                    {admissionTitle}
                   </strong>
-                  Enrolling is finished entirely over WhatsApp chat. We review batch timings, prepare your studio
-                  workspace, deliver study materials, and process your receipt directly.
+                  {admissionBody}
                 </p>
               </Glass3DCard>
             </div>
@@ -124,8 +139,8 @@ export default function CourseDetailClient({ course, site, syllabus }) {
         {syllabus.length > 0 && (
           <div className="mt-12 sm:mt-20">
             <SectionHeading
-              eyebrow="Course Roadmap"
-              title="What you'll learn"
+              eyebrow={roadmapEyebrow}
+              title={roadmapTitle}
               align="left"
               className="md:text-left [&_.section-ornament]:md:justify-start"
             />

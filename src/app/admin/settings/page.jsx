@@ -17,7 +17,7 @@ const FIELDS = [
   { name: "email", label: "Email" },
   { name: "address", label: "Address", type: "textarea" },
   { name: "city", label: "City" },
-  { name: "founded", label: "Founded label", hint: "e.g. 15+ Years Experience" },
+  { name: "founded", label: "Founded label", hint: "e.g. 17+ Years" },
   { name: "instagram", label: "Instagram URL", path: ["socials", "instagram"] },
   { name: "youtube", label: "YouTube URL", path: ["socials", "youtube"] },
   { name: "facebook", label: "Facebook URL", path: ["socials", "facebook"] },

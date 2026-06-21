@@ -4,13 +4,15 @@ import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { motion, useReducedMotion } from "framer-motion";
 
+import { SITE_STATS } from "@/lib/seed";
+
 const CARDS = [
   {
     href: "/about",
     label: "Our Studio",
     labelHi: "हमारा स्टूडियो",
-    sub: "Patna · Since 2010",
-    subHi: "पटना · 2010 से",
+    sub: `Patna · ${SITE_STATS.yearsEn}`,
+    subHi: `पटना · ${SITE_STATS.yearsHi}`,
     image: "/slider4.png",
   },
   {
@@ -25,8 +27,8 @@ const CARDS = [
     href: "/courses",
     label: "Courses",
     labelHi: "कोर्स",
-    sub: "50+ fashion programs",
-    subHi: "50+ फैशन प्रोग्राम",
+    sub: SITE_STATS.yearsEn,
+    subHi: SITE_STATS.yearsHi,
     image: "/slider3.png",
   },
   {

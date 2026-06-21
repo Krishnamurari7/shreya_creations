@@ -11,6 +11,7 @@ import PageCTA from "@/components/PageCTA";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage, pageBottomCtaProps } from "@/lib/cms";
 import { pickBrandMessage, pickServiceUsp, normalizeServiceUsp } from "@/lib/i18n";
+import { SITE_STATS } from "@/lib/seed";
 import InquiryPopup from "@/components/InquiryPopup";
 import HeroSection from "@/components/HeroSection";
 import HomeShopPreview from "@/components/HomeShopPreview";
@@ -201,8 +202,8 @@ export default function HomepageClient({
     const fromFeatures = whyChooseFeatures.map((f) => f.title).filter(Boolean);
     if (fromFeatures.length >= 3) return fromFeatures.slice(0, 6);
     return lang === "hi"
-      ? ["ब्राइडल कउचर", "बेस्पोक सिलाई", "50+ फैशन कोर्स", "24 घंटे डिलीवरी", "WhatsApp ऑर्डरिंग"]
-      : ["Bridal Couture", "Bespoke Stitching", "50+ Fashion Courses", "24-Hour Delivery", "WhatsApp Ordering"];
+      ? [SITE_STATS.yearsHi, "कौशल से कारोबार तक", SITE_STATS.yearsHi, "100% प्रैक्टिकल ट्रेनिंग"]
+      : [SITE_STATS.yearsEn, "From Skill to Business", SITE_STATS.yearsEn, "100% Practical Training"];
   }, [whyChooseFeatures, lang]);
 
 

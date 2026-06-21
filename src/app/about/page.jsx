@@ -3,26 +3,31 @@ import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import AboutClient from "@/components/AboutClient";
 import PageCTA from "@/components/PageCTA";
 import { getSiteSettings, getTrustStats } from "@/lib/data";
-import { pickBrandMessage, pickServiceUsp } from "@/lib/i18n";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "About — Shreya creation" };
+export const metadata = { title: "About — Shreya Creation" };
 
 export default async function AboutPage() {
   const [site, trust] = await Promise.all([getSiteSettings(), getTrustStats()]);
   const about = site.pages?.about || {};
-  const brandMessage = pickBrandMessage(site);
-  const serviceUsp = pickServiceUsp(site);
 
   return (
     <PageShell>
       <LocalizedPageHeader
-        eyebrow={about.headerEyebrow || brandMessage}
-        eyebrowHi={about.headerEyebrowHi || brandMessage}
-        title={about.headerTitle || "About Shreya creation"}
-        titleHi={about.headerTitleHi}
-        subtitle={about.headerSubtitle || serviceUsp}
-        subtitleHi={about.headerSubtitleHi || serviceUsp}
+        eyebrow={about.headerEyebrow || "Our Story"}
+        eyebrowHi={about.headerEyebrowHi || "हमारी कहानी"}
+        title={about.headerTitle || "About Shreya Creation"}
+        titleHi={about.headerTitleHi || "श्रेया क्रिएशन के बारे में"}
+        highlight={about.heroTitleHighlight || "17+ Years"}
+        highlightHi={about.heroTitleHighlightHi || "17+ वर्ष"}
+        subtitle={
+          about.headerSubtitle ||
+          "Patna's trusted fashion training institute & designer boutique"
+        }
+        subtitleHi={
+          about.headerSubtitleHi ||
+          "पटना का भरोसेमंद फैशन ट्रेनिंग और डिज़ाइनर बुटीक"
+        }
       />
       <AboutClient site={site} trust={trust} aboutPage={about} pillars={site.aboutPillars} />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(about)} />

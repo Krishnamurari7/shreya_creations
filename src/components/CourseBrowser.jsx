@@ -3,56 +3,124 @@
 import { useState, useMemo } from "react";
 import CourseCard from "@/components/CourseCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
+import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
 
 export default function CourseBrowser({ courses }) {
+  const { lang } = useLanguage();
+
   const categories = useMemo(() => {
     const set = new Set(courses.map((c) => c.category).filter(Boolean));
     return ["All", ...set];
   }, [courses]);
 
   const [active, setActive] = useState("All");
-  const filtered = active === "All" ? courses : courses.filter((c) => c.category === active);
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return courses.filter((c) => {
+      const okCat = active === "All" || c.category === active;
+      const okQ =
+        !q ||
+        c.title?.toLowerCase().includes(q) ||
+        c.description?.toLowerCase().includes(q) ||
+        c.category?.toLowerCase().includes(q);
+      return okCat && okQ;
+    });
+  }, [courses, active, query]);
+
+  const searchPlaceholder =
+    lang === "hi" ? "कोर्स खोजें…" : "Search courses…";
+  const emptyMessage =
+    lang === "hi"
+      ? "इस श्रेणी में अभी कोई कोर्स उपलब्ध नहीं है।"
+      : "No fashion courses are currently open in this category.";
+  const resultsLabel =
+    lang === "hi"
+      ? `${filtered.length} कोर्स मिले`
+      : `${filtered.length} course${filtered.length === 1 ? "" : "s"} found`;
 
   return (
-    <div className="page-container pb-10 sm:pb-12 relative z-20 -mt-1">
-      {/* Category Pills Card Wrapper */}
-      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 border-ink/15 mb-8 sm:mb-12 flex justify-center shadow-xl reveal">
-        <div className="filter-pills justify-center md:justify-center md:flex-wrap">
-          {categories.map((c) => {
-            const isSelected = active === c;
-            return (
-              <button
-                key={c}
-                onClick={() => setActive(c)}
-                className={`px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300 ${
-                  isSelected
-                    ? "btn-gold tab-active-glow"
-                    : "filter-pill rounded-full px-5 py-2.5 text-xs uppercase tracking-wider font-medium"
-                }`}
-              >
-                {c}
-              </button>
-            );
-          })}
-        </div>
-      </Glass3DCard>
+    <section className="courses-browser page-section pb-10 sm:pb-14 relative z-20">
+      <div className="page-container max-w-7xl">
+        <Glass3DCard className="courses-browser__toolbar reveal rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 border-ink/15 mb-6 sm:mb-8 shadow-xl">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:items-center lg:justify-between">
+            {categories.length > 1 && (
+              <div className="home-courses-preview__filters mb-0 min-w-0">
+                <div className="filter-pills justify-start lg:flex-wrap">
+                  {categories.map((cat) => {
+                    const isSelected = active === cat;
+                    const label =
+                      cat === "All"
+                        ? lang === "hi"
+                          ? "सभी कोर्स"
+                          : "All Courses"
+                        : cat;
+                    return (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setActive(cat)}
+                        className={
+                          isSelected
+                            ? "home-courses-preview__pill home-courses-preview__pill--active"
+                            : "home-courses-preview__pill"
+                        }
+                        aria-pressed={isSelected}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
-      {/* Grid of Courses */}
-      {filtered.length === 0 ? (
-        <Glass3DCard className="rounded-2xl sm:rounded-[2rem] border-ink/15 p-12 sm:p-20 text-center">
-          <span className="text-4xl">🎓</span>
-          <p className="text-ink mt-4 font-normal text-base">No fashion courses are currently open in this category.</p>
-        </Glass3DCard>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 items-stretch">
-          {filtered.map((c, i) => (
-            <div key={c.id} className="reveal w-full h-full" style={staggerDelay(i, 70)}>
-              <CourseCard course={c} />
+            <div className="relative w-full lg:max-w-xs shrink-0">
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={searchPlaceholder}
+                className="w-full field-surface rounded-full pl-11 pr-5 py-3 text-sm font-light"
+              />
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+          </div>
+        </Glass3DCard>
+
+        <p className="courses-browser__count reveal text-sm text-ink/70 mb-5 sm:mb-6 px-1">
+          {resultsLabel}
+        </p>
+
+        {filtered.length === 0 ? (
+          <Glass3DCard className="rounded-2xl sm:rounded-[2rem] border-ink/15 p-12 sm:p-20 text-center reveal">
+            <span className="text-4xl">🎓</span>
+            <p className="text-ink mt-4 font-normal text-base">{emptyMessage}</p>
+          </Glass3DCard>
+        ) : (
+          <div className="home-courses-preview__grid">
+            {filtered.map((course, i) => (
+              <div
+                key={course.id}
+                className="reveal reveal-zoom w-full h-full"
+                style={staggerDelay(i, 70)}
+              >
+                <CourseCard
+                  course={course}
+                  variant="featured"
+                  featuredIndex={i}
+                  lang={lang}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
