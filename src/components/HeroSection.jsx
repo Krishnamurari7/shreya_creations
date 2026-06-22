@@ -71,14 +71,14 @@ export default function HeroSection({ home = {}, lang = "en" }) {
       return [
         { icon: "⭐", title: SITE_STATS.yearsHi, sub: "अनुभव" },
         { icon: "🎓", title: SITE_STATS.studentsHi, sub: "प्रशिक्षित" },
-        { icon: "✂️", title: "10+ कोर्स", sub: "100% प्रैक्टिकल" },
+        { icon: "✂️", title: SITE_STATS.coursesHi, sub: "100% प्रैक्टिकल" },
         { icon: "⚡", title: "24 घं. सिलाई", sub: "तेज़ सेवा" },
       ];
     }
     return [
       { icon: "⭐", title: SITE_STATS.yearsEn, sub: "Experience" },
       { icon: "🎓", title: SITE_STATS.studentsEn, sub: "Trained" },
-      { icon: "✂️", title: "10+ Courses", sub: "100% Practical" },
+      { icon: "✂️", title: SITE_STATS.coursesEn, sub: "100% Practical" },
       { icon: "⚡", title: "24hr Stitching", sub: "Express service" },
     ];
   }, [lang]);
@@ -103,7 +103,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
       <HeroBackgroundSlider slides={slides} active={active} />
 
       <div className="page-container relative z-[2]">
-        <div className="home-hero__grid grid lg:grid-cols-[1.05fr_0.95fr] gap-5 sm:gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center min-w-0 w-full">
+        <div className="home-hero__grid grid lg:grid-cols-[1.05fr_0.95fr] gap-3 sm:gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center min-w-0 w-full">
           {/* Left — static copy */}
           <div className="home-hero__content order-2 lg:order-1 text-center lg:text-left lg:py-1">
             <span className="anim-rise home-hero__badge">
@@ -132,8 +132,8 @@ export default function HeroSection({ home = {}, lang = "en" }) {
             <p className="anim-rise anim-delay-2 mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted max-w-xl mx-auto lg:mx-0 leading-relaxed text-pretty">
               {pickPage(home, lang, "heroSubtitle", "heroSubtitleHi") ||
                 (lang === "hi"
-                  ? "सिलाई, फैशन डिज़ाइन और कढ़ाई में 10+ जॉब-ओरिएंटेड कोर्स सीखें"
-                  : "Learn 10+ job-oriented courses in stitching, fashion design & embroidery")}
+                  ? "बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा — 10 प्रोफेशनल कोर्स"
+                  : "Boutique, blouse, suit, kids wear, fashion design & lehenga — 10 professional courses")}
             </p>
 
             <div className="anim-rise anim-delay-3 home-hero__cta-row mt-5 sm:mt-6">
@@ -171,7 +171,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
 
           {/* Right — synced foreground image */}
           <div className="home-hero__media-stage order-1 lg:order-2 flex justify-center lg:justify-end">
-            <div className="anim-hero-media home-hero__media home-hero__media--rrc home-hero__media-frame relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px]">
+            <div className="anim-hero-media home-hero__media home-hero__media--rrc home-hero__media-frame relative w-full max-w-full sm:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px]">
               <span className="hero-float-badge hero-float-badge--top hidden sm:inline-flex">
                 <span className="hero-float-badge__dot" aria-hidden />
                 {lang === "hi" ? "पटना, बिहार" : "Patna, Bihar"}

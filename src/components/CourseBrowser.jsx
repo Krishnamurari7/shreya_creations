@@ -6,7 +6,7 @@ import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
 
-export default function CourseBrowser({ courses }) {
+export default function CourseBrowser({ courses = [] }) {
   const { lang } = useLanguage();
 
   const categories = useMemo(() => {
@@ -42,7 +42,7 @@ export default function CourseBrowser({ courses }) {
       : `${filtered.length} course${filtered.length === 1 ? "" : "s"} found`;
 
   return (
-    <section className="courses-browser page-section pb-10 sm:pb-14 relative z-20">
+    <section className="courses-browser page-section page-section--tight-top pb-10 sm:pb-14 relative z-20">
       <div className="page-container max-w-7xl">
         <Glass3DCard className="courses-browser__toolbar reveal rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 border-ink/15 mb-6 sm:mb-8 shadow-xl">
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:items-center lg:justify-between">
@@ -107,7 +107,7 @@ export default function CourseBrowser({ courses }) {
             {filtered.map((course, i) => (
               <div
                 key={course.id}
-                className="reveal reveal-zoom w-full h-full"
+                className="reveal reveal-zoom in w-full h-full"
                 style={staggerDelay(i, 70)}
               >
                 <CourseCard

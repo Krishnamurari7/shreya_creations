@@ -53,9 +53,9 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
       label: lang === "hi" ? "छात्र प्रशिक्षित" : "Students trained",
     },
     {
-      icon: "✂️",
-      value: "100%",
-      label: lang === "hi" ? "प्रैक्टिकल ट्रेनिंग" : "Practical training",
+      icon: "📚",
+      value: lang === "hi" ? SITE_STATS.coursesHi : SITE_STATS.coursesEn,
+      label: lang === "hi" ? "प्रोफेशनल कोर्स" : "Professional courses",
     },
   ];
 

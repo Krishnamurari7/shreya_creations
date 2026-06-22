@@ -12,7 +12,7 @@ export default function ProductDetailClient({ product, site, images }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="relative z-10 w-full overflow-x-hidden">
+    <div className="relative z-10 w-full min-w-0 overflow-x-hidden">
       <div className="grid-overlay" />
       <AmbientGlows variant="subtle" className="z-0" />
 

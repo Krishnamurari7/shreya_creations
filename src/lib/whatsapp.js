@@ -19,9 +19,11 @@ export function stitchMessage(product, url) {
   return `Hi! I'd like this stitched to my size: *${product.title}*. Please share the details.\n${url || ""}`.trim();
 }
 
-export function courseMessage(course, url) {
+export function courseMessage(course, url, lang = "en") {
+  const title =
+    lang === "hi" ? course.title_hi ?? course.titleHi ?? course.title : course.title;
   const price = course.price ? ` (₹${course.price})` : "";
-  return `Hi! I'd like to enroll in *${course.title}*${price}. Please share the details.\n${url || ""}`.trim();
+  return `Hi! I'd like to enroll in *${title}*${price}. Please share the details.\n${url || ""}`.trim();
 }
 
 export function greetingMessage() {

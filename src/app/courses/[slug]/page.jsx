@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
-import { getCourseBySlug, getSiteSettings } from "@/lib/data";
+import { getCourseBySlug, getFaqs, getSiteSettings } from "@/lib/data";
 import CourseDetailClient from "@/components/CourseDetailClient";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const course = await getCourseBySlug(params.slug);
@@ -8,14 +10,25 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CourseDetail({ params }) {
-  const [course, site] = await Promise.all([getCourseBySlug(params.slug), getSiteSettings()]);
+  const [course, site, faqs] = await Promise.all([
+    getCourseBySlug(params.slug),
+    getSiteSettings(),
+    getFaqs(),
+  ]);
   if (!course) return notFound();
 
-  const syllabus = Array.isArray(course.syllabus)
-    ? course.syllabus
-    : typeof course.syllabus === "string"
-    ? course.syllabus.split("\n").filter(Boolean)
-    : [];
+  const courseFaqs = faqs.filter(
+    (f) =>
+      !f.category ||
+      f.category === "course" ||
+      f.category === course.category?.toLowerCase()
+  );
 
-  return <CourseDetailClient course={course} site={site} syllabus={syllabus} />;
+  return (
+    <CourseDetailClient
+      course={course}
+      site={site}
+      faqs={courseFaqs.length ? courseFaqs : faqs.slice(0, 6)}
+    />
+  );
 }

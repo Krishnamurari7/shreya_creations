@@ -33,7 +33,7 @@ export function CourseActions({ course, number }) {
   const { lang } = useLanguage();
   const t = UI[lang];
   const url = useUrl();
-  const enroll = waLink(number, courseMessage(course, url));
+  const enroll = waLink(number, courseMessage(course, url, lang));
   return (
     <a href={enroll} target="_blank" rel="noopener noreferrer" className="btn-gold rounded-full px-7 py-3 inline-block text-center w-full sm:w-auto">
       {t.enrollWhatsApp}

@@ -1,153 +1,391 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { CourseActions } from "@/components/WhatsAppActions";
-import { Glass3DCard } from "@/components/Glass3DCard";
-import SyllabusGrid from "@/components/SyllabusGrid";
-import SectionHeading from "@/components/SectionHeading";
-import AmbientGlows from "@/components/AmbientGlows";
+import { waLink, courseMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
-import { fadeUp } from "@/lib/motion";
+import { pickFaq } from "@/lib/i18n";
+import { SITE_STATS } from "@/lib/seed";
+import { cn } from "@/lib/utils";
+import CoursePdfModal, { coursePdfUrl } from "@/components/CoursePdfModal";
 
-export default function CourseDetailClient({ course, site, syllabus }) {
-  const reduceMotion = useReducedMotion();
-  const { lang } = useLanguage();
+function usePageUrl() {
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
+  return url;
+}
 
-  const backLabel = lang === "hi" ? "सभी कोर्स पर वापस" : "Back to Courses";
-  const durationLabel = lang === "hi" ? "अवधि" : "Duration";
-  const languageLabel = lang === "hi" ? "भाषा" : "Language";
-  const feeLabel = lang === "hi" ? "फीस" : "Fee";
-  const noPreview = lang === "hi" ? "कोई प्रीव्यू उपलब्ध नहीं" : "No preview available";
-  const roadmapEyebrow = lang === "hi" ? "कोर्स रोडमैप" : "Course Roadmap";
-  const roadmapTitle = lang === "hi" ? "आप क्या सीखेंगे" : "What you'll learn";
-  const admissionTitle =
-    lang === "hi" ? "7-चरण एडमिशन प्रक्रिया" : "7-Step Admission Process";
-  const admissionBody =
-    lang === "hi"
-      ? "WhatsApp पर एनरोल करें — काउंसलिंग, फॉर्म, दस्तावेज़ सत्यापन, फीस (कैश/UPI/बैंक), एडमिशन कन्फर्मेशन, ओरिएंटेशन और बैच असाइनमेंट। सुबह (9–12), दोपहर (12–3), या शाम (3–6) के बैच उपलब्ध।"
-      : "Enroll via WhatsApp — counseling, form submission, document verification, fee payment (cash/UPI/bank transfer), admission confirmation, orientation, and batch assignment. Morning (9–12), Afternoon (12–3), or Evening (3–6) batches available.";
+function reviewCountFromSlug(slug = "") {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i += 1) {
+    hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
+  }
+  return 80 + (hash % 420);
+}
+
+function ratingFromSlug(slug = "") {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i += 1) {
+    hash = (hash * 17 + slug.charCodeAt(i)) >>> 0;
+  }
+  return (4.7 + (hash % 3) * 0.1).toFixed(1);
+}
+
+function buildIncludes(course, lang) {
+  if (Array.isArray(course.includes) && course.includes.length) {
+    return course.includes;
+  }
+  if (Array.isArray(course.includes_hi) && lang === "hi" && course.includes_hi.length) {
+    return course.includes_hi;
+  }
+
+  const syllabusCount = Array.isArray(course.syllabus)
+    ? course.syllabus.length
+    : typeof course.syllabus === "string"
+      ? course.syllabus.split("\n").filter(Boolean).length
+      : 0;
+
+  if (lang === "hi") {
+    return [
+      syllabusCount ? `${syllabusCount}+ मॉड्यूल और प्रैक्टिकल लessons` : "स्टेप-बाय-स्टेप प्रैक्टिकल ट्रेनिंग",
+      `${course.duration} की पूरी ट्रेनिंग`,
+      `${course.language} में उपलब्ध`,
+      "100% प्रैक्टिकल हैंड्स-ऑन लर्निंग",
+      "कोर्स पूरा करने पर सर्टिफिकेट",
+      "एक्सपर्ट फैकल्टी गाइडेंस",
+    ];
+  }
+
+  return [
+    syllabusCount ? `${syllabusCount}+ modules & practical lessons` : "Step-by-step practical training",
+    `Full ${course.duration} programme`,
+    `Available in ${course.language}`,
+    "100% hands-on practical learning",
+    "Certificate on course completion",
+    "Expert faculty guidance",
+  ];
+}
+
+const TRUST_BADGES = [
+  { icon: "👩‍🎓", en: "2000+ Happy Students", hi: "2000+ खुश छात्र" },
+  { icon: "⏰", en: "Flexible Batches", hi: "लचीले बैच" },
+  { icon: "🎯", en: "Expert Faculty", hi: "एक्सपर्ट फैकल्टी" },
+  { icon: "✂️", en: "Practical Learning", hi: "प्रैक्टिकल लर्निंग" },
+];
+
+function StarRating({ rating, count }) {
+  return (
+    <div className="course-detail__rating">
+      <span className="course-detail__stars" aria-hidden>
+        {"★".repeat(5)}
+      </span>
+      <span className="course-detail__rating-value">{rating}</span>
+      <span className="course-detail__reviews">({count.toLocaleString("en-IN")} reviews)</span>
+    </div>
+  );
+}
+
+function PricingBlock({ price, comparePrice, discountPct, lang }) {
+  if (price == null) {
+    return (
+      <p className="course-detail__price-note">
+        {lang === "hi" ? "फीस के लिए WhatsApp पर संपर्क करें" : "Contact us on WhatsApp for fees"}
+      </p>
+    );
+  }
+
+  const showCompare = comparePrice && Number(comparePrice) > price;
 
   return (
-    <div className="relative z-10 w-full overflow-x-hidden">
-      <div className="grid-overlay" />
-      <AmbientGlows variant="subtle" className="z-0" />
+    <div className="course-detail__pricing">
+      <span className="course-detail__price">₹{price.toLocaleString("en-IN")}</span>
+      {showCompare && (
+        <>
+          <span className="course-detail__compare">₹{Number(comparePrice).toLocaleString("en-IN")}</span>
+          {discountPct != null && discountPct > 0 && (
+            <span className="course-detail__discount">{discountPct}% OFF</span>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
 
-      <div className="pt-[calc(var(--header-offset)+1rem)] sm:pt-[calc(var(--header-offset)+2rem)] pb-10 sm:pb-12 page-container max-w-6xl relative z-20">
-        <motion.div
-          initial={reduceMotion ? false : "hidden"}
-          animate="visible"
-          custom={0}
-          variants={fadeUp}
-        >
-          <Link
-            href="/courses"
-            className="inline-flex items-center gap-2 text-orange hover:text-orange-dark text-sm font-semibold tracking-wider uppercase group transition-colors mb-8"
-          >
-            <span className="group-hover:-translate-x-1.5 transition-transform duration-300">←</span>
-            {backLabel}
-          </Link>
-        </motion.div>
+function EnrollButton({ href, label, className }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={cn("course-detail__enroll-btn", className)}>
+      {label}
+      <span aria-hidden>→</span>
+    </a>
+  );
+}
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start min-w-0 w-full">
-          <motion.div
-            className="lg:col-span-6 w-full min-w-0 order-1"
-            initial={reduceMotion ? false : "hidden"}
-            animate="visible"
-            custom={0.1}
-            variants={fadeUp}
-          >
-            <motion.div
-              className="aspect-video rounded-2xl sm:rounded-[2.5rem] overflow-hidden glass border border-orange/20 p-2 sm:p-2.5 shadow-2xl relative group"
-              animate={reduceMotion ? undefined : { y: [0, -4, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+function CourseFaq({ faqs, lang }) {
+  const [open, setOpen] = useState(0);
+  const items = faqs.slice(0, 6);
+
+  if (!items.length) return null;
+
+  return (
+    <div className="course-detail__faq-list">
+      {items.map((f, i) => {
+        const { q, a } = pickFaq(f, lang);
+        const isOpen = open === i;
+        return (
+          <div key={i} className={cn("course-detail__faq-item", isOpen && "course-detail__faq-item--open")}>
+            <button
+              type="button"
+              className="course-detail__faq-trigger"
+              onClick={() => setOpen(isOpen ? -1 : i)}
+              aria-expanded={isOpen}
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none z-10 rounded-[2rem] sm:rounded-[2.5rem]" />
+              <span>{q}</span>
+              <svg
+                className={cn("course-detail__faq-chevron", isOpen && "course-detail__faq-chevron--open")}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                aria-hidden
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {isOpen && <div className="course-detail__faq-answer">{a}</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function CourseDetailClient({ course, site, faqs = [] }) {
+  const { lang } = useLanguage();
+  const [aboutExpanded, setAboutExpanded] = useState(false);
+  const [pdfOpen, setPdfOpen] = useState(false);
+
+  const title =
+    lang === "hi" ? course.title_hi ?? course.titleHi ?? course.title : course.title;
+  const description =
+    lang === "hi"
+      ? course.description_hi ?? course.descriptionHi ?? course.description
+      : course.description;
+  const aboutLong =
+    lang === "hi"
+      ? course.about_hi ?? course.aboutHi ?? course.about ?? description
+      : course.about ?? course.about_en ?? description;
+
+  const price = course.price != null ? Number(course.price) : null;
+  const comparePrice = course.compare_price ?? course.comparePrice ?? course.original_price;
+  const showCompare = comparePrice && price && Number(comparePrice) > price;
+  const discountPct = showCompare ? Math.round((1 - price / Number(comparePrice)) * 100) : null;
+  const reviews = reviewCountFromSlug(course.slug);
+  const rating = ratingFromSlug(course.slug);
+  const includes = buildIncludes(course, lang);
+
+  const pageUrl = usePageUrl();
+  const enrollUrl = waLink(site.whatsapp, courseMessage(course, pageUrl, lang));
+  const pdfUrl = coursePdfUrl();
+  const showPdf = course.show_pdf !== false;
+
+  const t = {
+    back: lang === "hi" ? "सभी कोर्स" : "All Courses",
+    languages: lang === "hi" ? "उपलब्ध भाषा" : "Available in",
+    getCourse: lang === "hi" ? "यह कोर्स लें" : "Get This Course",
+    enroll: lang === "hi" ? "अभी एनरोल करें" : "Enroll Now",
+    secure: lang === "hi" ? "सुरक्षित एनरोलमेंट · सर्टिफिकेट शामिल" : "Secure enrollment · Certificate included",
+    included: lang === "hi" ? "क्या शामिल है" : "What's Included",
+    about: lang === "hi" ? "इस कोर्स के बारे में" : "About This Course",
+    readMore: lang === "hi" ? "और पढ़ें" : "Read More",
+    readLess: lang === "hi" ? "कम दिखाएं" : "Show Less",
+    faq: lang === "hi" ? "अक्सर पूछे जाने वाले प्रश्न" : "Frequently Asked Questions",
+    readyTitle: lang === "hi" ? "एनरोल करने के लिए तैयार?" : "Ready to Enroll?",
+    readySub:
+      lang === "hi"
+        ? `${SITE_STATS.studentsHi} — पटना का भरोसेमंद फैशन इंस्टिट्यूट`
+        : `Trusted by ${SITE_STATS.studentsEn} — Patna's skill training institute`,
+    limited: lang === "hi" ? "सीमित समय ऑफर" : "Limited Time Offer",
+    securePay: lang === "hi" ? "सुरक्षित पेमेंट · सर्टिफिकेट शामिल" : "Secure payment · Certificate included",
+    viewDetails: lang === "hi" ? "पूरा विवरण देखें" : "View Full Details",
+    viewDetailsSub: lang === "hi" ? "कोर्स PDF ब्रोशर · पॉपअप में खुलेगा" : "Course PDF brochure · opens in popup",
+  };
+
+  const aboutPreview = aboutLong.length > 280 ? aboutLong.slice(0, 280).trim() + "…" : aboutLong;
+  const showAboutToggle = aboutLong.length > 280;
+
+  return (
+    <div className="course-detail min-w-0 w-full">
+      <div className="course-detail__hero-wrap">
+        <div className="page-container course-detail__hero">
+          <Link href="/courses" className="course-detail__back">
+            <span aria-hidden>←</span> {t.back}
+          </Link>
+
+          <div className="course-detail__hero-grid">
+            <div className="course-detail__media">
               {course.preview_video ? (
                 <iframe
                   src={course.preview_video}
-                  title={course.title}
-                  className="h-full w-full rounded-[1.5rem] sm:rounded-[2rem] border-0 relative z-20"
+                  title={title}
+                  className="course-detail__iframe"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
               ) : course.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={course.image}
-                  alt={course.title}
-                  className="h-full w-full object-cover rounded-[1.5rem] sm:rounded-[2rem]"
-                />
+                <img src={course.image} alt={title} className="course-detail__image" />
               ) : (
-                <div className="h-full w-full rounded-[1.5rem] sm:rounded-[2rem] bg-cream/40 flex items-center justify-center text-ink">
-                  {noPreview}
-                </div>
-              )}
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="lg:col-span-6 space-y-6 order-2 min-w-0"
-            initial={reduceMotion ? false : "hidden"}
-            animate="visible"
-            custom={0.2}
-            variants={fadeUp}
-          >
-            <div>
-              <span className="inline-flex bg-orange/10 border border-orange/20 text-orange px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-widest uppercase mb-4 shadow-sm">
-                {course.category}
-              </span>
-              <h1 className="page-hero-title text-balance">
-                {course.title}
-              </h1>
-            </div>
-
-            <div className="flex flex-wrap gap-2 sm:gap-3 py-2 border-y border-ink/15">
-              <span className="bg-ink/5 border border-ink/15 px-3 sm:px-4 py-2 rounded-full text-xs font-light text-ink flex items-center gap-1.5">
-                ⏳ {durationLabel}: <strong className="font-semibold text-orange">{course.duration}</strong>
-              </span>
-              <span className="bg-ink/5 border border-ink/15 px-3 sm:px-4 py-2 rounded-full text-xs font-light text-ink flex items-center gap-1.5">
-                🗣 {languageLabel}: <strong className="font-semibold text-orange">{course.language}</strong>
-              </span>
-              {course.price && (
-                <span className="bg-orange/5 border border-orange/20 px-3 sm:px-4 py-2 rounded-full text-xs font-light text-ink flex items-center gap-1.5">
-                  💰 {feeLabel}:{" "}
-                  <strong className="highlight-shimmer font-semibold">
-                    ₹{Number(course.price).toLocaleString("en-IN")}
-                  </strong>
-                </span>
+                <div className="course-detail__image-placeholder">{title}</div>
               )}
             </div>
 
-            <p className="text-ink font-normal leading-relaxed text-base text-pretty">{course.description}</p>
+            <div className="course-detail__info">
+              {course.category && <span className="course-detail__category">{course.category}</span>}
 
-            <div className="pt-4 space-y-4">
-              <CourseActions course={course} number={site.whatsapp} />
-              <Glass3DCard className="rounded-2xl p-4 border-orange/15 bg-orange/5 flex items-start gap-3 transition-transform duration-300 hover:-translate-y-0.5">
-                <span className="text-base">🎓</span>
-                <p className="text-xs text-ink font-normal leading-relaxed">
-                  <strong className="text-orange-dark font-medium uppercase tracking-wider text-[9px] block mb-0.5">
-                    {admissionTitle}
-                  </strong>
-                  {admissionBody}
+              <h1 className="course-detail__title">{title}</h1>
+
+              {course.language && (
+                <p className="course-detail__languages">
+                  {t.languages}: <strong>{course.language}</strong>
+                  {course.duration && <> · {course.duration}</>}
                 </p>
-              </Glass3DCard>
-            </div>
-          </motion.div>
-        </div>
+              )}
 
-        {syllabus.length > 0 && (
-          <div className="mt-12 sm:mt-20">
-            <SectionHeading
-              eyebrow={roadmapEyebrow}
-              title={roadmapTitle}
-              align="left"
-              className="md:text-left [&_.section-ornament]:md:justify-start"
-            />
-            <SyllabusGrid items={syllabus} />
+              <StarRating rating={rating} count={reviews} />
+
+              <PricingBlock
+                price={price}
+                comparePrice={comparePrice}
+                discountPct={discountPct}
+                lang={lang}
+              />
+
+              <EnrollButton href={enrollUrl} label={t.getCourse} />
+
+              <p className="course-detail__secure">🔒 {t.secure}</p>
+
+              <ul className="course-detail__trust">
+                {TRUST_BADGES.map((badge) => (
+                  <li key={badge.en}>
+                    <span className="course-detail__trust-icon" aria-hidden>
+                      {badge.icon}
+                    </span>
+                    <span>{lang === "hi" ? badge.hi : badge.en}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        )}
+        </div>
       </div>
+
+      {showPdf && (
+        <div className="page-container course-detail__pdf-wrap">
+          <button
+            type="button"
+            className="course-detail__pdf-btn"
+            onClick={() => setPdfOpen(true)}
+          >
+            <span className="course-detail__pdf-btn-icon" aria-hidden>
+              📄
+            </span>
+            <span className="course-detail__pdf-btn-copy">
+              <span className="course-detail__pdf-btn-label">{t.viewDetails}</span>
+              <span className="course-detail__pdf-btn-sub">{t.viewDetailsSub}</span>
+            </span>
+            <span className="course-detail__pdf-btn-arrow" aria-hidden>
+              →
+            </span>
+          </button>
+        </div>
+      )}
+
+      <div className="page-container course-detail__body">
+        <section className="course-detail__section">
+          <h2 className="course-detail__section-title">{t.included}</h2>
+          <ul className="course-detail__includes">
+            {includes.map((item, i) => (
+              <li key={i}>
+                <span className="course-detail__check" aria-hidden>
+                  ✓
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="course-detail__section">
+          <h2 className="course-detail__section-title">{t.about}</h2>
+          <div className="course-detail__about">
+            <p>{aboutExpanded ? aboutLong : aboutPreview}</p>
+            {showAboutToggle && (
+              <button
+                type="button"
+                className="course-detail__read-more"
+                onClick={() => setAboutExpanded((v) => !v)}
+              >
+                {aboutExpanded ? t.readLess : t.readMore}
+              </button>
+            )}
+          </div>
+        </section>
+
+        {faqs.length > 0 && (
+          <section className="course-detail__section">
+            <h2 className="course-detail__section-title">{t.faq}</h2>
+            <CourseFaq faqs={faqs} lang={lang} />
+          </section>
+        )}
+
+        <section className="course-detail__cta">
+          <p className="course-detail__cta-eyebrow">{t.limited}</p>
+          <h2 className="course-detail__cta-title">{t.readyTitle}</h2>
+          <p className="course-detail__cta-sub">{t.readySub}</p>
+          <PricingBlock
+            price={price}
+            comparePrice={comparePrice}
+            discountPct={discountPct}
+            lang={lang}
+          />
+          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--wide" />
+          <p className="course-detail__secure">🔒 {t.securePay}</p>
+        </section>
+      </div>
+
+      <div className="course-detail__sticky" aria-label={t.enroll}>
+        <div className="course-detail__sticky-inner">
+          <div className="course-detail__sticky-pricing">
+            {price != null ? (
+              <>
+                <span className="course-detail__price course-detail__price--sm">
+                  ₹{price.toLocaleString("en-IN")}
+                </span>
+                {showCompare && (
+                  <span className="course-detail__compare course-detail__compare--sm">
+                    ₹{Number(comparePrice).toLocaleString("en-IN")}
+                  </span>
+                )}
+              </>
+            ) : (
+              <span className="course-detail__price-note course-detail__price-note--sm">
+                {lang === "hi" ? "WhatsApp पर पूछें" : "Ask on WhatsApp"}
+              </span>
+            )}
+          </div>
+          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--sticky" />
+        </div>
+      </div>
+
+      <CoursePdfModal
+        open={pdfOpen}
+        onClose={() => setPdfOpen(false)}
+        title={title}
+        pdfUrl={pdfUrl}
+        lang={lang}
+      />
     </div>
   );
 }

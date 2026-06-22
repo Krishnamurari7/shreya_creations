@@ -1,11 +1,12 @@
 "use client";
 
 import ResourceManager from "@/components/admin/ResourceManager";
+import { COURSE_CATEGORIES } from "@/lib/seed";
 
 const FIELDS = [
   { name: "title", label: "Title", type: "text" },
   { name: "slug", label: "Slug (auto from title if blank)", type: "text" },
-  { name: "category", label: "Category", type: "select", options: ["Fashion Design", "Stitching", "Embroidery"] },
+  { name: "category", label: "Category", type: "select", options: COURSE_CATEGORIES.filter((c) => c !== "All") },
   { name: "price", label: "Price (₹)", type: "number" },
   { name: "duration", label: "Duration", type: "text", hint: "e.g. 3 months" },
   { name: "language", label: "Language", type: "text", hint: "e.g. Hindi & English" },

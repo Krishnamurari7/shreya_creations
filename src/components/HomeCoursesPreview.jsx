@@ -6,7 +6,7 @@ import CourseCard from "@/components/CourseCard";
 import { pickPage } from "@/lib/cms";
 import { useLanguage } from "@/components/LanguageProvider";
 
-const HOME_COURSE_LIMIT = 4;
+const HOME_COURSE_LIMIT = 10;
 
 export default function HomeCoursesPreview({ courses = [], home = {} }) {
   const { lang } = useLanguage();
@@ -27,20 +27,20 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
 
   const eyebrow =
     pickPage(home, lang, "coursesEyebrow", "coursesEyebrowHi") ||
-    (lang === "hi" ? "टॉप पिक्स" : "Top Picks");
+    (lang === "hi" ? "हमारे कोर्स" : "Our Courses");
   const title = pickPage(home, lang, "academyHeading", "academyHeadingHi") ||
-    (lang === "hi" ? "फीचर्ड" : "Featured");
+    (lang === "hi" ? "हमारे" : "Our");
   const titleHighlight = pickPage(home, lang, "academyHeadingHighlight", "academyHeadingHighlightHi") ||
     (lang === "hi" ? "कोर्स" : "Courses");
   const viewAllLabel =
     lang === "hi"
-      ? `सभी ${courses.length}+ कोर्स देखें`
-      : `View All ${courses.length}+ Courses`;
+      ? `सभी ${courses.length} कोर्स देखें`
+      : `View All ${courses.length} Courses`;
 
   return (
     <section className="home-courses-preview page-section page-section--bordered relative z-20">
       <div className="page-container max-w-7xl">
-        <div className="home-courses-preview__header reveal">
+        <div className="home-courses-preview__header reveal in">
           <div className="home-courses-preview__header-copy">
             <span className="home-courses-preview__eyebrow">
               <span aria-hidden>⚡</span>
@@ -58,15 +58,15 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
         </div>
 
         {categories.length > 1 && (
-          <div className="home-courses-preview__filters reveal">
+          <div className="home-courses-preview__filters reveal in">
             <div className="filter-pills">
               {categories.map((cat) => {
                 const isSelected = active === cat;
                 const label =
                   cat === "All"
                     ? lang === "hi"
-                      ? "सभी फीचर्ड"
-                      : "All Featured"
+                      ? "सभी कोर्स"
+                      : "All Courses"
                     : cat;
                 return (
                   <button
@@ -90,7 +90,7 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
 
         <div className="home-courses-preview__grid">
           {filtered.map((course, i) => (
-            <div key={course.id} className="reveal reveal-zoom" style={{ transitionDelay: `${i * 80}ms` }}>
+            <div key={course.id} className="reveal reveal-zoom in" style={{ transitionDelay: `${i * 80}ms` }}>
               <CourseCard
                 course={course}
                 variant="featured"

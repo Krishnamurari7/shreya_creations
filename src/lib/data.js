@@ -24,6 +24,43 @@ function normalizeSettings(data) {
   };
 }
 
+function normalizeSyllabus(syllabus) {
+  if (Array.isArray(syllabus)) return syllabus;
+  if (typeof syllabus === "string") return syllabus.split("\n").filter(Boolean);
+  return [];
+}
+
+function normalizeCourse(row) {
+  if (!row) return null;
+  return {
+    ...row,
+    titleHi: row.title_hi ?? row.titleHi,
+    compare_price: row.compare_price ?? row.comparePrice,
+    preview_video: row.preview_video ?? row.previewVideo,
+    course_pdf: row.course_pdf ?? row.coursePdf ?? row.pdf_url ?? row.pdfUrl,
+    syllabus: normalizeSyllabus(row.syllabus),
+    price: row.price != null ? Number(row.price) : row.price,
+    published: row.published ?? true,
+  };
+}
+
+function publishedSeedCourses(includeUnpublished) {
+  return includeUnpublished
+    ? seed.COURSES
+    : seed.COURSES.filter((c) => c.published !== false);
+}
+
+function mergeCoursesWithSeed(dbRows, { includeUnpublished = false } = {}) {
+  const seedList = publishedSeedCourses(includeUnpublished);
+  if (!dbRows?.length) return seedList;
+
+  const dbBySlug = new Map(dbRows.map((row) => [row.slug, normalizeCourse(row)]));
+  return seedList.map((seedCourse) => {
+    const dbCourse = dbBySlug.get(seedCourse.slug);
+    return dbCourse ? { ...seedCourse, ...dbCourse } : seedCourse;
+  });
+}
+
 async function query(supabase, table, options = {}) {
   let q = supabase.from(table).select("*");
   if (options.eq) Object.entries(options.eq).forEach(([k, v]) => { q = q.eq(k, v); });
@@ -78,26 +115,42 @@ export async function getProductBySlug(slug) {
 }
 
 export async function getCourses({ includeUnpublished = false } = {}) {
-  if (!isSupabaseConfigured()) return seed.COURSES;
+  const seedList = publishedSeedCourses(includeUnpublished);
+  if (!isSupabaseConfigured()) return seedList;
   try {
     const supabase = createClient();
     let q = supabase.from("courses").select("*").order("created_at", { ascending: false });
     if (!includeUnpublished) q = q.eq("published", true);
-    const { data } = await q;
-    return data?.length ? data : seed.COURSES;
+    const { data, error } = await q;
+    if (error) return seedList;
+    return mergeCoursesWithSeed(data, { includeUnpublished });
   } catch {
-    return seed.COURSES;
+    return seedList;
   }
 }
 
 export async function getCourseBySlug(slug) {
-  if (!isSupabaseConfigured()) return seed.COURSES.find((c) => c.slug === slug) || null;
+  const seedCourse = seed.COURSES.find((c) => c.slug === slug) || null;
+  if (!isSupabaseConfigured()) return seedCourse;
+
+  // Seed catalog is canonical — return immediately; overlay DB fields when available.
+  if (!seedCourse) {
+    try {
+      const supabase = createClient();
+      const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
+      return data ? normalizeCourse(data) : null;
+    } catch {
+      return null;
+    }
+  }
+
   try {
     const supabase = createClient();
-    const { data } = await supabase.from("courses").select("*").eq("slug", slug).single();
-    return data || seed.COURSES.find((c) => c.slug === slug) || null;
+    const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
+    const dbCourse = data ? normalizeCourse(data) : null;
+    return dbCourse ? { ...seedCourse, ...dbCourse } : seedCourse;
   } catch {
-    return seed.COURSES.find((c) => c.slug === slug) || null;
+    return seedCourse;
   }
 }
 

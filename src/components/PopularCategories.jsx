@@ -5,14 +5,14 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const CATEGORIES = [
-  { href: "/courses", icon: "🌸", label: "Fashion Designing", labelHi: "फैशन डिज़ाइनिंग", theme: "rose" },
-  { href: "/courses", icon: "👗", label: "Stitching", labelHi: "सिलाई", theme: "orange" },
-  { href: "/shop", icon: "🪡", label: "Bridal Wear", labelHi: "ब्राइडल वियर", theme: "gold" },
-  { href: "/courses", icon: "💡", label: "Art & Craft", labelHi: "आर्ट एंड क्राफ्ट", theme: "lavender" },
-  { href: "/shop", icon: "💅", label: "Beauty", labelHi: "ब्यूटी", theme: "coral" },
-  { href: "/shop", icon: "👚", label: "Ethnic Wear", labelHi: "एथनिक वियर", theme: "peach" },
-  { href: "/shop", icon: "🧵", label: "Fabric & Fusing", labelHi: "फैब्रिक और फ्यूज़िंग", theme: "mint" },
-  { href: "/courses", icon: "✂️", label: "Sewing Accessories", labelHi: "सिलाई एक्सेसरीज़", theme: "wine" },
+  { href: "/courses", icon: "🏪", label: "Boutique Courses", labelHi: "बुटीक कोर्स", theme: "rose" },
+  { href: "/courses", icon: "👚", label: "Blouse Making", labelHi: "ब्लाउज मेकिंग", theme: "orange" },
+  { href: "/courses", icon: "🌸", label: "Fashion Design", labelHi: "फैशन डिज़ाइन", theme: "gold" },
+  { href: "/courses", icon: "👗", label: "Suit & Stitching", labelHi: "सूट और सिलाई", theme: "lavender" },
+  { href: "/courses", icon: "👶", label: "Kids Wear", labelHi: "किड्स वियर", theme: "coral" },
+  { href: "/courses", icon: "✨", label: "Lehenga Making", labelHi: "लहंगा मेकिंग", theme: "peach" },
+  { href: "/shop", icon: "💅", label: "Bridal Wear", labelHi: "ब्राइडल वियर", theme: "mint" },
+  { href: "/shop", icon: "🧵", label: "Ethnic Wear", labelHi: "एथनिक वियर", theme: "wine" },
 ];
 
 const container = {
@@ -50,8 +50,8 @@ export default function PopularCategories({ className = "", compact = false }) {
     );
   const subtitle =
     lang === "hi"
-      ? "फैशन, सिलाई, ब्यूटी और क्राफ्ट — सब कुछ एक जगह"
-      : "Fashion, stitching, beauty & craft — all in one place";
+      ? "बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा — 10 कोर्स"
+      : "Boutique, blouse, suit, kids wear, fashion design & lehenga — 10 courses";
 
   if (compact) {
     return (

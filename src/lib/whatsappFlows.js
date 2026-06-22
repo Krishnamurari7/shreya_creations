@@ -1,6 +1,8 @@
 // Topic flows for the floating WhatsApp assistant.
 // Each selection shows follow-up questions, then builds a prefilled wa.me message.
 
+import { COURSE_WA_OPTIONS } from "@/lib/seed";
+
 export const WA_FLOWS = {
   course: {
     id: "course",
@@ -16,12 +18,7 @@ export const WA_FLOWS = {
           en: "Which course are you interested in?",
           hi: "आप किस कोर्स में रुचि रखते हैं?",
         },
-        options: [
-          { en: "Fashion Design & Tailoring", hi: "फैशन डिज़ाइन और सिलाई" },
-          { en: "Embroidery & Zardozi", hi: "कढ़ाई और ज़रदोज़ी" },
-          { en: "Boutique Business Skills", hi: "बुटीक बिज़नेस स्किल्स" },
-          { en: "Not sure — need guidance", hi: "पक्का नहीं — गाइडेंस चाहिए" },
-        ],
+        options: COURSE_WA_OPTIONS,
       },
       {
         id: "batch",

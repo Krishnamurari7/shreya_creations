@@ -5,6 +5,11 @@ import CardImage from "@/components/CardImage";
 import { CardGlow, glassCardStyles } from "@/components/Glass3DCard";
 import { cn } from "@/lib/utils";
 
+function courseTitle(course, lang) {
+  if (lang === "hi") return course.title_hi ?? course.titleHi ?? course.title;
+  return course.title;
+}
+
 function reviewCountFromSlug(slug = "") {
   let hash = 0;
   for (let i = 0; i < slug.length; i += 1) {
@@ -34,10 +39,12 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
     const reviews = reviewCountFromSlug(course.slug);
     const showBestseller = featuredIndex === 0 || course.badge === "bestseller";
 
+    const title = courseTitle(course, lang);
+
     return (
       <article className="featured-course-card group/card flex flex-col h-full">
         <Link href={`/courses/${course.slug}`} className="featured-course-card__media block">
-          <CardImage src={course.image} alt={course.title} ratio="16/10" position="top" />
+          <CardImage src={course.image} alt={title} ratio="16/10" position="top" />
           {discountPct != null && discountPct > 0 && (
             <span className="featured-course-card__badge featured-course-card__badge--sale">
               {discountPct}% OFF
@@ -56,7 +63,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           )}
 
           <Link href={`/courses/${course.slug}`}>
-            <h3 className="featured-course-card__title">{course.title}</h3>
+            <h3 className="featured-course-card__title">{title}</h3>
           </Link>
 
           <StarRating count={reviews} />
@@ -94,7 +101,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
       <CardGlow />
 
       <div className="relative">
-        <CardImage src={course.image} alt={course.title} ratio="16/9" position="top" className="rounded-2xl" />
+        <CardImage src={course.image} alt={courseTitle(course, lang)} ratio="16/9" position="top" className="rounded-2xl" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-90 rounded-2xl pointer-events-none" />
 
         <span className="absolute top-4 left-4 z-10 text-[10px] uppercase tracking-[0.2em] bg-black/75 text-white px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-md">
@@ -109,7 +116,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
       </div>
 
       <h3 className="mt-4 sm:mt-5 font-display text-xl sm:text-2xl text-ink leading-snug group-hover/card:text-orange transition-colors duration-300 line-clamp-2">
-        {course.title}
+        {courseTitle(course, lang)}
       </h3>
       <p className="mt-2 text-sm text-ink line-clamp-2 font-normal">
         {course.description}

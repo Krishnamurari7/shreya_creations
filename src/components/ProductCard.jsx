@@ -27,7 +27,7 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
           {!compact && (
             <button
               type="button"
-              className="product-card-wishlist absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-sm transition-colors"
+              className="product-card-wishlist absolute top-3 right-3 z-10 flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full shadow-sm transition-colors"
               aria-label="Add to wishlist"
               onClick={(e) => e.preventDefault()}
             >
@@ -59,8 +59,8 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
             className={cn(
               "btn-gold product-card-wa-btn mt-auto w-full text-center tracking-widest flex items-center justify-center gap-1.5",
               compact
-                ? "pt-2 py-2 text-[8px] sm:text-[9px] min-h-[36px]"
-                : "pt-3 sm:pt-4 py-2.5 sm:py-3 text-[9px] sm:text-[11px] min-h-[44px]"
+                ? "pt-2 py-2 text-[10px] sm:text-[11px] min-h-[44px]"
+                : "pt-3 sm:pt-4 py-2.5 sm:py-3 text-[11px] sm:text-xs min-h-[44px]"
             )}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="shrink-0 opacity-90">

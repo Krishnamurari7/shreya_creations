@@ -73,7 +73,7 @@ export default function ShopBrowser({ products, whatsapp }) {
           <p className="text-ink mt-4 font-normal text-base">No couture pieces match your search query.</p>
         </Glass3DCard>
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
+        <div className="shop-grid grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
           {filtered.map((p, i) => (
             <div key={p.id} className="reveal w-full h-full" style={staggerDelay(i, 60)}>
               <ProductCard product={p} variant="boutique" whatsapp={whatsapp} />

@@ -20,7 +20,7 @@ export default async function FaqPage() {
         titleHi={faqPage.headerTitleHi}
         highlight={faqPage.headerHighlight || "Questions"}
         highlightHi={faqPage.headerHighlightHi}
-        subtitle={faqPage.headerSubtitle || "Custom sizing, WhatsApp ordering, academy courses, and studio location."}
+        subtitle={faqPage.headerSubtitle || "10 professional courses, custom sizing, WhatsApp ordering, and studio location."}
         subtitleHi={faqPage.headerSubtitleHi}
       />
       <FaqList faqs={faqs} />

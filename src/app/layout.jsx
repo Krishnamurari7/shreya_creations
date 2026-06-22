@@ -17,7 +17,7 @@ import { BRAND_MESSAGE_HI, SERVICE_USP_HI } from "@/lib/i18n";
 export const metadata = {
   title: `Shreya creation — ${BRAND_MESSAGE_HI}`,
   description:
-    `${BRAND_MESSAGE_HI} — bespoke stitching, bridal couture & fashion courses in Patna. ${SERVICE_USP_HI}. Order on WhatsApp.`,
+    `${BRAND_MESSAGE_HI} — bespoke stitching, bridal couture & 10 fashion courses in Patna. ${SERVICE_USP_HI}. Order on WhatsApp.`,
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -29,7 +29,7 @@ export const metadata = {
   },
   openGraph: {
     title: "Shreya creation",
-    description: "Couture stitching & fashion courses. Order on WhatsApp.",
+    description: "Couture stitching & 10 professional fashion courses. Order on WhatsApp.",
     type: "website",
   },
 };

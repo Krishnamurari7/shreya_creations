@@ -1,12 +1,11 @@
 import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
-import FeatureStrip from "@/components/FeatureStrip";
 import CoursesPageClient from "@/components/CoursesPageClient";
 import PageCTA from "@/components/PageCTA";
 import { getCourses, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Courses — Shreya creation" };
+export const metadata = { title: "Our Courses — Shreya creation" };
 
 export default async function CoursesPage() {
   const [courses, site] = await Promise.all([getCourses(), getSiteSettings()]);
@@ -15,16 +14,16 @@ export default async function CoursesPage() {
   return (
     <PageShell>
       <LocalizedPageHeader
-        eyebrow={coursesPage.headerEyebrow || "Learn the craft"}
+        compact
+        eyebrow={coursesPage.headerEyebrow || "Our Courses"}
         eyebrowHi={coursesPage.headerEyebrowHi}
-        title={coursesPage.headerTitle || "Fashion & stitching"}
+        title={coursesPage.headerTitle || "Professional fashion"}
         titleHi={coursesPage.headerTitleHi}
-        highlight={coursesPage.headerHighlight || "courses"}
+        highlight={coursesPage.headerHighlight || "training"}
         highlightHi={coursesPage.headerHighlightHi}
-        subtitle={coursesPage.headerSubtitle || "Hands-on, mentor-led courses in Hindi & English. Enroll directly on WhatsApp."}
+        subtitle={coursesPage.headerSubtitle || "10 courses — boutique, blouse, suit, kids wear, fashion design & lehenga. Enroll on WhatsApp."}
         subtitleHi={coursesPage.headerSubtitleHi}
       />
-      <FeatureStrip items={coursesPage.features || []} />
       <CoursesPageClient courses={courses} />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(coursesPage)} />
     </PageShell>

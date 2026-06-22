@@ -99,6 +99,9 @@ export default function Footer({ site }) {
                 <span className="footer-trust-badge">
                   ✦ {lang === "hi" ? SITE_STATS.yearsHi : SITE_STATS.yearsEn}
                 </span>
+                <span className="footer-trust-badge">
+                  ✦ {lang === "hi" ? SITE_STATS.coursesHi : SITE_STATS.coursesEn}
+                </span>
               </div>
 
               <a

@@ -231,7 +231,7 @@ export default function HomepageClient({
   const videoEmbedUrl = toYoutubeEmbedUrl(home.videoUrl);
 
   return (
-    <div className="relative z-10 w-full overflow-x-hidden bg-cream">
+    <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip bg-cream">
       <div className="pointer-events-none absolute top-32 -left-20 h-64 w-64 rounded-full bg-orange/6 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute top-[40%] -right-24 h-72 w-72 rounded-full bg-orange/5 blur-3xl" aria-hidden />
 
@@ -393,14 +393,16 @@ export default function HomepageClient({
       )}
 
       {/* ===== STUDENT SUCCESS ===== */}
-      <section id="testimonials" className="page-section page-section--bordered page-container overflow-hidden">
-        <SectionHeader
-          home={home}
-          lang={lang}
-          eyebrowKey="successEyebrow"
-          titleKey="successTitle"
-          subtitleKey="successSubtitle"
-        />
+      <section id="testimonials" className="page-section page-section--bordered overflow-hidden min-w-0">
+        <div className="page-container">
+          <SectionHeader
+            home={home}
+            lang={lang}
+            eyebrowKey="successEyebrow"
+            titleKey="successTitle"
+            subtitleKey="successSubtitle"
+          />
+        </div>
         <Testimonials items={testimonials} />
       </section>
 

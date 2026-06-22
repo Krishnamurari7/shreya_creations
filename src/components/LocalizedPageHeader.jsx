@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickLocalized } from "@/lib/i18n";
 import AmbientGlows from "@/components/AmbientGlows";
 import { fadeUp } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 export default function LocalizedPageHeader({
   eyebrow,
@@ -15,6 +16,7 @@ export default function LocalizedPageHeader({
   subtitleHi,
   highlight,
   highlightHi,
+  compact = false,
 }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
@@ -24,7 +26,14 @@ export default function LocalizedPageHeader({
   const highlightText = pickLocalized({ highlight, highlightHi }, lang, "highlight", "highlightHi");
 
   return (
-    <header className="relative pt-[calc(var(--header-offset)+1.25rem)] sm:pt-[calc(var(--header-offset)+2rem)] md:pt-[calc(var(--header-offset)+2.5rem)] pb-4 sm:pb-6 md:pb-8 text-center mx-auto max-w-4xl px-4 sm:px-5 overflow-hidden">
+    <header
+      className={cn(
+        "relative text-center mx-auto max-w-4xl px-4 sm:px-5 overflow-hidden",
+        compact
+          ? "pt-[calc(var(--header-offset)+0.5rem)] sm:pt-[calc(var(--header-offset)+0.75rem)] pb-1 sm:pb-2"
+          : "pt-[calc(var(--header-offset)+1.25rem)] sm:pt-[calc(var(--header-offset)+2rem)] md:pt-[calc(var(--header-offset)+2.5rem)] pb-4 sm:pb-6 md:pb-8"
+      )}
+    >
       <AmbientGlows variant="header" />
 
       <motion.div
@@ -34,13 +43,23 @@ export default function LocalizedPageHeader({
         variants={fadeUp}
       >
         {eyebrowText && (
-          <span className="inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase mb-5 sm:mb-6 shadow-sm">
+          <span
+            className={cn(
+              "inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-3 sm:px-4 py-1 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase shadow-sm",
+              compact ? "mb-2.5 sm:mb-3" : "mb-5 sm:mb-6 py-1.5"
+            )}
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-orange animate-pulse" />
             {eyebrowText}
           </span>
         )}
 
-        <h1 className="page-hero-title mt-2 text-balance px-1">
+        <h1
+          className={cn(
+            "page-hero-title text-balance px-1",
+            compact ? "mt-0 leading-[1.15] page-hero-title--compact" : "mt-2"
+          )}
+        >
           {titleText}
           {highlightText && (
             <>
@@ -51,14 +70,21 @@ export default function LocalizedPageHeader({
         </h1>
 
         {subtitleText && (
-          <p className="mt-4 section-lead max-w-2xl mx-auto px-1">
+          <p
+            className={cn(
+              "section-lead max-w-2xl mx-auto px-1",
+              compact ? "mt-2 sm:mt-2.5 text-sm sm:text-base" : "mt-4"
+            )}
+          >
             {subtitleText}
           </p>
         )}
 
-        <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
-          <span className="text-gold text-xs">✦</span>
-        </div>
+        {!compact && (
+          <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+            <span className="text-gold text-xs">✦</span>
+          </div>
+        )}
       </motion.div>
     </header>
   );

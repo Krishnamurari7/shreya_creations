@@ -1,16 +1,26 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
 export default function WhatsAppAssistant({ number }) {
   const { lang } = useLanguage();
+  const pathname = usePathname();
   const t = UI[lang];
   const href = waLink(number, greetingMessage());
+  const aboveStickyBar =
+    Boolean(pathname?.startsWith("/courses/")) && pathname !== "/courses";
 
   return (
-    <div className="wa-assistant-root fixed z-50 flex flex-col items-end max-w-[calc(100dvw-2rem)]">
+    <div
+      className={cn(
+        "wa-assistant-root fixed z-50 flex flex-col items-end max-w-[calc(100dvw-2rem)]",
+        aboveStickyBar && "wa-assistant-root--above-sticky"
+      )}
+    >
       <a
         href={href}
         target="_blank"

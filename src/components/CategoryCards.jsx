@@ -27,8 +27,8 @@ const CARDS = [
     href: "/courses",
     label: "Courses",
     labelHi: "कोर्स",
-    sub: SITE_STATS.yearsEn,
-    subHi: SITE_STATS.yearsHi,
+    sub: "10 Professional Courses",
+    subHi: "10 प्रोफेशनल कोर्स",
     image: "/slider3.png",
   },
   {
