@@ -10,6 +10,7 @@
   --text: #2B2B2B;
   --text-muted: #5c4a3a;
   --text-subtle: #7a6555;
+  --ink: #1a1208;
   --orange: #E86A33;
   --orange-dark: #C45628;
   --orange-rgb: 232, 106, 51;
@@ -41,6 +42,7 @@ html.dark {
   --text: #f3ede4;
   --text-muted: rgba(243, 237, 228, 0.74);
   --text-subtle: rgba(243, 237, 228, 0.54);
+  --ink: var(--text);
   --lavender: #f0c88a;
   --orange: #F07A3D;
   --golden: #D4AF37;
@@ -496,6 +498,10 @@ html.dark .boutique-product-card__body {
 
 html.dark .product-price {
   color: #e8a05a;
+}
+
+html.dark .product-card-title {
+  color: var(--text);
 }
 
 html.dark .product-card-wishlist {
@@ -2710,6 +2716,55 @@ html.dark .home-hero__founder-portrait {
   border-color: rgba(var(--orange-rgb), 0.35);
 }
 
+html.dark .home-hero__title-part--dark,
+html.dark .home-hero__since-text {
+  color: var(--text);
+}
+
+html.dark .home-hero__checklist--card {
+  background: rgba(18, 14, 26, 0.82);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+html.dark .home-hero__slide-controls {
+  background: rgba(18, 14, 26, 0.92);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+
+html.dark .home-courses-preview__title,
+html.dark .explore-categories__title,
+html.dark .explore-cat-card__name,
+html.dark .featured-course-card__title,
+html.dark .quick-explore-card__title,
+html.dark .home-shop-showcase__title {
+  color: var(--text);
+}
+
+html.dark .featured-course-card:hover .featured-course-card__title {
+  color: var(--lavender);
+}
+
+html.dark .course-detail__trust li,
+html.dark .course-detail__includes li,
+html.dark .course-detail__section-title,
+html.dark .course-detail__faq-trigger,
+html.dark .course-detail__cta-title {
+  color: var(--text);
+}
+
+html.dark .course-detail__faq-item--open .course-detail__faq-trigger {
+  color: var(--lavender);
+}
+
+html.dark .course-pdf-modal__eyebrow {
+  color: var(--lavender);
+}
+
+html.dark .course-pdf-modal__title {
+  color: var(--text);
+}
+
 /* ——— RRC-style hero ——— */
 .home-hero--rrc {
   display: flex;
@@ -2896,7 +2951,7 @@ html.dark .home-hero__founder-portrait {
 }
 
 .home-hero__title-part--dark {
-  color: #2B2B2B;
+  color: var(--ink);
   position: relative;
   display: block;
 }
@@ -3057,7 +3112,7 @@ html.dark .home-hero__founder-portrait {
 
 .home-hero__since-text {
   font-weight: 600;
-  color: #2B2B2B;
+  color: var(--text);
 }
 
 .home-hero__checklist--card {
@@ -3149,7 +3204,7 @@ html.dark .home-hero__founder-portrait {
 
 .home-hero__cta-secondary--play {
   border: 1.5px solid rgba(45, 27, 20, 0.35);
-  color: #2d1b14;
+  color: var(--ink);
   background: transparent;
 }
 
@@ -3350,7 +3405,7 @@ html.dark .home-hero__founder-portrait {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #2d1b14;
+  color: var(--ink);
   line-height: 1.25;
 }
 
@@ -3954,7 +4009,7 @@ html.dark .hero-slider__arrow:hover {
   max-width: 28rem;
   font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
   line-height: 1.65;
-  color: var(--muted);
+  color: var(--text-muted);
   text-wrap: pretty;
 }
 
@@ -4470,7 +4525,7 @@ html.dark .hero-slider__arrow:hover {
   margin-top: 0.85rem;
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 
 @media (hover: none), (max-width: 767px) {
@@ -7227,7 +7282,7 @@ html.dark .page-cta__eyebrow {
 
 .about-stat-chip__label {
   font-size: 0.625rem;
-  color: var(--muted);
+  color: var(--text-muted);
   line-height: 1.3;
   margin-top: 0.1rem;
 }
@@ -8849,6 +8904,19 @@ html.dark .contact-field-input {
     opacity: 1;
   }
 
+  html.dark .product-card-title {
+    color: var(--text);
+  }
+
+  html.dark .product-price {
+    color: var(--lavender);
+  }
+
+  html.dark .nav-mobile-tagline {
+    color: var(--lavender);
+    opacity: 1;
+  }
+
   .feature-card {
     padding: 1rem 0.5rem;
   }
@@ -9180,6 +9248,18 @@ html.dark .about-quote-card,
 html.dark .about-hero__float-chip {
   background: var(--surface);
   border-color: var(--border-strong);
+}
+
+html.dark .about-stat-chip__value {
+  color: var(--text);
+}
+
+html.dark .about-stat-chip__label {
+  color: var(--text-muted);
+}
+
+html.dark .quick-explore-card:hover .quick-explore-card__title {
+  color: var(--lavender);
 }
 
 html.dark .about-mission-band__pill--brand {
@@ -10071,6 +10151,19 @@ html.dark .home-courses-preview {
   background: transparent;
 }
 
+html.dark .featured-course-card__reviews,
+html.dark .featured-course-card__compare {
+  color: var(--text-muted);
+}
+
+html.dark .featured-course-card__category {
+  color: var(--lavender);
+}
+
+html.dark .featured-course-card__price {
+  color: var(--lavender);
+}
+
 html.dark .home-courses-preview__eyebrow,
 html.dark .home-courses-preview__view-all,
 html.dark .home-courses-preview__pill:not(.home-courses-preview__pill--active),
@@ -10259,7 +10352,7 @@ html.dark .featured-course-card__body {
 .explore-cat-card__count {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: rgba(26, 20, 16, 0.5);
+  color: var(--text-subtle);
 }
 
 html.dark .explore-categories {
@@ -10579,7 +10672,7 @@ html.dark .explore-cat-card__count {
 .course-detail__languages {
   margin-top: 0.65rem;
   font-size: 0.9375rem;
-  color: rgba(26, 20, 16, 0.72);
+  color: var(--text-muted);
 }
 
 .course-detail__languages strong {
@@ -10609,7 +10702,7 @@ html.dark .explore-cat-card__count {
 
 .course-detail__reviews {
   font-size: 0.875rem;
-  color: rgba(26, 20, 16, 0.55);
+  color: var(--text-subtle);
 }
 
 .course-detail__pricing {
@@ -10633,7 +10726,7 @@ html.dark .explore-cat-card__count {
 
 .course-detail__compare {
   font-size: 1.125rem;
-  color: rgba(26, 20, 16, 0.45);
+  color: var(--text-subtle);
   text-decoration: line-through;
   font-variant-numeric: tabular-nums;
 }
@@ -10654,7 +10747,7 @@ html.dark .explore-cat-card__count {
 .course-detail__price-note {
   margin-top: 1.25rem;
   font-size: 0.9375rem;
-  color: rgba(26, 20, 16, 0.65);
+  color: var(--text-muted);
 }
 
 .course-detail__price-note--sm {
@@ -10702,7 +10795,7 @@ html.dark .explore-cat-card__count {
 .course-detail__secure {
   margin-top: 0.75rem;
   font-size: 0.8125rem;
-  color: rgba(26, 20, 16, 0.55);
+  color: var(--text-subtle);
 }
 
 .course-detail__trust {
@@ -10809,7 +10902,7 @@ html.dark .explore-cat-card__count {
   margin: 0;
   font-size: 0.975rem;
   line-height: 1.75;
-  color: rgba(26, 20, 16, 0.82);
+  color: var(--text-muted);
   white-space: pre-line;
 }
 
@@ -10881,7 +10974,7 @@ html.dark .explore-cat-card__count {
   padding: 0 1.15rem 1.1rem;
   font-size: 0.9rem;
   line-height: 1.65;
-  color: rgba(26, 20, 16, 0.72);
+  color: var(--text-muted);
   border-top: 1px solid rgba(26, 20, 16, 0.06);
   padding-top: 0.85rem;
   margin: 0 0 0;
@@ -10914,7 +11007,7 @@ html.dark .explore-cat-card__count {
 .course-detail__cta-sub {
   margin: 0.5rem 0 0;
   font-size: 0.9375rem;
-  color: rgba(26, 20, 16, 0.65);
+  color: var(--text-muted);
 }
 
 .course-detail__cta .course-detail__pricing {
@@ -10989,8 +11082,10 @@ html.dark .course-detail__reviews,
 html.dark .course-detail__secure,
 html.dark .course-detail__cta-sub,
 html.dark .course-detail__faq-answer,
-html.dark .course-detail__about p {
-  color: rgba(245, 239, 230, 0.72);
+html.dark .course-detail__about p,
+html.dark .course-detail__price-note,
+html.dark .course-detail__compare {
+  color: var(--text-muted);
 }
 
 .course-detail__pdf-wrap {
@@ -11051,7 +11146,7 @@ html.dark .course-detail__about p {
 
 .course-detail__pdf-btn-sub {
   font-size: 0.8125rem;
-  color: rgba(26, 20, 16, 0.62);
+  color: var(--text-muted);
 }
 
 .course-detail__pdf-btn-arrow {
@@ -11289,7 +11384,7 @@ html.dark .course-detail__about p {
 .course-pdf-modal__state p {
   margin: 0;
   max-width: 24rem;
-  color: rgba(26, 20, 16, 0.72);
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
@@ -11317,7 +11412,11 @@ html.dark .course-detail__pdf-btn-icon {
 }
 
 html.dark .course-detail__pdf-btn-sub {
-  color: rgba(245, 239, 230, 0.62);
+  color: var(--text-muted);
+}
+
+html.dark .course-detail__pdf-btn-label {
+  color: var(--text);
 }
 
 html.dark .course-pdf-modal__panel {
@@ -11338,7 +11437,7 @@ html.dark .course-pdf-modal__iframe {
 html.dark .course-pdf-modal__close {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.12);
-  color: #f5efe6;
+  color: var(--text);
 }
 
 html.dark .course-pdf-modal__state--overlay {
@@ -11346,7 +11445,7 @@ html.dark .course-pdf-modal__state--overlay {
 }
 
 html.dark .course-pdf-modal__state p {
-  color: rgba(245, 239, 230, 0.72);
+  color: var(--text-muted);
 }
 
 /* ========== Full-site responsive polish (all public pages) ========== */
