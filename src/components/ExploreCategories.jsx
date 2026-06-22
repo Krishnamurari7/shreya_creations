@@ -58,7 +58,7 @@ const CATEGORIES = [
     matchCategories: ["Suit", "Saree"],
     href: "/shop",
     type: "product",
-    bg: "#E8F5E9",
+    bg: "#FFE8D6",
     image: "/categories/ethnic-wear.png",
     fallbackCount: 10,
   },
@@ -124,7 +124,7 @@ export default function ExploreCategories({ courses = [], products = [] }) {
   };
 
   return (
-    <section className="explore-categories page-section py-12 sm:py-16 lg:py-20">
+    <section className="explore-categories page-section page-section--bordered">
       <div className="page-container max-w-7xl">
         <div className="explore-categories__header reveal">
           <div className="explore-categories__header-copy">

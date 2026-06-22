@@ -121,7 +121,7 @@ export default function VideoShowcase({ home, embedUrl }) {
       : ["Studio tour", "Live stitching demo", "Meet the mentors"];
 
   return (
-    <section id="video-showcase" className="video-showcase-section py-14 sm:py-20 lg:py-24">
+    <section id="video-showcase" className="video-showcase-section page-section relative overflow-hidden">
       <div className="pointer-events-none absolute top-16 left-[8%] h-48 w-48 rounded-full bg-orange/8 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute bottom-10 right-[6%] h-56 w-56 rounded-full bg-orange/6 blur-3xl" aria-hidden />
       <span className="pointer-events-none absolute top-24 right-[18%] text-gold text-sm sparkle-pulse hidden sm:block" aria-hidden>
@@ -134,7 +134,7 @@ export default function VideoShowcase({ home, embedUrl }) {
         ✦
       </span>
 
-      <div className="page-section page-container relative z-10 max-w-6xl">
+      <div className="page-container relative z-10 max-w-6xl">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center min-w-0 w-full">
           <div className="lg:col-span-5 text-center lg:text-left reveal reveal-left min-w-0">
             {eyebrow && <span className="section-eyebrow">{eyebrow}</span>}

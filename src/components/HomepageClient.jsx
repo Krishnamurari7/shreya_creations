@@ -260,7 +260,7 @@ export default function HomepageClient({
 
       {/* ===== WHY CHOOSE US ===== */}
       {whyChooseFeatures.length > 0 && (
-        <section className="why-choose-section page-section page-container pb-12 sm:pb-16 relative">
+        <section className="why-choose-section page-section page-container relative">
           <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 h-48 w-[min(100%,36rem)] rounded-full bg-gold/8 blur-3xl" aria-hidden />
 
           <SectionHeader
@@ -294,34 +294,36 @@ export default function HomepageClient({
             </div>
           </div>
 
-          <p className="why-choose-divider reveal text-center">
-            <span>{lang === "hi" ? "और भी कारण" : "Plus more reasons"}</span>
-          </p>
+          <div className="hidden md:block">
+            <p className="why-choose-divider reveal text-center">
+              <span>{lang === "hi" ? "और भी कारण" : "Plus more reasons"}</span>
+            </p>
 
-          <div className="features-bar mt-6 sm:mt-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-5" data-stagger>
-              {whyChooseFeatures.map((f, i) => (
-                <div
-                  key={i}
-                  className={`feature-card text-center reveal px-1 ${i === 0 ? "feature-card--usp" : ""}`}
-                  style={{ transitionDelay: `${i * 60}ms` }}
-                >
-                  {i === 0 && (
-                    <span className="feature-card__badge">
-                      {lang === "hi" ? "⭐ USP" : "⭐ USP"}
-                    </span>
-                  )}
+            <div className="features-bar mt-6 sm:mt-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-5" data-stagger>
+                {whyChooseFeatures.map((f, i) => (
                   <div
-                    className={`feature-card__icon ${
-                      f.color === "orange" ? "bg-orange/10 text-orange border border-orange/20" : "bg-gold/10 text-gold border border-gold/20"
-                    }`}
+                    key={i}
+                    className={`feature-card text-center reveal px-1 ${i === 0 ? "feature-card--usp" : ""}`}
+                    style={{ transitionDelay: `${i * 60}ms` }}
                   >
-                    {f.icon}
+                    {i === 0 && (
+                      <span className="feature-card__badge">
+                        {lang === "hi" ? "⭐ USP" : "⭐ USP"}
+                      </span>
+                    )}
+                    <div
+                      className={`feature-card__icon ${
+                        f.color === "orange" ? "bg-orange/10 text-orange border border-orange/20" : "bg-gold/10 text-gold border border-gold/20"
+                      }`}
+                    >
+                      {f.icon}
+                    </div>
+                    <h3 className="font-body text-xs sm:text-sm font-semibold text-ink leading-snug">{f.title}</h3>
+                    <p className="text-[11px] sm:text-xs text-muted mt-0.5 leading-relaxed">{f.sub}</p>
                   </div>
-                  <h3 className="font-body text-xs sm:text-sm font-semibold text-ink leading-snug">{f.title}</h3>
-                  <p className="text-[11px] sm:text-xs text-muted mt-0.5 leading-relaxed">{f.sub}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -357,8 +359,8 @@ export default function HomepageClient({
 
       {/* ===== DESIGN PROCESS ===== */}
       {processSteps.length > 0 && (
-        <section className="section-muted py-12 sm:py-16">
-          <div className="page-section page-container">
+        <section className="section-muted page-section">
+          <div className="page-container">
           <div className="text-center mb-8 sm:mb-12 reveal">
             <span className="text-orange uppercase tracking-[0.25em] text-xs font-semibold">
               {lang === "hi" ? "हमारी प्रक्रिया" : "How It Works"}
@@ -391,7 +393,7 @@ export default function HomepageClient({
       )}
 
       {/* ===== STUDENT SUCCESS ===== */}
-      <section id="testimonials" className="page-section page-container overflow-hidden">
+      <section id="testimonials" className="page-section page-section--bordered page-container overflow-hidden">
         <SectionHeader
           home={home}
           lang={lang}
@@ -403,7 +405,7 @@ export default function HomepageClient({
       </section>
 
       {/* ===== CONTACT SECTION ===== */}
-      <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} className="pt-12 pb-8 sm:pt-20 sm:pb-12" />
+      <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} className="page-section" />
 
       <InquiryPopup source="home_popup" />
     </div>

@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import HeroBackgroundSlider from "@/components/HeroBackgroundSlider";
 import { pickPage } from "@/lib/cms";
+import { SITE_STATS } from "@/lib/seed";
 
 const AUTOPLAY_MS = 5500;
 
@@ -50,6 +51,38 @@ export default function HeroSection({ home = {}, lang = "en" }) {
     Boolean(heroTitleLine2) &&
     !heroTitleLine1.toLowerCase().includes(heroTitleLine2.toLowerCase());
 
+  const heroBadge =
+    pickPage(home, lang, "heroBadge", "heroBadgeHi") ||
+    (lang === "hi" ? SITE_STATS.lineHi : SITE_STATS.lineEn);
+
+  const heroSecondaryCta =
+    pickPage(home, lang, "heroSecondaryCta", "heroSecondaryCtaHi") ||
+    (lang === "hi" ? "सफलता की कहानियाँ" : "Success Stories");
+
+  const expressTitle =
+    pickPage(home, lang, "heroCardTitle", "heroCardTitleHi") ||
+    (lang === "hi" ? "एक्सप्रेस डिलीवरी" : "Express Delivery");
+  const expressText =
+    pickPage(home, lang, "heroCardText", "heroCardTextHi") ||
+    (lang === "hi" ? "24 घंटे में सिले कपड़े" : "Stitched in just 24 hours");
+
+  const heroTiles = useMemo(() => {
+    if (lang === "hi") {
+      return [
+        { icon: "⭐", title: SITE_STATS.yearsHi, sub: "अनुभव" },
+        { icon: "🎓", title: SITE_STATS.studentsHi, sub: "प्रशिक्षित" },
+        { icon: "✂️", title: "10+ कोर्स", sub: "100% प्रैक्टिकल" },
+        { icon: "⚡", title: "24 घं. सिलाई", sub: "तेज़ सेवा" },
+      ];
+    }
+    return [
+      { icon: "⭐", title: SITE_STATS.yearsEn, sub: "Experience" },
+      { icon: "🎓", title: SITE_STATS.studentsEn, sub: "Trained" },
+      { icon: "✂️", title: "10+ Courses", sub: "100% Practical" },
+      { icon: "⚡", title: "24hr Stitching", sub: "Express service" },
+    ];
+  }, [lang]);
+
   return (
     <section
       className="home-hero home-hero--rrc relative overflow-hidden"
@@ -60,13 +93,25 @@ export default function HeroSection({ home = {}, lang = "en" }) {
         if (!e.currentTarget.contains(e.relatedTarget)) setPaused(false);
       }}
     >
+      <div className="home-hero__deco" aria-hidden>
+        <div className="home-hero__glow home-hero__glow--orange" />
+        <div className="home-hero__glow home-hero__glow--gold" />
+        <div className="home-hero__ring home-hero__ring--1" />
+        <div className="home-hero__ring home-hero__ring--2" />
+      </div>
+
       <HeroBackgroundSlider slides={slides} active={active} />
 
       <div className="page-container relative z-[2]">
         <div className="home-hero__grid grid lg:grid-cols-[1.05fr_0.95fr] gap-5 sm:gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center min-w-0 w-full">
           {/* Left — static copy */}
           <div className="home-hero__content order-2 lg:order-1 text-center lg:text-left lg:py-1">
-            <h1 className="anim-rise home-hero__title text-balance">
+            <span className="anim-rise home-hero__badge">
+              <span className="home-hero__badge-dot" aria-hidden />
+              {heroBadge}
+            </span>
+
+            <h1 className="anim-rise anim-delay-1 home-hero__title text-balance">
               <span className="home-hero__title-line home-hero__title-line--dark">
                 {heroTitleLine1}
               </span>
@@ -80,14 +125,18 @@ export default function HeroSection({ home = {}, lang = "en" }) {
               </span>
             </h1>
 
-            <p className="anim-rise anim-delay-1 mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted max-w-xl mx-auto lg:mx-0 leading-relaxed text-pretty">
+            <div className="anim-rise anim-delay-1 home-hero__divider home-hero__divider--content mx-auto lg:mx-0" aria-hidden>
+              <span className="home-hero__divider-gem">✦</span>
+            </div>
+
+            <p className="anim-rise anim-delay-2 mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted max-w-xl mx-auto lg:mx-0 leading-relaxed text-pretty">
               {pickPage(home, lang, "heroSubtitle", "heroSubtitleHi") ||
                 (lang === "hi"
                   ? "सिलाई, फैशन डिज़ाइन और कढ़ाई में 10+ जॉब-ओरिएंटेड कोर्स सीखें"
                   : "Learn 10+ job-oriented courses in stitching, fashion design & embroidery")}
             </p>
 
-            <div className="anim-rise anim-delay-2 home-hero__cta-row mt-5 sm:mt-6">
+            <div className="anim-rise anim-delay-3 home-hero__cta-row mt-5 sm:mt-6">
               <Link
                 href={heroCtaHref}
                 className="btn-primary home-hero__cta-primary home-hero__cta-primary--bold inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
@@ -97,18 +146,45 @@ export default function HeroSection({ home = {}, lang = "en" }) {
                   →
                 </span>
               </Link>
+              <Link
+                href="#testimonials"
+                className="btn-ghost home-hero__cta-secondary inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
+              >
+                {heroSecondaryCta}
+              </Link>
+            </div>
+
+            <div className="anim-rise anim-delay-4 home-hero__highlights home-hero__highlights--row mt-6 sm:mt-7">
+              {heroTiles.map((tile) => (
+                <div key={tile.title} className="home-hero__highlight home-hero__highlight--compact">
+                  <span className="home-hero__highlight-icon" aria-hidden>
+                    {tile.icon}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-xs sm:text-sm font-semibold text-ink leading-tight">{tile.title}</span>
+                    <span className="block text-[10px] sm:text-xs text-muted mt-0.5">{tile.sub}</span>
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Right — synced foreground image */}
           <div className="home-hero__media-stage order-1 lg:order-2 flex justify-center lg:justify-end">
-            <div className="anim-hero-media home-hero__media home-hero__media--rrc relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px]">
-              <div
-                className="home-hero__foreground"
-                role="region"
-                aria-roledescription="carousel"
-                aria-label={lang === "hi" ? "हीरो इमेज स्लाइडर" : "Hero image slider"}
-              >
+            <div className="anim-hero-media home-hero__media home-hero__media--rrc home-hero__media-frame relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px]">
+              <span className="hero-float-badge hero-float-badge--top hidden sm:inline-flex">
+                <span className="hero-float-badge__dot" aria-hidden />
+                {lang === "hi" ? "पटना, बिहार" : "Patna, Bihar"}
+              </span>
+
+              <div className="gradient-ring gradient-ring--hero shadow-glow">
+                <div className="gradient-ring__inner">
+                  <div
+                    className="home-hero__foreground"
+                    role="region"
+                    aria-roledescription="carousel"
+                    aria-label={lang === "hi" ? "हीरो इमेज स्लाइडर" : "Hero image slider"}
+                  >
                 {slides.map((slide, i) => {
                   const src = typeof slide === "string" ? slide : slide.src;
                   return (
@@ -168,6 +244,15 @@ export default function HeroSection({ home = {}, lang = "en" }) {
                     </button>
                   </div>
                 )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="home-hero__float-express hidden sm:block" aria-hidden>
+                <div className="home-hero__express-card">
+                  <p className="home-hero__express-title">{expressTitle}</p>
+                  <p className="home-hero__express-text">{expressText}</p>
+                </div>
               </div>
             </div>
           </div>

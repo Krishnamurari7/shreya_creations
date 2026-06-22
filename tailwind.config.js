@@ -19,8 +19,8 @@ module.exports = {
         muted: "var(--surface-muted)",
         lavender: "var(--lavender)",
         orange: { DEFAULT: "#E85D22", light: "#F07A3D", dark: "#C04E18" },
-        golden: { DEFAULT: "#004D2C", light: "#006B3D", dark: "#003820" },
-        gold: "#004D2C",
+        golden: { DEFAULT: "#E8A05A", light: "#F0B878", dark: "#C47A30" },
+        gold: "#E8A05A",
         green: { DEFAULT: "#004D2C", light: "#006B3D", dark: "#003820" },
       },
       fontFamily: {
