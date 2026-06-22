@@ -24,6 +24,18 @@ const CHECKLIST_HI = [
   "सर्टिफिकेट + प्लेसमेंट सपोर्ट",
 ];
 
+const HERO_TITLE_EN = {
+  part1: "Luxury Boutique",
+  part2: "Fashion Institute",
+  part3: "NIFT / NID / UCEED Coaching",
+};
+
+const HERO_TITLE_HI = {
+  part1: "लक्ज़री बुटीक",
+  part2: "फैशन इंस्टिट्यूट",
+  part3: "NIFT / NID / UCEED कोचिंग",
+};
+
 export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -49,11 +61,13 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
   const checklist = lang === "hi" ? CHECKLIST_HI : CHECKLIST_EN;
   const waChat = waLink(whatsapp, greetingMessage());
 
-  const heroTitle =
-    pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") ||
-    (lang === "hi"
-      ? "लक्ज़री बुटीक फैशन इंस्टिट्यूट NIFT/NID/UCEED कोचिंग"
-      : "Luxury Boutique Fashion Institute NIFT/NID/UCEED Coaching");
+  const titleParts = lang === "hi" ? HERO_TITLE_HI : HERO_TITLE_EN;
+  const heroPart1 =
+    pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") || titleParts.part1;
+  const heroPart2 =
+    pickPage(home, lang, "heroTitleLine2", "heroTitleLine2Hi") || titleParts.part2;
+  const heroPart3 =
+    pickPage(home, lang, "heroTitleHighlight", "heroTitleHighlightHi") || titleParts.part3;
 
   return (
     <section
@@ -75,54 +89,74 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
       <HeroBackgroundSlider slides={slides} active={active} />
 
       <div className="page-container relative z-[2]">
-        <div className="home-hero__grid grid lg:grid-cols-[1.05fr_0.95fr] gap-3 sm:gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center min-w-0 w-full">
-          <div className="home-hero__content order-2 lg:order-1 text-center lg:text-left lg:py-1">
-            <span className="anim-rise home-hero__badge">
-              <span className="home-hero__badge-dot" aria-hidden />
-              {lang === "hi" ? "📍 पटना, बिहार" : "📍 PATNA, BIHAR"}
-            </span>
-
-            <h1 className="anim-rise anim-delay-1 home-hero__title home-hero__title--tagline text-balance">
-              <span className="home-hero__title-line home-hero__title-accent home-hero__title-accent--gold">
-                {heroTitle}
+        <div className="home-hero__grid grid md:grid-cols-2 lg:grid-cols-[1.05fr_0.95fr] gap-4 sm:gap-6 lg:gap-8 xl:gap-10 items-start md:items-center lg:items-center min-w-0 w-full">
+          <div className="home-hero__content order-2 md:order-1 lg:order-1 text-center md:text-left lg:text-left lg:py-1 w-full min-w-0">
+            <div className="home-hero__copy-panel w-full min-w-0">
+              <span className="anim-rise home-hero__badge">
+                <span className="home-hero__badge-dot" aria-hidden />
+                {lang === "hi" ? "📍 पटना, बिहार" : "📍 PATNA, BIHAR"}
               </span>
-            </h1>
 
-            <p className="anim-rise anim-delay-2 home-hero__since">
-              {lang === "hi" ? "2007 से • 17+ वर्षों का अनुभव" : "Since 2007 • 17+ Years Experience"}
-            </p>
+              <h1 className="anim-rise anim-delay-1 home-hero__title home-hero__title--highlighted text-balance">
+                <span className="home-hero__title-line home-hero__title-part home-hero__title-part--gradient">
+                  {heroPart1}
+                </span>
+                <span className="home-hero__title-line home-hero__title-part home-hero__title-part--dark">
+                  {heroPart2}
+                </span>
+                <span className="home-hero__title-line home-hero__title-part home-hero__title-part--gold">
+                  {heroPart3}
+                </span>
+              </h1>
 
-            <ul className="anim-rise anim-delay-2 home-hero__checklist mx-auto lg:mx-0 max-w-xl">
-              {checklist.map((item) => (
-                <li key={item} className="home-hero__check-item">
-                  <span className="home-hero__check-icon" aria-hidden>✔</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+              <div className="anim-rise anim-delay-1 home-hero__title-ornament mx-auto md:mx-0" aria-hidden>
+                <span className="home-hero__title-ornament-line" />
+                <span className="home-hero__title-ornament-gem">✦</span>
+                <span className="home-hero__title-ornament-line" />
+              </div>
 
-            <div className="anim-rise anim-delay-3 home-hero__cta-row mt-5 sm:mt-6">
-              <Link
-                href={heroCtaHref}
-                className="btn-primary home-hero__cta-primary home-hero__cta-primary--bold inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
-              >
-                {lang === "hi" ? "एडमिशन खुला" : "Admission Open"}
-                <span className="home-hero__cta-arrow" aria-hidden>→</span>
-              </Link>
-              <a
-                href={waChat}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="home-hero__cta-wa inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
-              >
-                <span className="home-hero__wa-icon" aria-hidden>🟢</span>
-                {lang === "hi" ? "WhatsApp अभी" : "WhatsApp Now"}
-              </a>
+              <p className="anim-rise anim-delay-2 home-hero__since">
+                <span className="home-hero__since-badge">
+                  {lang === "hi" ? "2007 से" : "Since 2007"}
+                </span>
+                <span className="home-hero__since-dot" aria-hidden>•</span>
+                <span className="home-hero__since-text">
+                  {lang === "hi" ? "17+ वर्षों का अनुभव" : "17+ Years Experience"}
+                </span>
+              </p>
+
+              <ul className="anim-rise anim-delay-2 home-hero__checklist home-hero__checklist--card mx-auto md:mx-0 w-full max-w-xl">
+                {checklist.map((item) => (
+                  <li key={item} className="home-hero__check-item">
+                    <span className="home-hero__check-icon" aria-hidden>✔</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="anim-rise anim-delay-3 home-hero__cta-row home-hero__cta-row--responsive mt-5 sm:mt-6">
+                <Link
+                  href={heroCtaHref}
+                  className="btn-primary home-hero__cta-primary home-hero__cta-primary--bold inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
+                >
+                  {lang === "hi" ? "एडमिशन खुला" : "Admission Open"}
+                  <span className="home-hero__cta-arrow" aria-hidden>→</span>
+                </Link>
+                <a
+                  href={waChat}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="home-hero__cta-wa inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
+                >
+                  <span className="home-hero__wa-icon" aria-hidden>🟢</span>
+                  {lang === "hi" ? "WhatsApp अभी" : "WhatsApp Now"}
+                </a>
+              </div>
             </div>
           </div>
 
-          <div className="home-hero__media-stage order-1 lg:order-2 flex justify-center lg:justify-end">
-            <div className="anim-hero-media home-hero__media home-hero__media--rrc home-hero__media-frame home-hero__media--glass relative w-full max-w-full sm:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px]">
+          <div className="home-hero__media-stage order-1 md:order-2 lg:order-2 flex justify-center md:justify-end lg:justify-end w-full min-w-0 px-1 sm:px-0">
+            <div className="anim-hero-media home-hero__media home-hero__media--rrc home-hero__media-frame home-hero__media--glass relative w-full max-w-[min(100%,22rem)] sm:max-w-[400px] md:max-w-[360px] lg:max-w-[440px] xl:max-w-[480px]">
               <div className="gradient-ring gradient-ring--hero shadow-glow">
                 <div className="gradient-ring__inner glass">
                   <div

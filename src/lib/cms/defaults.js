@@ -37,12 +37,12 @@ export const PAGE_DEFAULTS = {
   home: {
     hero_badge: "Shreya Creation · Patna · 17+ Years",
     hero_badge_hi: "श्रेया क्रिएशन · पटना · 17+ वर्ष",
-    hero_title_line1: "Luxury Boutique Fashion Institute NIFT/NID/UCEED Coaching",
-    hero_title_line1_hi: "लक्ज़री बुटीक फैशन इंस्टिट्यूट NIFT/NID/UCEED कोचिंग",
-    hero_title_line2: "",
-    hero_title_line2_hi: "",
-    hero_title_highlight: "",
-    hero_title_highlight_hi: "",
+    hero_title_line1: "Luxury Boutique",
+    hero_title_line1_hi: "लक्ज़री बुटीक",
+    hero_title_line2: "Fashion Institute",
+    hero_title_line2_hi: "फैशन इंस्टिट्यूट",
+    hero_title_highlight: "NIFT / NID / UCEED Coaching",
+    hero_title_highlight_hi: "NIFT / NID / UCEED कोचिंग",
     hero_subtitle:
       "10 professional courses — Boutique, Blouse, Suit, Kids Wear, Fashion Design & Lehenga. Beginner-friendly, 100% practical training with expert guidance.",
     hero_subtitle_hi:
