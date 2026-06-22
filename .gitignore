@@ -7,5 +7,3 @@ out
 *.log
 .vercel
 
-# Course PDFs are too large for GitHub; host locally or via CDN
-public/courses/pdfs/*.pdf

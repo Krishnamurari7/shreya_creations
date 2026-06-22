@@ -124,6 +124,7 @@ export function HomeTab({ home, patchPage }) {
       <SectionHeading>Hero Banner</SectionHeading>
       <BilingualField label="Badge" enKey="hero_badge" hiKey="hero_badge_hi" values={home} onChange={onChange} />
       <BilingualField label="Title line 1" enKey="hero_title_line1" hiKey="hero_title_line1_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title line 2" enKey="hero_title_line2" hiKey="hero_title_line2_hi" values={home} onChange={onChange} />
       <BilingualField label="Title highlight" enKey="hero_title_highlight" hiKey="hero_title_highlight_hi" values={home} onChange={onChange} />
       <BilingualTextarea label="Subtitle" enKey="hero_subtitle" hiKey="hero_subtitle_hi" values={home} onChange={onChange} rows={3} />
       <BilingualField label="Button label" enKey="hero_cta_label" hiKey="hero_cta_label_hi" values={home} onChange={onChange} />

@@ -1,8 +1,12 @@
 import "./globals.css";
-import "@fontsource/jost/400.css";
-import "@fontsource/jost/500.css";
-import "@fontsource/jost/600.css";
-import "@fontsource/jost/700.css";
+import "@fontsource/playfair-display/400.css";
+import "@fontsource/playfair-display/500.css";
+import "@fontsource/playfair-display/600.css";
+import "@fontsource/playfair-display/700.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppAssistant from "@/components/WhatsAppAssistant";
@@ -40,7 +44,7 @@ export const viewport = {
   viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#0a0710" },
-    { media: "(prefers-color-scheme: light)", color: "#FFF9F0" },
+    { media: "(prefers-color-scheme: light)", color: "#FFF8F1" },
   ],
 };
 

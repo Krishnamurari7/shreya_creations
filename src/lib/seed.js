@@ -61,13 +61,12 @@ export const SITE = {
     facebook: "https://www.facebook.com/shreyascreation",
   },
   heroMarquee: [
-    SITE_STATS.yearsEn,
-    SITE_STATS.yearsHi,
-    "कौशल से कारोबार तक",
-    SITE_STATS.yearsEn,
-    "BEGINNER FRIENDLY",
-    "100% PRACTICAL TRAINING",
-    "24 घंटे में सिले कपड़े",
+    "Admission Open | 3 Days Free Demo Class",
+    "24-Hour Stitching Service",
+    "Since 2007 | 17 Years of Trust",
+    "एडमिशन खुला | 3 दिन फ्री डेमो क्लास",
+    "24 घंटे सिलाई सेवा",
+    "2007 से | 17 वर्षों का भरोसा",
   ],
 };
 
@@ -79,22 +78,22 @@ export const TRUST = [
     labelHi: "वर्ष अनुभव",
   },
   {
-    value: "2000+",
-    valueHi: "2000+",
+    value: "1000+",
+    valueHi: "1000+",
     label: "Students Trained",
     labelHi: "प्रशिक्षित छात्र",
   },
   {
-    value: "100%",
-    valueHi: "100%",
-    label: "Practical Training",
-    labelHi: "प्रैक्टिकल ट्रेनिंग",
+    value: "10+",
+    valueHi: "10+",
+    label: "Job-Oriented Courses",
+    labelHi: "जॉब ओरिएंटेड कोर्स",
   },
   {
-    value: "Patna",
-    valueHi: "पटना",
-    label: "Based in Bihar",
-    labelHi: "बिहार में स्थित",
+    value: "24 Hours",
+    valueHi: "24 घंटे",
+    label: "Delivery Service",
+    labelHi: "डिलीवरी सेवा",
   },
 ];
 

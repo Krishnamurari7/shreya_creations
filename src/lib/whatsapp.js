@@ -30,6 +30,10 @@ export function greetingMessage() {
   return "Hi Shreya creation! 👋 I came across your website and have a question.";
 }
 
+export function admissionMessage() {
+  return "Hi Shreya creation! 👋 I would like to apply for admission. Please share details about demo class and courses.";
+}
+
 export function portfolioMessage() {
   return "Hi Shreya creation! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.";
 }

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 export const DEFAULT_COURSE_PDF =
-  "/courses/pdfs/Basic suit and  Blouse Course 4995 (3).pdf";
+  "/courses/pdfs/Basic suit and  Blouse Course.pdf";
 
 function encodePdfPath(url = "") {
   if (!url) return url;

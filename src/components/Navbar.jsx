@@ -3,17 +3,19 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { waLink, greetingMessage } from "@/lib/whatsapp";
+import { waLink, greetingMessage, admissionMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useTheme } from "@/components/ThemeProvider";
-import { UI, pickBrandMessage } from "@/lib/i18n";
+import { UI } from "@/lib/i18n";
 import AnnouncementBar from "@/components/AnnouncementBar";
 
 const ROUTES = [
   { href: "/", key: "home" },
-  { href: "/courses", key: "courses" },
-  { href: "/shop", key: "shop" },
   { href: "/about", key: "about" },
+  { href: "/courses", key: "courses" },
+  { href: "/courses", key: "niftCoaching" },
+  { href: "/portfolio", key: "gallery" },
+  { href: "/#testimonials", key: "testimonials" },
   { href: "/contact", key: "contact" },
 ];
 
@@ -53,7 +55,7 @@ export default function Navbar({ site }) {
   const pathname = usePathname();
   const prevPath = useRef(pathname);
   const wa = waLink(site?.whatsapp, greetingMessage());
-  const boutiqueTagline = pickBrandMessage(site);
+  const applyWa = waLink(site?.whatsapp, admissionMessage());
   const brandName = site?.brand || "Shreya creation";
 
   const closeMenu = useCallback(() => setOpen(false), []);
@@ -98,28 +100,16 @@ export default function Navbar({ site }) {
     .filter(Boolean)
     .join(" ");
 
-  const brandBlock = (
-    <span className="nav-desktop-text">
-      <span className="nav-brand-title">{brandName}</span>
-      <span className="nav-brand-subtitle">{boutiqueTagline}</span>
-    </span>
-  );
-
   return (
     <>
     <header className={headerClass}>
       <AnnouncementBar items={site?.heroMarquee} />
 
       <div className="site-header-inner">
-        {/* Mobile header */}
         <div className="nav-mobile-bar">
           <Link href="/" onClick={closeMenu} className="nav-mobile-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt={brandName} className="nav-mobile-logo" />
-            <span className="nav-mobile-text">
-              <span className="nav-brand-title">{brandName}</span>
-              <span className="nav-brand-subtitle">{boutiqueTagline}</span>
-            </span>
           </Link>
 
           <div className="nav-mobile-actions">
@@ -145,18 +135,19 @@ export default function Navbar({ site }) {
           </div>
         </div>
 
-        {/* Desktop nav */}
-        <nav className="nav-desktop-bar" aria-label="Main navigation">
+        <nav className="nav-desktop-bar nav-desktop-bar--luxury" aria-label="Main navigation">
           <Link href="/" className="nav-desktop-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt={brandName} className="nav-desktop-logo" />
-            {brandBlock}
           </Link>
 
           <ul className="nav-desktop-links">
             {links.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className={pathname === l.href ? "is-active" : undefined}>
+              <li key={`${l.href}-${l.label}`}>
+                <Link
+                  href={l.href}
+                  className={pathname === l.href || (l.href === "/" && pathname === "/") ? "is-active" : undefined}
+                >
                   <span className="nav-link-label">{l.label}</span>
                 </Link>
               </li>
@@ -167,25 +158,23 @@ export default function Navbar({ site }) {
             <button
               type="button"
               onClick={toggleTheme}
-              className="nav-icon-btn nav-icon-btn--desktop"
+              className="nav-icon-btn nav-icon-btn--desktop nav-icon-btn--theme"
               aria-label={isDark ? t.lightMode : t.darkMode}
               title={isDark ? t.lightMode : t.darkMode}
             >
-              <ThemeIcon dark={isDark} />
-            </button>
-            <button
-              type="button"
-              onClick={toggle}
-              className="nav-lang-btn hidden xl:inline-flex"
-              aria-label="Toggle language"
-            >
-              {t.language}
+              <span aria-hidden>{isDark ? "☀️" : "🌙"}</span>
+              <span className="nav-theme-label">{t.darkMode}</span>
             </button>
             <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-gold nav-desktop-wa nav-wa-cta hidden lg:inline-flex">
+              <span aria-hidden>🟢</span>
               <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.436.002 9.861-4.417 9.864-9.858.002-2.636-1.02-5.115-2.879-6.978-1.859-1.862-4.331-2.887-6.974-2.889-5.439 0-9.864 4.417-9.868 9.86-.001 1.57.418 3.101 1.21 4.47l-.995 3.633 3.738-.979c1.378.75 2.766 1.139 4.239 1.14z" />
               </svg>
               {t.chatWhatsApp}
+            </a>
+            <a href={applyWa} target="_blank" rel="noopener noreferrer" className="nav-apply-btn hidden lg:inline-flex">
+              <span aria-hidden>🟠</span>
+              {t.applyNow}
             </a>
           </div>
         </nav>
@@ -206,12 +195,11 @@ export default function Navbar({ site }) {
         <div className="nav-mobile-drawer-head">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.png" alt={brandName} className="nav-mobile-drawer-logo" />
-          <p className="nav-mobile-drawer-tagline">{boutiqueTagline}</p>
         </div>
 
         <ul className="nav-mobile-drawer-list">
           {links.map((l, i) => (
-            <li key={l.href} style={{ "--nav-item-delay": `${i * 45}ms` }}>
+            <li key={`${l.href}-${l.label}`} style={{ "--nav-item-delay": `${i * 45}ms` }}>
               <Link href={l.href} onClick={closeMenu} className={pathname === l.href ? "is-active" : undefined} tabIndex={open ? 0 : -1}>
                 <span className="nav-mobile-link-index">{String(i + 1).padStart(2, "0")}</span>
                 <span className="nav-mobile-link-text">{l.label}</span>
@@ -241,6 +229,16 @@ export default function Navbar({ site }) {
               <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.436.002 9.861-4.417 9.864-9.858.002-2.636-1.02-5.115-2.879-6.978-1.859-1.862-4.331-2.887-6.974-2.889-5.439 0-9.864 4.417-9.868 9.86-.001 1.57.418 3.101 1.21 4.47l-.995 3.633 3.738-.979c1.378.75 2.766 1.139 4.239 1.14z" />
             </svg>
             {t.chatWhatsApp}
+          </a>
+          <a
+            href={applyWa}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={closeMenu}
+            className="nav-apply-btn w-full"
+            tabIndex={open ? 0 : -1}
+          >
+            {t.applyNow}
           </a>
         </div>
       </nav>

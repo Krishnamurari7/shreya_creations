@@ -236,7 +236,14 @@ export default function HomepageClient({
       <div className="pointer-events-none absolute top-[40%] -right-24 h-72 w-72 rounded-full bg-orange/5 blur-3xl" aria-hidden />
 
       {/* ===== HERO BANNER ===== */}
-      <HeroSection home={home} lang={lang} />
+      <HeroSection home={home} lang={lang} whatsapp={site.whatsapp} />
+
+      {/* ===== TRUST COUNTERS ===== */}
+      {trust.length > 0 && (
+        <section className="trust-stats-band page-container" aria-label={lang === "hi" ? "भरोसे के आंकड़े" : "Trust counters"}>
+          <TrustWall items={trust} localize />
+        </section>
+      )}
 
       {/* ===== QUICK CATEGORY LINKS ===== */}
       <CategoryCards lang={lang} />
@@ -372,23 +379,6 @@ export default function HomepageClient({
           </div>
           <DesignProcess steps={processSteps} />
           </div>
-        </section>
-      )}
-
-      {/* ===== TRUST STATS ===== */}
-      {trust.length > 0 && (
-        <section className="trust-stats-section page-section page-container">
-          <div className="text-center mb-8 sm:mb-12 reveal">
-            <span className="text-orange uppercase tracking-[0.25em] text-xs font-semibold">
-              {lang === "hi" ? "आंकड़ों में" : "By the Numbers"}
-            </span>
-            <h2 className="section-title mt-2 text-balance">
-              {pickPage(home, lang, "trustTitle", "trustTitleHi") ||
-                (lang === "hi" ? "हज़ारों का भरोसा" : "Trusted by Thousands")}
-            </h2>
-            <div className="hairline max-w-xs mx-auto mt-6" />
-          </div>
-          <TrustWall items={trust} localize />
         </section>
       )}
 
