@@ -279,7 +279,7 @@ export default function HomepageClient({
           />
 
           {/* Brand message + Service USP — primary focus */}
-          <div className="why-choose-pillars reveal mb-8 sm:mb-10" data-stagger>
+          <div className="why-choose-pillars reveal mb-4 sm:mb-8" data-stagger>
             <div className="why-choose-pillar why-choose-pillar--brand">
               <span className="why-choose-pillar__tag">
                 {lang === "hi" ? "ब्रांड संदेश" : "Brand Message"}
