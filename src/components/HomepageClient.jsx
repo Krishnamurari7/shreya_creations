@@ -199,12 +199,16 @@ export default function HomepageClient({
   const serviceUsp = pickServiceUsp(site);
 
   const ribbonItems = useMemo(() => {
+    const marquee = (site.heroMarquee || []).map((item) =>
+      typeof item === "string" ? item : item?.text || ""
+    ).filter(Boolean);
+    if (marquee.length >= 3) return marquee;
     const fromFeatures = whyChooseFeatures.map((f) => f.title).filter(Boolean);
     if (fromFeatures.length >= 3) return fromFeatures.slice(0, 6);
     return lang === "hi"
       ? [SITE_STATS.yearsHi, "कौशल से कारोबार तक", SITE_STATS.yearsHi, "100% प्रैक्टिकल ट्रेनिंग"]
       : [SITE_STATS.yearsEn, "From Skill to Business", SITE_STATS.yearsEn, "100% Practical Training"];
-  }, [whyChooseFeatures, lang]);
+  }, [site.heroMarquee, whyChooseFeatures, lang]);
 
 
   const founderImage = home.founderImage || "/133.png";
@@ -282,7 +286,8 @@ export default function HomepageClient({
           <div className="why-choose-pillars reveal mb-4 sm:mb-8" data-stagger>
             <div className="why-choose-pillar why-choose-pillar--brand">
               <span className="why-choose-pillar__tag">
-                {lang === "hi" ? "ब्रांड संदेश" : "Brand Message"}
+                {pickPage(home, lang, "whyChooseBrandTag", "whyChooseBrandTagHi") ||
+                  (lang === "hi" ? "ब्रांड संदेश" : "Brand Message")}
               </span>
               <p className="why-choose-pillar__headline">{brandMessage}</p>
             </div>
@@ -290,20 +295,25 @@ export default function HomepageClient({
             <div className="why-choose-pillar why-choose-pillar--usp">
               <span className="why-choose-pillar__tag why-choose-pillar__tag--usp">
                 <span className="why-choose-pillar__bolt" aria-hidden>⚡</span>
-                {lang === "hi" ? "हमारी खास सेवा" : "Our Signature Service"}
+                {pickPage(home, lang, "whyChooseUspTag", "whyChooseUspTagHi") ||
+                  (lang === "hi" ? "हमारी खास सेवा" : "Our Signature Service")}
               </span>
               <p className="why-choose-pillar__headline why-choose-pillar__headline--usp">{serviceUsp}</p>
               <p className="why-choose-pillar__hint">
-                {lang === "hi"
-                  ? "तेज़ सिलाई, प्रीमियम फिनिश — पटना में"
-                  : "Fast tailoring, premium finish — in Patna"}
+                {pickPage(home, lang, "whyChooseUspHint", "whyChooseUspHintHi") ||
+                  (lang === "hi"
+                    ? "तेज़ सिलाई, प्रीमियम फिनिश — पटना में"
+                    : "Fast tailoring, premium finish — in Patna")}
               </p>
             </div>
           </div>
 
           <div className="hidden md:block">
             <p className="why-choose-divider reveal text-center">
-              <span>{lang === "hi" ? "और भी कारण" : "Plus more reasons"}</span>
+              <span>
+                {pickPage(home, lang, "whyChooseDivider", "whyChooseDividerHi") ||
+                  (lang === "hi" ? "और भी कारण" : "Plus more reasons")}
+              </span>
             </p>
 
             <div className="features-bar mt-6 sm:mt-8">
@@ -362,7 +372,7 @@ export default function HomepageClient({
       <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
 
       {/* ===== EXPLORE CATEGORIES ===== */}
-      <ExploreCategories courses={courses} products={products} />
+      <ExploreCategories courses={courses} products={products} home={home} />
 
       {/* ===== DESIGN PROCESS ===== */}
       {processSteps.length > 0 && (
@@ -370,10 +380,12 @@ export default function HomepageClient({
           <div className="page-container">
           <div className="text-center mb-8 sm:mb-12 reveal">
             <span className="text-orange uppercase tracking-[0.25em] text-xs font-semibold">
-              {lang === "hi" ? "हमारी प्रक्रिया" : "How It Works"}
+              {pickPage(home, lang, "processEyebrow", "processEyebrowHi") ||
+                (lang === "hi" ? "हमारी प्रक्रिया" : "How It Works")}
             </span>
             <h2 className="section-title mt-2 text-balance">
-              {lang === "hi" ? "WhatsApp से डिलीवरी तक" : "From WhatsApp to Delivery"}
+              {pickPage(home, lang, "processTitle", "processTitleHi") ||
+                (lang === "hi" ? "WhatsApp से डिलीवरी तक" : "From WhatsApp to Delivery")}
             </h2>
             <div className="hairline max-w-xs mx-auto mt-6" />
           </div>

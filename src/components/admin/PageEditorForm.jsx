@@ -128,6 +128,19 @@ export function HomeTab({ home, patchPage }) {
       <BilingualField label="Title highlight" enKey="hero_title_highlight" hiKey="hero_title_highlight_hi" values={home} onChange={onChange} />
       <BilingualTextarea label="Subtitle" enKey="hero_subtitle" hiKey="hero_subtitle_hi" values={home} onChange={onChange} rows={3} />
       <BilingualField label="Button label" enKey="hero_cta_label" hiKey="hero_cta_label_hi" values={home} onChange={onChange} />
+      <BilingualField label="WhatsApp button" enKey="hero_wa_cta_label" hiKey="hero_wa_cta_label_hi" values={home} onChange={onChange} />
+      <BilingualField label="Since badge" enKey="hero_since_badge" hiKey="hero_since_badge_hi" values={home} onChange={onChange} />
+      <BilingualField label="Since text" enKey="hero_since_text" hiKey="hero_since_text_hi" values={home} onChange={onChange} />
+      <RepeaterField
+        label="Hero checklist (bullet points)"
+        items={home.hero_checklist || []}
+        onChange={(v) => onChange("hero_checklist", v)}
+        addLabel="Add item"
+        fields={[
+          { key: "text", label: "Text (EN)", wide: true },
+          { key: "text_hi", label: "Text (HI)", wide: true },
+        ]}
+      />
       <div>
         <label className={ADMIN_LABEL}>Button link</label>
         <input
@@ -168,9 +181,21 @@ export function HomeTab({ home, patchPage }) {
       <BilingualField label="Tile 2 title" enKey="hero_tile2_title" hiKey="hero_tile2_title_hi" values={home} onChange={onChange} />
       <BilingualField label="Tile 2 subtitle" enKey="hero_tile2_sub" hiKey="hero_tile2_sub_hi" values={home} onChange={onChange} />
 
+      <SectionHeading>Trust counters</SectionHeading>
+      <p className="admin-muted">
+        Counter values (17+, 2000+, etc.): edit in{" "}
+        <a href="/admin/trust" className="text-gold hover:underline">Trust wall admin</a>.
+      </p>
+      <BilingualField label="Eyebrow" enKey="trust_eyebrow" hiKey="trust_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title" enKey="trust_title" hiKey="trust_title_hi" values={home} onChange={onChange} />
+
       <SectionHeading>Why Choose Us</SectionHeading>
       <BilingualField label="Eyebrow" enKey="why_choose_eyebrow" hiKey="why_choose_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="why_choose_title" hiKey="why_choose_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="Brand pillar tag" enKey="why_choose_brand_tag" hiKey="why_choose_brand_tag_hi" values={home} onChange={onChange} />
+      <BilingualField label="USP pillar tag" enKey="why_choose_usp_tag" hiKey="why_choose_usp_tag_hi" values={home} onChange={onChange} />
+      <BilingualField label="USP hint" enKey="why_choose_usp_hint" hiKey="why_choose_usp_hint_hi" values={home} onChange={onChange} />
+      <BilingualField label="More reasons divider" enKey="why_choose_divider" hiKey="why_choose_divider_hi" values={home} onChange={onChange} />
       <RepeaterField
         label="Feature cards"
         items={home.why_choose_features || []}
@@ -262,6 +287,16 @@ export function HomeTab({ home, patchPage }) {
       <BilingualField label="Title" enKey="video_title" hiKey="video_title_hi" values={home} onChange={onChange} />
       <BilingualField label="Title highlight" enKey="video_title_highlight" hiKey="video_title_highlight_hi" values={home} onChange={onChange} />
       <BilingualTextarea label="Subtitle" enKey="video_subtitle" hiKey="video_subtitle_hi" values={home} onChange={onChange} />
+      <RepeaterField
+        label="Video perks (sidebar list)"
+        items={home.video_perks || []}
+        onChange={(v) => onChange("video_perks", v)}
+        addLabel="Add perk"
+        fields={[
+          { key: "text", label: "Text (EN)", wide: true },
+          { key: "text_hi", label: "Text (HI)", wide: true },
+        ]}
+      />
       <div>
         <label className={ADMIN_LABEL}>YouTube video URL</label>
         <input
@@ -300,6 +335,49 @@ export function HomeTab({ home, patchPage }) {
         <label className={ADMIN_LABEL}>Director photo</label>
         <ImageUploader multiple={false} value={home.mentor_image || ""} onChange={(url) => onChange("mentor_image", url)} />
       </div>
+
+      <SectionHeading>Shop Preview (Homepage)</SectionHeading>
+      <p className="admin-muted">
+        Products: <a href="/admin/products" className="text-gold hover:underline">Products admin</a>.
+      </p>
+      <BilingualField label="Eyebrow" enKey="shop_preview_eyebrow" hiKey="shop_preview_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title" enKey="shop_preview_title" hiKey="shop_preview_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title highlight" enKey="shop_preview_title_highlight" hiKey="shop_preview_title_highlight_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="shop_preview_subtitle" hiKey="shop_preview_subtitle_hi" values={home} onChange={onChange} />
+      <BilingualField label="CTA button" enKey="shop_preview_cta" hiKey="shop_preview_cta_hi" values={home} onChange={onChange} />
+      <RepeaterField
+        label="Shop perks ribbon"
+        items={home.shop_preview_perks || []}
+        onChange={(v) => onChange("shop_preview_perks", v)}
+        addLabel="Add perk"
+        fields={[
+          { key: "icon", label: "Icon", default: "✦" },
+          { key: "label", label: "Label (EN)" },
+          { key: "label_hi", label: "Label (HI)" },
+        ]}
+      />
+
+      <SectionHeading>Portfolio Preview (Homepage)</SectionHeading>
+      <p className="admin-muted">
+        Portfolio items: <a href="/admin/portfolio" className="text-gold hover:underline">Portfolio admin</a>.
+      </p>
+      <BilingualField label="Eyebrow" enKey="portfolio_preview_eyebrow" hiKey="portfolio_preview_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title" enKey="portfolio_preview_title" hiKey="portfolio_preview_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title highlight" enKey="portfolio_preview_title_highlight" hiKey="portfolio_preview_title_highlight_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="portfolio_preview_subtitle" hiKey="portfolio_preview_subtitle_hi" values={home} onChange={onChange} />
+      <BilingualField label="CTA button" enKey="portfolio_preview_cta" hiKey="portfolio_preview_cta_hi" values={home} onChange={onChange} />
+
+      <SectionHeading>Explore Categories (Homepage)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="explore_eyebrow" hiKey="explore_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title" enKey="explore_title" hiKey="explore_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="View all link" enKey="explore_view_all" hiKey="explore_view_all_hi" values={home} onChange={onChange} />
+
+      <SectionHeading>Design Process (Homepage)</SectionHeading>
+      <p className="admin-muted">
+        Process steps: edit in <a href="/admin/content" className="text-gold hover:underline">Site content</a> → Process steps (JSON).
+      </p>
+      <BilingualField label="Eyebrow" enKey="process_eyebrow" hiKey="process_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title" enKey="process_title" hiKey="process_title_hi" values={home} onChange={onChange} />
 
       <SectionHeading>Student Success</SectionHeading>
       <BilingualField label="Eyebrow" enKey="success_eyebrow" hiKey="success_eyebrow_hi" values={home} onChange={onChange} />

@@ -5,23 +5,20 @@ import CardImage from "@/components/CardImage";
 import { pickPage } from "@/lib/cms";
 
 function PortfolioSectionHeader({ home, lang }) {
-  const hasCms = pickPage(home, lang, "portfolioPreviewTitle", "portfolioPreviewTitleHi");
-  const eyebrow = hasCms
-    ? pickPage(home, lang, "portfolioPreviewEyebrow", "portfolioPreviewEyebrowHi")
-    : lang === "hi"
-      ? "हमारा काम"
-      : "Our Work";
-  const title = hasCms
-    ? pickPage(home, lang, "portfolioPreviewTitle", "portfolioPreviewTitleHi")
-    : lang === "hi"
-      ? "पोर्टफोलियो"
-      : "Portfolio";
-  const highlight = hasCms ? "" : lang === "hi" ? "झलक" : "Highlights";
-  const subtitle = hasCms
-    ? pickPage(home, lang, "portfolioPreviewSubtitle", "portfolioPreviewSubtitleHi")
-    : lang === "hi"
+  const eyebrow =
+    pickPage(home, lang, "portfolioPreviewEyebrow", "portfolioPreviewEyebrowHi") ||
+    (lang === "hi" ? "हमारा काम" : "Our Work");
+  const title =
+    pickPage(home, lang, "portfolioPreviewTitle", "portfolioPreviewTitleHi") ||
+    (lang === "hi" ? "पोर्टफोलियो" : "Portfolio");
+  const highlight =
+    pickPage(home, lang, "portfolioPreviewTitleHighlight", "portfolioPreviewTitleHighlightHi") ||
+    (lang === "hi" ? "झलक" : "Highlights");
+  const subtitle =
+    pickPage(home, lang, "portfolioPreviewSubtitle", "portfolioPreviewSubtitleHi") ||
+    (lang === "hi"
       ? "पटना एटेलियर में बने लहंगे, गाउन और ब्राइडल पीस।"
-      : "Lehengas, gowns and bridal pieces crafted at our Patna atelier.";
+      : "Lehengas, gowns and bridal pieces crafted at our Patna atelier.");
 
   return (
     <div className="text-center mb-8 sm:mb-12 px-1 reveal section-header-glass">
@@ -54,6 +51,9 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
 
   const items = portfolio.slice(0, 4);
   const categories = [...new Set(items.map((i) => i.category).filter(Boolean))];
+  const portfolioCta =
+    pickPage(home, lang, "portfolioPreviewCta", "portfolioPreviewCtaHi") ||
+    (lang === "hi" ? "पूरा पोर्टफोलियो" : "View Full Portfolio");
 
   return (
     <section className="home-portfolio-showcase page-section relative overflow-hidden">
@@ -97,7 +97,7 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
 
         <div className="text-center mt-8 sm:mt-10 reveal">
           <Link href="/portfolio" className="btn-primary inline-flex items-center gap-2 rounded-full px-8 py-3 text-xs sm:text-sm">
-            {lang === "hi" ? "पूरा पोर्टफोलियो" : "View Full Portfolio"} <span aria-hidden>→</span>
+            {portfolioCta} <span aria-hidden>→</span>
           </Link>
         </div>
       </div>

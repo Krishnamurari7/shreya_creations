@@ -5,7 +5,8 @@ import ResourceManager from "@/components/admin/ResourceManager";
 const FIELDS = [
   { name: "label", label: "Label (English)", type: "text" },
   { name: "label_hi", label: "Label (Hindi)", type: "text" },
-  { name: "value", label: "Value", type: "text" },
+  { name: "value", label: "Value (English)", type: "text" },
+  { name: "value_hi", label: "Value (Hindi)", type: "text" },
   { name: "sort_order", label: "Sort order", type: "number" },
   { name: "published", label: "Published", type: "checkbox" },
 ];

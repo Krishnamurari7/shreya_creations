@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
+import { pickPage } from "@/lib/cms";
 
 const CATEGORIES = [
   {
@@ -122,7 +123,7 @@ function countItems(cat, courses, products) {
   return count > 0 ? count : cat.fallbackCount;
 }
 
-export default function ExploreCategories({ courses = [], products = [] }) {
+export default function ExploreCategories({ courses = [], products = [], home = {} }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
 
@@ -135,9 +136,15 @@ export default function ExploreCategories({ courses = [], products = [] }) {
     [courses, products]
   );
 
-  const eyebrow = lang === "hi" ? "श्रेणियाँ देखें" : "Explore Categories";
-  const title = lang === "hi" ? "अपने लिए सही चुनें" : "Find What's Perfect for You";
-  const viewAll = lang === "hi" ? "सभी देखें" : "View All";
+  const eyebrow =
+    pickPage(home, lang, "exploreEyebrow", "exploreEyebrowHi") ||
+    (lang === "hi" ? "श्रेणियाँ देखें" : "Explore Categories");
+  const title =
+    pickPage(home, lang, "exploreTitle", "exploreTitleHi") ||
+    (lang === "hi" ? "अपने लिए सही चुनें" : "Find What's Perfect for You");
+  const viewAll =
+    pickPage(home, lang, "exploreViewAll", "exploreViewAllHi") ||
+    (lang === "hi" ? "सभी देखें" : "View All");
   const countLabel = (n, type) => {
     if (lang === "hi") {
       return type === "product" ? `${n} प्रोडक्ट` : `${n} कोर्स`;

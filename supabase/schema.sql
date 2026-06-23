@@ -89,9 +89,13 @@ create table if not exists public.trust_stats (
   label       text not null,
   label_hi    text,
   value       text not null,
+  value_hi    text,
   sort_order  int default 0,
   published   boolean default true
 );
+
+-- If trust_stats already exists without value_hi, run once in SQL Editor:
+-- alter table public.trust_stats add column if not exists value_hi text;
 
 create table if not exists public.faqs (
   id          uuid primary key default gen_random_uuid(),

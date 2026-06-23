@@ -9,23 +9,20 @@ import { waLink } from "@/lib/whatsapp";
 const HOME_SHOP_LIMIT = 5;
 
 function ShopSectionHeader({ home, lang }) {
-  const hasCms = pickPage(home, lang, "shopPreviewTitle", "shopPreviewTitleHi");
-  const eyebrow = hasCms
-    ? pickPage(home, lang, "shopPreviewEyebrow", "shopPreviewEyebrowHi")
-    : lang === "hi"
-      ? "बुटीक शॉप"
-      : "Boutique Shop";
-  const title = hasCms
-    ? pickPage(home, lang, "shopPreviewTitle", "shopPreviewTitleHi")
-    : lang === "hi"
-      ? "क्यूरेटेड"
-      : "Curated";
-  const highlight = hasCms ? "" : lang === "hi" ? "कउचर" : "Couture";
-  const subtitle = hasCms
-    ? pickPage(home, lang, "shopPreviewSubtitle", "shopPreviewSubtitleHi")
-    : lang === "hi"
+  const eyebrow =
+    pickPage(home, lang, "shopPreviewEyebrow", "shopPreviewEyebrowHi") ||
+    (lang === "hi" ? "बुटीक शॉप" : "Boutique Shop");
+  const title =
+    pickPage(home, lang, "shopPreviewTitle", "shopPreviewTitleHi") ||
+    (lang === "hi" ? "क्यूरेटेड" : "Curated");
+  const highlight =
+    pickPage(home, lang, "shopPreviewTitleHighlight", "shopPreviewTitleHighlightHi") ||
+    (lang === "hi" ? "कउचर" : "Couture");
+  const subtitle =
+    pickPage(home, lang, "shopPreviewSubtitle", "shopPreviewSubtitleHi") ||
+    (lang === "hi"
       ? "कलेक्शन देखें और WhatsApp पर अपने माप पर ऑर्डर करें।"
-      : "Browse the collection and order stitched to your size on WhatsApp.";
+      : "Browse the collection and order stitched to your size on WhatsApp.");
 
   return (
     <div className="home-shop-showcase__header reveal">
@@ -140,11 +137,24 @@ export default function HomeShopPreview({ products = [], home = {}, lang = "en",
 
   if (!products.length) return null;
 
-  const perks = [
-  { icon: "📏", label: lang === "hi" ? "आपके माप पर" : "Custom Fit" },
-  { icon: "⚡", label: lang === "hi" ? "24 घंटे सिलाई" : "24hr Stitching" },
-  { icon: "💬", label: lang === "hi" ? "WhatsApp ऑर्डर" : "WhatsApp Order" },
+  const perks = (home.shopPreviewPerks || []).map((perk) => ({
+    icon: perk.icon || "✦",
+    label:
+      lang === "hi" && (perk.label_hi || perk.labelHi)
+        ? perk.label_hi || perk.labelHi
+        : perk.label || "",
+  })).filter((p) => p.label);
+
+  const defaultPerks = [
+    { icon: "📏", label: lang === "hi" ? "आपके माप पर" : "Custom Fit" },
+    { icon: "⚡", label: lang === "hi" ? "24 घंटे सिलाई" : "24hr Stitching" },
+    { icon: "💬", label: lang === "hi" ? "WhatsApp ऑर्डर" : "WhatsApp Order" },
   ];
+
+  const ribbonPerks = perks.length ? perks : defaultPerks;
+  const shopCta =
+    pickPage(home, lang, "shopPreviewCta", "shopPreviewCtaHi") ||
+    (lang === "hi" ? "पूरी शॉप देखें" : "Explore Full Collection");
 
   return (
     <section className="home-shop-showcase page-section relative overflow-hidden">
@@ -201,7 +211,7 @@ export default function HomeShopPreview({ products = [], home = {}, lang = "en",
           )}
 
           <div className="home-shop-showcase__ribbon" aria-hidden>
-            {perks.map((perk) => (
+            {ribbonPerks.map((perk) => (
               <span key={perk.label} className="home-shop-showcase__ribbon-item">
                 <span className="home-shop-showcase__ribbon-icon">{perk.icon}</span>
                 {perk.label}
@@ -212,7 +222,7 @@ export default function HomeShopPreview({ products = [], home = {}, lang = "en",
 
         <div className="home-shop-showcase__footer reveal">
           <Link href="/shop" className="home-shop-showcase__cta">
-            <span>{lang === "hi" ? "पूरी शॉप देखें" : "Explore Full Collection"}</span>
+            <span>{shopCta}</span>
             <span className="home-shop-showcase__cta-arrow" aria-hidden>→</span>
           </Link>
           <p className="home-shop-showcase__footer-note">

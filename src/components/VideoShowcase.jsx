@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
@@ -115,10 +115,15 @@ export default function VideoShowcase({ home, embedUrl }) {
   const subtitle = pickPage(home, lang, "videoSubtitle", "videoSubtitleHi");
   const videoTitle = title || "Studio Video";
 
-  const perks =
-    lang === "hi"
+  const perks = useMemo(() => {
+    const fromCms = (home.videoPerks || [])
+      .map((p) => (lang === "hi" && (p.text_hi || p.textHi) ? p.text_hi || p.textHi : p.text))
+      .filter(Boolean);
+    if (fromCms.length) return fromCms;
+    return lang === "hi"
       ? ["स्टूडियो टूर", "लाइव सिलाई डेमो", "मेंटर से मिलें"]
       : ["Studio tour", "Live stitching demo", "Meet the mentors"];
+  }, [home.videoPerks, lang]);
 
   return (
     <section id="video-showcase" className="video-showcase-section page-section relative overflow-hidden">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import HeroBackgroundSlider from "@/components/HeroBackgroundSlider";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
@@ -8,39 +8,49 @@ import { pickPage } from "@/lib/cms";
 
 const AUTOPLAY_MS = 5500;
 
-const HERO_SLIDES = ["/slider1.png", "/slider2.png", "/slider3.png", "/slider4.png"];
+const HERO_SLIDES_FALLBACK = ["/slider1.png", "/slider2.png", "/slider3.png", "/slider4.png"];
 
-const CHECKLIST_EN = [
+const CHECKLIST_FALLBACK_EN = [
   "Fashion Designing Course",
   "Boutique Mastery Course",
   "NIFT • NID • UCEED Coaching",
   "Certificate + Placement Support",
 ];
 
-const CHECKLIST_HI = [
+const CHECKLIST_FALLBACK_HI = [
   "फैशन डिज़ाइनिंग कोर्स",
   "बुटीक मास्टरी कोर्स",
   "NIFT • NID • UCEED कोचिंग",
   "सर्टिफिकेट + प्लेसमेंट सपोर्ट",
 ];
 
-const HERO_TITLE_EN = {
+const HERO_TITLE_FALLBACK_EN = {
   part1: "Luxury Boutique",
   part2: "Fashion Institute",
   part3: "NIFT / NID / UCEED Coaching",
 };
 
-const HERO_TITLE_HI = {
+const HERO_TITLE_FALLBACK_HI = {
   part1: "लक्ज़री बुटीक",
   part2: "फैशन इंस्टिट्यूट",
   part3: "NIFT / NID / UCEED कोचिंग",
 };
 
+function pickChecklistItem(item, lang) {
+  if (lang === "hi" && (item.text_hi || item.textHi)) return item.text_hi || item.textHi;
+  return item.text || "";
+}
+
 export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const slides = HERO_SLIDES;
+  const slides = useMemo(() => {
+    const imgs = home.heroImages;
+    if (Array.isArray(imgs) && imgs.length) return imgs.filter(Boolean);
+    return HERO_SLIDES_FALLBACK;
+  }, [home.heroImages]);
+
   const count = slides.length;
 
   const goTo = useCallback(
@@ -58,16 +68,37 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
   }, [count, paused]);
 
   const heroCtaHref = home.heroCtaHref || "/contact";
-  const checklist = lang === "hi" ? CHECKLIST_HI : CHECKLIST_EN;
+  const checklist = useMemo(() => {
+    const fromCms = (home.heroChecklist || []).map((item) => pickChecklistItem(item, lang)).filter(Boolean);
+    if (fromCms.length) return fromCms;
+    return lang === "hi" ? CHECKLIST_FALLBACK_HI : CHECKLIST_FALLBACK_EN;
+  }, [home.heroChecklist, lang]);
+
   const waChat = waLink(whatsapp, greetingMessage());
 
-  const titleParts = lang === "hi" ? HERO_TITLE_HI : HERO_TITLE_EN;
+  const titleFallback = lang === "hi" ? HERO_TITLE_FALLBACK_HI : HERO_TITLE_FALLBACK_EN;
   const heroPart1 =
-    pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") || titleParts.part1;
+    pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") || titleFallback.part1;
   const heroPart2 =
-    pickPage(home, lang, "heroTitleLine2", "heroTitleLine2Hi") || titleParts.part2;
+    pickPage(home, lang, "heroTitleLine2", "heroTitleLine2Hi") || titleFallback.part2;
   const heroPart3 =
-    pickPage(home, lang, "heroTitleHighlight", "heroTitleHighlightHi") || titleParts.part3;
+    pickPage(home, lang, "heroTitleHighlight", "heroTitleHighlightHi") || titleFallback.part3;
+
+  const heroBadge =
+    pickPage(home, lang, "heroBadge", "heroBadgeHi") ||
+    (lang === "hi" ? "📍 पटना, बिहार" : "📍 PATNA, BIHAR");
+  const sinceBadge =
+    pickPage(home, lang, "heroSinceBadge", "heroSinceBadgeHi") ||
+    (lang === "hi" ? "2007 से" : "Since 2007");
+  const sinceText =
+    pickPage(home, lang, "heroSinceText", "heroSinceTextHi") ||
+    (lang === "hi" ? "17+ वर्षों का अनुभव" : "17+ Years Experience");
+  const ctaLabel =
+    pickPage(home, lang, "heroCtaLabel", "heroCtaLabelHi") ||
+    (lang === "hi" ? "एडमिशन खुला" : "Admission Open");
+  const waCtaLabel =
+    pickPage(home, lang, "heroWaCtaLabel", "heroWaCtaLabelHi") ||
+    (lang === "hi" ? "WhatsApp अभी" : "WhatsApp Now");
 
   return (
     <section
@@ -94,7 +125,7 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
             <div className="home-hero__copy-panel w-full min-w-0">
               <span className="anim-rise home-hero__badge">
                 <span className="home-hero__badge-dot" aria-hidden />
-                {lang === "hi" ? "📍 पटना, बिहार" : "📍 PATNA, BIHAR"}
+                {heroBadge}
               </span>
 
               <h1 className="anim-rise anim-delay-1 home-hero__title home-hero__title--highlighted text-balance">
@@ -116,13 +147,9 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
               </div>
 
               <p className="anim-rise anim-delay-2 home-hero__since">
-                <span className="home-hero__since-badge">
-                  {lang === "hi" ? "2007 से" : "Since 2007"}
-                </span>
+                <span className="home-hero__since-badge">{sinceBadge}</span>
                 <span className="home-hero__since-dot" aria-hidden>•</span>
-                <span className="home-hero__since-text">
-                  {lang === "hi" ? "17+ वर्षों का अनुभव" : "17+ Years Experience"}
-                </span>
+                <span className="home-hero__since-text">{sinceText}</span>
               </p>
 
               <ul className="anim-rise anim-delay-2 home-hero__checklist home-hero__checklist--card mx-auto md:mx-0 w-full max-w-xl">
@@ -139,7 +166,7 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
                   href={heroCtaHref}
                   className="btn-primary home-hero__cta-primary home-hero__cta-primary--bold inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
                 >
-                  {lang === "hi" ? "एडमिशन खुला" : "Admission Open"}
+                  {ctaLabel}
                   <span className="home-hero__cta-arrow" aria-hidden>→</span>
                 </Link>
                 <a
@@ -149,7 +176,7 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
                   className="home-hero__cta-wa inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
                 >
                   <span className="home-hero__wa-icon" aria-hidden>🟢</span>
-                  {lang === "hi" ? "WhatsApp अभी" : "WhatsApp Now"}
+                  {waCtaLabel}
                 </a>
               </div>
             </div>
