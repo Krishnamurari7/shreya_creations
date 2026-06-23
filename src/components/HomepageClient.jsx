@@ -231,7 +231,7 @@ export default function HomepageClient({
   const videoEmbedUrl = toYoutubeEmbedUrl(home.videoUrl);
 
   return (
-    <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip bg-cream">
+    <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
       <div className="pointer-events-none absolute top-32 -left-20 h-64 w-64 rounded-full bg-orange/6 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute top-[40%] -right-24 h-72 w-72 rounded-full bg-orange/5 blur-3xl" aria-hidden />
 
