@@ -4,9 +4,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import ContactForm from "@/components/ContactForm";
 import ContactInfoCards from "@/components/ContactInfoCards";
 import SectionHeading from "@/components/SectionHeading";
-import AmbientGlows from "@/components/AmbientGlows";
 import { useLanguage } from "@/components/LanguageProvider";
 import { fadeUp } from "@/lib/motion";
+import { telLink } from "@/lib/whatsapp";
 
 const COPY = {
   en: {
@@ -14,30 +14,20 @@ const COPY = {
     quickCall: "Call",
     quickEmail: "Email",
     quickDirections: "Directions",
-    mapEyebrow: "Visit us",
-    mapTitle: "Find our studio",
-    mapSubtitle: "Walk in for fittings, fabric selection, or course enquiries.",
+    quickFacebook: "Facebook",
     reachEyebrow: "Get in touch",
     reachTitle: "We're here to help",
     reachSubtitle: "Choose your preferred channel — we typically reply within minutes during studio hours.",
-    formEyebrow: "Send a message",
-    formTitle: "Write to us",
-    formSubtitle: "Fill in your details and we'll open WhatsApp with your enquiry ready to send.",
   },
   hi: {
     quickWhatsApp: "WhatsApp",
     quickCall: "कॉल",
     quickEmail: "ईमेल",
     quickDirections: "रास्ता",
-    mapEyebrow: "हमसे मिलें",
-    mapTitle: "स्टूडियो खोजें",
-    mapSubtitle: "फिटिंग, फैब्रिक चुनाव या कोर्स की जानकारी के लिए आएं।",
+    quickFacebook: "Facebook",
     reachEyebrow: "संपर्क करें",
     reachTitle: "हम मदद के लिए यहाँ हैं",
     reachSubtitle: "अपना तरीका चुनें — स्टूडियो के समय में मिनटों में जवाब मिलता है।",
-    formEyebrow: "संदेश भेजें",
-    formTitle: "हमें लिखें",
-    formSubtitle: "अपनी जानकारी भरें — WhatsApp आपके संदेश के साथ खुलेगा।",
   },
 };
 
@@ -63,6 +53,8 @@ export default function ContactPageSections({ site, wa }) {
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`
     : site.mapEmbedUrl;
 
+  const phoneHref = telLink(site.phone);
+
   const quickActions = [
     {
       key: "wa",
@@ -78,8 +70,8 @@ export default function ContactPageSections({ site, wa }) {
     },
     {
       key: "phone",
-      show: !!site.phone,
-      href: `tel:${site.phone}`,
+      show: !!phoneHref,
+      href: phoneHref,
       label: t.quickCall,
       icon: (
         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -110,6 +102,18 @@ export default function ContactPageSections({ site, wa }) {
         </svg>
       ),
     },
+    {
+      key: "facebook",
+      show: !!site.socials?.facebook,
+      href: site.socials?.facebook,
+      external: true,
+      label: t.quickFacebook,
+      icon: (
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg>
+      ),
+    },
   ].filter((a) => a.show);
 
   return (
@@ -117,7 +121,7 @@ export default function ContactPageSections({ site, wa }) {
       {quickActions.length > 0 && (
         <section className="page-container max-w-6xl pb-4 sm:pb-6 relative z-20">
           <motion.div
-            className="contact-quick-bar reveal"
+            className="contact-quick-bar"
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
             custom={0}
@@ -130,84 +134,34 @@ export default function ContactPageSections({ site, wa }) {
         </section>
       )}
 
-      {site.mapEmbedUrl && (
-        <section className="page-container max-w-6xl pb-8 sm:pb-10 lg:pb-12 relative z-20 overflow-hidden">
-          <AmbientGlows variant="subtle" />
-          <SectionHeading
-            eyebrow={t.mapEyebrow}
-            title={t.mapTitle}
-            subtitle={t.mapSubtitle}
-            className="mb-6 sm:mb-8"
-          />
-          <motion.div
-            className="contact-map-frame reveal"
-            initial={reduceMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            custom={0.1}
-            variants={fadeUp}
-          >
-            <iframe
-              src={site.mapEmbedUrl}
-              title="Map"
-              className="w-full h-full border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            {site.address && (
-              <div className="contact-map-overlay">
-                <span className="contact-card-label">{lang === "hi" ? "स्टूडियो" : "Studio"}</span>
-                <p className="text-xs sm:text-sm text-ink mt-1 font-normal leading-relaxed">{site.address}</p>
-                {directionsUrl && (
-                  <a
-                    href={directionsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact-card-link mt-2 inline-flex text-xs"
-                  >
-                    {t.quickDirections} <span aria-hidden>→</span>
-                  </a>
-                )}
-              </div>
-            )}
-          </motion.div>
-        </section>
-      )}
-
-      <section className="page-container max-w-6xl pb-10 sm:pb-14 lg:pb-16 relative z-20 overflow-hidden">
-        <AmbientGlows variant="default" />
+      <section className="page-container max-w-6xl pb-10 sm:pb-14 lg:pb-16 relative z-20">
         <SectionHeading
           eyebrow={t.reachEyebrow}
           title={t.reachTitle}
           subtitle={t.reachSubtitle}
-          className="mb-8 sm:mb-10 lg:mb-12"
+          className="mb-6 sm:mb-8 lg:mb-12"
         />
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-start min-w-0 w-full">
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 items-start min-w-0 w-full">
           <motion.div
-            className="lg:col-span-5 xl:col-span-5 order-2 lg:order-1 min-w-0 w-full"
+            className="lg:col-span-5 xl:col-span-5 order-1 min-w-0 w-full"
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}
             custom={0.15}
             variants={fadeUp}
           >
-            <ContactInfoCards site={site} wa={wa} />
+            <ContactInfoCards site={site} wa={wa} directionsUrl={directionsUrl} directionsLabel={t.quickDirections} />
           </motion.div>
 
           <motion.div
-            className="lg:col-span-7 xl:col-span-7 order-1 lg:order-2 lg:sticky lg:top-[calc(var(--header-offset)+1.5rem)] min-w-0 w-full"
+            className="lg:col-span-7 xl:col-span-7 order-2 lg:sticky lg:top-[calc(var(--header-offset)+1.5rem)] min-w-0 w-full"
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}
             custom={0.25}
             variants={fadeUp}
           >
-            <div className="mb-5 sm:mb-6 text-center lg:text-left lg:hidden">
-              <span className="section-eyebrow">{t.formEyebrow}</span>
-              <h2 className="section-title mt-2 text-balance">{t.formTitle}</h2>
-              <p className="mt-2 text-muted text-sm leading-relaxed">{t.formSubtitle}</p>
-            </div>
             <ContactForm number={site.whatsapp} />
           </motion.div>
         </div>

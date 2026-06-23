@@ -8,6 +8,14 @@ export function waLink(number, message) {
   return `https://wa.me/${n}?text=${encodeURIComponent(message)}`;
 }
 
+/** First dialable number from a display string like "+91 91175 55125 / 95073 63125". */
+export function telLink(phone) {
+  if (!phone?.trim()) return null;
+  const first = phone.split(/\s*[/|,]\s*|\s+or\s+/i)[0].trim();
+  const digits = first.replace(/[^\d+]/g, "");
+  return digits ? `tel:${digits}` : null;
+}
+
 export function productMessage(product, url) {
   const price = product.price ? ` (₹${product.price})` : "";
   const custom = product.whatsapp_text;

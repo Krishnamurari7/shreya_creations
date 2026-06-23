@@ -84,7 +84,7 @@ export default function ContactForm({ number }) {
   return (
     <Glass3DCard
       layered
-      className="contact-form-card rounded-2xl sm:rounded-[2rem] p-5 sm:p-7 md:p-9 border-orange/20 shadow-2xl relative overflow-hidden reveal interactive-card"
+      className="contact-form-card rounded-2xl sm:rounded-[2rem] p-4 sm:p-7 md:p-9 border-orange/20 shadow-2xl relative overflow-hidden reveal interactive-card"
     >
       <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-orange/8 blur-3xl pointer-events-none z-0" aria-hidden />
       <div className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-orange/6 blur-2xl pointer-events-none z-0" aria-hidden />

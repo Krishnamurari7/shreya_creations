@@ -1,10 +1,16 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 export const DEFAULT_COURSE_PDF =
   "/courses/pdfs/Basic suit and  Blouse Course.pdf";
+
+const CoursePdfCanvas = dynamic(() => import("@/components/CoursePdfCanvas"), {
+  ssr: false,
+  loading: () => null,
+});
 
 function encodePdfPath(url = "") {
   if (!url) return url;
@@ -17,13 +23,30 @@ function encodePdfPath(url = "") {
   return `${encoded}${hash}`;
 }
 
-export function coursePdfUrl() {
-  return encodePdfPath(DEFAULT_COURSE_PDF);
+export function coursePdfUrl(pdfPath) {
+  const path = pdfPath || DEFAULT_COURSE_PDF;
+  const normalized = path.startsWith("http") || path.startsWith("/") ? path : `/${path}`;
+  return encodePdfPath(normalized);
+}
+
+function useMobilePdfViewer() {
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px), (hover: none) and (pointer: coarse)");
+    const update = () => setMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return mobile;
 }
 
 export default function CoursePdfModal({ open, onClose, title, pdfUrl, lang = "en" }) {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const useCanvasViewer = useMobilePdfViewer();
 
   const close = useCallback(() => {
     onClose?.();
@@ -52,7 +75,7 @@ export default function CoursePdfModal({ open, onClose, title, pdfUrl, lang = "e
 
   useEffect(() => {
     if (open) setLoading(true);
-  }, [open, pdfUrl]);
+  }, [open, pdfUrl, useCanvasViewer]);
 
   if (!mounted || !open) return null;
 
@@ -60,6 +83,7 @@ export default function CoursePdfModal({ open, onClose, title, pdfUrl, lang = "e
     close: lang === "hi" ? "बंद करें" : "Close",
     heading: lang === "hi" ? "कोर्स विवरण PDF" : "Course Details PDF",
     loading: lang === "hi" ? "PDF लोड हो रही है…" : "Loading PDF…",
+    openExternal: lang === "hi" ? "ब्राउज़र में खोलें" : "Open in browser",
   };
 
   const viewerSrc = `${pdfUrl}#toolbar=0&navpanes=0&statusbar=0&messages=0&view=Fit`;
@@ -85,6 +109,19 @@ export default function CoursePdfModal({ open, onClose, title, pdfUrl, lang = "e
               {title}
             </h2>
           </div>
+
+          {useCanvasViewer && (
+            <div className="course-pdf-modal__actions">
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="course-pdf-modal__link"
+              >
+                {t.openExternal}
+              </a>
+            </div>
+          )}
         </header>
 
         <div className="course-pdf-modal__viewer">
@@ -95,12 +132,22 @@ export default function CoursePdfModal({ open, onClose, title, pdfUrl, lang = "e
             </div>
           )}
 
-          <iframe
-            src={viewerSrc}
-            title={title}
-            className="course-pdf-modal__iframe"
-            onLoad={() => setLoading(false)}
-          />
+          {useCanvasViewer ? (
+            <CoursePdfCanvas
+              pdfUrl={pdfUrl}
+              title={title}
+              lang={lang}
+              onLoad={() => setLoading(false)}
+              onError={() => setLoading(false)}
+            />
+          ) : (
+            <iframe
+              src={viewerSrc}
+              title={title}
+              className="course-pdf-modal__iframe"
+              onLoad={() => setLoading(false)}
+            />
+          )}
         </div>
       </div>
     </div>,

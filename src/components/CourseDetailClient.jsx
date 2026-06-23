@@ -187,7 +187,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
 
   const pageUrl = usePageUrl();
   const enrollUrl = waLink(site.whatsapp, courseMessage(course, pageUrl, lang));
-  const pdfUrl = coursePdfUrl();
+  const pdfUrl = coursePdfUrl(course.course_pdf ?? course.coursePdf);
   const showPdf = course.show_pdf !== false;
 
   const t = {

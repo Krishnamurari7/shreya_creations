@@ -14,6 +14,7 @@ export default async function AboutPage() {
   return (
     <PageShell>
       <LocalizedPageHeader
+        compact
         eyebrow={about.headerEyebrow || "Our Story"}
         eyebrowHi={about.headerEyebrowHi || "हमारी कहानी"}
         title={about.headerTitle || "About Shreya Creation"}

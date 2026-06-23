@@ -3,6 +3,7 @@
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
+import { telLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const COPY = {
@@ -17,6 +18,9 @@ const COPY = {
     instagram: "Instagram",
     instagramDesc: "Latest custom bridal fittings and lookbook reels.",
     instagramCta: "Follow us",
+    facebook: "Facebook",
+    facebookDesc: "Course updates, student stories & studio news.",
+    facebookCta: "Like our page",
   },
   hi: {
     whatsapp: "WhatsApp",
@@ -29,6 +33,9 @@ const COPY = {
     instagram: "Instagram",
     instagramDesc: "नवीनतम ब्राइडल फिटिंग और लुकबुक रील्स।",
     instagramCta: "फ़ॉलो करें",
+    facebook: "Facebook",
+    facebookDesc: "कोर्स अपडेट, छात्रों की कहानियाँ और स्टूडियो न्यूज़।",
+    facebookCta: "पेज लाइक करें",
   },
 };
 
@@ -45,13 +52,15 @@ function IconBox({ children, className }) {
   );
 }
 
-export default function ContactInfoCards({ site, wa }) {
+export default function ContactInfoCards({ site, wa, directionsUrl, directionsLabel }) {
   const { lang } = useLanguage();
   const t = COPY[lang] || COPY.en;
 
   const instagramHandle = site.socials?.instagram
     ? site.socials.instagram.replace(/.*instagram\.com\//, "@").replace(/\/$/, "")
     : "@shreya.creationss";
+
+  const phoneHref = telLink(site.phone);
 
   return (
     <div className="contact-bento" data-stagger>
@@ -80,10 +89,10 @@ export default function ContactInfoCards({ site, wa }) {
       </Glass3DCard>
 
       <div className="contact-bento-grid">
-        {site.phone && (
+        {phoneHref && (
           <Glass3DCard
             layered
-            href={`tel:${site.phone}`}
+            href={phoneHref}
             className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col group reveal interactive-card min-h-[8.5rem]"
             style={staggerDelay(1, 80)}
           >
@@ -122,47 +131,96 @@ export default function ContactInfoCards({ site, wa }) {
       {site.address && (
         <Glass3DCard
           layered
-          className="contact-bento-address rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex gap-4 sm:gap-5 group reveal interactive-card"
+          className="contact-bento-address rounded-2xl sm:rounded-3xl p-5 sm:p-6 group reveal interactive-card"
           style={staggerDelay(3, 80)}
         >
-          <IconBox className="h-12 w-12 rounded-2xl bg-orange/10">
-            <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </IconBox>
-          <div className="min-w-0">
-            <h3 className="contact-card-label">{t.address}</h3>
-            <p className="text-sm text-ink font-normal leading-relaxed mt-1">{site.address}</p>
-            <span className="contact-hours-chip mt-3">{t.hours}</span>
+          <div className="flex gap-4 sm:gap-5">
+            <IconBox className="h-12 w-12 rounded-2xl bg-orange/10 shrink-0">
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </IconBox>
+            <div className="min-w-0 flex-1">
+              <h3 className="contact-card-label">{t.address}</h3>
+              <p className="text-sm text-ink font-normal leading-relaxed mt-1">{site.address}</p>
+              <span className="contact-hours-chip mt-3">{t.hours}</span>
+            </div>
           </div>
+
+          {site.mapEmbedUrl && (
+            <div className="contact-map-frame mt-4 sm:mt-5">
+              <iframe
+                src={site.mapEmbedUrl}
+                title="Studio location map"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          )}
+
+          {directionsUrl && (
+            <a
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-card-link mt-3 inline-flex text-sm"
+            >
+              {directionsLabel || "Directions"} <span aria-hidden>→</span>
+            </a>
+          )}
         </Glass3DCard>
       )}
 
-      {site.socials?.instagram && (
-        <Glass3DCard
-          layered
-          href={site.socials.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex items-start gap-4 sm:gap-5 group reveal interactive-card"
-          style={staggerDelay(4, 80)}
-        >
-          <IconBox className="h-12 w-12 rounded-2xl bg-orange/10">
-            <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-            </svg>
-          </IconBox>
-          <div className="flex-1 min-w-0">
-            <h3 className="contact-card-label">{t.instagram}</h3>
-            <p className="text-sm text-muted font-normal mt-1 leading-relaxed">{t.instagramDesc}</p>
-            <span className="contact-card-link mt-3 inline-flex">
-              {instagramHandle} <span aria-hidden>→</span>
-            </span>
-          </div>
-        </Glass3DCard>
+      {(site.socials?.instagram || site.socials?.facebook) && (
+        <div className="contact-bento-grid">
+          {site.socials?.instagram && (
+            <Glass3DCard
+              layered
+              href={site.socials.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col group reveal interactive-card min-h-[8.5rem]"
+              style={staggerDelay(4, 80)}
+            >
+              <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </IconBox>
+              <h3 className="contact-card-label">{t.instagram}</h3>
+              <p className="text-sm text-muted font-normal mt-1 leading-relaxed">{t.instagramDesc}</p>
+              <span className="contact-card-link mt-auto pt-3 inline-flex">
+                {instagramHandle} <span aria-hidden>→</span>
+              </span>
+            </Glass3DCard>
+          )}
+
+          {site.socials?.facebook && (
+            <Glass3DCard
+              layered
+              href={site.socials.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col group reveal interactive-card min-h-[8.5rem]"
+              style={staggerDelay(5, 80)}
+            >
+              <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </IconBox>
+              <h3 className="contact-card-label">{t.facebook}</h3>
+              <p className="text-sm text-muted font-normal mt-1 leading-relaxed">{t.facebookDesc}</p>
+              <span className="contact-card-link mt-auto pt-3 inline-flex">
+                {t.facebookCta} <span aria-hidden>→</span>
+              </span>
+            </Glass3DCard>
+          )}
+        </div>
       )}
     </div>
   );

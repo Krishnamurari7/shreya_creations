@@ -16,6 +16,90 @@ import TeamSection from "@/components/TeamSection";
 
 const PILLAR_ACCENTS = ["border-orange/25", "border-gold/30", "border-orange/20"];
 
+const JOURNEY = [
+  {
+    year: "2007",
+    titleEn: "Founded in Patna",
+    titleHi: "पटना में स्थापना",
+    descEn: "Started with a vision to empower women through fashion skills.",
+    descHi: "फैशन कौशल से महिलाओं को सशक्त बनाने की दृष्टि के साथ शुरुआत।",
+    icon: "🏛️",
+  },
+  {
+    year: "2000+",
+    titleEn: "Students Trained",
+    titleHi: "छात्र प्रशिक्षित",
+    descEn: "Thousands of learners turned skill into self-employment.",
+    descHi: "हज़ारों छात्राओं ने कौशल को स्वरोजगार में बदला।",
+    icon: "🎓",
+  },
+  {
+    year: "10",
+    titleEn: "Professional Courses",
+    titleHi: "प्रोफेशनल कोर्स",
+    descEn: "Boutique, blouse, suit, kids wear, fashion design & lehenga.",
+    descHi: "बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा।",
+    icon: "📚",
+  },
+  {
+    year: "24hr",
+    titleEn: "Stitching Service",
+    titleHi: "सिलाई सेवा",
+    descEn: "Custom outfits delivered within a day for urgent needs.",
+    descHi: "जरूरी ऑर्डर के लिए एक दिन में कस्टम परिधान।",
+    icon: "⚡",
+  },
+];
+
+const QUICK_LINKS = [
+  {
+    href: "/courses",
+    emoji: "🎓",
+    titleEn: "Courses",
+    titleHi: "कोर्स",
+    subEn: "10 job-oriented programs",
+    subHi: "10 जॉब ओरिएंटेड प्रोग्राम",
+    accent: "orange",
+  },
+  {
+    href: "/shop",
+    emoji: "👗",
+    titleEn: "Boutique Shop",
+    titleHi: "बुटीक शॉप",
+    subEn: "Designer wear & fabrics",
+    subHi: "डिज़ाइनर वियर और फैब्रिक",
+    accent: "gold",
+  },
+  {
+    href: "/portfolio",
+    emoji: "✨",
+    titleEn: "Portfolio",
+    titleHi: "पोर्टफोलियो",
+    subEn: "Our finest creations",
+    subHi: "हमारी बेहतरीन रचनाएँ",
+    accent: "orange",
+  },
+  {
+    href: "/contact",
+    emoji: "💬",
+    titleEn: "Contact",
+    titleHi: "संपर्क",
+    subEn: "Visit or WhatsApp us",
+    subHi: "विज़िट करें या WhatsApp करें",
+    accent: "gold",
+  },
+];
+
+function viewProps(reduceMotion, delay = 0) {
+  return {
+    initial: reduceMotion ? false : "hidden",
+    whileInView: "visible",
+    viewport: { once: true, margin: "-40px" },
+    custom: delay,
+    variants: fadeUp,
+  };
+}
+
 export default function AboutClient({ site, trust, pillars, aboutPage }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
@@ -40,6 +124,9 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
   const valuesEyebrow = lang === "hi" ? "हमारे मूल्य" : "Our values";
   const numbersEyebrow = lang === "hi" ? "आंकड़ों में" : "By the numbers";
   const storyEyebrow = lang === "hi" ? "हमारी कहानी" : "Our Story";
+  const journeyEyebrow = lang === "hi" ? "हमारी यात्रा" : "Our Journey";
+  const journeyTitle = lang === "hi" ? "वर्षों का भरोसा" : "Years of Trust";
+  const exploreEyebrow = lang === "hi" ? "और जानें" : "Explore more";
 
   const statChips = [
     {
@@ -49,7 +136,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
     },
     {
       icon: "🎓",
-      value: lang === "hi" ? "2000+" : "2000+",
+      value: "2000+",
       label: lang === "hi" ? "छात्र प्रशिक्षित" : "Students trained",
     },
     {
@@ -64,21 +151,17 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
     home.mentorImage || "/hero_studio_banner.png",
   ];
 
-  return (
-    <>
-      {/* ——— Hero story ——— */}
-      <section className="about-hero page-container max-w-6xl py-6 sm:py-10 lg:py-14 relative z-20 overflow-hidden min-w-0 w-full">
-        <AmbientGlows />
-        <div
-          className="pointer-events-none absolute -top-16 right-0 h-56 w-56 rounded-full bg-orange/8 blur-3xl"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute bottom-0 -left-20 h-48 w-48 rounded-full bg-gold/6 blur-3xl"
-          aria-hidden
-        />
+  const ribbonItems = (site.heroMarquee || []).slice(0, 6);
 
-        <div className="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center">
+  return (
+    <div className="about-page relative min-w-0 w-full">
+      {/* ——— Hero story ——— */}
+      <section className="about-hero page-container max-w-6xl py-5 sm:py-8 lg:py-12 relative z-20 overflow-hidden min-w-0 w-full">
+        <AmbientGlows />
+        <div className="pointer-events-none absolute -top-16 right-0 h-56 w-56 rounded-full bg-orange/8 blur-3xl" aria-hidden />
+        <div className="pointer-events-none absolute bottom-0 -left-20 h-48 w-48 rounded-full bg-gold/6 blur-3xl" aria-hidden />
+
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 xl:gap-14 items-center">
           <motion.div
             className="lg:col-span-5 relative flex justify-center order-1 lg:order-none min-w-0"
             initial={reduceMotion ? false : "hidden"}
@@ -119,7 +202,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
               )}
 
               <motion.span
-                className="about-hero__float-chip about-hero__float-chip--top hidden sm:inline-flex"
+                className="about-hero__float-chip about-hero__float-chip--top"
                 initial={reduceMotion ? false : { opacity: 0, x: 12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
@@ -131,7 +214,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-7 space-y-5 sm:space-y-6 text-center lg:text-left order-2 lg:order-none min-w-0"
+            className="lg:col-span-7 space-y-4 sm:space-y-5 lg:space-y-6 text-center lg:text-left order-2 lg:order-none min-w-0"
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
             custom={0.25}
@@ -151,7 +234,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
             <div className="hairline max-w-xs mx-auto lg:mx-0 lg:max-w-sm" />
 
-            <p className="text-muted font-normal leading-relaxed text-base sm:text-lg max-w-xl mx-auto lg:mx-0 text-pretty">
+            <p className="text-muted font-normal leading-relaxed text-sm sm:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 text-pretty">
               {intro}
             </p>
 
@@ -177,16 +260,16 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
               </div>
             )}
 
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1 reveal">
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 pt-1 reveal">
               <Link
                 href="/courses"
-                className="btn-primary rounded-full px-6 py-3 inline-block text-xs sm:text-sm tracking-widest"
+                className="btn-primary rounded-full px-5 sm:px-6 py-2.5 sm:py-3 inline-flex items-center justify-center text-xs sm:text-sm tracking-widest"
               >
                 {lang === "hi" ? "कोर्स देखें" : "Explore Courses"}
               </Link>
               <Link
                 href="/contact"
-                className="btn-gold-outline rounded-full px-6 py-3 inline-block text-xs sm:text-sm tracking-widest"
+                className="btn-gold-outline rounded-full px-5 sm:px-6 py-2.5 sm:py-3 inline-flex items-center justify-center text-xs sm:text-sm tracking-widest"
               >
                 {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </Link>
@@ -195,38 +278,87 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
         </div>
       </section>
 
+      {/* ——— Brand ribbon ——— */}
+      {ribbonItems.length > 0 && (
+        <div className="brand-ribbon about-brand-ribbon relative z-20" aria-hidden>
+          <div className="marquee-container">
+            <div className="marquee-content">
+              {[0, 1].map((dup) => (
+                <span key={dup} className="brand-ribbon__item">
+                  {ribbonItems.map((item, i) => (
+                    <span key={i} className="brand-ribbon__item">
+                      {item} <span className="brand-ribbon__gem">✦</span>
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ——— Mission band ——— */}
       <section className="about-mission-band relative z-20 overflow-hidden" aria-label={brandMessage}>
-        <div className="about-mission-band__inner page-container max-w-6xl">
-          <div className="about-mission-band__pill about-mission-band__pill--brand">
+        <div className="about-mission-band__bg" aria-hidden />
+        <div className="about-mission-band__inner page-container max-w-6xl relative">
+          <motion.div className="about-mission-band__pill about-mission-band__pill--brand" {...viewProps(reduceMotion, 0.1)}>
             <span className="about-mission-band__icon" aria-hidden>
               ✦
             </span>
-            <div>
+            <div className="min-w-0">
               <p className="about-mission-band__tag">
                 {lang === "hi" ? "हमारा मिशन" : "Our Mission"}
               </p>
               <p className="about-mission-band__headline">{brandMessage}</p>
             </div>
-          </div>
+          </motion.div>
           <div className="about-mission-band__divider" aria-hidden />
-          <div className="about-mission-band__pill about-mission-band__pill--usp">
+          <motion.div className="about-mission-band__pill about-mission-band__pill--usp" {...viewProps(reduceMotion, 0.2)}>
             <span className="about-mission-band__icon about-mission-band__icon--bolt" aria-hidden>
               ⚡
             </span>
-            <div>
+            <div className="min-w-0">
               <p className="about-mission-band__tag">
                 {lang === "hi" ? "हमारी खास सेवा" : "Our Signature Service"}
               </p>
               <p className="about-mission-band__headline about-mission-band__headline--usp">{serviceUsp}</p>
             </div>
-          </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ——— Journey timeline ——— */}
+      <section className="about-journey page-container max-w-6xl py-10 sm:py-14 lg:py-16 relative z-20 min-w-0">
+        <SectionHeading eyebrow={journeyEyebrow} title={journeyTitle} />
+        <div className="about-journey__track">
+          <div className="about-journey__line" aria-hidden />
+          {JOURNEY.map((step, i) => (
+            <motion.article
+              key={step.year}
+              className="about-journey__step reveal"
+              style={staggerDelay(i, 90)}
+              {...viewProps(reduceMotion, 0.1 + i * 0.08)}
+            >
+              <div className="about-journey__node">
+                <span className="about-journey__icon" aria-hidden>
+                  {step.icon}
+                </span>
+              </div>
+              <p className="about-journey__year">{step.year}</p>
+              <h3 className="about-journey__title">
+                {lang === "hi" ? step.titleHi : step.titleEn}
+              </h3>
+              <p className="about-journey__desc">
+                {lang === "hi" ? step.descHi : step.descEn}
+              </p>
+            </motion.article>
+          ))}
         </div>
       </section>
 
       {/* ——— Values / pillars ——— */}
       {pillarList.length > 0 && (
-        <section className="section-muted py-14 sm:py-20 lg:py-24 relative z-20 overflow-hidden">
+        <section className="section-muted py-10 sm:py-16 lg:py-20 relative z-20 overflow-hidden">
           <div
             className="pointer-events-none absolute inset-0 opacity-40"
             style={{
@@ -241,7 +373,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
               {pillarList.map((p, i) => (
                 <Glass3DCard
                   key={p.title}
-                  className={`about-pillar-card rounded-2xl sm:rounded-3xl p-6 sm:p-8 relative group overflow-hidden reveal interactive-card border ${PILLAR_ACCENTS[i % PILLAR_ACCENTS.length]}`}
+                  className={`about-pillar-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 relative group overflow-hidden reveal interactive-card border ${PILLAR_ACCENTS[i % PILLAR_ACCENTS.length]}`}
                   style={staggerDelay(i, 100)}
                 >
                   <span className="about-pillar-card__index" aria-hidden>
@@ -251,10 +383,10 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
                     className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-orange to-gold opacity-80 group-hover:w-1.5 transition-all duration-300 z-[3]"
                     aria-hidden
                   />
-                  <div className="text-4xl sm:text-5xl mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">
+                  <div className="text-3xl sm:text-4xl lg:text-5xl mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">
                     {p.emoji}
                   </div>
-                  <h3 className="font-display text-xl sm:text-2xl text-ink mb-2">{p.title}</h3>
+                  <h3 className="font-display text-lg sm:text-xl lg:text-2xl text-ink mb-1.5 sm:mb-2">{p.title}</h3>
                   <p className="text-sm sm:text-base text-ink/90 font-normal leading-relaxed">{p.desc}</p>
                 </Glass3DCard>
               ))}
@@ -265,12 +397,45 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
       <TeamSection aboutPage={about} memberImages={memberImages} />
 
-      <section className="section-muted py-14 sm:py-16 lg:py-20 relative z-20 trust-stats-section">
-        <div className="page-container max-w-6xl relative">
-          <SectionHeading eyebrow={numbersEyebrow} title={trustTitle} />
-          <TrustWall items={trust} localize />
+      {/* ——— Quick explore links ——— */}
+      <section className="page-container max-w-6xl py-10 sm:py-12 lg:py-14 relative z-20 min-w-0">
+        <SectionHeading eyebrow={exploreEyebrow} title={lang === "hi" ? "हमारी दुनिया" : "Our World"} />
+        <div className="about-quick-links">
+          {QUICK_LINKS.map((link, i) => (
+            <motion.div key={link.href} {...viewProps(reduceMotion, 0.1 + i * 0.06)}>
+              <Link
+                href={link.href}
+                className={`about-quick-link about-quick-link--${link.accent}`}
+              >
+                <span className="about-quick-link__emoji" aria-hidden>
+                  {link.emoji}
+                </span>
+                <span className="about-quick-link__copy min-w-0">
+                  <span className="about-quick-link__title">
+                    {lang === "hi" ? link.titleHi : link.titleEn}
+                  </span>
+                  <span className="about-quick-link__sub">
+                    {lang === "hi" ? link.subHi : link.subEn}
+                  </span>
+                </span>
+                <span className="about-quick-link__arrow" aria-hidden>
+                  →
+                </span>
+              </Link>
+            </motion.div>
+          ))}
         </div>
       </section>
-    </>
+
+      {/* ——— Trust stats ——— */}
+      {trust.length > 0 && (
+        <section className="trust-stats-band about-trust-band relative z-20 trust-stats-section">
+          <div className="page-container max-w-6xl relative">
+            <SectionHeading eyebrow={numbersEyebrow} title={trustTitle} />
+            <TrustWall items={trust} localize />
+          </div>
+        </section>
+      )}
+    </div>
   );
 }

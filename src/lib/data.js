@@ -84,7 +84,16 @@ export async function getSiteSettings() {
     const { data } = await supabase.from("settings").select("*").eq("id", 1).single();
     const normalized = normalizeSettings(data);
     if (!normalized) return seed.SITE;
-    return { ...seed.SITE, ...normalized };
+    return {
+      ...seed.SITE,
+      ...normalized,
+      socials: {
+        ...seed.SITE.socials,
+        ...(normalized.socials || {}),
+        facebook:
+          normalized.socials?.facebook?.trim() || seed.SITE.socials.facebook,
+      },
+    };
   } catch {
     return seed.SITE;
   }
