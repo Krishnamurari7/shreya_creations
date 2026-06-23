@@ -24,6 +24,8 @@
   --cream: #F5E8C8;
   --gold: #D4AF37;
   --ivory: #FAF0DC;
+  --hero-gold-bg: linear-gradient(90deg, #bf953f 0%, #fcf6ba 28%, #b38728 52%, #fbf5b7 68%, #aa771c 100%);
+  --hero-gold-bg-dark: linear-gradient(90deg, #7a5f22 0%, #b8a050 28%, #6b5018 52%, #a89040 68%, #5a4510 100%);
   --font-sans: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-body: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -2852,7 +2854,7 @@ html.dark .course-pdf-modal__title {
 .home-hero--rrc {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(165deg, #fff9f0 0%, #fdfbf7 42%, #fff3e6 100%);
+  background: var(--hero-gold-bg);
   padding-top: calc(var(--header-offset) + 0.5rem);
   padding-bottom: 2rem;
 }
@@ -2869,7 +2871,7 @@ html.dark .course-pdf-modal__title {
   height: min(440px, 75vw);
   top: -8%;
   left: -6%;
-  background: rgba(var(--orange-rgb), 0.14);
+  background: rgba(255, 200, 60, 0.22);
   animation: float-soft 13s ease-in-out infinite;
 }
 
@@ -2878,7 +2880,7 @@ html.dark .course-pdf-modal__title {
   height: min(380px, 65vw);
   bottom: 0;
   right: 4%;
-  background: rgba(var(--golden-rgb), 0.18);
+  background: rgba(255, 215, 80, 0.35);
   animation: float-soft 10s ease-in-out infinite reverse;
 }
 
@@ -3185,12 +3187,7 @@ html.dark .course-pdf-modal__title {
   }
 
   .hero-bg-slider__wash {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 249, 240, 0.25) 0%,
-      rgba(255, 249, 240, 0.88) 42%,
-      rgba(255, 252, 247, 0.97) 100%
-    );
+    background: var(--hero-gold-bg);
   }
 }
 
@@ -3392,31 +3389,18 @@ html.dark .course-pdf-modal__title {
   object-fit: cover;
   object-position: right center;
   display: block;
+  opacity: 0;
 }
 
 .hero-bg-slider__wash {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    105deg,
-    rgba(255, 249, 240, 0.98) 0%,
-    rgba(255, 249, 240, 0.92) 34%,
-    rgba(255, 243, 230, 0.55) 58%,
-    rgba(255, 236, 214, 0.22) 78%,
-    transparent 100%
-  );
+  background: var(--hero-gold-bg);
   pointer-events: none;
 }
 
 .hero-bg-slider__gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 70%,
-    rgba(253, 251, 247, 0.35) 100%
-  );
-  pointer-events: none;
+  display: none;
 }
 
 /* Foreground hero image */
@@ -3707,17 +3691,11 @@ html.dark .course-pdf-modal__title {
 }
 
 html.dark .home-hero--rrc {
-  background-color: var(--bg);
+  background: var(--hero-gold-bg-dark);
 }
 
 html.dark .hero-bg-slider__wash {
-  background: linear-gradient(
-    105deg,
-    rgba(10, 7, 16, 0.96) 0%,
-    rgba(10, 7, 16, 0.9) 40%,
-    rgba(10, 7, 16, 0.5) 65%,
-    transparent 100%
-  );
+  background: var(--hero-gold-bg-dark);
 }
 
 html.dark .home-hero__title-line--dark {
@@ -5981,10 +5959,7 @@ html.dark .feature-card:hover {
 }
 
 .home-hero--luxury {
-  background:
-    radial-gradient(ellipse 70% 55% at 0% 0%, rgba(232, 106, 51, 0.07), transparent 58%),
-    radial-gradient(ellipse 55% 45% at 100% 100%, rgba(212, 175, 55, 0.08), transparent 55%),
-    var(--ivory);
+  background: var(--hero-gold-bg);
 }
 
 .home-hero__media--glass .gradient-ring__inner {
