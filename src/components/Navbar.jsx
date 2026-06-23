@@ -106,7 +106,7 @@ export default function Navbar({ site }) {
       <AnnouncementBar items={site?.heroMarquee} />
 
       <div className="site-header-inner">
-        <div className="nav-mobile-bar">
+        <div className="nav-mobile-bar lg:hidden">
           <Link href="/" onClick={closeMenu} className="nav-mobile-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt={brandName} className="nav-mobile-logo" />
@@ -135,7 +135,7 @@ export default function Navbar({ site }) {
           </div>
         </div>
 
-        <nav className="nav-desktop-bar nav-desktop-bar--luxury" aria-label="Main navigation">
+        <nav className="nav-desktop-bar nav-desktop-bar--luxury hidden lg:grid" aria-label="Main navigation">
           <Link href="/" className="nav-desktop-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt={brandName} className="nav-desktop-logo" />

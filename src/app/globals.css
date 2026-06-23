@@ -1234,11 +1234,16 @@ html.dark .hero-stat-chip__value { color: var(--lavender); }
 /* Fixed header height — announcement bar + nav + safe area */
 :root {
   --announcement-height: 2.5rem;
-  --header-offset: calc(env(safe-area-inset-top) + var(--announcement-height) + 4.5rem);
+  --header-offset: calc(env(safe-area-inset-top) + var(--announcement-height) + 3.85rem);
 }
 @media (min-width: 640px) {
   :root {
-    --header-offset: calc(env(safe-area-inset-top) + var(--announcement-height) + 5rem);
+    --header-offset: calc(env(safe-area-inset-top) + var(--announcement-height) + 4rem);
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --header-offset: calc(env(safe-area-inset-top) + var(--announcement-height) + 5.25rem);
   }
 }
 
@@ -2727,6 +2732,31 @@ html.dark .home-hero__checklist--card {
   color: var(--text);
 }
 
+@media (max-width: 767px) {
+  html.dark .home-hero__copy-panel {
+    background: rgba(18, 14, 24, 0.92);
+    border-color: rgba(var(--orange-rgb), 0.22);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  }
+
+  html.dark .home-hero__title-part--gradient {
+    -webkit-text-fill-color: #f07a3d;
+    color: #f07a3d;
+    text-shadow: none;
+  }
+
+  html.dark .home-hero__title-part--dark {
+    color: #f5f0e8;
+    text-shadow: none;
+  }
+
+  html.dark .home-hero__title-part--gold {
+    color: #f0a060;
+  }
+}
+
 html.dark .home-hero__slide-controls {
   background: rgba(18, 14, 26, 0.92);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
@@ -3054,6 +3084,61 @@ html.dark .course-pdf-modal__title {
   position: relative;
   padding: 0.25rem 0;
   max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .home-hero__copy-panel {
+    margin-top: 0.35rem;
+    padding: 1.15rem 1rem 1.25rem;
+    border-radius: 1.25rem;
+    background: rgba(255, 252, 247, 0.94);
+    border: 1px solid rgba(232, 93, 34, 0.14);
+    box-shadow:
+      0 8px 32px rgba(43, 43, 43, 0.07),
+      0 1px 0 rgba(255, 255, 255, 0.85) inset;
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  }
+
+  .home-hero__title--highlighted {
+    font-size: clamp(1.55rem, 7.5vw + 0.35rem, 2.1rem);
+    line-height: 1.12;
+  }
+
+  .home-hero__title-part--gradient {
+    background: none;
+    -webkit-text-fill-color: #c45a20;
+    color: #c45a20;
+    animation: none;
+    font-weight: 700;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .home-hero__title-part--dark {
+    color: #1a1410;
+    font-weight: 700;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+
+  .home-hero__title-part--dark::after {
+    display: none;
+  }
+
+  .home-hero__title-part--gold {
+    color: #d35400;
+    font-size: clamp(0.82rem, 3.4vw + 0.35rem, 1rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-bg-slider__wash {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 249, 240, 0.25) 0%,
+      rgba(255, 249, 240, 0.88) 42%,
+      rgba(255, 252, 247, 0.97) 100%
+    );
+  }
 }
 
 @media (min-width: 768px) {
@@ -5795,7 +5880,6 @@ html.dark .feature-card:hover {
 }
 
 .nav-desktop-bar--luxury {
-  display: grid;
   grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
   align-items: center;
   gap: 1rem;
@@ -11685,11 +11769,13 @@ html.dark .course-pdf-modal__state p {
   }
 
   .home-hero__title--highlighted {
-    font-size: clamp(1.4rem, 6.8vw + 0.3rem, 2rem);
+    font-size: clamp(1.55rem, 7.5vw + 0.35rem, 2.1rem);
+    line-height: 1.12;
   }
 
   .home-hero__title-part--gold {
-    font-size: clamp(0.72rem, 3.2vw + 0.3rem, 0.95rem);
+    font-size: clamp(0.82rem, 3.4vw + 0.35rem, 1rem);
+    font-weight: 700;
   }
 
   .home-hero__checklist--card {
@@ -11846,7 +11932,8 @@ html.dark .course-pdf-modal__state p {
   }
 
   .home-hero__title--highlighted {
-    font-size: clamp(1.35rem, 7vw + 0.25rem, 1.85rem);
+    font-size: clamp(1.55rem, 7.5vw + 0.35rem, 2.1rem);
+    line-height: 1.12;
   }
 
   .home-hero__title-ornament {
@@ -11969,6 +12056,11 @@ html.dark .course-pdf-modal__state p {
 }
 
 @media (max-width: 1023px) {
+  .nav-desktop-bar,
+  .nav-desktop-bar--luxury {
+    display: none !important;
+  }
+
   .nav-mobile-logo {
     height: 2.5rem;
     max-width: 6.5rem;
