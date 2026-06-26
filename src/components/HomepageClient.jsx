@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import CardImage from "@/components/CardImage";
 import CategoryCards from "@/components/CategoryCards";
-import { Testimonials, TrustWall } from "@/components/Sections";
+import { Testimonials } from "@/components/Sections";
 import { DesignProcess } from "@/components/FashionSections";
 import { toYoutubeEmbedUrl } from "@/lib/youtube";
 import VideoShowcase from "@/components/VideoShowcase";
@@ -235,19 +235,9 @@ export default function HomepageClient({
   const videoEmbedUrl = toYoutubeEmbedUrl(home.videoUrl);
 
   return (
-    <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip bg-cream">
-      <div className="pointer-events-none absolute top-32 -left-20 h-64 w-64 rounded-full bg-orange/6 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute top-[40%] -right-24 h-72 w-72 rounded-full bg-orange/5 blur-3xl" aria-hidden />
-
-      {/* ===== HERO BANNER ===== */}
+    <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
+      {/* ===== HERO BANNER (includes stats + quick actions) ===== */}
       <HeroSection home={home} lang={lang} whatsapp={site.whatsapp} />
-
-      {/* ===== TRUST COUNTERS ===== */}
-      {trust.length > 0 && (
-        <section className="trust-stats-band page-container" aria-label={lang === "hi" ? "भरोसे के आंकड़े" : "Trust counters"}>
-          <TrustWall items={trust} localize />
-        </section>
-      )}
 
       {/* ===== QUICK CATEGORY LINKS ===== */}
       <CategoryCards lang={lang} />

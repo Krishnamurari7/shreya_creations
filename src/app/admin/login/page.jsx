@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { LOGO_SRC } from "@/lib/brand";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function LoginPage() {
   return (
     <div className="w-full max-w-md glass rounded-3xl p-6 sm:p-8 mx-auto">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo.png" alt="Shreya creation" className="h-20 w-auto max-w-[12rem] object-contain mx-auto mb-4" />
+      <img src={LOGO_SRC} alt="Shreya creation" className="h-20 w-auto max-w-[12rem] object-contain mx-auto mb-4" />
       <h1 className="font-display text-3xl sm:text-4xl text-ink text-center">
         Shreya <span className="text-gold-gradient">Admin</span>
       </h1>

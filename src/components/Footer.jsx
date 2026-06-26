@@ -4,6 +4,7 @@ import Link from "next/link";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI, pickLocalized, pickBrandMessage, pickServiceUsp } from "@/lib/i18n";
+import { LOGO_SRC } from "@/lib/brand";
 import PopularCategories from "@/components/PopularCategories";
 import { SITE_STATS } from "@/lib/seed";
 
@@ -70,7 +71,7 @@ export default function Footer({ site }) {
               <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/logo.png"
+                  src={LOGO_SRC}
                   alt={brandName}
                   className="h-14 sm:h-16 w-auto max-w-[10rem] object-contain transition-transform duration-500 hover:scale-105 shrink-0"
                 />

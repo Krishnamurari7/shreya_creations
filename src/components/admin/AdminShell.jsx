@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { LOGO_SRC } from "@/lib/brand";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: "◆" },
@@ -106,8 +107,12 @@ export default function AdminShell({ children }) {
     <div className="admin-layout">
       {/* Desktop sidebar */}
       <aside className="admin-sidebar" aria-label="Admin sidebar">
-        <Link href="/" className="admin-brand">
-          Shreya <span className="text-gold-gradient">Admin</span>
+        <Link href="/" className="admin-brand admin-brand--logo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={LOGO_SRC} alt="Shreya creation" className="admin-brand__logo" />
+          <span className="admin-brand__text">
+            Shreya <span className="text-gold-gradient">Admin</span>
+          </span>
         </Link>
         <NavLinks pathname={pathname} onNavigate={closeDrawer} />
         <div className="admin-sidebar__foot">
@@ -126,8 +131,12 @@ export default function AdminShell({ children }) {
           <button type="button" className="admin-drawer__backdrop" aria-label="Close menu" onClick={closeDrawer} />
           <aside className="admin-drawer__panel">
             <div className="admin-drawer__head">
-              <Link href="/" className="admin-brand" onClick={closeDrawer}>
-                Shreya <span className="text-gold-gradient">Admin</span>
+              <Link href="/" className="admin-brand admin-brand--logo" onClick={closeDrawer}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={LOGO_SRC} alt="Shreya creation" className="admin-brand__logo" />
+                <span className="admin-brand__text">
+                  Shreya <span className="text-gold-gradient">Admin</span>
+                </span>
               </Link>
               <button type="button" className="admin-drawer__close" onClick={closeDrawer} aria-label="Close menu">
                 <MenuIcon open />

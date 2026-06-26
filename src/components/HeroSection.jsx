@@ -1,263 +1,365 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import HeroBackgroundSlider from "@/components/HeroBackgroundSlider";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { pickPage } from "@/lib/cms";
+import { toYoutubeEmbedUrl, withYoutubeEmbedParams } from "@/lib/youtube";
 
-const AUTOPLAY_MS = 5500;
-
-const HERO_SLIDES_FALLBACK = ["/slider1.png", "/slider2.png", "/slider3.png", "/slider4.png"];
-
-const CHECKLIST_FALLBACK_EN = [
-  "Fashion Designing Course",
-  "Boutique Mastery Course",
-  "NIFT • NID • UCEED Coaching",
-  "Certificate + Placement Support",
+const HERO_STATS_EN = [
+  { icon: "clients", text: "30K+ Happy clients served!" },
+  { icon: "courses", text: "50+ Courses & Products & Books" },
+  { icon: "delivered", line1: "Thousands of successful designers", line2: "Delivered" },
+  { icon: "training", text: "100% Practical Training" },
+  { icon: "placement", line1: "100% Placement Assistance …", line2: "2018 onwards …" },
 ];
 
-const CHECKLIST_FALLBACK_HI = [
-  "फैशन डिज़ाइनिंग कोर्स",
-  "बुटीक मास्टरी कोर्स",
-  "NIFT • NID • UCEED कोचिंग",
-  "सर्टिफिकेट + प्लेसमेंट सपोर्ट",
+const HERO_STATS_HI = [
+  { icon: "clients", text: "30K+ खुश ग्राहक!" },
+  { icon: "courses", text: "50+ कोर्स, प्रोडक्ट और बुक्स" },
+  { icon: "delivered", line1: "हज़ारों सफल डिज़ाइनर", line2: "डिलीवर" },
+  { icon: "training", text: "100% प्रैक्टिकल ट्रेनिंग" },
+  { icon: "placement", line1: "100% प्लेसमेंट सहायता …", line2: "2018 से …" },
 ];
 
-const HERO_TITLE_FALLBACK_EN = {
-  part1: "Luxury Boutique",
-  part2: "Fashion Institute",
-  part3: "NIFT / NID / UCEED Coaching",
-};
+function HeroStatIcon({ type }) {
+  const props = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2.25",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": true,
+  };
 
-const HERO_TITLE_FALLBACK_HI = {
-  part1: "लक्ज़री बुटीक",
-  part2: "फैशन इंस्टिट्यूट",
-  part3: "NIFT / NID / UCEED कोचिंग",
-};
+  switch (type) {
+    case "clients":
+      return (
+        <svg {...props}>
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      );
+    case "courses":
+      return (
+        <svg {...props}>
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          <path d="M12 3 2 8l10 5 10-5-10-5z" />
+          <path d="M6 10.5V16l6 3 6-3v-5.5" />
+        </svg>
+      );
+    case "delivered":
+      return (
+        <svg {...props}>
+          <path d="M10 17h4" />
+          <path d="M3 7h11v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7z" />
+          <path d="M14 9h4l3 3v3a2 2 0 0 1-2 2h-1" />
+          <circle cx="7.5" cy="17.5" r="1.5" />
+          <circle cx="17.5" cy="17.5" r="1.5" />
+          <path d="m16 9 2 2" />
+        </svg>
+      );
+    case "training":
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9 12.5 11 15l5.5-6" />
+        </svg>
+      );
+    case "placement":
+      return (
+        <svg {...props}>
+          <path d="M8 21h8" />
+          <path d="M12 17v4" />
+          <path d="M7 4h10v3a5 5 0 0 1-10 0V4z" />
+          <path d="M5 4H3v2a3 3 0 0 0 3 3" />
+          <path d="M19 4h2v2a3 3 0 0 1-3 3" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...props}>
+          <path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6L12 2z" />
+        </svg>
+      );
+  }
+}
 
-function pickChecklistItem(item, lang) {
-  if (lang === "hi" && (item.text_hi || item.textHi)) return item.text_hi || item.textHi;
-  return item.text || "";
+function formatStatText(text = "") {
+  return text.split(/(\d+[Kk]?\+?%?|\d+%)/g).map((part, i) => {
+    if (/^\d+[Kk]?\+?%?$|^\d+%$/.test(part)) {
+      return (
+        <strong key={`${part}-${i}`} className="home-hero__stat-strong">
+          {part}
+        </strong>
+      );
+    }
+    return part;
+  });
+}
+
+function HeroVideoCard({ headerIcon, headerLabel, thumb, alt, embedUrl, href, onPlay }) {
+  const canPlay = Boolean(embedUrl);
+
+  const inner = (
+    <div className="home-hero__video-shell">
+      <div className="home-hero__video-head">
+        <span className="home-hero__video-head-icon" aria-hidden>
+          {headerIcon}
+        </span>
+        <span className="home-hero__video-head-label">{headerLabel}</span>
+      </div>
+      <div className="home-hero__video-body">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={thumb} alt={alt} className="home-hero__video-thumb" loading="eager" />
+        <div className="home-hero__video-overlay" aria-hidden>
+          <span className="home-hero__video-play">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </div>
+        <div className="home-hero__video-controls" aria-hidden>
+          <span className="home-hero__video-controls-play" />
+          <span className="home-hero__video-controls-track" />
+          <span className="home-hero__video-controls-time" />
+        </div>
+      </div>
+    </div>
+  );
+
+  if (canPlay) {
+    return (
+      <button type="button" className="home-hero__video-card" onClick={onPlay}>
+        {inner}
+      </button>
+    );
+  }
+
+  return (
+    <Link href={href} className="home-hero__video-card">
+      {inner}
+    </Link>
+  );
 }
 
 export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  const slides = useMemo(() => {
-    const imgs = home.heroImages;
-    if (Array.isArray(imgs) && imgs.length) return imgs.filter(Boolean);
-    return HERO_SLIDES_FALLBACK;
-  }, [home.heroImages]);
-
-  const count = slides.length;
-
-  const goTo = useCallback(
-    (index) => {
-      if (count < 1) return;
-      setActive(((index % count) + count) % count);
-    },
-    [count]
-  );
-
-  useEffect(() => {
-    if (count < 2 || paused) return undefined;
-    const id = setInterval(() => setActive((i) => (i + 1) % count), AUTOPLAY_MS);
-    return () => clearInterval(id);
-  }, [count, paused]);
-
-  const heroCtaHref = home.heroCtaHref || "/contact";
-  const checklist = useMemo(() => {
-    const fromCms = (home.heroChecklist || []).map((item) => pickChecklistItem(item, lang)).filter(Boolean);
-    if (fromCms.length) return fromCms;
-    return lang === "hi" ? CHECKLIST_FALLBACK_HI : CHECKLIST_FALLBACK_EN;
-  }, [home.heroChecklist, lang]);
-
-  const waChat = waLink(whatsapp, greetingMessage());
-
-  const titleFallback = lang === "hi" ? HERO_TITLE_FALLBACK_HI : HERO_TITLE_FALLBACK_EN;
-  const heroPart1 =
-    pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") || titleFallback.part1;
-  const heroPart2 =
-    pickPage(home, lang, "heroTitleLine2", "heroTitleLine2Hi") || titleFallback.part2;
-  const heroPart3 =
-    pickPage(home, lang, "heroTitleHighlight", "heroTitleHighlightHi") || titleFallback.part3;
+  const [activeVideo, setActiveVideo] = useState(null);
 
   const heroBadge =
+    pickPage(home, lang, "heroBoutiqueBadge", "heroBoutiqueBadgeHi") ||
     pickPage(home, lang, "heroBadge", "heroBadgeHi") ||
-    (lang === "hi" ? "📍 पटना, बिहार" : "📍 PATNA, BIHAR");
-  const sinceBadge =
-    pickPage(home, lang, "heroSinceBadge", "heroSinceBadgeHi") ||
-    (lang === "hi" ? "2007 से" : "Since 2007");
-  const sinceText =
-    pickPage(home, lang, "heroSinceText", "heroSinceTextHi") ||
-    (lang === "hi" ? "17+ वर्षों का अनुभव" : "17+ Years Experience");
+    (lang === "hi" ? "बिहार का नं. 1 फैशन बुटीक इंस्टिट्यूट" : "Bihar No 1 Fashion Boutique Institute");
+
+  const heroTitle =
+    pickPage(home, lang, "heroBoutiqueTitle", "heroBoutiqueTitleHi") ||
+    pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") ||
+    (lang === "hi" ? "कौशल जो आय पैदा करे" : "Skill That Create Income");
+
+  const heroKeywords =
+    pickPage(home, lang, "heroBoutiqueKeywords", "heroBoutiqueKeywordsHi") ||
+    pickPage(home, lang, "heroSubtitle", "heroSubtitleHi") ||
+    (lang === "hi" ? "नौकरी / बुटीक / इंस्टिट्यूट" : "Job / Boutique / Institute");
+
   const ctaLabel =
+    pickPage(home, lang, "heroBoutiqueCta", "heroBoutiqueCtaHi") ||
     pickPage(home, lang, "heroCtaLabel", "heroCtaLabelHi") ||
-    (lang === "hi" ? "एडमिशन खुला" : "Admission Open");
-  const waCtaLabel =
-    pickPage(home, lang, "heroWaCtaLabel", "heroWaCtaLabelHi") ||
-    (lang === "hi" ? "WhatsApp अभी" : "WhatsApp Now");
+    (lang === "hi" ? "आपका करियर यहीं से शुरू" : "Your career start here");
+
+  const heroCtaHref = home.heroCtaHref || "/contact";
+  const waChat = waLink(whatsapp, greetingMessage());
+
+  const demoEmbed = toYoutubeEmbedUrl(home.heroDemoVideo || home.videoUrl || "");
+  const bookEmbed = toYoutubeEmbedUrl(home.heroBookVideo || "");
+
+  const stats = useMemo(() => (lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN), [lang]);
+
+  const demoThumb = home.heroDemoThumb || "/slider1.png";
+  const bookThumb = home.heroBookThumb || "/slider2.png";
+
+  const actionLinks = useMemo(
+    () => [
+      {
+        href: "/shop",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+            <path d="M12 7v14" />
+            <path d="M5.5 5.5A7 7 0 0 1 12 5a7 7 0 0 1 6.5 4.5" />
+            <path d="M5.5 5.5V19.5" />
+          </svg>
+        ),
+        label: lang === "hi" ? "सिलाई बुक करें" : "Book Stitching",
+      },
+      {
+        href: "/courses",
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+            <path d="M12 3 2 8l10 5 10-5-10-5z" />
+            <path d="M6 10.5V16l6 3 6-3v-5.5" />
+          </svg>
+        ),
+        label: lang === "hi" ? "हमारे कोर्स जॉइन करें" : "Join our courses",
+      },
+      {
+        href: waChat,
+        external: true,
+        icon: (
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+        ),
+        label: lang === "hi" ? "WhatsApp अभी" : "WhatsApp Now.",
+      },
+    ],
+    [lang, waChat]
+  );
 
   return (
     <section
-      className="home-hero home-hero--rrc home-hero--luxury relative overflow-hidden"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setPaused(false);
-      }}
+      className={`home-hero home-hero--boutique${lang === "hi" ? " home-hero--hi" : ""}`}
+      aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
     >
-      <div className="home-hero__deco" aria-hidden>
-        <div className="home-hero__glow home-hero__glow--orange" />
-        <div className="home-hero__glow home-hero__glow--gold" />
-        <div className="home-hero__ring home-hero__ring--1" />
-        <div className="home-hero__ring home-hero__ring--2" />
-      </div>
+      <div className="page-container home-hero__top">
+        <div className="home-hero__grid">
+          <div className="home-hero__copy">
+            <span className="home-hero__badge home-hero__badge--boutique">
+              <span className="home-hero__badge-dot" aria-hidden />
+              {heroBadge}
+            </span>
 
-      <HeroBackgroundSlider slides={slides} active={active} />
+            <h1 className="home-hero__script-title">{heroTitle}</h1>
 
-      <div className="page-container relative z-[2]">
-        <div className="home-hero__grid grid md:grid-cols-2 lg:grid-cols-[1.05fr_0.95fr] gap-4 sm:gap-6 lg:gap-8 xl:gap-10 items-start md:items-center lg:items-center min-w-0 w-full">
-          <div className="home-hero__content order-2 md:order-1 lg:order-1 text-center md:text-left lg:text-left lg:py-1 w-full min-w-0">
-            <div className="home-hero__copy-panel w-full min-w-0">
-              <span className="anim-rise home-hero__badge">
-                <span className="home-hero__badge-dot" aria-hidden />
-                {heroBadge}
-              </span>
-
-              <h1 className="anim-rise anim-delay-1 home-hero__title home-hero__title--highlighted text-balance">
-                <span className="home-hero__title-line home-hero__title-part home-hero__title-part--gradient">
-                  {heroPart1}
-                </span>
-                <span className="home-hero__title-line home-hero__title-part home-hero__title-part--dark">
-                  {heroPart2}
-                </span>
-                <span className="home-hero__title-line home-hero__title-part home-hero__title-part--gold">
-                  {heroPart3}
-                </span>
-              </h1>
-
-              <div className="anim-rise anim-delay-1 home-hero__title-ornament mx-auto md:mx-0" aria-hidden>
-                <span className="home-hero__title-ornament-line" />
-                <span className="home-hero__title-ornament-gem">✦</span>
-                <span className="home-hero__title-ornament-line" />
-              </div>
-
-              <p className="anim-rise anim-delay-2 home-hero__since">
-                <span className="home-hero__since-badge">{sinceBadge}</span>
-                <span className="home-hero__since-dot" aria-hidden>•</span>
-                <span className="home-hero__since-text">{sinceText}</span>
-              </p>
-
-              <ul className="anim-rise anim-delay-2 home-hero__checklist home-hero__checklist--card mx-auto md:mx-0 w-full max-w-xl">
-                {checklist.map((item) => (
-                  <li key={item} className="home-hero__check-item">
-                    <span className="home-hero__check-icon" aria-hidden>✔</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="anim-rise anim-delay-3 home-hero__cta-row home-hero__cta-row--responsive mt-5 sm:mt-6">
-                <Link
-                  href={heroCtaHref}
-                  className="btn-primary home-hero__cta-primary home-hero__cta-primary--bold inline-flex items-center justify-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
-                >
-                  {ctaLabel}
-                  <span className="home-hero__cta-arrow" aria-hidden>→</span>
-                </Link>
-                <a
-                  href={waChat}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="home-hero__cta-wa inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-wider"
-                >
-                  <span className="home-hero__wa-icon" aria-hidden>🟢</span>
-                  {waCtaLabel}
-                </a>
-              </div>
+            <div className="home-hero__ornament" aria-hidden>
+              <span className="home-hero__ornament-line" />
+              <span className="home-hero__ornament-gem">◆</span>
+              <span className="home-hero__ornament-line" />
             </div>
+
+            <p className="home-hero__keywords">{heroKeywords}</p>
+
+            <Link href={heroCtaHref} className="home-hero__career-btn">
+              {ctaLabel}
+            </Link>
           </div>
 
-          <div className="home-hero__media-stage order-1 md:order-2 lg:order-2 flex justify-center md:justify-end lg:justify-end w-full min-w-0 px-1 sm:px-0">
-            <div className="anim-hero-media home-hero__media home-hero__media--rrc home-hero__media-frame home-hero__media--glass relative w-full max-w-[min(100%,22rem)] sm:max-w-[400px] md:max-w-[360px] lg:max-w-[440px] xl:max-w-[480px]">
-              <div className="gradient-ring gradient-ring--hero shadow-glow">
-                <div className="gradient-ring__inner glass">
-                  <div
-                    className="home-hero__foreground"
-                    role="region"
-                    aria-roledescription="carousel"
-                    aria-label={lang === "hi" ? "हीरो इमेज स्लाइडर" : "Hero image slider"}
-                  >
-                    {slides.map((slide, i) => {
-                      const src = typeof slide === "string" ? slide : slide.src;
-                      return (
-                        <div
-                          key={`fg-${src}-${i}`}
-                          className={`home-hero__foreground-slide${i === active ? " is-active" : ""}`}
-                          aria-hidden={i !== active}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={src}
-                            alt={
-                              lang === "hi"
-                                ? "श्रेया क्रिएशन फैशन स्टूडियो"
-                                : "Shreya creation fashion studio"
-                            }
-                            draggable={false}
-                            loading={i === 0 ? "eager" : "lazy"}
-                          />
-                        </div>
-                      );
-                    })}
-
-                    {count > 1 && (
-                      <div className="home-hero__slide-controls">
-                        <button
-                          type="button"
-                          className="home-hero__slide-btn"
-                          onClick={() => goTo(active - 1)}
-                          aria-label={lang === "hi" ? "पिछली तस्वीर" : "Previous image"}
-                        >
-                          ‹
-                        </button>
-                        <div className="home-hero__slide-dots" role="tablist">
-                          {slides.map((slide, i) => {
-                            const src = typeof slide === "string" ? slide : slide.src;
-                            return (
-                              <button
-                                key={`dot-${src}-${i}`}
-                                type="button"
-                                role="tab"
-                                className={`home-hero__slide-dot${i === active ? " is-active" : ""}`}
-                                onClick={() => goTo(i)}
-                                aria-label={`${lang === "hi" ? "स्लाइड" : "Slide"} ${i + 1}`}
-                                aria-selected={i === active}
-                              />
-                            );
-                          })}
-                        </div>
-                        <button
-                          type="button"
-                          className="home-hero__slide-btn"
-                          onClick={() => goTo(active + 1)}
-                          aria-label={lang === "hi" ? "अगली तस्वीर" : "Next image"}
-                        >
-                          ›
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="home-hero__videos">
+            <HeroVideoCard
+              headerIcon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              }
+              headerLabel={lang === "hi" ? "फ्री ऑफलाइन डेमो क्लास" : "FREE OFFLINE DEMO CLASS"}
+              thumb={demoThumb}
+              alt={lang === "hi" ? "डेमो क्लास वीडियो" : "Demo class video"}
+              embedUrl={demoEmbed}
+              href="/contact"
+              onPlay={() => setActiveVideo(demoEmbed)}
+            />
+            <HeroVideoCard
+              headerIcon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+              }
+              headerLabel={lang === "hi" ? "अभी बुक करें" : "BOOK NOW"}
+              thumb={bookThumb}
+              alt={lang === "hi" ? "बुकिंग वीडियो" : "Booking video"}
+              embedUrl={bookEmbed}
+              href="/contact"
+              onPlay={() => setActiveVideo(bookEmbed)}
+            />
           </div>
         </div>
       </div>
+
+      <div className="home-hero__stats-bar" aria-label={lang === "hi" ? "मुख्य आंकड़े" : "Key highlights"}>
+        <div className="home-hero__stats-inner">
+          {stats.map((stat, i) => (
+            <div key={stat.icon} className="home-hero__stat">
+              {i > 0 && <span className="home-hero__stat-divider" aria-hidden />}
+              <span className="home-hero__stat-icon">
+                <HeroStatIcon type={stat.icon} />
+              </span>
+              <p className="home-hero__stat-text">
+                {stat.line1 ? (
+                  <>
+                    <span className="home-hero__stat-line">{stat.line1}</span>
+                    <strong className="home-hero__stat-highlight">{stat.line2}</strong>
+                  </>
+                ) : (
+                  formatStatText(stat.text)
+                )}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="home-hero__action-bar">
+        <div className="home-hero__action-inner">
+          {actionLinks.map((item) =>
+            item.external ? (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-hero__action-btn"
+              >
+                <span className="home-hero__action-icon">{item.icon}</span>
+                <span className="home-hero__action-label">{item.label}</span>
+              </a>
+            ) : (
+              <Link key={item.label} href={item.href} className="home-hero__action-btn">
+                <span className="home-hero__action-icon">{item.icon}</span>
+                <span className="home-hero__action-label">{item.label}</span>
+              </Link>
+            )
+          )}
+        </div>
+      </div>
+
+      {activeVideo && (
+        <div
+          className="home-hero__video-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label={lang === "hi" ? "वीडियो प्लेयर" : "Video player"}
+          onClick={() => setActiveVideo(null)}
+          onKeyDown={(e) => e.key === "Escape" && setActiveVideo(null)}
+        >
+          <div
+            className="home-hero__video-modal-panel"
+            onClick={(e) => e.stopPropagation()}
+            role="presentation"
+          >
+            <button
+              type="button"
+              className="home-hero__video-modal-close"
+              onClick={() => setActiveVideo(null)}
+              aria-label={lang === "hi" ? "बंद करें" : "Close"}
+            >
+              ×
+            </button>
+            <iframe
+              src={withYoutubeEmbedParams(activeVideo, { autoplay: true })}
+              title={lang === "hi" ? "वीडियो" : "Video"}
+              className="home-hero__video-modal-iframe"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
