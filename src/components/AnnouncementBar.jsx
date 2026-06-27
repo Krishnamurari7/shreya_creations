@@ -3,15 +3,15 @@
 import { useLanguage } from "@/components/LanguageProvider";
 
 const DEFAULT_ITEMS_EN = [
-  "Admission Open | 3 Days Free Demo Class",
-  "24-Hour Stitching Service",
-  "Since 2007 | 17 Years of Trust",
+  "Fashion Boutique Institute",
+  "Bihar's No. 1",
+  "17+ Years of Experience | Since 2007",
 ];
 
 const DEFAULT_ITEMS_HI = [
-  "एडमिशन खुला | 3 दिन फ्री डेमो क्लास",
-  "24 घंटे सिलाई सेवा",
-  "2007 से | 17 वर्षों का भरोसा",
+  "Fashion Boutique Institute",
+  "बिहार का No. 1",
+  "17+ वर्षों का अनुभव | Since 2007",
 ];
 
 function resolveItems(raw, lang) {

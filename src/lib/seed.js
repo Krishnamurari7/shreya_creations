@@ -61,12 +61,9 @@ export const SITE = {
     facebook: "https://www.facebook.com/shreyascreation",
   },
   heroMarquee: [
-    "Admission Open | 3 Days Free Demo Class",
-    "24-Hour Stitching Service",
-    "Since 2007 | 17 Years of Trust",
-    "एडमिशन खुला | 3 दिन फ्री डेमो क्लास",
-    "24 घंटे सिलाई सेवा",
-    "2007 से | 17 वर्षों का भरोसा",
+    "Fashion Boutique Institute",
+    "बिहार का No. 1",
+    "17+ वर्षों का अनुभव | Since 2007",
   ],
 };
 

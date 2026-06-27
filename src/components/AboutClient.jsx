@@ -363,7 +363,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             className="pointer-events-none absolute inset-0 opacity-40"
             style={{
               background:
-                "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(232,93,34,0.07), transparent 60%)",
+                "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(230,90,5,0.07), transparent 60%)",
             }}
             aria-hidden
           />

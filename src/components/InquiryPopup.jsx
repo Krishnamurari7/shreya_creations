@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
+import { INQUIRY_OPEN_EVENT } from "@/lib/inquiryPopup";
 
 const DISMISS_HOURS = 24;
 
@@ -67,10 +68,15 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
+  const [activeSource, setActiveSource] = useState(source);
+  const userOpenedRef = useRef(false);
 
   const close = useCallback(() => {
     setOpen(false);
-    markDismissed(source);
+    if (!userOpenedRef.current) {
+      markDismissed(source);
+    }
+    userOpenedRef.current = false;
   }, [source]);
 
   useEffect(() => {
@@ -82,6 +88,20 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
     const id = setTimeout(() => setOpen(true), delayMs);
     return () => clearTimeout(id);
   }, [source, delayMs]);
+
+  useEffect(() => {
+    const onOpen = (event) => {
+      const detail = event.detail || {};
+      setActiveSource(detail.source || source);
+      setMessage(typeof detail.message === "string" ? detail.message : "");
+      setDone(false);
+      userOpenedRef.current = true;
+      setOpen(true);
+    };
+
+    window.addEventListener(INQUIRY_OPEN_EVENT, onOpen);
+    return () => window.removeEventListener(INQUIRY_OPEN_EVENT, onOpen);
+  }, [source]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -114,12 +134,14 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
         name: name.trim(),
         phone: phone.trim(),
         message: message.trim(),
-        source,
+        source: activeSource,
       });
     }
     setSaving(false);
     setDone(true);
-    markDismissed(source);
+    if (!userOpenedRef.current) {
+      markDismissed(source);
+    }
   };
 
   if (!mounted || !open) return null;

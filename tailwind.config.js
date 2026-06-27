@@ -18,7 +18,7 @@ module.exports = {
         surface: "var(--surface)",
         muted: "var(--surface-muted)",
         lavender: "var(--lavender)",
-        orange: { DEFAULT: "#E86A33", light: "#F07A3D", dark: "#C45628" },
+        orange: { DEFAULT: "var(--orange)", light: "var(--orange-light)", dark: "var(--orange-dark)" },
         golden: { DEFAULT: "#D4AF37", light: "#E0C45A", dark: "#B8962E" },
         gold: "#D4AF37",
         green: { DEFAULT: "#004D2C", light: "#006B3D", dark: "#003820" },
@@ -65,7 +65,7 @@ module.exports = {
         "5xl": "2.5rem",
       },
       boxShadow: {
-        glow: "0 0 40px rgba(232, 93, 34, 0.15), 0 0 80px rgba(232, 93, 34, 0.08)",
+        glow: "0 0 40px rgba(var(--orange-rgb), 0.15), 0 0 80px rgba(var(--orange-rgb), 0.08)",
         lift: "var(--shadow-lift)",
         card: "var(--shadow-soft)",
       },

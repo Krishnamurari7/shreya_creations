@@ -59,7 +59,7 @@ export default function FaqList({ faqs }) {
             className={cn(
               "rounded-3xl overflow-hidden transition-all duration-300 reveal interactive-card",
               isOpen
-                ? "border-orange/40 shadow-[0_15px_40px_-15px_rgba(232,93,34,0.15)] bg-orange/[0.03]"
+                ? "border-orange/40 shadow-[0_15px_40px_-15px_rgba(230,90,5,0.15)] bg-orange/[0.03]"
                 : "border-ink/15 hover:border-orange/25"
             )}
             style={staggerDelay(i, 70)}

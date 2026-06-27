@@ -3,9 +3,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { waLink, greetingMessage, admissionMessage } from "@/lib/whatsapp";
+import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
-import { useTheme } from "@/components/ThemeProvider";
 import { UI } from "@/lib/i18n";
 import { LOGO_SRC } from "@/lib/brand";
 import AnnouncementBar from "@/components/AnnouncementBar";
@@ -14,27 +13,9 @@ const ROUTES = [
   { href: "/", key: "home" },
   { href: "/about", key: "about" },
   { href: "/courses", key: "courses" },
-  { href: "/courses", key: "niftCoaching" },
   { href: "/portfolio", key: "gallery" },
-  { href: "/#testimonials", key: "testimonials" },
   { href: "/contact", key: "contact" },
 ];
-
-function ThemeIcon({ dark }) {
-  if (dark) {
-    return (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-        <circle cx="12" cy="12" r="4" />
-        <path strokeLinecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-      </svg>
-    );
-  }
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
-    </svg>
-  );
-}
 
 function MenuIcon({ open }) {
   return (
@@ -48,7 +29,6 @@ function MenuIcon({ open }) {
 
 export default function Navbar({ site }) {
   const { lang, toggle } = useLanguage();
-  const { isDark, toggle: toggleTheme } = useTheme();
   const t = UI[lang];
   const links = ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const [open, setOpen] = useState(false);
@@ -56,7 +36,7 @@ export default function Navbar({ site }) {
   const pathname = usePathname();
   const prevPath = useRef(pathname);
   const wa = waLink(site?.whatsapp, greetingMessage());
-  const applyWa = waLink(site?.whatsapp, admissionMessage());
+  const enquireHref = "/contact";
   const brandName = site?.brand || "Shreya creation";
 
   const closeMenu = useCallback(() => setOpen(false), []);
@@ -102,6 +82,12 @@ export default function Navbar({ site }) {
     .filter(Boolean)
     .join(" ");
 
+  const isActiveLink = (href) => {
+    if (href === "/") return pathname === "/";
+    if (href.startsWith("/#")) return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <>
     <header className={headerClass}>
@@ -116,7 +102,7 @@ export default function Navbar({ site }) {
             </span>
           </Link>
 
-          <div className="nav-mobile-highlights" aria-label="Brand highlights">
+          <div className="nav-mobile-highlights">
             <span className="nav-highlight-box">{t.highlightStitching}</span>
             <span className="nav-highlight-box">{t.highlightSkill}</span>
           </div>
@@ -124,16 +110,7 @@ export default function Navbar({ site }) {
           <div className="nav-mobile-actions">
             <button
               type="button"
-              onClick={toggleTheme}
-              className="nav-icon-btn"
-              aria-label={isDark ? t.lightMode : t.darkMode}
-              title={isDark ? t.lightMode : t.darkMode}
-            >
-              <ThemeIcon dark={isDark} />
-            </button>
-            <button
-              type="button"
-              className="nav-icon-btn nav-icon-btn--menu"
+              className="nav-icon-btn nav-icon-btn--menu nav-icon-btn--luxury"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-controls="mobile-nav-panel"
@@ -157,7 +134,7 @@ export default function Navbar({ site }) {
               <li key={`${l.href}-${l.label}`}>
                 <Link
                   href={l.href}
-                  className={pathname === l.href || (l.href === "/" && pathname === "/") ? "is-active" : undefined}
+                  className={isActiveLink(l.href) ? "is-active" : undefined}
                 >
                   <span className="nav-link-label">{l.label}</span>
                 </Link>
@@ -168,15 +145,6 @@ export default function Navbar({ site }) {
           <div className="nav-desktop-highlights">
             <span className="nav-highlight-box">{t.highlightStitching}</span>
             <span className="nav-highlight-box">{t.highlightSkill}</span>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="nav-icon-btn nav-icon-btn--desktop nav-icon-btn--theme nav-icon-btn--luxury"
-              aria-label={isDark ? t.lightMode : t.darkMode}
-              title={isDark ? t.lightMode : t.darkMode}
-            >
-              <ThemeIcon dark={isDark} />
-            </button>
           </div>
         </nav>
       </div>
@@ -207,7 +175,7 @@ export default function Navbar({ site }) {
         <ul className="nav-mobile-drawer-list">
           {links.map((l, i) => (
             <li key={`${l.href}-${l.label}`} style={{ "--nav-item-delay": `${i * 45}ms` }}>
-              <Link href={l.href} onClick={closeMenu} className={pathname === l.href ? "is-active" : undefined} tabIndex={open ? 0 : -1}>
+              <Link href={l.href} onClick={closeMenu} className={isActiveLink(l.href) ? "is-active" : undefined} tabIndex={open ? 0 : -1}>
                 <span className="nav-mobile-link-index">{String(i + 1).padStart(2, "0")}</span>
                 <span className="nav-mobile-link-text">{l.label}</span>
               </Link>
@@ -237,16 +205,15 @@ export default function Navbar({ site }) {
             </svg>
             {t.chatWhatsApp}
           </a>
-          <a
-            href={applyWa}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={enquireHref}
             onClick={closeMenu}
-            className="nav-apply-btn w-full"
+            className="nav-enquire-btn w-full"
             tabIndex={open ? 0 : -1}
           >
-            {t.applyNow}
-          </a>
+            {t.enquireNow}
+            <span aria-hidden>→</span>
+          </Link>
         </div>
       </nav>
     </div>

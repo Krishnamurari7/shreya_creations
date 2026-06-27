@@ -7,6 +7,7 @@ import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
+import "@fontsource/montserrat/800.css";
 import "@fontsource/kaushan-script/400.css";
 import "@fontsource/dancing-script/500.css";
 import "@fontsource/dancing-script/600.css";
@@ -16,6 +17,14 @@ import "@fontsource/cormorant-garamond/600.css";
 import "@fontsource/cormorant-garamond/700.css";
 import "@fontsource/cormorant-garamond/400-italic.css";
 import "@fontsource/cormorant-garamond/600-italic.css";
+import "@fontsource/noto-serif-devanagari/400.css";
+import "@fontsource/noto-serif-devanagari/500.css";
+import "@fontsource/noto-serif-devanagari/600.css";
+import "@fontsource/noto-serif-devanagari/700.css";
+import "@fontsource/noto-sans-devanagari/400.css";
+import "@fontsource/noto-sans-devanagari/500.css";
+import "@fontsource/noto-sans-devanagari/600.css";
+import "@fontsource/noto-sans-devanagari/700.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppAssistant from "@/components/WhatsAppAssistant";
@@ -60,7 +69,7 @@ export const viewport = {
   viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#0a0710" },
-    { media: "(prefers-color-scheme: light)", color: "#E8D5A3" },
+    { media: "(prefers-color-scheme: light)", color: "#E65A05" },
   ],
 };
 
