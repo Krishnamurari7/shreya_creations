@@ -56,7 +56,7 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
     (lang === "hi" ? "पूरा पोर्टफोलियो" : "View Full Portfolio");
 
   return (
-    <section className="home-portfolio-showcase page-section relative overflow-hidden">
+    <section className="home-portfolio-showcase home-band--brand page-section relative overflow-hidden">
       <div className="home-portfolio-showcase__bg" aria-hidden />
       <div className="page-container relative z-[1]">
         <PortfolioSectionHeader home={home} lang={lang} />

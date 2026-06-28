@@ -126,7 +126,7 @@ export default function VideoShowcase({ home, embedUrl }) {
   }, [home.videoPerks, lang]);
 
   return (
-    <section id="video-showcase" className="video-showcase-section page-section relative overflow-hidden">
+    <section id="video-showcase" className="video-showcase-section home-band--brand page-section relative overflow-hidden">
       <div className="pointer-events-none absolute top-16 left-[8%] h-48 w-48 rounded-full bg-orange/8 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute bottom-10 right-[6%] h-56 w-56 rounded-full bg-orange/6 blur-3xl" aria-hidden />
       <span className="pointer-events-none absolute top-24 right-[18%] text-gold text-sm sparkle-pulse hidden sm:block" aria-hidden>
@@ -165,18 +165,14 @@ export default function VideoShowcase({ home, embedUrl }) {
               </div>
             )}
 
-            <ul className="mt-8 space-y-3 max-w-sm mx-auto lg:mx-0">
+            <ul className="video-showcase-perks mt-8 space-y-3 max-w-sm mx-auto lg:mx-0">
               {perks.map((perk, i) => (
                 <li
                   key={perk}
-                  className="flex items-center gap-3 rounded-xl border border-ink/10 bg-cream/60 px-4 py-3 text-sm text-ink backdrop-blur-sm"
+                  className="video-showcase-perk flex items-center gap-3 rounded-xl px-4 py-3 text-sm backdrop-blur-sm"
                   style={{ transitionDelay: `${i * 80}ms` }}
                 >
-                  <span
-                    className={`grid place-items-center h-8 w-8 shrink-0 rounded-lg text-xs font-display font-semibold ${
-                      i % 2 === 0 ? "bg-orange/10 text-orange" : "bg-orange/10 text-orange"
-                    }`}
-                  >
+                  <span className="video-showcase-perk__num grid place-items-center h-8 w-8 shrink-0 rounded-lg text-xs font-display font-semibold">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="font-medium">{perk}</span>

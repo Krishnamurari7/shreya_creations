@@ -38,7 +38,7 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
       : `View All ${courses.length} Courses`;
 
   return (
-    <section className="home-courses-preview page-section page-section--bordered relative z-20">
+    <section className="home-courses-preview home-band--brand page-section page-section--bordered relative z-20">
       <div className="page-container max-w-7xl">
         <div className="home-courses-preview__header reveal in">
           <div className="home-courses-preview__header-copy">

@@ -83,7 +83,7 @@ export default function CategoryCards({ lang = "en" }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="quick-explore page-section page-section--tight-top page-container">
+    <section className="quick-explore home-band--white page-section page-section--tight-top page-section--bordered page-container">
       <div className="text-center mb-6 sm:mb-8 reveal section-header-glass">
         <span className="section-eyebrow">
           <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>✦</span>

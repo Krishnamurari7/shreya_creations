@@ -18,21 +18,16 @@ function ShopSectionHeader({ home, lang }) {
   const highlight =
     pickPage(home, lang, "shopPreviewTitleHighlight", "shopPreviewTitleHighlightHi") ||
     (lang === "hi" ? "कउचर" : "Couture");
-  const subtitle =
-    pickPage(home, lang, "shopPreviewSubtitle", "shopPreviewSubtitleHi") ||
-    (lang === "hi"
-      ? "कलेक्शन देखें और WhatsApp पर अपने माप पर ऑर्डर करें।"
-      : "Browse the collection and order stitched to your size on WhatsApp.");
 
   return (
-    <div className="home-shop-showcase__header reveal">
-      <span className="home-shop-showcase__eyebrow">
+    <div className="home-shop-showcase__header reveal section-header-glass text-center">
+      <span className="section-eyebrow">
         <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>
           ✦
         </span>
         {eyebrow}
       </span>
-      <h2 className="home-shop-showcase__title">
+      <h2 className="section-title mt-3 sm:mt-4">
         {title}
         {highlight && (
           <>
@@ -41,12 +36,6 @@ function ShopSectionHeader({ home, lang }) {
           </>
         )}
       </h2>
-      {subtitle && <p className="home-shop-showcase__subtitle">{subtitle}</p>}
-      <div className="home-shop-showcase__rule" aria-hidden>
-        <span />
-        <span className="home-shop-showcase__rule-gem">✦</span>
-        <span />
-      </div>
     </div>
   );
 }
@@ -157,7 +146,7 @@ export default function HomeShopPreview({ products = [], home = {}, lang = "en",
     (lang === "hi" ? "पूरी शॉप देखें" : "Explore Full Collection");
 
   return (
-    <section className="home-shop-showcase page-section relative overflow-hidden">
+    <section className="home-shop-showcase home-band--white page-section relative overflow-hidden">
       <div className="home-shop-showcase__bg" aria-hidden />
       <div className="home-shop-showcase__pattern" aria-hidden />
 

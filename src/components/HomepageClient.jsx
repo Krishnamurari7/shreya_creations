@@ -7,9 +7,8 @@ import { Testimonials } from "@/components/Sections";
 import { DesignProcess } from "@/components/FashionSections";
 import { toYoutubeEmbedUrl } from "@/lib/youtube";
 import VideoShowcase from "@/components/VideoShowcase";
-import PageCTA from "@/components/PageCTA";
 import { useLanguage } from "@/components/LanguageProvider";
-import { pickPage, pageBottomCtaProps } from "@/lib/cms";
+import { pickPage } from "@/lib/cms";
 import { pickBrandMessage, pickServiceUsp, normalizeServiceUsp } from "@/lib/i18n";
 import { SITE_STATS } from "@/lib/seed";
 import InquiryPopup from "@/components/InquiryPopup";
@@ -237,10 +236,7 @@ export default function HomepageClient({
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
       {/* ===== HERO BANNER (includes stats + quick actions) ===== */}
-      <HeroSection home={home} lang={lang} whatsapp={site.whatsapp} />
-
-      {/* ===== QUICK CATEGORY LINKS ===== */}
-      <CategoryCards lang={lang} />
+      <HeroSection home={home} lang={lang} />
 
       {/* ===== BRAND MARQUEE RIBBON ===== */}
       <div className="brand-ribbon" aria-hidden>
@@ -259,9 +255,12 @@ export default function HomepageClient({
         </div>
       </div>
 
+      {/* ===== QUICK CATEGORY LINKS ===== */}
+      <CategoryCards lang={lang} />
+
       {/* ===== WHY CHOOSE US ===== */}
       {whyChooseFeatures.length > 0 && (
-        <section className="why-choose-section page-section page-container relative">
+        <section className="why-choose-section home-band--white page-section page-section--bordered page-container relative">
           <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 h-48 w-[min(100%,36rem)] rounded-full bg-gold/8 blur-3xl" aria-hidden />
 
           <SectionHeader
@@ -298,16 +297,16 @@ export default function HomepageClient({
             </div>
           </div>
 
-          <div className="hidden md:block">
-            <p className="why-choose-divider reveal text-center">
+          <div className="why-choose-features reveal">
+            <p className="why-choose-divider reveal text-center hidden sm:block">
               <span>
                 {pickPage(home, lang, "whyChooseDivider", "whyChooseDividerHi") ||
                   (lang === "hi" ? "और भी कारण" : "Plus more reasons")}
               </span>
             </p>
 
-            <div className="features-bar mt-6 sm:mt-8">
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-5" data-stagger>
+            <div className="features-bar mt-4 sm:mt-6 md:mt-8">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 md:gap-5" data-stagger>
                 {whyChooseFeatures.map((f, i) => (
                   <div
                     key={i}
@@ -345,7 +344,7 @@ export default function HomepageClient({
       {videoEmbedUrl && <VideoShowcase home={home} embedUrl={videoEmbedUrl} />}
 
       {/* ===== FOUNDER MESSAGE ===== */}
-      <section className="founder-section page-section page-container max-w-6xl relative z-20">
+      <section className="founder-section home-band--white page-section page-container max-w-6xl relative z-20">
         <SectionHeader
           home={home}
           lang={lang}
@@ -366,7 +365,7 @@ export default function HomepageClient({
 
       {/* ===== DESIGN PROCESS ===== */}
       {processSteps.length > 0 && (
-        <section className="section-muted page-section">
+        <section className="section-muted home-band--brand page-section">
           <div className="page-container">
           <div className="text-center mb-8 sm:mb-12 reveal">
             <span className="text-orange uppercase tracking-[0.25em] text-xs font-semibold">
@@ -385,7 +384,7 @@ export default function HomepageClient({
       )}
 
       {/* ===== STUDENT SUCCESS ===== */}
-      <section id="testimonials" className="page-section page-section--bordered overflow-hidden min-w-0">
+      <section id="testimonials" className="home-band--white page-section page-section--bordered overflow-hidden min-w-0">
         <div className="page-container">
           <SectionHeader
             home={home}
@@ -397,9 +396,6 @@ export default function HomepageClient({
         </div>
         <Testimonials items={testimonials} />
       </section>
-
-      {/* ===== CONTACT SECTION ===== */}
-      <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} className="page-section" />
 
       <InquiryPopup source="home_popup" />
     </div>

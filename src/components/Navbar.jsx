@@ -75,12 +75,17 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
   }
 }
 
-function LogoTabIcon() {
+function BrandLogo({ brandName, variant = "header" }) {
   return (
-    <svg className="nav-logo-float-card__tab-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M12 2.5c-2.2 0-4 1.35-4 3.25V8h8V5.75c0-1.9-1.8-3.25-4-3.25z" />
-      <path d="M8 8.25v10.35l4 2.4 4-2.4V8.25H8z" />
-    </svg>
+    /* eslint-disable-next-line @next/next/no-img-element */
+    <img
+      src={NAV_LOGO_SRC}
+      alt={brandName}
+      className={`nav-logo-img${variant === "drawer" ? " nav-logo-img--drawer" : ""}`}
+      width={220}
+      height={88}
+      decoding="async"
+    />
   );
 }
 
@@ -88,6 +93,20 @@ function ChevronDownIcon({ className = "nav-lang-chevron" }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
       <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function GlobeIcon({ className = "nav-lang-globe" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M2 12h20" strokeLinecap="round" />
+      <path
+        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -113,7 +132,6 @@ function WhatsAppIcon({ className = "h-4 w-4 shrink-0" }) {
 export default function Navbar({ site }) {
   const { lang, toggle } = useLanguage();
   const t = UI[lang];
-  const links = ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -181,16 +199,8 @@ export default function Navbar({ site }) {
 
       <div className="site-header-inner">
         <div className="nav-mobile-bar lg:hidden">
-          <Link href="/" onClick={closeMenu} className="nav-mobile-brand nav-brand-protrude">
-            <span className="nav-logo-float-card nav-logo-float-card--mobile">
-              <span className="nav-logo-float-card__tab" aria-hidden>
-                <LogoTabIcon />
-              </span>
-              <span className="nav-logo-float-card__media">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={NAV_LOGO_SRC} alt={brandName} className="nav-mobile-logo" width={200} height={120} />
-              </span>
-            </span>
+          <Link href="/" onClick={closeMenu} className="nav-brand nav-mobile-brand">
+            <BrandLogo brandName={brandName} />
           </Link>
 
           <div className="nav-mobile-actions">
@@ -200,7 +210,8 @@ export default function Navbar({ site }) {
               className="nav-lang-btn nav-lang-btn--mobile"
               aria-label={t.language}
             >
-              {t.language}
+              <GlobeIcon />
+              <span>{t.language}</span>
             </button>
             <button
               type="button"
@@ -216,35 +227,30 @@ export default function Navbar({ site }) {
         </div>
 
         <nav className="nav-desktop-bar nav-desktop-bar--luxury hidden lg:grid" aria-label="Main navigation">
-          <Link href="/" className="nav-desktop-brand nav-brand-protrude">
-            <span className="nav-logo-float-card nav-logo-float-card--desktop">
-              <span className="nav-logo-float-card__tab" aria-hidden>
-                <LogoTabIcon />
-              </span>
-              <span className="nav-logo-float-card__media">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={NAV_LOGO_SRC} alt={brandName} className="nav-desktop-logo" width={320} height={160} />
-              </span>
-            </span>
+          <Link href="/" className="nav-brand nav-desktop-brand">
+            <BrandLogo brandName={brandName} />
           </Link>
 
-          <ul className="nav-desktop-links nav-desktop-links--minimal">
-            {ROUTES.map((r) => (
-              <li key={r.href}>
-                <Link
-                  href={r.href}
-                  className={isActiveLink(r.href) ? "is-active" : undefined}
-                >
-                  <NavLinkIcon type={r.key} />
-                  <span className="nav-link-label">{t[r.key]}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="nav-links-glow-wrap">
+            <ul className="nav-desktop-links nav-desktop-links--minimal nav-desktop-links--premium">
+              {ROUTES.map((r) => (
+                <li key={r.href}>
+                  <Link
+                    href={r.href}
+                    className={isActiveLink(r.href) ? "is-active" : undefined}
+                  >
+                    <NavLinkIcon type={r.key} />
+                    <span className="nav-link-label">{t[r.key]}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="nav-desktop-end">
             <div className="nav-desktop-actions nav-desktop-actions--luxury">
               <button type="button" onClick={toggle} className="nav-lang-btn nav-lang-btn--luxury" aria-label={t.language}>
+                <GlobeIcon />
                 <span>{t.language}</span>
                 <ChevronDownIcon />
               </button>
@@ -257,9 +263,9 @@ export default function Navbar({ site }) {
               >
                 <WhatsAppIcon className="nav-wa-circle__icon" />
               </a>
-              <Link href={enquireHref} className="nav-enquire-btn nav-enquire-btn--desktop">
-                {t.enquireNow}
-                <span aria-hidden>→</span>
+              <Link href={enquireHref} className="nav-enquire-btn nav-enquire-btn--desktop nav-enquire-btn--shine">
+                <span className="nav-enquire-btn__text">{t.enquireNow}</span>
+                <span className="nav-enquire-btn__arrow" aria-hidden>→</span>
               </Link>
             </div>
           </div>
@@ -279,13 +285,12 @@ export default function Navbar({ site }) {
 
       <nav className="nav-mobile-drawer-panel" aria-label="Mobile navigation links">
         <div className="nav-mobile-drawer-head">
+          <p className="nav-mobile-drawer-eyebrow" aria-hidden>
+            <span className="nav-mobile-drawer-eyebrow__sparkle">✦</span>
+            Shreya Creation
+          </p>
           <div className="nav-mobile-drawer-head-row">
-            <span className="nav-logo-float-card nav-logo-float-card--drawer">
-              <span className="nav-logo-float-card__media nav-logo-float-card__media--drawer">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={NAV_LOGO_SRC} alt={brandName} className="nav-mobile-drawer-logo" />
-              </span>
-            </span>
+            <BrandLogo brandName={brandName} variant="drawer" />
             <button
               type="button"
               className="nav-icon-btn nav-icon-btn--luxury nav-drawer-close"
@@ -299,11 +304,19 @@ export default function Navbar({ site }) {
         </div>
 
         <ul className="nav-mobile-drawer-list">
-          {links.map((l, i) => (
-            <li key={`${l.href}-${l.label}`} style={{ "--nav-item-delay": `${i * 45}ms` }}>
-              <Link href={l.href} onClick={closeMenu} className={isActiveLink(l.href) ? "is-active" : undefined} tabIndex={open ? 0 : -1}>
-                <span className="nav-mobile-link-index">{String(i + 1).padStart(2, "0")}</span>
-                <span className="nav-mobile-link-text">{l.label}</span>
+          {ROUTES.map((r, i) => (
+            <li key={r.href} style={{ "--nav-item-delay": `${i * 45}ms` }}>
+              <Link
+                href={r.href}
+                onClick={closeMenu}
+                className={isActiveLink(r.href) ? "is-active" : undefined}
+                tabIndex={open ? 0 : -1}
+              >
+                <span className="nav-mobile-link-icon-wrap" aria-hidden>
+                  <NavLinkIcon type={r.key} className="nav-mobile-link-icon" />
+                </span>
+                <span className="nav-mobile-link-text">{t[r.key]}</span>
+                <span className="nav-mobile-link-arrow" aria-hidden>→</span>
               </Link>
             </li>
           ))}
@@ -316,6 +329,7 @@ export default function Navbar({ site }) {
             className="nav-mobile-drawer-action"
             tabIndex={open ? 0 : -1}
           >
+            <GlobeIcon className="nav-mobile-drawer-action__icon" />
             {t.language}
           </button>
           <a
@@ -332,11 +346,11 @@ export default function Navbar({ site }) {
           <Link
             href={enquireHref}
             onClick={closeMenu}
-            className="nav-enquire-btn w-full"
+            className="nav-enquire-btn nav-enquire-btn--shine w-full"
             tabIndex={open ? 0 : -1}
           >
-            {t.enquireNow}
-            <span aria-hidden>→</span>
+            <span className="nav-enquire-btn__text">{t.enquireNow}</span>
+            <span className="nav-enquire-btn__arrow" aria-hidden>→</span>
           </Link>
         </div>
       </nav>

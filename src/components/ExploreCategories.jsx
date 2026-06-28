@@ -153,7 +153,7 @@ export default function ExploreCategories({ courses = [], products = [], home = 
   };
 
   return (
-    <section className="explore-categories page-section page-section--bordered">
+    <section className="explore-categories home-band--white page-section page-section--bordered">
       <div className="page-container max-w-7xl">
         <div className="explore-categories__header reveal">
           <div className="explore-categories__header-copy">
