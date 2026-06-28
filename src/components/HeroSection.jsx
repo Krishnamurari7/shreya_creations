@@ -157,6 +157,8 @@ function HeroVideoCard({
   href,
   videoSrc,
   onVideoClick,
+  tag,
+  offset = false,
 }) {
   const isLive = Boolean(videoSrc);
 
@@ -169,6 +171,11 @@ function HeroVideoCard({
         <span className="home-hero__video-head-label">{headerLabel}</span>
       </div>
       <div className="home-hero__video-body">
+        {tag ? (
+          <span className="home-hero__video-tag" aria-hidden>
+            {tag}
+          </span>
+        ) : null}
         {videoSrc ? (
           <>
             <HeroAutoplayVideo src={videoSrc} alt={alt} preview />
@@ -202,7 +209,11 @@ function HeroVideoCard({
     </div>
   );
 
-  const cardClass = ["home-hero__video-card", isLive ? "home-hero__video-card--live" : ""]
+  const cardClass = [
+    "home-hero__video-card",
+    isLive ? "home-hero__video-card--live" : "",
+    offset ? "home-hero__video-card--offset" : "",
+  ]
     .filter(Boolean)
     .join(" ");
 
@@ -235,14 +246,21 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
   const heroTitle =
     pickPage(home, lang, "heroBoutiqueTitle", "heroBoutiqueTitleHi") ||
     pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") ||
-    (lang === "hi" ? "कौशल जो आय पैदा करे" : "Skill That Create Income");
+    (lang === "hi" ? "फैशन सीखो," : "Learn Fashion Skills");
 
   const heroTitleHighlight =
-    pickPage(home, lang, "heroBoutiqueTitleHighlight", "heroBoutiqueTitleHighlightHi") || "";
+    pickPage(home, lang, "heroBoutiqueTitleHighlight", "heroBoutiqueTitleHighlightHi") ||
+    (lang === "hi" ? "कमाई कमाओ" : "Earn Real Income");
 
   const { main: heroTitleMain, highlight: heroTitleAccent } = heroTitleHighlight
     ? { main: heroTitle, highlight: heroTitleHighlight }
     : splitHeroTitle(heroTitle, lang);
+
+  const heroSubtitle =
+    pickPage(home, lang, "heroBoutiqueSubtitle", "heroBoutiqueSubtitleHi") ||
+    (lang === "hi"
+      ? "नौकरी • अपना बुटीक • 2007 से भरोसेमंद ट्रेनिंग"
+      : "Job-ready training • Start your boutique • Trusted since 2007");
 
   const heroKeywords =
     pickPage(home, lang, "heroBoutiqueKeywords", "heroBoutiqueKeywordsHi") ||
@@ -317,29 +335,44 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
       <div className="home-hero__ambient" aria-hidden>
         <span className="home-hero__glow home-hero__glow--warm" />
         <span className="home-hero__glow home-hero__glow--gold" />
+        <span className="home-hero__deco-ring home-hero__deco-ring--1" />
+        <span className="home-hero__deco-ring home-hero__deco-ring--2" />
+        <span className="home-hero__mesh-grid" />
+        <span className="home-hero__grain-texture" />
       </div>
 
       <div className="page-container home-hero__top">
         <div className="home-hero__grid">
           <div className="home-hero__copy">
+            <div className="home-hero__glass-panel">
             <div className="home-hero__copy-stack">
               <span className="home-hero__badge home-hero__badge--boutique anim-rise anim-delay-1">
+                <span className="home-hero__badge-pulse" aria-hidden />
                 <span className="home-hero__badge-gem" aria-hidden>✦</span>
                 {heroBadge}
               </span>
 
               <h1 className="home-hero__title-block anim-rise anim-delay-2">
-                <span className="home-hero__serif-title">{heroTitleMain || heroTitle}</span>
+                <span className="home-hero__title-lead">{heroTitleMain || heroTitle}</span>
                 {heroTitleAccent ? (
                   <span className="home-hero__title-highlight">{heroTitleAccent}</span>
                 ) : null}
               </h1>
 
+              {heroSubtitle ? (
+                <p className="home-hero__title-sub anim-rise anim-delay-2">{heroSubtitle}</p>
+              ) : null}
+
+              <div className="home-hero__ornament anim-rise anim-delay-3" aria-hidden>
+                <span className="home-hero__ornament-line" />
+                <span className="home-hero__ornament-gem sparkle-pulse">✦</span>
+                <span className="home-hero__ornament-line" />
+              </div>
+
               {keywordPills.length > 0 ? (
-                <ul className="home-hero__keyword-pills anim-rise anim-delay-3">
-                  {keywordPills.map((pill, i) => (
-                    <li key={pill} className="home-hero__keyword-pill">
-                      {i > 0 && <span className="home-hero__keyword-dot" aria-hidden>•</span>}
+                <ul className="home-hero__keyword-chips anim-rise anim-delay-3">
+                  {keywordPills.map((pill) => (
+                    <li key={pill} className="home-hero__keyword-chip">
                       <span>{pill}</span>
                     </li>
                   ))}
@@ -349,10 +382,11 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
               )}
 
               <div className="home-hero__cta-stack anim-rise anim-delay-4">
-                <div className="home-hero__career-box">
+                <Link href="/contact" className="home-hero__career-box home-hero__career-box--link">
+                  <span className="home-hero__career-box-shine" aria-hidden />
                   <span className="home-hero__career-box-text">{careerBanner}</span>
                   <span className="home-hero__career-box-arrow" aria-hidden>→</span>
-                </div>
+                </Link>
 
                 <div className="home-hero__quick-actions">
                   {actionLinks.map((item) => {
@@ -393,11 +427,13 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
                 </div>
               </div>
             </div>
+            </div>
           </div>
 
           <div className="home-hero__visual anim-hero-media">
             <div className="home-hero__videos">
             <HeroVideoCard
+              tag={lang === "hi" ? "मुफ़्त" : "FREE"}
               headerIcon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -421,6 +457,8 @@ export default function HeroSection({ home = {}, lang = "en", whatsapp }) {
               }
             />
             <HeroVideoCard
+              offset
+              tag={lang === "hi" ? "बुक" : "BOOK"}
               headerIcon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
                   <rect x="3" y="4" width="18" height="18" rx="2" />
