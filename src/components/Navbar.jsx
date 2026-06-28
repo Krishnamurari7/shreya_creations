@@ -103,10 +103,11 @@ export default function Navbar({ site }) {
 
       <div className="site-header-inner">
         <div className="nav-mobile-bar lg:hidden">
-          <Link href="/" onClick={closeMenu} className="nav-mobile-brand">
+          <Link href="/" onClick={closeMenu} className="nav-mobile-brand nav-brand-protrude">
             <span className="nav-logo-float-card nav-logo-float-card--mobile">
+              <span className="nav-logo-float-card__tab" aria-hidden />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={LOGO_SRC} alt={brandName} className="nav-mobile-logo" />
+              <img src={LOGO_SRC} alt={brandName} className="nav-mobile-logo" width={200} height={120} />
             </span>
           </Link>
 
@@ -133,10 +134,11 @@ export default function Navbar({ site }) {
         </div>
 
         <nav className="nav-desktop-bar nav-desktop-bar--luxury hidden lg:grid" aria-label="Main navigation">
-          <Link href="/" className="nav-desktop-brand">
+          <Link href="/" className="nav-desktop-brand nav-brand-protrude">
             <span className="nav-logo-float-card nav-logo-float-card--desktop">
+              <span className="nav-logo-float-card__tab" aria-hidden />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={LOGO_SRC} alt={brandName} className="nav-desktop-logo" />
+              <img src={LOGO_SRC} alt={brandName} className="nav-desktop-logo" width={320} height={160} />
             </span>
           </Link>
 
