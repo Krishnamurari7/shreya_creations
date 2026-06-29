@@ -1,9 +1,10 @@
 "use client";
 
+import { GLASS } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
 export const glassCardStyles =
-  "relative group/card glass border border-ink/8 hover:shadow-lift hover:border-orange/30 hover:-translate-y-1 transition-all duration-500";
+  `relative group/card ${GLASS} border border-ink/8 hover:shadow-lift hover:border-orange/30 hover:-translate-y-1 transition-all duration-500`;
 
 export function CardGlow({ className }) {
   return (

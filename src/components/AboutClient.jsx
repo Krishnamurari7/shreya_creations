@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD_OUTLINE, BTN_PRIMARY, GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, MARQUEE_CONTAINER, MARQUEE_CONTENT, PAGE_CONTAINER, REVEAL, SECTION_EYEBROW, SECTION_MUTED, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import CardImage from "@/components/CardImage";
@@ -156,7 +158,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
   return (
     <div className="about-page relative min-w-0 w-full">
       {/* ——— Hero story ——— */}
-      <section className="about-hero page-container max-w-6xl py-5 sm:py-8 lg:py-12 relative z-20 overflow-hidden min-w-0 w-full">
+      <section className={cn(PAGE_CONTAINER, "about-hero", "max-w-6xl", "py-5", "sm:py-8", "lg:py-12", "relative", "z-20", "overflow-hidden", "min-w-0", "w-full")}>
         <AmbientGlows />
         <div className="pointer-events-none absolute -top-16 right-0 h-56 w-56 rounded-full bg-orange/8 blur-3xl" aria-hidden />
         <div className="pointer-events-none absolute bottom-0 -left-20 h-48 w-48 rounded-full bg-gold/6 blur-3xl" aria-hidden />
@@ -171,7 +173,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
           >
             <div className="about-hero__portrait founder-portrait relative">
               <div className="founder-portrait__ring gradient-ring rounded-2xl sm:rounded-3xl p-[2px] shadow-glow">
-                <div className="founder-portrait__inner rounded-[calc(1rem-2px)] sm:rounded-[calc(1.5rem-2px)] overflow-hidden glass border-0 p-1.5 sm:p-2">
+                <div className={cn(GLASS, "founder-portrait__inner", "rounded-[calc(1rem-2px)]", "sm:rounded-[calc(1.5rem-2px)]", "overflow-hidden", "border-0", "p-1.5", "sm:p-2")}>
                   <motion.div
                     className="about-hero-frame relative w-full"
                     animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
@@ -220,19 +222,19 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             custom={0.25}
             variants={fadeUp}
           >
-            <span className="section-eyebrow">
-              <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>
+            <span className={SECTION_EYEBROW}>
+              <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
                 ✦
               </span>
               {storyEyebrow}
             </span>
 
-            <h2 className="section-title mt-2 text-balance leading-tight">
+            <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance", "leading-tight")}>
               {heroBefore}{" "}
-              <span className="highlight-shimmer">{heroHighlight}</span>
+              <span className={HIGHLIGHT_SHIMMER}>{heroHighlight}</span>
             </h2>
 
-            <div className="hairline max-w-xs mx-auto lg:mx-0 lg:max-w-sm" />
+            <div className={cn(HAIRLINE, "max-w-xs", "mx-auto", "lg:mx-0", "lg:max-w-sm")} />
 
             <p className="text-muted font-normal leading-relaxed text-sm sm:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 text-pretty">
               {intro}
@@ -240,7 +242,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
             <div className="about-stat-chips">
               {statChips.map((chip, i) => (
-                <div key={chip.label} className="about-stat-chip reveal" style={staggerDelay(i, 70)}>
+                <div key={chip.label} className={cn(REVEAL, "about-stat-chip")} style={staggerDelay(i, 70)}>
                   <span className="about-stat-chip__icon" aria-hidden>
                     {chip.icon}
                   </span>
@@ -253,23 +255,23 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             </div>
 
             {aboutExtra && (
-              <div className="about-quote-card reveal">
+              <div className={cn(REVEAL, "about-quote-card")}>
                 <blockquote className="about-quote-card__text text-ink font-normal leading-relaxed text-sm sm:text-base text-left">
                   &ldquo;{aboutExtra}&rdquo;
                 </blockquote>
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 pt-1 reveal">
+            <div className={cn(REVEAL, "flex", "flex-col", "sm:flex-row", "flex-wrap", "items-stretch", "sm:items-center", "justify-center", "lg:justify-start", "gap-2.5", "sm:gap-3", "pt-1")}>
               <Link
                 href="/courses"
-                className="btn-primary rounded-full px-5 sm:px-6 py-2.5 sm:py-3 inline-flex items-center justify-center text-xs sm:text-sm tracking-widest"
+                className={cn(BTN_PRIMARY, "rounded-full", "px-5", "sm:px-6", "py-2.5", "sm:py-3", "inline-flex", "items-center", "justify-center", "text-xs", "sm:text-sm", "tracking-widest")}
               >
                 {lang === "hi" ? "कोर्स देखें" : "Explore Courses"}
               </Link>
               <Link
                 href="/contact"
-                className="btn-gold-outline rounded-full px-5 sm:px-6 py-2.5 sm:py-3 inline-flex items-center justify-center text-xs sm:text-sm tracking-widest"
+                className={cn(BTN_GOLD_OUTLINE, "rounded-full", "px-5", "sm:px-6", "py-2.5", "sm:py-3", "inline-flex", "items-center", "justify-center", "text-xs", "sm:text-sm", "tracking-widest")}
               >
                 {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </Link>
@@ -281,8 +283,8 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
       {/* ——— Brand ribbon ——— */}
       {ribbonItems.length > 0 && (
         <div className="brand-ribbon about-brand-ribbon relative z-20" aria-hidden>
-          <div className="marquee-container">
-            <div className="marquee-content">
+          <div className={MARQUEE_CONTAINER}>
+            <div className={MARQUEE_CONTENT}>
               {[0, 1].map((dup) => (
                 <span key={dup} className="brand-ribbon__item">
                   {ribbonItems.map((item, i) => (
@@ -300,7 +302,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
       {/* ——— Mission band ——— */}
       <section className="about-mission-band relative z-20 overflow-hidden" aria-label={brandMessage}>
         <div className="about-mission-band__bg" aria-hidden />
-        <div className="about-mission-band__inner page-container max-w-6xl relative">
+        <div className={cn(PAGE_CONTAINER, "about-mission-band__inner", "max-w-6xl", "relative")}>
           <motion.div className="about-mission-band__pill about-mission-band__pill--brand" {...viewProps(reduceMotion, 0.1)}>
             <span className="about-mission-band__icon" aria-hidden>
               ✦
@@ -328,14 +330,14 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
       </section>
 
       {/* ——— Journey timeline ——— */}
-      <section className="about-journey page-container max-w-6xl py-10 sm:py-14 lg:py-16 relative z-20 min-w-0">
+      <section className={cn(PAGE_CONTAINER, "about-journey", "max-w-6xl", "py-10", "sm:py-14", "lg:py-16", "relative", "z-20", "min-w-0")}>
         <SectionHeading eyebrow={journeyEyebrow} title={journeyTitle} />
         <div className="about-journey__track">
           <div className="about-journey__line" aria-hidden />
           {JOURNEY.map((step, i) => (
             <motion.article
               key={step.year}
-              className="about-journey__step reveal"
+              className={cn(REVEAL, "about-journey__step")}
               style={staggerDelay(i, 90)}
               {...viewProps(reduceMotion, 0.1 + i * 0.08)}
             >
@@ -358,7 +360,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
       {/* ——— Values / pillars ——— */}
       {pillarList.length > 0 && (
-        <section className="section-muted py-10 sm:py-16 lg:py-20 relative z-20 overflow-hidden">
+        <section className={cn(SECTION_MUTED, "py-10", "sm:py-16", "lg:py-20", "relative", "z-20", "overflow-hidden")}>
           <div
             className="pointer-events-none absolute inset-0 opacity-40"
             style={{
@@ -367,13 +369,13 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             }}
             aria-hidden
           />
-          <div className="page-container max-w-6xl relative">
+          <div className={cn(PAGE_CONTAINER, "max-w-6xl", "relative")}>
             <SectionHeading eyebrow={valuesEyebrow} title={pillarsTitle} />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
               {pillarList.map((p, i) => (
                 <Glass3DCard
                   key={p.title}
-                  className={`about-pillar-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 relative group overflow-hidden reveal interactive-card border ${PILLAR_ACCENTS[i % PILLAR_ACCENTS.length]}`}
+                  className={`about-pillar-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 relative group overflow-hidden ${REVEAL} ${INTERACTIVE_CARD} border ${PILLAR_ACCENTS[i % PILLAR_ACCENTS.length]}`}
                   style={staggerDelay(i, 100)}
                 >
                   <span className="about-pillar-card__index" aria-hidden>
@@ -398,7 +400,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
       <TeamSection aboutPage={about} memberImages={memberImages} />
 
       {/* ——— Quick explore links ——— */}
-      <section className="page-container max-w-6xl py-10 sm:py-12 lg:py-14 relative z-20 min-w-0">
+      <section className={cn(PAGE_CONTAINER, "max-w-6xl", "py-10", "sm:py-12", "lg:py-14", "relative", "z-20", "min-w-0")}>
         <SectionHeading eyebrow={exploreEyebrow} title={lang === "hi" ? "हमारी दुनिया" : "Our World"} />
         <div className="about-quick-links">
           {QUICK_LINKS.map((link, i) => (
@@ -430,7 +432,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
       {/* ——— Trust stats ——— */}
       {trust.length > 0 && (
         <section className="trust-stats-band about-trust-band relative z-20 trust-stats-section">
-          <div className="page-container max-w-6xl relative">
+          <div className={cn(PAGE_CONTAINER, "max-w-6xl", "relative")}>
             <SectionHeading eyebrow={numbersEyebrow} title={trustTitle} />
             <TrustWall items={trust} localize />
           </div>

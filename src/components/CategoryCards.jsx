@@ -1,5 +1,7 @@
 "use client";
 
+import { HIGHLIGHT_SHIMMER, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, PAGE_SECTION_TIGHT_TOP, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { motion, useReducedMotion } from "framer-motion";
@@ -83,17 +85,17 @@ export default function CategoryCards({ lang = "en" }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="quick-explore home-band--white page-section page-section--tight-top page-section--bordered page-container">
-      <div className="text-center mb-6 sm:mb-8 reveal section-header-glass">
-        <span className="section-eyebrow">
-          <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>✦</span>
+    <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, PAGE_SECTION_TIGHT_TOP, "quick-explore")}>
+      <div className={cn(REVEAL, SECTION_HEADER_GLASS, "text-center", "mb-4", "sm:mb-5")}>
+        <span className={SECTION_EYEBROW}>
+          <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>✦</span>
           {lang === "hi" ? "त्वरित लिंक" : "Quick Explore"}
         </span>
-        <h2 className="section-title mt-3 text-balance">
+        <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance")}>
           {lang === "hi" ? "शुरू करें " : "Start with "}
-          <span className="highlight-shimmer">{lang === "hi" ? "यहाँ से" : "Here"}</span>
+          <span className={HIGHLIGHT_SHIMMER}>{lang === "hi" ? "यहाँ से" : "Here"}</span>
         </h2>
-        <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+        <div className={cn(SECTION_ORNAMENT, "mt-3", "sm:mt-4")} aria-hidden>
           <span className="text-gold text-xs">✦</span>
         </div>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { FIELD_SURFACE, INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
 import { useState, useMemo, useEffect } from "react";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -24,14 +25,14 @@ export default function FaqList({ faqs }) {
   }, [faqs, query, lang]);
 
   return (
-    <div className="mx-auto max-w-3xl page-container pb-6 sm:pb-8 relative z-20">
-      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-5 border-ink/15 mb-6 sm:mb-8 reveal">
+    <div className={cn(PAGE_CONTAINER, "mx-auto", "max-w-3xl", "pb-6", "sm:pb-8", "relative", "z-20")}>
+      <Glass3DCard className={cn(REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "p-4", "sm:p-5", "border-ink/15", "mb-6", "sm:mb-8")}>
         <div className="relative">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={lang === "hi" ? "प्रश्न खोजें..." : "Search questions..."}
-            className="w-full field-surface rounded-full pl-11 pr-5 py-3 text-sm font-light"
+            className={cn(FIELD_SURFACE, "w-full", "rounded-full", "pl-11", "pr-5", "py-3", "text-sm", "font-light")}
           />
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -42,7 +43,7 @@ export default function FaqList({ faqs }) {
       </Glass3DCard>
 
       {filtered.length === 0 ? (
-        <Glass3DCard className="rounded-2xl border-ink/15 p-12 text-center reveal">
+        <Glass3DCard className={cn(REVEAL, "rounded-2xl", "border-ink/15", "p-12", "text-center")}>
           <p className="text-ink font-normal">
             {lang === "hi" ? "कोई प्रश्न नहीं मिला।" : "No questions match your search."}
           </p>
@@ -57,7 +58,7 @@ export default function FaqList({ faqs }) {
             key={i}
             layered
             className={cn(
-              "rounded-3xl overflow-hidden transition-all duration-300 reveal interactive-card",
+              cn(REVEAL, INTERACTIVE_CARD, "rounded-3xl overflow-hidden transition-all duration-300"),
               isOpen
                 ? "border-orange/40 shadow-[0_15px_40px_-15px_rgba(230,90,5,0.15)] bg-orange/[0.03]"
                 : "border-ink/15 hover:border-orange/25"

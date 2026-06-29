@@ -1,5 +1,7 @@
 "use client";
 
+import { GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, MARQUEE_CONTAINER, MARQUEE_CONTENT, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_LEFT, REVEAL_RIGHT, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import CardImage from "@/components/CardImage";
 import CategoryCards from "@/components/CategoryCards";
@@ -38,32 +40,32 @@ function SectionHeader({
   const subtitle = subtitleKey ? pickPage(home, lang, subtitleKey, `${subtitleKey}Hi`) : "";
   return (
     <div
-      className={`text-center px-1 reveal section-header-glass ${compact ? "mb-4 sm:mb-5" : "mb-6 sm:mb-10"} ${className}`}
+      className={`text-center px-1 ${REVEAL} ${SECTION_HEADER_GLASS} ${compact ? "mb-3 sm:mb-4" : "mb-4 sm:mb-6"} ${className}`}
     >
       {eyebrow && (
-        <span className="section-eyebrow">
-          <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>✦</span>
+        <span className={SECTION_EYEBROW}>
+          <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>✦</span>
           {eyebrow}
         </span>
       )}
       {title && (
-        <h2 className="section-title mt-2 leading-tight text-balance">
+        <h2 className={cn(SECTION_TITLE, "mt-2", "leading-tight", "text-balance")}>
           {title}
           {highlight && (
             <>
               {" "}
-              <span className="highlight-shimmer">{highlight}</span>
+              <span className={HIGHLIGHT_SHIMMER}>{highlight}</span>
             </>
           )}
         </h2>
       )}
       {subtitle && (
-        <p className="mt-3 section-lead max-w-2xl mx-auto">
+        <p className={cn(SECTION_LEAD, "mt-3", "max-w-2xl", "mx-auto")}>
           {subtitle}
         </p>
       )}
       {(eyebrow || title) && (
-        <div className={`section-ornament ${compact ? "mt-3 sm:mt-4" : "mt-5 sm:mt-6"}`} aria-hidden>
+        <div className={cn(SECTION_ORNAMENT, compact ? "mt-2 sm:mt-3" : "mt-3 sm:mt-4")} aria-hidden>
           <span className="text-gold text-xs">✦</span>
         </div>
       )}
@@ -86,10 +88,10 @@ function FounderMessageSlider({ slides }) {
 
   return (
     <div className="founder-message-grid grid lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-center min-w-0">
-      <div className="lg:col-span-4 xl:col-span-4 flex justify-center reveal reveal-left min-w-0">
+      <div className={cn(REVEAL, REVEAL_LEFT, "lg:col-span-4", "xl:col-span-4", "flex", "justify-center", "min-w-0")}>
         <div className="founder-portrait relative">
           <div className="founder-portrait__ring gradient-ring rounded-2xl p-[2px] shadow-glow">
-            <div className="founder-portrait__inner rounded-[calc(1rem-2px)] overflow-hidden glass border-0 p-1.5 sm:p-2">
+            <div className={cn(GLASS, "founder-portrait__inner", "rounded-[calc(1rem-2px)]", "overflow-hidden", "border-0", "p-1.5", "sm:p-2")}>
               {slides.map((s, i) => (
                 <div
                   key={s.name}
@@ -107,7 +109,7 @@ function FounderMessageSlider({ slides }) {
           </span>
         </div>
       </div>
-      <div className="lg:col-span-8 xl:col-span-8 text-center lg:text-left reveal reveal-right min-w-0">
+      <div className={cn(REVEAL, REVEAL_RIGHT, "lg:col-span-8", "xl:col-span-8", "text-center", "lg:text-left", "min-w-0")}>
         <div className="founder-quote-card relative min-h-[9rem] sm:min-h-[8rem] lg:min-h-[7.5rem]">
           {slides.map((s, i) => (
             <div
@@ -240,8 +242,8 @@ export default function HomepageClient({
 
       {/* ===== BRAND MARQUEE RIBBON ===== */}
       <div className="brand-ribbon" aria-hidden>
-        <div className="marquee-container">
-          <div className="marquee-content">
+        <div className={MARQUEE_CONTAINER}>
+          <div className={MARQUEE_CONTENT}>
             {[0, 1].map((dup) => (
               <span key={dup} className="brand-ribbon__item">
                 {ribbonItems.map((item, i) => (
@@ -260,7 +262,7 @@ export default function HomepageClient({
 
       {/* ===== WHY CHOOSE US ===== */}
       {whyChooseFeatures.length > 0 && (
-        <section className="why-choose-section home-band--white page-section page-section--bordered page-container relative">
+        <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "why-choose-section", "relative")}>
           <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 h-48 w-[min(100%,36rem)] rounded-full bg-gold/8 blur-3xl" aria-hidden />
 
           <SectionHeader
@@ -272,7 +274,7 @@ export default function HomepageClient({
           />
 
           {/* Brand message + Service USP — primary focus */}
-          <div className="why-choose-pillars reveal mb-4 sm:mb-8" data-stagger>
+          <div className={cn(REVEAL, "why-choose-pillars", "mb-4", "sm:mb-8")} data-stagger>
             <div className="why-choose-pillar why-choose-pillar--brand">
               <span className="why-choose-pillar__tag">
                 {pickPage(home, lang, "whyChooseBrandTag", "whyChooseBrandTagHi") ||
@@ -297,8 +299,8 @@ export default function HomepageClient({
             </div>
           </div>
 
-          <div className="why-choose-features reveal">
-            <p className="why-choose-divider reveal text-center hidden sm:block">
+          <div className={cn(REVEAL, "why-choose-features")}>
+            <p className={cn(REVEAL, "why-choose-divider", "text-center", "hidden", "sm:block")}>
               <span>
                 {pickPage(home, lang, "whyChooseDivider", "whyChooseDividerHi") ||
                   (lang === "hi" ? "और भी कारण" : "Plus more reasons")}
@@ -310,7 +312,7 @@ export default function HomepageClient({
                 {whyChooseFeatures.map((f, i) => (
                   <div
                     key={i}
-                    className={`feature-card text-center reveal px-1 ${i === 0 ? "feature-card--usp" : ""}`}
+                    className={`feature-card text-center ${REVEAL} px-1 ${i === 0 ? "feature-card--usp" : ""}`}
                     style={{ transitionDelay: `${i * 60}ms` }}
                   >
                     {i === 0 && (
@@ -344,7 +346,7 @@ export default function HomepageClient({
       {videoEmbedUrl && <VideoShowcase home={home} embedUrl={videoEmbedUrl} />}
 
       {/* ===== FOUNDER MESSAGE ===== */}
-      <section className="founder-section home-band--white page-section page-container max-w-6xl relative z-20">
+      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "max-w-6xl", "relative", "z-20")}>
         <SectionHeader
           home={home}
           lang={lang}
@@ -365,18 +367,18 @@ export default function HomepageClient({
 
       {/* ===== DESIGN PROCESS ===== */}
       {processSteps.length > 0 && (
-        <section className="section-muted home-band--brand page-section">
-          <div className="page-container">
-          <div className="text-center mb-8 sm:mb-12 reveal">
+        <section className={cn(HOME_BAND_BRAND, PAGE_SECTION, SECTION_MUTED)}>
+          <div className={PAGE_CONTAINER}>
+          <div className={cn(REVEAL, "text-center", "mb-5", "sm:mb-8")}>
             <span className="text-orange uppercase tracking-[0.25em] text-xs font-semibold">
               {pickPage(home, lang, "processEyebrow", "processEyebrowHi") ||
                 (lang === "hi" ? "हमारी प्रक्रिया" : "How It Works")}
             </span>
-            <h2 className="section-title mt-2 text-balance">
+            <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance")}>
               {pickPage(home, lang, "processTitle", "processTitleHi") ||
                 (lang === "hi" ? "WhatsApp से डिलीवरी तक" : "From WhatsApp to Delivery")}
             </h2>
-            <div className="hairline max-w-xs mx-auto mt-6" />
+            <div className={cn(HAIRLINE, "max-w-xs", "mx-auto", "mt-6")} />
           </div>
           <DesignProcess steps={processSteps} />
           </div>
@@ -384,8 +386,8 @@ export default function HomepageClient({
       )}
 
       {/* ===== STUDENT SUCCESS ===== */}
-      <section id="testimonials" className="home-band--white page-section page-section--bordered overflow-hidden min-w-0">
-        <div className="page-container">
+      <section id="testimonials" className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "overflow-hidden", "min-w-0")}>
+        <div className={PAGE_CONTAINER}>
           <SectionHeader
             home={home}
             lang={lang}

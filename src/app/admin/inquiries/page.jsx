@@ -1,5 +1,7 @@
 "use client";
 
+import { GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
@@ -23,7 +25,7 @@ export default function InquiriesAdmin() {
     return (
       <div>
         <AdminPageHeader title="Contact inquiries" />
-        <div className="glass rounded-2xl p-5 text-marigold border border-marigold/30 text-sm">Connect Supabase to view submissions.</div>
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "text-marigold", "border", "border-marigold/30", "text-sm")}>Connect Supabase to view submissions.</div>
       </div>
     );
   }
@@ -41,7 +43,7 @@ export default function InquiriesAdmin() {
       ) : (
         <ul className="space-y-3 sm:space-y-4">
           {rows.map((r) => (
-            <li key={r.id} className="glass rounded-2xl p-4 sm:p-5">
+            <li key={r.id} className={cn(GLASS, "rounded-2xl", "p-4", "sm:p-5")}>
               <div className="admin-inquiry-meta">
                 <span className="font-medium">{r.name}</span>
                 <span>{new Date(r.created_at).toLocaleString()}</span>

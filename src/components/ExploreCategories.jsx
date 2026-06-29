@@ -1,5 +1,7 @@
 "use client";
 
+import { HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -153,9 +155,9 @@ export default function ExploreCategories({ courses = [], products = [], home = 
   };
 
   return (
-    <section className="explore-categories home-band--white page-section page-section--bordered">
-      <div className="page-container max-w-7xl">
-        <div className="explore-categories__header reveal">
+    <section className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "explore-categories")}>
+      <div className={cn(PAGE_CONTAINER, "max-w-7xl")}>
+        <div className={cn(REVEAL, "explore-categories__header")}>
           <div className="explore-categories__header-copy">
             <span className="explore-categories__badge">
               <FolderIcon />

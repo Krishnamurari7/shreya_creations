@@ -1,5 +1,7 @@
 "use client";
 
+import { PAGE_CONTAINER } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import ContactForm from "@/components/ContactForm";
 import ContactInfoCards from "@/components/ContactInfoCards";
@@ -119,7 +121,7 @@ export default function ContactPageSections({ site, wa }) {
   return (
     <>
       {quickActions.length > 0 && (
-        <section className="page-container max-w-6xl pb-4 sm:pb-6 relative z-20">
+        <section className={cn(PAGE_CONTAINER, "max-w-6xl", "pb-4", "sm:pb-6", "relative", "z-20")}>
           <motion.div
             className="contact-quick-bar"
             initial={reduceMotion ? false : "hidden"}
@@ -134,7 +136,7 @@ export default function ContactPageSections({ site, wa }) {
         </section>
       )}
 
-      <section className="page-container max-w-6xl pb-10 sm:pb-14 lg:pb-16 relative z-20">
+      <section className={cn(PAGE_CONTAINER, "max-w-6xl", "pb-10", "sm:pb-14", "lg:pb-16", "relative", "z-20")}>
         <SectionHeading
           eyebrow={t.reachEyebrow}
           title={t.reachTitle}

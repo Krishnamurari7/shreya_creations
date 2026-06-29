@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, GLASS, TEXT_GOLD_GRADIENT } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -35,11 +37,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full max-w-md glass rounded-3xl p-6 sm:p-8 mx-auto">
+    <div className={cn(GLASS, "w-full", "max-w-md", "rounded-3xl", "p-6", "sm:p-8", "mx-auto")}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={LOGO_SRC} alt="Shreya creation" className="h-20 w-auto max-w-[12rem] object-contain mx-auto mb-4" />
       <h1 className="font-display text-3xl sm:text-4xl text-ink text-center">
-        Shreya <span className="text-gold-gradient">Admin</span>
+        Shreya <span className={TEXT_GOLD_GRADIENT}>Admin</span>
       </h1>
       <p className="text-center text-subtle text-sm mt-2 mb-7">Sign in to manage your site</p>
 
@@ -73,7 +75,7 @@ export default function LoginPage() {
           />
         </div>
         {error && <p className="text-rose text-sm">{error}</p>}
-        <button disabled={loading} className="btn-gold rounded-full px-7 py-3 w-full disabled:opacity-60">
+        <button disabled={loading} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "w-full", "disabled:opacity-60")}>
           {loading ? "Signing in…" : "Sign in"}
         </button>
       </form>

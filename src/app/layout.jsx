@@ -25,6 +25,7 @@ import "@fontsource/noto-sans-devanagari/400.css";
 import "@fontsource/noto-sans-devanagari/500.css";
 import "@fontsource/noto-sans-devanagari/600.css";
 import "@fontsource/noto-sans-devanagari/700.css";
+import { BG_ATMOSPHERE } from "@/lib/ui";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppAssistant from "@/components/WhatsAppAssistant";
@@ -77,7 +78,7 @@ export default async function RootLayout({ children }) {
   const site = await getSiteSettings();
   return (
     <html lang={site.defaultLanguage === "hi" ? "hi" : "en"} suppressHydrationWarning>
-      <body className="bg-atmosphere">
+      <body className={BG_ATMOSPHERE}>
         <ThemeScript />
         <ThemeProvider>
           <LanguageProvider defaultLang={site.defaultLanguage}>

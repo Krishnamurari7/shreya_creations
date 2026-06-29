@@ -1,5 +1,6 @@
 "use client";
 
+import { REVEAL } from "@/lib/ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickTrust } from "@/lib/i18n";
@@ -153,7 +154,7 @@ export default function TrustStats({ items, localize = true }) {
         return (
           <article
             key={`${t.label}-${i}`}
-            className={`trust-stat trust-stat--${accent} reveal`}
+            className={`trust-stat trust-stat--${accent} ${REVEAL}`}
             style={{ transitionDelay: `${i * 90}ms` }}
           >
             <div className="trust-stat__inner">

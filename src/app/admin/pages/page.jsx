@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
@@ -110,7 +112,7 @@ export default function PagesAdmin() {
     return (
       <div>
         <AdminPageHeader title="Page editor" />
-        <div className="glass rounded-2xl p-5 text-marigold border border-marigold/30 text-sm">Connect Supabase to edit pages.</div>
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "text-marigold", "border", "border-marigold/30", "text-sm")}>Connect Supabase to edit pages.</div>
       </div>
     );
   }
@@ -142,7 +144,7 @@ export default function PagesAdmin() {
         ))}
       </div>
 
-      <div className="glass admin-form-card admin-form-card--wide space-y-5">
+      <div className={cn(GLASS, "admin-form-card", "admin-form-card--wide", "space-y-5")}>
         {tab === "home" && <HomeTab home={pages.home} patchPage={patchPage} />}
 
         {tab === "about" && (
@@ -250,7 +252,7 @@ export default function PagesAdmin() {
         )}
 
         <div className="admin-form-actions pt-4">
-          <button type="button" onClick={save} disabled={saving} className="btn-gold rounded-full px-7 py-3 disabled:opacity-60">
+          <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
             {saving ? "Saving…" : "Save all pages"}
           </button>
           {msg && <p className="text-sm text-gold break-words">{msg}</p>}

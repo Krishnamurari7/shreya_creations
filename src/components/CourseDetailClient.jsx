@@ -1,5 +1,6 @@
 "use client";
 
+import { PAGE_CONTAINER } from "@/lib/ui";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { waLink, courseMessage } from "@/lib/whatsapp";
@@ -218,7 +219,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
   return (
     <div className="course-detail min-w-0 w-full">
       <div className="course-detail__hero-wrap">
-        <div className="page-container course-detail__hero">
+        <div className={cn(PAGE_CONTAINER, "course-detail__hero")}>
           <Link href="/courses" className="course-detail__back">
             <span aria-hidden>←</span> {t.back}
           </Link>
@@ -282,7 +283,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
       </div>
 
       {showPdf && (
-        <div className="page-container course-detail__pdf-wrap">
+        <div className={cn(PAGE_CONTAINER, "course-detail__pdf-wrap")}>
           <button
             type="button"
             className="course-detail__pdf-btn"
@@ -302,7 +303,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
         </div>
       )}
 
-      <div className="page-container course-detail__body">
+      <div className={cn(PAGE_CONTAINER, "course-detail__body")}>
         <section className="course-detail__section">
           <h2 className="course-detail__section-title">{t.included}</h2>
           <ul className="course-detail__includes">

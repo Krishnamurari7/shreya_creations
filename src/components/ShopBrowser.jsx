@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, FIELD_SURFACE, FILTER_PILL, FILTER_PILLS, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import ProductCard from "@/components/ProductCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
@@ -27,22 +29,23 @@ export default function ShopBrowser({ products, whatsapp }) {
   }, [products, active, query]);
 
   return (
-    <div className="page-container pb-10 sm:pb-12 relative z-20">
+    <div className={cn(PAGE_CONTAINER, "pb-10", "sm:pb-12", "relative", "z-20")}>
       {/* Search and Filters Header */}
-      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 lg:p-8 border-ink/15 mb-8 sm:mb-12 flex flex-col lg:flex-row gap-4 sm:gap-6 items-stretch lg:items-center justify-between shadow-xl reveal">
+      <Glass3DCard className={cn(REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "p-4", "sm:p-6", "lg:p-8", "border-ink/15", "mb-8", "sm:mb-12", "flex", "flex-col", "lg:flex-row", "gap-4", "sm:gap-6", "items-stretch", "lg:items-center", "justify-between", "shadow-xl")}>
         {/* Category selection */}
-        <div className="filter-pills justify-start w-full lg:w-auto lg:flex-wrap">
+        <div className={cn(FILTER_PILLS, "justify-start", "w-full", "lg:w-auto", "lg:flex-wrap")}>
           {categories.map((c) => {
             const isSelected = active === c;
             return (
               <button
                 key={c}
                 onClick={() => setActive(c)}
-                className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300 ${
+                className={cn(
+                  "px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300",
                   isSelected
-                    ? "btn-gold tab-active-glow"
-                    : "filter-pill rounded-full px-5 py-2.5 text-xs uppercase tracking-wider font-medium"
-                }`}
+                    ? cn(BTN_GOLD, "tab-active-glow")
+                    : cn(FILTER_PILL, "px-5 py-2.5 text-xs tracking-wider font-medium")
+                )}
               >
                 {c}
               </button>
@@ -56,7 +59,7 @@ export default function ShopBrowser({ products, whatsapp }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search our couture pieces..."
-            className="w-full field-surface rounded-full pl-11 pr-5 py-3 text-sm font-light"
+            className={cn(FIELD_SURFACE, "w-full", "rounded-full", "pl-11", "pr-5", "py-3", "text-sm", "font-light")}
           />
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -75,7 +78,7 @@ export default function ShopBrowser({ products, whatsapp }) {
       ) : (
         <div className="shop-grid grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
           {filtered.map((p, i) => (
-            <div key={p.id} className="reveal w-full h-full" style={staggerDelay(i, 60)}>
+            <div key={p.id} className={cn(REVEAL, "w-full", "h-full")} style={staggerDelay(i, 60)}>
               <ProductCard product={p} variant="boutique" whatsapp={whatsapp} />
             </div>
           ))}

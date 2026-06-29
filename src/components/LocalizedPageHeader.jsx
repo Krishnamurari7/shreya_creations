@@ -1,5 +1,6 @@
 "use client";
 
+import { HIGHLIGHT_SHIMMER, PAGE_HERO_TITLE, PAGE_HERO_TITLE_COMPACT, SECTION_LEAD, SECTION_ORNAMENT } from "@/lib/ui";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickLocalized } from "@/lib/i18n";
@@ -56,15 +57,16 @@ export default function LocalizedPageHeader({
 
         <h1
           className={cn(
-            "page-hero-title text-balance px-1",
-            compact ? "mt-0 leading-[1.15] page-hero-title--compact" : "mt-2"
+            PAGE_HERO_TITLE,
+            "text-balance px-1",
+            compact ? cn("mt-0 leading-[1.15]", PAGE_HERO_TITLE_COMPACT) : "mt-2"
           )}
         >
           {titleText}
           {highlightText && (
             <>
               {" "}
-              <span className="highlight-shimmer">{highlightText}</span>
+              <span className={HIGHLIGHT_SHIMMER}>{highlightText}</span>
             </>
           )}
         </h1>
@@ -72,7 +74,8 @@ export default function LocalizedPageHeader({
         {subtitleText && (
           <p
             className={cn(
-              "section-lead max-w-2xl mx-auto px-1",
+              SECTION_LEAD,
+              "max-w-2xl mx-auto px-1",
               compact ? "mt-2 sm:mt-2.5 text-sm sm:text-base" : "mt-4"
             )}
           >
@@ -81,7 +84,7 @@ export default function LocalizedPageHeader({
         )}
 
         {!compact && (
-          <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+          <div className={cn(SECTION_ORNAMENT, "mt-5", "sm:mt-6")} aria-hidden>
             <span className="text-gold text-xs">✦</span>
           </div>
         )}

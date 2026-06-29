@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, HAIRLINE, REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -67,7 +69,7 @@ export default function Footer({ site }) {
         <div className="mx-auto max-w-7xl px-4 sm:px-5 pt-10 pb-4 sm:pt-14 sm:pb-6 lg:pt-16 lg:pb-8">
           <div className="footer-rrc-grid">
             {/* Brand column */}
-            <div className="text-center sm:text-left reveal">
+            <div className={cn(REVEAL, "text-center", "sm:text-left")}>
               <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -109,7 +111,7 @@ export default function Footer({ site }) {
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gold mt-6 sm:mt-8 inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-full px-6 py-3 text-xs"
+                className={cn(BTN_GOLD, "mt-6", "sm:mt-8", "inline-flex", "w-full", "sm:w-auto", "items-center", "justify-center", "gap-2.5", "rounded-full", "px-6", "py-3", "text-xs")}
               >
                 <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
                   <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.436.002 9.861-4.417 9.864-9.858.002-2.636-1.02-5.115-2.879-6.978-1.859-1.862-4.331-2.887-6.974-2.889-5.439 0-9.864 4.417-9.868 9.86-.001 1.57.418 3.101 1.21 4.47l-.995 3.633 3.738-.979c1.378.75 2.766 1.139 4.239 1.14z" />
@@ -119,7 +121,7 @@ export default function Footer({ site }) {
             </div>
 
             {/* Quick Links */}
-            <div className="reveal text-center sm:text-left" style={{ transitionDelay: "80ms" }}>
+            <div className={cn(REVEAL, "text-center", "sm:text-left")} style={{ transitionDelay: "80ms" }}>
               <h4 className="footer-col-title">
                 {lang === "hi" ? "त्वरित लिंक" : "Quick Links"}
               </h4>
@@ -139,12 +141,12 @@ export default function Footer({ site }) {
             </div>
 
             {/* Popular Categories */}
-            <div className="reveal text-center sm:text-left" style={{ transitionDelay: "120ms" }}>
+            <div className={cn(REVEAL, "text-center", "sm:text-left")} style={{ transitionDelay: "120ms" }}>
               <PopularCategories compact />
             </div>
 
             {/* Contact */}
-            <div className="reveal text-center sm:text-left" style={{ transitionDelay: "160ms" }}>
+            <div className={cn(REVEAL, "text-center", "sm:text-left")} style={{ transitionDelay: "160ms" }}>
               <h4 className="footer-col-title">
                 {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </h4>
@@ -216,7 +218,7 @@ export default function Footer({ site }) {
           </div>
         </div>
 
-        <div className="hairline" />
+        <div className={HAIRLINE} />
 
         <div className="site-footer-bottom mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 sm:px-5 py-4 sm:py-5 sm:flex-row sm:gap-4">
           <p className="text-center text-[11px] sm:text-xs text-ink sm:text-left leading-relaxed max-w-full break-words px-1 sm:px-0">

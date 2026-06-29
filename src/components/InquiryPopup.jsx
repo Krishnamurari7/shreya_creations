@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, BTN_PRIMARY, FIELD_SURFACE, GLASS, POPUP_PANEL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -146,9 +148,14 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
 
   if (!mounted || !open) return null;
 
+  const fieldClass = cn(
+    FIELD_SURFACE,
+    "w-full rounded-2xl px-4 sm:px-5 py-3 sm:py-3.5 text-base sm:text-sm min-h-[2.75rem]"
+  );
+
   return createPortal(
     <div
-      className="fixed inset-0 z-[10060] flex items-end sm:items-center justify-center p-0 sm:p-4"
+      className="inquiry-popup-root fixed inset-0 z-[10060] flex items-end sm:items-center justify-center p-0 sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="inquiry-popup-title"
@@ -159,34 +166,51 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
         aria-label={t.close}
         onClick={close}
       />
-      <div className="inquiry-popup-panel relative w-full sm:max-w-md glass border border-orange/25 rounded-t-3xl sm:rounded-3xl shadow-lift p-6 sm:p-8 popup-panel">
+      <div
+        className={cn(
+          GLASS,
+          POPUP_PANEL,
+          "inquiry-popup-panel",
+          "relative w-full sm:max-w-md",
+          "border border-orange/25",
+          "rounded-t-3xl sm:rounded-3xl shadow-lift",
+          "p-4 sm:p-8",
+          "max-h-[min(92dvh,calc(100dvh-env(safe-area-inset-top)-0.5rem))]",
+          "overflow-y-auto overscroll-contain",
+          "pb-[max(1.25rem,env(safe-area-inset-bottom))]"
+        )}
+      >
         <button
           type="button"
           onClick={close}
-          className="absolute top-4 right-4 h-9 w-9 rounded-full border border-ink/15 text-ink/70 hover:text-ink hover:border-orange/40 transition-colors grid place-items-center text-sm"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 h-9 w-9 min-h-9 min-w-9 rounded-full border border-ink/15 text-ink/70 hover:text-ink hover:border-orange/40 transition-colors grid place-items-center text-sm touch-manipulation"
           aria-label={t.close}
         >
           ✕
         </button>
 
         {done ? (
-          <div className="text-center py-4 pr-8">
+          <div className="text-center py-3 sm:py-4 pr-10 sm:pr-8">
             <span className="text-3xl" aria-hidden>
               ✓
             </span>
-            <p className="mt-4 text-ink font-normal leading-relaxed">{t.success}</p>
-            <button type="button" onClick={close} className="btn-primary rounded-full px-8 py-3 mt-6 text-xs tracking-widest uppercase">
+            <p className="mt-4 text-ink font-normal leading-relaxed text-sm sm:text-base text-pretty">{t.success}</p>
+            <button
+              type="button"
+              onClick={close}
+              className={cn(BTN_PRIMARY, "rounded-full px-8 py-3 mt-6 min-h-[2.75rem] text-xs tracking-widest uppercase w-full sm:w-auto")}
+            >
               {t.close}
             </button>
           </div>
         ) : (
           <>
-            <h2 id="inquiry-popup-title" className="font-display text-2xl text-ink pr-8">
+            <h2 id="inquiry-popup-title" className="font-display text-xl sm:text-2xl text-ink pr-10 sm:pr-8 text-balance leading-tight">
               {t.title}
             </h2>
-            <p className="text-sm text-muted mt-2 leading-relaxed">{t.subtitle}</p>
+            <p className="text-sm text-muted mt-2 leading-relaxed text-pretty">{t.subtitle}</p>
 
-            <form onSubmit={submit} className="mt-6 space-y-4">
+            <form onSubmit={submit} className="mt-5 sm:mt-6 space-y-3.5 sm:space-y-4">
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
                   {t.name}
@@ -195,7 +219,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full field-surface rounded-2xl px-5 py-3.5 text-sm"
+                  className={fieldClass}
                   placeholder={t.namePh}
                   autoComplete="name"
                 />
@@ -209,9 +233,10 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full field-surface rounded-2xl px-5 py-3.5 text-sm"
+                  className={fieldClass}
                   placeholder={t.phonePh}
                   autoComplete="tel"
+                  inputMode="tel"
                 />
               </div>
 
@@ -223,7 +248,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={3}
-                  className="w-full field-surface rounded-2xl px-5 py-3.5 text-sm resize-none leading-relaxed"
+                  className={cn(fieldClass, "resize-none leading-relaxed min-h-[5.5rem]")}
                   placeholder={t.messagePh}
                 />
               </div>
@@ -231,7 +256,10 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
               <button
                 type="submit"
                 disabled={saving}
-                className="btn-gold rounded-full px-8 py-3.5 w-full text-center text-xs tracking-widest font-semibold uppercase disabled:opacity-60"
+                className={cn(
+                  BTN_GOLD,
+                  "rounded-full px-8 py-3.5 w-full min-h-[2.85rem] text-center text-xs tracking-widest font-semibold uppercase disabled:opacity-60 touch-manipulation"
+                )}
               >
                 {saving ? "…" : t.submit}
               </button>

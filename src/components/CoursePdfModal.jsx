@@ -1,5 +1,7 @@
 "use client";
 
+import { POPUP_PANEL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -97,7 +99,7 @@ export default function CoursePdfModal({ open, onClose, title, pdfUrl, lang = "e
     >
       <button type="button" className="course-pdf-modal__backdrop" aria-label={t.close} onClick={close} />
 
-      <div className="course-pdf-modal__panel popup-panel">
+      <div className={cn(POPUP_PANEL, "course-pdf-modal__panel")}>
         <header className="course-pdf-modal__head">
           <button type="button" className="course-pdf-modal__close" aria-label={t.close} onClick={close}>
             ✕

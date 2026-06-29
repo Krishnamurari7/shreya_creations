@@ -1,5 +1,7 @@
 "use client";
 
+import { INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
@@ -9,7 +11,7 @@ export default function FeatureStrip({ items = [] }) {
   if (!items.length) return null;
 
   return (
-    <section className="page-container pb-6 sm:pb-8 relative z-20 -mt-2 sm:-mt-1">
+    <section className={cn(PAGE_CONTAINER, "pb-6", "sm:pb-8", "relative", "z-20", "-mt-2", "sm:-mt-1")}>
       <div className="features-bar">
         <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-4 sm:gap-5">
           {items.map((item, i) => {
@@ -19,7 +21,7 @@ export default function FeatureStrip({ items = [] }) {
             return (
               <Glass3DCard
                 key={i}
-                className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center reveal interactive-card group relative overflow-hidden"
+                className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "text-center", "group", "relative", "overflow-hidden")}
                 style={staggerDelay(i, 80)}
               >
                 <span

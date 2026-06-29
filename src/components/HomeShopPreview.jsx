@@ -1,5 +1,7 @@
 "use client";
 
+import { FILTER_PILLS, HIGHLIGHT_SHIMMER, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
@@ -20,19 +22,19 @@ function ShopSectionHeader({ home, lang }) {
     (lang === "hi" ? "कउचर" : "Couture");
 
   return (
-    <div className="home-shop-showcase__header reveal section-header-glass text-center">
-      <span className="section-eyebrow">
-        <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>
+    <div className={cn(REVEAL, SECTION_HEADER_GLASS, "home-shop-showcase__header", "text-center")}>
+      <span className={SECTION_EYEBROW}>
+        <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
           ✦
         </span>
         {eyebrow}
       </span>
-      <h2 className="section-title mt-3 sm:mt-4">
+      <h2 className={cn(SECTION_TITLE, "mt-3", "sm:mt-4")}>
         {title}
         {highlight && (
           <>
             {" "}
-            <span className="highlight-shimmer">{highlight}</span>
+            <span className={HIGHLIGHT_SHIMMER}>{highlight}</span>
           </>
         )}
       </h2>
@@ -146,16 +148,16 @@ export default function HomeShopPreview({ products = [], home = {}, lang = "en",
     (lang === "hi" ? "पूरी शॉप देखें" : "Explore Full Collection");
 
   return (
-    <section className="home-shop-showcase home-band--white page-section relative overflow-hidden">
+    <section className={cn(HOME_BAND_WHITE, PAGE_SECTION, "home-shop-showcase", "relative", "overflow-hidden")}>
       <div className="home-shop-showcase__bg" aria-hidden />
       <div className="home-shop-showcase__pattern" aria-hidden />
 
-      <div className="page-container relative z-[1] max-w-6xl">
+      <div className={cn(PAGE_CONTAINER, "relative", "z-[1]", "max-w-6xl")}>
         <ShopSectionHeader home={home} lang={lang} />
 
         {categories.length > 1 && (
-          <div className="home-shop-showcase__filters reveal">
-            <div className="filter-pills home-shop-showcase__filter-pills">
+          <div className={cn(REVEAL, "home-shop-showcase__filters")}>
+            <div className={cn(FILTER_PILLS, "home-shop-showcase__filter-pills")}>
               {categories.map((cat) => {
                 const isSelected = active === cat;
                 const label =
@@ -179,7 +181,7 @@ export default function HomeShopPreview({ products = [], home = {}, lang = "en",
           </div>
         )}
 
-        <div className="home-shop-showcase__stage reveal" key={active}>
+        <div className={cn(REVEAL, "home-shop-showcase__stage")} key={active}>
           {filtered.length > 0 ? (
             <div className="home-shop-showcase__grid" data-stagger>
               {filtered.map((product, idx) => (
@@ -209,7 +211,7 @@ export default function HomeShopPreview({ products = [], home = {}, lang = "en",
           </div>
         </div>
 
-        <div className="home-shop-showcase__footer reveal">
+        <div className={cn(REVEAL, "home-shop-showcase__footer")}>
           <Link href="/shop" className="home-shop-showcase__cta">
             <span>{shopCta}</span>
             <span className="home-shop-showcase__cta-arrow" aria-hidden>→</span>

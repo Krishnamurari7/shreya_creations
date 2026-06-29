@@ -1,5 +1,7 @@
 "use client";
 
+import { FILTER_PILLS, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import CourseCard from "@/components/CourseCard";
@@ -38,9 +40,9 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
       : `View All ${courses.length} Courses`;
 
   return (
-    <section className="home-courses-preview home-band--brand page-section page-section--bordered relative z-20">
-      <div className="page-container max-w-7xl">
-        <div className="home-courses-preview__header reveal in">
+    <section className={cn(HOME_BAND_BRAND, PAGE_SECTION, PAGE_SECTION_BORDERED, "home-courses-preview", "relative", "z-20")}>
+      <div className={cn(PAGE_CONTAINER, "max-w-7xl")}>
+        <div className={cn(REVEAL, "home-courses-preview__header", "in")}>
           <div className="home-courses-preview__header-copy">
             <span className="home-courses-preview__eyebrow">
               <span aria-hidden>⚡</span>
@@ -48,7 +50,7 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
             </span>
             <h2 className="home-courses-preview__title">
               {title}{" "}
-              <span className="highlight-shimmer">{titleHighlight}</span>
+              <span className={HIGHLIGHT_SHIMMER}>{titleHighlight}</span>
             </h2>
           </div>
           <Link href="/courses" className="home-courses-preview__view-all">
@@ -58,8 +60,8 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
         </div>
 
         {categories.length > 1 && (
-          <div className="home-courses-preview__filters reveal in">
-            <div className="filter-pills">
+          <div className={cn(REVEAL, "home-courses-preview__filters", "in")}>
+            <div className={FILTER_PILLS}>
               {categories.map((cat) => {
                 const isSelected = active === cat;
                 const label =
@@ -90,7 +92,7 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
 
         <div className="home-courses-preview__grid">
           {filtered.map((course, i) => (
-            <div key={course.id} className="reveal reveal-zoom in" style={{ transitionDelay: `${i * 80}ms` }}>
+            <div key={course.id} className={cn(REVEAL, REVEAL_ZOOM, "in")} style={{ transitionDelay: `${i * 80}ms` }}>
               <CourseCard
                 course={course}
                 variant="featured"

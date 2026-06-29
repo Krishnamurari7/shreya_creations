@@ -1,5 +1,7 @@
 "use client";
 
+import { PAGE_CONTAINER, REVEAL, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -57,9 +59,9 @@ export default function PageCTA({
   const perks = t.perks;
 
   return (
-    <section className={`page-cta-wrap page-container max-w-5xl relative z-20 ${className}`}>
+    <section className={`page-cta-wrap ${PAGE_CONTAINER} max-w-5xl relative z-20 ${className}`}>
       <motion.div
-        className="page-cta reveal"
+        className={cn(REVEAL, "page-cta")}
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-40px" }}
@@ -85,7 +87,7 @@ export default function PageCTA({
           <div className="page-cta__inner">
             <span className="page-cta__eyebrow">
               <span className="page-cta__eyebrow-dot" aria-hidden />
-              <span className="page-cta__eyebrow-gem sparkle-pulse" aria-hidden>
+              <span className={cn(SPARKLE_PULSE, "page-cta__eyebrow-gem")} aria-hidden>
                 ✦
               </span>
               {eyebrow}
@@ -103,7 +105,7 @@ export default function PageCTA({
 
             <div className="page-cta__ornament" aria-hidden>
               <span />
-              <span className="page-cta__ornament-gem sparkle-pulse">✦</span>
+              <span className={cn(SPARKLE_PULSE, "page-cta__ornament-gem")}>✦</span>
               <span />
             </div>
 

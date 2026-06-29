@@ -1,5 +1,6 @@
 "use client";
 
+import { TEXT_GOLD_GRADIENT } from "@/lib/ui";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
@@ -111,7 +112,7 @@ export default function AdminShell({ children }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={LOGO_SRC} alt="Shreya creation" className="admin-brand__logo" />
           <span className="admin-brand__text">
-            Shreya <span className="text-gold-gradient">Admin</span>
+            Shreya <span className={TEXT_GOLD_GRADIENT}>Admin</span>
           </span>
         </Link>
         <NavLinks pathname={pathname} onNavigate={closeDrawer} />
@@ -135,7 +136,7 @@ export default function AdminShell({ children }) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={LOGO_SRC} alt="Shreya creation" className="admin-brand__logo" />
                 <span className="admin-brand__text">
-                  Shreya <span className="text-gold-gradient">Admin</span>
+                  Shreya <span className={TEXT_GOLD_GRADIENT}>Admin</span>
                 </span>
               </Link>
               <button type="button" className="admin-drawer__close" onClick={closeDrawer} aria-label="Close menu">

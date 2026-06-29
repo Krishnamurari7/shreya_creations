@@ -1,5 +1,7 @@
 "use client";
 
+import { INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL, SECTION_EYEBROW, SECTION_LEAD, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import CardImage from "@/components/CardImage";
 import { Glass3DCard } from "@/components/Glass3DCard";
@@ -30,24 +32,24 @@ export default function TeamSection({ aboutPage, memberImages = [] }) {
   if (!members.length) return null;
 
   return (
-    <section className="about-team page-container max-w-6xl py-10 sm:py-14 lg:py-16 relative z-20 min-w-0">
+    <section className={cn(PAGE_CONTAINER, "about-team", "max-w-6xl", "py-10", "sm:py-14", "lg:py-16", "relative", "z-20", "min-w-0")}>
       <motion.div
-        className="text-center mb-6 sm:mb-10 lg:mb-12 reveal"
+        className={cn(REVEAL, "text-center", "mb-6", "sm:mb-10", "lg:mb-12")}
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, margin: "-40px" }}
         custom={0}
         variants={fadeUp}
       >
-        <span className="section-eyebrow">
-          <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>
+        <span className={SECTION_EYEBROW}>
+          <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
             ✦
           </span>
           {eyebrow}
         </span>
-        <h2 className="section-title mt-2 text-balance">{title}</h2>
-        <p className="mt-3 section-lead max-w-xl mx-auto text-pretty">{subtitle}</p>
-        <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+        <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance")}>{title}</h2>
+        <p className={cn(SECTION_LEAD, "mt-3", "max-w-xl", "mx-auto", "text-pretty")}>{subtitle}</p>
+        <div className={cn(SECTION_ORNAMENT, "mt-5", "sm:mt-6")} aria-hidden>
           <span className="text-gold text-xs">✦</span>
         </div>
       </motion.div>
@@ -57,7 +59,7 @@ export default function TeamSection({ aboutPage, memberImages = [] }) {
           <Glass3DCard
             key={member.name}
             as="article"
-            className="team-card team-card--photo reveal text-center rounded-2xl sm:rounded-3xl px-5 py-7 sm:px-8 sm:py-10 border-gold/25 bg-cream/80 interactive-card overflow-hidden"
+            className={cn(INTERACTIVE_CARD, REVEAL, "team-card", "team-card--photo", "text-center", "rounded-2xl", "sm:rounded-3xl", "px-5", "py-7", "sm:px-8", "sm:py-10", "border-gold/25", "bg-cream/80", "overflow-hidden")}
             style={staggerDelay(i, 120)}
           >
             <div className="team-card__portrait mx-auto mb-4 sm:mb-5">

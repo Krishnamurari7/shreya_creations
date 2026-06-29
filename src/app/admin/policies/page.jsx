@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GHOST, BTN_GOLD, GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
@@ -52,7 +54,7 @@ export default function PoliciesAdmin() {
     return (
       <div>
         <AdminPageHeader title="Policy pages" />
-        <div className="glass rounded-2xl p-5 text-marigold border border-marigold/30 text-sm">Connect Supabase first.</div>
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "text-marigold", "border", "border-marigold/30", "text-sm")}>Connect Supabase first.</div>
       </div>
     );
   }
@@ -65,7 +67,7 @@ export default function PoliciesAdmin() {
 
       <ul className="space-y-3 mb-6">
         {rows.map((r) => (
-          <li key={r.slug} className="glass admin-policy-row">
+          <li key={r.slug} className={cn(GLASS, "admin-policy-row")}>
             <span className="text-sm sm:text-base break-words">{r.title}</span>
             <button type="button" onClick={() => setEditing(r)} className="admin-btn-ghost shrink-0">
               Edit
@@ -73,7 +75,7 @@ export default function PoliciesAdmin() {
           </li>
         ))}
         {SLUGS.filter((s) => !rows.find((r) => r.slug === s)).map((slug) => (
-          <li key={slug} className="glass admin-policy-row border border-dashed border-gold/20">
+          <li key={slug} className={cn(GLASS, "admin-policy-row", "border", "border-dashed", "border-gold/20")}>
             <span className="capitalize text-sm admin-muted">{slug} — not created</span>
             <button
               type="button"
@@ -92,10 +94,10 @@ export default function PoliciesAdmin() {
         title={editing ? `Edit: ${editing.slug}` : "Policy"}
         footer={
           <div className="admin-form-actions">
-            <button type="button" onClick={save} className="btn-gold rounded-full px-6 py-2.5 text-sm">
+            <button type="button" onClick={save} className={cn(BTN_GOLD, "rounded-full", "px-6", "py-2.5", "text-sm")}>
               Save
             </button>
-            <button type="button" onClick={() => setEditing(null)} className="btn-ghost rounded-full px-6 py-2.5 text-sm">
+            <button type="button" onClick={() => setEditing(null)} className={cn(BTN_GHOST, "rounded-full", "px-6", "py-2.5", "text-sm")}>
               Cancel
             </button>
           </div>

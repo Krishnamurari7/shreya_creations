@@ -1,5 +1,6 @@
 "use client";
 
+import { BTN_GOLD, INTERACTIVE_CARD, REVEAL } from "@/lib/ui";
 import { useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { waLink, enquiryMessage } from "@/lib/whatsapp";
@@ -84,7 +85,7 @@ export default function ContactForm({ number }) {
   return (
     <Glass3DCard
       layered
-      className="contact-form-card rounded-2xl sm:rounded-[2rem] p-4 sm:p-7 md:p-9 border-orange/20 shadow-2xl relative overflow-hidden reveal interactive-card"
+      className={cn(INTERACTIVE_CARD, REVEAL, "contact-form-card", "rounded-2xl", "sm:rounded-[2rem]", "p-4", "sm:p-7", "md:p-9", "border-orange/20", "shadow-2xl", "relative", "overflow-hidden")}
     >
       <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-orange/8 blur-3xl pointer-events-none z-0" aria-hidden />
       <div className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-orange/6 blur-2xl pointer-events-none z-0" aria-hidden />
@@ -184,7 +185,7 @@ export default function ContactForm({ number }) {
           <button
             type="submit"
             disabled={saving}
-            className="btn-gold rounded-full px-8 py-3.5 sm:py-4 w-full text-center text-xs tracking-widest font-semibold transition-all duration-300 uppercase disabled:opacity-60"
+            className={cn(BTN_GOLD, "rounded-full", "px-8", "py-3.5", "sm:py-4", "w-full", "text-center", "text-xs", "tracking-widest", "font-semibold", "transition-all", "duration-300", "uppercase", "disabled:opacity-60")}
           >
             {saving ? "…" : ui.enquireWhatsApp}
           </button>

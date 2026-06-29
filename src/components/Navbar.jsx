@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -337,7 +339,7 @@ export default function Navbar({ site }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={closeMenu}
-            className="btn-gold nav-mobile-drawer-wa"
+            className={cn(BTN_GOLD, "nav-mobile-drawer-wa")}
             tabIndex={open ? 0 : -1}
           >
             <WhatsAppIcon />

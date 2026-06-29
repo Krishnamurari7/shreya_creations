@@ -1,5 +1,7 @@
 "use client";
 
+import { REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import TrustStats from "@/components/TrustStats";
@@ -55,7 +57,7 @@ export function Testimonials({ items }) {
   const list = marquee ? [...items, ...items] : items;
 
   return (
-    <div className="relative reveal min-w-0">
+    <div className={cn(REVEAL, "relative", "min-w-0")}>
       <div className="testimonials-marquee no-bar">
         <div className="testimonials-marquee__track pb-4 px-1">
           {list.map((t, i) => (

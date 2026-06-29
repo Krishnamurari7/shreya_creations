@@ -1,5 +1,7 @@
 "use client";
 
+import { HIGHLIGHT_SHIMMER, PAGE_CONTAINER, PAGE_HERO_TITLE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ProductActions } from "@/components/WhatsAppActions";
@@ -16,7 +18,7 @@ export default function ProductDetailClient({ product, site, images }) {
       <div className="grid-overlay" />
       <AmbientGlows variant="subtle" className="z-0" />
 
-      <div className="pt-[calc(var(--header-offset)+1rem)] sm:pt-[calc(var(--header-offset)+2rem)] pb-10 sm:pb-12 page-container max-w-6xl relative z-20">
+      <div className={cn(PAGE_CONTAINER, "pt-[calc(var(--header-offset)+1rem)]", "sm:pt-[calc(var(--header-offset)+2rem)]", "pb-10", "sm:pb-12", "max-w-6xl", "relative", "z-20")}>
         <motion.div
           initial={reduceMotion ? false : "hidden"}
           animate="visible"
@@ -54,7 +56,7 @@ export default function ProductDetailClient({ product, site, images }) {
               <span className="inline-flex bg-orange/10 border border-orange/20 text-orange px-4 py-1.5 rounded-full text-[10px] font-semibold tracking-widest uppercase mb-4 shadow-sm">
                 {product.category}
               </span>
-              <h1 className="page-hero-title text-balance">
+              <h1 className={cn(PAGE_HERO_TITLE, "text-balance")}>
                 {product.title}
               </h1>
             </div>
@@ -62,7 +64,7 @@ export default function ProductDetailClient({ product, site, images }) {
             {product.price && (
               <div className="py-2 border-y border-ink/15">
                 <span className="text-[10px] uppercase tracking-widest text-ink block mb-1">Estimated Price</span>
-                <p className="text-3xl sm:text-4xl highlight-shimmer font-display font-medium">
+                <p className={cn(HIGHLIGHT_SHIMMER, "text-3xl", "sm:text-4xl", "font-display", "font-medium")}>
                   ₹{Number(product.price).toLocaleString("en-IN")}
                 </p>
               </div>

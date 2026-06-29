@@ -1,3 +1,5 @@
+import { PAGE_CONTAINER } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import LookbookGrid from "@/components/LookbookGrid";
@@ -23,7 +25,7 @@ export default async function LookbookPage() {
         subtitle={lookbook.headerSubtitle || "Curated looks from the atelier — trends, styling tips and behind-the-scenes from our studio."}
         subtitleHi={lookbook.headerSubtitleHi}
       />
-      <div className="mx-auto max-w-6xl page-container pb-6 sm:pb-8 relative z-20">
+      <div className={cn(PAGE_CONTAINER, "mx-auto", "max-w-6xl", "pb-6", "sm:pb-8", "relative", "z-20")}>
         <LookbookGrid posts={posts} />
       </div>
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(lookbook)} />

@@ -1,5 +1,7 @@
 "use client";
 
+import { ANIM_RISE, PAGE_CONTAINER } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { CareerCtaButton } from "@/components/CareerCtaSection";
@@ -142,8 +144,8 @@ function HeroAutoplayVideo({ src, alt, preview = false }) {
       className={`home-hero__video-media${preview ? " home-hero__video-media--preview" : ""}`}
       src={src}
       autoPlay
-      loop={preview}
-      muted={preview}
+      loop
+      muted
       playsInline
       preload="auto"
       aria-hidden={preview}
@@ -302,13 +304,13 @@ export default function HeroSection({ home = {}, lang = "en" }) {
         <span className="home-hero__grain-texture" />
       </div>
 
-      <div className="page-container home-hero__top">
+      <div className={cn(PAGE_CONTAINER, "home-hero__top")}>
         <div className="home-hero__grid">
           <div className="home-hero__copy">
             <div className="home-hero__glass-panel">
             <div className="home-hero__copy-stack">
               {heroBadge ? (
-                <p className="home-hero__badge home-hero__badge--boutique anim-rise anim-delay-1">
+                <p className={cn(ANIM_RISE, "home-hero__badge", "home-hero__badge--boutique", "anim-delay-1")}>
                   <span className="home-hero__badge-pulse" aria-hidden />
                   <span className="home-hero__badge-gem" aria-hidden>
                     ✦
@@ -317,7 +319,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
                 </p>
               ) : null}
 
-              <h1 className="home-hero__title-block anim-rise anim-delay-2">
+              <h1 className={cn(ANIM_RISE, "home-hero__title-block", "anim-delay-2")}>
                 <span className="home-hero__title-lead">{heroTitleMain || heroTitle}</span>
                 {heroTitleAccent ? (
                   <span className="home-hero__title-highlight">{heroTitleAccent}</span>
@@ -325,16 +327,10 @@ export default function HeroSection({ home = {}, lang = "en" }) {
               </h1>
 
               {heroSubtitle ? (
-                <p className="home-hero__title-sub anim-rise anim-delay-2">{heroSubtitle}</p>
+                <p className={cn(ANIM_RISE, "home-hero__title-sub", "anim-delay-2")}>{heroSubtitle}</p>
               ) : null}
 
-              <div className="home-hero__ornament anim-rise anim-delay-3" aria-hidden>
-                <span className="home-hero__ornament-line" />
-                <span className="home-hero__ornament-gem">✦</span>
-                <span className="home-hero__ornament-line" />
-              </div>
-
-              <div className="home-hero__path-cards anim-rise anim-delay-3">
+              <div className={cn(ANIM_RISE, "home-hero__path-cards", "anim-delay-3")}>
               <div
                 className={`home-hero__cta-stack${lang === "hi" ? " career-cta-section--hi" : ""}`}
               >

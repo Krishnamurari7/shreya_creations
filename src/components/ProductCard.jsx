@@ -1,5 +1,6 @@
 "use client";
 
+import { BTN_GOLD } from "@/lib/ui";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { waLink } from "@/lib/whatsapp";
@@ -57,7 +58,8 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
             target={whatsapp ? "_blank" : undefined}
             rel={whatsapp ? "noopener noreferrer" : undefined}
             className={cn(
-              "btn-gold product-card-wa-btn mt-auto w-full text-center tracking-widest flex items-center justify-center gap-1.5",
+              BTN_GOLD,
+              "product-card-wa-btn mt-auto w-full text-center tracking-widest flex items-center justify-center gap-1.5",
               compact
                 ? "pt-2 py-2 text-[10px] sm:text-[11px] min-h-[44px]"
                 : "pt-3 sm:pt-4 py-2.5 sm:py-3 text-[11px] sm:text-xs min-h-[44px]"

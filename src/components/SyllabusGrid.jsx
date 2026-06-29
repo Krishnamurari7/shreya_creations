@@ -1,5 +1,7 @@
 "use client";
 
+import { HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { staggerDelay } from "@/lib/motion";
 
@@ -12,7 +14,7 @@ export default function SyllabusGrid({ items }) {
           <li key={i} className="contents">
             <Glass3DCard
               layered
-              className="rounded-2xl sm:rounded-[2rem] p-5 sm:p-6 flex gap-4 sm:gap-5 group relative overflow-hidden reveal interactive-card"
+              className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "p-5", "sm:p-6", "flex", "gap-4", "sm:gap-5", "group", "relative", "overflow-hidden")}
               style={staggerDelay(i, 80)}
             >
               <span
@@ -20,7 +22,7 @@ export default function SyllabusGrid({ items }) {
                 aria-hidden
               />
               <Float3D translateZ="55">
-                <span className="font-display text-3xl highlight-shimmer font-medium shrink-0 pt-0.5">
+                <span className={cn(HIGHLIGHT_SHIMMER, "font-display", "text-3xl", "font-medium", "shrink-0", "pt-0.5")}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </Float3D>

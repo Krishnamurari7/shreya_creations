@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, FILTER_PILL, GLASS, INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL, TEXT_GOLD_GRADIENT } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,11 +64,12 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
           <button
             key={c}
             onClick={() => setActive(c)}
-            className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300 ${
+            className={cn(
+              "px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300",
               isSelected
-                ? "btn-gold tab-active-glow"
-                : "filter-pill rounded-full px-5 py-2.5 text-xs uppercase tracking-wider font-medium"
-            }`}
+                ? cn(BTN_GOLD, "tab-active-glow")
+                : cn(FILTER_PILL, "px-5 py-2.5 text-xs tracking-wider font-medium")
+            )}
           >
             {c}
           </button>
@@ -76,9 +79,9 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
   );
 
   return (
-    <div className={fullPage ? "page-container max-w-7xl pb-6 sm:pb-8 relative z-20" : ""}>
+    <div className={fullPage ? cn(PAGE_CONTAINER, "max-w-7xl pb-6 sm:pb-8 relative z-20") : ""}>
       {fullPage ? (
-        <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 md:p-8 border-ink/15 mb-8 sm:mb-10 flex flex-col sm:flex-row gap-4 sm:gap-5 items-stretch sm:items-center justify-between shadow-xl reveal">
+        <Glass3DCard className={cn(REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "p-4", "sm:p-6", "md:p-8", "border-ink/15", "mb-8", "sm:mb-10", "flex", "flex-col", "sm:flex-row", "gap-4", "sm:gap-5", "items-stretch", "sm:items-center", "justify-between", "shadow-xl")}>
           {filterBar}
           <p className="text-xs uppercase tracking-widest text-ink shrink-0">
             {filtered.length} {filtered.length === 1 ? "piece" : "pieces"}
@@ -100,7 +103,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
               key={item.id || `${item.title}-${idx}`}
               type="button"
               onClick={() => openLightbox(item)}
-              className="group relative block w-full overflow-hidden rounded-3xl glass border border-ink/15 hover:border-orange/35 transition-all duration-500 reveal interactive-card shadow-lg break-inside-avoid"
+              className={cn(GLASS, INTERACTIVE_CARD, REVEAL, "group", "relative", "block", "w-full", "overflow-hidden", "rounded-3xl", "border", "border-ink/15", "hover:border-orange/35", "transition-all", "duration-500", "shadow-lg", "break-inside-avoid")}
               style={staggerDelay(idx % 8, 50)}
             >
               <CardImage
@@ -152,7 +155,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                         e.stopPropagation();
                         goPrev();
                       }}
-                      className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full glass border border-orange/25 text-ink hover:border-orange/50 transition-colors z-10"
+                      className={cn(GLASS, "absolute", "left-3", "sm:left-6", "top-1/2", "-translate-y-1/2", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink", "hover:border-orange/50", "transition-colors", "z-10")}
                       aria-label="Previous"
                     >
                       ‹
@@ -163,7 +166,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                         e.stopPropagation();
                         goNext();
                       }}
-                      className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full glass border border-orange/25 text-ink hover:border-orange/50 transition-colors z-10"
+                      className={cn(GLASS, "absolute", "right-3", "sm:right-6", "top-1/2", "-translate-y-1/2", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink", "hover:border-orange/50", "transition-colors", "z-10")}
                       aria-label="Next"
                     >
                       ›
@@ -178,9 +181,9 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                   exit={{ scale: 0.95, opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                   onClick={(e) => e.stopPropagation()}
-                  className="relative w-full max-w-4xl glass rounded-3xl p-3 sm:p-4 border border-orange/25 shadow-2xl bg-surface"
+                className={cn(GLASS, "portfolio-lightbox-panel", "relative", "w-full", "max-w-4xl", "rounded-3xl", "p-3", "sm:p-4", "border", "border-orange/25", "shadow-2xl", "bg-surface")}
                 >
-                  <div className="flex items-center justify-center rounded-2xl overflow-hidden bg-cream/30 min-h-[200px] max-h-[min(78vh,720px)]">
+                  <div className="portfolio-lightbox-media flex items-center justify-center rounded-2xl overflow-hidden bg-cream/30 min-h-[200px] max-h-[min(78vh,720px)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={lightbox.image}
@@ -195,7 +198,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                         {lightbox.category}
                       </span>
                     )}
-                    <p className="font-display text-2xl sm:text-3xl text-gold-gradient mt-1">{lightbox.title}</p>
+                    <p className={cn(TEXT_GOLD_GRADIENT, "font-display", "text-2xl", "sm:text-3xl", "mt-1")}>{lightbox.title}</p>
                     {filtered.length > 1 && (
                       <p className="text-[10px] uppercase tracking-widest text-ink mt-2">
                         {(lightboxIndex ?? 0) + 1} / {filtered.length}

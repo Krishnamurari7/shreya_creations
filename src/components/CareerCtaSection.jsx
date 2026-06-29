@@ -1,5 +1,7 @@
 "use client";
 
+import { PAGE_CONTAINER, REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { pickPage } from "@/lib/cms";
 
@@ -41,10 +43,10 @@ export function CareerCtaButton({ home = {}, lang = "en", className = "" }) {
 export default function CareerCtaSection({ home = {}, lang = "en" }) {
   return (
     <section
-      className={`career-cta-section reveal${lang === "hi" ? " career-cta-section--hi" : ""}`}
+      className={`career-cta-section ${REVEAL}${lang === "hi" ? " career-cta-section--hi" : ""}`}
       aria-label={lang === "hi" ? "करियर शुरू करें" : "Start your career"}
     >
-      <div className="career-cta-section__inner page-container">
+      <div className={cn(PAGE_CONTAINER, "career-cta-section__inner")}>
         <CareerCtaButton home={home} lang={lang} />
       </div>
     </section>

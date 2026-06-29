@@ -1,5 +1,6 @@
 "use client";
 
+import { INTERACTIVE_CARD, REVEAL } from "@/lib/ui";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
@@ -69,7 +70,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
         href={wa}
         target="_blank"
         rel="noopener noreferrer"
-        className="contact-bento-whatsapp rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-7 group reveal interactive-card"
+        className={cn(INTERACTIVE_CARD, REVEAL, "contact-bento-whatsapp", "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "md:p-7", "group")}
         style={staggerDelay(0, 80)}
       >
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
@@ -93,7 +94,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
           <Glass3DCard
             layered
             href={phoneHref}
-            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col group reveal interactive-card min-h-[8.5rem]"
+            className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
             style={staggerDelay(1, 80)}
           >
             <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
@@ -112,7 +113,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
           <Glass3DCard
             layered
             href={`mailto:${site.email}`}
-            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col group reveal interactive-card min-h-[8.5rem]"
+            className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
             style={staggerDelay(2, 80)}
           >
             <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
@@ -131,7 +132,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
       {site.address && (
         <Glass3DCard
           layered
-          className="contact-bento-address rounded-2xl sm:rounded-3xl p-5 sm:p-6 group reveal interactive-card"
+          className={cn(INTERACTIVE_CARD, REVEAL, "contact-bento-address", "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "group")}
           style={staggerDelay(3, 80)}
         >
           <div className="flex gap-4 sm:gap-5">
@@ -181,7 +182,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
               href={site.socials.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col group reveal interactive-card min-h-[8.5rem]"
+              className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
               style={staggerDelay(4, 80)}
             >
               <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
@@ -205,7 +206,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
               href={site.socials.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col group reveal interactive-card min-h-[8.5rem]"
+              className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
               style={staggerDelay(5, 80)}
             >
               <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">

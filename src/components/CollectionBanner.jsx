@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD_OUTLINE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
@@ -73,7 +75,7 @@ export default function CollectionBanner({ home, fallbackLeft, fallbackRight }) 
             {title}
           </h2>
           <p className="collection-showcase__body">{body}</p>
-          <Link href={ctaHref} className="collection-showcase__cta btn-gold-outline">
+          <Link href={ctaHref} className={cn(BTN_GOLD_OUTLINE, "collection-showcase__cta")}>
             {ctaLabel} <span aria-hidden>›</span>
           </Link>
         </div>

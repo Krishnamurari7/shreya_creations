@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GHOST, BTN_GOLD, GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useState, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { buildPayload, validatePayload, slugify } from "@/lib/admin/buildPayload";
@@ -138,7 +140,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
     return (
       <div>
         <AdminPageHeader title={title} />
-        <div className="glass rounded-2xl p-5 sm:p-6 text-marigold border border-marigold/30 text-sm leading-relaxed">
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6", "text-marigold", "border", "border-marigold/30", "text-sm", "leading-relaxed")}>
           Connect Supabase (see README) to add, edit and delete {title.toLowerCase()}.
         </div>
       </div>
@@ -229,7 +231,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
               setModalError("");
               setEditing(blank());
             }}
-            className="btn-gold rounded-full px-5 py-2.5 text-sm"
+            className={cn(BTN_GOLD, "rounded-full", "px-5", "py-2.5", "text-sm")}
           >
             + Add new
           </button>
@@ -247,7 +249,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
       ) : rows.length === 0 && !error ? (
         <p className="admin-muted">Nothing here yet. Tap “Add new” to create your first item.</p>
       ) : rows.length > 0 ? (
-        <div className="glass admin-list">
+        <div className={cn(GLASS, "admin-list")}>
           {rows.map((r) => {
             const thumb = r.images?.[0] || r.image || r.photo || r.thumbnail;
             return (
@@ -296,7 +298,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
         title={editing?.id ? "Edit item" : "New item"}
         footer={
           <div className="admin-form-actions">
-            <button type="button" onClick={save} disabled={saving} className="btn-gold rounded-full px-7 py-3 disabled:opacity-60">
+            <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
               {saving ? "Saving…" : "Save"}
             </button>
             <button
@@ -305,7 +307,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
                 setEditing(null);
                 setModalError("");
               }}
-              className="btn-ghost rounded-full px-7 py-3"
+              className={cn(BTN_GHOST, "rounded-full", "px-7", "py-3")}
             >
               Cancel
             </button>

@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_PRIMARY, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, PAGE_CONTAINER, PAGE_SECTION, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { pickPage } from "@/lib/cms";
@@ -21,25 +23,25 @@ function PortfolioSectionHeader({ home, lang }) {
       : "Lehengas, gowns and bridal pieces crafted at our Patna atelier.");
 
   return (
-    <div className="text-center mb-8 sm:mb-12 px-1 reveal section-header-glass">
+    <div className={cn(REVEAL, SECTION_HEADER_GLASS, "text-center", "mb-8", "sm:mb-12", "px-1")}>
       {eyebrow && (
-        <span className="section-eyebrow">
-          <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>
+        <span className={SECTION_EYEBROW}>
+          <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
             ✦
           </span>
           {eyebrow}
         </span>
       )}
-      <h2 className="section-title mt-2 leading-tight text-balance">
+      <h2 className={cn(SECTION_TITLE, "mt-2", "leading-tight", "text-balance")}>
         {title}
-        {highlight && <> <span className="highlight-shimmer">{highlight}</span></>}
+        {highlight && <> <span className={HIGHLIGHT_SHIMMER}>{highlight}</span></>}
       </h2>
       {subtitle && (
-        <p className="mt-3 section-lead max-w-2xl mx-auto">
+        <p className={cn(SECTION_LEAD, "mt-3", "max-w-2xl", "mx-auto")}>
           {subtitle}
         </p>
       )}
-      <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+      <div className={cn(SECTION_ORNAMENT, "mt-5", "sm:mt-6")} aria-hidden>
         <span className="text-gold text-xs">✦</span>
       </div>
     </div>
@@ -56,13 +58,13 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
     (lang === "hi" ? "पूरा पोर्टफोलियो" : "View Full Portfolio");
 
   return (
-    <section className="home-portfolio-showcase home-band--brand page-section relative overflow-hidden">
+    <section className={cn(HOME_BAND_BRAND, PAGE_SECTION, "home-portfolio-showcase", "relative", "overflow-hidden")}>
       <div className="home-portfolio-showcase__bg" aria-hidden />
-      <div className="page-container relative z-[1]">
+      <div className={cn(PAGE_CONTAINER, "relative", "z-[1]")}>
         <PortfolioSectionHeader home={home} lang={lang} />
 
         {categories.length > 0 && (
-          <div className="home-portfolio-showcase__chips reveal">
+          <div className={cn(REVEAL, "home-portfolio-showcase__chips")}>
             {categories.map((cat) => (
               <span key={cat} className="home-portfolio-showcase__chip">
                 {cat}
@@ -71,7 +73,7 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
           </div>
         )}
 
-        <div className="home-portfolio-showcase__grid reveal" data-stagger>
+        <div className={cn(REVEAL, "home-portfolio-showcase__grid")} data-stagger>
           {items.map((item, idx) => (
             <Link
               key={item.id || idx}
@@ -95,8 +97,8 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
           ))}
         </div>
 
-        <div className="text-center mt-8 sm:mt-10 reveal">
-          <Link href="/portfolio" className="btn-primary inline-flex items-center gap-2 rounded-full px-8 py-3 text-xs sm:text-sm">
+        <div className={cn(REVEAL, "text-center", "mt-5", "sm:mt-7")}>
+          <Link href="/portfolio" className={cn(BTN_PRIMARY, "inline-flex", "items-center", "gap-2", "rounded-full", "px-8", "py-3", "text-xs", "sm:text-sm")}>
             {portfolioCta} <span aria-hidden>→</span>
           </Link>
         </div>

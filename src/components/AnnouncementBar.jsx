@@ -1,5 +1,7 @@
 "use client";
 
+import { MARQUEE_CONTAINER, MARQUEE_CONTENT } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const DEFAULT_ITEMS_EN = [
@@ -49,8 +51,8 @@ function ItemGroup({ items, copy }) {
 
 function MarqueeTrack({ items }) {
   return (
-    <div className="marquee-container announcement-bar__marquee">
-      <div className="marquee-content announcement-bar__track" aria-hidden="true">
+    <div className={cn(MARQUEE_CONTAINER, "announcement-bar__marquee")}>
+      <div className={cn(MARQUEE_CONTENT, "announcement-bar__track")} aria-hidden="true">
         <ItemGroup items={items} copy={0} />
         <ItemGroup items={items} copy={1} />
       </div>

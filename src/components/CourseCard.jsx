@@ -1,5 +1,6 @@
 "use client";
 
+import { BTN_PRIMARY } from "@/lib/ui";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { CardGlow, glassCardStyles } from "@/components/Glass3DCard";
@@ -44,7 +45,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
     return (
       <article className="featured-course-card group/card flex flex-col h-full">
         <Link href={`/courses/${course.slug}`} className="featured-course-card__media block">
-          <CardImage src={course.image} alt={title} ratio="16/10" position="top" />
+          <CardImage src={course.image} alt={title} ratio="16/9" position="top" />
           {discountPct != null && discountPct > 0 && (
             <span className="featured-course-card__badge featured-course-card__badge--sale">
               {discountPct}% OFF
@@ -83,7 +84,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
 
           <Link
             href={`/courses/${course.slug}`}
-            className="featured-course-card__enroll btn-primary mt-auto"
+            className={cn(BTN_PRIMARY, "featured-course-card__enroll", "mt-auto")}
           >
             {course.cta_label || (lang === "hi" ? "अभी एनरोल करें" : "Enroll Now")}
             <span aria-hidden>→</span>

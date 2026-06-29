@@ -1,5 +1,7 @@
 "use client";
 
+import { INTERACTIVE_CARD, REVEAL } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
@@ -11,7 +13,7 @@ export default function LookbookGrid({ posts = [] }) {
 
   if (!posts.length) {
     return (
-      <Glass3DCard className="rounded-2xl sm:rounded-[2rem] border-ink/15 p-12 sm:p-20 text-center col-span-full reveal">
+      <Glass3DCard className={cn(REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "border-ink/15", "p-12", "sm:p-20", "text-center", "col-span-full")}>
         <span className="text-5xl">✨</span>
         <p className="text-ink mt-4 font-normal text-base max-w-md mx-auto">
           {lang === "hi"
@@ -30,10 +32,10 @@ export default function LookbookGrid({ posts = [] }) {
   return (
     <div className="space-y-6 sm:space-y-8">
       {featured && (
-        <Glass3DCard layered className="rounded-2xl sm:rounded-[2rem] overflow-hidden border-orange/20 reveal interactive-card group">
+        <Glass3DCard layered className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "overflow-hidden", "border-orange/20", "group")}>
           <div className="grid md:grid-cols-2 gap-0">
             {featured.image && (
-              <div className="relative h-full min-h-[280px] md:min-h-[320px]">
+              <div className="lookbook-featured-media relative h-full min-h-[280px] md:min-h-[320px]">
                 <CardImage src={featured.image} alt={featured.title} ratio="fill" position="top" className="h-full min-h-[280px] md:min-h-[320px]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/30 pointer-events-none" />
               </div>
@@ -57,7 +59,7 @@ export default function LookbookGrid({ posts = [] }) {
             <Glass3DCard
               key={p.id}
               layered
-              className="rounded-2xl sm:rounded-3xl overflow-hidden reveal interactive-card group"
+              className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "overflow-hidden", "group")}
               style={staggerDelay(i, 90)}
             >
               {p.image && (

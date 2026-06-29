@@ -1,5 +1,7 @@
 "use client";
 
+import { HIGHLIGHT_SHIMMER, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -40,12 +42,12 @@ export default function PopularCategories({ className = "", compact = false }) {
     lang === "hi" ? (
       <>
         अपनी{" "}
-        <span className="highlight-shimmer">पसंदीदा श्रेणी</span> चुनें
+        <span className={HIGHLIGHT_SHIMMER}>पसंदीदा श्रेणी</span> चुनें
       </>
     ) : (
       <>
         Explore by{" "}
-        <span className="highlight-shimmer">Specialty</span>
+        <span className={HIGHLIGHT_SHIMMER}>Specialty</span>
       </>
     );
   const subtitle =
@@ -73,18 +75,18 @@ export default function PopularCategories({ className = "", compact = false }) {
 
   return (
     <div className={`popular-categories popular-categories--featured ${className}`.trim()}>
-      <div className="text-center mb-8 sm:mb-10 reveal section-header-glass">
-        <span className="section-eyebrow">
-          <span className="sparkle-pulse text-gold text-[10px]" aria-hidden>
+      <div className={cn(REVEAL, SECTION_HEADER_GLASS, "text-center", "mb-8", "sm:mb-10")}>
+        <span className={SECTION_EYEBROW}>
+          <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
             ✦
           </span>
           {title}
         </span>
-        <h2 className="section-title mt-3 text-balance">{heading}</h2>
-        <p className="mt-3 section-lead max-w-xl mx-auto">
+        <h2 className={cn(SECTION_TITLE, "mt-3", "text-balance")}>{heading}</h2>
+        <p className={cn(SECTION_LEAD, "mt-3", "max-w-xl", "mx-auto")}>
           {subtitle}
         </p>
-        <div className="section-ornament mt-5 sm:mt-6" aria-hidden>
+        <div className={cn(SECTION_ORNAMENT, "mt-5", "sm:mt-6")} aria-hidden>
           <span className="text-gold text-xs">✦</span>
         </div>
       </div>

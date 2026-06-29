@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
@@ -103,7 +105,7 @@ export default function SettingsAdmin() {
     return (
       <div>
         <AdminPageHeader title="Settings" />
-        <div className="glass rounded-2xl p-5 sm:p-6 text-marigold border border-marigold/30 text-sm">
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6", "text-marigold", "border", "border-marigold/30", "text-sm")}>
           Connect Supabase to edit settings.
         </div>
       </div>
@@ -115,7 +117,7 @@ export default function SettingsAdmin() {
   return (
     <div>
       <AdminPageHeader title="Settings" subtitle="WhatsApp number, contact details, and social links." />
-      <div className="glass admin-form-card space-y-4">
+      <div className={cn(GLASS, "admin-form-card", "space-y-4")}>
         {FIELDS.map((f) => (
           <div key={f.name} className="admin-field">
             <label className={ADMIN_LABEL}>{f.label}</label>
@@ -128,7 +130,7 @@ export default function SettingsAdmin() {
           </div>
         ))}
         <div className="admin-form-actions">
-          <button type="button" onClick={save} disabled={saving} className="btn-gold rounded-full px-7 py-3 disabled:opacity-60">
+          <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
             {saving ? "Saving…" : "Save settings"}
           </button>
           {msg && <span className="text-sm text-gold break-words">{msg}</span>}

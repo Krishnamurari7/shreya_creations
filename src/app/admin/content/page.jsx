@@ -1,5 +1,7 @@
 "use client";
 
+import { BTN_GOLD, GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
@@ -140,7 +142,7 @@ export default function ContentAdmin() {
     return (
       <div>
         <AdminPageHeader title="Site content" />
-        <div className="glass rounded-2xl p-5 sm:p-6 text-marigold border border-marigold/30 text-sm">Connect Supabase to edit content.</div>
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6", "text-marigold", "border", "border-marigold/30", "text-sm")}>Connect Supabase to edit content.</div>
       </div>
     );
   }
@@ -153,7 +155,7 @@ export default function ContentAdmin() {
         title="Site content"
         subtitle="Header announcement bar, boutique service cards, and about copy."
       />
-      <div className="glass admin-form-card admin-form-card--wide space-y-5">
+      <div className={cn(GLASS, "admin-form-card", "admin-form-card--wide", "space-y-5")}>
         <div>
           <label className={ADMIN_LABEL}>Default language</label>
           <select
@@ -192,7 +194,7 @@ export default function ContentAdmin() {
           <textarea rows={3} value={form.instagram_embed} onChange={(e) => setForm((f) => ({ ...f, instagram_embed: e.target.value }))} className={ADMIN_INPUT} />
         </div>
         <div className="admin-form-actions">
-          <button type="button" onClick={save} disabled={saving} className="btn-gold rounded-full px-7 py-3 disabled:opacity-60">
+          <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
             {saving ? "Saving…" : "Save content"}
           </button>
           {msg && <p className="text-sm text-gold break-words">{msg}</p>}

@@ -1,5 +1,7 @@
 "use client";
 
+import { GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 
 export default function RepeaterField({ label, items, onChange, fields, addLabel = "Add item" }) {
@@ -23,7 +25,7 @@ export default function RepeaterField({ label, items, onChange, fields, addLabel
       <label className={ADMIN_LABEL}>{label}</label>
       <div className="space-y-4">
         {items.map((row, index) => (
-          <div key={index} className="glass rounded-xl p-4 space-y-3 border border-gold/15">
+          <div key={index} className={cn(GLASS, "rounded-xl", "p-4", "space-y-3", "border", "border-gold/15")}>
             <div className="flex justify-between items-center gap-2">
               <span className="text-xs admin-muted">#{index + 1}</span>
               <button type="button" onClick={() => remove(index)} className="text-xs text-marigold hover:underline">

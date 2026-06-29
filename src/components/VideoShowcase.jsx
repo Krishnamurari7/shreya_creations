@@ -1,5 +1,7 @@
 "use client";
 
+import { HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, PAGE_CONTAINER, PAGE_SECTION, REVEAL, REVEAL_LEFT, REVEAL_RIGHT, SECTION_EYEBROW, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -126,30 +128,30 @@ export default function VideoShowcase({ home, embedUrl }) {
   }, [home.videoPerks, lang]);
 
   return (
-    <section id="video-showcase" className="video-showcase-section home-band--brand page-section relative overflow-hidden">
+    <section id="video-showcase" className={cn(HOME_BAND_BRAND, PAGE_SECTION, "video-showcase-section", "relative", "overflow-hidden")}>
       <div className="pointer-events-none absolute top-16 left-[8%] h-48 w-48 rounded-full bg-orange/8 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute bottom-10 right-[6%] h-56 w-56 rounded-full bg-orange/6 blur-3xl" aria-hidden />
-      <span className="pointer-events-none absolute top-24 right-[18%] text-gold text-sm sparkle-pulse hidden sm:block" aria-hidden>
+      <span className={cn(SPARKLE_PULSE, "pointer-events-none", "absolute", "top-24", "right-[18%]", "text-gold", "text-sm", "hidden", "sm:block")} aria-hidden>
         ✦
       </span>
       <span
-        className="pointer-events-none absolute bottom-28 left-[14%] text-orange text-xs sparkle-pulse hidden sm:block [animation-delay:-1.2s]"
+        className={cn(SPARKLE_PULSE, "pointer-events-none", "absolute", "bottom-28", "left-[14%]", "text-orange", "text-xs", "hidden", "sm:block", "[animation-delay:-1.2s]")}
         aria-hidden
       >
         ✦
       </span>
 
-      <div className="page-container relative z-10 max-w-6xl">
+      <div className={cn(PAGE_CONTAINER, "relative", "z-10", "max-w-6xl")}>
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center min-w-0 w-full">
-          <div className="lg:col-span-5 text-center lg:text-left reveal reveal-left min-w-0">
-            {eyebrow && <span className="section-eyebrow">{eyebrow}</span>}
+          <div className={cn(REVEAL, REVEAL_LEFT, "lg:col-span-5", "text-center", "lg:text-left", "min-w-0")}>
+            {eyebrow && <span className={SECTION_EYEBROW}>{eyebrow}</span>}
             {title && (
-              <h2 className="section-title mt-2 leading-tight text-balance">
+              <h2 className={cn(SECTION_TITLE, "mt-2", "leading-tight", "text-balance")}>
                 {title}
                 {highlight && (
                   <>
                     {" "}
-                    <span className="highlight-shimmer">{highlight}</span>
+                    <span className={HIGHLIGHT_SHIMMER}>{highlight}</span>
                   </>
                 )}
               </h2>
@@ -160,7 +162,7 @@ export default function VideoShowcase({ home, embedUrl }) {
               </p>
             )}
             {(eyebrow || title) && (
-              <div className="section-ornament mt-5 sm:mt-6 lg:mx-0 mx-auto" aria-hidden>
+              <div className={cn(SECTION_ORNAMENT, "mt-3", "sm:mt-4", "lg:mx-0", "mx-auto")} aria-hidden>
                 <span className="text-gold text-xs">✦</span>
               </div>
             )}
@@ -181,7 +183,7 @@ export default function VideoShowcase({ home, embedUrl }) {
             </ul>
           </div>
 
-          <div className="lg:col-span-7 reveal reveal-right min-w-0 w-full">
+          <div className={cn(REVEAL, REVEAL_RIGHT, "lg:col-span-7", "min-w-0", "w-full")}>
             <Glass3DCard
               layered
               glow
