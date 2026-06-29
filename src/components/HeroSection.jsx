@@ -154,9 +154,19 @@ function HeroAutoplayVideo({ src, alt, preview = false }) {
   );
 }
 
+function HeroCrownIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="home-hero__badge-crown">
+      <path d="M2.5 19h19v2h-19v-2zm2.1-9.2 2.8 3.2 3.4-6.1 3.4 6.1 2.8-3.2L19.5 17h-15l-1.9-7.2z" />
+    </svg>
+  );
+}
+
 function HeroVideoCard({
   headerIcon,
   headerLabel,
+  footerIcon,
+  footerText,
   thumb,
   alt,
   href,
@@ -182,16 +192,7 @@ function HeroVideoCard({
           </span>
         ) : null}
         {videoSrc ? (
-          <>
-            <HeroAutoplayVideo src={videoSrc} alt={alt} preview />
-            <div className="home-hero__video-overlay home-hero__video-overlay--tap" aria-hidden>
-              <span className="home-hero__video-play">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </span>
-            </div>
-          </>
+          <HeroAutoplayVideo src={videoSrc} alt={alt} preview />
         ) : (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -211,6 +212,16 @@ function HeroVideoCard({
           </>
         )}
       </div>
+      {footerText ? (
+        <div className="home-hero__video-foot">
+          {footerIcon ? (
+            <span className="home-hero__video-foot-icon" aria-hidden>
+              {footerIcon}
+            </span>
+          ) : null}
+          <span className="home-hero__video-foot-label">{footerText}</span>
+        </div>
+      ) : null}
     </div>
   );
 
@@ -272,7 +283,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
   const heroKeywords =
     pickPage(home, lang, "heroBoutiqueKeywords", "heroBoutiqueKeywordsHi") ||
     pickPage(home, lang, "heroSubtitle", "heroSubtitleHi") ||
-    (lang === "hi" ? "नौकरी / बुटीक / इंस्टिट्यूट" : "Job / Boutique / Institute");
+    (lang === "hi" ? "कोर्स / बुटीक / इंस्टिट्यूट" : "Course / Boutique / Institute");
 
   const stats = useMemo(() => (lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN), [lang]);
   const keywordPills = useMemo(() => parseKeywordPills(heroKeywords), [heroKeywords]);
@@ -292,16 +303,9 @@ export default function HeroSection({ home = {}, lang = "en" }) {
       aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
     >
       <div className="home-hero__ambient" aria-hidden>
-        <span className="home-hero__glow home-hero__glow--warm" />
-        <span className="home-hero__glow home-hero__glow--gold" />
-        <span className="home-hero__deco-ring home-hero__deco-ring--1" />
-        <span className="home-hero__deco-ring home-hero__deco-ring--2" />
-        <span className="home-hero__light-ray" />
-        <span className="home-hero__sparkle home-hero__sparkle--1">✦</span>
-        <span className="home-hero__sparkle home-hero__sparkle--2">✦</span>
-        <span className="home-hero__sparkle home-hero__sparkle--3">✦</span>
-        <span className="home-hero__mesh-grid" />
-        <span className="home-hero__grain-texture" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/background.png" alt="" className="home-hero__bg-image" />
+        <span className="home-hero__bg-overlay" />
       </div>
 
       <div className={cn(PAGE_CONTAINER, "home-hero__top")}>
@@ -311,10 +315,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
             <div className="home-hero__copy-stack">
               {heroBadge ? (
                 <p className={cn(ANIM_RISE, "home-hero__badge", "home-hero__badge--boutique", "anim-delay-1")}>
-                  <span className="home-hero__badge-pulse" aria-hidden />
-                  <span className="home-hero__badge-gem" aria-hidden>
-                    ✦
-                  </span>
+                  <HeroCrownIcon />
                   <span>{heroBadge}</span>
                 </p>
               ) : null}
@@ -356,8 +357,8 @@ export default function HeroSection({ home = {}, lang = "en" }) {
                             />
                           </span>
                         ) : null}
+                        <span className="home-hero__keyword-chip-label">{pill}</span>
                       </Link>
-                      <span className="home-hero__keyword-chip-label">{pill}</span>
                     </li>
                   ))}
                 </ul>
@@ -375,11 +376,20 @@ export default function HeroSection({ home = {}, lang = "en" }) {
               tag={lang === "hi" ? "मुफ़्त" : "FREE"}
               headerIcon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  <circle cx="12" cy="9" r="5" />
+                  <path d="M8.5 14.5 7 21l5-2.5L17 21l-1.5-6.5" />
                 </svg>
+              }
+              footerIcon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                  <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
+                </svg>
+              }
+              footerText={
+                lang === "hi"
+                  ? "विशेषज्ञों से सीखें। उज्ज्वल भविष्य बनाएं।"
+                  : "Learn from Experts. Build a Brighter Future."
               }
               headerLabel={lang === "hi" ? "फ्री डेमो क्लास" : "Free Demo Class"}
               thumb={demoThumb}
@@ -397,14 +407,25 @@ export default function HeroSection({ home = {}, lang = "en" }) {
             />
             <HeroVideoCard
               offset
-              tag={lang === "hi" ? "बुक" : "BOOK"}
+              tag={lang === "hi" ? "सिलाई" : "Stitching"}
               headerIcon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
                   <rect x="3" y="4" width="18" height="18" rx="2" />
                   <path d="M16 2v4M8 2v4M3 10h18" />
                 </svg>
               }
-              headerLabel={lang === "hi" ? "एडमिशन बुक करें" : "Book Admission"}
+              footerIcon={
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+              }
+              footerText={
+                lang === "hi"
+                  ? "अपने सपने की ओर पहला कदम बढ़ाएं।"
+                  : "Take the First Step towards Your Dream."
+              }
+              headerLabel={lang === "hi" ? "कस्टम सिलाई" : "Customise stitching"}
               thumb={bookThumb}
               alt={lang === "hi" ? "बुकिंग वीडियो" : "Booking video"}
               videoSrc={heroBookLocalVideo}

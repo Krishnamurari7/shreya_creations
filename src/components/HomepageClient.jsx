@@ -274,7 +274,7 @@ export default function HomepageClient({
           />
 
           {/* Brand message + Service USP — primary focus */}
-          <div className={cn(REVEAL, "why-choose-pillars", "mb-4", "sm:mb-8")} data-stagger>
+          <div className={cn(REVEAL, "why-choose-pillars", "mb-0", "md:mb-8")} data-stagger>
             <div className="why-choose-pillar why-choose-pillar--brand">
               <span className="why-choose-pillar__tag">
                 {pickPage(home, lang, "whyChooseBrandTag", "whyChooseBrandTagHi") ||
@@ -299,16 +299,16 @@ export default function HomepageClient({
             </div>
           </div>
 
-          <div className={cn(REVEAL, "why-choose-features")}>
-            <p className={cn(REVEAL, "why-choose-divider", "text-center", "hidden", "sm:block")}>
+          <div className={cn(REVEAL, "why-choose-features", "hidden", "md:block")}>
+            <p className={cn(REVEAL, "why-choose-divider", "text-center")}>
               <span>
                 {pickPage(home, lang, "whyChooseDivider", "whyChooseDividerHi") ||
                   (lang === "hi" ? "और भी कारण" : "Plus more reasons")}
               </span>
             </p>
 
-            <div className="features-bar mt-4 sm:mt-6 md:mt-8">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 md:gap-5" data-stagger>
+            <div className="features-bar mt-6 md:mt-8">
+              <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-5" data-stagger>
                 {whyChooseFeatures.map((f, i) => (
                   <div
                     key={i}
@@ -327,8 +327,8 @@ export default function HomepageClient({
                     >
                       {f.icon}
                     </div>
-                    <h3 className="font-body text-xs sm:text-sm font-semibold text-ink leading-snug">{f.title}</h3>
-                    <p className="text-[11px] sm:text-xs text-muted mt-0.5 leading-relaxed">{f.sub}</p>
+                    <h3 className="font-body text-sm font-semibold text-ink leading-snug">{f.title}</h3>
+                    <p className="text-xs text-muted mt-0.5 leading-relaxed">{f.sub}</p>
                   </div>
                 ))}
               </div>

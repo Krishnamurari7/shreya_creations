@@ -15,7 +15,7 @@ const ROUTES = [
   { href: "/", key: "home" },
   { href: "/about", key: "about" },
   { href: "/courses", key: "courses" },
-  { href: "/portfolio", key: "gallery" },
+  { href: "/shop", key: "boutique" },
   { href: "/contact", key: "contact" },
 ];
 
@@ -58,12 +58,12 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="M8 11h8" />
         </svg>
       );
-    case "gallery":
+    case "boutique":
       return (
         <svg {...props}>
-          <rect x="3" y="5" width="18" height="14" rx="2" />
-          <circle cx="9" cy="10" r="1.5" />
-          <path d="m21 16-5.2-5.2a1.5 1.5 0 0 0-2.1 0L8 16" />
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+          <path d="M3 6h18" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
         </svg>
       );
     case "contact":
