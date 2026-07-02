@@ -20,7 +20,7 @@ export default function ProductsAdmin() {
   return (
     <ResourceManager
       table="products"
-      title="Products"
+      title="Shop (Boutique)"
       fields={FIELDS}
       listColumns={["title", "category"]}
     />

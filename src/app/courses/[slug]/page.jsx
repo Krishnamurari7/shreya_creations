@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getCourseBySlug, getFaqs, getSiteSettings } from "@/lib/data";
+import { isCourseAvailable } from "@/lib/courses";
 import CourseDetailClient from "@/components/CourseDetailClient";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ export default async function CourseDetail({ params }) {
     getSiteSettings(),
     getFaqs(),
   ]);
-  if (!course) return notFound();
+  if (!course || !isCourseAvailable(course)) return notFound();
 
   const courseFaqs = faqs.filter(
     (f) =>

@@ -44,7 +44,7 @@ function AnnouncementListField({ items, onChange }) {
             <input
               value={line}
               onChange={(e) => update(index, e.target.value)}
-              placeholder="e.g. FREE SHIPPING ON ORDERS ABOVE ₹999"
+              placeholder="e.g. Fashion Boutique Institute"
               className={`${ADMIN_INPUT} flex-1`}
             />
             <button
@@ -71,9 +71,7 @@ export default function ContentAdmin() {
     about_body: "",
     about_body_hi: "",
     hero_marquee: [],
-    services: "[]",
     process_steps: "[]",
-    instagram_embed: "",
     map_embed_url: "",
     default_language: "en",
   });
@@ -96,9 +94,7 @@ export default function ContentAdmin() {
           hero_marquee: (data.hero_marquee || []).map((item) =>
             typeof item === "string" ? item : item?.text || ""
           ),
-          services: JSON.stringify(data.services || [], null, 2),
           process_steps: JSON.stringify(data.process_steps || [], null, 2),
-          instagram_embed: data.instagram_embed || "",
           map_embed_url: data.map_embed_url || "",
           default_language: data.default_language || "en",
         });
@@ -123,17 +119,15 @@ export default function ContentAdmin() {
         about_body: form.about_body,
         about_body_hi: form.about_body_hi,
         hero_marquee: form.hero_marquee.map((line) => line.trim()).filter(Boolean),
-        services: JSON.parse(form.services),
         process_steps: JSON.parse(form.process_steps),
-        instagram_embed: form.instagram_embed,
         map_embed_url: form.map_embed_url,
         default_language: form.default_language,
         updated_at: new Date().toISOString(),
       };
       const { error } = await supabase.from("settings").upsert(payload);
-      setMsg(error ? error.message : "Saved! Home, About and Contact pages updated.");
+      setMsg(error ? error.message : "Saved! Announcement bar, About page, and homepage process updated.");
     } catch (e) {
-      setMsg(e.message || "Invalid JSON in one of the fields.");
+      setMsg(e.message || "Invalid JSON in process steps.");
     }
     setSaving(false);
   };
@@ -142,7 +136,7 @@ export default function ContentAdmin() {
     return (
       <div>
         <AdminPageHeader title="Site content" />
-        <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6", "text-marigold", "border", "border-marigold/30", "text-sm")}>Connect Supabase to edit content.</div>
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "text-marigold", "border", "border-marigold/30", "text-sm")}>Connect Supabase to edit content.</div>
       </div>
     );
   }
@@ -153,7 +147,7 @@ export default function ContentAdmin() {
     <div>
       <AdminPageHeader
         title="Site content"
-        subtitle="Header announcement bar, boutique service cards, and about copy."
+        subtitle="Announcement bar, About page body copy, homepage process steps, and contact map."
       />
       <div className={cn(GLASS, "admin-form-card", "admin-form-card--wide", "space-y-5")}>
         <div>
@@ -170,6 +164,7 @@ export default function ContentAdmin() {
         <div className="admin-field">
           <label className={ADMIN_LABEL}>About body (English)</label>
           <textarea rows={4} value={form.about_body} onChange={(e) => setForm((f) => ({ ...f, about_body: e.target.value }))} className={ADMIN_INPUT} />
+          <p className={`${ADMIN_MUTED} mt-1`}>Shown on the About page below the main story.</p>
         </div>
         <div className="admin-field">
           <label className={ADMIN_LABEL}>About body (Hindi)</label>
@@ -179,19 +174,20 @@ export default function ContentAdmin() {
           items={form.hero_marquee}
           onChange={(hero_marquee) => setForm((f) => ({ ...f, hero_marquee }))}
         />
-        <JsonField label="Boutique services (JSON array)" hint='[{"title":"...","text":"...","accent":"orange"}] — shown in Homepage → Boutique Services Overview' value={form.services} onChange={(v) => setForm((f) => ({ ...f, services: v }))} />
-        <JsonField label="Process steps (JSON array)" hint='[{"step":"Consult","text":"..."}]' value={form.process_steps} onChange={(v) => setForm((f) => ({ ...f, process_steps: v }))} />
+        <JsonField
+          label="Process steps (JSON array)"
+          hint='[{"step":"Consult","text":"..."}] — shown in Homepage → Design Process'
+          value={form.process_steps}
+          onChange={(v) => setForm((f) => ({ ...f, process_steps: v }))}
+        />
         <p className="admin-muted">
-          About page copy, pillars & images: edit in{" "}
-          <a href="/admin/pages" className="text-gold hover:underline">Page editor</a>.
+          About page hero, pillars & team: edit in{" "}
+          <a href="/admin/pages" className="text-gold hover:underline">Page editor</a> → About.
         </p>
         <div>
           <label className={ADMIN_LABEL}>Google Maps embed URL</label>
           <input value={form.map_embed_url} onChange={(e) => setForm((f) => ({ ...f, map_embed_url: e.target.value }))} className={ADMIN_INPUT} />
-        </div>
-        <div className="admin-field">
-          <label className={ADMIN_LABEL}>Instagram embed HTML (optional)</label>
-          <textarea rows={3} value={form.instagram_embed} onChange={(e) => setForm((f) => ({ ...f, instagram_embed: e.target.value }))} className={ADMIN_INPUT} />
+          <p className={`${ADMIN_MUTED} mt-1`}>Used on the Contact page map.</p>
         </div>
         <div className="admin-form-actions">
           <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>

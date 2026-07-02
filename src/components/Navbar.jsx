@@ -78,16 +78,24 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
 }
 
 function BrandLogo({ brandName, variant = "header" }) {
+  const isDrawer = variant === "drawer";
+
   return (
-    /* eslint-disable-next-line @next/next/no-img-element */
-    <img
-      src={NAV_LOGO_SRC}
-      alt={brandName}
-      className={`nav-logo-img${variant === "drawer" ? " nav-logo-img--drawer" : ""}`}
-      width={220}
-      height={88}
-      decoding="async"
-    />
+    <span className={cn("nav-logo-3d", isDrawer && "nav-logo-3d--drawer")}>
+      <span className="nav-logo-3d__shadow" aria-hidden />
+      <span className="nav-logo-3d__glow" aria-hidden />
+      <span className="nav-logo-3d__body">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={NAV_LOGO_SRC}
+          alt={brandName}
+          className={cn("nav-logo-img", isDrawer && "nav-logo-img--drawer")}
+          width={220}
+          height={88}
+          decoding="async"
+        />
+      </span>
+    </span>
   );
 }
 

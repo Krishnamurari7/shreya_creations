@@ -44,6 +44,26 @@ function normalizeCourse(row) {
   };
 }
 
+function mergeCourseRecord(seedCourse, dbCourse) {
+  if (!dbCourse) return seedCourse;
+  const merged = { ...seedCourse, ...dbCourse };
+  if (dbCourse.price == null && seedCourse.price != null) merged.price = seedCourse.price;
+  if (!dbCourse.course_pdf && seedCourse.course_pdf) merged.course_pdf = seedCourse.course_pdf;
+  if (!dbCourse.about && seedCourse.about) merged.about = seedCourse.about;
+  if (!dbCourse.about_hi && seedCourse.about_hi) merged.about_hi = seedCourse.about_hi;
+  if (!dbCourse.description_hi && seedCourse.description_hi) merged.description_hi = seedCourse.description_hi;
+  if ((!Array.isArray(dbCourse.includes) || !dbCourse.includes.length) && seedCourse.includes?.length) {
+    merged.includes = seedCourse.includes;
+  }
+  if ((!Array.isArray(dbCourse.includes_hi) || !dbCourse.includes_hi.length) && seedCourse.includes_hi?.length) {
+    merged.includes_hi = seedCourse.includes_hi;
+  }
+  if ((!Array.isArray(dbCourse.syllabus) || !dbCourse.syllabus.length) && seedCourse.syllabus?.length) {
+    merged.syllabus = seedCourse.syllabus;
+  }
+  return merged;
+}
+
 function publishedSeedCourses(includeUnpublished) {
   return includeUnpublished
     ? seed.COURSES
@@ -57,7 +77,7 @@ function mergeCoursesWithSeed(dbRows, { includeUnpublished = false } = {}) {
   const dbBySlug = new Map(dbRows.map((row) => [row.slug, normalizeCourse(row)]));
   return seedList.map((seedCourse) => {
     const dbCourse = dbBySlug.get(seedCourse.slug);
-    return dbCourse ? { ...seedCourse, ...dbCourse } : seedCourse;
+    return dbCourse ? mergeCourseRecord(seedCourse, dbCourse) : seedCourse;
   });
 }
 
@@ -157,7 +177,7 @@ export async function getCourseBySlug(slug) {
     const supabase = createClient();
     const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
     const dbCourse = data ? normalizeCourse(data) : null;
-    return dbCourse ? { ...seedCourse, ...dbCourse } : seedCourse;
+    return dbCourse ? mergeCourseRecord(seedCourse, dbCourse) : seedCourse;
   } catch {
     return seedCourse;
   }

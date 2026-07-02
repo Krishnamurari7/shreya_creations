@@ -10,7 +10,7 @@ export default async function Dashboard() {
   const configured = isSupabaseConfigured();
 
   const stats = [
-    { label: "Products", value: counts.products, href: "/admin/products" },
+    { label: "Shop items", value: counts.products, href: "/admin/products" },
     { label: "Courses", value: counts.courses, href: "/admin/courses" },
     { label: "Portfolio", value: counts.portfolio, href: "/admin/portfolio" },
     { label: "Testimonials", value: counts.testimonials, href: "/admin/testimonials" },
@@ -19,11 +19,21 @@ export default async function Dashboard() {
     { label: "Inquiries", value: counts.inquiries, href: "/admin/inquiries" },
   ];
 
+  const sitePages = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/courses", label: "Courses" },
+    { href: "/shop", label: "Shop" },
+    { href: "/portfolio", label: "Portfolio" },
+    { href: "/contact", label: "Contact" },
+    { href: "/faq", label: "FAQ" },
+  ];
+
   return (
     <div>
       <AdminPageHeader
         title="Dashboard"
-        subtitle="Manage everything that appears on your public site."
+        subtitle="Manage content for Home, About, Courses, Shop, Portfolio, Contact, and FAQ."
       />
 
       {!configured ? (
@@ -55,23 +65,21 @@ export default async function Dashboard() {
           </p>
         </div>
         <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6")}>
-          <h2 className="text-gold uppercase tracking-[0.2em] text-xs mb-3">Quick links</h2>
+          <h2 className="text-gold uppercase tracking-[0.2em] text-xs mb-3">Public site pages</h2>
           <ul className="text-sm space-y-2">
-            <li>
-              <Link href="/admin/pages" className="text-gold hover:underline">Page editor</Link>
-              <span className="hidden sm:inline"> — All page copy, features & CTAs</span>
-            </li>
-            <li>
-              <Link href="/admin/content" className="text-gold hover:underline">Site content</Link>
-              <span className="hidden sm:inline"> — services, process, marquee</span>
-            </li>
-            <li>
-              <Link href="/admin/policies" className="text-gold hover:underline">Policy pages</Link>
-            </li>
-            <li>
-              <Link href="/admin/lookbook" className="text-gold hover:underline">Lookbook</Link>
-            </li>
+            {sitePages.map((p) => (
+              <li key={p.href}>
+                <a href={p.href} target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">
+                  {p.label}
+                </a>
+              </li>
+            ))}
           </ul>
+          <p className="admin-muted mt-3 text-xs">
+            Page copy: <Link href="/admin/pages" className="text-gold hover:underline">Pages</Link>
+            {" · "}
+            Announcement bar & process: <Link href="/admin/content" className="text-gold hover:underline">Content</Link>
+          </p>
         </div>
       </div>
     </div>

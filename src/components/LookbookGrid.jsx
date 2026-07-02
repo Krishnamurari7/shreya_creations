@@ -17,11 +17,11 @@ export default function LookbookGrid({ posts = [] }) {
         <span className="text-5xl">✨</span>
         <p className="text-ink mt-4 font-normal text-base max-w-md mx-auto">
           {lang === "hi"
-            ? "अभी कोई लुकबुक पोस्ट नहीं। एडमिन से जोड़ें।"
-            : "No lookbook posts yet. Add them in Admin → Lookbook."}
+            ? "अभी कोई लुकबुक पोस्ट उपलब्ध नहीं है।"
+            : "No lookbook posts available yet."}
         </p>
-        <Link href="/admin/lookbook" className="inline-block mt-6 text-orange hover:text-orange-dark text-sm font-medium tracking-wide">
-          {lang === "hi" ? "एडमिन → लुकबुक" : "Admin → Lookbook"} →
+        <Link href="/contact" className="inline-block mt-6 text-orange hover:text-orange-dark text-sm font-medium tracking-wide">
+          {lang === "hi" ? "संपर्क करें" : "Contact us"} →
         </Link>
       </Glass3DCard>
     );

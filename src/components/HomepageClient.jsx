@@ -83,88 +83,102 @@ function FounderMessageSlider({ slides }) {
     return () => clearInterval(id);
   }, [count]);
 
-  const slide = slides[active] || slides[0];
-  if (!slide) return null;
+  if (!slides[0]) return null;
 
   return (
-    <div className="founder-message-grid grid lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-center min-w-0">
-      <div className={cn(REVEAL, REVEAL_LEFT, "lg:col-span-4", "xl:col-span-4", "flex", "justify-center", "min-w-0")}>
-        <div className="founder-portrait relative">
-          <div className="founder-portrait__ring gradient-ring rounded-2xl p-[2px] shadow-glow">
-            <div className={cn(GLASS, "founder-portrait__inner", "rounded-[calc(1rem-2px)]", "overflow-hidden", "border-0", "p-1.5", "sm:p-2")}>
+    <div className="founder-message-wrap">
+      <div className="founder-message-card">
+        <div className="founder-message-card__layout">
+          <div className={cn(REVEAL, REVEAL_LEFT, "founder-message-card__media")}>
+            <div className="founder-portrait relative">
+              <div className="founder-portrait__halo" aria-hidden />
+              <div className="founder-portrait__ring gradient-ring rounded-2xl p-[2px] shadow-glow">
+                <div className={cn(GLASS, "founder-portrait__inner", "rounded-[calc(1rem-2px)]", "overflow-hidden", "border-0", "p-1.5", "sm:p-2")}>
+                  {slides.map((s, i) => (
+                    <div
+                      key={s.name}
+                      className={`transition-all duration-700 ease-in-out ${i === active ? "opacity-100 scale-100 relative" : "opacity-0 scale-[0.98] absolute inset-1.5 sm:inset-2 pointer-events-none"}`}
+                      aria-hidden={i !== active}
+                    >
+                      <CardImage src={s.image} alt={s.name} ratio="4/5" position="top" className="founder-portrait__media rounded-xl" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <span className="founder-portrait__badge hero-float-badge hero-float-badge--bottom">
+                <span className="hero-float-badge__dot" aria-hidden />
+                {slides[active]?.role || "Founder"}
+              </span>
+            </div>
+          </div>
+
+          <div className={cn(REVEAL, REVEAL_RIGHT, "founder-message-card__content")}>
+            <span className="founder-quote-card__mark" aria-hidden>&ldquo;</span>
+            <div className="founder-quote-card__body">
               {slides.map((s, i) => (
                 <div
                   key={s.name}
-                  className={`transition-all duration-700 ease-in-out ${i === active ? "opacity-100 scale-100 relative" : "opacity-0 scale-[0.98] absolute inset-1.5 sm:inset-2 pointer-events-none"}`}
+                  className={`founder-quote-card__slide transition-all duration-700 ease-in-out ${i === active ? "opacity-100 relative translate-y-0" : "opacity-0 absolute inset-0 translate-y-2 pointer-events-none"}`}
                   aria-hidden={i !== active}
                 >
-                  <CardImage src={s.image} alt={s.name} ratio="4/5" position="top" className="founder-portrait__media rounded-xl" />
+                  <blockquote className="founder-quote-card__text text-ink leading-relaxed italic font-normal">
+                    {s.quote}
+                  </blockquote>
+                  <div className="founder-quote-card__author">
+                    <div className="founder-quote-card__avatar" aria-hidden>
+                      {(s.name || "S").charAt(0)}
+                    </div>
+                    <div className="founder-quote-card__meta min-w-0">
+                      <p className="founder-quote-card__name">{s.name}</p>
+                      <p className="founder-quote-card__role">{s.role}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-          <span className="founder-portrait__badge hero-float-badge hero-float-badge--bottom hidden sm:inline-flex">
-            <span className="hero-float-badge__dot" aria-hidden />
-            {slides[active]?.role || "Founder"}
+        </div>
+      </div>
+
+      {count > 1 && (
+        <div className="founder-slider__nav">
+          <button
+            type="button"
+            onClick={() => setActive((i) => (i - 1 + count) % count)}
+            className="founder-slider__btn"
+            aria-label="Previous message"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+              <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <div className="founder-slider__dots">
+            {slides.map((s, i) => (
+              <button
+                key={s.name}
+                type="button"
+                onClick={() => setActive(i)}
+                className={`founder-slider__dot ${i === active ? "founder-slider__dot--active" : ""}`}
+                aria-label={`Show message from ${s.name}`}
+                aria-current={i === active ? "true" : undefined}
+              />
+            ))}
+          </div>
+          <span className="founder-slider__counter" aria-live="polite">
+            {String(active + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
           </span>
+          <button
+            type="button"
+            onClick={() => setActive((i) => (i + 1) % count)}
+            className="founder-slider__btn"
+            aria-label="Next message"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+              <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
-      </div>
-      <div className={cn(REVEAL, REVEAL_RIGHT, "lg:col-span-8", "xl:col-span-8", "text-center", "lg:text-left", "min-w-0")}>
-        <div className="founder-quote-card relative min-h-[9rem] sm:min-h-[8rem] lg:min-h-[7.5rem]">
-          {slides.map((s, i) => (
-            <div
-              key={s.name}
-              className={`transition-opacity duration-700 ease-in-out ${i === active ? "opacity-100 relative" : "opacity-0 absolute inset-0 pointer-events-none"}`}
-              aria-hidden={i !== active}
-            >
-              <blockquote className="founder-quote-card__text text-ink leading-snug italic font-normal">
-                &ldquo;{s.quote}&rdquo;
-              </blockquote>
-              <div className="mt-4 sm:mt-5 flex flex-col sm:flex-row items-center lg:items-start gap-2 sm:gap-3">
-                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-orange/20 to-gold/20 grid place-items-center font-display text-lg text-orange shrink-0 ring-2 ring-orange/25">
-                  {(s.name || "S").charAt(0)}
-                </div>
-                <div className="min-w-0">
-                  <p className="font-display text-lg sm:text-xl text-ink">{s.name}</p>
-                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.16em] text-orange font-semibold mt-0.5">{s.role}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        {count > 1 && (
-          <div className="mt-4 sm:mt-5 flex items-center justify-center lg:justify-start gap-2.5">
-            <button
-              type="button"
-              onClick={() => setActive((i) => (i - 1 + count) % count)}
-              className="h-10 w-10 rounded-full border border-orange/30 text-orange hover:bg-orange/10 hover:scale-105 transition-all"
-              aria-label="Previous message"
-            >
-              ‹
-            </button>
-            <div className="flex gap-2">
-              {slides.map((s, i) => (
-                <button
-                  key={s.name}
-                  type="button"
-                  onClick={() => setActive(i)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${i === active ? "w-8 bg-gradient-to-r from-orange to-gold" : "w-2.5 bg-orange/30 hover:bg-orange/50"}`}
-                  aria-label={`Show message from ${s.name}`}
-                  aria-current={i === active ? "true" : undefined}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setActive((i) => (i + 1) % count)}
-              className="h-10 w-10 rounded-full border border-orange/30 text-orange hover:bg-orange/10 hover:scale-105 transition-all"
-              aria-label="Next message"
-            >
-              ›
-            </button>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
@@ -346,17 +360,22 @@ export default function HomepageClient({
       {videoEmbedUrl && <VideoShowcase home={home} embedUrl={videoEmbedUrl} />}
 
       {/* ===== FOUNDER MESSAGE ===== */}
-      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "max-w-6xl", "relative", "z-20")}>
-        <SectionHeader
-          home={home}
-          lang={lang}
-          eyebrowKey="founderEyebrow"
-          titleKey="founderTitle"
-          hiOnlyKeys={["founderTitle"]}
-          compact
-          className="founder-section__header"
-        />
-        <FounderMessageSlider slides={founderSlides} />
+      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "max-w-6xl", "relative", "z-20", "overflow-hidden")}>
+        <div className="founder-section__bg" aria-hidden />
+        <div className="founder-section__glow founder-section__glow--left" aria-hidden />
+        <div className="founder-section__glow founder-section__glow--right" aria-hidden />
+        <div className="relative z-10">
+          <SectionHeader
+            home={home}
+            lang={lang}
+            eyebrowKey="founderEyebrow"
+            titleKey="founderTitle"
+            hiOnlyKeys={["founderTitle"]}
+            compact
+            className="founder-section__header"
+          />
+          <FounderMessageSlider slides={founderSlides} />
+        </div>
       </section>
 
       {/* ===== PORTFOLIO PREVIEW ===== */}

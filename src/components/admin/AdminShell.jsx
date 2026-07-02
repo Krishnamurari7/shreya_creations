@@ -9,15 +9,14 @@ import { LOGO_SRC } from "@/lib/brand";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: "◆" },
-  { href: "/admin/products", label: "Products", icon: "✦" },
+  { href: "/admin/products", label: "Shop", icon: "✦" },
   { href: "/admin/courses", label: "Courses", icon: "❖" },
   { href: "/admin/portfolio", label: "Portfolio", icon: "▣" },
   { href: "/admin/testimonials", label: "Testimonials", icon: "❝" },
-  { href: "/admin/trust", label: "Trust wall", icon: "◎" },
+  { href: "/admin/trust", label: "Trust stats", icon: "◎" },
   { href: "/admin/faqs", label: "FAQs", icon: "?" },
   { href: "/admin/pages", label: "Pages", icon: "📄" },
   { href: "/admin/content", label: "Content", icon: "✎" },
-  { href: "/admin/lookbook", label: "Lookbook", icon: "◇" },
   { href: "/admin/policies", label: "Policies", icon: "§" },
   { href: "/admin/inquiries", label: "Inquiries", icon: "✉" },
   { href: "/admin/settings", label: "Settings", icon: "⚙" },

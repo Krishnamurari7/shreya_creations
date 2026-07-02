@@ -15,7 +15,7 @@ export default function TrustAdmin() {
   return (
     <ResourceManager
       table="trust_stats"
-      title="Trust wall"
+      title="Trust stats"
       fields={FIELDS}
       orderBy="sort_order"
       orderAsc

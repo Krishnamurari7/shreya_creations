@@ -416,7 +416,7 @@ export const PAGE_DEFAULTS = {
   },
 };
 
-export const PAGE_EDITOR_KEYS = ["home", "about", "contact", "shop", "courses", "portfolio", "lookbook", "faq"];
+export const PAGE_EDITOR_KEYS = ["home", "about", "contact", "shop", "courses", "portfolio", "faq"];
 
 export const FEATURE_FIELDS = [
   { key: "emoji", label: "Emoji", default: "✦" },
