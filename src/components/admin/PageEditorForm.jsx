@@ -247,7 +247,7 @@ export function HomeTab({ home, patchPage }) {
       <SectionHeading>Founder message (slider)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="founder_eyebrow" hiKey="founder_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="founder_title" hiKey="founder_title_hi" values={home} onChange={onChange} />
-      <p className="admin-muted">Slide 1 — Sanjay Kumar Mishra (Founder)</p>
+      <p className="admin-muted">Slide 1 â€” Sanjay Kumar Mishra (Founder)</p>
       <BilingualTextarea label="Quote" enKey="founder_quote" hiKey="founder_quote_hi" values={home} onChange={onChange} rows={4} />
       <BilingualField label="Name" enKey="founder_name" hiKey="founder_name_hi" values={home} onChange={onChange} />
       <BilingualField label="Role" enKey="founder_role" hiKey="founder_role_hi" values={home} onChange={onChange} />
@@ -255,7 +255,7 @@ export function HomeTab({ home, patchPage }) {
         <label className={ADMIN_LABEL}>Founder photo</label>
         <ImageUploader multiple={false} value={home.founder_image || ""} onChange={(url) => onChange("founder_image", url)} />
       </div>
-      <p className="admin-muted">Slide 2 — Sangi Shreya (Director & Lead Mentor)</p>
+      <p className="admin-muted">Slide 2 â€” Sangi Shreya (Director & Lead Mentor)</p>
       <BilingualTextarea label="Quote" enKey="mentor_quote" hiKey="mentor_quote_hi" values={home} onChange={onChange} rows={4} />
       <BilingualField label="Name" enKey="mentor_name" hiKey="mentor_name_hi" values={home} onChange={onChange} />
       <BilingualField label="Role" enKey="mentor_role" hiKey="mentor_role_hi" values={home} onChange={onChange} />
