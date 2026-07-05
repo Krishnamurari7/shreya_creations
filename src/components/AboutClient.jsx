@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD_OUTLINE, BTN_PRIMARY, GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, MARQUEE_CONTAINER, MARQUEE_CONTENT, PAGE_CONTAINER, REVEAL, SECTION_EYEBROW, SECTION_MUTED, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { BTN_GOLD_OUTLINE, BTN_PRIMARY, GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, MARQUEE_CONTAINER, MARQUEE_CONTENT, PAGE_CONTAINER, PAGE_HERO_TITLE, PAGE_HERO_TITLE_COMPACT, REVEAL, SECTION_EYEBROW, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -113,6 +113,14 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
   const brandMessage = pickBrandMessage(site);
   const serviceUsp = pickServiceUsp(site);
 
+  const pageTitle =
+    pickPage(about, lang, "headerTitle", "headerTitleHi") ||
+    (lang === "hi" ? "श्रेया क्रिएशन के बारे में" : "About Shreya Creation");
+  const pageSubtitle =
+    pickPage(about, lang, "headerSubtitle", "headerSubtitleHi") ||
+    (lang === "hi"
+      ? "पटना का भरोसेमंद फैशन ट्रेनिंग और डिज़ाइनर बुटीक"
+      : "Patna's trusted fashion training institute & designer boutique");
   const heroBefore =
     pickPage(about, lang, "heroTitleBefore", "heroTitleBeforeHi") ||
     (lang === "hi" ? "कौशल से कारोबार तक —" : "From skill to business —");
@@ -125,7 +133,9 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
   const valuesEyebrow = lang === "hi" ? "हमारे मूल्य" : "Our values";
   const numbersEyebrow = lang === "hi" ? "आंकड़ों में" : "By the numbers";
-  const storyEyebrow = lang === "hi" ? "हमारी कहानी" : "Our Story";
+  const storyEyebrow =
+    pickPage(about, lang, "headerEyebrow", "headerEyebrowHi") ||
+    (lang === "hi" ? "हमारी कहानी" : "Our Story");
   const journeyEyebrow = lang === "hi" ? "हमारी यात्रा" : "Our Journey";
   const journeyTitle = lang === "hi" ? "वर्षों का भरोसा" : "Years of Trust";
   const exploreEyebrow = lang === "hi" ? "और जानें" : "Explore more";
@@ -157,13 +167,29 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
   return (
     <div className="about-page relative min-w-0 w-full">
-      {/* ——— Hero story ——— */}
-      <section className={cn(PAGE_CONTAINER, "about-hero", "max-w-6xl", "py-5", "sm:py-8", "lg:py-12", "relative", "z-20", "overflow-hidden", "min-w-0", "w-full")}>
+      {/* ——— Hero ——— */}
+      <section
+        className={cn(
+          PAGE_CONTAINER,
+          "about-hero",
+          "max-w-6xl",
+          "pt-[calc(var(--header-offset)+0.75rem)]",
+          "sm:pt-[calc(var(--header-offset)+1.25rem)]",
+          "pb-8",
+          "sm:pb-10",
+          "lg:pb-14",
+          "relative",
+          "z-20",
+          "overflow-hidden",
+          "min-w-0",
+          "w-full"
+        )}
+      >
         <AmbientGlows />
-        <div className="pointer-events-none absolute -top-16 right-0 h-56 w-56 rounded-full bg-orange/8 blur-3xl" aria-hidden />
-        <div className="pointer-events-none absolute bottom-0 -left-20 h-48 w-48 rounded-full bg-gold/6 blur-3xl" aria-hidden />
+        <div className="about-hero__glow about-hero__glow--left" aria-hidden />
+        <div className="about-hero__glow about-hero__glow--right" aria-hidden />
 
-        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 xl:gap-14 items-center">
+        <div className="grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 xl:gap-16 items-center">
           <motion.div
             className="lg:col-span-5 relative flex justify-center order-1 lg:order-none min-w-0"
             initial={reduceMotion ? false : "hidden"}
@@ -172,6 +198,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             variants={fadeUp}
           >
             <div className="about-hero__portrait founder-portrait relative">
+              <div className="founder-portrait__halo" aria-hidden />
               <div className="founder-portrait__ring gradient-ring rounded-2xl sm:rounded-3xl p-[2px] shadow-glow">
                 <div className={cn(GLASS, "founder-portrait__inner", "rounded-[calc(1rem-2px)]", "sm:rounded-[calc(1.5rem-2px)]", "overflow-hidden", "border-0", "p-1.5", "sm:p-2")}>
                   <motion.div
@@ -186,7 +213,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
                       position="top"
                       className="founder-portrait__media rounded-xl sm:rounded-2xl"
                     />
-                    <div className="absolute inset-1.5 sm:inset-2 bg-gradient-to-t from-black/45 via-transparent to-transparent z-10 pointer-events-none rounded-xl sm:rounded-2xl" />
+                    <div className="absolute inset-1.5 sm:inset-2 bg-gradient-to-t from-black/50 via-black/5 to-transparent z-10 pointer-events-none rounded-xl sm:rounded-2xl" />
                   </motion.div>
                 </div>
               </div>
@@ -216,10 +243,10 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-7 space-y-4 sm:space-y-5 lg:space-y-6 text-center lg:text-left order-2 lg:order-none min-w-0"
+            className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left order-2 lg:order-none min-w-0"
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
-            custom={0.25}
+            custom={0.2}
             variants={fadeUp}
           >
             <span className={SECTION_EYEBROW}>
@@ -229,14 +256,22 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
               {storyEyebrow}
             </span>
 
-            <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance", "leading-tight")}>
+            <h1 className={cn(PAGE_HERO_TITLE, PAGE_HERO_TITLE_COMPACT, "mt-2", "text-balance", "leading-[1.12]")}>
+              {pageTitle}
+            </h1>
+
+            <p className={cn(SECTION_LEAD, "max-w-xl", "mx-auto", "lg:mx-0", "text-pretty")}>
+              {pageSubtitle}
+            </p>
+
+            <p className="about-hero__tagline">
               {heroBefore}{" "}
               <span className={HIGHLIGHT_SHIMMER}>{heroHighlight}</span>
-            </h2>
+            </p>
 
-            <div className={cn(HAIRLINE, "max-w-xs", "mx-auto", "lg:mx-0", "lg:max-w-sm")} />
+            <div className={cn(HAIRLINE, "max-w-xs", "mx-auto", "lg:mx-0")} />
 
-            <p className="text-muted font-normal leading-relaxed text-sm sm:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 text-pretty">
+            <p className="text-muted font-normal leading-relaxed text-sm sm:text-base max-w-xl mx-auto lg:mx-0 text-pretty">
               {intro}
             </p>
 
@@ -275,6 +310,10 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
               >
                 {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </Link>
+            </div>
+
+            <div className={cn(SECTION_ORNAMENT, "justify-center", "lg:justify-start", "pt-1")} aria-hidden>
+              <span className="text-gold text-xs">✦</span>
             </div>
           </motion.div>
         </div>
@@ -330,7 +369,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
       </section>
 
       {/* ——— Journey timeline ——— */}
-      <section className={cn(PAGE_CONTAINER, "about-journey", "max-w-6xl", "py-10", "sm:py-14", "lg:py-16", "relative", "z-20", "min-w-0")}>
+      <section className={cn(PAGE_CONTAINER, "about-journey", "max-w-6xl", "pb-10", "sm:pb-14", "lg:pb-16", "relative", "z-20", "min-w-0")}>
         <SectionHeading eyebrow={journeyEyebrow} title={journeyTitle} />
         <div className="about-journey__track">
           <div className="about-journey__line" aria-hidden />
@@ -399,8 +438,18 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
       <TeamSection aboutPage={about} memberImages={memberImages} />
 
+      {/* ——— Trust stats ——— */}
+      {trust.length > 0 && (
+        <section className="trust-stats-band about-trust-band relative z-20 trust-stats-section">
+          <div className={cn(PAGE_CONTAINER, "max-w-6xl", "relative")}>
+            <SectionHeading eyebrow={numbersEyebrow} title={trustTitle} />
+            <TrustWall items={trust} localize />
+          </div>
+        </section>
+      )}
+
       {/* ——— Quick explore links ——— */}
-      <section className={cn(PAGE_CONTAINER, "max-w-6xl", "py-10", "sm:py-12", "lg:py-14", "relative", "z-20", "min-w-0")}>
+      <section className={cn(PAGE_CONTAINER, "about-explore", "max-w-6xl", "py-10", "sm:py-12", "lg:py-14", "relative", "z-20", "min-w-0")}>
         <SectionHeading eyebrow={exploreEyebrow} title={lang === "hi" ? "हमारी दुनिया" : "Our World"} />
         <div className="about-quick-links">
           {QUICK_LINKS.map((link, i) => (
@@ -428,16 +477,6 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
           ))}
         </div>
       </section>
-
-      {/* ——— Trust stats ——— */}
-      {trust.length > 0 && (
-        <section className="trust-stats-band about-trust-band relative z-20 trust-stats-section">
-          <div className={cn(PAGE_CONTAINER, "max-w-6xl", "relative")}>
-            <SectionHeading eyebrow={numbersEyebrow} title={trustTitle} />
-            <TrustWall items={trust} localize />
-          </div>
-        </section>
-      )}
     </div>
   );
 }
