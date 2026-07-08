@@ -35,6 +35,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ThemeScript from "@/components/ThemeScript";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import MetaPixel from "@/components/MetaPixel";
 import { getSiteSettings } from "@/lib/data";
 import { BRAND_MESSAGE_HI, SERVICE_USP_HI } from "@/lib/i18n";
 import { LOGO_SRC } from "@/lib/brand";
@@ -81,6 +82,7 @@ export default async function RootLayout({ children }) {
     <html lang={site.defaultLanguage === "hi" ? "hi" : "en"} suppressHydrationWarning>
       <body className={BG_ATMOSPHERE}>
         <GoogleAnalytics />
+        <MetaPixel />
         <ThemeScript />
         <ThemeProvider>
           <LanguageProvider defaultLang={site.defaultLanguage}>
