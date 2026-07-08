@@ -24,6 +24,12 @@ function friendlyError(message) {
   return message;
 }
 
+function getMissingColumnFromError(message = "") {
+  const match = message.match(/Could not find the '([^']+)' column of '([^']+)'/i);
+  if (!match) return null;
+  return { column: match[1], table: match[2] };
+}
+
 export default function ResourceManager({
   table,
   title,
@@ -136,12 +142,41 @@ export default function ResourceManager({
       payload.slug = slugify(payload.title);
     }
 
-    let res;
-    if (isUpdate) {
-      res = await supabase.from(table).update(payload).eq("id", recordId).select().single();
-    } else {
-      delete payload.id;
-      res = await supabase.from(table).insert(payload).select().single();
+    const runSave = async (currentPayload) => {
+      if (isUpdate) {
+        return supabase.from(table).update(currentPayload).eq("id", recordId).select().single();
+      }
+      const insertPayload = { ...currentPayload };
+      delete insertPayload.id;
+      return supabase.from(table).insert(insertPayload).select().single();
+    };
+
+    const retryPayload = { ...payload };
+    const skippedColumns = [];
+    let res = await runSave(retryPayload);
+
+    while (res?.error) {
+      const missingColumn = getMissingColumnFromError(res.error.message);
+      const canRetry =
+        missingColumn &&
+        missingColumn.table === table &&
+        Object.prototype.hasOwnProperty.call(retryPayload, missingColumn.column) &&
+        !skippedColumns.includes(missingColumn.column);
+
+      if (!canRetry) break;
+
+      skippedColumns.push(missingColumn.column);
+      delete retryPayload[missingColumn.column];
+      res = await runSave(retryPayload);
+
+      // Guardrail: prevents endless retries on malformed responses.
+      if (skippedColumns.length >= 20) break;
+    }
+
+    if (!res?.error && skippedColumns.length > 0) {
+      setError(
+        `Saved, but your database is missing columns in "${table}": ${skippedColumns.join(", ")}. Run the latest migration to persist those fields too.`,
+      );
     }
 
     setSaving(false);
