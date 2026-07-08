@@ -1,6 +1,5 @@
 import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
-import FeatureStrip from "@/components/FeatureStrip";
 import ShopBrowser from "@/components/ShopBrowser";
 import PageCTA from "@/components/PageCTA";
 import { getProducts, getSiteSettings } from "@/lib/data";
@@ -23,8 +22,8 @@ export default async function ShopPage() {
         highlightHi={shop.headerHighlightHi}
         subtitle={shop.headerSubtitle || "Browse the collection, then order or get it stitched to your size on WhatsApp."}
         subtitleHi={shop.headerSubtitleHi}
+        showOrnament={false}
       />
-      <FeatureStrip items={shop.features || []} />
       <ShopBrowser products={products} whatsapp={site.whatsapp} />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(shop)} />
     </PageShell>

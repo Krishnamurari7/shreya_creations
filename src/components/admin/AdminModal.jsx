@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export default function AdminModal({ open, onClose, title, children, footer }) {
+export default function AdminModal({ open, onClose, title, children, footer, panelClassName = "" }) {
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -22,7 +22,7 @@ export default function AdminModal({ open, onClose, title, children, footer }) {
   return (
     <div className="admin-modal" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
       <button type="button" className="admin-modal__backdrop" aria-label="Close" onClick={onClose} />
-      <div className="admin-modal__panel">
+      <div className={panelClassName ? `admin-modal__panel ${panelClassName}` : "admin-modal__panel"}>
         <div className="admin-modal__head">
           <h2 id="admin-modal-title" className="admin-modal__title">
             {title}

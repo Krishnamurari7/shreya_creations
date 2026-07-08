@@ -29,9 +29,9 @@ export default function ShopBrowser({ products, whatsapp }) {
   }, [products, active, query]);
 
   return (
-    <div className={cn(PAGE_CONTAINER, "pb-10", "sm:pb-12", "relative", "z-20")}>
+    <div className={cn(PAGE_CONTAINER, "pt-6", "sm:pt-8", "pb-10", "sm:pb-12", "relative", "z-20")}>
       {/* Search and Filters Header */}
-      <Glass3DCard className={cn(REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "p-4", "sm:p-6", "lg:p-8", "border-ink/15", "mb-8", "sm:mb-12", "flex", "flex-col", "lg:flex-row", "gap-4", "sm:gap-6", "items-stretch", "lg:items-center", "justify-between", "shadow-xl")}>
+      <Glass3DCard className={cn(REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "p-4", "sm:p-6", "lg:p-8", "border-ink/15", "mb-8", "sm:mb-12", "flex", "flex-col", "lg:flex-row", "gap-5", "sm:gap-7", "lg:gap-6", "items-stretch", "lg:items-center", "justify-between", "shadow-xl")}>
         {/* Category selection */}
         <div className={cn(FILTER_PILLS, "justify-start", "w-full", "lg:w-auto", "lg:flex-wrap")}>
           {categories.map((c) => {

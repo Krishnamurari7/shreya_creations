@@ -27,6 +27,7 @@ const TABS = [
   { id: "shop", label: "Shop" },
   { id: "courses", label: "Courses" },
   { id: "portfolio", label: "Portfolio" },
+  { id: "lookbook", label: "Lookbook" },
   { id: "faq", label: "FAQ" },
 ];
 
@@ -125,7 +126,7 @@ export default function PagesAdmin() {
     <div>
       <AdminPageHeader
         title="Page editor"
-        subtitle="Homepage sections and copy for About, Contact, Shop, Courses, Portfolio, and FAQ — English & Hindi."
+        subtitle="Homepage sections and copy for About, Contact, Shop, Courses, Portfolio, Lookbook, and FAQ — English & Hindi."
       />
 
       <div className="admin-tabs" role="tablist" aria-label="Page sections">
@@ -233,6 +234,16 @@ export default function PagesAdmin() {
               fields={FEATURE_FIELDS}
             />
             <CtaEditor page={page} onChange={onChange} showHighlight />
+          </>
+        )}
+
+        {tab === "lookbook" && (
+          <>
+            <HeaderWithHighlight page={page} onChange={onChange} />
+            <p className="admin-muted">
+              Lookbook posts: <a href="/admin/lookbook" className="text-gold hover:underline">Lookbook admin</a>.
+            </p>
+            <CtaEditor page={page} onChange={onChange} />
           </>
         )}
 

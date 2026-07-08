@@ -8,6 +8,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickFaq } from "@/lib/i18n";
 import { SITE_STATS } from "@/lib/seed";
 import { cn } from "@/lib/utils";
+import { addonCourseLabel, isAddonCourse } from "@/lib/courses";
 import CoursePdfModal, { coursePdfUrl } from "@/components/CoursePdfModal";
 
 function usePageUrl() {
@@ -185,6 +186,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
   const reviews = reviewCountFromSlug(course.slug);
   const rating = ratingFromSlug(course.slug);
   const includes = buildIncludes(course, lang);
+  const addon = isAddonCourse(course);
 
   const pageUrl = usePageUrl();
   const enrollUrl = waLink(site.whatsapp, courseMessage(course, pageUrl, lang));
@@ -244,8 +246,19 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
 
             <div className="course-detail__info">
               {course.category && <span className="course-detail__category">{course.category}</span>}
+              {addon && (
+                <span className="course-detail__addon-badge">{addonCourseLabel(lang)}</span>
+              )}
 
               <h1 className="course-detail__title">{title}</h1>
+
+              {addon && (
+                <p className="course-detail__addon-note">
+                  {lang === "hi"
+                    ? "यह विशेष ऐड-ऑन मॉड्यूल ब्लाउज और सूट मेकिंग या एडवांस ब्लाउज मेकिंग के बाद लिया जा सकता है।"
+                    : "Specialised add-on module — best taken after Blouse & Suit Making or Advanced Blouse Making."}
+                </p>
+              )}
 
               {course.language && (
                 <p className="course-detail__languages">

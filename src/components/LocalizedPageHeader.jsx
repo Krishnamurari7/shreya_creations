@@ -18,6 +18,7 @@ export default function LocalizedPageHeader({
   highlight,
   highlightHi,
   compact = false,
+  showOrnament = true,
 }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
@@ -83,7 +84,7 @@ export default function LocalizedPageHeader({
           </p>
         )}
 
-        {!compact && (
+        {!compact && showOrnament && (
           <div className={cn(SECTION_ORNAMENT, "mt-5", "sm:mt-6")} aria-hidden>
             <span className="text-gold text-xs">✦</span>
           </div>

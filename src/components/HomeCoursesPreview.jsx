@@ -1,31 +1,37 @@
 "use client";
 
-import { FILTER_PILLS, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
+import { BTN_PRIMARY, FILTER_PILLS, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import CourseCard from "@/components/CourseCard";
 import { pickPage } from "@/lib/cms";
+import { isCourseAvailable } from "@/lib/courses";
 import { useLanguage } from "@/components/LanguageProvider";
 
-const HOME_COURSE_LIMIT = 10;
+const HOME_COURSE_LIMIT = 4;
 
 export default function HomeCoursesPreview({ courses = [], home = {} }) {
   const { lang } = useLanguage();
 
+  const availableCourses = useMemo(
+    () => courses.filter((c) => isCourseAvailable(c)),
+    [courses]
+  );
+
   const categories = useMemo(() => {
-    const set = new Set(courses.map((c) => c.category).filter(Boolean));
+    const set = new Set(availableCourses.map((c) => c.category).filter(Boolean));
     return ["All", ...set];
-  }, [courses]);
+  }, [availableCourses]);
 
   const [active, setActive] = useState("All");
 
   const filtered = useMemo(() => {
-    const list = active === "All" ? courses : courses.filter((c) => c.category === active);
+    const list = active === "All" ? availableCourses : availableCourses.filter((c) => c.category === active);
     return list.slice(0, HOME_COURSE_LIMIT);
-  }, [courses, active]);
+  }, [availableCourses, active]);
 
-  if (!courses.length) return null;
+  if (!availableCourses.length) return null;
 
   const eyebrow =
     pickPage(home, lang, "coursesEyebrow", "coursesEyebrowHi") ||
@@ -34,10 +40,8 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
     (lang === "hi" ? "हमारे" : "Our");
   const titleHighlight = pickPage(home, lang, "academyHeadingHighlight", "academyHeadingHighlightHi") ||
     (lang === "hi" ? "कोर्स" : "Courses");
-  const viewAllLabel =
-    lang === "hi"
-      ? `सभी ${courses.length} कोर्स देखें`
-      : `View All ${courses.length} Courses`;
+  const moreCoursesLabel = lang === "hi" ? "और कोर्स" : "More Courses";
+  const showMoreCourses = availableCourses.length > HOME_COURSE_LIMIT;
 
   return (
     <section className={cn(HOME_BAND_BRAND, PAGE_SECTION, PAGE_SECTION_BORDERED, "home-courses-preview", "relative", "z-20")}>
@@ -53,10 +57,12 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
               <span className={HIGHLIGHT_SHIMMER}>{titleHighlight}</span>
             </h2>
           </div>
-          <Link href="/courses" className="home-courses-preview__view-all">
-            {viewAllLabel}
-            <span aria-hidden>→</span>
-          </Link>
+          {showMoreCourses && (
+            <Link href="/courses" className="home-courses-preview__view-all">
+              {moreCoursesLabel}
+              <span aria-hidden>→</span>
+            </Link>
+          )}
         </div>
 
         {categories.length > 1 && (
@@ -102,6 +108,17 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
             </div>
           ))}
         </div>
+
+        {showMoreCourses && (
+          <div className={cn(REVEAL, "text-center", "mt-5", "sm:mt-7")}>
+            <Link
+              href="/courses"
+              className={cn(BTN_PRIMARY, "inline-flex", "items-center", "gap-2", "rounded-full", "px-8", "py-3", "text-xs", "sm:text-sm")}
+            >
+              {moreCoursesLabel} <span aria-hidden>→</span>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

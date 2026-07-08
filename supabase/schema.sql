@@ -48,20 +48,33 @@ create table if not exists public.products (
   published     boolean default true
 );
 
+-- If courses table already exists without newer columns, run once in SQL Editor:
+-- (see supabase/migrations/courses_extend.sql)
+
 create table if not exists public.courses (
-  id            uuid primary key default gen_random_uuid(),
-  created_at    timestamptz default now(),
-  title         text not null,
-  slug          text unique not null,
-  category      text,
-  price         numeric,
-  duration      text,
-  language      text,
-  description   text,
-  syllabus      jsonb default '[]'::jsonb,
-  image         text,
-  preview_video text,
-  published     boolean default true
+  id              uuid primary key default gen_random_uuid(),
+  created_at      timestamptz default now(),
+  title           text not null,
+  title_hi        text,
+  slug            text unique not null,
+  category        text,
+  price           numeric,
+  compare_price   numeric,
+  duration        text,
+  language        text,
+  description     text,
+  description_hi  text,
+  about           text,
+  about_hi        text,
+  includes        jsonb default '[]'::jsonb,
+  includes_hi     jsonb default '[]'::jsonb,
+  syllabus        jsonb default '[]'::jsonb,
+  course_pdf      text,
+  is_addon        boolean default false,
+  badge           text,
+  image           text,
+  preview_video   text,
+  published       boolean default true
 );
 
 create table if not exists public.portfolio (

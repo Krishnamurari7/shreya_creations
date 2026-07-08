@@ -4,7 +4,7 @@ import { BTN_PRIMARY } from "@/lib/ui";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { CardGlow, glassCardStyles } from "@/components/Glass3DCard";
-import { comingSoonLabel, isCourseAvailable } from "@/lib/courses";
+import { comingSoonLabel, isCourseAvailable, addonCourseLabel } from "@/lib/courses";
 import { cn } from "@/lib/utils";
 
 function courseTitle(course, lang) {
@@ -42,7 +42,8 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
     const discountPct =
       showCompare ? Math.round((1 - price / Number(comparePrice)) * 100) : null;
     const reviews = reviewCountFromSlug(course.slug);
-    const showBestseller = featuredIndex === 0 || course.badge === "bestseller";
+    const showAddon = course.badge === "addon" || course.is_addon || course.isAddon;
+    const showBestseller = !showAddon && (featuredIndex === 0 || course.badge === "bestseller");
 
     const title = courseTitle(course, lang);
     const mediaClass = cn(
@@ -70,6 +71,11 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
                 Bestseller
               </span>
             )}
+            {showAddon && (
+              <span className="featured-course-card__badge featured-course-card__badge--addon">
+                {addonCourseLabel(lang)}
+              </span>
+            )}
           </Link>
         ) : (
           <div className={mediaClass}>
@@ -82,6 +88,11 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
             {showBestseller && (
               <span className="featured-course-card__badge featured-course-card__badge--bestseller">
                 Bestseller
+              </span>
+            )}
+            {showAddon && (
+              <span className="featured-course-card__badge featured-course-card__badge--addon">
+                {addonCourseLabel(lang)}
               </span>
             )}
           </div>

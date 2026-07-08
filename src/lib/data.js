@@ -289,18 +289,20 @@ export async function getAdminCounts() {
       testimonials: seed.TESTIMONIALS.length,
       trust: seed.TRUST.length,
       faqs: seed.FAQS.length,
+      lookbook: 0,
       inquiries: 0,
     };
   }
   try {
     const supabase = createClient();
-    const [products, courses, portfolio, testimonials, trust, faqs, inquiries] = await Promise.all([
+    const [products, courses, portfolio, testimonials, trust, faqs, lookbook, inquiries] = await Promise.all([
       supabase.from("products").select("id", { count: "exact", head: true }),
       supabase.from("courses").select("id", { count: "exact", head: true }),
       supabase.from("portfolio").select("id", { count: "exact", head: true }),
       supabase.from("testimonials").select("id", { count: "exact", head: true }),
       supabase.from("trust_stats").select("id", { count: "exact", head: true }),
       supabase.from("faqs").select("id", { count: "exact", head: true }),
+      supabase.from("lookbook_posts").select("id", { count: "exact", head: true }),
       supabase.from("contact_inquiries").select("id", { count: "exact", head: true }),
     ]);
     return {
@@ -310,6 +312,7 @@ export async function getAdminCounts() {
       testimonials: testimonials.count ?? 0,
       trust: trust.count ?? 0,
       faqs: faqs.count ?? 0,
+      lookbook: lookbook.count ?? 0,
       inquiries: inquiries.count ?? 0,
     };
   } catch {
@@ -320,6 +323,7 @@ export async function getAdminCounts() {
       testimonials: seed.TESTIMONIALS.length,
       trust: seed.TRUST.length,
       faqs: seed.FAQS.length,
+      lookbook: 0,
       inquiries: 0,
     };
   }

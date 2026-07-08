@@ -6,22 +6,28 @@ import { useState, useMemo } from "react";
 import CourseCard from "@/components/CourseCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
+import { isCourseAvailable } from "@/lib/courses";
 import { staggerDelay } from "@/lib/motion";
 
 export default function CourseBrowser({ courses = [] }) {
   const { lang } = useLanguage();
 
+  const availableCourses = useMemo(
+    () => courses.filter((c) => isCourseAvailable(c)),
+    [courses]
+  );
+
   const categories = useMemo(() => {
-    const set = new Set(courses.map((c) => c.category).filter(Boolean));
+    const set = new Set(availableCourses.map((c) => c.category).filter(Boolean));
     return ["All", ...set];
-  }, [courses]);
+  }, [availableCourses]);
 
   const [active, setActive] = useState("All");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return courses.filter((c) => {
+    return availableCourses.filter((c) => {
       const okCat = active === "All" || c.category === active;
       const okQ =
         !q ||
@@ -30,7 +36,7 @@ export default function CourseBrowser({ courses = [] }) {
         c.category?.toLowerCase().includes(q);
       return okCat && okQ;
     });
-  }, [courses, active, query]);
+  }, [availableCourses, active, query]);
 
   const searchPlaceholder =
     lang === "hi" ? "कोर्स खोजें…" : "Search courses…";

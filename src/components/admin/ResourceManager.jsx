@@ -24,7 +24,24 @@ function friendlyError(message) {
   return message;
 }
 
-export default function ResourceManager({ table, title, fields, orderBy = "created_at", orderAsc = false, listColumns }) {
+export default function ResourceManager({
+  table,
+  title,
+  subtitle,
+  fields,
+  sections,
+  orderBy = "created_at",
+  orderAsc = false,
+  orderBySecondary,
+  listColumns,
+  renderListExtra,
+  modalWide = false,
+  mergeRows,
+  toFormState,
+  persistId = "id",
+  rowKey = "id",
+  canDelete,
+}) {
   const configured = isSupabaseConfigured();
   const [rows, setRows] = useState([]);
   const [editing, setEditing] = useState(null);
@@ -32,6 +49,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [modalError, setModalError] = useState("");
+  const [activeSection, setActiveSection] = useState(sections?.[0]?.id ?? null);
 
   const blank = useCallback(() => {
     const o = {};
@@ -67,11 +85,15 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
       return;
     }
 
-    const { data, error: err } = await supabase.from(table).select("*").order(orderBy, { ascending: orderAsc });
+    let q = supabase.from(table).select("*").order(orderBy, { ascending: orderAsc });
+    if (orderBySecondary?.col) {
+      q = q.order(orderBySecondary.col, { ascending: orderBySecondary.asc ?? true });
+    }
+    const { data, error: err } = await q;
     if (err) setError(friendlyError(err.message));
-    else setRows(data || []);
+    else setRows(mergeRows ? mergeRows(data || []) : data || []);
     setLoading(false);
-  }, [table, orderBy, orderAsc, configured]);
+  }, [table, orderBy, orderAsc, orderBySecondary, configured, mergeRows]);
 
   useEffect(() => {
     load();
@@ -102,8 +124,13 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
       return;
     }
 
-    const isUpdate = Boolean(editing.id);
+    const recordId = editing[persistId];
+    const isUpdate = Boolean(recordId);
     const payload = buildPayload(editing, fields, { isUpdate });
+    delete payload.id;
+    delete payload[persistId];
+    delete payload._dbId;
+    delete payload._source;
 
     if (fields.some((f) => f.name === "slug") && !payload.slug && payload.title) {
       payload.slug = slugify(payload.title);
@@ -111,8 +138,9 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
 
     let res;
     if (isUpdate) {
-      res = await supabase.from(table).update(payload).eq("id", payload.id).select().single();
+      res = await supabase.from(table).update(payload).eq("id", recordId).select().single();
     } else {
+      delete payload.id;
       res = await supabase.from(table).insert(payload).select().single();
     }
 
@@ -128,10 +156,15 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
     await load();
   };
 
-  const remove = async (id) => {
+  const remove = async (row) => {
+    const recordId = typeof row === "object" ? row[persistId] : row;
+    if (!recordId) {
+      setError("This course is demo-only in the database. Edit and save it first to create a record you can delete.");
+      return;
+    }
     if (!confirm("Delete this item?")) return;
     const supabase = createClient();
-    const { error: err } = await supabase.from(table).delete().eq("id", id);
+    const { error: err } = await supabase.from(table).delete().eq("id", recordId);
     if (err) setError(friendlyError(err.message));
     else load();
   };
@@ -139,7 +172,7 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
   if (!configured) {
     return (
       <div>
-        <AdminPageHeader title={title} />
+        <AdminPageHeader title={title} subtitle={subtitle} />
         <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6", "text-marigold", "border", "border-marigold/30", "text-sm", "leading-relaxed")}>
           Connect Supabase (see README) to add, edit and delete {title.toLowerCase()}.
         </div>
@@ -149,14 +182,37 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
 
   const cols = listColumns || ["title"];
 
+  const visibleFields = sections?.length
+    ? fields.filter((f) => {
+        const section = sections.find((s) => s.id === activeSection);
+        return section?.fields?.includes(f.name);
+      })
+    : fields;
+
   const formFields = (
     <div className="space-y-4">
+      {sections?.length > 1 && (
+        <div className="admin-tabs" role="tablist" aria-label="Form sections">
+          {sections.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              role="tab"
+              aria-selected={activeSection === s.id}
+              className={`admin-tab ${activeSection === s.id ? "is-active" : ""}`}
+              onClick={() => setActiveSection(s.id)}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      )}
       {modalError && (
         <div className="rounded-xl border border-rose/40 bg-rose/10 px-4 py-3 text-sm text-rose break-words">
           {modalError}
         </div>
       )}
-      {fields.map((f) => (
+      {visibleFields.map((f) => (
         <div key={f.name} className="admin-field">
           {f.type === "checkbox" ? (
             <label className="flex items-center gap-3 text-sm">
@@ -224,11 +280,13 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
     <div>
       <AdminPageHeader
         title={title}
+        subtitle={subtitle}
         action={
           <button
             type="button"
             onClick={() => {
               setModalError("");
+              setActiveSection(sections?.[0]?.id ?? null);
               setEditing(blank());
             }}
             className={cn(BTN_GOLD, "rounded-full", "px-5", "py-2.5", "text-sm")}
@@ -252,8 +310,10 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
         <div className={cn(GLASS, "admin-list")}>
           {rows.map((r) => {
             const thumb = r.images?.[0] || r.image || r.photo || r.thumbnail;
+            const listKey = r[rowKey] ?? r.id ?? r.slug;
+            const deletable = canDelete ? canDelete(r) : Boolean(r[persistId]);
             return (
-              <div key={r.id} className="admin-list-item">
+              <div key={listKey} className="admin-list-item">
                 {thumb && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={thumb} alt="" className="admin-list-item__media" />
@@ -261,27 +321,36 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
                 <div className="admin-list-item__body">
                   {cols.map((c, idx) => (
                     <p key={c} className={idx === 0 ? "admin-list-item__title" : "admin-list-item__meta"}>
-                      {String(r[c] ?? "")}
+                      {c === "price" && r[c] != null
+                        ? `₹${Number(r[c]).toLocaleString("en-IN")}`
+                        : String(r[c] ?? "")}
                       {c === "title" && r.published === false && (
                         <span className="ml-2 text-[10px] uppercase text-marigold">Draft</span>
                       )}
+                      {c === "title" && r._source === "seed" && (
+                        <span className="ml-2 text-[10px] uppercase text-lavender/80">Seed</span>
+                      )}
                     </p>
                   ))}
+                  {renderListExtra?.(r)}
                 </div>
                 <div className="admin-list-item__actions">
                   <button
                     type="button"
                     onClick={() => {
                       setModalError("");
-                      setEditing({ ...r });
+                      setActiveSection(sections?.[0]?.id ?? null);
+                      setEditing(toFormState ? toFormState(r) : { ...r });
                     }}
                     className="admin-btn-ghost flex-1 sm:flex-none"
                   >
                     Edit
                   </button>
-                  <button type="button" onClick={() => remove(r.id)} className="admin-btn-danger flex-1 sm:flex-none">
-                    Delete
-                  </button>
+                  {deletable ? (
+                    <button type="button" onClick={() => remove(r)} className="admin-btn-danger flex-1 sm:flex-none">
+                      Delete
+                    </button>
+                  ) : null}
                 </div>
               </div>
             );
@@ -295,7 +364,8 @@ export default function ResourceManager({ table, title, fields, orderBy = "creat
           setEditing(null);
           setModalError("");
         }}
-        title={editing?.id ? "Edit item" : "New item"}
+        title={editing?._dbId ? "Edit course" : editing?.slug ? "Save course" : "New course"}
+        panelClassName={modalWide ? "admin-modal__panel--wide" : ""}
         footer={
           <div className="admin-form-actions">
             <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
