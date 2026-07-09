@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -16024,8 +16024,51 @@ html.dark .course-pdf-modal__state p {
   pointer-events: none;
 }
 
-.home-hero--boutique .home-hero__video-card--live {
+.home-hero--boutique .home-hero__video-controls--live {
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.home-hero--boutique .home-hero__video-controls-btn {
+  display: grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.home-hero--boutique .home-hero__video-controls-btn:hover {
+  background: rgba(255, 255, 255, 0.24);
+  transform: scale(1.05);
+}
+
+.home-hero--boutique .home-hero__video-controls-btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 2px;
+}
+
+.home-hero--boutique .home-hero__video-controls-btn svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.home-hero--boutique .home-hero__video-controls-btn--play svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.home-hero--boutique .home-hero__video-body[role="button"] {
+  cursor: pointer;
+}
+
+.home-hero--boutique .home-hero__video-card--live {
+  cursor: default;
 }
 
 .home-hero--boutique .home-hero__video-card--live:hover,

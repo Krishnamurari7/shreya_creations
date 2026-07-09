@@ -2,7 +2,7 @@
 
 import { ANIM_RISE, PAGE_CONTAINER } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { CareerCtaButton } from "@/components/CareerCtaSection";
 import { pickPage } from "@/lib/cms";
@@ -119,8 +119,44 @@ function parseKeywordPills(text = "") {
 const HERO_KEYWORD_CHIP_IMAGES = ["/job.png", "/botique.png", "/institute.png"];
 const HERO_KEYWORD_LINKS = ["/courses", "/shop", "/about"];
 
-function HeroAutoplayVideo({ src, alt, preview = false }) {
+function HeroVideoPlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+
+function HeroVideoPauseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z" />
+    </svg>
+  );
+}
+
+function HeroVideoVolumeOnIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M11 5 6 9H3v6h3l5 4V5z" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a9 9 0 0 1 0 12.73" />
+    </svg>
+  );
+}
+
+function HeroVideoVolumeOffIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M11 5 6 9H3v6h3l5 4V5z" />
+      <path d="m22 9-6 6M16 9l6 6" />
+    </svg>
+  );
+}
+
+function HeroAutoplayVideo({ src, alt, lang = "en" }) {
   const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -138,19 +174,79 @@ function HeroAutoplayVideo({ src, alt, preview = false }) {
     return () => video.removeEventListener("loadeddata", play);
   }, [src]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+
+    video.addEventListener("play", onPlay);
+    video.addEventListener("pause", onPause);
+    return () => {
+      video.removeEventListener("play", onPlay);
+      video.removeEventListener("pause", onPause);
+    };
+  }, [src]);
+
+  const togglePlay = useCallback((event) => {
+    event.stopPropagation();
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.paused) {
+      video.play().catch(() => {});
+      return;
+    }
+
+    video.pause();
+  }, []);
+
+  const toggleMute = useCallback((event) => {
+    event.stopPropagation();
+    const video = videoRef.current;
+    if (!video) return;
+
+    const nextMuted = !video.muted;
+    video.muted = nextMuted;
+    setIsMuted(nextMuted);
+  }, []);
+
+  const playLabel = lang === "hi" ? (isPlaying ? "रोकें" : "चलाएं") : isPlaying ? "Pause" : "Play";
+  const muteLabel = lang === "hi" ? (isMuted ? "आवाज़ चालू करें" : "आवाज़ बंद करें") : isMuted ? "Unmute" : "Mute";
+
   return (
-    <video
-      ref={videoRef}
-      className={`home-hero__video-media${preview ? " home-hero__video-media--preview" : ""}`}
-      src={src}
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="auto"
-      aria-hidden={preview}
-      aria-label={preview ? undefined : alt}
-    />
+    <>
+      <video
+        ref={videoRef}
+        className="home-hero__video-media"
+        src={src}
+        autoPlay
+        loop
+        muted={isMuted}
+        playsInline
+        preload="auto"
+        aria-label={alt}
+      />
+      <div className="home-hero__video-controls home-hero__video-controls--live">
+        <button
+          type="button"
+          className="home-hero__video-controls-btn home-hero__video-controls-btn--play"
+          onClick={togglePlay}
+          aria-label={playLabel}
+        >
+          {isPlaying ? <HeroVideoPauseIcon /> : <HeroVideoPlayIcon />}
+        </button>
+        <button
+          type="button"
+          className="home-hero__video-controls-btn home-hero__video-controls-btn--volume"
+          onClick={toggleMute}
+          aria-label={muteLabel}
+        >
+          {isMuted ? <HeroVideoVolumeOffIcon /> : <HeroVideoVolumeOnIcon />}
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -174,6 +270,7 @@ function HeroVideoCard({
   onVideoClick,
   tag,
   offset = false,
+  lang = "en",
 }) {
   const isLive = Boolean(videoSrc);
 
@@ -185,14 +282,29 @@ function HeroVideoCard({
         </span>
         <span className="home-hero__video-head-label">{headerLabel}</span>
       </div>
-      <div className="home-hero__video-body">
+      <div
+        className="home-hero__video-body"
+        onClick={isLive ? onVideoClick : undefined}
+        onKeyDown={
+          isLive
+            ? (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onVideoClick?.();
+                }
+              }
+            : undefined
+        }
+        role={isLive ? "button" : undefined}
+        tabIndex={isLive ? 0 : undefined}
+      >
         {tag ? (
           <span className="home-hero__video-tag" aria-hidden>
             {tag}
           </span>
         ) : null}
         {videoSrc ? (
-          <HeroAutoplayVideo src={videoSrc} alt={alt} preview />
+          <HeroAutoplayVideo src={videoSrc} alt={alt} lang={lang} />
         ) : (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -235,14 +347,9 @@ function HeroVideoCard({
 
   if (isLive) {
     return (
-      <button
-        type="button"
-        className={cardClass}
-        onClick={onVideoClick}
-        aria-label={alt}
-      >
+      <div className={cardClass} aria-label={alt}>
         {inner}
-      </button>
+      </div>
     );
   }
 
@@ -373,6 +480,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
           <div className="home-hero__visual anim-hero-media">
             <div className="home-hero__videos">
             <HeroVideoCard
+              lang={lang}
               tag={lang === "hi" ? "मुफ़्त" : "FREE"}
               headerIcon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
@@ -406,6 +514,7 @@ export default function HeroSection({ home = {}, lang = "en" }) {
               }
             />
             <HeroVideoCard
+              lang={lang}
               offset
               tag={lang === "hi" ? "सिलाई" : "Stitching"}
               headerIcon={
