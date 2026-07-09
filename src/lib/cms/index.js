@@ -1,4 +1,4 @@
-import { PAGE_DEFAULTS, DEFAULT_PILLARS } from "@/lib/cms/defaults";
+import { PAGE_DEFAULTS, DEFAULT_PILLARS, DEFAULT_JOURNEY_CARDS } from "@/lib/cms/defaults";
 
 function toCamel(s) {
   return s.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
@@ -29,6 +29,79 @@ export function normalizePillars(raw) {
     desc: p.desc || p.description || "",
     descHi: p.desc_hi ?? p.descHi ?? "",
   }));
+}
+
+function normalizeJourneyFeatures(raw, fallback = []) {
+  const base = fallback.map(keysToCamel);
+  if (!Array.isArray(raw) || !raw.length) return base;
+  return base.map((def, index) => {
+    const fromDb = keysToCamel(raw[index] || {});
+    return {
+      icon: fromDb.icon || def.icon,
+      label: fromDb.label || def.label,
+      labelHi: fromDb.labelHi || def.labelHi,
+    };
+  });
+}
+
+export function normalizeJourneyCards(raw) {
+  const defaults = DEFAULT_JOURNEY_CARDS.map((card) => keysToCamel(card));
+  if (!Array.isArray(raw) || !raw.length) return defaults;
+
+  return defaults.map((def, index) => {
+    const match = raw.find((card) => (card.key || keysToCamel(card).key) === def.key) || raw[index];
+    const fromDb = match ? keysToCamel(match) : {};
+    return {
+      ...def,
+      ...fromDb,
+      key: def.key,
+      theme: fromDb.theme || def.theme,
+      icon: fromDb.icon || def.icon,
+      image: fromDb.image || def.image,
+      href: fromDb.href || def.href,
+      title: fromDb.title || def.title,
+      titleHi: fromDb.titleHi || def.titleHi,
+      cta: fromDb.cta || def.cta,
+      ctaHi: fromDb.ctaHi || def.ctaHi,
+      features: normalizeJourneyFeatures(fromDb.features || match?.features, DEFAULT_JOURNEY_CARDS[index].features),
+    };
+  });
+}
+
+/** Merge saved journey cards with defaults for the admin editor (snake_case). */
+export function mergeJourneyCardsForEditor(raw) {
+  return DEFAULT_JOURNEY_CARDS.map((def, index) => {
+    const fromDb = Array.isArray(raw)
+      ? raw.find((card) => card.key === def.key) || raw[index]
+      : null;
+    if (!fromDb) {
+      return {
+        ...def,
+        features: def.features.map((feature) => ({ ...feature })),
+      };
+    }
+
+    return {
+      ...def,
+      ...fromDb,
+      key: def.key,
+      image: fromDb.image || def.image,
+      href: fromDb.href || def.href,
+      theme: fromDb.theme || def.theme,
+      icon: fromDb.icon || def.icon,
+      title: fromDb.title ?? def.title,
+      title_hi: fromDb.title_hi ?? def.title_hi,
+      cta: fromDb.cta ?? def.cta,
+      cta_hi: fromDb.cta_hi ?? def.cta_hi,
+      features: def.features.map((feature, featureIndex) => ({
+        ...feature,
+        ...(fromDb.features?.[featureIndex] || {}),
+        icon: fromDb.features?.[featureIndex]?.icon || feature.icon,
+        label: fromDb.features?.[featureIndex]?.label ?? feature.label,
+        label_hi: fromDb.features?.[featureIndex]?.label_hi ?? feature.label_hi,
+      })),
+    };
+  });
 }
 
 export function pickPage(page, lang, enKey, hiKey) {
@@ -82,4 +155,4 @@ export function pageBottomCtaProps(page) {
   };
 }
 
-export { PAGE_DEFAULTS, DEFAULT_PILLARS };
+export { PAGE_DEFAULTS, DEFAULT_PILLARS, DEFAULT_JOURNEY_CARDS };

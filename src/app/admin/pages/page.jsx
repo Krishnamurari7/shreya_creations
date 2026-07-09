@@ -18,6 +18,7 @@ import {
   HomeTab,
 } from "@/components/admin/PageEditorForm";
 import { PAGE_DEFAULTS, DEFAULT_PILLARS, PAGE_EDITOR_KEYS, FEATURE_FIELDS } from "@/lib/cms/defaults";
+import { mergeJourneyCardsForEditor } from "@/lib/cms";
 import { ADMIN_LABEL } from "@/lib/admin/formClasses";
 
 const TABS = [
@@ -72,6 +73,7 @@ export default function PagesAdmin() {
           const merged = { ...base[key], ...(fromDb[key] || {}) };
           if (key === "home") {
             merged.academy_perks = normalizeAcademyPerks(merged.academy_perks, merged.academy_perks_hi);
+            merged.journey_cards = mergeJourneyCardsForEditor(merged.journey_cards);
           }
           base[key] = merged;
         }

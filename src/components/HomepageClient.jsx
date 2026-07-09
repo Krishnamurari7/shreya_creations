@@ -11,7 +11,6 @@ import { toYoutubeEmbedUrl } from "@/lib/youtube";
 import VideoShowcase from "@/components/VideoShowcase";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
-import { pickBrandMessage, pickServiceUsp, normalizeServiceUsp } from "@/lib/i18n";
 import { SITE_STATS } from "@/lib/seed";
 import InquiryPopup from "@/components/InquiryPopup";
 import HeroSection from "@/components/HeroSection";
@@ -19,6 +18,7 @@ import HomeShopPreview from "@/components/HomeShopPreview";
 import HomePortfolioPreview from "@/components/HomePortfolioPreview";
 import HomeCoursesPreview from "@/components/HomeCoursesPreview";
 import ExploreCategories from "@/components/ExploreCategories";
+import StartJourneySection from "@/components/StartJourneySection";
 
 function SectionHeader({
   home,
@@ -195,35 +195,15 @@ export default function HomepageClient({
   const { lang } = useLanguage();
   const home = site.pages?.home || {};
 
-  const whyChooseFeatures = useMemo(() => {
-    const items = home.whyChooseFeatures || [];
-    return items.map((f, i) => ({
-      icon: f.icon || "✦",
-      title: lang === "hi" && f.titleHi ? f.titleHi : f.title,
-      sub:
-        f.subHi?.includes("24 घंटे में सिले")
-          ? normalizeServiceUsp(f.subHi)
-          : lang === "hi" && f.subHi
-            ? f.subHi
-            : f.sub,
-      color: i % 2 === 0 ? "orange" : "gold",
-    }));
-  }, [home.whyChooseFeatures, lang]);
-
-  const brandMessage = pickBrandMessage(site);
-  const serviceUsp = pickServiceUsp(site);
-
   const ribbonItems = useMemo(() => {
     const marquee = (site.heroMarquee || []).map((item) =>
       typeof item === "string" ? item : item?.text || ""
     ).filter(Boolean);
     if (marquee.length >= 3) return marquee;
-    const fromFeatures = whyChooseFeatures.map((f) => f.title).filter(Boolean);
-    if (fromFeatures.length >= 3) return fromFeatures.slice(0, 6);
     return lang === "hi"
       ? [SITE_STATS.yearsHi, "कौशल से कारोबार तक", SITE_STATS.yearsHi, "100% प्रैक्टिकल ट्रेनिंग"]
       : [SITE_STATS.yearsEn, "From Skill to Business", SITE_STATS.yearsEn, "100% Practical Training"];
-  }, [site.heroMarquee, whyChooseFeatures, lang]);
+  }, [site.heroMarquee, lang]);
 
 
   const founderImage = home.founderImage || "/133.png";
@@ -274,82 +254,8 @@ export default function HomepageClient({
       {/* ===== QUICK CATEGORY LINKS ===== */}
       <CategoryCards lang={lang} />
 
-      {/* ===== WHY CHOOSE US ===== */}
-      {whyChooseFeatures.length > 0 && (
-        <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "why-choose-section", "relative")}>
-          <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 h-48 w-[min(100%,36rem)] rounded-full bg-gold/8 blur-3xl" aria-hidden />
-
-          <SectionHeader
-            home={home}
-            lang={lang}
-            eyebrowKey="whyChooseEyebrow"
-            titleKey="whyChooseTitle"
-            compact
-          />
-
-          {/* Brand message + Service USP — primary focus */}
-          <div className={cn(REVEAL, "why-choose-pillars", "mb-0", "md:mb-8")} data-stagger>
-            <div className="why-choose-pillar why-choose-pillar--brand">
-              <span className="why-choose-pillar__tag">
-                {pickPage(home, lang, "whyChooseBrandTag", "whyChooseBrandTagHi") ||
-                  (lang === "hi" ? "ब्रांड संदेश" : "Brand Message")}
-              </span>
-              <p className="why-choose-pillar__headline">{brandMessage}</p>
-            </div>
-
-            <div className="why-choose-pillar why-choose-pillar--usp">
-              <span className="why-choose-pillar__tag why-choose-pillar__tag--usp">
-                <span className="why-choose-pillar__bolt" aria-hidden>⚡</span>
-                {pickPage(home, lang, "whyChooseUspTag", "whyChooseUspTagHi") ||
-                  (lang === "hi" ? "हमारी खास सेवा" : "Our Signature Service")}
-              </span>
-              <p className="why-choose-pillar__headline why-choose-pillar__headline--usp">{serviceUsp}</p>
-              <p className="why-choose-pillar__hint">
-                {pickPage(home, lang, "whyChooseUspHint", "whyChooseUspHintHi") ||
-                  (lang === "hi"
-                    ? "तेज़ सिलाई, प्रीमियम फिनिश — पटना में"
-                    : "Fast tailoring, premium finish — in Patna")}
-              </p>
-            </div>
-          </div>
-
-          <div className={cn(REVEAL, "why-choose-features", "hidden", "md:block")}>
-            <p className={cn(REVEAL, "why-choose-divider", "text-center")}>
-              <span>
-                {pickPage(home, lang, "whyChooseDivider", "whyChooseDividerHi") ||
-                  (lang === "hi" ? "और भी कारण" : "Plus more reasons")}
-              </span>
-            </p>
-
-            <div className="features-bar mt-6 md:mt-8">
-              <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-5" data-stagger>
-                {whyChooseFeatures.map((f, i) => (
-                  <div
-                    key={i}
-                    className={`feature-card text-center ${REVEAL} px-1 ${i === 0 ? "feature-card--usp" : ""}`}
-                    style={{ transitionDelay: `${i * 60}ms` }}
-                  >
-                    {i === 0 && (
-                      <span className="feature-card__badge">
-                        {lang === "hi" ? "⭐ USP" : "⭐ USP"}
-                      </span>
-                    )}
-                    <div
-                      className={`feature-card__icon ${
-                        f.color === "orange" ? "bg-orange/10 text-orange border border-orange/20" : "bg-gold/10 text-gold border border-gold/20"
-                      }`}
-                    >
-                      {f.icon}
-                    </div>
-                    <h3 className="font-body text-sm font-semibold text-ink leading-snug">{f.title}</h3>
-                    <p className="text-xs text-muted mt-0.5 leading-relaxed">{f.sub}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* ===== START YOUR JOURNEY ===== */}
+      <StartJourneySection lang={lang} home={home} />
 
       <HomeCoursesPreview courses={courses} home={home} />
 

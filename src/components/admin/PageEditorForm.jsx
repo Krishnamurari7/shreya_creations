@@ -2,7 +2,10 @@
 
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
-import { FEATURE_FIELDS } from "@/lib/cms/defaults";
+import { FEATURE_FIELDS, JOURNEY_FEATURE_FIELDS } from "@/lib/cms/defaults";
+import { mergeJourneyCardsForEditor } from "@/lib/cms";
+import { GLASS } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 
@@ -111,6 +114,86 @@ export function FeaturesEditor({ page, onChange }) {
   );
 }
 
+const JOURNEY_CARD_LABELS = {
+  boutique: "Boutique card",
+  institute: "Institute card",
+  shakti: "Shakti 50 card",
+};
+
+function JourneyCardsEditor({ cards, onChange }) {
+  const updateCard = (index, key, value) => {
+    onChange(cards.map((card, i) => (i === index ? { ...card, [key]: value } : card)));
+  };
+
+  return (
+    <div className="space-y-6">
+      {cards.map((card, index) => (
+        <div key={card.key || index} className={cn(GLASS, "rounded-xl", "p-4", "space-y-3", "border", "border-gold/15")}>
+          <SectionHeading>{JOURNEY_CARD_LABELS[card.key] || `Card ${index + 1}`}</SectionHeading>
+          <div>
+            <label className={ADMIN_LABEL}>Card image</label>
+            <ImageUploader
+              multiple={false}
+              value={card.image || ""}
+              onChange={(url) => updateCard(index, "image", url)}
+            />
+          </div>
+          <BilingualField
+            label="Card title"
+            enKey="title"
+            hiKey="title_hi"
+            values={card}
+            onChange={(key, value) => updateCard(index, key, value)}
+          />
+          <BilingualField
+            label="CTA button"
+            enKey="cta"
+            hiKey="cta_hi"
+            values={card}
+            onChange={(key, value) => updateCard(index, key, value)}
+          />
+          <div>
+            <label className={ADMIN_LABEL}>Link</label>
+            <input
+              value={card.href || ""}
+              onChange={(e) => updateCard(index, "href", e.target.value)}
+              placeholder="/shop"
+              className={ADMIN_INPUT}
+            />
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className={ADMIN_LABEL}>Theme</label>
+              <input
+                value={card.theme || ""}
+                onChange={(e) => updateCard(index, "theme", e.target.value)}
+                placeholder="orange / purple / gold"
+                className={ADMIN_INPUT}
+              />
+            </div>
+            <div>
+              <label className={ADMIN_LABEL}>Badge icon</label>
+              <input
+                value={card.icon || ""}
+                onChange={(e) => updateCard(index, "icon", e.target.value)}
+                placeholder="sewing / graduation / community"
+                className={ADMIN_INPUT}
+              />
+            </div>
+          </div>
+          <RepeaterField
+            label="Feature list"
+            items={card.features || []}
+            onChange={(features) => updateCard(index, "features", features)}
+            addLabel="Add feature"
+            fields={JOURNEY_FEATURE_FIELDS}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function HomeTab({ home, patchPage }) {
   const onChange = (k, v) => patchPage("home", k, v);
   return (
@@ -166,27 +249,16 @@ export function HomeTab({ home, patchPage }) {
       </div>
       <p className="admin-muted">Hero stat bar numbers are fixed in the site design.</p>
 
-      <SectionHeading>Why Choose Us</SectionHeading>
-      <BilingualField label="Eyebrow" enKey="why_choose_eyebrow" hiKey="why_choose_eyebrow_hi" values={home} onChange={onChange} />
-      <BilingualField label="Title" enKey="why_choose_title" hiKey="why_choose_title_hi" values={home} onChange={onChange} />
-      <BilingualField label="Brand pillar tag" enKey="why_choose_brand_tag" hiKey="why_choose_brand_tag_hi" values={home} onChange={onChange} />
-      <BilingualField label="USP pillar tag" enKey="why_choose_usp_tag" hiKey="why_choose_usp_tag_hi" values={home} onChange={onChange} />
-      <BilingualField label="USP hint" enKey="why_choose_usp_hint" hiKey="why_choose_usp_hint_hi" values={home} onChange={onChange} />
-      <BilingualField label="More reasons divider" enKey="why_choose_divider" hiKey="why_choose_divider_hi" values={home} onChange={onChange} />
-      <RepeaterField
-        label="Feature cards (desktop)"
-        items={home.why_choose_features || []}
-        onChange={(v) => onChange("why_choose_features", v)}
-        addLabel="Add feature"
-        fields={[
-          { key: "icon", label: "Icon", default: "?" },
-          { key: "title", label: "Title (EN)" },
-          { key: "title_hi", label: "Title (HI)" },
-          { key: "sub", label: "Subtitle (EN)", wide: true },
-          { key: "sub_hi", label: "Subtitle (HI)", wide: true },
-        ]}
+      <SectionHeading>Start Your Journey</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="journey_eyebrow" hiKey="journey_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title (before highlight)" enKey="journey_title" hiKey="journey_title_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title highlight" enKey="journey_title_highlight" hiKey="journey_title_highlight_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title (after highlight)" enKey="journey_title_tail" hiKey="journey_title_tail_hi" values={home} onChange={onChange} />
+      <JourneyCardsEditor
+        cards={mergeJourneyCardsForEditor(home.journey_cards)}
+        onChange={(cards) => onChange("journey_cards", cards)}
       />
-      <p className="admin-muted">Brand message & service USP text come from Settings.</p>
+      <p className="admin-muted">Three cards: Boutique, Institute, and Shakti 50. Theme controls card colour (orange / purple / gold).</p>
 
       <SectionHeading>Courses preview (Homepage)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="courses_eyebrow" hiKey="courses_eyebrow_hi" values={home} onChange={onChange} />
