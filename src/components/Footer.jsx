@@ -44,7 +44,7 @@ export default function Footer({ site }) {
   const t = UI[lang];
   const navLinks = NAV_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
   const policyLinks = POLICY_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
-  const wa = waLink(site?.whatsapp, greetingMessage());
+  const wa = waLink(site?.whatsapp, greetingMessage(lang));
   const boutique = pickBrandMessage(site);
   const tagline = pickServiceUsp(site);
   const intro = pickLocalized(site, lang, "intro", "introHi");

@@ -146,7 +146,7 @@ export default function Navbar({ site }) {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const prevPath = useRef(pathname);
-  const wa = waLink(site?.whatsapp, greetingMessage());
+  const wa = waLink(site?.whatsapp, greetingMessage(lang));
   const enquireHref = "/contact";
   const brandName = site?.brand || "Shreya creation";
 

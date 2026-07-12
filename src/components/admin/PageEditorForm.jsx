@@ -2,10 +2,7 @@
 
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
-import { FEATURE_FIELDS, JOURNEY_FEATURE_FIELDS } from "@/lib/cms/defaults";
-import { mergeJourneyCardsForEditor } from "@/lib/cms";
-import { GLASS } from "@/lib/ui";
-import { cn } from "@/lib/utils";
+import { FEATURE_FIELDS } from "@/lib/cms/defaults";
 
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 
@@ -114,93 +111,13 @@ export function FeaturesEditor({ page, onChange }) {
   );
 }
 
-const JOURNEY_CARD_LABELS = {
-  boutique: "Boutique card",
-  institute: "Institute card",
-  shakti: "Shakti 50 card",
-};
-
-function JourneyCardsEditor({ cards, onChange }) {
-  const updateCard = (index, key, value) => {
-    onChange(cards.map((card, i) => (i === index ? { ...card, [key]: value } : card)));
-  };
-
-  return (
-    <div className="space-y-6">
-      {cards.map((card, index) => (
-        <div key={card.key || index} className={cn(GLASS, "rounded-xl", "p-4", "space-y-3", "border", "border-gold/15")}>
-          <SectionHeading>{JOURNEY_CARD_LABELS[card.key] || `Card ${index + 1}`}</SectionHeading>
-          <div>
-            <label className={ADMIN_LABEL}>Card image</label>
-            <ImageUploader
-              multiple={false}
-              value={card.image || ""}
-              onChange={(url) => updateCard(index, "image", url)}
-            />
-          </div>
-          <BilingualField
-            label="Card title"
-            enKey="title"
-            hiKey="title_hi"
-            values={card}
-            onChange={(key, value) => updateCard(index, key, value)}
-          />
-          <BilingualField
-            label="CTA button"
-            enKey="cta"
-            hiKey="cta_hi"
-            values={card}
-            onChange={(key, value) => updateCard(index, key, value)}
-          />
-          <div>
-            <label className={ADMIN_LABEL}>Link</label>
-            <input
-              value={card.href || ""}
-              onChange={(e) => updateCard(index, "href", e.target.value)}
-              placeholder="/shop"
-              className={ADMIN_INPUT}
-            />
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <label className={ADMIN_LABEL}>Theme</label>
-              <input
-                value={card.theme || ""}
-                onChange={(e) => updateCard(index, "theme", e.target.value)}
-                placeholder="orange / purple / gold"
-                className={ADMIN_INPUT}
-              />
-            </div>
-            <div>
-              <label className={ADMIN_LABEL}>Badge icon</label>
-              <input
-                value={card.icon || ""}
-                onChange={(e) => updateCard(index, "icon", e.target.value)}
-                placeholder="sewing / graduation / community"
-                className={ADMIN_INPUT}
-              />
-            </div>
-          </div>
-          <RepeaterField
-            label="Feature list"
-            items={card.features || []}
-            onChange={(features) => updateCard(index, "features", features)}
-            addLabel="Add feature"
-            fields={JOURNEY_FEATURE_FIELDS}
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export function HomeTab({ home, patchPage }) {
   const onChange = (k, v) => patchPage("home", k, v);
   return (
     <>
       <SectionHeading>Header</SectionHeading>
       <p className="admin-muted">
-        Top scrolling bar: <a href="/admin/content" className="text-gold hover:underline">Site content</a> ? Top announcement bar.
+        Top scrolling bar: <a href="/admin/content" className="text-gold hover:underline">Site content</a> → Top announcement bar.
         Brand name, tagline & logo text: <a href="/admin/settings" className="text-gold hover:underline">Settings</a>.
       </p>
 
@@ -209,18 +126,6 @@ export function HomeTab({ home, patchPage }) {
       <BilingualField label="Title" enKey="hero_boutique_title" hiKey="hero_boutique_title_hi" values={home} onChange={onChange} />
       <BilingualField label="Title highlight" enKey="hero_boutique_title_highlight" hiKey="hero_boutique_title_highlight_hi" values={home} onChange={onChange} />
       <BilingualTextarea label="Subtitle" enKey="hero_boutique_subtitle" hiKey="hero_boutique_subtitle_hi" values={home} onChange={onChange} rows={3} />
-      <BilingualField label="Keyword chips" enKey="hero_boutique_keywords" hiKey="hero_boutique_keywords_hi" values={home} onChange={onChange} />
-      <p className="admin-muted">Keyword chips: separate with / e.g. Course / Boutique / Institute</p>
-      <BilingualField label="Career CTA button" enKey="hero_boutique_cta" hiKey="hero_boutique_cta_hi" values={home} onChange={onChange} />
-      <div>
-        <label className={ADMIN_LABEL}>Career CTA link</label>
-        <input
-          value={home.hero_cta_href || ""}
-          onChange={(e) => onChange("hero_cta_href", e.target.value)}
-          placeholder="/contact"
-          className={ADMIN_INPUT}
-        />
-      </div>
       <div>
         <label className={ADMIN_LABEL}>Demo video thumbnail</label>
         <ImageUploader multiple={false} value={home.hero_demo_thumb || ""} onChange={(url) => onChange("hero_demo_thumb", url)} />
@@ -247,24 +152,30 @@ export function HomeTab({ home, patchPage }) {
           className={ADMIN_INPUT}
         />
       </div>
-      <p className="admin-muted">Hero stat bar numbers are fixed in the site design.</p>
+      <p className="admin-muted">Hero stat bar and quick-action cards are fixed in the site design.</p>
 
-      <SectionHeading>Start Your Journey</SectionHeading>
-      <BilingualField label="Eyebrow" enKey="journey_eyebrow" hiKey="journey_eyebrow_hi" values={home} onChange={onChange} />
-      <BilingualField label="Title (before highlight)" enKey="journey_title" hiKey="journey_title_hi" values={home} onChange={onChange} />
-      <BilingualField label="Title highlight" enKey="journey_title_highlight" hiKey="journey_title_highlight_hi" values={home} onChange={onChange} />
-      <BilingualField label="Title (after highlight)" enKey="journey_title_tail" hiKey="journey_title_tail_hi" values={home} onChange={onChange} />
-      <JourneyCardsEditor
-        cards={mergeJourneyCardsForEditor(home.journey_cards)}
-        onChange={(cards) => onChange("journey_cards", cards)}
-      />
-      <p className="admin-muted">Three cards: Boutique, Institute, and Shakti 50. Theme controls card colour (orange / purple / gold).</p>
+      <SectionHeading>Quick explore (Boutique / Institute / Shakti 50)</SectionHeading>
+      <p className="admin-muted">
+        These three cards are fixed in the homepage design (Category cards). Only the sections below are editable.
+      </p>
 
       <SectionHeading>Courses preview (Homepage)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="courses_eyebrow" hiKey="courses_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="academy_heading" hiKey="academy_heading_hi" values={home} onChange={onChange} />
       <BilingualField label="Title highlight" enKey="academy_heading_highlight" hiKey="academy_heading_highlight_hi" values={home} onChange={onChange} />
-      <p className="admin-muted">Individual courses: <a href="/admin/courses" className="text-gold hover:underline">Courses admin</a>.</p>
+      <BilingualField label="Script tagline" enKey="courses_script_tagline" hiKey="courses_script_tagline_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="courses_subtitle" hiKey="courses_subtitle_hi" values={home} onChange={onChange} />
+      <BilingualField label="View all button" enKey="courses_view_all" hiKey="courses_view_all_hi" values={home} onChange={onChange} />
+      <SectionHeading>Demo class CTA (inside courses preview)</SectionHeading>
+      <BilingualField label="Demo title" enKey="courses_demo_title" hiKey="courses_demo_title_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Demo subtitle" enKey="courses_demo_subtitle" hiKey="courses_demo_subtitle_hi" values={home} onChange={onChange} />
+      <BilingualField label="Demo button" enKey="courses_demo_cta" hiKey="courses_demo_cta_hi" values={home} onChange={onChange} />
+      <BilingualField label="Demo note" enKey="courses_demo_note" hiKey="courses_demo_note_hi" values={home} onChange={onChange} />
+      <BilingualField label="Why choose title" enKey="courses_why_title" hiKey="courses_why_title_hi" values={home} onChange={onChange} />
+      <p className="admin-muted">
+        Filter tabs, trust badges, and why-stats are fixed in the design. Course cards:{" "}
+        <a href="/admin/courses" className="text-gold hover:underline">Courses admin</a>.
+      </p>
 
       <SectionHeading>Shop preview (Homepage)</SectionHeading>
       <p className="admin-muted">
@@ -273,7 +184,6 @@ export function HomeTab({ home, patchPage }) {
       <BilingualField label="Eyebrow" enKey="shop_preview_eyebrow" hiKey="shop_preview_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="shop_preview_title" hiKey="shop_preview_title_hi" values={home} onChange={onChange} />
       <BilingualField label="Title highlight" enKey="shop_preview_title_highlight" hiKey="shop_preview_title_highlight_hi" values={home} onChange={onChange} />
-      <BilingualTextarea label="Subtitle" enKey="shop_preview_subtitle" hiKey="shop_preview_subtitle_hi" values={home} onChange={onChange} />
       <BilingualField label="CTA button" enKey="shop_preview_cta" hiKey="shop_preview_cta_hi" values={home} onChange={onChange} />
       <RepeaterField
         label="Shop perks ribbon"
@@ -281,7 +191,7 @@ export function HomeTab({ home, patchPage }) {
         onChange={(v) => onChange("shop_preview_perks", v)}
         addLabel="Add perk"
         fields={[
-          { key: "icon", label: "Icon", default: "?" },
+          { key: "icon", label: "Icon", default: "✦" },
           { key: "label", label: "Label (EN)" },
           { key: "label_hi", label: "Label (HI)" },
         ]}
@@ -353,7 +263,7 @@ export function HomeTab({ home, patchPage }) {
 
       <SectionHeading>Design process (Homepage)</SectionHeading>
       <p className="admin-muted">
-        Process steps: edit in <a href="/admin/content" className="text-gold hover:underline">Site content</a> ? Process steps (JSON).
+        Process steps: edit in <a href="/admin/content" className="text-gold hover:underline">Site content</a> → Process steps (JSON).
       </p>
       <BilingualField label="Eyebrow" enKey="process_eyebrow" hiKey="process_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="process_title" hiKey="process_title_hi" values={home} onChange={onChange} />

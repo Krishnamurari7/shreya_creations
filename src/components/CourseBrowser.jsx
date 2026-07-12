@@ -1,6 +1,6 @@
 "use client";
 
-import { FIELD_SURFACE, FILTER_PILLS, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_TIGHT_TOP, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
+import { FIELD_SURFACE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_TIGHT_TOP, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import CourseCard from "@/components/CourseCard";
@@ -50,49 +50,91 @@ export default function CourseBrowser({ courses = [] }) {
       : `${filtered.length} course${filtered.length === 1 ? "" : "s"} found`;
 
   return (
-    <section className={cn(PAGE_SECTION, PAGE_SECTION_TIGHT_TOP, "courses-browser", "pb-10", "sm:pb-14", "relative", "z-20")}>
-      <div className={cn(PAGE_CONTAINER, "max-w-7xl")}>
-        <Glass3DCard className={cn(REVEAL, "courses-browser__toolbar", "rounded-2xl", "sm:rounded-[2rem]", "p-4", "sm:p-6", "border-ink/15", "mb-6", "sm:mb-8", "shadow-xl")}>
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:items-center lg:justify-between">
+    <section
+      className={cn(
+        PAGE_SECTION,
+        PAGE_SECTION_TIGHT_TOP,
+        "courses-browser",
+        "pb-10",
+        "sm:pb-14",
+        "relative",
+        "z-20",
+        "min-w-0",
+        "w-full",
+        "max-w-full",
+        "overflow-x-clip"
+      )}
+    >
+      <div className={cn(PAGE_CONTAINER, "max-w-7xl", "min-w-0", "w-full")}>
+        <Glass3DCard
+          className={cn(
+            REVEAL,
+            "courses-browser__toolbar",
+            "rounded-2xl",
+            "sm:rounded-[2rem]",
+            "p-3.5",
+            "sm:p-5",
+            "lg:p-6",
+            "border-ink/15",
+            "mb-5",
+            "sm:mb-8",
+            "shadow-xl",
+            "min-w-0"
+          )}
+        >
+          <div className="courses-browser__toolbar-inner">
             {categories.length > 1 && (
-              <div className="home-courses-preview__filters mb-0 min-w-0">
-                <div className={cn(FILTER_PILLS, "justify-start", "lg:flex-wrap")}>
-                  {categories.map((cat) => {
-                    const isSelected = active === cat;
-                    const label =
-                      cat === "All"
-                        ? lang === "hi"
-                          ? "सभी कोर्स"
-                          : "All Courses"
-                        : cat;
-                    return (
-                      <button
-                        key={cat}
-                        type="button"
-                        onClick={() => setActive(cat)}
-                        className={
-                          isSelected
-                            ? "home-courses-preview__pill home-courses-preview__pill--active"
-                            : "home-courses-preview__pill"
-                        }
-                        aria-pressed={isSelected}
-                      >
-                        {label}
-                      </button>
-                    );
-                  })}
-                </div>
+              <div
+                className="home-courses-preview__filters mb-0 min-w-0"
+                role="tablist"
+                aria-label={lang === "hi" ? "कोर्स श्रेणी" : "Course categories"}
+              >
+                {categories.map((cat) => {
+                  const isSelected = active === cat;
+                  const label =
+                    cat === "All"
+                      ? lang === "hi"
+                        ? "सभी कोर्स"
+                        : "All Courses"
+                      : cat;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      role="tab"
+                      aria-selected={isSelected}
+                      onClick={() => setActive(cat)}
+                      className={
+                        isSelected
+                          ? "home-courses-preview__pill home-courses-preview__pill--active"
+                          : "home-courses-preview__pill"
+                      }
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
               </div>
             )}
 
-            <div className="relative w-full lg:max-w-xs shrink-0">
+            <div className="courses-browser__search">
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={searchPlaceholder}
-                className={cn(FIELD_SURFACE, "w-full", "rounded-full", "pl-11", "pr-5", "py-3", "text-sm", "font-light")}
+                className={cn(
+                  FIELD_SURFACE,
+                  "w-full",
+                  "rounded-full",
+                  "pl-11",
+                  "pr-5",
+                  "py-2.5",
+                  "sm:py-3",
+                  "text-sm",
+                  "font-light"
+                )}
               />
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange pointer-events-none">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -101,21 +143,34 @@ export default function CourseBrowser({ courses = [] }) {
           </div>
         </Glass3DCard>
 
-        <p className={cn(REVEAL, "courses-browser__count", "text-sm", "text-ink/70", "mb-5", "sm:mb-6", "px-1")}>
+        <p className={cn(REVEAL, "courses-browser__count", "text-sm", "text-ink/70", "mb-4", "sm:mb-6", "px-1")}>
           {resultsLabel}
         </p>
 
         {filtered.length === 0 ? (
-          <Glass3DCard className={cn(REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "border-ink/15", "p-12", "sm:p-20", "text-center")}>
-            <span className="text-4xl">🎓</span>
-            <p className="text-ink mt-4 font-normal text-base">{emptyMessage}</p>
+          <Glass3DCard
+            className={cn(
+              REVEAL,
+              "rounded-2xl",
+              "sm:rounded-[2rem]",
+              "border-ink/15",
+              "p-8",
+              "sm:p-12",
+              "lg:p-20",
+              "text-center"
+            )}
+          >
+            <span className="text-4xl" aria-hidden>
+              🎓
+            </span>
+            <p className="text-ink mt-4 font-normal text-sm sm:text-base">{emptyMessage}</p>
           </Glass3DCard>
         ) : (
           <div className="home-courses-preview__grid">
             {filtered.map((course, i) => (
               <div
                 key={course.id}
-                className={cn(REVEAL, REVEAL_ZOOM, "in", "w-full", "h-full")}
+                className={cn(REVEAL, REVEAL_ZOOM, "in", "w-full", "h-full", "min-w-0")}
                 style={staggerDelay(i, 70)}
               >
                 <CourseCard

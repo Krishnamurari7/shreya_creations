@@ -93,6 +93,8 @@ export const PAGE_DEFAULTS = {
     cta_title_hi: "हमारा स्टूडियो देखना चाहते हैं?",
     cta_subtitle: "Book a studio visit or start a custom stitching consultation on WhatsApp.",
     cta_subtitle_hi: "स्टूडियो विज़िट बुक करें या WhatsApp पर कस्टम सिलाई की जानकारी लें।",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I'd like to book a studio visit. Please share available timings.",
   },
   home: {
     hero_badge: "Bihar No 1 Fashion Boutique Institute",
@@ -100,10 +102,10 @@ export const PAGE_DEFAULTS = {
     hero_boutique_badge: "Bihar's No. 1 Fashion Boutique Institute",
     hero_boutique_badge_hi: "बिहार का नं. 1 फैशन बुटीक इंस्टिट्यूट",
     hero_boutique_title: "Skill That",
-    hero_boutique_title_hi: "हुनर जो भविष्य संवारे,",
+    hero_boutique_title_hi: "हुनर जो",
     hero_boutique_title_highlight: "Creates Income",
-    hero_boutique_title_highlight_hi: "कमाई कमाओ",
-    hero_boutique_subtitle: "Learn stitching & fashion design — get job-ready or start your own boutique",
+    hero_boutique_title_highlight_hi: "कमाई बनाए",
+    hero_boutique_subtitle: "Learn stitching & fashion design – get job-ready or start your own boutique",
     hero_boutique_subtitle_hi: "सिलाई और फैशन डिज़ाइन सीखें — नौकरी पाएं या अपना बुटीक शुरू करें",
     hero_boutique_keywords: "Course / Boutique / Institute",
     hero_boutique_keywords_hi: "कोर्स / बुटीक / इंस्टिट्यूट",
@@ -217,12 +219,26 @@ export const PAGE_DEFAULTS = {
     explore_title_hi: "अपने लिए सही चुनें",
     explore_view_all: "View All",
     explore_view_all_hi: "सभी देखें",
-    courses_eyebrow: "Our Courses",
-    courses_eyebrow_hi: "हमारे कोर्स",
-    courses_title: "10 Professional",
-    courses_title_hi: "10 प्रोफेशनल",
-    courses_subtitle: "Boutique · Blouse · Suit · Kids Wear · Fashion Design · Lehenga — enroll on WhatsApp.",
-    courses_subtitle_hi: "बुटीक · ब्लाउज · सूट · किड्स वियर · फैशन डिज़ाइन · लहंगा — WhatsApp पर एनरोल करें।",
+    courses_eyebrow: "Our Popular Courses",
+    courses_eyebrow_hi: "हमारे लोकप्रिय कोर्स",
+    courses_title: "Learn. Practice.",
+    courses_title_hi: "सीखें. प्रैक्टिस.",
+    courses_subtitle: "From basics to advanced, choose the right course for your career.",
+    courses_subtitle_hi: "बेसिक से एडवांस्ड तक — अपने करियर के लिए सही कोर्स चुनें।",
+    courses_script_tagline: "Skill that creates income.",
+    courses_script_tagline_hi: "कौशल जो आय बनाता है।",
+    courses_view_all: "View All 50+ Courses",
+    courses_view_all_hi: "सभी 50+ कोर्स देखें",
+    courses_demo_title: "Not Sure Which Course is Right for You?",
+    courses_demo_title_hi: "कौन सा कोर्स सही है, तय नहीं?",
+    courses_demo_subtitle: "Book a FREE Demo Class and get expert guidance.",
+    courses_demo_subtitle_hi: "मुफ़्त डेमो क्लास बुक करें और एक्सपर्ट गाइडेंस पाएँ।",
+    courses_demo_cta: "Book Free Demo Now",
+    courses_demo_cta_hi: "अभी मुफ़्त डेमो बुक करें",
+    courses_demo_note: "Limited Seats – Enroll Today!",
+    courses_demo_note_hi: "सीमित सीटें — आज ही एनरोल करें!",
+    courses_why_title: "Why Choose Shreya Creation?",
+    courses_why_title_hi: "श्रेया क्रिएशन क्यों चुनें?",
     services_eyebrow: "Boutique Services Overview",
     services_eyebrow_hi: "बुटीक सेवाएँ",
     services_title: "Services Tailored for You",
@@ -283,10 +299,10 @@ export const PAGE_DEFAULTS = {
     collection_image_right: "/atelier_details.png",
     academy_badge: "Academy Studio",
     academy_badge_hi: "अकादमी स्टूडियो",
-    academy_heading: "Our",
-    academy_heading_hi: "हमारे",
-    academy_heading_highlight: "Courses",
-    academy_heading_highlight_hi: "कोर्स",
+    academy_heading: "Learn. Practice.",
+    academy_heading_hi: "सीखें. प्रैक्टिस.",
+    academy_heading_highlight: "Earn.",
+    academy_heading_highlight_hi: "कमाएँ.",
     academy_subheading: "10 professional courses — boutique, blouse, suit, kids wear, fashion design & lehenga. Enroll on WhatsApp.",
     academy_subheading_hi: "10 प्रोफेशनल कोर्स — बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा। WhatsApp पर एनरोल करें।",
     academy_location: "Shreya creation, Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001",
@@ -319,6 +335,8 @@ export const PAGE_DEFAULTS = {
     bottom_cta_subtitle_hi: "नीचे टैप करके WhatsApp पर बुटीक मैनेजर से बात करें — डिज़ाइन, कीमत, माप और शिपिंग में मदद।",
     bottom_cta_primary_label: "Start Consultation on WhatsApp",
     bottom_cta_primary_label_hi: "WhatsApp पर कंसल्टेशन शुरू करें",
+    bottom_cta_wa_message:
+      "Hi Shreya Creation! 👋 I want a custom stitching consultation — designs, pricing, sizing, and shipping.",
     academy_cta: "Book Studio Visit on WhatsApp",
     academy_cta_hi: "WhatsApp पर स्टूडियो विज़िट बुक करें",
     academy_note: "Limited batches",
@@ -358,6 +376,8 @@ export const PAGE_DEFAULTS = {
     cta_primary_label: "Open WhatsApp",
     cta_primary_label_hi: "WhatsApp खोलें",
     cta_secondary_href: "",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I'm reaching out from your contact page. Please get back to me.",
   },
   shop: {
     header_eyebrow: "The Shop",
@@ -380,6 +400,8 @@ export const PAGE_DEFAULTS = {
     cta_secondary_href: "/portfolio",
     cta_secondary_label: "See portfolio",
     cta_secondary_label_hi: "पोर्टफोलियो देखें",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I'd like to order from the shop. Please share available designs, sizing, and delivery details.",
   },
   courses: {
     header_eyebrow: "Our Courses",
@@ -399,7 +421,8 @@ export const PAGE_DEFAULTS = {
     cta_title_hi: "एनरोल करने के लिए तैयार?",
     cta_subtitle: "Book a free counseling session — discuss batch timings (Morning 9–12, Afternoon 12–3, Evening 3–6), fees and course roadmap on WhatsApp.",
     cta_subtitle_hi: "मुफ़्त काउंसलिंग बुक करें — बैच (सुबह 9–12, दोपहर 12–3, शाम 3–6), फीस और कोर्स रोडमैप पर बात करें।",
-    cta_wa_message: "Hello! I would like to enroll in a course at Shreya Creation. Please share course details, fees, and batch timings.",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I would like to enroll in a course. Please share course details, fees, and batch timings.",
   },
   portfolio: {
     header_eyebrow: "Our work",
@@ -434,6 +457,8 @@ export const PAGE_DEFAULTS = {
     cta_secondary_href: "/shop",
     cta_secondary_label: "Browse the shop",
     cta_secondary_label_hi: "शॉप देखें",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.",
   },
   lookbook: {
     header_eyebrow: "Blog & lookbook",
@@ -451,6 +476,8 @@ export const PAGE_DEFAULTS = {
     cta_secondary_href: "/portfolio",
     cta_secondary_label: "View portfolio",
     cta_secondary_label_hi: "पोर्टफोलियो देखें",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I'd love a look from your lookbook made in my size. Please share fabric, design, and timeline.",
   },
   faq: {
     header_eyebrow: "Help & FAQ",
@@ -465,6 +492,8 @@ export const PAGE_DEFAULTS = {
     cta_title_hi: "अभी भी सवाल हैं?",
     cta_subtitle: "Our boutique team is happy to help — message us on WhatsApp anytime.",
     cta_subtitle_hi: "हमारी टीम मदद के लिए तैयार है — कभी भी WhatsApp पर लिखें।",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I have a few questions after reading your FAQ. Please help.",
   },
 };
 

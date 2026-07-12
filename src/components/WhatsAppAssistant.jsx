@@ -10,7 +10,7 @@ export default function WhatsAppAssistant({ number }) {
   const { lang } = useLanguage();
   const pathname = usePathname();
   const t = UI[lang];
-  const href = waLink(number, greetingMessage());
+  const href = waLink(number, greetingMessage(lang));
   const aboveStickyBar =
     Boolean(pathname?.startsWith("/courses/")) && pathname !== "/courses";
 

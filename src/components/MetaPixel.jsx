@@ -1,6 +1,41 @@
+"use client";
+
+import { Suspense, useEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 
-const PIXEL_ID = "1734269331327084";
+export const PIXEL_ID = "1734269331327084";
+
+function shouldTrack(pathname) {
+  return Boolean(pathname) && !pathname.startsWith("/admin");
+}
+
+function MetaPageViews() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (!shouldTrack(pathname)) return;
+
+    const send = () => {
+      if (typeof window.fbq !== "function") return false;
+      window.fbq("track", "PageView");
+      return true;
+    };
+
+    if (send()) return undefined;
+
+    let attempts = 0;
+    const id = window.setInterval(() => {
+      attempts += 1;
+      if (send() || attempts >= 25) window.clearInterval(id);
+    }, 200);
+
+    return () => window.clearInterval(id);
+  }, [pathname, searchParams]);
+
+  return null;
+}
 
 export default function MetaPixel() {
   return (
@@ -16,7 +51,6 @@ export default function MetaPixel() {
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '${PIXEL_ID}');
-          fbq('track', 'PageView');
         `}
       </Script>
       <noscript>
@@ -28,6 +62,9 @@ export default function MetaPixel() {
           alt=""
         />
       </noscript>
+      <Suspense fallback={null}>
+        <MetaPageViews />
+      </Suspense>
     </>
   );
 }

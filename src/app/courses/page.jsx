@@ -24,7 +24,7 @@ export default async function CoursesPage() {
         subtitle={coursesPage.headerSubtitle || "10 courses — boutique, blouse, suit, kids wear, fashion design & lehenga. Enroll on WhatsApp."}
         subtitleHi={coursesPage.headerSubtitleHi}
       />
-      <CoursesPageClient courses={courses} />
+      <CoursesPageClient courses={courses} whatsapp={site.whatsapp} />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(coursesPage)} />
     </PageShell>
   );

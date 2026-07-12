@@ -14,7 +14,6 @@ import {
   HeaderWithHighlight,
   HeaderSimple,
   CtaEditor,
-  FeaturesEditor,
   HomeTab,
 } from "@/components/admin/PageEditorForm";
 import { PAGE_DEFAULTS, DEFAULT_PILLARS, PAGE_EDITOR_KEYS, FEATURE_FIELDS } from "@/lib/cms/defaults";
@@ -190,30 +189,28 @@ export default function PagesAdmin() {
                 { key: "desc_hi", label: "Description (HI)", type: "textarea", wide: true },
               ]}
             />
-            <CtaEditor page={page} onChange={onChange} />
+            <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}
 
         {tab === "contact" && (
           <>
-            <HeaderSimple page={page} onChange={onChange} />
+            <HeaderWithHighlight page={page} onChange={onChange} />
             <p className="admin-muted">Map embed URL is in Site content.</p>
-            <CtaEditor page={page} onChange={onChange} />
+            <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}
 
         {tab === "shop" && (
           <>
             <HeaderWithHighlight page={page} onChange={onChange} />
-            <FeaturesEditor page={page} onChange={onChange} />
-            <CtaEditor page={page} onChange={onChange} />
+            <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}
 
         {tab === "courses" && (
           <>
             <HeaderWithHighlight page={page} onChange={onChange} />
-            <FeaturesEditor page={page} onChange={onChange} />
             <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}
@@ -235,7 +232,7 @@ export default function PagesAdmin() {
               addLabel="Add highlight"
               fields={FEATURE_FIELDS}
             />
-            <CtaEditor page={page} onChange={onChange} showHighlight />
+            <CtaEditor page={page} onChange={onChange} showHighlight showWaMessage />
           </>
         )}
 
@@ -245,14 +242,14 @@ export default function PagesAdmin() {
             <p className="admin-muted">
               Lookbook posts: <a href="/admin/lookbook" className="text-gold hover:underline">Lookbook admin</a>.
             </p>
-            <CtaEditor page={page} onChange={onChange} />
+            <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}
 
         {tab === "faq" && (
           <>
             <HeaderWithHighlight page={page} onChange={onChange} />
-            <CtaEditor page={page} onChange={onChange} />
+            <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}
 

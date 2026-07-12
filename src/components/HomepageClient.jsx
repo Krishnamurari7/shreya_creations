@@ -18,7 +18,6 @@ import HomeShopPreview from "@/components/HomeShopPreview";
 import HomePortfolioPreview from "@/components/HomePortfolioPreview";
 import HomeCoursesPreview from "@/components/HomeCoursesPreview";
 import ExploreCategories from "@/components/ExploreCategories";
-import StartJourneySection from "@/components/StartJourneySection";
 
 function SectionHeader({
   home,
@@ -232,7 +231,7 @@ export default function HomepageClient({
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
       {/* ===== HERO BANNER (includes stats + quick actions) ===== */}
-      <HeroSection home={home} lang={lang} />
+      <HeroSection home={home} lang={lang} phone={site.phone} whatsapp={site.whatsapp} />
 
       {/* ===== BRAND MARQUEE RIBBON ===== */}
       <div className="brand-ribbon" aria-hidden>
@@ -251,11 +250,8 @@ export default function HomepageClient({
         </div>
       </div>
 
-      {/* ===== QUICK CATEGORY LINKS ===== */}
-      <CategoryCards lang={lang} />
-
-      {/* ===== START YOUR JOURNEY ===== */}
-      <StartJourneySection lang={lang} home={home} />
+      {/* ===== QUICK EXPLORE ===== */}
+      <CategoryCards lang={lang} site={site} whatsapp={site.whatsapp} />
 
       <HomeCoursesPreview courses={courses} home={home} />
 
@@ -324,7 +320,7 @@ export default function HomepageClient({
         <Testimonials items={testimonials} />
       </section>
 
-      <InquiryPopup source="home_popup" />
+      <InquiryPopup source="home_popup" whatsapp={site.whatsapp} />
     </div>
   );
 }

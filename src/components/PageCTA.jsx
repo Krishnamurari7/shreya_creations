@@ -52,7 +52,7 @@ export default function PageCTA({
   const body = lang === "hi" && subtitleHi ? subtitleHi : subtitle || t.subtitle;
   const primary = lang === "hi" && primaryLabelHi ? primaryLabelHi : primaryLabel || t.primary;
   const secondary = lang === "hi" && secondaryLabelHi ? secondaryLabelHi : secondaryLabel || t.secondary;
-  const wa = waLink(whatsapp, waMessage || greetingMessage());
+  const wa = waLink(whatsapp, waMessage || greetingMessage(lang));
 
   const eyebrow = lang === "hi" ? "बुटीक परामर्श" : "Boutique Consultation";
 

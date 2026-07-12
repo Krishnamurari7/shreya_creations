@@ -3,7 +3,7 @@ import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import ContactPageSections from "@/components/ContactPageSections";
 import PageCTA from "@/components/PageCTA";
 import { getSiteSettings } from "@/lib/data";
-import { waLink, greetingMessage } from "@/lib/whatsapp";
+import { waLink, contactMessage } from "@/lib/whatsapp";
 import { pageCtaProps } from "@/lib/cms";
 
 export const metadata = { title: "Contact — Shreya Creation" };
@@ -20,7 +20,7 @@ function stripTrailingHighlight(title, highlight) {
 export default async function ContactPage() {
   const site = await getSiteSettings();
   const contact = site.pages?.contact || {};
-  const wa = waLink(site.whatsapp, greetingMessage());
+  const wa = waLink(site.whatsapp, contact.ctaWaMessage || contactMessage());
 
   const highlight = contact.headerHighlight || "Us";
   const highlightHi = contact.headerHighlightHi || "करें";

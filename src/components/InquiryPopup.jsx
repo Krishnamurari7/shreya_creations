@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
 import { INQUIRY_OPEN_EVENT } from "@/lib/inquiryPopup";
+import { enquiryMessage, waLink } from "@/lib/whatsapp";
 
 const DISMISS_HOURS = 24;
 
@@ -60,7 +61,7 @@ const COPY = {
   },
 };
 
-export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) {
+export default function InquiryPopup({ source = "home_popup", delayMs = 4000, whatsapp }) {
   const { lang } = useLanguage();
   const t = COPY[lang] || COPY.en;
   const [mounted, setMounted] = useState(false);
@@ -139,6 +140,8 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000 }) 
         source: activeSource,
       });
     }
+    const href = waLink(whatsapp, enquiryMessage(name, message, phone));
+    window.open(href, "_blank", "noopener,noreferrer");
     setSaving(false);
     setDone(true);
     if (!userOpenedRef.current) {

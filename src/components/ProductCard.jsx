@@ -3,16 +3,15 @@
 import { BTN_GOLD } from "@/lib/ui";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
-import { waLink } from "@/lib/whatsapp";
+import { productMessage, waLink } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 export default function ProductCard({ product, variant = "boutique", whatsapp, compact = false }) {
   const cover = product.images?.[0] || product.image;
 
   if (variant === "boutique") {
-    const wa = whatsapp
-      ? waLink(whatsapp, `Hello! I would like to order: ${product.title}`)
-      : `/shop/${product.slug}`;
+    const productUrl = `/shop/${product.slug}`;
+    const wa = whatsapp ? waLink(whatsapp, productMessage(product, productUrl)) : productUrl;
 
     return (
       <div className={cn("boutique-product-card group flex flex-col h-full", compact && "boutique-product-card--compact")}>

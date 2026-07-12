@@ -3,11 +3,11 @@
 import CourseBrowser from "@/components/CourseBrowser";
 import InquiryPopup from "@/components/InquiryPopup";
 
-export default function CoursesPageClient({ courses }) {
+export default function CoursesPageClient({ courses, whatsapp }) {
   return (
     <>
       <CourseBrowser courses={courses} />
-      <InquiryPopup source="courses_popup" />
+      <InquiryPopup source="courses_popup" whatsapp={whatsapp} />
     </>
   );
 }

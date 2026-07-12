@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { pickPage } from "@/lib/cms";
-import { waLink } from "@/lib/whatsapp";
+import { productMessage, waLink } from "@/lib/whatsapp";
 
 const HOME_SHOP_LIMIT = 5;
 
@@ -44,9 +44,8 @@ function ShopSectionHeader({ home, lang }) {
 
 function ShopProductCard({ product, whatsapp, lang, index, featured = false }) {
   const cover = product.images?.[0] || product.image;
-  const wa = whatsapp
-    ? waLink(whatsapp, `Hello! I would like to order: ${product.title}`)
-    : `/shop/${product.slug}`;
+  const productUrl = `/shop/${product.slug}`;
+  const wa = whatsapp ? waLink(whatsapp, productMessage(product, productUrl)) : productUrl;
 
   return (
     <article
