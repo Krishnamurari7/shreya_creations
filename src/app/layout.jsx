@@ -39,16 +39,51 @@ import MetaPixel from "@/components/MetaPixel";
 import { getSiteSettings } from "@/lib/data";
 import { BRAND_MESSAGE_HI, SERVICE_USP_HI } from "@/lib/i18n";
 import { LOGO_SRC } from "@/lib/brand";
+import { getSiteUrl } from "@/lib/siteUrl";
+import JsonLd from "@/components/JsonLd";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+const siteUrl = getSiteUrl();
+
+const siteTitle = `Shreya creation — ${BRAND_MESSAGE_HI}`;
+const siteDescription = `${BRAND_MESSAGE_HI} — bespoke stitching, bridal couture & fashion boutique courses in Patna (Boring Road). ${SERVICE_USP_HI}. Call or WhatsApp to enrol / order.`;
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title: `Shreya creation — ${BRAND_MESSAGE_HI}`,
-  description:
-    `${BRAND_MESSAGE_HI} — bespoke stitching, bridal couture & 10 fashion courses in Patna. ${SERVICE_USP_HI}. Order on WhatsApp.`,
+  title: {
+    default: siteTitle,
+    template: "%s | Shreya creation Patna",
+  },
+  description: siteDescription,
+  applicationName: "Shreya creation",
+  keywords: [
+    "Shreya creation Patna",
+    "Shreya Creations Boring Road",
+    "boutique institute Patna",
+    "fashion designing course Patna",
+    "blouse making classes Patna",
+    "tailoring classes Boring Road",
+    "24 hour stitching Patna",
+    "bridal lehenga stitching Patna",
+    "boutique course Bihar",
+  ],
+  authors: [{ name: "Shreya creation", url: siteUrl }],
+  creator: "Shreya creation",
+  publisher: "Shreya creation",
+  category: "education",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -59,10 +94,26 @@ export const metadata = {
     apple: LOGO_SRC,
   },
   openGraph: {
-    title: "Shreya creation",
-    description: "Couture stitching & 10 professional fashion courses. Order on WhatsApp.",
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "Shreya creation",
+    locale: "en_IN",
     type: "website",
-    images: [{ url: LOGO_SRC, alt: "Shreya creation" }],
+    images: [
+      {
+        url: LOGO_SRC,
+        width: 512,
+        height: 512,
+        alt: "Shreya creation — Fashion Boutique Institute Patna",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: [LOGO_SRC],
   },
 };
 
@@ -81,6 +132,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang={site.defaultLanguage === "hi" ? "hi" : "en"} suppressHydrationWarning>
       <body className={BG_ATMOSPHERE}>
+        <JsonLd site={site} />
         <GoogleAnalytics />
         <MetaPixel />
         <ThemeScript />

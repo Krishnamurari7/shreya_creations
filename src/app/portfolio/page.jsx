@@ -10,7 +10,12 @@ import { TrustWall } from "@/components/Sections";
 import { getPortfolio, getSiteSettings, getTrustStats } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Portfolio — Shreya creation" };
+export const metadata = {
+  title: "Portfolio — Bridal & Designer Work",
+  description:
+    "Bridal lehengas, gowns and designer pieces crafted at Shreya creation Patna atelier. See our stitching & fashion portfolio.",
+  alternates: { canonical: "/portfolio" },
+};
 
 export default async function PortfolioPage() {
   const [items, site, trust] = await Promise.all([getPortfolio(), getSiteSettings(), getTrustStats()]);

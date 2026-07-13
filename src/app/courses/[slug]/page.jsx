@@ -7,7 +7,22 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const course = await getCourseBySlug(params.slug);
-  return { title: course ? `${course.title} — Shreya creation` : "Courses — Shreya creation" };
+  if (!course) {
+    return { title: "Course", alternates: { canonical: "/courses" } };
+  }
+  const description =
+    course.description ||
+    `Learn ${course.title} at Shreya creation Patna — practical boutique & fashion training with certificate support.`;
+  return {
+    title: course.title,
+    description,
+    alternates: { canonical: `/courses/${course.slug}` },
+    openGraph: {
+      title: `${course.title} | Shreya creation Patna`,
+      description,
+      type: "website",
+    },
+  };
 }
 
 export default async function CourseDetail({ params }) {

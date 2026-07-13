@@ -5,7 +5,16 @@ import PageCTA from "@/components/PageCTA";
 import { getProducts, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Shop — Shreya creation" };
+export const metadata = {
+  title: "Shop Designer Wear & Custom Stitching",
+  description:
+    "Order designer blouses, suits, lehengas & gowns from Shreya creation Patna. Custom fit stitching — many styles delivered in 24 hours.",
+  alternates: { canonical: "/shop" },
+  openGraph: {
+    title: "Boutique Shop Patna | 24hr Custom Stitching",
+    description: "Designer wear & custom stitching on WhatsApp — Shreya creation, Boring Road.",
+  },
+};
 
 export default async function ShopPage() {
   const [products, site] = await Promise.all([getProducts(), getSiteSettings()]);

@@ -5,7 +5,17 @@ import PageCTA from "@/components/PageCTA";
 import { getCourses, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "Our Courses — Shreya creation" };
+export const metadata = {
+  title: "Fashion & Boutique Courses in Patna",
+  description:
+    "Job-oriented boutique, blouse making, fashion designing & lehenga courses in Patna. Practical training, certificate & placement support at Shreya creation.",
+  alternates: { canonical: "/courses" },
+  openGraph: {
+    title: "Boutique & Fashion Courses Patna | Shreya creation",
+    description:
+      "50+ practical fashion courses — blouse, boutique, suit, lehenga. Free demo class available.",
+  },
+};
 
 export default async function CoursesPage() {
   const [courses, site] = await Promise.all([getCourses(), getSiteSettings()]);

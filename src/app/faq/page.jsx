@@ -5,7 +5,12 @@ import PageCTA from "@/components/PageCTA";
 import { getFaqs, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 
-export const metadata = { title: "FAQ — Shreya creation" };
+export const metadata = {
+  title: "FAQ",
+  description:
+    "Frequently asked questions about Shreya creation courses, fees, demo class, stitching delivery and boutique training in Patna.",
+  alternates: { canonical: "/faq" },
+};
 
 export default async function FaqPage() {
   const [faqs, site] = await Promise.all([getFaqs(), getSiteSettings()]);
