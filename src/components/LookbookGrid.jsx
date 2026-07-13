@@ -44,7 +44,7 @@ export default function LookbookGrid({ posts = [] }) {
               <span className="inline-flex self-start items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-3 py-1 rounded-full text-[10px] font-semibold tracking-widest uppercase mb-4">
                 {lang === "hi" ? "फ़ीचर्ड" : "Featured"}
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl text-ink leading-tight">{featured.title}</h2>
+              <h2 className="font-display text-3xl sm:text-4xl text-ink leading-tight break-words text-balance line-clamp-3">{featured.title}</h2>
               {featured.excerpt && (
                 <p className="mt-4 text-sm sm:text-base text-ink font-normal leading-relaxed">{featured.excerpt}</p>
               )}
@@ -69,7 +69,7 @@ export default function LookbookGrid({ posts = [] }) {
                 </div>
               )}
               <Float3D translateZ="40" className="p-5 sm:p-6 -mt-16 relative z-10">
-                <h3 className="font-display text-xl sm:text-2xl text-ink leading-snug">{p.title}</h3>
+                <h3 className="font-display text-xl sm:text-2xl text-ink leading-snug break-words line-clamp-2">{p.title}</h3>
                 {p.excerpt && (
                   <p className="text-sm text-ink mt-2 font-normal line-clamp-2">{p.excerpt}</p>
                 )}

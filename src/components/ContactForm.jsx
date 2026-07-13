@@ -6,6 +6,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { waLink, enquiryMessage } from "@/lib/whatsapp";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
+import { trackContactConversion } from "@/components/GoogleAnalytics";
 import { UI } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -78,6 +79,7 @@ export default function ContactForm({ number }) {
       });
     }
     const href = waLink(number, enquiryMessage(name, msg, phone));
+    trackContactConversion();
     window.open(href, "_blank");
     setSaving(false);
   };

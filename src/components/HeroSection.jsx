@@ -666,7 +666,7 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
                   <HeroActionCard
                     variant="stitch"
                     icon={<SewingMachineIcon />}
-                    title="मात्र 24 घंटे में सिले कपड़े"
+                    title={lang === "hi" ? "मात्र 24 घंटे में सिले कपड़े" : "Clothes stitched in just 24 hours"}
                     subtitle={lang === "hi" ? "कस्टम सिलाई ऑर्डर" : "Custom Stitching Order"}
                     href={stitchWaHref}
                     external

@@ -15,28 +15,18 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
 
     return (
       <div className={cn("boutique-product-card group flex flex-col h-full", compact && "boutique-product-card--compact")}>
-        <Link href={`/shop/${product.slug}`} className="product-card-media relative block">
-          <CardImage src={cover} alt={product.title} ratio={compact ? "4/5" : "3/4"} position="top" />
-          {!compact && (
-            <div className="product-card-overlay" aria-hidden>
-              <span className="product-card-overlay__label">
-                View details <span>→</span>
-              </span>
-            </div>
-          )}
-          {!compact && (
-            <button
-              type="button"
-              className="product-card-wishlist absolute top-3 right-3 z-10 flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full shadow-sm transition-colors"
-              aria-label="Add to wishlist"
-              onClick={(e) => e.preventDefault()}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                <path d="M12 21s-7-4.5-9.5-9C.5 8.5 2 5 5.5 5 8 5 12 8.5 12 8.5S16 5 18.5 5 23.5 8.5 21.5 12C19 16.5 12 21 12 21z" />
-              </svg>
-            </button>
-          )}
-        </Link>
+        <div className="product-card-media relative">
+          <Link href={`/shop/${product.slug}`} className="block">
+            <CardImage src={cover} alt={product.title} ratio={compact ? "4/5" : "3/4"} position="top" />
+            {!compact && (
+              <div className="product-card-overlay" aria-hidden>
+                <span className="product-card-overlay__label">
+                  View details <span>→</span>
+                </span>
+              </div>
+            )}
+          </Link>
+        </div>
 
         <div className={cn("boutique-product-card__body flex flex-col flex-1", compact ? "p-2.5 sm:p-3" : "p-3 sm:p-4")}>
           <Link href={`/shop/${product.slug}`}>

@@ -13,9 +13,9 @@ export default function PolicyBody({ page }) {
   const body = pickLocalized(page, lang, "body", "bodyHi");
 
   return (
-    <div className={cn(PAGE_CONTAINER, "max-w-3xl", "pb-12", "sm:pb-16", "relative", "z-20", "overflow-hidden")}>
+    <div className={cn(PAGE_CONTAINER, "max-w-3xl", "pb-12", "sm:pb-16", "relative", "z-20", "overflow-x-hidden")}>
       <AmbientGlows variant="subtle" />
-      <Glass3DCard layered className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-8", "md:p-10", "border-ink/15", "relative", "overflow-hidden")}>
+      <Glass3DCard layered className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-8", "md:p-10", "border-ink/15", "relative", "overflow-x-hidden")}>
         <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-orange/5 blur-3xl pointer-events-none" />
         <Float3D translateZ="40">
           <h2 className="font-display text-2xl text-ink mb-6 sr-only">{title}</h2>

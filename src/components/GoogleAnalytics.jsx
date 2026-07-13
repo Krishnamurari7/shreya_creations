@@ -5,6 +5,8 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 
 export const GA_ID = "G-L0FL0BBDXS";
+export const AW_ID = "AW-11033186057";
+export const AW_CONTACT_CONVERSION = "ads_conversion_Contact_Us_1";
 
 function buildPath(pathname, searchParams) {
   const query = searchParams?.toString();
@@ -13,6 +15,34 @@ function buildPath(pathname, searchParams) {
 
 function shouldTrack(pathname) {
   return Boolean(pathname) && !pathname.startsWith("/admin");
+}
+
+/** Fire Google Ads Contact Us conversion; optionally delay navigation until the hit is sent. */
+export function gtagSendEvent(url) {
+  if (typeof window === "undefined") return false;
+
+  const callback = () => {
+    if (typeof url === "string") {
+      window.location = url;
+    }
+  };
+
+  if (typeof window.gtag !== "function") {
+    callback();
+    return false;
+  }
+
+  window.gtag("event", AW_CONTACT_CONVERSION, {
+    event_callback: callback,
+    event_timeout: 2000,
+  });
+  return false;
+}
+
+/** Fire Contact Us conversion without navigating away (e.g. WhatsApp opens in a new tab). */
+export function trackContactConversion() {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+  window.gtag("event", AW_CONTACT_CONVERSION, {});
 }
 
 function GAPageViews() {
@@ -58,6 +88,20 @@ export default function GoogleAnalytics() {
           window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', '${GA_ID}', { send_page_view: false });
+          gtag('config', '${AW_ID}');
+
+          window.gtagSendEvent = function gtagSendEvent(url) {
+            var callback = function () {
+              if (typeof url === 'string') {
+                window.location = url;
+              }
+            };
+            gtag('event', '${AW_CONTACT_CONVERSION}', {
+              'event_callback': callback,
+              'event_timeout': 2000,
+            });
+            return false;
+          };
         `}
       </Script>
       <Suspense fallback={null}>

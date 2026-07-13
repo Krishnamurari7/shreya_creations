@@ -65,10 +65,10 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
             key={c}
             onClick={() => setActive(c)}
             className={cn(
-              "px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300",
+              "min-h-11 shrink-0 whitespace-nowrap px-4 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300",
               isSelected
                 ? cn(BTN_GOLD, "tab-active-glow")
-                : cn(FILTER_PILL, "px-5 py-2.5 text-xs tracking-wider font-medium")
+                : cn(FILTER_PILL, "tracking-wider font-medium")
             )}
           >
             {c}
@@ -155,7 +155,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                         e.stopPropagation();
                         goPrev();
                       }}
-                      className={cn(GLASS, "absolute", "left-3", "sm:left-6", "top-1/2", "-translate-y-1/2", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink", "hover:border-orange/50", "transition-colors", "z-10")}
+                      className={cn(GLASS, "hidden", "sm:grid", "place-items-center", "absolute", "left-3", "sm:left-6", "top-1/2", "-translate-y-1/2", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink", "hover:border-orange/50", "transition-colors", "z-10")}
                       aria-label="Previous"
                     >
                       ‹
@@ -166,7 +166,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                         e.stopPropagation();
                         goNext();
                       }}
-                      className={cn(GLASS, "absolute", "right-3", "sm:right-6", "top-1/2", "-translate-y-1/2", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink", "hover:border-orange/50", "transition-colors", "z-10")}
+                      className={cn(GLASS, "hidden", "sm:grid", "place-items-center", "absolute", "right-3", "sm:right-6", "top-1/2", "-translate-y-1/2", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink", "hover:border-orange/50", "transition-colors", "z-10")}
                       aria-label="Next"
                     >
                       ›
@@ -183,14 +183,41 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                   onClick={(e) => e.stopPropagation()}
                 className={cn(GLASS, "portfolio-lightbox-panel", "relative", "w-full", "max-w-4xl", "rounded-3xl", "p-3", "sm:p-4", "border", "border-orange/25", "shadow-2xl", "bg-surface")}
                 >
-                  <div className="portfolio-lightbox-media flex items-center justify-center rounded-2xl overflow-hidden bg-cream/30 min-h-[200px] max-h-[min(78vh,720px)]">
+                  <div className="portfolio-lightbox-media flex items-center justify-center rounded-2xl overflow-hidden bg-cream/30 min-h-[200px] max-h-[min(70vh,720px)] sm:max-h-[min(78vh,720px)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={lightbox.image}
                       alt={lightbox.title}
-                      className="block max-h-[min(78vh,720px)] max-w-full w-auto h-auto object-contain"
+                      className="block max-h-[min(70vh,720px)] sm:max-h-[min(78vh,720px)] max-w-full w-auto h-auto object-contain"
                     />
                   </div>
+
+                  {filtered.length > 1 && (
+                    <div className="mt-3 flex items-center justify-center gap-3 sm:hidden">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          goPrev();
+                        }}
+                        className={cn(GLASS, "grid", "place-items-center", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink")}
+                        aria-label="Previous"
+                      >
+                        ‹
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          goNext();
+                        }}
+                        className={cn(GLASS, "grid", "place-items-center", "h-11", "w-11", "rounded-full", "border", "border-orange/25", "text-ink")}
+                        aria-label="Next"
+                      >
+                        ›
+                      </button>
+                    </div>
+                  )}
 
                   <div className="p-4 text-center">
                     {lightbox.category && (

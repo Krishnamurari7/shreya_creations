@@ -8,6 +8,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
 import { INQUIRY_OPEN_EVENT } from "@/lib/inquiryPopup";
 import { enquiryMessage, waLink } from "@/lib/whatsapp";
+import { trackContactConversion } from "@/components/GoogleAnalytics";
 
 const DISMISS_HOURS = 24;
 
@@ -141,6 +142,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
       });
     }
     const href = waLink(whatsapp, enquiryMessage(name, message, phone));
+    trackContactConversion();
     window.open(href, "_blank", "noopener,noreferrer");
     setSaving(false);
     setDone(true);
@@ -186,7 +188,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
         <button
           type="button"
           onClick={close}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 h-9 w-9 min-h-9 min-w-9 rounded-full border border-ink/15 text-ink/70 hover:text-ink hover:border-orange/40 transition-colors grid place-items-center text-sm touch-manipulation"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 h-11 w-11 min-h-11 min-w-11 rounded-full border border-ink/15 text-ink/70 hover:text-ink hover:border-orange/40 transition-colors grid place-items-center text-sm touch-manipulation"
           aria-label={t.close}
         >
           ✕

@@ -56,11 +56,13 @@ export default function ProductGallery({ images, title }) {
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className={`h-20 w-16 sm:h-24 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl overflow-hidden p-1 transition-all duration-300 ${
+                className={cn(
+                  GLASS,
+                  "h-20 w-16 sm:h-24 sm:w-20 shrink-0 rounded-xl sm:rounded-2xl overflow-hidden border p-1 transition-all duration-300",
                   isSelected
-                    ? "${GLASS} border-orange shadow-[0_4px_15px_rgba(230,90,5,0.2)] scale-95"
-                    : "${GLASS} border-ink/15 opacity-55 hover:opacity-100 hover:scale-[0.98]"
-                }`}
+                    ? "border-orange shadow-[0_4px_15px_rgba(230,90,5,0.2)] scale-95"
+                    : "border-ink/15 opacity-55 hover:opacity-100 hover:scale-[0.98]"
+                )}
               >
                 <div className="relative h-full w-full overflow-hidden rounded-lg card-media card-media--45">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

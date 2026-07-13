@@ -41,10 +41,10 @@ export default function ShopBrowser({ products, whatsapp }) {
                 key={c}
                 onClick={() => setActive(c)}
                 className={cn(
-                  "px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-widest uppercase transition-all duration-300",
+                  "min-h-11 shrink-0 whitespace-nowrap px-4 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300",
                   isSelected
                     ? cn(BTN_GOLD, "tab-active-glow")
-                    : cn(FILTER_PILL, "px-5 py-2.5 text-xs tracking-wider font-medium")
+                    : cn(FILTER_PILL, "tracking-wider font-medium")
                 )}
               >
                 {c}
