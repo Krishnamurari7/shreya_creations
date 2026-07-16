@@ -2,15 +2,19 @@ import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import FaqList from "@/components/FaqList";
 import PageCTA from "@/components/PageCTA";
+import JsonLdScript from "@/components/JsonLdScript";
 import { getFaqs, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
+import { buildMetadata, faqJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
-export const metadata = {
-  title: "FAQ",
+export const metadata = buildMetadata({
+  title: "FAQ | Boutique Courses & Custom Stitching Patna",
   description:
-    "Frequently asked questions about Shreya creation courses, fees, demo class, stitching delivery and boutique training in Patna.",
-  alternates: { canonical: "/faq" },
-};
+    "Answers about Shreya Creation courses, fees, free demo class, 24-hour stitching delivery and boutique training in Patna (Boring Road).",
+  path: "/faq",
+  image: DEFAULT_OG_IMAGE,
+  imageAlt: "FAQ about boutique courses and stitching in Patna",
+});
 
 export default async function FaqPage() {
   const [faqs, site] = await Promise.all([getFaqs(), getSiteSettings()]);
@@ -18,14 +22,18 @@ export default async function FaqPage() {
 
   return (
     <PageShell>
+      <JsonLdScript data={faqJsonLd(faqs)} />
       <LocalizedPageHeader
         eyebrow={faqPage.headerEyebrow || "Help & FAQ"}
         eyebrowHi={faqPage.headerEyebrowHi}
-        title={faqPage.headerTitle || "Frequently Asked"}
-        titleHi={faqPage.headerTitleHi}
-        highlight={faqPage.headerHighlight || "Questions"}
-        highlightHi={faqPage.headerHighlightHi}
-        subtitle={faqPage.headerSubtitle || "10 professional courses, custom sizing, WhatsApp ordering, and studio location."}
+        title={faqPage.headerTitle || "Boutique Courses & Stitching FAQ"}
+        titleHi={faqPage.headerTitleHi || "बुटीक कोर्स और सिलाई FAQ"}
+        highlight={faqPage.headerHighlight || ""}
+        highlightHi={faqPage.headerHighlightHi || ""}
+        subtitle={
+          faqPage.headerSubtitle ||
+          "Fees, demo class, certificate fashion courses, custom sizing, WhatsApp ordering, and our East Boring Canal Road studio."
+        }
         subtitleHi={faqPage.headerSubtitleHi}
       />
       <FaqList faqs={faqs} />

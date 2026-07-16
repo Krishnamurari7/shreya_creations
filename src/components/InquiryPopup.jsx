@@ -33,13 +33,17 @@ const COPY = {
   en: {
     title: "Get in touch",
     subtitle: "Share your details — we'll reply on WhatsApp or call you back.",
+    demoTitle: "Book Free Demo",
+    demoSubtitle: "Share your name, phone and preferred date — we save it and open WhatsApp.",
     name: "Your name",
     phone: "Phone / WhatsApp",
     message: "What are you looking for?",
+    preferredDate: "Preferred demo date",
     namePh: "e.g. Priyanshi Sharma",
     phonePh: "e.g. 9876543210",
     messagePh: "Course, custom dress, or any question…",
     submit: "Send inquiry",
+    demoSubmit: "Book demo",
     success: "Thank you! We received your message and will contact you soon.",
     close: "Close",
     nameRequired: "Please enter your name.",
@@ -48,19 +52,27 @@ const COPY = {
   hi: {
     title: "संपर्क करें",
     subtitle: "अपनी जानकारी भेजें — हम WhatsApp या कॉल पर जवाब देंगे।",
+    demoTitle: "मुफ़्त डेमो बुक करें",
+    demoSubtitle: "नाम, फोन और पसंदीदा तारीख भेजें — हम सेव करके WhatsApp खोलेंगे।",
     name: "आपका नाम",
     phone: "फ़ोन / WhatsApp",
     message: "आप क्या चाहते हैं?",
+    preferredDate: "पसंदीदा डेमो तारीख",
     namePh: "उदा. प्रियांशी शर्मा",
     phonePh: "उदा. 9876543210",
     messagePh: "कोर्स, ड्रेस या कोई सवाल…",
     submit: "जानकारी भेजें",
+    demoSubmit: "डेमो बुक करें",
     success: "धन्यवाद! आपका संदेश मिल गया — हम जल्द संपर्क करेंगे।",
     close: "बंद करें",
     nameRequired: "कृपया अपना नाम लिखें।",
     phoneRequired: "कृपया अपना फ़ोन नंबर लिखें।",
   },
 };
+
+function isDemoSource(src) {
+  return /demo/i.test(src || "");
+}
 
 export default function InquiryPopup({ source = "home_popup", delayMs = 4000, whatsapp }) {
   const { lang } = useLanguage();
@@ -70,6 +82,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [preferredDate, setPreferredDate] = useState("");
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
   const [activeSource, setActiveSource] = useState(source);
@@ -132,16 +145,23 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
       return;
     }
     setSaving(true);
+    const demo = isDemoSource(activeSource);
+    const msgParts = [message.trim()];
+    if (demo && preferredDate) {
+      msgParts.push(`Preferred demo date: ${preferredDate}`);
+    }
+    const fullMessage = msgParts.filter(Boolean).join("\n");
     if (isSupabaseConfigured()) {
       const supabase = createClient();
       await supabase.from("contact_inquiries").insert({
         name: name.trim(),
         phone: phone.trim(),
-        message: message.trim(),
+        message: fullMessage,
         source: activeSource,
+        ...(preferredDate ? { preferred_date: preferredDate } : {}),
       });
     }
-    const href = waLink(whatsapp, enquiryMessage(name, message, phone));
+    const href = waLink(whatsapp, enquiryMessage(name, fullMessage, phone));
     trackContactConversion();
     window.open(href, "_blank", "noopener,noreferrer");
     setSaving(false);
@@ -152,6 +172,8 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
   };
 
   if (!mounted || !open) return null;
+
+  const demoMode = isDemoSource(activeSource);
 
   const fieldClass = cn(
     FIELD_SURFACE,
@@ -211,9 +233,11 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
         ) : (
           <>
             <h2 id="inquiry-popup-title" className="font-display text-xl sm:text-2xl text-ink pr-10 sm:pr-8 text-balance leading-tight">
-              {t.title}
+              {demoMode ? t.demoTitle : t.title}
             </h2>
-            <p className="text-sm text-muted mt-2 leading-relaxed text-pretty">{t.subtitle}</p>
+            <p className="text-sm text-muted mt-2 leading-relaxed text-pretty">
+              {demoMode ? t.demoSubtitle : t.subtitle}
+            </p>
 
             <form onSubmit={submit} className="mt-5 sm:mt-6 space-y-3.5 sm:space-y-4">
               <div>
@@ -245,18 +269,32 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
                 />
               </div>
 
-              <div>
-                <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
-                  {t.message}
-                </label>
-                <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={3}
-                  className={cn(fieldClass, "resize-none leading-relaxed min-h-[5.5rem]")}
-                  placeholder={t.messagePh}
-                />
-              </div>
+              {demoMode ? (
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
+                    {t.preferredDate}
+                  </label>
+                  <input
+                    type="date"
+                    value={preferredDate}
+                    onChange={(e) => setPreferredDate(e.target.value)}
+                    className={fieldClass}
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
+                    {t.message}
+                  </label>
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={3}
+                    className={cn(fieldClass, "resize-none leading-relaxed min-h-[5.5rem]")}
+                    placeholder={t.messagePh}
+                  />
+                </div>
+              )}
 
               <button
                 type="submit"
@@ -266,7 +304,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
                   "rounded-full px-8 py-3.5 w-full min-h-[2.85rem] text-center text-xs tracking-widest font-semibold uppercase disabled:opacity-60 touch-manipulation"
                 )}
               >
-                {saving ? "…" : t.submit}
+                {saving ? "…" : demoMode ? t.demoSubmit : t.submit}
               </button>
             </form>
           </>

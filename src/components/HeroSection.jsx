@@ -16,17 +16,17 @@ import {
 } from "@/lib/whatsapp";
 
 const HERO_STATS_EN = [
-  { icon: "clients", highlight: "30K+", label: "Happy Clients Served" },
-  { icon: "courses", highlight: "50+", label: "Courses & Products & Books" },
-  { icon: "delivered", highlight: "Thousands of", label: "Successful Designs Delivered" },
+  { icon: "clients", highlight: "students", label: "Happy Students Trained" },
+  { icon: "courses", highlight: "courses", label: "Professional Courses" },
+  { icon: "delivered", highlight: "outfits", label: "Outfits Delivered" },
   { icon: "training", highlight: "100%", label: "Practical Training" },
   { icon: "placement", highlight: "100%", label: "Placement Assistance" },
 ];
 
 const HERO_STATS_HI = [
-  { icon: "clients", highlight: "30K+", label: "खुश ग्राहक सेवित" },
-  { icon: "courses", highlight: "50+", label: "कोर्स, प्रोडक्ट और बुक्स" },
-  { icon: "delivered", highlight: "हज़ारों", label: "सफल डिज़ाइन डिलीवर" },
+  { icon: "clients", highlight: "students", label: "संतुष्ट प्रशिक्षित छात्र" },
+  { icon: "courses", highlight: "courses", label: "प्रोफेशनल कोर्स" },
+  { icon: "delivered", highlight: "outfits", label: "आउटफिट डिलीवर" },
   { icon: "training", highlight: "100%", label: "प्रैक्टिकल ट्रेनिंग" },
   { icon: "placement", highlight: "100%", label: "प्लेसमेंट सहायता" },
 ];
@@ -204,7 +204,7 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
         loop
         muted={isMuted}
         playsInline
-        preload="auto"
+        preload="none"
         aria-label={alt}
       />
       <div className="home-hero__video-controls home-hero__video-controls--live">
@@ -341,32 +341,32 @@ const PATH_CARDS_EN = [
   {
     key: "courses",
     icon: "courses",
-    title: "COURSES",
-    desc: "Explore All Our Courses",
+    title: "BOUTIQUE COURSES",
+    desc: "Boutique courses in Patna",
     cta: "EXPLORE COURSES",
     href: "/courses",
   },
   {
     key: "stitching",
     icon: "stitching",
-    title: "BOUTIQUE STITCHING",
-    desc: "24 Hours Custom Stitching",
-    cta: "BOOK ORDER",
-    href: "wa:stitch",
+    title: "CUSTOM STITCHING",
+    desc: "24-hour custom stitching",
+    cta: "SHOP DESIGNS",
+    href: "/shop",
   },
   {
     key: "institute",
     icon: "institute",
     title: "INSTITUTE",
-    desc: "About Our Institute & Facilities",
+    desc: "Fashion boutique institute Patna",
     cta: "KNOW MORE",
     href: "/about",
   },
   {
     key: "gallery",
     icon: "gallery",
-    title: "GALLERY",
-    desc: "Our Creations & Projects",
+    title: "BRIDAL PORTFOLIO",
+    desc: "Bridal & designer work",
     cta: "VIEW GALLERY",
     href: "/portfolio",
   },
@@ -384,32 +384,32 @@ const PATH_CARDS_HI = [
   {
     key: "courses",
     icon: "courses",
-    title: "कोर्स",
-    desc: "हमारे सभी कोर्स देखें",
+    title: "बुटीक कोर्स",
+    desc: "पटना में बुटीक कोर्स",
     cta: "कोर्स देखें",
     href: "/courses",
   },
   {
     key: "stitching",
     icon: "stitching",
-    title: "बुटीक सिलाई",
-    desc: "24 घंटे में कस्टम सिलाई",
-    cta: "ऑर्डर बुक करें",
-    href: "wa:stitch",
+    title: "कस्टम सिलाई",
+    desc: "24 घंटे में सिले कपड़े",
+    cta: "डिज़ाइन देखें",
+    href: "/shop",
   },
   {
     key: "institute",
     icon: "institute",
     title: "इंस्टिट्यूट",
-    desc: "हमारा संस्थान और सुविधाएँ",
+    desc: "फैशन बुटीक इंस्टिट्यूट पटना",
     cta: "और जानें",
     href: "/about",
   },
   {
     key: "gallery",
     icon: "gallery",
-    title: "गैलरी",
-    desc: "हमारे क्रिएशन और प्रोजेक्ट",
+    title: "ब्राइडल पोर्टफोलियो",
+    desc: "ब्राइडल और डिज़ाइनर काम",
     cta: "गैलरी देखें",
     href: "/portfolio",
   },
@@ -562,7 +562,7 @@ function HeroVideoCard({
   );
 }
 
-export default function HeroSection({ home = {}, lang = "en", phone = "", whatsapp = "" }) {
+export default function HeroSection({ home = {}, lang = "en", phone = "", whatsapp = "", site = {} }) {
   const heroBadge =
     pickPage(home, lang, "heroBoutiqueBadge", "heroBoutiqueBadgeHi") ||
     pickPage(home, lang, "heroBadge", "heroBadgeHi") ||
@@ -570,37 +570,67 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
       ? "बिहार का नं. 1 फैशन बुटीक इंस्टिट्यूट"
       : "Bihar's No. 1 Fashion Boutique Institute");
 
-  const heroTitle =
+  const defaultHeroTitle = lang === "hi" ? "आपका फैशन करियर" : "Your Fashion Career";
+  const defaultHeroHighlight = lang === "hi" ? "पटना से शुरू" : "Starts in Patna";
+  const defaultHeroSubtitle =
+    lang === "hi"
+      ? "असली स्टूडियो ट्रेनिंग के साथ बुटीक कोर्स — ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
+      : "Boutique courses with real studio training — plus bridal lehengas & designer blouses stitched in 24 hours on Boring Road.";
+
+  const legacyTitles = new Set([
+    "Fashion Boutique & Stitching Institute in Patna",
+    "पटना में फैशन बुटीक और सिलाई संस्थान",
+  ]);
+  const legacySubtitles = new Set([
+    "Learn boutique courses in Patna or get 24-hour custom stitching — bridal lehengas, designer blouses & more on Boring Road.",
+    "पटना में बुटीक कोर्स सीखें या 24 घंटे में सिले कपड़े पाएं — ब्राइडल लहंगा, डिज़ाइनर ब्लाउज और अधिक।",
+    "पटना में बुटीक कोर्स सीखें या 24 घंटे में सिले कपड़े पाएं — ब्राइडल लहंगा, डिज़ाइनर ब्लाउज और अधिक, बोरिंग रोड पर।",
+  ]);
+
+  const rawTitle =
     pickPage(home, lang, "heroBoutiqueTitle", "heroBoutiqueTitleHi") ||
     pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") ||
-    (lang === "hi" ? "हुनर जो" : "Skill That");
+    defaultHeroTitle;
+  const heroTitle = legacyTitles.has(rawTitle) ? defaultHeroTitle : rawTitle;
 
-  const heroTitleHighlight =
+  const rawHighlight =
     pickPage(home, lang, "heroBoutiqueTitleHighlight", "heroBoutiqueTitleHighlightHi") ||
-    (lang === "hi" ? "कमाई बनाए" : "Creates Income");
+    pickPage(home, lang, "heroTitleHighlight", "heroTitleHighlightHi") ||
+    "";
+  const heroTitleHighlight = rawHighlight || defaultHeroHighlight;
 
-  const heroSubtitle =
-    pickPage(home, lang, "heroBoutiqueSubtitle", "heroBoutiqueSubtitleHi") ||
-    (lang === "hi"
-      ? "सिलाई और फैशन डिज़ाइन सीखें — नौकरी पाएं या अपना बुटीक शुरू करें"
-      : "Learn stitching & fashion design – get job-ready or start your own boutique");
+  const rawSubtitle = pickPage(home, lang, "heroBoutiqueSubtitle", "heroBoutiqueSubtitleHi") || defaultHeroSubtitle;
+  const heroSubtitle = legacySubtitles.has(rawSubtitle) ? defaultHeroSubtitle : rawSubtitle;
 
-  const stats = useMemo(() => (lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN), [lang]);
+  const stats = useMemo(() => {
+    const base = lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN;
+    const students = `${site.studentsTaught || 2000}+`;
+    const courses = `${site.coursesCount || ""}`.trim() || "—";
+    const outfits = `${site.outfitsDelivered || 5000}+`;
+    return base.map((stat) => {
+      let highlight = stat.highlight;
+      if (stat.highlight === "students") highlight = students;
+      if (stat.highlight === "courses") highlight = courses;
+      if (stat.highlight === "outfits") highlight = outfits;
+      return { ...stat, highlight };
+    });
+  }, [lang, site.studentsTaught, site.coursesCount, site.outfitsDelivered]);
+
   const pathCards = useMemo(() => (lang === "hi" ? PATH_CARDS_HI : PATH_CARDS_EN), [lang]);
 
   const demoThumb = home.heroDemoThumb || "/slider1.png";
   const bookThumb = home.heroBookThumb || "/slider2.png";
-  const heroLocalVideo = home.heroLocalVideo || "/video%201.mp4";
-  const heroBookLocalVideo = home.heroBookLocalVideo || "/video%202.mp4";
+  const heroLocalVideo = home.heroLocalVideo || "/video-1.mp4";
+  const heroBookLocalVideo = home.heroBookLocalVideo || "/video-2.mp4";
 
   const displayPhone = useMemo(() => {
-    const raw = (phone || "91175 55125").trim();
+    const raw = (phone || site.phonePrimary || "91175 55125").trim();
     const first = raw.split(/\s*[/|,]\s*/)[0].trim();
     return first.replace(/^\+91\s*/, "");
-  }, [phone]);
-  const phoneHref = telLink(phone) || "tel:+919117555125";
-  const chatWaHref = waLink(whatsapp || null, greetingMessage(lang));
-  const stitchWaHref = waLink(whatsapp || null, stitchOrderMessage(lang));
+  }, [phone, site.phonePrimary]);
+  const phoneHref = telLink(phone) || telLink(site.phonePrimary) || "tel:+919117555125";
+  const chatWaHref = waLink(whatsapp || site.whatsapp || null, greetingMessage(lang));
+  const stitchWaHref = waLink(whatsapp || site.whatsapp || null, stitchOrderMessage(lang));
   const demoMsg = demoClassMessage(lang);
   const premiumCourseMsg = premiumStitchingCourseMessage(lang);
 
@@ -659,15 +689,15 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
                   <HeroActionCard
                     variant="demo"
                     icon={<GradCapIcon />}
-                    title={lang === "hi" ? "फ्री डेमो क्लास" : "FREE DEMO CLASS"}
-                    subtitle={lang === "hi" ? "अभी सीट बुक करें" : "Book Your Spot Now"}
+                    title={lang === "hi" ? "फ्री डेमो क्लास" : "Free Demo Class"}
+                    subtitle={lang === "hi" ? "अभी सीट बुक करें" : "Book your seat"}
                     onClick={() => openHeroInquiryForm("hero_demo_cta", demoMsg)}
                   />
                   <HeroActionCard
                     variant="stitch"
                     icon={<SewingMachineIcon />}
-                    title={lang === "hi" ? "मात्र 24 घंटे में सिले कपड़े" : "Clothes stitched in just 24 hours"}
-                    subtitle={lang === "hi" ? "कस्टम सिलाई ऑर्डर" : "Custom Stitching Order"}
+                    title={lang === "hi" ? "24 घंटे में सिलाई" : "24-Hour Stitching"}
+                    subtitle={lang === "hi" ? "कस्टम ऑर्डर करें" : "Place a custom order"}
                     href={stitchWaHref}
                     external
                   />
@@ -686,7 +716,7 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
                 footerSub={lang === "hi" ? "सीखें। प्रैक्टिस करें। कमाएँ।" : "Learn. Practice. Earn."}
                 footerIcon={<GradCapIcon />}
                 thumb={demoThumb}
-                alt={lang === "hi" ? "डेमो क्लास वीडियो" : "Demo class video"}
+                alt={lang === "hi" ? "पटना में डेमो क्लास और फैशन ट्रेनिंग" : "fashion designing demo class in Patna"}
                 videoSrc={heroLocalVideo}
                 href="/contact"
                 onVideoClick={() => openHeroInquiryForm("hero_demo_video", demoMsg)}
@@ -702,7 +732,7 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
                 footerSub={lang === "hi" ? "24 घंटे में डिलीवर" : "Delivered in 24 Hours"}
                 footerIcon={<SewingMachineIcon />}
                 thumb={bookThumb}
-                alt={lang === "hi" ? "बुटीक सिलाई वीडियो" : "Boutique stitching video"}
+                alt={lang === "hi" ? "पटना में ब्राइडल लहंगा सिलाई" : "bridal lehenga stitching in Patna"}
                 videoSrc={heroBookLocalVideo}
                 href="/contact"
                 onVideoClick={() => openHeroInquiryForm("hero_book_video", premiumCourseMsg)}

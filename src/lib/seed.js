@@ -2,8 +2,16 @@
 // complete out of the box. Once you connect Supabase and add items in /admin,
 // real data takes over automatically.
 //
-// Image URLs here are royalty-free Unsplash placeholders. Replace them with your
-// own photos via the admin panel (stored in Supabase Storage).
+// Image URLs here use local /public assets — replace with real photos via admin.
+
+import {
+  buildSITE,
+  buildTrustFromSite,
+  computeYearsExperience,
+  DEFAULT_FOUNDING_YEAR,
+  DEFAULT_STUDENTS_TAUGHT,
+  formatSiteStats,
+} from "@/lib/site-config";
 
 export const DEFAULT_TEAM = [
   {
@@ -20,79 +28,57 @@ export const DEFAULT_TEAM = [
   },
 ];
 
-/** Canonical site stats — keep identical wording everywhere on the site. */
+const _years = computeYearsExperience(DEFAULT_FOUNDING_YEAR);
+const _stats = formatSiteStats({
+  foundingYear: DEFAULT_FOUNDING_YEAR,
+  studentsTaught: DEFAULT_STUDENTS_TAUGHT,
+  coursesCount: 0, // filled at runtime from published courses
+  yearsExperience: _years,
+});
+
+/** Canonical site stats — prefer site.stats from getSiteSettings() at runtime. */
 export const SITE_STATS = {
-  yearsEn: "17+ Years",
-  yearsHi: "17+ वर्ष",
-  studentsEn: "2000+ Students",
-  studentsHi: "2000+ छात्र",
-  coursesEn: "15 Courses",
-  coursesHi: "15 कोर्स",
-  lineEn: "17+ Years · 2000+ Students",
-  lineHi: "17+ वर्ष · 2000+ छात्र",
+  yearsEn: _stats.yearsEn,
+  yearsHi: _stats.yearsHi,
+  studentsEn: _stats.studentsEn,
+  studentsHi: _stats.studentsHi,
+  // coursesEn/Hi are placeholders; use site.stats after coursesCount is known
+  coursesEn: "Courses",
+  coursesHi: "कोर्स",
+  lineEn: _stats.lineEn,
+  lineHi: _stats.lineHi,
 };
 
 export const SITE = {
-  brand: "Shreya creation",
-  boutique: "From Skill to Business",
-  boutiqueHi: "कौशल से कारोबार तक",
-  tagline: "Stitched outfits in 24 hours",
-  taglineHi: "24 घंटे में सिले कपड़े",
-  intro:
-    "Shreya Creation — Patna's skill development boutique and job-oriented training institute with 17+ Years of experience. We offer 10 professional courses in boutique, blouse, suit, kids wear, fashion design and lehenga — and have trained 2000+ learners in stitching, fashion design, boutique management, and self-employment.",
-  introHi:
-    "श्रेया क्रिएशन — 17+ वर्ष के अनुभव के साथ पटना का कौशल विकास, बुटीक और रोज़गार-उन्मुख प्रशिक्षण संस्थान। हम बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा में 10 प्रोफेशनल कोर्स देते हैं — और सिलाई, फैशन डिज़ाइन, बुटीक प्रबंधन और स्वरोजगार में 2000+ छात्राओं को प्रशिक्षित कर चुके हैं।",
-  aboutBody:
-    "Founded by Sanjay Kumar Mishra, Shreya Creation is dedicated to practical skills, self-employment, and job opportunities for women and youth. We don't just teach sewing — we prepare the path to self-reliance. Our specialties include practical training, fashion designing, boutique management, job-oriented courses, and business guidance.",
-  aboutBodyHi:
-    "संस्थापक संजय कुमार मिश्रा के नेतृत्व में श्रेया क्रिएशन महिलाओं और युवाओं को व्यावहारिक कौशल, स्वरोजगार और रोज़गार के अवसर प्रदान करने के लिए समर्पित है। हम केवल सिलाई नहीं सिखाते, हम आत्मनिर्भरता का मार्ग तैयार करते हैं। हमारी विशेषताएँ — प्रैक्टिकल ट्रेनिंग, फैशन डिज़ाइनिंग, बुटीक मैनेजमेंट, जॉब ओरिएंटेड कोर्स और बिज़नेस गाइडेंस।",
-  city: "Patna, Bihar, India",
-  founded: SITE_STATS.yearsEn,
-  foundedHi: SITE_STATS.yearsHi,
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919031105666",
-  email: "hello@shreyacreations.in",
-  phone: "+91 91175 55125 / 95073 63125",
-  address: "Shreya Creation, Sisodiya Place, East Boring Canal Road, Sri Krishna Puri, Patna, Bihar 800001",
-  mapEmbedUrl:
-    "https://maps.google.com/maps?q=Shreya+Creation+Sisodiya+Place+East+Boring+Canal+Road+Patna+Bihar+800001&hl=en&z=16&output=embed",
-  socials: {
-    instagram: "https://www.instagram.com/shreya.creationss/",
-    youtube: "",
-    facebook: "https://www.facebook.com/shreyascreation",
-  },
-  heroMarquee: [
-    "Fashion Boutique Institute",
-    "बिहार का No. 1",
-    "17+ वर्षों का अनुभव | Since 2007",
-  ],
+  ...buildSITE(
+    {
+      brand: "Shreya creation",
+      boutique: "From Skill to Business",
+      boutiqueHi: "कौशल से कारोबार तक",
+      tagline: "Stitched outfits in 24 hours",
+      taglineHi: "24 घंटे में सिले कपड़े",
+      intro: `Shreya Creation — Patna's skill development boutique and job-oriented training institute with ${_years}+ Years of experience. We offer professional courses in boutique, blouse, suit, kids wear, fashion design and lehenga — and have trained ${DEFAULT_STUDENTS_TAUGHT}+ learners in stitching, fashion design, boutique management, and self-employment.`,
+      introHi: `श्रेया क्रिएशन — ${_years}+ वर्ष के अनुभव के साथ पटना का कौशल विकास, बुटीक और रोज़गार-उन्मुख प्रशिक्षण संस्थान। हम बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा में प्रोफेशनल कोर्स देते हैं — और सिलाई, फैशन डिज़ाइन, बुटीक प्रबंधन और स्वरोजगार में ${DEFAULT_STUDENTS_TAUGHT}+ छात्राओं को प्रशिक्षित कर चुके हैं।`,
+      aboutBody:
+        "Founded by Sanjay Kumar Mishra, Shreya Creation is dedicated to practical skills, self-employment, and job opportunities for women and youth. We don't just teach sewing — we prepare the path to self-reliance. Our specialties include practical training, fashion designing, boutique management, job-oriented courses, and business guidance.",
+      aboutBodyHi:
+        "संस्थापक संजय कुमार मिश्रा के नेतृत्व में श्रेया क्रिएशन महिलाओं और युवाओं को व्यावहारिक कौशल, स्वरोजगार और रोज़गार के अवसर प्रदान करने के लिए समर्पित है। हम केवल सिलाई नहीं सिखाते, हम आत्मनिर्भरता का मार्ग तैयार करते हैं। हमारी विशेषताएँ — प्रैक्टिकल ट्रेनिंग, फैशन डिज़ाइनिंग, बुटीक मैनेजमेंट, जॉब ओरिएंटेड कोर्स और बिज़नेस गाइडेंस।",
+      city: "Patna",
+      foundingYear: DEFAULT_FOUNDING_YEAR,
+      studentsTaught: DEFAULT_STUDENTS_TAUGHT,
+      mapEmbedUrl:
+        "https://maps.google.com/maps?q=Shreya+Creation+Sisodiya+Place+East+Boring+Canal+Road+Patna+Bihar+800001&hl=en&z=16&output=embed",
+      socials: {
+        instagram: "https://www.instagram.com/shreya.creationss/",
+        youtube: "",
+        facebook: "https://www.facebook.com/shreyascreation",
+      },
+    },
+    { coursesCount: 0 }
+  ),
 };
 
-export const TRUST = [
-  {
-    value: "17+",
-    valueHi: "17+",
-    label: "Years Experience",
-    labelHi: "वर्ष अनुभव",
-  },
-  {
-    value: "1000+",
-    valueHi: "1000+",
-    label: "Students Trained",
-    labelHi: "प्रशिक्षित छात्र",
-  },
-  {
-    value: "10+",
-    valueHi: "10+",
-    label: "Job-Oriented Courses",
-    labelHi: "जॉब ओरिएंटेड कोर्स",
-  },
-  {
-    value: "24 Hours",
-    valueHi: "24 घंटे",
-    label: "Delivery Service",
-    labelHi: "डिलीवरी सेवा",
-  },
-];
+export const TRUST = buildTrustFromSite(SITE);
 
 // Fashion-design services / expertise
 export const SERVICES = [
@@ -136,8 +122,19 @@ export const PROCESS = [
   { step: "Deliver", text: "Final fitting and delivery — many styles in just 24 hours." },
 ];
 
-const img = (id, w = 1000) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+/** Local placeholder images — never use Unsplash on the public site. */
+const LOCAL_IMGS = [
+  "/slider1.png",
+  "/slider2.png",
+  "/slider3.png",
+  "/slider4.png",
+  "/hero_studio_banner.png",
+  "/botique.png",
+  "/institute.png",
+  "/job.png",
+];
+const img = (id = "0") => LOCAL_IMGS[Math.abs(String(id).length + String(id).charCodeAt(0) || 0) % LOCAL_IMGS.length];
+const localPair = (a, b) => [LOCAL_IMGS[a % LOCAL_IMGS.length], LOCAL_IMGS[b % LOCAL_IMGS.length]];
 
 export const PRODUCTS = [
   {
@@ -148,11 +145,16 @@ export const PRODUCTS = [
     price: 18999,
     fabric: "Raw silk with zardozi work",
     sizes: "Custom (stitched to your measurements)",
+    care: "Dry clean only. Store in a cool, dry place.",
+    colours: "Maroon / Gold (customisable)",
+    estimated_delivery: "7–14 days (express options on WhatsApp)",
     stitchable: true,
     published: true,
     description:
       "A hand-embroidered bridal lehenga with intricate zardozi and sequins. Made to order and stitched to your exact measurements for a flawless fit.",
-    images: [img("1610030469983-98e550d6193c"), img("1583391733956-6c78276477e2")],
+    description_long:
+      "Crafted for wedding ceremonies, this bridal lehenga features dense zardozi and sequin work on raw silk. We take your measurements at the studio or via WhatsApp guide, confirm the colourway and blouse style, then stitch to fit.",
+    images: localPair(0, 4),
   },
   {
     id: "p2",
@@ -162,11 +164,16 @@ export const PRODUCTS = [
     price: 8499,
     fabric: "Georgette with hand beadwork",
     sizes: "Custom fit",
+    care: "Gentle dry clean. Avoid wringing.",
+    colours: "Custom colour options",
+    estimated_delivery: "5–10 days",
     stitchable: true,
     published: true,
     description:
       "A flowing floor-length gown with delicate beadwork along the bodice. Perfect for receptions and evening events.",
-    images: [img("1566174053879-31528523f8ae"), img("1572804013309-59a88b7e92f1")],
+    description_long:
+      "Floor-length georgette gown with hand beadwork on the bodice. Ideal for receptions and evening functions.",
+    images: localPair(1, 5),
   },
   {
     id: "p3",
@@ -176,11 +183,16 @@ export const PRODUCTS = [
     price: 2499,
     fabric: "Silk blend",
     sizes: "Custom fit",
+    care: "Dry clean recommended.",
+    colours: "As per fabric choice",
+    estimated_delivery: "24–72 hours for many styles",
     stitchable: true,
     published: true,
     description:
       "Statement saree blouse with mirror and thread embroidery. Choose your neckline and sleeve style.",
-    images: [img("1610189019916-3b6f1f8c2f0a"), img("1594633312681-425c7b97ccd1")],
+    description_long:
+      "Boutique-finished saree blouse with mirror and thread embroidery. Many styles qualify for express stitching — confirm on WhatsApp.",
+    images: localPair(2, 6),
   },
   {
     id: "p4",
@@ -190,11 +202,16 @@ export const PRODUCTS = [
     price: 5999,
     fabric: "Chanderi cotton silk",
     sizes: "Custom fit",
+    care: "Gentle wash or dry clean.",
+    colours: "Festive palette — customisable",
+    estimated_delivery: "5–12 days",
     stitchable: true,
     published: true,
     description:
       "Graceful floor-length Anarkali with churidar and dupatta. Light, breathable and festive-ready.",
-    images: [img("1583391733981-3c5d96f3f1c4"), img("1610030469983-98e550d6193c")],
+    description_long:
+      "Floor-length Anarkali set with churidar and dupatta in chanderi cotton silk. Custom length and flare available.",
+    images: localPair(3, 7),
   },
   {
     id: "p5",
@@ -204,11 +221,16 @@ export const PRODUCTS = [
     price: 3499,
     fabric: "Kundan & pearls",
     sizes: "One size",
+    care: "Wipe with soft cloth. Keep dry.",
+    colours: "Gold-tone kundan",
+    estimated_delivery: "2–5 days (subject to stock)",
     stitchable: false,
     published: true,
     description:
       "Statement kundan necklace with matching earrings and maang tikka to complete the bridal look.",
-    images: [img("1599643478518-a784e5dc4c8f"), img("1535632066927-ab7c9ab60908")],
+    description_long:
+      "Kundan necklace with matching earrings and maang tikka. Confirm availability on WhatsApp before payment.",
+    images: localPair(4, 0),
   },
   {
     id: "p6",
@@ -218,11 +240,16 @@ export const PRODUCTS = [
     price: 899,
     fabric: "Silk with tassels",
     sizes: "One size",
+    care: "Spot clean only.",
+    colours: "Assorted festive colours",
+    estimated_delivery: "1–3 days",
     stitchable: false,
     published: true,
     description:
       "Hand-finished potli bag with beads and tassels — the perfect finishing touch for festive wear.",
-    images: [img("1591561954557-26941169b49e"), img("1584917865442-de89df76afd3")],
+    description_long:
+      "Hand-finished silk potli with beads and tassels for festive and bridal looks.",
+    images: localPair(5, 1),
   },
 ];
 
@@ -287,7 +314,7 @@ export const COURSES = [
       "Week 16 — Boutique skills & certification: dupatta finishing, lace & tassel, fabric belt, designer potli & clutch, alteration, costing, pricing, customer handling, order taking, final assessment",
     ],
     preview_video: "",
-    image: img("1581655353564-df123a1eb820"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c2",
@@ -295,6 +322,7 @@ export const COURSES = [
     title: "Advanced Boutique Course",
     titleHi: "एडवांस्ड बुटीक कोर्स",
     category: "Boutique",
+    price: 45000, // TODO(owner): confirm starting price
     duration: "12 months",
     language: "Hindi",
     published: true,
@@ -308,7 +336,7 @@ export const COURSES = [
       "Boutique set-up, branding & marketing basics",
     ],
     preview_video: "",
-    image: img("1542060748-10c28b62716f"),
+    image: LOCAL_IMGS[5],
   },
   {
     id: "c3",
@@ -316,6 +344,7 @@ export const COURSES = [
     title: "Western Boutique Course",
     titleHi: "वेस्टर्न बुटीक कोर्स",
     category: "Boutique",
+    price: 45000, // TODO(owner): confirm starting price
     duration: "12 months",
     language: "Hindi & English",
     published: true,
@@ -329,7 +358,7 @@ export const COURSES = [
       "Fusion & Indo-western boutique pieces",
     ],
     preview_video: "",
-    image: img("1515372039744-b5f53e845b7e"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c4",
@@ -378,7 +407,7 @@ export const COURSES = [
       "Final Project: 1 Salwar/Pant, 1 Kurti, 1 Designer Kurti, 1 Blouse",
     ],
     preview_video: "",
-    image: img("1610189019916-3b6f1f8c2f0a"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c5",
@@ -386,6 +415,7 @@ export const COURSES = [
     title: "Advanced Blouse Making Course",
     titleHi: "एडवांस्ड ब्लाउज मेकिंग कोर्स",
     category: "Blouse Making",
+    price: 7999, // TODO(owner): confirm starting price
     duration: "3 months",
     language: "Hindi",
     published: true,
@@ -399,7 +429,7 @@ export const COURSES = [
       "Bridal & party-wear blouse finishing",
     ],
     preview_video: "",
-    image: img("1594633312681-425c7b97ccd1"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c6",
@@ -407,6 +437,7 @@ export const COURSES = [
     title: "Kids Wear Course",
     titleHi: "किड्स वियर कोर्स",
     category: "Stitching",
+    price: 12000, // TODO(owner): confirm starting price
     duration: "6 months",
     language: "Hindi",
     published: true,
@@ -420,7 +451,7 @@ export const COURSES = [
       "Fabric selection, comfort & finishing",
     ],
     preview_video: "",
-    image: img("1503454536592-0602245e0fe8"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c7",
@@ -428,6 +459,7 @@ export const COURSES = [
     title: "Western Blouse Making Course",
     titleHi: "वेस्टर्न ब्लाउज मेकिंग कोर्स",
     category: "Blouse Making",
+    price: 9999, // TODO(owner): confirm starting price
     duration: "6 months",
     language: "Hindi & English",
     published: true,
@@ -441,7 +473,7 @@ export const COURSES = [
       "Fusion tops for saree & lehenga pairing",
     ],
     preview_video: "",
-    image: img("1583292652858-d6e2e307e8f2"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c8",
@@ -449,6 +481,7 @@ export const COURSES = [
     title: "Suit Making Course",
     titleHi: "सूट मेकिंग कोर्स",
     category: "Stitching",
+    price: 6999, // TODO(owner): confirm starting price
     duration: "3 months",
     language: "Hindi",
     published: true,
@@ -462,7 +495,7 @@ export const COURSES = [
       "Designer suit cuts & boutique finishing",
     ],
     preview_video: "",
-    image: img("1583391733981-3c5d96f3f1c4"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c9",
@@ -470,6 +503,7 @@ export const COURSES = [
     title: "Fashion Designing Course",
     titleHi: "फैशन डिज़ाइनिंग कोर्स",
     category: "Fashion Design",
+    price: 55000, // TODO(owner): confirm starting price
     duration: "1.5 years",
     language: "Hindi & English",
     published: true,
@@ -483,7 +517,7 @@ export const COURSES = [
       "Portfolio, boutique internship & career guidance",
     ],
     preview_video: "",
-    image: img("1558171813-886c6d4e4b4e"),
+    image: LOCAL_IMGS[5],
   },
   {
     id: "c10",
@@ -491,6 +525,7 @@ export const COURSES = [
     title: "Lehenga Making Course",
     titleHi: "लहंगा मेकिंग कोर्स",
     category: "Fashion Design",
+    price: 15000, // TODO(owner): confirm starting price
     duration: "6 months",
     language: "Hindi",
     published: true,
@@ -504,7 +539,7 @@ export const COURSES = [
       "Bridal & festive lehenga embellishment basics",
     ],
     preview_video: "",
-    image: img("1610030469983-98e550d6193c"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c11",
@@ -512,6 +547,7 @@ export const COURSES = [
     title: "Collar Design Blouse Course",
     titleHi: "कॉलर डिज़ाइन ब्लाउज कोर्स",
     category: "Blouse Making",
+    price: 2999, // TODO(owner): confirm starting price
     duration: "2 weeks",
     language: "Hindi",
     published: true,
@@ -563,7 +599,7 @@ export const COURSES = [
       "Module 15 — Geometric print lapel collar full-sleeve blouse & final assessment",
     ],
     preview_video: "",
-    image: img("1583292652858-d6e2e307e8f2"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c12",
@@ -571,6 +607,7 @@ export const COURSES = [
     title: "Madhubala Blouse Course",
     titleHi: "मधुबाला ब्लाउज कोर्स",
     category: "Blouse Making",
+    price: 2999, // TODO(owner): confirm starting price
     duration: "2 weeks",
     language: "Hindi",
     published: true,
@@ -622,7 +659,7 @@ export const COURSES = [
       "Module 15 — Final Madhubala-style designer blouse project",
     ],
     preview_video: "",
-    image: img("1594633312681-425c7b97ccd1"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c13",
@@ -630,6 +667,7 @@ export const COURSES = [
     title: "Rajwadi Blouse Course",
     titleHi: "राजवाड़ी ब्लाउज कोर्स",
     category: "Blouse Making",
+    price: 2999, // TODO(owner): confirm starting price
     duration: "2 weeks",
     language: "Hindi",
     published: true,
@@ -681,7 +719,7 @@ export const COURSES = [
       "Module 15 — Final Rajwadi designer blouse project",
     ],
     preview_video: "",
-    image: img("1610189019916-3b6f1f8c2f0a"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c14",
@@ -689,6 +727,7 @@ export const COURSES = [
     title: "Sleeveless Blouse Course",
     titleHi: "स्लीवलेस ब्लाउज कोर्स",
     category: "Blouse Making",
+    price: 2499, // TODO(owner): confirm starting price
     duration: "10 days",
     language: "Hindi",
     published: true,
@@ -735,7 +774,7 @@ export const COURSES = [
       "Day 10 — Final sleeveless designer blouse project & assessment",
     ],
     preview_video: "",
-    image: img("1583391733981-3c5d96f3f1c4"),
+    image: LOCAL_IMGS[0],
   },
   {
     id: "c15",
@@ -743,6 +782,7 @@ export const COURSES = [
     title: "Backless Blouse Course",
     titleHi: "बैकलेस ब्लाउज कोर्स",
     category: "Blouse Making",
+    price: 2499, // TODO(owner): confirm starting price
     duration: "2 weeks",
     language: "Hindi",
     published: true,
@@ -794,7 +834,7 @@ export const COURSES = [
       "Module 15 — Final backless designer blouse project & assessment",
     ],
     preview_video: "",
-    image: img("1566174053879-31528523f8ae"),
+    image: LOCAL_IMGS[0],
   },
 ];
 
@@ -806,18 +846,18 @@ export const COURSE_WA_OPTIONS = [
 ];
 
 export const PORTFOLIO = [
-  { id: "g1", title: "Bridal Lehenga — Maroon & Gold", category: "Bridal", image: img("1610030469983-98e550d6193c"), sort_order: 1 },
-  { id: "g2", title: "Reception Gown", category: "Gowns", image: img("1566174053879-31528523f8ae"), sort_order: 2 },
-  { id: "g3", title: "Mirror-work Blouse", category: "Blouses", image: img("1610189019916-3b6f1f8c2f0a"), sort_order: 3 },
-  { id: "g4", title: "Festive Anarkali", category: "Suits", image: img("1583391733981-3c5d96f3f1c4"), sort_order: 4 },
-  { id: "g5", title: "Kundan Bridal Set", category: "Jewellery", image: img("1599643478518-a784e5dc4c8f"), sort_order: 5 },
-  { id: "g6", title: "Silk Saree Drape", category: "Sarees", image: img("1572804013766-19e3cd48a0a2"), sort_order: 6 },
-  { id: "g7", title: "Embroidered Dupatta", category: "Bridal", image: img("1591561954557-26941169b49e"), sort_order: 7 },
-  { id: "g8", title: "Designer Blouse Back", category: "Blouses", image: img("1594633312681-425c7b97ccd1"), sort_order: 8 },
-  { id: "g9", title: "Pastel Mehendi Lehenga", category: "Bridal", image: img("1595776613210-9dd099e7f0a2"), sort_order: 9 },
-  { id: "g10", title: "Indo-Western Fusion Gown", category: "Gowns", image: img("1515372039744-b5f53e845b7e"), sort_order: 10 },
-  { id: "g11", title: "Zardozi Potli Bag", category: "Accessories", image: img("1601925260368-ae2f83b8b7a1"), sort_order: 11 },
-  { id: "g12", title: "Hand-embroidered Cape Blouse", category: "Blouses", image: img("1583292652858-d6e2e307e8f2"), sort_order: 12 },
+  { id: "g1", title: "Bridal Lehenga — Maroon & Gold", slug: "bridal-lehenga-maroon-gold", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 1 },
+  { id: "g2", title: "Reception Gown", slug: "reception-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 2 },
+  { id: "g3", title: "Mirror-work Blouse", slug: "mirror-work-blouse", category: "Blouses", image: LOCAL_IMGS[2], sort_order: 3 },
+  { id: "g4", title: "Festive Anarkali", slug: "festive-anarkali", category: "Suits", image: LOCAL_IMGS[3], sort_order: 4 },
+  { id: "g5", title: "Kundan Bridal Set", slug: "kundan-bridal-set", category: "Jewellery", image: LOCAL_IMGS[4], sort_order: 5 },
+  { id: "g6", title: "Silk Saree Drape", slug: "silk-saree-drape", category: "Sarees", image: LOCAL_IMGS[5], sort_order: 6 },
+  { id: "g7", title: "Embroidered Dupatta", slug: "embroidered-dupatta", category: "Bridal", image: LOCAL_IMGS[6], sort_order: 7 },
+  { id: "g8", title: "Designer Blouse Back", slug: "designer-blouse-back", category: "Blouses", image: LOCAL_IMGS[7], sort_order: 8 },
+  { id: "g9", title: "Pastel Mehendi Lehenga", slug: "pastel-mehendi-lehenga", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 9 },
+  { id: "g10", title: "Indo-Western Fusion Gown", slug: "indo-western-fusion-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 10 },
+  { id: "g11", title: "Zardozi Potli Bag", slug: "zardozi-potli-bag", category: "Accessories", image: LOCAL_IMGS[2], sort_order: 11 },
+  { id: "g12", title: "Hand-embroidered Cape Blouse", slug: "hand-embroidered-cape-blouse", category: "Blouses", image: LOCAL_IMGS[3], sort_order: 12 },
 ];
 
 export const TESTIMONIALS = [
@@ -825,46 +865,159 @@ export const TESTIMONIALS = [
     id: "t1",
     name: "Ananya Sharma",
     text: "My bridal lehenga was stitched to perfection and delivered on time. The fit was flawless — I felt like a queen!",
-    photo: img("1494790108377-be9c29b29330", 200),
+    photo: null,
     rating: 5,
   },
   {
     id: "t2",
     name: "Pooja Verma",
     text: "I took the fashion designing course and now run my own small boutique. The mentorship was incredible.",
-    photo: img("1438761681033-6461ffad8d80", 200),
+    photo: null,
     rating: 5,
   },
   {
     id: "t3",
     name: "Ritu Singh",
     text: "Ordered an Anarkali on WhatsApp, got it stitched in 24 hours. So convenient and the quality is wonderful.",
-    photo: img("1544005313-94ddf0286df2", 200),
+    photo: null,
     rating: 5,
   },
 ];
 
 export const POLICIES = {
+  // TODO(owner): legal review before treating as binding
   privacy: {
     slug: "privacy",
     title: "Privacy Policy",
     titleHi: "गोपनीयता नीति",
-    body: "We only collect information you share via WhatsApp or our contact form. We do not sell your data.",
-    bodyHi: "हम केवल WhatsApp या संपर्क फॉर्म से साझा जानकारी रखते हैं।",
+    body: `Last updated: 2026
+
+Shreya Creation (“we”, “us”) operates a fashion boutique and stitching institute in Patna, Bihar. This policy explains how we handle personal information when you contact us, enquire about courses, or place boutique orders via WhatsApp, phone, email, or our website forms.
+
+1. Information we collect
+We may collect your name, phone/WhatsApp number, email, preferred visit or demo date, measurements or order notes you share, and messages you send through our contact or demo forms.
+
+2. How we use information
+We use it to respond to enquiries, schedule demos/studio visits, fulfil stitching or boutique orders, share course admission details, and improve our services. We do not sell your personal data.
+
+3. Sharing
+We may share details only with service providers needed to deliver an order (e.g. courier) or when required by law. WhatsApp messages are processed under Meta’s terms when you chat with us on that platform.
+
+4. Retention
+Enquiry records may be kept for follow-up and business records. You may request correction or deletion by contacting us.
+
+5. Contact
+For privacy requests: use the email and phone listed on our Contact page, or message us on WhatsApp.`,
+    bodyHi: `अंतिम अपडेट: 2026
+
+श्रेया क्रिएशन पटना में बुटीक और सिलाई संस्थान चलाता है। WhatsApp, फोन, ईमेल या वेबसाइट फॉर्म से संपर्क करने पर हम नाम, फोन, ईमेल और आपके संदेश एकत्र कर सकते हैं — केवल पूछताछ, डेमो, ऑर्डर और कोर्स प्रवेश के लिए। हम आपका डेटा नहीं बेचते। गोपनीयता अनुरोध के लिए Contact पेज या WhatsApp से संपर्क करें।`,
   },
   shipping: {
     slug: "shipping",
     title: "Shipping & Delivery",
     titleHi: "शिपिंग और डिलीवरी",
-    body: "Delivery timelines are agreed on WhatsApp after order confirmation.",
-    bodyHi: "डिलीवरी का समय WhatsApp पर ऑर्डर के बाद तय होता है।",
+    body: `Last updated: 2026
+
+1. Boutique & custom stitching
+Delivery or pickup timelines are confirmed on WhatsApp after we agree design, fabric, measurements, and payment terms. Express stitching (often within 24 hours for eligible styles) depends on design complexity and fabric availability — we will confirm before starting work.
+
+2. Local pickup
+You may collect finished garments from our Patna studio during studio hours. Bring a booking reference or WhatsApp confirmation.
+
+3. Courier / outstation
+Where courier is arranged, charges, packing, and estimated transit time are shared before dispatch. Report transit damage promptly with photos.
+
+4. Courses
+Course materials (if any) are provided at the institute unless separately agreed.`,
+    bodyHi: `अंतिम अपडेट: 2026
+
+बुटीक/कस्टम सिलाई की डिलीवरी या पिकअप का समय माप, डिज़ाइन और पेमेंट तय होने के बाद WhatsApp पर कन्फर्म होता है। पात्र स्टाइल के लिए अक्सर 24 घंटे एक्सप्रेस सिलाई संभव है। पटना स्टूडियो से पिकअप स्टूडियो समय में कर सकते हैं।`,
   },
   returns: {
     slug: "returns",
-    title: "Returns & Alterations",
-    titleHi: "रिटर्न और अल्टरेशन",
-    body: "Bespoke items are made to your measurements. Minor alterations may be offered within 7 days.",
-    bodyHi: "कस्टम सिलाई आपके माप पर होती है।",
+    title: "Returns & Refunds",
+    titleHi: "रिटर्न और रिफंड",
+    body: `Last updated: 2026
+
+1. Made-to-measure / bespoke garments
+Custom-stitched outfits are made to your measurements and design choices. They are generally not returnable for a refund once cutting/stitching has begun, except where we made a clear error (wrong design agreed in chat, or defective workmanship).
+
+2. Alterations
+Minor fit adjustments may be offered within 7 days of delivery/pickup for items we stitched, subject to fabric limits.
+
+3. Ready / display pieces
+If a non-custom piece is sold as-is, return eligibility (if any) will be stated in your WhatsApp order confirmation.
+
+4. Refunds
+Where a refund is agreed, it is processed via the original payment method or UPI within a reasonable period after inspection.
+
+5. How to raise a request
+Message us on WhatsApp with order details and photos within the timelines above.`,
+    bodyHi: `अंतिम अपडेट: 2026
+
+माप पर सिले कपड़े आमतौर पर कटिंग/सिलाई शुरू होने के बाद रिफंड के लिए वापस नहीं होते — सिवाय स्पष्ट गलती या खराब कारीगरी के। मामूली अल्टरेशन अक्सर डिलीवरी/पिकअप के 7 दिनों के भीतर संभव हैं।`,
+  },
+  terms: {
+    slug: "terms",
+    title: "Terms & Conditions",
+    titleHi: "नियम और शर्तें",
+    body: `Last updated: 2026
+
+// TODO(owner): legal review before treating as binding
+
+1. About us
+Shreya Creation is a fashion boutique and stitching/fashion training institute in Patna, Bihar. Website content is for information; orders and admissions are confirmed via WhatsApp, phone, or in person.
+
+2. No online checkout
+Product pages and course pages do not process card/UPI payments on this website. Pricing, deposits, and fees are agreed in chat or at the studio.
+
+3. Accurate information
+You agree to provide accurate contact and measurement details. Delays or remakes caused by incorrect information may incur extra charges.
+
+4. Intellectual property
+Photos, course outlines, and site copy belong to Shreya Creation. Do not reuse without permission.
+
+5. Limitation
+We are not liable for delays caused by fabric shortage, courier failure, or force majeure. Liability for boutique work is limited to repair, remake, or refund as agreed for that order.
+
+6. Governing law
+These terms are governed by the laws of India. Disputes are subject to courts in Patna, Bihar, unless otherwise required by law.
+
+7. Contact
+Use the Contact page details or WhatsApp for questions about these terms.`,
+    bodyHi: `अंतिम अपडेट: 2026
+
+श्रेया क्रिएशन पटना का बुटीक और प्रशिक्षण संस्थान है। वेबसाइट पर ऑनलाइन चेकआउट नहीं है — ऑर्डर और फीस WhatsApp/स्टूडियो पर तय होते हैं। कानून भारत के अनुसार; विवाद पटना क्षेत्राधिकार।`,
+  },
+  "course-cancellation": {
+    slug: "course-cancellation",
+    title: "Course Cancellation & Refund",
+    titleHi: "कोर्स रद्दीकरण और रिफंड",
+    body: `Last updated: 2026
+
+// TODO(owner): confirm deposit %, notice period, and batch-transfer rules before publishing as final.
+
+1. Enrolment
+A seat is confirmed after counselling, form submission, and fee/deposit payment as communicated at admission.
+
+2. Cancellation by student
+- Before batch start: write to us (WhatsApp/email) at least 7 days before the stated start date. Deposit handling will be confirmed in writing for your enrolment.
+- After batch start: fees are generally non-refundable once classes have begun, except at management discretion for documented medical or exceptional cases.
+
+3. Batch transfer
+Subject to availability, you may request transfer to a later batch of the same course.
+
+4. Cancellation by institute
+If we cancel a batch, you may choose a full refund of fees paid for that batch or transfer to another batch/date.
+
+5. Demo class
+Free demo sessions do not create an enrolment obligation. Demo slots may be limited.
+
+6. Certificates
+Certificates (where offered) are issued after successful completion of attendance/assessment requirements stated for that course.`,
+    bodyHi: `अंतिम अपडेट: 2026
+
+बैच शुरू होने से कम से कम 7 दिन पहले लिखित रद्दीकरण पर जमा/फीस की स्थिति लिखित में बताई जाएगी। कक्षाएँ शुरू होने के बाद फीस आमतौर पर वापस नहीं होती। संस्थान द्वारा बैच रद्द होने पर रिफंड या ट्रांसफर का विकल्प मिलेगा।`,
   },
 };
 
@@ -883,9 +1036,9 @@ export const FAQS = [
   },
   {
     q: "What courses do you offer?",
-    a: "We offer 10 professional courses: Basic Boutique Mastery (3 months, ₹15,000), Advanced Boutique (12 months), Western Boutique (12 months), Blouse & Suit Making (3 months), Advanced Blouse Making (3 months), Kids Wear (6 months), Western Blouse Making (6 months), Suit Making (3 months), Fashion Designing (1.5 years), and Lehenga Making (6 months). Contact us on WhatsApp for batch timings.",
+    a: "We offer professional courses including Basic Boutique Mastery, Advanced Boutique, Western Boutique, Blouse & Suit Making, Advanced Blouse Making, Kids Wear, Western Blouse Making, Suit Making, Fashion Designing, and Lehenga Making — plus specialised blouse add-on modules. Contact us on WhatsApp for the current catalogue and fees.",
     qHi: "आप कौन-कौन से कोर्स देते हैं?",
-    aHi: "हम 10 प्रोफेशनल कोर्स देते हैं: बेसिक बुटीक मास्टरी (3 महीने, ₹15,000), एडवांस्ड बुटीक (12 महीने), वेस्टर्न बुटीक (12 महीने), ब्लाउज और सूट मेकिंग (3 महीने), एडवांस्ड ब्लाउज मेकिंग (3 महीने), किड्स वियर (6 महीने), वेस्टर्न ब्लाउज मेकिंग (6 महीने), सूट मेकिंग (3 महीने), फैशन डिज़ाइनिंग (1.5 वर्ष), और लहंगा मेकिंग (6 महीने)। बैच के लिए WhatsApp पर संपर्क करें।",
+    aHi: "हम प्रोफेशनल कोर्स देते हैं: बेसिक बुटीक मास्टरी, एडवांस्ड बुटीक, वेस्टर्न बुटीक, ब्लाउज और सूट मेकिंग, एडवांस्ड ब्लाउज मेकिंग, किड्स वियर, वेस्टर्न ब्लाउज मेकिंग, सूट मेकिंग, फैशन डिज़ाइनिंग, और लहंगा मेकिंग — साथ ही विशेष ब्लाउज ऐड-ऑन। वर्तमान सूची और फीस के लिए WhatsApp पर संपर्क करें।",
   },
   {
     q: "How do I place a boutique order?",

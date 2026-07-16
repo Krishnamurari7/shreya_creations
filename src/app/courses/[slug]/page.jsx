@@ -2,27 +2,40 @@ import { notFound } from "next/navigation";
 import { getCourseBySlug, getFaqs, getSiteSettings } from "@/lib/data";
 import { isCourseAvailable } from "@/lib/courses";
 import CourseDetailClient from "@/components/CourseDetailClient";
+import JsonLdScript from "@/components/JsonLdScript";
+import {
+  buildMetadata,
+  breadcrumbJsonLd,
+  courseJsonLd,
+  courseMetaDescription,
+  courseMetaTitle,
+  faqJsonLd,
+  itemImage,
+  itemImageAlt,
+} from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const course = await getCourseBySlug(params.slug);
   if (!course) {
-    return { title: "Course", alternates: { canonical: "/courses" } };
+    return buildMetadata({
+      title: "Course | Shreya Creation",
+      description: "Browse fashion boutique courses at Shreya Creation Patna.",
+      path: "/courses",
+    });
   }
-  const description =
-    course.description ||
-    `Learn ${course.title} at Shreya creation Patna — practical boutique & fashion training with certificate support.`;
-  return {
-    title: course.title,
+  const path = `/courses/${course.slug}`;
+  const title = courseMetaTitle(course);
+  const description = courseMetaDescription(course);
+  const image = itemImage(course);
+  return buildMetadata({
+    title,
     description,
-    alternates: { canonical: `/courses/${course.slug}` },
-    openGraph: {
-      title: `${course.title} | Shreya creation Patna`,
-      description,
-      type: "website",
-    },
-  };
+    path,
+    image,
+    imageAlt: itemImageAlt(course),
+  });
 }
 
 export default async function CourseDetail({ params }) {
@@ -39,12 +52,20 @@ export default async function CourseDetail({ params }) {
       f.category === "course" ||
       f.category === course.category?.toLowerCase()
   );
+  const faqSlice = courseFaqs.length ? courseFaqs : faqs.slice(0, 6);
 
   return (
-    <CourseDetailClient
-      course={course}
-      site={site}
-      faqs={courseFaqs.length ? courseFaqs : faqs.slice(0, 6)}
-    />
+    <>
+      <JsonLdScript data={courseJsonLd(course, site)} />
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Courses", path: "/courses" },
+          { name: course.title, path: `/courses/${course.slug}` },
+        ])}
+      />
+      <JsonLdScript data={faqJsonLd(faqSlice)} />
+      <CourseDetailClient course={course} site={site} faqs={faqSlice} />
+    </>
   );
 }

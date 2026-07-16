@@ -23,6 +23,8 @@ const POLICY_ROUTES = [
   { href: "/policies/privacy", key: "privacy" },
   { href: "/policies/shipping", key: "shipping" },
   { href: "/policies/returns", key: "returns" },
+  { href: "/policies/terms", key: "terms" },
+  { href: "/policies/course-cancellation", key: "courseCancellation" },
 ];
 
 function SocialIcon({ href, label, children }) {
@@ -100,10 +102,10 @@ export default function Footer({ site }) {
 
               <div className="footer-trust-badges justify-center sm:justify-start">
                 <span className="footer-trust-badge">
-                  ✦ {lang === "hi" ? SITE_STATS.yearsHi : SITE_STATS.yearsEn}
+                  ✦ {site?.stats?.yearsEn || SITE_STATS.yearsEn}
                 </span>
                 <span className="footer-trust-badge">
-                  ✦ {lang === "hi" ? SITE_STATS.coursesHi : SITE_STATS.coursesEn}
+                  ✦ {site?.stats?.coursesEn || `${site?.coursesCount || ""} Courses`.trim() || SITE_STATS.coursesEn}
                 </span>
               </div>
 
@@ -240,9 +242,6 @@ export default function Footer({ site }) {
             <span className="hidden md:inline text-[10px] uppercase tracking-[0.18em] text-orange-dark whitespace-nowrap">
               Made with ❤️ for India&apos;s fashion community
             </span>
-            <Link href="/admin" className="transition-colors hover:text-orange/70">
-              Admin
-            </Link>
           </div>
         </div>
       </div>

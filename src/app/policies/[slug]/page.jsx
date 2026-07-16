@@ -3,8 +3,10 @@ import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import { getPolicyPage } from "@/lib/data";
 import PolicyBody from "@/components/PolicyBody";
+import JsonLdScript from "@/components/JsonLdScript";
+import { buildMetadata, breadcrumbJsonLd, DEFAULT_OG_IMAGE, seoDescription } from "@/lib/seo";
 
-const SLUGS = ["privacy", "shipping", "returns"];
+const SLUGS = ["privacy", "shipping", "returns", "terms", "course-cancellation"];
 
 export async function generateStaticParams() {
   return SLUGS.map((slug) => ({ slug }));
@@ -12,7 +14,19 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const page = await getPolicyPage(params.slug);
-  return { title: page ? `${page.title} — Shreya creation` : "Policy" };
+  const path = `/policies/${params.slug}`;
+  const title = page ? `${page.title} | Shreya Creation` : "Policy | Shreya Creation";
+  const description = seoDescription(
+    page?.body,
+    "Shreya Creation policies for boutique courses and custom stitching in Patna."
+  );
+  return buildMetadata({
+    title,
+    description,
+    path,
+    image: DEFAULT_OG_IMAGE,
+    imageAlt: page?.title || "Shreya Creation policy",
+  });
 }
 
 export default async function PolicyPage({ params }) {
@@ -21,6 +35,12 @@ export default async function PolicyPage({ params }) {
 
   return (
     <PageShell>
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: page.title, path: `/policies/${params.slug}` },
+        ])}
+      />
       <LocalizedPageHeader
         eyebrow="Policies"
         eyebrowHi="नीतियाँ"

@@ -1,5 +1,6 @@
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { mergePageDefaults, normalizePillars } from "@/lib/cms";
+import { buildSITE, buildTrustFromSite } from "@/lib/site-config";
 import * as seed from "@/lib/seed";
 
 function normalizeSettings(data) {
@@ -21,6 +22,17 @@ function normalizeSettings(data) {
     services: data.services ?? [],
     pages: mergePageDefaults(data.pages),
     aboutPillars: normalizePillars(data.about_pillars ?? data.aboutPillars),
+    foundingYear: data.founding_year ?? data.foundingYear,
+    studentsTaught: data.students_taught ?? data.studentsTaught,
+    outfitsDelivered: data.outfits_delivered ?? data.outfitsDelivered,
+    expressDeliveryHours: data.express_delivery_hours ?? data.expressDeliveryHours,
+    phonePrimary: data.phone_primary ?? data.phonePrimary,
+    phoneSecondary: data.phone_secondary ?? data.phoneSecondary,
+    addressLine: data.address_line ?? data.addressLine,
+    pincode: data.pincode,
+    studioHours: data.studio_hours ?? data.studioHours,
+    closedDays: data.closed_days ?? data.closedDays,
+    whatsappNumber: data.whatsapp_number ?? data.whatsappNumber ?? data.whatsapp,
   };
 }
 
@@ -30,9 +42,29 @@ function normalizeSyllabus(syllabus) {
   return [];
 }
 
-function normalizeCourse(row) {
+function slugifyTitle(value) {
+  return String(value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function withSeoFields(row) {
   if (!row) return null;
   return {
+    ...row,
+    meta_title: row.meta_title ?? row.metaTitle ?? null,
+    meta_description: row.meta_description ?? row.metaDescription ?? null,
+    og_image: row.og_image ?? row.ogImage ?? null,
+    image_alt: row.image_alt ?? row.imageAlt ?? null,
+    focus_keyword: row.focus_keyword ?? row.focusKeyword ?? null,
+  };
+}
+
+function normalizeCourse(row) {
+  if (!row) return null;
+  return withSeoFields({
     ...row,
     titleHi: row.title_hi ?? row.titleHi,
     compare_price: row.compare_price ?? row.comparePrice,
@@ -41,7 +73,22 @@ function normalizeCourse(row) {
     syllabus: normalizeSyllabus(row.syllabus),
     price: row.price != null ? Number(row.price) : row.price,
     published: row.published ?? true,
-  };
+  });
+}
+
+function normalizeProduct(row) {
+  if (!row) return null;
+  return withSeoFields(row);
+}
+
+function normalizePortfolioItem(row) {
+  if (!row) return null;
+  const title = row.title || row.caption || "Portfolio piece";
+  return withSeoFields({
+    ...row,
+    title,
+    slug: row.slug || slugifyTitle(title) || `portfolio-${row.id}`,
+  });
 }
 
 function mergeCourseRecord(seedCourse, dbCourse) {
@@ -91,10 +138,20 @@ async function query(supabase, table, options = {}) {
   return data;
 }
 
+/**
+ * Canonical site object — always includes coursesCount from published courses.
+ */
 export async function getSiteSettings() {
+  const courses = await getCourses({ includeUnpublished: false });
+  const coursesCount = courses.filter((c) => !c.is_addon).length || courses.length;
+
   if (!isSupabaseConfigured()) {
+    const site = buildSITE(
+      { ...seed.SITE, pages: mergePageDefaults(), aboutPillars: normalizePillars() },
+      { coursesCount }
+    );
     return {
-      ...seed.SITE,
+      ...site,
       pages: mergePageDefaults(),
       aboutPillars: normalizePillars(),
     };
@@ -103,8 +160,10 @@ export async function getSiteSettings() {
     const supabase = createClient();
     const { data } = await supabase.from("settings").select("*").eq("id", 1).single();
     const normalized = normalizeSettings(data);
-    if (!normalized) return seed.SITE;
-    return {
+    if (!normalized) {
+      return buildSITE({ ...seed.SITE, pages: mergePageDefaults() }, { coursesCount });
+    }
+    const merged = {
       ...seed.SITE,
       ...normalized,
       socials: {
@@ -114,32 +173,36 @@ export async function getSiteSettings() {
           normalized.socials?.facebook?.trim() || seed.SITE.socials.facebook,
       },
     };
+    return buildSITE(merged, { coursesCount });
   } catch {
-    return seed.SITE;
+    return buildSITE({ ...seed.SITE, pages: mergePageDefaults() }, { coursesCount });
   }
 }
 
 export async function getProducts({ includeUnpublished = false } = {}) {
-  if (!isSupabaseConfigured()) return seed.PRODUCTS;
+  if (!isSupabaseConfigured()) return seed.PRODUCTS.map(normalizeProduct);
   try {
     const supabase = createClient();
     let q = supabase.from("products").select("*").order("created_at", { ascending: false });
     if (!includeUnpublished) q = q.eq("published", true);
     const { data } = await q;
-    return data?.length ? data : seed.PRODUCTS;
+    const rows = data?.length ? data : seed.PRODUCTS;
+    return rows.map(normalizeProduct);
   } catch {
-    return seed.PRODUCTS;
+    return seed.PRODUCTS.map(normalizeProduct);
   }
 }
 
 export async function getProductBySlug(slug) {
-  if (!isSupabaseConfigured()) return seed.PRODUCTS.find((p) => p.slug === slug) || null;
+  if (!isSupabaseConfigured()) {
+    return normalizeProduct(seed.PRODUCTS.find((p) => p.slug === slug) || null);
+  }
   try {
     const supabase = createClient();
     const { data } = await supabase.from("products").select("*").eq("slug", slug).single();
-    return data || seed.PRODUCTS.find((p) => p.slug === slug) || null;
+    return normalizeProduct(data || seed.PRODUCTS.find((p) => p.slug === slug) || null);
   } catch {
-    return seed.PRODUCTS.find((p) => p.slug === slug) || null;
+    return normalizeProduct(seed.PRODUCTS.find((p) => p.slug === slug) || null);
   }
 }
 
@@ -184,13 +247,31 @@ export async function getCourseBySlug(slug) {
 }
 
 export async function getPortfolio() {
-  if (!isSupabaseConfigured()) return seed.PORTFOLIO;
+  if (!isSupabaseConfigured()) return seed.PORTFOLIO.map(normalizePortfolioItem);
   try {
     const supabase = createClient();
     const { data } = await supabase.from("portfolio").select("*").order("sort_order", { ascending: true });
-    return data?.length ? data : seed.PORTFOLIO;
+    const rows = data?.length ? data : seed.PORTFOLIO;
+    return rows.map(normalizePortfolioItem);
   } catch {
-    return seed.PORTFOLIO;
+    return seed.PORTFOLIO.map(normalizePortfolioItem);
+  }
+}
+
+export async function getPortfolioBySlug(slug) {
+  const fromSeed = () =>
+    normalizePortfolioItem(
+      seed.PORTFOLIO.find((item) => (item.slug || slugifyTitle(item.title)) === slug) || null
+    );
+
+  if (!isSupabaseConfigured()) return fromSeed();
+  try {
+    const supabase = createClient();
+    const { data } = await supabase.from("portfolio").select("*").eq("slug", slug).maybeSingle();
+    if (data) return normalizePortfolioItem(data);
+    return fromSeed();
+  } catch {
+    return fromSeed();
   }
 }
 
@@ -206,7 +287,10 @@ export async function getTestimonials() {
 }
 
 export async function getTrustStats() {
-  if (!isSupabaseConfigured()) return seed.TRUST;
+  // Prefer DB trust wall; else derive from SITE defaults (same numbers as site-config).
+  const fallback = buildTrustFromSite(seed.SITE);
+
+  if (!isSupabaseConfigured()) return fallback;
   try {
     const supabase = createClient();
     const { data } = await supabase
@@ -214,7 +298,7 @@ export async function getTrustStats() {
       .select("*")
       .eq("published", true)
       .order("sort_order", { ascending: true });
-    if (!data?.length) return seed.TRUST;
+    if (!data?.length) return fallback;
     return data.map((r) => ({
       label: r.label,
       labelHi: r.label_hi,
@@ -222,7 +306,7 @@ export async function getTrustStats() {
       valueHi: r.value_hi,
     }));
   } catch {
-    return seed.TRUST;
+    return fallback;
   }
 }
 

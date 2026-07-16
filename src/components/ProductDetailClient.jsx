@@ -42,7 +42,10 @@ export default function ProductDetailClient({ product, site, images }) {
             custom={0.1}
             variants={fadeUp}
           >
-            <ProductGallery images={images} title={product.title} />
+            <ProductGallery
+              images={images}
+              title={product.image_alt || product.imageAlt || `${product.title} Patna`}
+            />
           </motion.div>
 
           <motion.div
@@ -70,22 +73,42 @@ export default function ProductDetailClient({ product, site, images }) {
               </div>
             )}
 
-            <p className="text-ink font-normal leading-relaxed text-base text-pretty">{product.description}</p>
+            <p className="text-ink font-normal leading-relaxed text-base text-pretty">
+              {product.description_long || product.description}
+            </p>
 
-            {(product.fabric || product.sizes) && (
+            {(product.fabric || product.sizes || product.care || product.colours || product.estimated_delivery) && (
               <Glass3DCard className="rounded-2xl sm:rounded-[2rem] p-5 sm:p-6 border-ink/15 space-y-4 transition-transform duration-300 hover:-translate-y-0.5">
-                <h3 className="text-[11px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">Specifications</h3>
+                <h2 className="text-[11px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">Specifications</h2>
                 <dl className="space-y-4 text-sm">
                   {product.fabric && (
                     <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-center gap-1">
-                      <dt className="text-gold uppercase tracking-wider text-[10px] sm:w-24 shrink-0 font-medium">Fabric</dt>
+                      <dt className="text-gold uppercase tracking-wider text-[10px] sm:w-28 shrink-0 font-medium">Fabric</dt>
                       <dd className="text-ink font-normal">{product.fabric}</dd>
+                    </div>
+                  )}
+                  {product.colours && (
+                    <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-center gap-1">
+                      <dt className="text-gold uppercase tracking-wider text-[10px] sm:w-28 shrink-0 font-medium">Colour</dt>
+                      <dd className="text-ink font-normal">{product.colours}</dd>
                     </div>
                   )}
                   {product.sizes && (
                     <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-start gap-1">
-                      <dt className="text-gold uppercase tracking-wider text-[10px] sm:w-24 shrink-0 font-medium">Sizing</dt>
+                      <dt className="text-gold uppercase tracking-wider text-[10px] sm:w-28 shrink-0 font-medium">Sizing</dt>
                       <dd className="text-ink font-normal leading-relaxed">{product.sizes}</dd>
+                    </div>
+                  )}
+                  {product.care && (
+                    <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-start gap-1">
+                      <dt className="text-gold uppercase tracking-wider text-[10px] sm:w-28 shrink-0 font-medium">Care</dt>
+                      <dd className="text-ink font-normal leading-relaxed">{product.care}</dd>
+                    </div>
+                  )}
+                  {product.estimated_delivery && (
+                    <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-start gap-1">
+                      <dt className="text-gold uppercase tracking-wider text-[10px] sm:w-28 shrink-0 font-medium">Delivery</dt>
+                      <dd className="text-ink font-normal leading-relaxed">{product.estimated_delivery}</dd>
                     </div>
                   )}
                 </dl>

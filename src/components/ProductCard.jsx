@@ -17,7 +17,7 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
       <div className={cn("boutique-product-card group flex flex-col h-full", compact && "boutique-product-card--compact")}>
         <div className="product-card-media relative">
           <Link href={`/shop/${product.slug}`} className="block">
-            <CardImage src={cover} alt={product.title} ratio={compact ? "4/5" : "3/4"} position="top" />
+            <CardImage src={cover} alt={product.image_alt || product.imageAlt || `${product.title} Patna`} ratio={compact ? "4/5" : "3/4"} position="top" />
             {!compact && (
               <div className="product-card-overlay" aria-hidden>
                 <span className="product-card-overlay__label">
@@ -70,7 +70,7 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
       className={cn("boutique-product-card group block rounded-2xl p-4 w-full max-w-full h-full")}
     >
       <div className="relative">
-        <CardImage src={cover} alt={product.title} ratio="3/4" position="top" className="rounded-xl" />
+        <CardImage src={cover} alt={product.image_alt || product.imageAlt || `${product.title} Patna`} ratio="3/4" position="top" className="rounded-xl" />
         <span className="absolute top-3 left-3 text-[10px] uppercase tracking-wider bg-orange text-white px-3 py-1 rounded-full z-10">
           {product.category}
         </span>

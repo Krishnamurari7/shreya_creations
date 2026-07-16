@@ -139,7 +139,7 @@ export function HomeTab({ home, patchPage }) {
         <input
           value={home.hero_local_video || ""}
           onChange={(e) => onChange("hero_local_video", e.target.value)}
-          placeholder="/video%201.mp4"
+          placeholder="/video-1.mp4"
           className={ADMIN_INPUT}
         />
       </div>
@@ -148,7 +148,7 @@ export function HomeTab({ home, patchPage }) {
         <input
           value={home.hero_book_local_video || ""}
           onChange={(e) => onChange("hero_book_local_video", e.target.value)}
-          placeholder="/video%202.mp4"
+          placeholder="/video-2.mp4"
           className={ADMIN_INPUT}
         />
       </div>

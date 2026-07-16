@@ -54,7 +54,7 @@ function ShopProductCard({ product, whatsapp, lang, index, featured = false }) {
     >
       <Link href={`/shop/${product.slug}`} className="home-shop-showcase__item-link" aria-label={product.title}>
         <div className="home-shop-showcase__item-media">
-          <CardImage src={cover} alt={product.title} ratio="fill" position="top" />
+          <CardImage src={cover} alt={product.image_alt || product.imageAlt || `${product.title} Patna`} ratio="fill" position="top" />
           <div className="home-shop-showcase__item-shade" aria-hidden />
         </div>
 

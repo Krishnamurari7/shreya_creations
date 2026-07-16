@@ -62,7 +62,7 @@ That’s it — anything you add in `/admin` instantly replaces the demo content
 
 ## 4. About the Instagram content
 
-The seed text is based on the real **@shreya.creationss** business (Prayagraj boutique — custom stitching, lehengas, gowns, blouses, bridal wear, jewellery, and fashion courses, with a “stitching in 24 hours” promise). The **photos are placeholders**, because Instagram images can’t be scraped and belong to the business. Add your real product, portfolio and testimonial photos through the admin panel.
+The seed text is based on the real **@shreya.creationss** business (Patna boutique — custom stitching, lehengas, gowns, blouses, bridal wear, jewellery, and fashion courses, with a “stitching in 24 hours” promise). The **photos are placeholders**, because Instagram images can’t be scraped and belong to the business. Add your real product, portfolio and testimonial photos through the admin panel.
 
 To show a live Instagram feed on the site later, you can embed it with a widget such as Behold, EmbedSocial or LightWidget — drop the embed into `src/app/page.jsx`.
 

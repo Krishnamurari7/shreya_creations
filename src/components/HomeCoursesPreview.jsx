@@ -76,8 +76,8 @@ const FILTER_TABS = [
 ];
 
 const TRUST_BADGES = [
-  { icon: "shield", en: "17+ Years of Trust", hi: "17+ वर्षों का भरोसा" },
-  { icon: "book", en: "50+ Courses", hi: "50+ कोर्स" },
+  { icon: "shield", key: "years" },
+  { icon: "book", key: "courses" },
   { icon: "scissors", en: "100% Practical Training", hi: "100% प्रैक्टिकल ट्रेनिंग" },
   { icon: "briefcase", en: "Internship & Placement Support", hi: "इंटर्नशिप व प्लेसमेंट सपोर्ट" },
 ];
@@ -91,9 +91,9 @@ const FEATURE_STRIP = [
 ];
 
 const WHY_STATS = [
-  { icon: "years", en: "17+ Years of Experience", hi: "17+ वर्षों का अनुभव" },
-  { icon: "students", en: "30,000+ Happy Students", hi: "30,000+ संतुष्ट छात्र" },
-  { icon: "delivery", en: "24 Hours Stitching Delivery", hi: "24 घंटे सिलाई डिलीवरी" },
+  { icon: "years", key: "years" },
+  { icon: "students", key: "students" },
+  { icon: "delivery", key: "express" },
   { icon: "practical", en: "100% Practical Learning", hi: "100% प्रैक्टिकल लर्निंग" },
   { icon: "career", en: "Job & Business Guidance", hi: "जॉब व बिज़नेस गाइडेंस" },
 ];
@@ -321,7 +321,7 @@ function LineIcon({ type }) {
   }
 }
 
-export default function HomeCoursesPreview({ courses = [], home = {} }) {
+export default function HomeCoursesPreview({ courses = [], home = {}, site = {} }) {
   const { lang } = useLanguage();
   const hi = lang === "hi";
 
@@ -346,6 +346,27 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
 
   if (!availableCourses.length) return null;
 
+  const courseCount = site.coursesCount || courses.filter((c) => !c.is_addon).length || courses.length;
+  const yearsExp = site.yearsExperience || site.stats?.yearsEn?.replace(/\D.*/, "") || "19";
+  const students = site.studentsTaught || 2000;
+  const expressH = site.expressDeliveryHours || 24;
+
+  const labelFor = (item) => {
+    if (item.key === "years") {
+      return hi ? `${yearsExp}+ वर्षों का भरोसा` : `${yearsExp}+ Years of Trust`;
+    }
+    if (item.key === "courses") {
+      return hi ? `${courseCount} कोर्स` : `${courseCount} Courses`;
+    }
+    if (item.key === "students") {
+      return hi ? `${students}+ संतुष्ट छात्र` : `${students}+ Happy Students`;
+    }
+    if (item.key === "express") {
+      return hi ? `${expressH} घंटे सिलाई डिलीवरी` : `${expressH} Hours Stitching Delivery`;
+    }
+    return hi ? item.hi : item.en;
+  };
+
   const eyebrow =
     pickPage(home, lang, "coursesEyebrow", "coursesEyebrowHi") ||
     (hi ? "हमारे लोकप्रिय कोर्स" : "Our Popular Courses");
@@ -365,7 +386,7 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
       : "From basics to advanced, choose the right course for your career.");
   const viewAllLabel =
     pickPage(home, lang, "coursesViewAll", "coursesViewAllHi") ||
-    (hi ? "सभी 50+ कोर्स देखें" : "View All 50+ Courses");
+    (hi ? `सभी ${courseCount} कोर्स देखें` : `View All ${courseCount} Courses`);
   const demoTitle =
     pickPage(home, lang, "coursesDemoTitle", "coursesDemoTitleHi") ||
     (hi ? "कौन सा कोर्स सही है, तय नहीं?" : "Not Sure Which Course is Right for You?");
@@ -430,7 +451,7 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
                 <span className="home-courses-preview__trust-icon">
                   <LineIcon type={badge.icon} />
                 </span>
-                <span>{hi ? badge.hi : badge.en}</span>
+                <span>{labelFor(badge)}</span>
               </li>
             ))}
           </ul>
@@ -548,11 +569,11 @@ export default function HomeCoursesPreview({ courses = [], home = {} }) {
             <h3 className="home-courses-preview__why-title">{whyTitle}</h3>
             <ul className="home-courses-preview__why-stats">
               {WHY_STATS.map((stat) => (
-                <li key={stat.en} className="home-courses-preview__why-stat">
+                <li key={stat.key || stat.en} className="home-courses-preview__why-stat">
                   <span className="home-courses-preview__why-icon">
                     <LineIcon type={stat.icon} />
                   </span>
-                  <span>{hi ? stat.hi : stat.en}</span>
+                  <span>{labelFor(stat)}</span>
                 </li>
               ))}
             </ul>

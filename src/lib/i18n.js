@@ -32,6 +32,8 @@ export const UI = {
     privacy: "Privacy",
     shipping: "Shipping",
     returns: "Returns",
+    terms: "Terms",
+    courseCancellation: "Course Cancellation",
   },
   hi: {
     home: "होम",
@@ -66,6 +68,8 @@ export const UI = {
     privacy: "गोपनीयता",
     shipping: "शिपिंग",
     returns: "रिटर्न",
+    terms: "नियम",
+    courseCancellation: "कोर्स रद्दीकरण",
   },
 };
 

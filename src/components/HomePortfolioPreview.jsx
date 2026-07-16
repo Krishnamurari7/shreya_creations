@@ -77,11 +77,16 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
           {items.map((item, idx) => (
             <Link
               key={item.id || idx}
-              href="/portfolio"
+              href={item.slug ? `/portfolio/${item.slug}` : "/portfolio"}
               className={`home-portfolio-showcase__item home-portfolio-showcase__item--${idx + 1} group`}
               style={{ transitionDelay: `${idx * 70}ms` }}
             >
-              <CardImage src={item.image} alt={item.title} ratio="fill" position="top" />
+              <CardImage
+                src={item.image}
+                alt={item.image_alt || item.imageAlt || `${item.title || "Portfolio piece"} Patna`}
+                ratio="fill"
+                position="top"
+              />
               <div className="home-portfolio-showcase__overlay">
                 {item.category && (
                   <span className="home-portfolio-showcase__category">{item.category}</span>

@@ -1,31 +1,37 @@
 import { notFound } from "next/navigation";
 import { getProductBySlug, getSiteSettings } from "@/lib/data";
 import ProductDetailClient from "@/components/ProductDetailClient";
+import JsonLdScript from "@/components/JsonLdScript";
+import {
+  buildMetadata,
+  breadcrumbJsonLd,
+  itemImage,
+  itemImageAlt,
+  productJsonLd,
+  productMetaDescription,
+  productMetaTitle,
+} from "@/lib/seo";
 
 export async function generateMetadata({ params }) {
   const product = await getProductBySlug(params.slug);
   if (!product) {
-    return { title: "Shop", alternates: { canonical: "/shop" } };
+    return buildMetadata({
+      title: "Shop | Shreya Creation",
+      description: "Designer wear and custom stitching in Patna.",
+      path: "/shop",
+    });
   }
-  const description =
-    product.description ||
-    `Order ${product.title} from Shreya creation Patna — custom fit, boutique finishing, WhatsApp ordering.`;
-  const images = product.images?.length
-    ? product.images
-    : product.image
-      ? [product.image]
-      : undefined;
-  return {
-    title: product.title,
+  const path = `/shop/${product.slug}`;
+  const title = productMetaTitle(product);
+  const description = productMetaDescription(product);
+  const image = itemImage(product);
+  return buildMetadata({
+    title,
     description,
-    alternates: { canonical: `/shop/${product.slug}` },
-    openGraph: {
-      title: `${product.title} | Shreya creation`,
-      description,
-      type: "website",
-      ...(images?.[0] ? { images: [{ url: images[0], alt: product.title }] } : {}),
-    },
-  };
+    path,
+    image,
+    imageAlt: itemImageAlt(product),
+  });
 }
 
 export default async function ProductDetail({ params }) {
@@ -34,5 +40,17 @@ export default async function ProductDetail({ params }) {
 
   const images = product.images?.length ? product.images : product.image ? [product.image] : [];
 
-  return <ProductDetailClient product={product} site={site} images={images} />;
+  return (
+    <>
+      <JsonLdScript data={productJsonLd(product)} />
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Shop", path: "/shop" },
+          { name: product.title, path: `/shop/${product.slug}` },
+        ])}
+      />
+      <ProductDetailClient product={product} site={site} images={images} />
+    </>
+  );
 }

@@ -7,13 +7,13 @@ import { useLanguage } from "@/components/LanguageProvider";
 const DEFAULT_ITEMS_EN = [
   "Fashion Boutique Institute",
   "Bihar's No. 1",
-  "17+ Years of Experience | Since 2007",
+  "Trusted Fashion Training | Patna",
 ];
 
 const DEFAULT_ITEMS_HI = [
   "Fashion Boutique Institute",
   "बिहार का No. 1",
-  "17+ वर्षों का अनुभव | Since 2007",
+  "पटना का भरोसेमंद फैशन संस्थान",
 ];
 
 function resolveItems(raw, lang) {

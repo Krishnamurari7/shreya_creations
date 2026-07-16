@@ -1,45 +1,47 @@
 import { getSiteUrl } from "@/lib/siteUrl";
 import { LOGO_SRC } from "@/lib/brand";
-import { SITE } from "@/lib/seed";
+import { absoluteUrl, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 /**
- * LocalBusiness + EducationalOrganization schema for Google rich results.
+ * Organization + LocalBusiness schema for Google rich results.
+ * Values come from site settings / site-config.
  */
 export default function JsonLd({ site }) {
   const base = getSiteUrl();
-  const brand = site?.brand || SITE.brand;
-  const phone = site?.phone || SITE.phone;
-  const email = site?.email || SITE.email;
-  const address = site?.address || SITE.address;
+  const brand = site?.brandName || site?.brand || "Shreya Creation";
+  const phone = site?.phonePrimary || site?.phone || "";
+  const email = site?.email || "";
+  const address = site?.addressLine || site?.address || "";
+  const city = site?.city || "Patna";
+  const pincode = site?.pincode || "800001";
   const socials = [
-    site?.socials?.instagram || SITE.socials.instagram,
-    site?.socials?.facebook || SITE.socials.facebook,
-    site?.socials?.youtube || SITE.socials.youtube,
+    site?.socials?.instagram,
+    site?.socials?.facebook,
+    site?.socials?.youtube,
   ].filter(Boolean);
 
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": ["LocalBusiness", "EducationalOrganization"],
+        "@type": ["Organization", "LocalBusiness", "EducationalOrganization"],
         "@id": `${base}/#organization`,
         name: brand,
         alternateName: ["Shreya Creations", "Shreya Creation Boutique Institute"],
         url: base,
-        logo: `${base}${LOGO_SRC}`,
-        image: `${base}${LOGO_SRC}`,
+        logo: absoluteUrl(LOGO_SRC),
+        image: absoluteUrl(DEFAULT_OG_IMAGE),
         description:
           site?.intro ||
-          SITE.intro ||
-          "Fashion boutique institute & custom stitching in Patna — courses, bridal wear, 24-hour stitching.",
+          "Fashion boutique institute & custom stitching in Patna — boutique courses, bridal wear, 24-hour stitching on East Boring Canal Road / Boring Road.",
         telephone: phone,
         email,
         address: {
           "@type": "PostalAddress",
           streetAddress: address,
-          addressLocality: "Patna",
+          addressLocality: city,
           addressRegion: "Bihar",
-          postalCode: "800001",
+          postalCode: pincode,
           addressCountry: "IN",
         },
         geo: {
@@ -84,7 +86,7 @@ export default function JsonLd({ site }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
     />
   );
 }

@@ -50,6 +50,7 @@ export default function InquiriesAdmin() {
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs admin-muted mt-1">
                 {r.phone && <span>📱 {r.phone}</span>}
+                {r.preferred_date && <span>📅 {r.preferred_date}</span>}
                 {r.source && (
                   <span className="uppercase tracking-wider">
                     {r.source.replace(/_/g, " ")}

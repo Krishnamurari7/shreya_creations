@@ -142,6 +142,10 @@ export default function ResourceManager({
       payload.slug = slugify(payload.title);
     }
 
+    if (fields.some((f) => f.name === "updated_at") || ["courses", "products", "portfolio"].includes(table)) {
+      payload.updated_at = new Date().toISOString();
+    }
+
     const runSave = async (currentPayload) => {
       if (isUpdate) {
         return supabase.from(table).update(currentPayload).eq("id", recordId).select().single();

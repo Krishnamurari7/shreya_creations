@@ -16,11 +16,22 @@ create table if not exists public.settings (
   about_body_hi    text,
   about_pillars    jsonb default '[]'::jsonb,
   whatsapp         text,
+  whatsapp_number  text,
   phone            text,
+  phone_primary    text,
+  phone_secondary  text,
   email            text,
   address          text,
+  address_line     text,
   city             text,
+  pincode          text,
   founded          text,
+  founding_year    int default 2007,
+  students_taught  int default 2000,
+  outfits_delivered int default 5000,
+  express_delivery_hours int default 24,
+  studio_hours     text,
+  closed_days      text,
   map_embed_url    text,
   socials          jsonb default '{}'::jsonb,
   services         jsonb default '[]'::jsonb,
@@ -35,17 +46,27 @@ create table if not exists public.settings (
 create table if not exists public.products (
   id            uuid primary key default gen_random_uuid(),
   created_at    timestamptz default now(),
+  updated_at    timestamptz default now(),
   title         text not null,
   slug          text unique not null,
   category      text,
   price         numeric,
   fabric        text,
   sizes         text,
+  care          text,
+  colours       text,
+  estimated_delivery text,
   description   text,
+  description_long text,
   images        jsonb default '[]'::jsonb,
   whatsapp_text text,
   stitchable    boolean default false,
-  published     boolean default true
+  published     boolean default true,
+  meta_title    text,
+  meta_description text,
+  og_image      text,
+  image_alt     text,
+  focus_keyword text
 );
 
 -- If courses table already exists without newer columns, run once in SQL Editor:
@@ -54,6 +75,7 @@ create table if not exists public.products (
 create table if not exists public.courses (
   id              uuid primary key default gen_random_uuid(),
   created_at      timestamptz default now(),
+  updated_at      timestamptz default now(),
   title           text not null,
   title_hi        text,
   slug            text unique not null,
@@ -74,17 +96,29 @@ create table if not exists public.courses (
   badge           text,
   image           text,
   preview_video   text,
-  published       boolean default true
+  published       boolean default true,
+  meta_title      text,
+  meta_description text,
+  og_image        text,
+  image_alt       text,
+  focus_keyword   text
 );
 
 create table if not exists public.portfolio (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz default now(),
+  updated_at  timestamptz default now(),
   title       text,
   caption     text,
   category    text,
   image       text,
-  sort_order  int default 0
+  slug        text,
+  sort_order  int default 0,
+  meta_title  text,
+  meta_description text,
+  og_image    text,
+  image_alt   text,
+  focus_keyword text
 );
 
 create table if not exists public.testimonials (
@@ -145,10 +179,12 @@ create table if not exists public.contact_inquiries (
   name        text,
   phone       text,
   message     text,
-  source      text default 'contact_form'
+  source      text default 'contact_form',
+  preferred_date date
 );
 
 alter table public.contact_inquiries add column if not exists phone text;
+alter table public.contact_inquiries add column if not exists preferred_date date;
 
 -- API roles must have table grants (RLS alone is not enough)
 grant usage on schema public to anon, authenticated;

@@ -145,7 +145,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
       >
         {available ? (
           <Link href={detailHref} className={mediaClass}>
-            <CardImage src={course.image} alt={title} ratio="16/9" position="top" />
+            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" />
             {badge && (
               <span className={cn("featured-course-card__badge", `featured-course-card__badge--${badge.tone}`)}>
                 {badge.tone === "addon" ? addonCourseLabel(lang) : badge.label}
@@ -160,7 +160,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           </Link>
         ) : (
           <div className={mediaClass}>
-            <CardImage src={course.image} alt={title} ratio="16/9" position="top" />
+            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" />
             {badge && (
               <span className={cn("featured-course-card__badge", `featured-course-card__badge--${badge.tone}`)}>
                 {badge.tone === "addon" ? addonCourseLabel(lang) : badge.label}
@@ -212,6 +212,9 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           <div className="featured-course-card__footer mt-auto min-w-0">
             {price != null ? (
               <div className="featured-course-card__pricing">
+                <span className="featured-course-card__price-label text-[10px] uppercase tracking-wide text-muted block mb-0.5">
+                  {hi ? "शुरुआत" : "Starting from"}
+                </span>
                 <span className="featured-course-card__price">
                   ₹{price.toLocaleString("en-IN")}
                 </span>
@@ -223,7 +226,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
               </div>
             ) : (
               <span className="featured-course-card__price featured-course-card__price--ask">
-                {hi ? "विवरण में फीस" : "Fee on details"}
+                {hi ? "WhatsApp पर फीस पूछें" : "Ask fee on WhatsApp"}
               </span>
             )}
 
@@ -255,7 +258,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
         <CardGlow />
 
         <div className="relative">
-          <CardImage src={course.image} alt={courseTitle(course, lang)} ratio="16/9" position="top" className="rounded-2xl" />
+          <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${courseTitle(course, lang)} Patna`} ratio="16/9" position="top" className="rounded-2xl" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-90 rounded-2xl pointer-events-none" />
 
           <span className="absolute top-4 left-4 z-10 text-[10px] uppercase tracking-[0.2em] bg-black/75 text-white px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-md">
@@ -296,7 +299,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
       <CardGlow />
 
       <div className="relative">
-        <CardImage src={course.image} alt={courseTitle(course, lang)} ratio="16/9" position="top" className="rounded-2xl" />
+        <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${courseTitle(course, lang)} Patna`} ratio="16/9" position="top" className="rounded-2xl" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-90 rounded-2xl pointer-events-none" />
 
         <span className="absolute top-4 left-4 z-10 text-[10px] uppercase tracking-[0.2em] bg-black/75 text-white px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-md">

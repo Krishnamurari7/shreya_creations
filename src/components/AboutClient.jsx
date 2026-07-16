@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD_OUTLINE, BTN_PRIMARY, GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, MARQUEE_CONTAINER, MARQUEE_CONTENT, PAGE_CONTAINER, PAGE_HERO_TITLE, PAGE_HERO_TITLE_COMPACT, REVEAL, SECTION_EYEBROW, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SPARKLE_PULSE } from "@/lib/ui";
+import { BTN_GOLD_OUTLINE, BTN_PRIMARY, GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, PAGE_CONTAINER, PAGE_HERO_TITLE, PAGE_HERO_TITLE_COMPACT, REVEAL, SECTION_EYEBROW, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -20,7 +20,7 @@ const PILLAR_ACCENTS = ["border-orange/25", "border-gold/30", "border-orange/20"
 
 const JOURNEY = [
   {
-    year: "2007",
+    yearKey: "founding",
     titleEn: "Founded in Patna",
     titleHi: "पटना में स्थापना",
     descEn: "Started with a vision to empower women through fashion skills.",
@@ -28,15 +28,15 @@ const JOURNEY = [
     icon: "🏛️",
   },
   {
-    year: "2000+",
+    yearKey: "students",
     titleEn: "Students Trained",
     titleHi: "छात्र प्रशिक्षित",
-    descEn: "Thousands of learners turned skill into self-employment.",
-    descHi: "हज़ारों छात्राओं ने कौशल को स्वरोजगार में बदला।",
+    descEn: "Learners who turned skill into self-employment.",
+    descHi: "छात्राओं ने कौशल को स्वरोजगार में बदला।",
     icon: "🎓",
   },
   {
-    year: "10",
+    yearKey: "courses",
     titleEn: "Professional Courses",
     titleHi: "प्रोफेशनल कोर्स",
     descEn: "Boutique, blouse, suit, kids wear, fashion design & lehenga.",
@@ -44,11 +44,11 @@ const JOURNEY = [
     icon: "📚",
   },
   {
-    year: "24hr",
+    yearKey: "express",
     titleEn: "Stitching Service",
     titleHi: "सिलाई सेवा",
-    descEn: "Custom outfits delivered within a day for urgent needs.",
-    descHi: "जरूरी ऑर्डर के लिए एक दिन में कस्टम परिधान।",
+    descEn: "Custom outfits delivered fast for urgent needs.",
+    descHi: "जरूरी ऑर्डर के लिए तेज़ कस्टम सिलाई।",
     icon: "⚡",
   },
 ];
@@ -57,37 +57,37 @@ const QUICK_LINKS = [
   {
     href: "/courses",
     emoji: "🎓",
-    titleEn: "Courses",
-    titleHi: "कोर्स",
-    subEn: "10 job-oriented programs",
-    subHi: "10 जॉब ओरिएंटेड प्रोग्राम",
+    titleEn: "Boutique courses in Patna",
+    titleHi: "पटना में बुटीक कोर्स",
+    subEn: "Fashion designing & blouse making",
+    subHi: "फैशन डिज़ाइनिंग और ब्लाउज मेकिंग",
     accent: "orange",
   },
   {
     href: "/shop",
     emoji: "👗",
-    titleEn: "Boutique Shop",
-    titleHi: "बुटीक शॉप",
-    subEn: "Designer wear & fabrics",
-    subHi: "डिज़ाइनर वियर और फैब्रिक",
+    titleEn: "24-hour custom stitching",
+    titleHi: "24 घंटे कस्टम सिलाई",
+    subEn: "Designer blouses & bridal wear",
+    subHi: "डिज़ाइनर ब्लाउज और ब्राइडल वियर",
     accent: "gold",
   },
   {
     href: "/portfolio",
     emoji: "✨",
-    titleEn: "Portfolio",
-    titleHi: "पोर्टफोलियो",
-    subEn: "Our finest creations",
-    subHi: "हमारी बेहतरीन रचनाएँ",
+    titleEn: "Bridal boutique portfolio",
+    titleHi: "ब्राइडल बुटीक पोर्टफोलियो",
+    subEn: "Wedding lehengas & reception gowns",
+    subHi: "वेडिंग लहंगा और रिसेप्शन गाउन",
     accent: "orange",
   },
   {
     href: "/contact",
     emoji: "💬",
-    titleEn: "Contact",
-    titleHi: "संपर्क",
-    subEn: "Visit or WhatsApp us",
-    subHi: "विज़िट करें या WhatsApp करें",
+    titleEn: "Boutique near me — visit Patna",
+    titleHi: "पास का बुटीक — पटना विज़िट",
+    subEn: "East Boring Canal Road studio",
+    subHi: "ईस्ट बोरिंग कैनाल रोड स्टूडियो",
     accent: "gold",
   },
 ];
@@ -115,12 +115,14 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
 
   const pageTitle =
     pickPage(about, lang, "headerTitle", "headerTitleHi") ||
-    (lang === "hi" ? "श्रेया क्रिएशन के बारे में" : "About Shreya Creation");
+    (lang === "hi"
+      ? "श्रेया क्रिएशन — पटना का फैशन बुटीक इंस्टिट्यूट"
+      : "About Shreya Creation — Patna's Fashion Boutique Institute");
   const pageSubtitle =
     pickPage(about, lang, "headerSubtitle", "headerSubtitleHi") ||
     (lang === "hi"
-      ? "पटना का भरोसेमंद फैशन ट्रेनिंग और डिज़ाइनर बुटीक"
-      : "Patna's trusted fashion training institute & designer boutique");
+      ? "ईस्ट बोरिंग कैनाल रोड पर पटना का भरोसेमंद फैशन बुटीक और ट्रेनिंग इंस्टिट्यूट"
+      : "Patna's trusted fashion boutique & training institute on East Boring Canal Road");
   const heroBefore =
     pickPage(about, lang, "heroTitleBefore", "heroTitleBeforeHi") ||
     (lang === "hi" ? "कौशल से कारोबार तक —" : "From skill to business —");
@@ -143,27 +145,34 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
   const statChips = [
     {
       icon: "⭐",
-      value: lang === "hi" ? SITE_STATS.yearsHi : SITE_STATS.yearsEn,
+      value: site.stats?.yearsEn || SITE_STATS.yearsEn,
       label: lang === "hi" ? "अनुभव" : "Experience",
     },
     {
       icon: "🎓",
-      value: "2000+",
+      value: `${site.studentsTaught || 2000}+`,
       label: lang === "hi" ? "छात्र प्रशिक्षित" : "Students trained",
     },
     {
       icon: "📚",
-      value: lang === "hi" ? SITE_STATS.coursesHi : SITE_STATS.coursesEn,
+      value: site.stats?.coursesEn || `${site.coursesCount || ""} Courses`.trim(),
       label: lang === "hi" ? "प्रोफेशनल कोर्स" : "Professional courses",
     },
   ];
+
+  const journeySteps = JOURNEY.map((step) => {
+    let year = "";
+    if (step.yearKey === "founding") year = String(site.foundingYear || 2007);
+    else if (step.yearKey === "students") year = `${site.studentsTaught || 2000}+`;
+    else if (step.yearKey === "courses") year = String(site.coursesCount || "—");
+    else if (step.yearKey === "express") year = `${site.expressDeliveryHours || 24}hr`;
+    return { ...step, year };
+  });
 
   const memberImages = [
     home.founderImage || "/133.png",
     home.mentorImage || "/hero_studio_banner.png",
   ];
-
-  const ribbonItems = (site.heroMarquee || []).slice(0, 6);
 
   return (
     <div className="about-page relative min-w-0 w-full">
@@ -208,7 +217,11 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
                   >
                     <CardImage
                       src={heroImage}
-                      alt={lang === "hi" ? "श्रेया क्रिएशन स्टूडियो" : "Shreya Creation studio"}
+                      alt={
+                        lang === "hi"
+                          ? "पटना का फैशन बुटीक इंस्टिट्यूट — श्रेया क्रिएशन स्टूडियो"
+                          : "fashion boutique institute in Patna — Shreya Creation studio"
+                      }
                       ratio="4/5"
                       position="top"
                       className="founder-portrait__media rounded-xl sm:rounded-2xl"
@@ -319,24 +332,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
         </div>
       </section>
 
-      {/* ——— Brand ribbon ——— */}
-      {ribbonItems.length > 0 && (
-        <div className="brand-ribbon about-brand-ribbon relative z-20" aria-hidden>
-          <div className={MARQUEE_CONTAINER}>
-            <div className={MARQUEE_CONTENT}>
-              {[0, 1].map((dup) => (
-                <span key={dup} className="brand-ribbon__item">
-                  {ribbonItems.map((item, i) => (
-                    <span key={i} className="brand-ribbon__item">
-                      {item} <span className="brand-ribbon__gem">✦</span>
-                    </span>
-                  ))}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Brand ribbon removed — AnnouncementBar in Navbar is the single marquee */}
 
       {/* ——— Mission band ——— */}
       <section className="about-mission-band relative z-20 overflow-hidden" aria-label={brandMessage}>
@@ -373,7 +369,7 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
         <SectionHeading eyebrow={journeyEyebrow} title={journeyTitle} />
         <div className="about-journey__track">
           <div className="about-journey__line" aria-hidden />
-          {JOURNEY.map((step, i) => (
+          {journeySteps.map((step, i) => (
             <motion.article
               key={step.year}
               className={cn(REVEAL, "about-journey__step")}

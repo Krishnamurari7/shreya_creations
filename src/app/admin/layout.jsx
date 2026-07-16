@@ -1,7 +1,7 @@
 import AdminShell from "@/components/admin/AdminShell";
 
 export const metadata = {
-  title: "Admin — Shreya creation",
+  title: { absolute: "Admin — Shreya Creation" },
   robots: { index: false, follow: false, nocache: true },
 };
 

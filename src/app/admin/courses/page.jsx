@@ -17,7 +17,7 @@ const COURSE_PDF_OPTIONS = [
 const FIELDS = [
   { name: "title", label: "Title (English)", type: "text" },
   { name: "title_hi", label: "Title (Hindi)", type: "text" },
-  { name: "slug", label: "Slug", type: "text", hint: "Leave blank to auto-generate from the English title." },
+  { name: "slug", label: "Slug", type: "text", hint: "Leave blank to auto-generate from the English title. Used in /courses/your-slug." },
   { name: "category", label: "Category", type: "select", options: COURSE_CATEGORIES.filter((c) => c !== "All") },
   { name: "price", label: "Price (₹)", type: "number" },
   { name: "compare_price", label: "Compare price (₹)", type: "number", hint: "Optional strikethrough price on the course card." },
@@ -36,6 +36,11 @@ const FIELDS = [
   { name: "course_pdf", label: "Course brochure PDF", type: "select", options: COURSE_PDF_OPTIONS, hint: "Required for Enroll Now — without PDF the course shows as Coming Soon." },
   { name: "image", label: "Thumbnail", type: "image" },
   { name: "preview_video", label: "Preview video embed URL", type: "text", hint: "e.g. https://www.youtube.com/embed/VIDEO_ID" },
+  { name: "meta_title", label: "SEO meta title", type: "text", hint: "Optional. Fallback: “{title} in Patna | Shreya Creation”. Keep ~60 characters." },
+  { name: "meta_description", label: "SEO meta description", type: "textarea", hint: "Optional. Fallback: short description / about. Keep ~155 characters." },
+  { name: "og_image", label: "OG / social share image", type: "image", hint: "Optional. Falls back to the course thumbnail." },
+  { name: "image_alt", label: "Image alt text", type: "text", hint: "Optional. Fallback: “{title} Patna”." },
+  { name: "focus_keyword", label: "Focus keyword (optional)", type: "text", hint: "e.g. boutique course in Patna" },
 ];
 
 const SECTIONS = [
@@ -53,6 +58,11 @@ const SECTIONS = [
     id: "media",
     label: "PDF & Media",
     fields: ["course_pdf", "image", "preview_video"],
+  },
+  {
+    id: "seo",
+    label: "SEO",
+    fields: ["meta_title", "meta_description", "og_image", "image_alt", "focus_keyword"],
   },
 ];
 
@@ -81,7 +91,7 @@ export default function CoursesAdmin() {
     <ResourceManager
       table="courses"
       title="Courses"
-      subtitle="All 15 seed courses appear here. Edit any course and save to store your changes in Supabase — use the same slug (e.g. blouse-suit-making-course) to override demo content. A course shows Enroll Now only when it has a PDF brochure and full about text."
+      subtitle="All 15 seed courses appear here. Edit any course and save to store your changes in Supabase — use the same slug (e.g. blouse-suit-making-course) to override demo content. A course shows Enroll Now only when it has a PDF brochure and full about text. Use the SEO tab for per-course titles, descriptions and image alt."
       fields={FIELDS}
       sections={SECTIONS}
       mergeRows={mergeAdminCourses}

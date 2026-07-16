@@ -1,8 +1,9 @@
 "use client";
 
-import { GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, MARQUEE_CONTAINER, MARQUEE_CONTENT, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_LEFT, REVEAL_RIGHT, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_LEFT, REVEAL_RIGHT, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import CategoryCards from "@/components/CategoryCards";
 import { Testimonials } from "@/components/Sections";
@@ -11,7 +12,6 @@ import { toYoutubeEmbedUrl } from "@/lib/youtube";
 import VideoShowcase from "@/components/VideoShowcase";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
-import { SITE_STATS } from "@/lib/seed";
 import InquiryPopup from "@/components/InquiryPopup";
 import HeroSection from "@/components/HeroSection";
 import HomeShopPreview from "@/components/HomeShopPreview";
@@ -194,17 +194,6 @@ export default function HomepageClient({
   const { lang } = useLanguage();
   const home = site.pages?.home || {};
 
-  const ribbonItems = useMemo(() => {
-    const marquee = (site.heroMarquee || []).map((item) =>
-      typeof item === "string" ? item : item?.text || ""
-    ).filter(Boolean);
-    if (marquee.length >= 3) return marquee;
-    return lang === "hi"
-      ? [SITE_STATS.yearsHi, "कौशल से कारोबार तक", SITE_STATS.yearsHi, "100% प्रैक्टिकल ट्रेनिंग"]
-      : [SITE_STATS.yearsEn, "From Skill to Business", SITE_STATS.yearsEn, "100% Practical Training"];
-  }, [site.heroMarquee, lang]);
-
-
   const founderImage = home.founderImage || "/133.png";
   const mentorImage = home.mentorImage || "/hero_studio_banner.png";
 
@@ -231,29 +220,33 @@ export default function HomepageClient({
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
       {/* ===== HERO BANNER (includes stats + quick actions) ===== */}
-      <HeroSection home={home} lang={lang} phone={site.phone} whatsapp={site.whatsapp} />
+      <HeroSection home={home} lang={lang} phone={site.phone} whatsapp={site.whatsapp} site={site} />
 
-      {/* ===== BRAND MARQUEE RIBBON ===== */}
-      <div className="brand-ribbon" aria-hidden>
-        <div className={MARQUEE_CONTAINER}>
-          <div className={MARQUEE_CONTENT}>
-            {[0, 1].map((dup) => (
-              <span key={dup} className="brand-ribbon__item">
-                {ribbonItems.map((item, i) => (
-                  <span key={i} className="brand-ribbon__item">
-                    {item} <span className="brand-ribbon__gem">✦</span>
-                  </span>
-                ))}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, "py-6", "sm:py-8", "relative", "z-20", "max-w-3xl")}>
+        <p className={cn(SECTION_LEAD, "text-center", "mx-auto", "text-pretty")}>
+          {lang === "hi"
+            ? "पटना (बोरिंग रोड / ईस्ट बोरिंग कैनाल रोड) में फैशन बुटीक इंस्टिट्यूट — बुटीक कोर्स पटना, फैशन डिज़ाइनिंग कोर्स, और 24 घंटे में सिले कपड़े।"
+            : "Shreya Creation is a fashion boutique institute in Patna (Boring Road / East Boring Canal Road) offering boutique courses in Patna, fashion designing training, and 24-hour custom stitching for bridal lehengas and designer blouses."}
+        </p>
+        <p className="mt-3 text-center text-sm text-ink/80">
+          <Link href="/courses" className="text-orange font-medium underline-offset-2 hover:underline">
+            {lang === "hi" ? "पटना में बुटीक कोर्स" : "boutique courses in Patna"}
+          </Link>
+          {" · "}
+          <Link href="/shop" className="text-orange font-medium underline-offset-2 hover:underline">
+            {lang === "hi" ? "24 घंटे कस्टम सिलाई" : "24-hour custom stitching"}
+          </Link>
+          {" · "}
+          <Link href="/portfolio" className="text-orange font-medium underline-offset-2 hover:underline">
+            {lang === "hi" ? "ब्राइडल पोर्टफोलियो" : "bridal boutique portfolio"}
+          </Link>
+        </p>
+      </section>
 
       {/* ===== QUICK EXPLORE ===== */}
       <CategoryCards lang={lang} site={site} whatsapp={site.whatsapp} />
 
-      <HomeCoursesPreview courses={courses} home={home} />
+      <HomeCoursesPreview courses={courses} home={home} site={site} />
 
       {/* ===== SHOP PREVIEW ===== */}
       <HomeShopPreview products={products} home={home} lang={lang} whatsapp={site.whatsapp} />

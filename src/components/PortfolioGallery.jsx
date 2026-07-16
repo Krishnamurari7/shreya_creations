@@ -4,6 +4,7 @@ import { BTN_GOLD, FILTER_PILL, GLASS, INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL,
 import { cn } from "@/lib/utils";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import CardImage from "@/components/CardImage";
 import { Glass3DCard } from "@/components/Glass3DCard";
@@ -98,38 +99,73 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
         </Glass3DCard>
       ) : (
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 [&>*]:mb-4">
-          {filtered.map((item, idx) => (
-            <button
-              key={item.id || `${item.title}-${idx}`}
-              type="button"
-              onClick={() => openLightbox(item)}
-              className={cn(GLASS, INTERACTIVE_CARD, REVEAL, "group", "relative", "block", "w-full", "overflow-hidden", "rounded-3xl", "border", "border-ink/15", "hover:border-orange/35", "transition-all", "duration-500", "shadow-lg", "break-inside-avoid")}
-              style={staggerDelay(idx % 8, 50)}
-            >
-              <CardImage
-                src={item.image}
-                alt={item.title || "Portfolio piece"}
-                ratio="3/4"
-                position="top"
-              />
-
-              <div className="portfolio-card-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 text-left backdrop-blur-[2px]">
-                {item.category && (
-                  <span className="text-[10px] uppercase tracking-widest text-orange font-semibold mb-1">
-                    {item.category}
-                  </span>
-                )}
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-display text-xl text-white leading-tight text-left">
-                    {item.title}
-                  </span>
-                  <span className="h-7 w-7 rounded-full bg-orange/90 text-white flex items-center justify-center text-xs shrink-0 shadow-md">
-                    ↗
-                  </span>
+          {filtered.map((item, idx) => {
+            const alt = item.image_alt || item.imageAlt || `${item.title || "Portfolio piece"} Patna`;
+            const href = item.slug ? `/portfolio/${item.slug}` : null;
+            const className = cn(
+              GLASS,
+              INTERACTIVE_CARD,
+              REVEAL,
+              "group",
+              "relative",
+              "block",
+              "w-full",
+              "overflow-hidden",
+              "rounded-3xl",
+              "border",
+              "border-ink/15",
+              "hover:border-orange/35",
+              "transition-all",
+              "duration-500",
+              "shadow-lg",
+              "break-inside-avoid"
+            );
+            const content = (
+              <>
+                <CardImage src={item.image} alt={alt} ratio="3/4" position="top" />
+                <div className="portfolio-card-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 text-left backdrop-blur-[2px]">
+                  {item.category && (
+                    <span className="text-[10px] uppercase tracking-widest text-orange font-semibold mb-1">
+                      {item.category}
+                    </span>
+                  )}
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-display text-xl text-white leading-tight text-left">
+                      {item.title}
+                    </span>
+                    <span className="h-7 w-7 rounded-full bg-orange/90 text-white flex items-center justify-center text-xs shrink-0 shadow-md">
+                      ↗
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </>
+            );
+
+            if (href) {
+              return (
+                <Link
+                  key={item.id || `${item.title}-${idx}`}
+                  href={href}
+                  className={className}
+                  style={staggerDelay(idx % 8, 50)}
+                >
+                  {content}
+                </Link>
+              );
+            }
+
+            return (
+              <button
+                key={item.id || `${item.title}-${idx}`}
+                type="button"
+                onClick={() => openLightbox(item)}
+                className={className}
+                style={staggerDelay(idx % 8, 50)}
+              >
+                {content}
+              </button>
+            );
+          })}
         </div>
       )}
 
@@ -187,7 +223,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={lightbox.image}
-                      alt={lightbox.title}
+                      alt={lightbox.image_alt || lightbox.imageAlt || `${lightbox.title || "Portfolio piece"} Patna`}
                       className="block max-h-[min(70vh,720px)] sm:max-h-[min(78vh,720px)] max-w-full w-auto h-auto object-contain"
                     />
                   </div>

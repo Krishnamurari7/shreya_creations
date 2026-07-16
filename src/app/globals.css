@@ -16124,15 +16124,16 @@ html.dark .course-pdf-modal__state p {
 .home-hero--boutique .home-hero__script-title,
 .home-hero--boutique .home-hero__title-highlight {
   font-family: var(--hero-font-display);
-  font-size: clamp(1.85rem, 5.2vw, 4rem);
-  line-height: 1.05;
+  font-size: clamp(1.85rem, 5vw, 3.55rem);
+  line-height: 1.08;
   margin: 0;
   color: #ffffff;
-  font-weight: 800;
+  font-weight: 700;
   font-style: normal;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+  letter-spacing: -0.02em;
+  text-transform: none;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.22);
+  text-wrap: balance;
 }
 
 .home-hero--boutique .home-hero__title-highlight {
@@ -16143,7 +16144,9 @@ html.dark .course-pdf-modal__state p {
   background-clip: unset;
   animation: none;
   filter: none;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.22);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }
 
 .home-hero--boutique .home-hero__title-sub {
@@ -16306,11 +16309,11 @@ html.dark .course-pdf-modal__state p {
 
 .home-hero--boutique .home-hero__action-title {
   font-family: var(--hero-font-ui);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: inherit;
 }
 

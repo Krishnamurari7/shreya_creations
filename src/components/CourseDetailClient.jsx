@@ -71,7 +71,7 @@ function buildIncludes(course, lang) {
 }
 
 const TRUST_BADGES = [
-  { icon: "👩‍🎓", en: "2000+ Happy Students", hi: "2000+ खुश छात्र" },
+  { icon: "👩‍🎓", en: "Happy Students", hi: "खुश छात्र", key: "students" },
   { icon: "⏰", en: "Flexible Batches", hi: "लचीले बैच" },
   { icon: "🎯", en: "Expert Faculty", hi: "एक्सपर्ट फैकल्टी" },
   { icon: "✂️", en: "Practical Learning", hi: "प्रैक्टिकल लर्निंग" },
@@ -238,7 +238,11 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
                 />
               ) : course.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={course.image} alt={title} className="course-detail__image" />
+                <img
+                  src={course.image}
+                  alt={course.image_alt || course.imageAlt || `${title} Patna`}
+                  className="course-detail__image"
+                />
               ) : (
                 <div className="course-detail__image-placeholder">{title}</div>
               )}
@@ -281,14 +285,24 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
               <p className="course-detail__secure">🔒 {t.secure}</p>
 
               <ul className="course-detail__trust">
-                {TRUST_BADGES.map((badge) => (
-                  <li key={badge.en}>
-                    <span className="course-detail__trust-icon" aria-hidden>
-                      {badge.icon}
-                    </span>
-                    <span>{lang === "hi" ? badge.hi : badge.en}</span>
-                  </li>
-                ))}
+                {TRUST_BADGES.map((badge) => {
+                  const label =
+                    badge.key === "students"
+                      ? lang === "hi"
+                        ? `${site?.studentsTaught || 2000}+ खुश छात्र`
+                        : `${site?.studentsTaught || 2000}+ Happy Students`
+                      : lang === "hi"
+                        ? badge.hi
+                        : badge.en;
+                  return (
+                    <li key={badge.en}>
+                      <span className="course-detail__trust-icon" aria-hidden>
+                        {badge.icon}
+                      </span>
+                      <span>{label}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

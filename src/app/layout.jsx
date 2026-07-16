@@ -37,42 +37,28 @@ import ThemeScript from "@/components/ThemeScript";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MetaPixel from "@/components/MetaPixel";
 import { getSiteSettings } from "@/lib/data";
-import { BRAND_MESSAGE_HI, SERVICE_USP_HI } from "@/lib/i18n";
 import { LOGO_SRC } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/siteUrl";
 import JsonLd from "@/components/JsonLd";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const siteUrl = getSiteUrl();
 
-const siteTitle = `Shreya creation — ${BRAND_MESSAGE_HI}`;
-const siteDescription = `${BRAND_MESSAGE_HI} — bespoke stitching, bridal couture & fashion boutique courses in Patna (Boring Road). ${SERVICE_USP_HI}. Call or WhatsApp to enrol / order.`;
+const siteTitle = "Fashion Boutique Institute & 24hr Stitching in Patna | Shreya Creation";
+const siteDescription =
+  "Learn fashion designing & boutique courses in Patna, or get custom outfits stitched in 24 hours — bridal lehengas, designer blouses & more. Call/WhatsApp today.";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteTitle,
-    template: "%s | Shreya creation Patna",
+    template: "%s | Shreya Creation",
   },
   description: siteDescription,
-  applicationName: "Shreya creation",
-  keywords: [
-    "Shreya creation Patna",
-    "Shreya Creations Boring Road",
-    "boutique institute Patna",
-    "fashion designing course Patna",
-    "blouse making classes Patna",
-    "tailoring classes Boring Road",
-    "24 hour stitching Patna",
-    "bridal lehenga stitching Patna",
-    "boutique course Bihar",
-  ],
-  authors: [{ name: "Shreya creation", url: siteUrl }],
-  creator: "Shreya creation",
-  publisher: "Shreya creation",
-  category: "education",
-  alternates: {
-    canonical: "/",
-  },
+  applicationName: "Shreya Creation",
+  authors: [{ name: "Shreya Creation", url: siteUrl }],
+  creator: "Shreya Creation",
+  publisher: "Shreya Creation",
   robots: {
     index: true,
     follow: true,
@@ -97,15 +83,15 @@ export const metadata = {
     title: siteTitle,
     description: siteDescription,
     url: siteUrl,
-    siteName: "Shreya creation",
+    siteName: "Shreya Creation",
     locale: "en_IN",
     type: "website",
     images: [
       {
-        url: LOGO_SRC,
-        width: 512,
-        height: 512,
-        alt: "Shreya creation — Fashion Boutique Institute Patna",
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "Shreya Creation — fashion boutique institute and stitching studio in Patna",
       },
     ],
   },
@@ -113,7 +99,7 @@ export const metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [LOGO_SRC],
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

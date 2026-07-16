@@ -42,6 +42,10 @@ export default function PageCTA({
   secondaryLabelHi,
   waMessage,
   className = "",
+  perks,
+  perksHi,
+  eyebrow: eyebrowProp,
+  eyebrowHi,
 }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
@@ -54,9 +58,14 @@ export default function PageCTA({
   const secondary = lang === "hi" && secondaryLabelHi ? secondaryLabelHi : secondaryLabel || t.secondary;
   const wa = waLink(whatsapp, waMessage || greetingMessage(lang));
 
-  const eyebrow = lang === "hi" ? "बुटीक परामर्श" : "Boutique Consultation";
+  const eyebrow =
+    (lang === "hi" && eyebrowHi ? eyebrowHi : eyebrowProp) ||
+    (lang === "hi" ? "बुटीक परामर्श" : "Boutique Consultation");
 
-  const perks = t.perks;
+  const perksList =
+    (lang === "hi" && perksHi?.length ? perksHi : null) ||
+    (perks?.length ? perks : null) ||
+    t.perks;
 
   return (
     <section className={`page-cta-wrap ${PAGE_CONTAINER} max-w-5xl relative z-20 ${className}`}>
@@ -112,7 +121,7 @@ export default function PageCTA({
             <p className="page-cta__subtitle text-pretty">{body}</p>
 
             <ul className="page-cta__perks" aria-label={lang === "hi" ? "हम क्या मदद करते हैं" : "What we help with"}>
-              {perks.map((perk) => (
+              {perksList.map((perk) => (
                 <li key={perk} className="page-cta__perk">
                   <span className="page-cta__perk-dot" aria-hidden />
                   {perk}

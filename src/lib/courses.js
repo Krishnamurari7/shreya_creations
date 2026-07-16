@@ -75,6 +75,11 @@ export function courseToFormState(course) {
     syllabus: normalizeSyllabus(course.syllabus),
     is_addon: Boolean(course.is_addon ?? course.isAddon),
     badge: course.badge ?? "",
+    meta_title: course.meta_title ?? course.metaTitle ?? "",
+    meta_description: course.meta_description ?? course.metaDescription ?? "",
+    og_image: course.og_image ?? course.ogImage ?? "",
+    image_alt: course.image_alt ?? course.imageAlt ?? "",
+    focus_keyword: course.focus_keyword ?? course.focusKeyword ?? "",
     _dbId: isDbUuid(course.id) ? course.id : course._dbId ?? null,
   };
 }

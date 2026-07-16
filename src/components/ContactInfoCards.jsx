@@ -15,7 +15,8 @@ const COPY = {
     phone: "Phone",
     email: "Email",
     address: "Studio Address",
-    hours: "Hours: 11 AM – 8 PM (Closed Tuesdays)",
+    hours: "Hours",
+    closed: "Closed",
     instagram: "Instagram",
     instagramDesc: "Latest custom bridal fittings and lookbook reels.",
     instagramCta: "Follow us",
@@ -30,7 +31,8 @@ const COPY = {
     phone: "फ़ोन",
     email: "ईमेल",
     address: "स्टूडियो पता",
-    hours: "समय: सुबह 11 – रात 8 (मंगलवार बंद)",
+    hours: "समय",
+    closed: "बंद",
     instagram: "Instagram",
     instagramDesc: "नवीनतम ब्राइडल फिटिंग और लुकबुक रील्स।",
     instagramCta: "फ़ॉलो करें",
@@ -145,7 +147,10 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
             <div className="min-w-0 flex-1">
               <h3 className="contact-card-label">{t.address}</h3>
               <p className="text-sm text-ink font-normal leading-relaxed mt-1">{site.address}</p>
-              <span className="contact-hours-chip mt-3">{t.hours}</span>
+              <span className="contact-hours-chip mt-3">
+                {t.hours}: {site.studioHours || "Mon–Sat, 10 AM–8 PM"}
+                {site.closedDays ? ` (${t.closed} ${site.closedDays})` : ""}
+              </span>
             </div>
           </div>
 
