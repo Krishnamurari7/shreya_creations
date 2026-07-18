@@ -157,7 +157,7 @@ export async function getSiteSettings() {
     };
   }
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase.from("settings").select("*").eq("id", 1).single();
     const normalized = normalizeSettings(data);
     if (!normalized) {
@@ -182,7 +182,7 @@ export async function getSiteSettings() {
 export async function getProducts({ includeUnpublished = false } = {}) {
   if (!isSupabaseConfigured()) return seed.PRODUCTS.map(normalizeProduct);
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     let q = supabase.from("products").select("*").order("created_at", { ascending: false });
     if (!includeUnpublished) q = q.eq("published", true);
     const { data } = await q;
@@ -198,7 +198,7 @@ export async function getProductBySlug(slug) {
     return normalizeProduct(seed.PRODUCTS.find((p) => p.slug === slug) || null);
   }
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase.from("products").select("*").eq("slug", slug).single();
     return normalizeProduct(data || seed.PRODUCTS.find((p) => p.slug === slug) || null);
   } catch {
@@ -210,7 +210,7 @@ export async function getCourses({ includeUnpublished = false } = {}) {
   const seedList = publishedSeedCourses(includeUnpublished);
   if (!isSupabaseConfigured()) return seedList;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     let q = supabase.from("courses").select("*").order("created_at", { ascending: false });
     if (!includeUnpublished) q = q.eq("published", true);
     const { data, error } = await q;
@@ -228,7 +228,7 @@ export async function getCourseBySlug(slug) {
   // Seed catalog is canonical — return immediately; overlay DB fields when available.
   if (!seedCourse) {
     try {
-      const supabase = createClient();
+      const supabase = await createClient();
       const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
       return data ? normalizeCourse(data) : null;
     } catch {
@@ -237,7 +237,7 @@ export async function getCourseBySlug(slug) {
   }
 
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
     const dbCourse = data ? normalizeCourse(data) : null;
     return dbCourse ? mergeCourseRecord(seedCourse, dbCourse) : seedCourse;
@@ -249,7 +249,7 @@ export async function getCourseBySlug(slug) {
 export async function getPortfolio() {
   if (!isSupabaseConfigured()) return seed.PORTFOLIO.map(normalizePortfolioItem);
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase.from("portfolio").select("*").order("sort_order", { ascending: true });
     const rows = data?.length ? data : seed.PORTFOLIO;
     return rows.map(normalizePortfolioItem);
@@ -266,7 +266,7 @@ export async function getPortfolioBySlug(slug) {
 
   if (!isSupabaseConfigured()) return fromSeed();
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase.from("portfolio").select("*").eq("slug", slug).maybeSingle();
     if (data) return normalizePortfolioItem(data);
     return fromSeed();
@@ -278,7 +278,7 @@ export async function getPortfolioBySlug(slug) {
 export async function getTestimonials() {
   if (!isSupabaseConfigured()) return seed.TESTIMONIALS;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
     return data?.length ? data : seed.TESTIMONIALS;
   } catch {
@@ -292,7 +292,7 @@ export async function getTrustStats() {
 
   if (!isSupabaseConfigured()) return fallback;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase
       .from("trust_stats")
       .select("*")
@@ -313,7 +313,7 @@ export async function getTrustStats() {
 export async function getFaqs() {
   if (!isSupabaseConfigured()) return seed.FAQS;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase
       .from("faqs")
       .select("*")
@@ -334,7 +334,7 @@ export async function getFaqs() {
 export async function getPolicyPage(slug) {
   if (!isSupabaseConfigured()) return seed.POLICIES[slug] || null;
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase.from("policy_pages").select("*").eq("slug", slug).single();
     if (!data) return seed.POLICIES[slug] || null;
     return {
@@ -352,7 +352,7 @@ export async function getPolicyPage(slug) {
 export async function getLookbookPosts() {
   if (!isSupabaseConfigured()) return [];
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase
       .from("lookbook_posts")
       .select("*")
@@ -378,7 +378,7 @@ export async function getAdminCounts() {
     };
   }
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const [products, courses, portfolio, testimonials, trust, faqs, lookbook, inquiries] = await Promise.all([
       supabase.from("products").select("id", { count: "exact", head: true }),
       supabase.from("courses").select("id", { count: "exact", head: true }),

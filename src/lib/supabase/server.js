@@ -7,9 +7,9 @@ export function isSupabaseConfigured() {
 }
 
 // For use inside Server Components / Route Handlers.
-export function createClient() {
+export async function createClient() {
   if (!isSupabaseConfigured()) return null;
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,

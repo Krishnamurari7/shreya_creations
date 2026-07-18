@@ -19,7 +19,8 @@ import {
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
-  const item = await getPortfolioBySlug(params.slug);
+  const { slug } = await params;
+  const item = await getPortfolioBySlug(slug);
   if (!item) {
     return buildMetadata({
       title: "Portfolio | Shreya Creation Patna",
@@ -38,7 +39,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function PortfolioDetailPage({ params }) {
-  const [item, site] = await Promise.all([getPortfolioBySlug(params.slug), getSiteSettings()]);
+  const { slug } = await params;
+  const [item, site] = await Promise.all([getPortfolioBySlug(slug), getSiteSettings()]);
   if (!item) return notFound();
 
   const alt = itemImageAlt(item);

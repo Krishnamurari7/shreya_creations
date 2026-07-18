@@ -1,0 +1,13 @@
+{
+  "name": "Shreya creation — कौशल से कारोबार तक",
+  "short_name": "Shreya creation",
+  "description": "24 घंटे में सिले कपड़े — bespoke stitching, 10 fashion courses & boutique services. Order on WhatsApp.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#E8D5A3",
+  "theme_color": "#E65A05",
+  "icons": [
+    { "src": "/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

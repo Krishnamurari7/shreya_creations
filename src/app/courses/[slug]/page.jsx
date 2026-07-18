@@ -17,7 +17,8 @@ import {
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
-  const course = await getCourseBySlug(params.slug);
+  const { slug } = await params;
+  const course = await getCourseBySlug(slug);
   if (!course) {
     return buildMetadata({
       title: "Course | Shreya Creation",
@@ -39,8 +40,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CourseDetail({ params }) {
+  const { slug } = await params;
   const [course, site, faqs] = await Promise.all([
-    getCourseBySlug(params.slug),
+    getCourseBySlug(slug),
     getSiteSettings(),
     getFaqs(),
   ]);

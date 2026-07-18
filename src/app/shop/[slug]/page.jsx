@@ -13,7 +13,8 @@ import {
 } from "@/lib/seo";
 
 export async function generateMetadata({ params }) {
-  const product = await getProductBySlug(params.slug);
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
   if (!product) {
     return buildMetadata({
       title: "Shop | Shreya Creation",
@@ -35,7 +36,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductDetail({ params }) {
-  const [product, site] = await Promise.all([getProductBySlug(params.slug), getSiteSettings()]);
+  const { slug } = await params;
+  const [product, site] = await Promise.all([getProductBySlug(slug), getSiteSettings()]);
   if (!product) return notFound();
 
   const images = product.images?.length ? product.images : product.image ? [product.image] : [];

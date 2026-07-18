@@ -497,7 +497,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
         <div className="home-courses-preview__grid">
           {filtered.map((course, i) => (
             <div
-              key={course.id}
+              key={course.id ?? course.slug ?? `course-${i}`}
               className={cn(REVEAL, REVEAL_ZOOM, "in", "min-w-0", "h-full")}
               style={{ transitionDelay: `${i * 80}ms` }}
             >

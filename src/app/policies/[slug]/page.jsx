@@ -13,8 +13,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const page = await getPolicyPage(params.slug);
-  const path = `/policies/${params.slug}`;
+  const { slug } = await params;
+  const page = await getPolicyPage(slug);
+  const path = `/policies/${slug}`;
   const title = page ? `${page.title} | Shreya Creation` : "Policy | Shreya Creation";
   const description = seoDescription(
     page?.body,
@@ -30,7 +31,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function PolicyPage({ params }) {
-  const page = await getPolicyPage(params.slug);
+  const { slug } = await params;
+  const page = await getPolicyPage(slug);
   if (!page) notFound();
 
   return (
@@ -38,7 +40,7 @@ export default async function PolicyPage({ params }) {
       <JsonLdScript
         data={breadcrumbJsonLd([
           { name: "Home", path: "/" },
-          { name: page.title, path: `/policies/${params.slug}` },
+          { name: page.title, path: `/policies/${slug}` },
         ])}
       />
       <LocalizedPageHeader
