@@ -14,8 +14,11 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 const ROUTES = [
   { href: "/", key: "home" },
   { href: "/about", key: "about" },
-  { href: "/courses", key: "courses" },
   { href: "/shop", key: "boutique" },
+  { href: "/courses", key: "institute" },
+  { href: "/portfolio", key: "gallery" },
+  { href: "/lookbook", key: "blog" },
+  { href: "/nri-clients", key: "nriClients" },
   { href: "/contact", key: "contact" },
 ];
 
@@ -49,21 +52,45 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
       );
-    case "courses":
-      return (
-        <svg {...props}>
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-          <path d="M8 7h8" />
-          <path d="M8 11h8" />
-        </svg>
-      );
     case "boutique":
       return (
         <svg {...props}>
           <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
           <path d="M3 6h18" />
           <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+      );
+    case "institute":
+      return (
+        <svg {...props}>
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+          <path d="M6 12v5c3 3 9 3 12 0v-5" />
+        </svg>
+      );
+    case "gallery":
+      return (
+        <svg {...props}>
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <path d="m21 15-5-5L5 21" />
+        </svg>
+      );
+    case "blog":
+      return (
+        <svg {...props}>
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          <path d="M8 7h8" />
+          <path d="M8 11h8" />
+          <path d="M8 15h5" />
+        </svg>
+      );
+    case "nriClients":
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </svg>
       );
     case "contact":

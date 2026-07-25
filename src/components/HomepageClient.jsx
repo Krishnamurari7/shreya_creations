@@ -3,7 +3,6 @@
 import { GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_LEFT, REVEAL_RIGHT, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import CategoryCards from "@/components/CategoryCards";
 import { Testimonials } from "@/components/Sections";
@@ -221,27 +220,6 @@ export default function HomepageClient({
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
       {/* ===== HERO BANNER (includes stats + quick actions) ===== */}
       <HeroSection home={home} lang={lang} phone={site.phone} whatsapp={site.whatsapp} site={site} />
-
-      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, "py-6", "sm:py-8", "relative", "z-20", "max-w-3xl")}>
-        <p className={cn(SECTION_LEAD, "text-center", "mx-auto", "text-pretty")}>
-          {lang === "hi"
-            ? "पटना (बोरिंग रोड / ईस्ट बोरिंग कैनाल रोड) में फैशन बुटीक इंस्टिट्यूट — बुटीक कोर्स पटना, फैशन डिज़ाइनिंग कोर्स, और 24 घंटे में सिले कपड़े।"
-            : "Shreya Creation is a fashion boutique institute in Patna (Boring Road / East Boring Canal Road) offering boutique courses in Patna, fashion designing training, and 24-hour custom stitching for bridal lehengas and designer blouses."}
-        </p>
-        <p className="mt-3 text-center text-sm text-ink/80">
-          <Link href="/courses" className="text-orange font-medium underline-offset-2 hover:underline">
-            {lang === "hi" ? "पटना में बुटीक कोर्स" : "boutique courses in Patna"}
-          </Link>
-          {" · "}
-          <Link href="/shop" className="text-orange font-medium underline-offset-2 hover:underline">
-            {lang === "hi" ? "24 घंटे कस्टम सिलाई" : "24-hour custom stitching"}
-          </Link>
-          {" · "}
-          <Link href="/portfolio" className="text-orange font-medium underline-offset-2 hover:underline">
-            {lang === "hi" ? "ब्राइडल पोर्टफोलियो" : "bridal boutique portfolio"}
-          </Link>
-        </p>
-      </section>
 
       {/* ===== QUICK EXPLORE ===== */}
       <CategoryCards lang={lang} site={site} whatsapp={site.whatsapp} />

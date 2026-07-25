@@ -8,85 +8,81 @@ import { pickPage } from "@/lib/cms";
 import { openInquiryPopup } from "@/lib/inquiryPopup";
 import {
   demoClassMessage,
-  greetingMessage,
   premiumStitchingCourseMessage,
-  stitchOrderMessage,
-  telLink,
-  waLink,
 } from "@/lib/whatsapp";
 
 const HERO_STATS_EN = [
-  { icon: "clients", highlight: "students", label: "Happy Students Trained" },
-  { icon: "courses", highlight: "courses", label: "Professional Courses" },
-  { icon: "delivered", highlight: "outfits", label: "Outfits Delivered" },
-  { icon: "training", highlight: "100%", label: "Practical Training" },
-  { icon: "placement", highlight: "100%", label: "Placement Assistance" },
+  { icon: "trust", highlight: "years", line1: "Years of Trust", line2: "Since 2012" },
+  { icon: "clients", highlight: "students", line1: "Happy", line2: "Students" },
+  { icon: "delivered", highlight: "outfits", line1: "Outfits", line2: "Delivered" },
+  { icon: "training", highlight: "100%", line1: "Practical", line2: "Training" },
+  { icon: "placement", highlight: "100%", line1: "Placement", line2: "Assistance" },
 ];
 
 const HERO_STATS_HI = [
-  { icon: "clients", highlight: "students", label: "संतुष्ट प्रशिक्षित छात्र" },
-  { icon: "courses", highlight: "courses", label: "प्रोफेशनल कोर्स" },
-  { icon: "delivered", highlight: "outfits", label: "आउटफिट डिलीवर" },
-  { icon: "training", highlight: "100%", label: "प्रैक्टिकल ट्रेनिंग" },
-  { icon: "placement", highlight: "100%", label: "प्लेसमेंट सहायता" },
+  { icon: "trust", highlight: "years", line1: "वर्षों का भरोसा", line2: "2012 से" },
+  { icon: "clients", highlight: "students", line1: "खुश", line2: "छात्र" },
+  { icon: "delivered", highlight: "outfits", line1: "आउटफिट", line2: "डिलीवर" },
+  { icon: "training", highlight: "100%", line1: "प्रैक्टिकल", line2: "ट्रेनिंग" },
+  { icon: "placement", highlight: "100%", line1: "प्लेसमेंट", line2: "सहायता" },
 ];
 
 function HeroStatIcon({ type }) {
   const props = {
     viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2.25",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
+    fill: "currentColor",
     "aria-hidden": true,
   };
 
   switch (type) {
+    case "trust":
+      return (
+        <svg {...props}>
+          <path d="M12 1.8 3.5 5v6.8c0 5.4 3.6 9.9 8.5 11.2 4.9-1.3 8.5-5.8 8.5-11.2V5L12 1.8z" />
+          <path d="M12 4.4 6 6.6v5.2c0 3.9 2.5 7.2 6 8.3V4.4z" fill="#5c3d1a" opacity="0.35" />
+          <path d="M12 4.4v15.7c3.5-1.1 6-4.4 6-8.3V6.6L12 4.4z" fill="#fff8f0" opacity="0.28" />
+          <path d="M8.2 10.2h7.6M8.2 13.8h7.6" stroke="#fff8f0" strokeWidth="1.15" fill="none" opacity="0.55" />
+        </svg>
+      );
     case "clients":
       return (
         <svg {...props}>
-          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-          <circle cx="9" cy="7" r="4" />
-          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-        </svg>
-      );
-    case "courses":
-      return (
-        <svg {...props}>
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-          <path d="M12 3 2 8l10 5 10-5-10-5z" />
-          <path d="M6 10.5V16l6 3 6-3v-5.5" />
+          <circle cx="12" cy="6.8" r="2.8" />
+          <circle cx="6.2" cy="8.2" r="2.2" />
+          <circle cx="17.8" cy="8.2" r="2.2" />
+          <path d="M4.2 18.8c.15-2.9 2-4.5 4.7-4.5.9 0 1.7.2 2.4.6-.05 1.5 0 3.9 0 3.9H4.2z" />
+          <path d="M9.8 18.8c.1-2.8 1.9-4.6 4.7-4.6s4.6 1.8 4.8 4.6H9.8z" />
+          <path d="M12.8 15c.6-.3 1.3-.5 2.1-.5 2.7 0 4.5 1.6 4.7 4.3h-2.8" opacity="0.001" />
         </svg>
       );
     case "delivered":
       return (
         <svg {...props}>
-          <path d="M10 17h4" />
-          <path d="M3 7h11v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7z" />
-          <path d="M14 9h4l3 3v3a2 2 0 0 1-2 2h-1" />
-          <circle cx="7.5" cy="17.5" r="1.5" />
-          <circle cx="17.5" cy="17.5" r="1.5" />
-          <path d="m16 9 2 2" />
+          <path d="M12 2.8c-1.6 0-2.9.85-3.5 2.15-.25.5-.35.95-.35 1.45h7.7c0-.5-.1-.95-.35-1.45C14.9 3.65 13.6 2.8 12 2.8z" />
+          <path d="M6.8 7.2h10.4l.95 1.35-1.55 11.4c-.12.85-.85 1.45-1.7 1.45H9.1c-.85 0-1.58-.6-1.7-1.45L5.85 8.55 6.8 7.2z" />
+          <path d="M9.3 11.4h5.4M9.7 14.6h4.6" stroke="#fff8f0" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.45" />
         </svg>
       );
     case "training":
       return (
         <svg {...props}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M9 12.5 11 15l5.5-6" />
+          <rect x="3.8" y="16.2" width="12.2" height="2.4" rx="0.4" />
+          <rect x="5.2" y="10.8" width="9.4" height="5.4" rx="0.35" />
+          <rect x="6.6" y="7.6" width="2.4" height="3.2" rx="0.25" />
+          <circle cx="7.8" cy="5.8" r="1.55" />
+          <path d="M14.2 9.2h3.6c1.15 0 2.1.95 2.1 2.1v1.4h-2.35l-.85-1.5H14.2V9.2z" />
+          <path d="M10.2 5.6h3.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+          <circle cx="7.8" cy="13.4" r="0.7" fill="#fff8f0" opacity="0.5" />
         </svg>
       );
     case "placement":
       return (
         <svg {...props}>
-          <path d="M8 21h8" />
-          <path d="M12 17v4" />
-          <path d="M7 4h10v3a5 5 0 0 1-10 0V4z" />
-          <path d="M5 4H3v2a3 3 0 0 0 3 3" />
-          <path d="M19 4h2v2a3 3 0 0 1-3 3" />
+          <path d="M7.6 9.6c-1.55 0-2.8 1.25-2.8 2.8v2.2c0 .45.35.8.8.8h2v-5.8H7.6z" />
+          <path d="M16.4 9.6c1.55 0 2.8 1.25 2.8 2.8v2.2c0 .45-.35.8-.8.8h-2v-5.8h0z" />
+          <path d="M6.6 14.4h10.8c.75 0 1.35.6 1.35 1.35v.55c0 1.6-1.3 2.9-2.9 2.9H8.15c-1.6 0-2.9-1.3-2.9-2.9v-.55c0-.75.6-1.35 1.35-1.35z" />
+          <path d="M8.8 9.6h6.4v4.8H8.8z" />
+          <path d="M10.1 8.2a1.9 1.9 0 0 1 3.8 0" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
         </svg>
       );
     default:
@@ -266,54 +262,69 @@ function CtaArrowIcon() {
   );
 }
 
-function PathIcon({ type }) {
+function ServiceIcon({ type }) {
   const props = {
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: "1.75",
+    strokeWidth: "1.6",
     strokeLinecap: "round",
     strokeLinejoin: "round",
     "aria-hidden": true,
   };
 
   switch (type) {
-    case "courses":
+    case "fashion":
       return (
         <svg {...props}>
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+          <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
         </svg>
       );
-    case "stitching":
+    case "boutique":
       return (
         <svg {...props}>
-          <path d="M12 3 8 7v14h8V7l-4-4z" />
-          <path d="M8 7h8" />
+          <path d="M9 4h6l1.5 4H7.5L9 4z" />
+          <path d="M8 8v12h8V8" />
           <path d="M10 12h4M10 16h4" />
         </svg>
       );
-    case "institute":
+    case "blouse":
       return (
         <svg {...props}>
-          <path d="M3 21h18" />
-          <path d="M5 21V10l7-5 7 5v11" />
-          <path d="M9 21v-6h6v6" />
-          <path d="M9 13h.01M12 13h.01M15 13h.01" />
+          <path d="M9 3.5 6 6.5 3.5 8l2 2.5V20h13V10.5l2-2.5L18 6.5 15 3.5" />
+          <path d="M9 3.5c.8 1.2 1.7 1.8 3 1.8s2.2-.6 3-1.8" />
         </svg>
       );
-    case "gallery":
+    case "lehenga":
       return (
         <svg {...props}>
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-          <circle cx="12" cy="13" r="4" />
+          <path d="M10 3h4v5l3.5 12h-11L10 8V3z" />
+          <path d="M9 8h6" />
         </svg>
       );
-    case "testimonials":
+    case "suit":
       return (
         <svg {...props}>
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          <path d="m10.5 9.5 1.2 2.4 2.6.4-1.9 1.9.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.9 2.6-.4z" />
+          <path d="M9 3.5 6.5 6.5 4 8l2 2v10h12V10l2-2-2.5-1.5L15 3.5" />
+          <path d="M9 3.5c.7 1 1.6 1.5 3 1.5s2.3-.5 3-1.5" />
+          <path d="M12 5v15" />
+        </svg>
+      );
+    case "handwork":
+      return (
+        <svg {...props}>
+          <path d="M5 19 14.5 9.5" />
+          <path d="M13 8l3 3" />
+          <circle cx="16.5" cy="7.5" r="2" />
+          <path d="M4 20h4" />
+        </svg>
+      );
+    case "express":
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M12 7.5v5l3.2 1.8" />
         </svg>
       );
     default:
@@ -321,148 +332,281 @@ function PathIcon({ type }) {
   }
 }
 
-function PhoneIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  );
-}
-
-function WhatsAppIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.045L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
-    </svg>
-  );
-}
-
-const PATH_CARDS_EN = [
+const FEATURE_STRIP_EN = [
   {
-    key: "courses",
-    icon: "courses",
-    title: "BOUTIQUE COURSES",
-    desc: "Boutique courses in Patna",
-    cta: "EXPLORE COURSES",
-    href: "/courses",
+    key: "tailoring",
+    icon: "sewing",
+    title: "BEST LADIES TAILORING SERVICE",
+    subtitle: "Perfect Fit. Perfect You. Every Time.",
+  },
+  {
+    key: "boutique",
+    icon: "dress",
+    title: "DESIGNER BOUTIQUE",
+    subtitle: "Trendy Designs. Premium Finishing.",
   },
   {
     key: "stitching",
-    icon: "stitching",
-    title: "CUSTOM STITCHING",
-    desc: "24-hour custom stitching",
-    cta: "SHOP DESIGNS",
-    href: "/shop",
+    icon: "mannequin",
+    title: "PREMIUM STITCHING",
+    subtitle: "High Quality Fabrics. Finest Craftsmanship.",
   },
   {
-    key: "institute",
-    icon: "institute",
-    title: "INSTITUTE",
-    desc: "Fashion boutique institute Patna",
-    cta: "KNOW MORE",
-    href: "/about",
+    key: "diploma",
+    icon: "certificate",
+    title: "DIPLOMA & CERTIFICATE COURSES",
+    subtitle: "Govt. Recognized Certification",
   },
   {
-    key: "gallery",
-    icon: "gallery",
-    title: "BRIDAL PORTFOLIO",
-    desc: "Bridal & designer work",
-    cta: "VIEW GALLERY",
-    href: "/portfolio",
-  },
-  {
-    key: "testimonials",
-    icon: "testimonials",
-    title: "TESTIMONIALS",
-    desc: "Student & Client Reviews",
-    cta: "READ REVIEWS",
-    href: "#testimonials",
+    key: "entrance",
+    icon: "book",
+    title: "NIFT / NID / CEED PREPARATION",
+    subtitle: "Entrance Coaching by Experts",
   },
 ];
 
-const PATH_CARDS_HI = [
+const FEATURE_STRIP_HI = [
   {
-    key: "courses",
-    icon: "courses",
+    key: "tailoring",
+    icon: "sewing",
+    title: "सर्वश्रेष्ठ लेडीज़ टेलरिंग सेवा",
+    subtitle: "परफेक्ट फिट। परफेक्ट यू। हर बार।",
+  },
+  {
+    key: "boutique",
+    icon: "dress",
+    title: "डिज़ाइनर बुटीक",
+    subtitle: "ट्रेंडी डिज़ाइन। प्रीमियम फिनिशिंग।",
+  },
+  {
+    key: "stitching",
+    icon: "mannequin",
+    title: "प्रीमियम सिलाई",
+    subtitle: "उच्च गुणवत्ता वाले कपड़े। बेहतरीन कारीगरी।",
+  },
+  {
+    key: "diploma",
+    icon: "certificate",
+    title: "डिप्लोमा और सर्टिफिकेट कोर्स",
+    subtitle: "सरकारी मान्यता प्राप्त प्रमाणपत्र",
+  },
+  {
+    key: "entrance",
+    icon: "book",
+    title: "NIFT / NID / CEED तैयारी",
+    subtitle: "विशेषज्ञों द्वारा एंट्रेंस कोचिंग",
+  },
+];
+
+function FeatureStripIcon({ type }) {
+  const props = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": true,
+  };
+
+  switch (type) {
+    case "sewing":
+      return (
+        <svg {...props}>
+          <path d="M3.5 17.5h11.5a2 2 0 0 0 2-2v-1.2H9a2 2 0 0 1-2-2V8.5h10.5" />
+          <path d="M3.5 17.5v2a1 1 0 0 0 1 1h2.2" />
+          <circle cx="17.5" cy="8" r="2.2" />
+          <path d="M8.5 8.5V6.2a1 1 0 0 1 1-1h2.2" />
+          <path d="M13.5 17.5v3" />
+          <path d="M5.2 14.2h2.8" />
+        </svg>
+      );
+    case "dress":
+      return (
+        <svg {...props}>
+          <path d="M12 3.2v2.4" />
+          <circle cx="12" cy="2.4" r="0.7" fill="currentColor" stroke="none" />
+          <path d="M9.2 5.6h5.6l1.6 3.4-2.1 1.1v3.6l3.2 7.1H6.5l3.2-7.1V10.1L7.6 9l1.6-3.4z" />
+          <path d="M10.2 10.1h3.6" />
+        </svg>
+      );
+    case "mannequin":
+      return (
+        <svg {...props}>
+          <path d="M12 3.2v2.1" />
+          <circle cx="12" cy="2.4" r="0.7" fill="currentColor" stroke="none" />
+          <path d="M8.2 5.3h7.6l1.1 2.4-1.9.9v6.2l-2.8 6.6h-1.4l-2.8-6.6V8.6L7.1 7.7l1.1-2.4z" />
+          <path d="M9.4 8.8h5.2M9.8 12.2h4.4" />
+        </svg>
+      );
+    case "certificate":
+      return (
+        <svg {...props}>
+          <path d="M5.5 3.5h13v13.5H5.5z" />
+          <path d="M8.2 7.2h7.6M8.2 10.2h5.2" />
+          <circle cx="14.8" cy="14.2" r="2.4" />
+          <path d="M13.6 16.1 12.4 20.2l2.4-1.2 2.4 1.2-1.2-4.1" />
+        </svg>
+      );
+    case "book":
+      return (
+        <svg {...props}>
+          <path d="M12 6.2c-1.4-1-3.2-1.5-5.2-1.5H4.5v13.2H6.8c2 0 3.8.5 5.2 1.5 1.4-1 3.2-1.5 5.2-1.5h2.3V4.7H17.2c-2 0-3.8.5-5.2 1.5z" />
+          <path d="M12 6.2v13.2" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+const SERVICE_CARDS_EN = [
+  {
+    key: "fashion",
+    icon: "fashion",
+    image: "/slider1.png",
+    title: "FASHION DESIGNING COURSE",
+    desc: "Learn Fashion Design from Experts.",
+    cta: "BOOK NOW",
+    source: "hero_service_fashion",
+  },
+  {
+    key: "boutique",
+    icon: "boutique",
+    image: "/botique.png",
+    title: "BOUTIQUE COURSE",
+    desc: "Master Stitching & Boutique Skills.",
+    cta: "BOOK NOW",
+    source: "hero_service_boutique",
+  },
+  {
+    key: "blouse",
+    icon: "blouse",
+    image: "/categories/bridal.png",
+    title: "BRIDAL BLOUSE BOOKING",
+    desc: "Designer & Bridal Blouse Stitching.",
+    cta: "BOOK NOW",
+    source: "hero_service_blouse",
+  },
+  {
+    key: "lehenga",
+    icon: "lehenga",
+    image: "/slider3.png",
+    title: "BRIDAL LEHENGA BOOKING",
+    desc: "Custom Bridal Lehenga Stitching.",
+    cta: "BOOK NOW",
+    source: "hero_service_lehenga",
+  },
+  {
+    key: "suit",
+    icon: "suit",
+    image: "/categories/ethnic-wear.png",
+    title: "SUIT STITCHING",
+    desc: "Designer Suits Perfectly Tailored.",
+    cta: "BOOK NOW",
+    source: "hero_service_suit",
+  },
+  {
+    key: "handwork",
+    icon: "handwork",
+    image: "/categories/stitching.png",
+    title: "HAND WORK & EMBROIDERY",
+    desc: "Exquisite Handwork for Every Occasion.",
+    cta: "BOOK NOW",
+    source: "hero_service_handwork",
+  },
+  {
+    key: "express",
+    icon: "express",
+    image: null,
+    title: "EXPRESS 24-HOUR STITCHING",
+    desc: "Get Your Outfit in Just 24 Hours.",
+    cta: "BOOK NOW",
+    source: "hero_service_express",
+  },
+];
+
+const SERVICE_CARDS_HI = [
+  {
+    key: "fashion",
+    icon: "fashion",
+    image: "/slider1.png",
+    title: "फैशन डिज़ाइनिंग कोर्स",
+    desc: "एक्सपर्ट्स से फैशन डिज़ाइन सीखें।",
+    cta: "अभी बुक करें",
+    source: "hero_service_fashion",
+  },
+  {
+    key: "boutique",
+    icon: "boutique",
+    image: "/botique.png",
     title: "बुटीक कोर्स",
-    desc: "पटना में बुटीक कोर्स",
-    cta: "कोर्स देखें",
-    href: "/courses",
+    desc: "सिलाई और बुटीक स्किल्स मास्टर करें।",
+    cta: "अभी बुक करें",
+    source: "hero_service_boutique",
   },
   {
-    key: "stitching",
-    icon: "stitching",
-    title: "कस्टम सिलाई",
-    desc: "24 घंटे में सिले कपड़े",
-    cta: "डिज़ाइन देखें",
-    href: "/shop",
+    key: "blouse",
+    icon: "blouse",
+    image: "/categories/bridal.png",
+    title: "ब्राइडल ब्लाउज़ बुकिंग",
+    desc: "डिज़ाइनर और ब्राइडल ब्लाउज़ सिलाई।",
+    cta: "अभी बुक करें",
+    source: "hero_service_blouse",
   },
   {
-    key: "institute",
-    icon: "institute",
-    title: "इंस्टिट्यूट",
-    desc: "फैशन बुटीक इंस्टिट्यूट पटना",
-    cta: "और जानें",
-    href: "/about",
+    key: "lehenga",
+    icon: "lehenga",
+    image: "/slider3.png",
+    title: "ब्राइडल लहंगा बुकिंग",
+    desc: "कस्टम ब्राइडल लहंगा सिलाई।",
+    cta: "अभी बुक करें",
+    source: "hero_service_lehenga",
   },
   {
-    key: "gallery",
-    icon: "gallery",
-    title: "ब्राइडल पोर्टफोलियो",
-    desc: "ब्राइडल और डिज़ाइनर काम",
-    cta: "गैलरी देखें",
-    href: "/portfolio",
+    key: "suit",
+    icon: "suit",
+    image: "/categories/ethnic-wear.png",
+    title: "सूट सिलाई",
+    desc: "डिज़ाइनर सूट परफेक्टली टेलर्ड।",
+    cta: "अभी बुक करें",
+    source: "hero_service_suit",
   },
   {
-    key: "testimonials",
-    icon: "testimonials",
-    title: "प्रशंसापत्र",
-    desc: "छात्र और क्लाइंट रिव्यू",
-    cta: "रिव्यू पढ़ें",
-    href: "#testimonials",
+    key: "handwork",
+    icon: "handwork",
+    image: "/categories/stitching.png",
+    title: "हैंड वर्क और एम्ब्रॉयडरी",
+    desc: "हर अवसर के लिए बेहतरीन हैंडवर्क।",
+    cta: "अभी बुक करें",
+    source: "hero_service_handwork",
+  },
+  {
+    key: "express",
+    icon: "express",
+    image: null,
+    title: "एक्सप्रेस 24 घंटे सिलाई",
+    desc: "सिर्फ 24 घंटे में अपना आउटफिट पाएँ।",
+    cta: "अभी बुक करें",
+    source: "hero_service_express",
   },
 ];
 
-function HeroActionCard({ variant = "demo", icon, title, subtitle, href, onClick, external = false }) {
-  const className = cn("home-hero__action-card", `home-hero__action-card--${variant}`);
-
-  const inner = (
-    <>
-      <span className="home-hero__action-icon" aria-hidden>
+function HeroCourseCta({ variant = "outline", icon, line1, line2, onClick }) {
+  return (
+    <button
+      type="button"
+      className={cn("home-hero__course-cta", `home-hero__course-cta--${variant}`)}
+      onClick={onClick}
+    >
+      <span className="home-hero__course-cta-icon" aria-hidden>
         {icon}
       </span>
-      <span className="home-hero__action-copy">
-        <span className="home-hero__action-title">{title}</span>
-        <span className="home-hero__action-sub">
-          {subtitle}
-          <span className="home-hero__action-arrow" aria-hidden>
-            <CtaArrowIcon />
-          </span>
-        </span>
+      <span className="home-hero__course-cta-label">
+        <span>{line1}</span>
+        <span>{line2}</span>
       </span>
-    </>
-  );
-
-  if (onClick) {
-    return (
-      <button type="button" className={className} onClick={onClick}>
-        {inner}
-      </button>
-    );
-  }
-
-  if (external) {
-    return (
-      <a href={href} className={className} target="_blank" rel="noopener noreferrer">
-        {inner}
-      </a>
-    );
-  }
-
-  return (
-    <Link href={href} className={className}>
-      {inner}
-    </Link>
+    </button>
   );
 }
 
@@ -562,16 +706,28 @@ function HeroVideoCard({
   );
 }
 
-export default function HeroSection({ home = {}, lang = "en", phone = "", whatsapp = "", site = {} }) {
-  const heroBadge =
+export default function HeroSection({ home = {}, lang = "en", phone: _phone = "", whatsapp: _whatsapp = "", site = {} }) {
+  const defaultHeroBadge =
+    lang === "hi"
+      ? "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट"
+      : "Bihar's No. 1 Boutique And Fashion Institute";
+  const legacyBadges = new Set([
+    "Bihar's No. 1 Fashion Boutique Institute",
+    "Bihar No 1 Fashion Boutique Institute",
+    "बिहार का नं. 1 फैशन बुटीक इंस्टिट्यूट",
+  ]);
+  const rawBadge =
     pickPage(home, lang, "heroBoutiqueBadge", "heroBoutiqueBadgeHi") ||
     pickPage(home, lang, "heroBadge", "heroBadgeHi") ||
-    (lang === "hi"
-      ? "बिहार का नं. 1 फैशन बुटीक इंस्टिट्यूट"
-      : "Bihar's No. 1 Fashion Boutique Institute");
+    defaultHeroBadge;
+  const heroBadge = legacyBadges.has(rawBadge) ? defaultHeroBadge : rawBadge;
 
-  const defaultHeroTitle = lang === "hi" ? "आपका फैशन करियर" : "Your Fashion Career";
-  const defaultHeroHighlight = lang === "hi" ? "पटना से शुरू" : "Starts in Patna";
+  const defaultHeroTitle =
+    lang === "hi"
+      ? "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट"
+      : "Best Designer Boutique & Fashion Designing Institute";
+  const defaultHeroHighlight =
+    lang === "hi" ? "पटना बिहार में, 2012 से" : "in Patna Bihar, since 2012";
   const defaultHeroSubtitle =
     lang === "hi"
       ? "असली स्टूडियो ट्रेनिंग के साथ बुटीक कोर्स — ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
@@ -580,7 +736,10 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
   const legacyTitles = new Set([
     "Fashion Boutique & Stitching Institute in Patna",
     "पटना में फैशन बुटीक और सिलाई संस्थान",
+    "Your Fashion Career",
+    "आपका फैशन करियर",
   ]);
+  const legacyHighlights = new Set(["Starts in Patna", "पटना से शुरू"]);
   const legacySubtitles = new Set([
     "Learn boutique courses in Patna or get 24-hour custom stitching — bridal lehengas, designer blouses & more on Boring Road.",
     "पटना में बुटीक कोर्स सीखें या 24 घंटे में सिले कपड़े पाएं — ब्राइडल लहंगा, डिज़ाइनर ब्लाउज और अधिक।",
@@ -597,51 +756,122 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
     pickPage(home, lang, "heroBoutiqueTitleHighlight", "heroBoutiqueTitleHighlightHi") ||
     pickPage(home, lang, "heroTitleHighlight", "heroTitleHighlightHi") ||
     "";
-  const heroTitleHighlight = rawHighlight || defaultHeroHighlight;
+  const heroTitleHighlight = !rawHighlight || legacyHighlights.has(rawHighlight)
+    ? defaultHeroHighlight
+    : rawHighlight;
 
   const rawSubtitle = pickPage(home, lang, "heroBoutiqueSubtitle", "heroBoutiqueSubtitleHi") || defaultHeroSubtitle;
   const heroSubtitle = legacySubtitles.has(rawSubtitle) ? defaultHeroSubtitle : rawSubtitle;
 
   const stats = useMemo(() => {
     const base = lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN;
+    const years = `${site.yearsExperience || 17}+`;
     const students = `${site.studentsTaught || 2000}+`;
-    const courses = `${site.coursesCount || ""}`.trim() || "—";
     const outfits = `${site.outfitsDelivered || 5000}+`;
+    const sinceYear = site.foundingYear || 2012;
     return base.map((stat) => {
       let highlight = stat.highlight;
+      let line2 = stat.line2;
+      if (stat.highlight === "years") highlight = years;
       if (stat.highlight === "students") highlight = students;
-      if (stat.highlight === "courses") highlight = courses;
       if (stat.highlight === "outfits") highlight = outfits;
-      return { ...stat, highlight };
+      if (stat.icon === "trust") {
+        line2 = lang === "hi" ? `${sinceYear} से` : `Since ${sinceYear}`;
+      }
+      return { ...stat, highlight, line2 };
     });
-  }, [lang, site.studentsTaught, site.coursesCount, site.outfitsDelivered]);
+  }, [lang, site.yearsExperience, site.studentsTaught, site.outfitsDelivered, site.foundingYear]);
 
-  const pathCards = useMemo(() => (lang === "hi" ? PATH_CARDS_HI : PATH_CARDS_EN), [lang]);
+  const serviceCards = useMemo(() => (lang === "hi" ? SERVICE_CARDS_HI : SERVICE_CARDS_EN), [lang]);
+  const featureStrip = useMemo(() => (lang === "hi" ? FEATURE_STRIP_HI : FEATURE_STRIP_EN), [lang]);
 
   const demoThumb = home.heroDemoThumb || "/slider1.png";
   const bookThumb = home.heroBookThumb || "/slider2.png";
   const heroLocalVideo = home.heroLocalVideo || "/video-1.mp4";
   const heroBookLocalVideo = home.heroBookLocalVideo || "/video-2.mp4";
 
-  const displayPhone = useMemo(() => {
-    const raw = (phone || site.phonePrimary || "91175 55125").trim();
-    const first = raw.split(/\s*[/|,]\s*/)[0].trim();
-    return first.replace(/^\+91\s*/, "");
-  }, [phone, site.phonePrimary]);
-  const phoneHref = telLink(phone) || telLink(site.phonePrimary) || "tel:+919117555125";
-  const chatWaHref = waLink(whatsapp || site.whatsapp || null, greetingMessage(lang));
-  const stitchWaHref = waLink(whatsapp || site.whatsapp || null, stitchOrderMessage(lang));
   const demoMsg = demoClassMessage(lang);
   const premiumCourseMsg = premiumStitchingCourseMessage(lang);
+  const fashionCourseMsg =
+    lang === "hi"
+      ? "नमस्ते श्रेया क्रिएशन! 👋 मैं फैशन डिज़ाइनिंग कोर्स बुक करना चाहता/चाहती हूँ। कृपया विवरण भेजें।"
+      : "Hi Shreya Creation! 👋 I want to BOOK the FASHION DESIGNING COURSE. Please share the details.";
+  const boutiqueMasterMsg =
+    lang === "hi"
+      ? "नमस्ते श्रेया क्रिएशन! 👋 मैं बुटीक मास्टर कोर्स बुक करना चाहता/चाहती हूँ। कृपया विवरण भेजें।"
+      : "Hi Shreya Creation! 👋 I want to BOOK the BOUTIQUE MASTER COURSE. Please share the details.";
 
   const openHeroInquiryForm = (source, message) => {
     openInquiryPopup({ source, message });
   };
 
-  const resolvePathHref = (href) => {
-    if (href === "wa:stitch") return stitchWaHref;
-    return href;
+  const serviceBookMessage = (card) => {
+    if (lang === "hi") {
+      return `नमस्ते श्रेया क्रिएशन! 👋 मुझे *${card.title}* बुक करना है। कृपया विवरण भेजें।`;
+    }
+    return `Hi Shreya Creation! 👋 I want to BOOK *${card.title}*. Please share the details.`;
   };
+
+  const courseCtas =
+    lang === "hi"
+      ? [
+          {
+            key: "fashion",
+            variant: "filled",
+            icon: <GradCapIcon />,
+            line1: "फैशन डिज़ाइनिंग",
+            line2: "कोर्स बुक करें",
+            source: "hero_fashion_course",
+            message: fashionCourseMsg,
+          },
+          {
+            key: "boutique",
+            variant: "outline",
+            icon: <HeroCrownIcon />,
+            line1: "बुटीक मास्टर",
+            line2: "कोर्स बुक करें",
+            source: "hero_boutique_master",
+            message: boutiqueMasterMsg,
+          },
+          {
+            key: "premium",
+            variant: "outline",
+            icon: <SewingMachineIcon />,
+            line1: "प्रीमियम सिलाई",
+            line2: "कोर्स बुक करें",
+            source: "hero_premium_stitching",
+            message: premiumCourseMsg,
+          },
+        ]
+      : [
+          {
+            key: "fashion",
+            variant: "filled",
+            icon: <GradCapIcon />,
+            line1: "BOOK FASHION",
+            line2: "DESIGNING COURSE",
+            source: "hero_fashion_course",
+            message: fashionCourseMsg,
+          },
+          {
+            key: "boutique",
+            variant: "outline",
+            icon: <HeroCrownIcon />,
+            line1: "BOOK BOUTIQUE",
+            line2: "MASTER COURSE",
+            source: "hero_boutique_master",
+            message: boutiqueMasterMsg,
+          },
+          {
+            key: "premium",
+            variant: "outline",
+            icon: <SewingMachineIcon />,
+            line1: "BOOK PREMIUM",
+            line2: "STITCHING",
+            source: "hero_premium_stitching",
+            message: premiumCourseMsg,
+          },
+        ];
 
   return (
     <section
@@ -686,21 +916,16 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
                 ) : null}
 
                 <div className={cn(ANIM_RISE, "home-hero__action-row", "anim-delay-3")}>
-                  <HeroActionCard
-                    variant="demo"
-                    icon={<GradCapIcon />}
-                    title={lang === "hi" ? "फ्री डेमो क्लास" : "Free Demo Class"}
-                    subtitle={lang === "hi" ? "अभी सीट बुक करें" : "Book your seat"}
-                    onClick={() => openHeroInquiryForm("hero_demo_cta", demoMsg)}
-                  />
-                  <HeroActionCard
-                    variant="stitch"
-                    icon={<SewingMachineIcon />}
-                    title={lang === "hi" ? "24 घंटे में सिलाई" : "24-Hour Stitching"}
-                    subtitle={lang === "hi" ? "कस्टम ऑर्डर करें" : "Place a custom order"}
-                    href={stitchWaHref}
-                    external
-                  />
+                  {courseCtas.map((cta) => (
+                    <HeroCourseCta
+                      key={cta.key}
+                      variant={cta.variant}
+                      icon={cta.icon}
+                      line1={cta.line1}
+                      line2={cta.line2}
+                      onClick={() => openHeroInquiryForm(cta.source, cta.message)}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -727,7 +952,9 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
                 watchLabel={lang === "hi" ? "वीडियो देखें" : "Watch Video"}
                 headerLabel={lang === "hi" ? "बुटीक सिलाई" : "BOUTIQUE STITCHING"}
                 footerTitle={
-                  lang === "hi" ? "प्रीमियम सिलाई कोर्स बुक करें" : "BOOK PREMIUM STITCHING COURSE"
+                  lang === "hi"
+                    ? "पटना बिहार में बेस्ट डिज़ाइनर बुटीक"
+                    : "Best Designer Boutique in Patna Bihar"
                 }
                 footerSub={lang === "hi" ? "24 घंटे में डिलीवर" : "Delivered in 24 Hours"}
                 footerIcon={<SewingMachineIcon />}
@@ -753,120 +980,70 @@ export default function HeroSection({ home = {}, lang = "en", phone = "", whatsa
                 </span>
                 <p className="home-hero__stat-text">
                   <strong className="home-hero__stat-highlight">{stat.highlight}</strong>
-                  <span className="home-hero__stat-line">{stat.label}</span>
+                  <span className="home-hero__stat-lines">
+                    <span className="home-hero__stat-line">{stat.line1}</span>
+                    <span className="home-hero__stat-line">{stat.line2}</span>
+                  </span>
                 </p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="home-hero__paths" aria-label={lang === "hi" ? "अपना रास्ता चुनें" : "Choose your path"}>
+        <div className="home-hero__paths" aria-label={lang === "hi" ? "हमारी सेवाएँ" : "Our services"}>
           <div className={cn(PAGE_CONTAINER, "home-hero__paths-inner")}>
-            <h2 className="home-hero__paths-title">
-              <span className="home-hero__paths-rule" aria-hidden />
-              {lang === "hi" ? "अपना रास्ता चुनें" : "CHOOSE YOUR PATH"}
-              <span className="home-hero__paths-rule" aria-hidden />
-            </h2>
+            <div className="home-hero__services-track" role="list">
+              {serviceCards.map((card) => (
+                <article key={card.key} className="home-hero__service-card" role="listitem">
+                  <div
+                    className={cn(
+                      "home-hero__service-media",
+                      card.key === "express" && "home-hero__service-media--express"
+                    )}
+                  >
+                    {card.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={card.image} alt="" className="home-hero__service-img" loading="lazy" decoding="async" />
+                    ) : (
+                      <div className="home-hero__service-clock" aria-hidden>
+                        <span className="home-hero__service-clock-face">
+                          <span className="home-hero__service-clock-24">24h</span>
+                        </span>
+                      </div>
+                    )}
+                  </div>
 
-            <div className="home-hero__paths-grid">
-              {pathCards.map((card) => {
-                const href = resolvePathHref(card.href);
-                const external = href.startsWith("http") || href.startsWith("https://wa.me");
-                const content = (
-                  <>
-                    <span className="home-hero__path-head">
-                      <span className="home-hero__path-icon" aria-hidden>
-                        <PathIcon type={card.icon} />
-                      </span>
-                      <span className="home-hero__path-copy">
-                        <span className="home-hero__path-title">{card.title}</span>
-                        <span className="home-hero__path-desc">{card.desc}</span>
-                      </span>
+                  <div className="home-hero__service-body">
+                    <span className="home-hero__service-icon" aria-hidden>
+                      <ServiceIcon type={card.icon} />
                     </span>
-                    <span className="home-hero__path-cta">
+                    <h3 className="home-hero__service-title">{card.title}</h3>
+                    <p className="home-hero__service-desc">{card.desc}</p>
+                    <button
+                      type="button"
+                      className="home-hero__service-cta"
+                      onClick={() => openHeroInquiryForm(card.source, serviceBookMessage(card))}
+                    >
                       {card.cta}
                       <CtaArrowIcon />
-                    </span>
-                  </>
-                );
-
-                if (external) {
-                  return (
-                    <a
-                      key={card.key}
-                      href={href}
-                      className="home-hero__path-card"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {content}
-                    </a>
-                  );
-                }
-
-                return (
-                  <Link key={card.key} href={href} className="home-hero__path-card">
-                    {content}
-                  </Link>
-                );
-              })}
+                    </button>
+                  </div>
+                </article>
+              ))}
             </div>
 
-            <div className="home-hero__journey-bar">
-              <a href={phoneHref} className="home-hero__journey-contact">
-                <span className="home-hero__journey-contact-icon" aria-hidden>
-                  <PhoneIcon />
-                </span>
-                <span className="home-hero__journey-contact-copy">
-                  <span className="home-hero__journey-contact-label">
-                    {lang === "hi" ? "अभी कॉल करें" : "Call Now"}
+            <div className="home-hero__feature-strip" aria-label={lang === "hi" ? "मुख्य विशेषताएँ" : "Key features"}>
+              {featureStrip.map((item) => (
+                <article key={item.key} className="home-hero__feature-card">
+                  <span className="home-hero__feature-icon" aria-hidden>
+                    <FeatureStripIcon type={item.icon} />
                   </span>
-                  <span className="home-hero__journey-contact-value">{displayPhone}</span>
-                </span>
-              </a>
-
-              <span className="home-hero__journey-divider" aria-hidden />
-
-              <a
-                href={chatWaHref}
-                className="home-hero__journey-contact"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="home-hero__journey-contact-icon home-hero__journey-contact-icon--wa" aria-hidden>
-                  <WhatsAppIcon />
-                </span>
-                <span className="home-hero__journey-contact-copy">
-                  <span className="home-hero__journey-contact-label">WhatsApp</span>
-                  <span className="home-hero__journey-contact-value">
-                    {lang === "hi" ? "अभी चैट करें" : "Chat Now"}
-                  </span>
-                </span>
-              </a>
-
-              <span className="home-hero__journey-divider home-hero__journey-divider--desktop" aria-hidden />
-
-              <div className="home-hero__journey-message">
-                <p className="home-hero__journey-headline">
-                  {lang === "hi" ? "आज ही अपनी यात्रा शुरू करें!" : "Start Your Journey Today!"}
-                </p>
-                <p className="home-hero__journey-sub">
-                  {lang === "hi"
-                    ? "सीखें। प्रैक्टिस करें। कमाएँ। आत्मनिर्भर बनें।"
-                    : "Learn. Practice. Earn. Become Independent."}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                className="home-hero__journey-cta"
-                onClick={() => openHeroInquiryForm("hero_journey_demo", demoMsg)}
-              >
-                {lang === "hi" ? "फ्री डेमो क्लास बुक करें" : "BOOK FREE DEMO CLASS"}
-                <span className="home-hero__journey-cta-arrow" aria-hidden>
-                  <CtaArrowIcon />
-                </span>
-              </button>
+                  <div className="home-hero__feature-copy">
+                    <h3 className="home-hero__feature-title">{item.title}</h3>
+                    <p className="home-hero__feature-sub">{item.subtitle}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </div>

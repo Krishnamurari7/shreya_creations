@@ -12,10 +12,12 @@ import { SITE_STATS } from "@/lib/seed";
 
 const NAV_ROUTES = [
   { href: "/", key: "home" },
-  { href: "/courses", key: "courses" },
-  { href: "/shop", key: "shop" },
-  { href: "/portfolio", key: "portfolio" },
   { href: "/about", key: "about" },
+  { href: "/shop", key: "boutique" },
+  { href: "/courses", key: "institute" },
+  { href: "/portfolio", key: "gallery" },
+  { href: "/lookbook", key: "blog" },
+  { href: "/nri-clients", key: "nriClients" },
   { href: "/contact", key: "contact" },
 ];
 

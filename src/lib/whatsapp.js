@@ -106,6 +106,13 @@ export function portfolioMessage(lang = "en") {
   return "Hi Shreya Creation! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.";
 }
 
+export function nriClientMessage(lang = "en") {
+  if (lang === "hi") {
+    return "नमस्ते श्रेया क्रिएशन! 👋 मैं NRI क्लाइंट हूँ। ब्राइडल/कस्टम सिलाई और शिपिंग के बारे में जानकारी चाहिए। कृपया प्रोसेस बताएँ।";
+  }
+  return "Hi Shreya Creation! 👋 I'm an NRI client. I'd like details on bridal/custom stitching and shipping support. Please share the process.";
+}
+
 export function lookbookMessage(lang = "en") {
   if (lang === "hi") {
     return "नमस्ते श्रेया क्रिएशन! 👋 मुझे लुकबुक वाला लुक अपने माप पर चाहिए। कृपया कपड़ा, डिज़ाइन और टाइमलाइन बताएँ।";
