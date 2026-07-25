@@ -5,10 +5,11 @@
   "description": "Shreya Creations — a 3D portfolio + shop + courses showcase with WhatsApp ordering. Next.js + Supabase.",
   "scripts": {
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:opennext": "opennextjs-cloudflare build",
     "start": "next start",
     "lint": "next lint"
   },
