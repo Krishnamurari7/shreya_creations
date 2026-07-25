@@ -117,7 +117,7 @@ export default async function RootLayout({ children }) {
   const site = await getSiteSettings();
   return (
     <html lang={site.defaultLanguage === "hi" ? "hi" : "en"} suppressHydrationWarning>
-      <body className={BG_ATMOSPHERE}>
+      <body className={BG_ATMOSPHERE} suppressHydrationWarning>
         <JsonLd site={site} />
         <GoogleAnalytics />
         <MetaPixel />

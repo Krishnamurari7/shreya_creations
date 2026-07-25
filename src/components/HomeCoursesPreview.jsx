@@ -347,7 +347,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
   if (!availableCourses.length) return null;
 
   const courseCount = site.coursesCount || courses.filter((c) => !c.is_addon).length || courses.length;
-  const yearsExp = site.yearsExperience || site.stats?.yearsEn?.replace(/\D.*/, "") || "19";
+  const yearsExp = site.yearsExperience || site.stats?.yearsEn?.replace(/\D.*/, "") || "14";
   const students = site.studentsTaught || 2000;
   const expressH = site.expressDeliveryHours || 24;
 
@@ -447,7 +447,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
 
           <ul className="home-courses-preview__trust">
             {TRUST_BADGES.map((badge) => (
-              <li key={badge.en} className="home-courses-preview__trust-item">
+              <li key={badge.key || badge.en} className="home-courses-preview__trust-item">
                 <span className="home-courses-preview__trust-icon">
                   <LineIcon type={badge.icon} />
                 </span>

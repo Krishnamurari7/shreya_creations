@@ -3,6 +3,11 @@
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { FEATURE_FIELDS } from "@/lib/cms/defaults";
+import {
+  CATEGORY_CARD_FIELDS,
+  HERO_FEATURE_FIELDS,
+  HERO_SERVICE_FIELDS,
+} from "@/lib/cms/home-blocks";
 
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 
@@ -118,10 +123,10 @@ export function HomeTab({ home, patchPage }) {
       <SectionHeading>Header</SectionHeading>
       <p className="admin-muted">
         Top scrolling bar: <a href="/admin/content" className="text-gold hover:underline">Site content</a> → Top announcement bar.
-        Brand name, tagline & logo text: <a href="/admin/settings" className="text-gold hover:underline">Settings</a>.
+        Brand name, tagline &amp; logo text: <a href="/admin/settings" className="text-gold hover:underline">Settings</a>.
       </p>
 
-      <SectionHeading>Hero banner</SectionHeading>
+      <SectionHeading>Hero banner (live homepage)</SectionHeading>
       <BilingualField label="Badge" enKey="hero_boutique_badge" hiKey="hero_boutique_badge_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="hero_boutique_title" hiKey="hero_boutique_title_hi" values={home} onChange={onChange} />
       <BilingualField label="Title highlight" enKey="hero_boutique_title_highlight" hiKey="hero_boutique_title_highlight_hi" values={home} onChange={onChange} />
@@ -152,11 +157,45 @@ export function HomeTab({ home, patchPage }) {
           className={ADMIN_INPUT}
         />
       </div>
-      <p className="admin-muted">Hero stat bar and quick-action cards are fixed in the site design.</p>
-
-      <SectionHeading>Quick explore (Boutique / Institute / Shakti 50)</SectionHeading>
       <p className="admin-muted">
-        These three cards are fixed in the homepage design (Category cards). Only the sections below are editable.
+        Stat bar numbers (years / students / outfits) come from{" "}
+        <a href="/admin/settings" className="text-gold hover:underline">Settings → Facts</a>.
+      </p>
+
+      <SectionHeading>Hero service cards</SectionHeading>
+      <RepeaterField
+        label="Service cards (scroll row under hero)"
+        items={home.hero_service_cards || []}
+        onChange={(v) => onChange("hero_service_cards", v)}
+        addLabel="Add service card"
+        fields={HERO_SERVICE_FIELDS}
+      />
+
+      <SectionHeading>Hero feature strip</SectionHeading>
+      <RepeaterField
+        label="Feature strip (under service cards)"
+        items={home.hero_feature_strip || []}
+        onChange={(v) => onChange("hero_feature_strip", v)}
+        addLabel="Add feature"
+        fields={HERO_FEATURE_FIELDS}
+      />
+
+      <SectionHeading>Quick explore cards</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="category_eyebrow" hiKey="category_eyebrow_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title before highlight" enKey="category_title_before" hiKey="category_title_before_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title highlight" enKey="category_title_highlight" hiKey="category_title_highlight_hi" values={home} onChange={onChange} />
+      <BilingualField label="Title after highlight" enKey="category_title_after" hiKey="category_title_after_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="category_subtitle" hiKey="category_subtitle_hi" values={home} onChange={onChange} />
+      <RepeaterField
+        label="Explore cards"
+        items={home.category_cards || []}
+        onChange={(v) => onChange("category_cards", v)}
+        addLabel="Add card"
+        fields={CATEGORY_CARD_FIELDS}
+      />
+      <p className="admin-muted">
+        Items: one per line as <code>English|Hindi</code>. For two-column cards (Boutique), start a column with{" "}
+        <code># Heading EN|Heading HI</code> then list items under it.
       </p>
 
       <SectionHeading>Courses preview (Homepage)</SectionHeading>
@@ -237,7 +276,7 @@ export function HomeTab({ home, patchPage }) {
         <label className={ADMIN_LABEL}>Founder photo</label>
         <ImageUploader multiple={false} value={home.founder_image || ""} onChange={(url) => onChange("founder_image", url)} />
       </div>
-      <p className="admin-muted">Slide 2 — Sangi Shreya (Director & Lead Mentor)</p>
+      <p className="admin-muted">Slide 2 — Sangi Shreya (Director &amp; Lead Mentor)</p>
       <BilingualTextarea label="Quote" enKey="mentor_quote" hiKey="mentor_quote_hi" values={home} onChange={onChange} rows={4} />
       <BilingualField label="Name" enKey="mentor_name" hiKey="mentor_name_hi" values={home} onChange={onChange} />
       <BilingualField label="Role" enKey="mentor_role" hiKey="mentor_role_hi" values={home} onChange={onChange} />

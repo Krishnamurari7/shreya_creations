@@ -1,4 +1,12 @@
 import { PAGE_DEFAULTS, DEFAULT_PILLARS, DEFAULT_JOURNEY_CARDS } from "@/lib/cms/defaults";
+import {
+  DEFAULT_ABOUT_JOURNEY,
+  DEFAULT_CATEGORY_CARDS,
+  DEFAULT_HERO_FEATURE_STRIP,
+  DEFAULT_HERO_SERVICE_CARDS,
+  categoryCardsForEditor,
+  categoryCardsFromEditor,
+} from "@/lib/cms/home-blocks";
 
 function toCamel(s) {
   return s.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
@@ -10,12 +18,36 @@ function keysToCamel(obj) {
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [toCamel(k), keysToCamel(v)]));
 }
 
+/** Prefer DB values, but keep defaults when CMS stores blank strings. */
+function mergePreferFilled(base, fromDb) {
+  if (Array.isArray(fromDb)) {
+    return fromDb.length ? fromDb.map(keysToCamel) : base;
+  }
+  if (!fromDb || typeof fromDb !== "object") {
+    return fromDb === "" || fromDb == null ? base : fromDb;
+  }
+  const out = { ...(base && typeof base === "object" && !Array.isArray(base) ? base : {}) };
+  for (const [key, value] of Object.entries(fromDb)) {
+    if (value === "" || value == null) continue;
+    if (Array.isArray(value)) {
+      out[key] = value.length ? value : out[key];
+      continue;
+    }
+    if (typeof value === "object") {
+      out[key] = mergePreferFilled(out[key], value);
+      continue;
+    }
+    out[key] = value;
+  }
+  return out;
+}
+
 export function mergePageDefaults(pages = {}) {
   const merged = {};
   for (const slug of Object.keys(PAGE_DEFAULTS)) {
-    const base = PAGE_DEFAULTS[slug];
-    const fromDb = pages[slug] && typeof pages[slug] === "object" ? pages[slug] : {};
-    merged[slug] = { ...keysToCamel(base), ...keysToCamel(fromDb) };
+    const base = keysToCamel(PAGE_DEFAULTS[slug]);
+    const fromDb = pages[slug] && typeof pages[slug] === "object" ? keysToCamel(pages[slug]) : {};
+    merged[slug] = mergePreferFilled(base, fromDb);
   }
   return merged;
 }
@@ -104,10 +136,49 @@ export function mergeJourneyCardsForEditor(raw) {
   });
 }
 
+function mergeKeyedList(raw, defaults) {
+  if (!Array.isArray(raw) || !raw.length) {
+    return defaults.map((item) => ({ ...item }));
+  }
+  return defaults.map((def, index) => {
+    const match = raw.find((item) => item.key === def.key) || raw[index] || {};
+    return { ...def, ...match, key: def.key };
+  });
+}
+
+export function mergeHeroServiceCardsForEditor(raw) {
+  return mergeKeyedList(raw, DEFAULT_HERO_SERVICE_CARDS);
+}
+
+export function mergeHeroFeatureStripForEditor(raw) {
+  return mergeKeyedList(raw, DEFAULT_HERO_FEATURE_STRIP);
+}
+
+export function mergeAboutJourneyForEditor(raw) {
+  if (!Array.isArray(raw) || !raw.length) {
+    return DEFAULT_ABOUT_JOURNEY.map((step) => ({ ...step }));
+  }
+  return DEFAULT_ABOUT_JOURNEY.map((def, index) => {
+    const match =
+      raw.find((step) => (step.year_key || step.yearKey) === def.year_key) || raw[index] || {};
+    return {
+      ...def,
+      ...match,
+      year_key: match.year_key || match.yearKey || def.year_key,
+    };
+  });
+}
+
+export { categoryCardsForEditor, categoryCardsFromEditor, DEFAULT_CATEGORY_CARDS };
+
 export function pickPage(page, lang, enKey, hiKey) {
   const hi = hiKey || `${enKey}Hi`;
-  if (lang === "hi" && page?.[hi]) return page[hi];
-  return page?.[enKey] ?? "";
+  const enVal = page?.[enKey];
+  if (lang === "hi") {
+    const hiVal = page?.[hi];
+    if (hiVal) return hiVal;
+  }
+  return enVal || "";
 }
 
 export function pickPillar(pillar, lang) {

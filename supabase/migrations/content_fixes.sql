@@ -40,7 +40,7 @@ SET title = 'Designer Wear', category = 'Design'
 WHERE lower(trim(title)) IN ('disiner', 'designer');
 
 -- 1. Extend settings with site facts (single source of truth)
-ALTER TABLE public.settings ADD COLUMN IF NOT EXISTS founding_year int DEFAULT 2007;
+ALTER TABLE public.settings ADD COLUMN IF NOT EXISTS founding_year int DEFAULT 2012;
 ALTER TABLE public.settings ADD COLUMN IF NOT EXISTS students_taught int DEFAULT 2000;
 ALTER TABLE public.settings ADD COLUMN IF NOT EXISTS outfits_delivered int DEFAULT 5000;
 ALTER TABLE public.settings ADD COLUMN IF NOT EXISTS express_delivery_hours int DEFAULT 24;
@@ -54,7 +54,7 @@ ALTER TABLE public.settings ADD COLUMN IF NOT EXISTS whatsapp_number text;
 
 UPDATE public.settings
 SET
-  founding_year = coalesce(founding_year, 2007),
+  founding_year = coalesce(founding_year, 2012),
   students_taught = coalesce(students_taught, 2000),
   outfits_delivered = coalesce(outfits_delivered, 5000),
   express_delivery_hours = coalesce(express_delivery_hours, 24),
@@ -129,7 +129,7 @@ ON CONFLICT (slug) DO UPDATE SET
   body_hi = EXCLUDED.body_hi,
   updated_at = now();
 
--- 8. Hero copy: replace keyword-stuffed headline with cleaner brand messaging
+-- 8. Hero copy: sync admin CMS with live homepage messaging
 UPDATE public.settings
 SET
   pages = jsonb_set(
@@ -138,21 +138,31 @@ SET
         jsonb_set(
           jsonb_set(
             jsonb_set(
-              coalesce(pages, '{}'::jsonb),
+              jsonb_set(
+                jsonb_set(
+                  coalesce(pages, '{}'::jsonb),
+                  '{home,hero_boutique_badge}',
+                  to_jsonb('Bihar''s No. 1 Boutique And Fashion Institute'::text),
+                  true
+                ),
+                '{home,hero_boutique_badge_hi}',
+                to_jsonb('बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट'::text),
+                true
+              ),
               '{home,hero_boutique_title}',
-              to_jsonb('Your Fashion Career'::text),
+              to_jsonb('Best Designer Boutique & Fashion Designing Institute'::text),
               true
             ),
             '{home,hero_boutique_title_hi}',
-            to_jsonb('आपका फैशन करियर'::text),
+            to_jsonb('बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट'::text),
             true
           ),
           '{home,hero_boutique_title_highlight}',
-          to_jsonb('Starts in Patna'::text),
+          to_jsonb('in Patna Bihar, since 2012'::text),
           true
         ),
         '{home,hero_boutique_title_highlight_hi}',
-        to_jsonb('पटना से शुरू'::text),
+        to_jsonb('पटना बिहार में, 2012 से'::text),
         true
       ),
       '{home,hero_boutique_subtitle}',
@@ -167,5 +177,6 @@ SET
     ),
     true
   ),
+  founding_year = coalesce(founding_year, 2012),
   updated_at = now()
 WHERE id = 1;

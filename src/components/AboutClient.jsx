@@ -15,43 +15,9 @@ import { pickPage, pickPillar } from "@/lib/cms";
 import { SITE_STATS } from "@/lib/seed";
 import { fadeUp, staggerDelay } from "@/lib/motion";
 import TeamSection from "@/components/TeamSection";
+import { DEFAULT_ABOUT_JOURNEY } from "@/lib/cms/home-blocks";
 
 const PILLAR_ACCENTS = ["border-orange/25", "border-gold/30", "border-orange/20"];
-
-const JOURNEY = [
-  {
-    yearKey: "founding",
-    titleEn: "Founded in Patna",
-    titleHi: "पटना में स्थापना",
-    descEn: "Started with a vision to empower women through fashion skills.",
-    descHi: "फैशन कौशल से महिलाओं को सशक्त बनाने की दृष्टि के साथ शुरुआत।",
-    icon: "🏛️",
-  },
-  {
-    yearKey: "students",
-    titleEn: "Students Trained",
-    titleHi: "छात्र प्रशिक्षित",
-    descEn: "Learners who turned skill into self-employment.",
-    descHi: "छात्राओं ने कौशल को स्वरोजगार में बदला।",
-    icon: "🎓",
-  },
-  {
-    yearKey: "courses",
-    titleEn: "Professional Courses",
-    titleHi: "प्रोफेशनल कोर्स",
-    descEn: "Boutique, blouse, suit, kids wear, fashion design & lehenga.",
-    descHi: "बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा।",
-    icon: "📚",
-  },
-  {
-    yearKey: "express",
-    titleEn: "Stitching Service",
-    titleHi: "सिलाई सेवा",
-    descEn: "Custom outfits delivered fast for urgent needs.",
-    descHi: "जरूरी ऑर्डर के लिए तेज़ कस्टम सिलाई।",
-    icon: "⚡",
-  },
-];
 
 const QUICK_LINKS = [
   {
@@ -128,7 +94,9 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
     (lang === "hi" ? "कौशल से कारोबार तक —" : "From skill to business —");
   const heroHighlight =
     pickPage(about, lang, "heroTitleHighlight", "heroTitleHighlightHi") ||
-    (lang === "hi" ? SITE_STATS.yearsHi : SITE_STATS.yearsEn);
+    (lang === "hi"
+      ? `पटना में ${SITE_STATS.yearsHi} की परंपरा।`
+      : `${SITE_STATS.yearsEn} of craft in Patna.`);
   const pillarsTitle = pickPage(about, lang, "pillarsTitle", "pillarsTitleHi");
   const trustTitle = pickPage(about, lang, "trustTitle", "trustTitleHi");
   const heroImage = about.heroImage || home.heroImage || "/hero_studio_banner.png";
@@ -138,7 +106,9 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
   const storyEyebrow =
     pickPage(about, lang, "headerEyebrow", "headerEyebrowHi") ||
     (lang === "hi" ? "हमारी कहानी" : "Our Story");
-  const journeyEyebrow = lang === "hi" ? "हमारी यात्रा" : "Our Journey";
+  const journeyEyebrow =
+    pickPage(about, lang, "journeyTitle", "journeyTitleHi") ||
+    (lang === "hi" ? "हमारी यात्रा" : "Our Journey");
   const journeyTitle = lang === "hi" ? "वर्षों का भरोसा" : "Years of Trust";
   const exploreEyebrow = lang === "hi" ? "और जानें" : "Explore more";
 
@@ -160,13 +130,31 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
     },
   ];
 
-  const journeySteps = JOURNEY.map((step) => {
+  const journeySource =
+    Array.isArray(about.journeySteps) && about.journeySteps.length
+      ? about.journeySteps
+      : DEFAULT_ABOUT_JOURNEY;
+
+  const journeySteps = journeySource.map((step) => {
+    const yearKey = step.yearKey || step.year_key;
     let year = "";
-    if (step.yearKey === "founding") year = String(site.foundingYear || 2007);
-    else if (step.yearKey === "students") year = `${site.studentsTaught || 2000}+`;
-    else if (step.yearKey === "courses") year = String(site.coursesCount || "—");
-    else if (step.yearKey === "express") year = `${site.expressDeliveryHours || 24}hr`;
-    return { ...step, year };
+    if (yearKey === "founding") year = String(site.foundingYear || 2012);
+    else if (yearKey === "students") year = `${site.studentsTaught || 2000}+`;
+    else if (yearKey === "courses") year = String(site.coursesCount || "—");
+    else if (yearKey === "express") year = `${site.expressDeliveryHours || 24}hr`;
+    const titleEn = step.titleEn || step.title || "";
+    const titleHi = step.titleHi || step.title_hi || titleEn;
+    const descEn = step.descEn || step.desc || "";
+    const descHi = step.descHi || step.desc_hi || descEn;
+    return {
+      yearKey,
+      year,
+      icon: step.icon || "✦",
+      titleEn,
+      titleHi,
+      descEn,
+      descHi,
+    };
   });
 
   const memberImages = [

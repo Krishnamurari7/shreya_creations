@@ -19,7 +19,7 @@ const BRAND_FIELDS = [
 
 const FACT_FIELDS = [
   // TODO(owner): set the ONE real students_taught — was 1000+ / 2000+ / 30K+
-  { name: "founding_year", label: "Founding year", hint: "TODO(owner): 2007 vs founder quote 2011 — yearsExperience = currentYear − this" },
+  { name: "founding_year", label: "Founding year", hint: "Default 2012 — yearsExperience = currentYear − this" },
   { name: "students_taught", label: "Students taught", hint: "TODO(owner): confirm the ONE real number" },
   { name: "outfits_delivered", label: "Outfits delivered", hint: "TODO(owner): confirm" },
   { name: "express_delivery_hours", label: "Express delivery (hours)", hint: "Usually 24" },
@@ -40,7 +40,7 @@ const CONTACT_FIELDS = [
   // TODO(owner): confirm real hours & closed day
   { name: "studio_hours", label: "Studio hours", hint: "e.g. Mon–Sat, 10 AM–8 PM" },
   { name: "closed_days", label: "Closed days", hint: "e.g. Sunday" },
-  { name: "founded", label: "Founded label (display)", hint: "e.g. 19+ Years — optional override" },
+  { name: "founded", label: "Founded label (display)", hint: "e.g. 14+ Years — optional override; leave blank to auto-calc from founding year" },
 ];
 
 const SOCIAL_FIELDS = [

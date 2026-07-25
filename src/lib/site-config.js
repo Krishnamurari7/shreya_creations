@@ -12,8 +12,8 @@ export const DEFAULT_STUDENTS_TAUGHT = 2000;
 // TODO(owner): confirm outfits delivered claim (was shown as 5,000+ in some places)
 export const DEFAULT_OUTFITS_DELIVERED = 5000;
 
-// TODO(owner): pick one founding year — 2007 is used almost everywhere; CMS founder quote said 2011
-export const DEFAULT_FOUNDING_YEAR = 2007;
+/** Brand founding year — years of experience = current year − this. */
+export const DEFAULT_FOUNDING_YEAR = 2012;
 
 // TODO(owner): confirm real studio hours & closed day — conflicts were Mon–Sun 10–8 vs 11 AM–8 Closed Tuesdays
 export const DEFAULT_STUDIO_HOURS = "Mon–Sat, 10 AM–8 PM";

@@ -17,7 +17,15 @@ import {
   HomeTab,
 } from "@/components/admin/PageEditorForm";
 import { PAGE_DEFAULTS, DEFAULT_PILLARS, PAGE_EDITOR_KEYS, FEATURE_FIELDS } from "@/lib/cms/defaults";
-import { mergeJourneyCardsForEditor } from "@/lib/cms";
+import {
+  mergeJourneyCardsForEditor,
+  mergeHeroServiceCardsForEditor,
+  mergeHeroFeatureStripForEditor,
+  mergeAboutJourneyForEditor,
+  categoryCardsForEditor,
+  categoryCardsFromEditor,
+} from "@/lib/cms";
+import { ABOUT_JOURNEY_FIELDS } from "@/lib/cms/home-blocks";
 import { ADMIN_LABEL } from "@/lib/admin/formClasses";
 
 const TABS = [
@@ -36,6 +44,10 @@ function emptyPages() {
   for (const key of PAGE_EDITOR_KEYS) {
     pages[key] = structuredClone(PAGE_DEFAULTS[key]);
   }
+  pages.home.hero_service_cards = mergeHeroServiceCardsForEditor(pages.home.hero_service_cards);
+  pages.home.hero_feature_strip = mergeHeroFeatureStripForEditor(pages.home.hero_feature_strip);
+  pages.home.category_cards = categoryCardsForEditor(pages.home.category_cards);
+  pages.about.journey_steps = mergeAboutJourneyForEditor(pages.about.journey_steps);
   return pages;
 }
 
@@ -73,6 +85,12 @@ export default function PagesAdmin() {
           if (key === "home") {
             merged.academy_perks = normalizeAcademyPerks(merged.academy_perks, merged.academy_perks_hi);
             merged.journey_cards = mergeJourneyCardsForEditor(merged.journey_cards);
+            merged.hero_service_cards = mergeHeroServiceCardsForEditor(merged.hero_service_cards);
+            merged.hero_feature_strip = mergeHeroFeatureStripForEditor(merged.hero_feature_strip);
+            merged.category_cards = categoryCardsForEditor(merged.category_cards);
+          }
+          if (key === "about") {
+            merged.journey_steps = mergeAboutJourneyForEditor(merged.journey_steps);
           }
           base[key] = merged;
         }
@@ -99,9 +117,13 @@ export default function PagesAdmin() {
       setSaving(false);
       return;
     }
+    const payload = structuredClone(pages);
+    if (payload.home) {
+      payload.home.category_cards = categoryCardsFromEditor(payload.home.category_cards);
+    }
     const { error } = await supabase.from("settings").upsert({
       id: 1,
-      pages,
+      pages: payload,
       about_pillars: pillars,
       updated_at: new Date().toISOString(),
     });
@@ -189,6 +211,18 @@ export default function PagesAdmin() {
                 { key: "desc_hi", label: "Description (HI)", type: "textarea", wide: true },
               ]}
             />
+            <SectionHeading>Our Journey timeline</SectionHeading>
+            <BilingualField label="Section label" enKey="journey_title" hiKey="journey_title_hi" values={page} onChange={onChange} />
+            <RepeaterField
+              label="Journey steps"
+              items={page.journey_steps || []}
+              onChange={(v) => onChange("journey_steps", v)}
+              addLabel="Add step"
+              fields={ABOUT_JOURNEY_FIELDS}
+            />
+            <p className="admin-muted">
+              Year values auto-fill from Settings (founding year, students, courses count, express hours) based on the step&apos;s stat key.
+            </p>
             <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}

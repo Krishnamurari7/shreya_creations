@@ -26,7 +26,7 @@ create table if not exists public.settings (
   city             text,
   pincode          text,
   founded          text,
-  founding_year    int default 2007,
+  founding_year    int default 2012,
   students_taught  int default 2000,
   outfits_delivered int default 5000,
   express_delivery_hours int default 24,

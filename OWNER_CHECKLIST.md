@@ -6,7 +6,7 @@ Run `supabase/migrations/content_fixes.sql` in the Supabase SQL Editor first (ex
 
 1. **Students taught** — code default is **2000**. Site previously also showed 1000+, 30K+/30,000+. Edit in Admin → Site Settings → `students_taught`.
 2. **Outfits delivered** — default **5000**. Confirm in Site Settings.
-3. **Founding year** — default **2007** (`yearsExperience` = current year − this). Founder quote previously said 2011. Confirm in Site Settings.
+3. **Founding year** — default **2012** (`yearsExperience` = current year − this). Confirm in Site Settings.
 4. **Studio hours** — default `Mon–Sat, 10 AM–8 PM`. Confirm (was also Mon–Sun 10–8 and 11 AM–8 Closed Tuesdays).
 5. **Closed days** — default `Sunday`. Confirm.
 6. **Email** — default `hello@shreyacreations.in`. Prefer `@shreyacreation.com` if that inbox exists.

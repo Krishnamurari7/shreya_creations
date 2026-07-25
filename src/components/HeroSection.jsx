@@ -10,6 +10,10 @@ import {
   demoClassMessage,
   premiumStitchingCourseMessage,
 } from "@/lib/whatsapp";
+import {
+  DEFAULT_HERO_FEATURE_STRIP,
+  DEFAULT_HERO_SERVICE_CARDS,
+} from "@/lib/cms/home-blocks";
 
 const HERO_STATS_EN = [
   { icon: "trust", highlight: "years", line1: "Years of Trust", line2: "Since 2012" },
@@ -332,71 +336,7 @@ function ServiceIcon({ type }) {
   }
 }
 
-const FEATURE_STRIP_EN = [
-  {
-    key: "tailoring",
-    icon: "sewing",
-    title: "BEST LADIES TAILORING SERVICE",
-    subtitle: "Perfect Fit. Perfect You. Every Time.",
-  },
-  {
-    key: "boutique",
-    icon: "dress",
-    title: "DESIGNER BOUTIQUE",
-    subtitle: "Trendy Designs. Premium Finishing.",
-  },
-  {
-    key: "stitching",
-    icon: "mannequin",
-    title: "PREMIUM STITCHING",
-    subtitle: "High Quality Fabrics. Finest Craftsmanship.",
-  },
-  {
-    key: "diploma",
-    icon: "certificate",
-    title: "DIPLOMA & CERTIFICATE COURSES",
-    subtitle: "Govt. Recognized Certification",
-  },
-  {
-    key: "entrance",
-    icon: "book",
-    title: "NIFT / NID / CEED PREPARATION",
-    subtitle: "Entrance Coaching by Experts",
-  },
-];
-
-const FEATURE_STRIP_HI = [
-  {
-    key: "tailoring",
-    icon: "sewing",
-    title: "सर्वश्रेष्ठ लेडीज़ टेलरिंग सेवा",
-    subtitle: "परफेक्ट फिट। परफेक्ट यू। हर बार।",
-  },
-  {
-    key: "boutique",
-    icon: "dress",
-    title: "डिज़ाइनर बुटीक",
-    subtitle: "ट्रेंडी डिज़ाइन। प्रीमियम फिनिशिंग।",
-  },
-  {
-    key: "stitching",
-    icon: "mannequin",
-    title: "प्रीमियम सिलाई",
-    subtitle: "उच्च गुणवत्ता वाले कपड़े। बेहतरीन कारीगरी।",
-  },
-  {
-    key: "diploma",
-    icon: "certificate",
-    title: "डिप्लोमा और सर्टिफिकेट कोर्स",
-    subtitle: "सरकारी मान्यता प्राप्त प्रमाणपत्र",
-  },
-  {
-    key: "entrance",
-    icon: "book",
-    title: "NIFT / NID / CEED तैयारी",
-    subtitle: "विशेषज्ञों द्वारा एंट्रेंस कोचिंग",
-  },
-];
+const FEATURE_STRIP_FALLBACK = DEFAULT_HERO_FEATURE_STRIP;
 
 function FeatureStripIcon({ type }) {
   const props = {
@@ -460,137 +400,7 @@ function FeatureStripIcon({ type }) {
   }
 }
 
-const SERVICE_CARDS_EN = [
-  {
-    key: "fashion",
-    icon: "fashion",
-    image: "/slider1.png",
-    title: "FASHION DESIGNING COURSE",
-    desc: "Learn Fashion Design from Experts.",
-    cta: "BOOK NOW",
-    source: "hero_service_fashion",
-  },
-  {
-    key: "boutique",
-    icon: "boutique",
-    image: "/botique.png",
-    title: "BOUTIQUE COURSE",
-    desc: "Master Stitching & Boutique Skills.",
-    cta: "BOOK NOW",
-    source: "hero_service_boutique",
-  },
-  {
-    key: "blouse",
-    icon: "blouse",
-    image: "/categories/bridal.png",
-    title: "BRIDAL BLOUSE BOOKING",
-    desc: "Designer & Bridal Blouse Stitching.",
-    cta: "BOOK NOW",
-    source: "hero_service_blouse",
-  },
-  {
-    key: "lehenga",
-    icon: "lehenga",
-    image: "/slider3.png",
-    title: "BRIDAL LEHENGA BOOKING",
-    desc: "Custom Bridal Lehenga Stitching.",
-    cta: "BOOK NOW",
-    source: "hero_service_lehenga",
-  },
-  {
-    key: "suit",
-    icon: "suit",
-    image: "/categories/ethnic-wear.png",
-    title: "SUIT STITCHING",
-    desc: "Designer Suits Perfectly Tailored.",
-    cta: "BOOK NOW",
-    source: "hero_service_suit",
-  },
-  {
-    key: "handwork",
-    icon: "handwork",
-    image: "/categories/stitching.png",
-    title: "HAND WORK & EMBROIDERY",
-    desc: "Exquisite Handwork for Every Occasion.",
-    cta: "BOOK NOW",
-    source: "hero_service_handwork",
-  },
-  {
-    key: "express",
-    icon: "express",
-    image: null,
-    title: "EXPRESS 24-HOUR STITCHING",
-    desc: "Get Your Outfit in Just 24 Hours.",
-    cta: "BOOK NOW",
-    source: "hero_service_express",
-  },
-];
-
-const SERVICE_CARDS_HI = [
-  {
-    key: "fashion",
-    icon: "fashion",
-    image: "/slider1.png",
-    title: "फैशन डिज़ाइनिंग कोर्स",
-    desc: "एक्सपर्ट्स से फैशन डिज़ाइन सीखें।",
-    cta: "अभी बुक करें",
-    source: "hero_service_fashion",
-  },
-  {
-    key: "boutique",
-    icon: "boutique",
-    image: "/botique.png",
-    title: "बुटीक कोर्स",
-    desc: "सिलाई और बुटीक स्किल्स मास्टर करें।",
-    cta: "अभी बुक करें",
-    source: "hero_service_boutique",
-  },
-  {
-    key: "blouse",
-    icon: "blouse",
-    image: "/categories/bridal.png",
-    title: "ब्राइडल ब्लाउज़ बुकिंग",
-    desc: "डिज़ाइनर और ब्राइडल ब्लाउज़ सिलाई।",
-    cta: "अभी बुक करें",
-    source: "hero_service_blouse",
-  },
-  {
-    key: "lehenga",
-    icon: "lehenga",
-    image: "/slider3.png",
-    title: "ब्राइडल लहंगा बुकिंग",
-    desc: "कस्टम ब्राइडल लहंगा सिलाई।",
-    cta: "अभी बुक करें",
-    source: "hero_service_lehenga",
-  },
-  {
-    key: "suit",
-    icon: "suit",
-    image: "/categories/ethnic-wear.png",
-    title: "सूट सिलाई",
-    desc: "डिज़ाइनर सूट परफेक्टली टेलर्ड।",
-    cta: "अभी बुक करें",
-    source: "hero_service_suit",
-  },
-  {
-    key: "handwork",
-    icon: "handwork",
-    image: "/categories/stitching.png",
-    title: "हैंड वर्क और एम्ब्रॉयडरी",
-    desc: "हर अवसर के लिए बेहतरीन हैंडवर्क।",
-    cta: "अभी बुक करें",
-    source: "hero_service_handwork",
-  },
-  {
-    key: "express",
-    icon: "express",
-    image: null,
-    title: "एक्सप्रेस 24 घंटे सिलाई",
-    desc: "सिर्फ 24 घंटे में अपना आउटफिट पाएँ।",
-    cta: "अभी बुक करें",
-    source: "hero_service_express",
-  },
-];
+const SERVICE_CARDS_FALLBACK = DEFAULT_HERO_SERVICE_CARDS;
 
 function HeroCourseCta({ variant = "outline", icon, line1, line2, onClick }) {
   return (
@@ -765,7 +575,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
   const stats = useMemo(() => {
     const base = lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN;
-    const years = `${site.yearsExperience || 17}+`;
+    const years = `${site.yearsExperience || 14}+`;
     const students = `${site.studentsTaught || 2000}+`;
     const outfits = `${site.outfitsDelivered || 5000}+`;
     const sinceYear = site.foundingYear || 2012;
@@ -782,8 +592,37 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     });
   }, [lang, site.yearsExperience, site.studentsTaught, site.outfitsDelivered, site.foundingYear]);
 
-  const serviceCards = useMemo(() => (lang === "hi" ? SERVICE_CARDS_HI : SERVICE_CARDS_EN), [lang]);
-  const featureStrip = useMemo(() => (lang === "hi" ? FEATURE_STRIP_HI : FEATURE_STRIP_EN), [lang]);
+  const serviceCards = useMemo(() => {
+    const raw =
+      Array.isArray(home.heroServiceCards) && home.heroServiceCards.length
+        ? home.heroServiceCards
+        : SERVICE_CARDS_FALLBACK;
+    return raw.map((card) => ({
+      key: card.key,
+      icon: card.icon,
+      image: card.image || null,
+      source: card.source || `hero_service_${card.key}`,
+      title: lang === "hi" && (card.titleHi || card.title_hi) ? card.titleHi || card.title_hi : card.title,
+      desc: lang === "hi" && (card.descHi || card.desc_hi) ? card.descHi || card.desc_hi : card.desc,
+      cta: lang === "hi" && (card.ctaHi || card.cta_hi) ? card.ctaHi || card.cta_hi : card.cta,
+    }));
+  }, [home.heroServiceCards, lang]);
+
+  const featureStrip = useMemo(() => {
+    const raw =
+      Array.isArray(home.heroFeatureStrip) && home.heroFeatureStrip.length
+        ? home.heroFeatureStrip
+        : FEATURE_STRIP_FALLBACK;
+    return raw.map((item) => ({
+      key: item.key,
+      icon: item.icon,
+      title: lang === "hi" && (item.titleHi || item.title_hi) ? item.titleHi || item.title_hi : item.title,
+      subtitle:
+        lang === "hi" && (item.subtitleHi || item.subtitle_hi)
+          ? item.subtitleHi || item.subtitle_hi
+          : item.subtitle,
+    }));
+  }, [home.heroFeatureStrip, lang]);
 
   const demoThumb = home.heroDemoThumb || "/slider1.png";
   const bookThumb = home.heroBookThumb || "/slider2.png";

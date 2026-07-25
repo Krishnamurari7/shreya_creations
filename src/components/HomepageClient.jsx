@@ -222,7 +222,7 @@ export default function HomepageClient({
       <HeroSection home={home} lang={lang} phone={site.phone} whatsapp={site.whatsapp} site={site} />
 
       {/* ===== QUICK EXPLORE ===== */}
-      <CategoryCards lang={lang} site={site} whatsapp={site.whatsapp} />
+      <CategoryCards lang={lang} site={site} whatsapp={site.whatsapp} home={home} />
 
       <HomeCoursesPreview courses={courses} home={home} site={site} />
 

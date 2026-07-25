@@ -18,164 +18,40 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { SITE } from "@/lib/seed";
 import { greetingMessage, shaktiMessage, stitchOrderMessage, telLink, waLink } from "@/lib/whatsapp";
+import { DEFAULT_CATEGORY_CARDS } from "@/lib/cms/home-blocks";
+import { pickPage } from "@/lib/cms";
 
-const CARDS = [
-  {
-    key: "courses",
-    href: "/courses",
-    icon: "graduation",
-    title: "Institute Courses",
-    titleHi: "इंस्टिट्यूट कोर्स",
-    tagline: "Learn • Practice • Earn",
-    taglineHi: "सीखें • प्रैक्टिस • कमाई",
-    items: [
-      { label: "Fashion Designing Courses", labelHi: "फैशन डिज़ाइनिंग कोर्स" },
-      { label: "Boutique Management", labelHi: "बुटीक मैनेजमेंट" },
-      { label: "NIFT • NID • UCEED Coaching", labelHi: "NIFT • NID • UCEED कोचिंग" },
-      { label: "Embroidery & Pattern Making", labelHi: "एम्ब्रॉयडरी व पैटर्न मेकिंग" },
-      { label: "Internship & Placement Support", labelHi: "इंटर्नशिप व प्लेसमेंट सपोर्ट" },
-    ],
-    cta: "Explore Courses",
-    ctaHi: "कोर्स देखें",
-  },
-  {
-    key: "boutique",
-    href: "/shop",
-    icon: "mannequin",
-    title: "Boutique Services",
-    titleHi: "बुटीक सेवाएँ",
-    tagline: "Premium Custom Stitching",
-    taglineHi: "प्रीमियम कस्टम सिलाई",
-    columns: [
-      {
-        heading: "Custom Stitching",
-        headingHi: "कस्टम सिलाई",
-        items: [
-          { label: "Designer Blouse", labelHi: "डिज़ाइनर ब्लाउज" },
-          { label: "Suits & Kurtis", labelHi: "सूट व कुर्ती" },
-          { label: "Alteration & Fitting", labelHi: "अल्टरेशन व फिटिंग" },
-          { label: "24 Hour Delivery", labelHi: "24 घंटे डिलीवरी" },
-        ],
-      },
-      {
-        heading: "Designer Wear",
-        headingHi: "डिज़ाइनर वियर",
-        items: [
-          { label: "Bridal Lehengas", labelHi: "ब्राइडल लहंगा" },
-          { label: "Gown & Indo-Western", labelHi: "गाउन व इंडो-वेस्टर्न" },
-          { label: "Saree Pre-Stitching", labelHi: "साड़ी प्री-स्टिचिंग" },
-          { label: "Premium Finishing", labelHi: "प्रीमियम फिनिशिंग" },
-        ],
-      },
-    ],
-    cta: "Book Stitching",
-    ctaHi: "सिलाई बुक करें",
-  },
-  {
-    key: "collection",
-    href: "/portfolio",
-    icon: "blouse",
-    title: "Designer Collection",
-    titleHi: "डिज़ाइनर कलेक्शन",
-    tagline: "Latest. Exclusive. Elegant.",
-    taglineHi: "लेटेस्ट. एक्सक्लूसिव. एलिगेंट.",
-    items: [
-      { label: "Latest Blouse Designs", labelHi: "लेटेस्ट ब्लाउज डिज़ाइन" },
-      { label: "Bridal & Party Wear", labelHi: "ब्राइडल व पार्टी वियर" },
-      { label: "Saree & Lehenga Collection", labelHi: "साड़ी व लहंगा कलेक्शन" },
-      { label: "Trending Designs Gallery", labelHi: "ट्रेंडिंग डिज़ाइन गैलरी" },
-    ],
-    cta: "View Collection",
-    ctaHi: "कलेक्शन देखें",
-  },
-  {
-    key: "shop",
-    href: "/shop",
-    icon: "bag",
-    badge: "New",
-    badgeHi: "नया",
-    title: "Order on WhatsApp",
-    titleHi: "WhatsApp पर ऑर्डर करें",
-    tagline: "Custom fit, 24-hr stitching",
-    taglineHi: "कस्टम फिट, 24 घंटे सिलाई",
-    items: [
-      { label: "Designer Blouses", labelHi: "डिज़ाइनर ब्लाउज" },
-      { label: "Ready-to-Wear Outfits", labelHi: "रेडी-टू-वेयर आउटफिट" },
-      { label: "Accessories & More", labelHi: "एक्सेसरीज़ व अधिक" },
-      { label: "Order easily on WhatsApp", labelHi: "WhatsApp पर आसान ऑर्डर" },
-    ],
-    cta: "Browse & Order",
-    ctaHi: "देखें और ऑर्डर करें",
-  },
-  {
-    key: "student",
-    href: "/portfolio",
-    icon: "sewing",
-    title: "Student Work",
-    titleHi: "स्टूडेंट वर्क",
-    tagline: "Real Hands. Real Skills.",
-    taglineHi: "असली हाथ. असली हुनर.",
-    items: [
-      { label: "Student Projects", labelHi: "स्टूडेंट प्रोजेक्ट" },
-      { label: "Classroom Creations", labelHi: "क्लासरूम क्रिएशन्स" },
-      { label: "Before & After Work", labelHi: "बिफोर एंड आफ्टर वर्क" },
-      { label: "Practical Training Results", labelHi: "प्रैक्टिकल ट्रेनिंग रिजल्ट" },
-    ],
-    cta: "View Student Work",
-    ctaHi: "स्टूडेंट वर्क देखें",
-  },
-  {
-    key: "shakti",
-    href: "/contact",
-    icon: "shakti",
-    title: "Shakti 50",
-    titleHi: "शक्ति 50",
-    tagline: "Kaushal se Karobar Tak",
-    taglineHi: "कौशल से कारोबार तक",
-    items: [
-      { label: "Free Training for 50 Women", labelHi: "50 महिलाओं के लिए मुफ़्त ट्रेनिंग" },
-      { label: "Skill Development", labelHi: "कौशल विकास" },
-      { label: "Self-Reliance & Empowerment", labelHi: "आत्मनिर्भरता व सशक्तिकरण" },
-      { label: "Internship & Business Support", labelHi: "इंटर्नशिप व बिज़नेस सपोर्ट" },
-    ],
-    cta: "Know More",
-    ctaHi: "और जानें",
-  },
-  {
-    key: "stories",
-    href: "/about",
-    icon: "trophy",
-    title: "Success Stories",
-    titleHi: "सफलता की कहानियाँ",
-    tagline: "Trusted by Thousands",
-    taglineHi: "हज़ारों का भरोसा",
-    items: [
-      { label: "Google Reviews", labelHi: "Google रिव्यू" },
-      { label: "Student Testimonials", labelHi: "स्टूडेंट टेस्टिमोनियल" },
-      { label: "Customer Feedback", labelHi: "कस्टमर फीडबैक" },
-      { label: "Success Journey", labelHi: "सफलता की यात्रा" },
-    ],
-    cta: "Read Reviews",
-    ctaHi: "रिव्यू पढ़ें",
-  },
-  {
-    key: "contact",
-    href: "/contact",
-    icon: "phone",
-    title: "Contact & Visit",
-    titleHi: "संपर्क व विज़िट",
-    tagline: "We are here for you",
-    taglineHi: "हम आपके लिए यहाँ हैं",
-    items: [
-      { label: "WhatsApp Support", labelHi: "WhatsApp सपोर्ट" },
-      { label: "Call Now", labelHi: "अभी कॉल करें" },
-      { label: "Visit Our Studio", labelHi: "हमारा स्टूडियो देखें" },
-      { label: "Get Direction", labelHi: "दिशा पाएँ" },
-    ],
-    cta: "Contact Us",
-    ctaHi: "संपर्क करें",
-  },
-];
+function localizeCategoryCard(card) {
+  const columns = (card.columns || [])
+    .filter((col) => col && (col.heading || (col.items || []).length))
+    .map((col) => ({
+      heading: col.heading,
+      headingHi: col.headingHi ?? col.heading_hi,
+      items: (col.items || []).map((row) => ({
+        label: row.label,
+        labelHi: row.labelHi ?? row.label_hi,
+      })),
+    }));
+
+  return {
+    key: card.key,
+    href: card.href,
+    icon: card.icon,
+    badge: card.badge,
+    badgeHi: card.badgeHi ?? card.badge_hi,
+    title: card.title,
+    titleHi: card.titleHi ?? card.title_hi,
+    tagline: card.tagline,
+    taglineHi: card.taglineHi ?? card.tagline_hi,
+    cta: card.cta,
+    ctaHi: card.ctaHi ?? card.cta_hi,
+    items: (card.items || []).map((row) => ({
+      label: row.label,
+      labelHi: row.labelHi ?? row.label_hi,
+    })),
+    columns: columns.length ? columns : null,
+  };
+}
 
 const container = {
   hidden: {},
@@ -301,10 +177,10 @@ function ArrowIcon() {
 }
 
 function ExploreCard({ card, lang, whatsapp }) {
-  const title = lang === "hi" ? card.titleHi : card.title;
-  const tagline = lang === "hi" ? card.taglineHi : card.tagline;
-  const cta = lang === "hi" ? card.ctaHi : card.cta;
-  const badge = card.badge ? (lang === "hi" ? card.badgeHi : card.badge) : null;
+  const title = lang === "hi" && card.titleHi ? card.titleHi : card.title;
+  const tagline = lang === "hi" && card.taglineHi ? card.taglineHi : card.tagline;
+  const cta = lang === "hi" && card.ctaHi ? card.ctaHi : card.cta;
+  const badge = card.badge ? (lang === "hi" && card.badgeHi ? card.badgeHi : card.badge) : null;
 
   const waNumber = whatsapp || null;
   let href = card.href;
@@ -321,6 +197,8 @@ function ExploreCard({ card, lang, whatsapp }) {
     ? { href, target: "_blank", rel: "noopener noreferrer" }
     : { href };
 
+  const pickLabel = (en, hi) => (lang === "hi" && hi ? hi : en);
+
   return (
     <article className="quick-explore-card">
       {badge && <span className="quick-explore-card__ribbon">{badge}</span>}
@@ -330,20 +208,20 @@ function ExploreCard({ card, lang, whatsapp }) {
       </div>
 
       <h3 className="quick-explore-card__title font-display">{title}</h3>
-      <p className="quick-explore-card__tagline">{tagline}</p>
+      {tagline ? <p className="quick-explore-card__tagline">{tagline}</p> : null}
 
       {card.columns ? (
         <div className="quick-explore-card__columns">
           {card.columns.map((col) => (
-            <div key={col.heading} className="quick-explore-card__column">
+            <div key={col.heading || col.headingHi} className="quick-explore-card__column">
               <p className="quick-explore-card__column-title">
-                {lang === "hi" ? col.headingHi : col.heading}
+                {pickLabel(col.heading, col.headingHi)}
               </p>
               <ul className="quick-explore-card__list">
                 {col.items.map((row) => (
-                  <li key={row.label}>
+                  <li key={row.label || row.labelHi}>
                     <span className="quick-explore-card__bullet" aria-hidden />
-                    {lang === "hi" ? row.labelHi : row.label}
+                    {pickLabel(row.label, row.labelHi)}
                   </li>
                 ))}
               </ul>
@@ -353,9 +231,9 @@ function ExploreCard({ card, lang, whatsapp }) {
       ) : (
         <ul className="quick-explore-card__list">
           {card.items.map((row) => (
-            <li key={row.label}>
+            <li key={row.label || row.labelHi}>
               <span className="quick-explore-card__bullet" aria-hidden />
-              {lang === "hi" ? row.labelHi : row.label}
+              {pickLabel(row.label, row.labelHi)}
             </li>
           ))}
         </ul>
@@ -489,8 +367,20 @@ function ContactIcon({ type }) {
   );
 }
 
-export default function CategoryCards({ lang = "en", site = {}, whatsapp }) {
+export default function CategoryCards({ lang = "en", site = {}, whatsapp, home = {} }) {
   const reduceMotion = useReducedMotion();
+  const cards =
+    Array.isArray(home.categoryCards) && home.categoryCards.length
+      ? home.categoryCards.map(localizeCategoryCard)
+      : DEFAULT_CATEGORY_CARDS.map(localizeCategoryCard);
+
+  const eyebrow = pickPage(home, lang, "categoryEyebrow", "categoryEyebrowHi") || (lang === "hi" ? "क्विक एक्सप्लोर" : "Quick Explore");
+  const titleBefore = pickPage(home, lang, "categoryTitleBefore", "categoryTitleBeforeHi") || (lang === "hi" ? "आज आप क्या " : "What are you ");
+  const titleHighlight = pickPage(home, lang, "categoryTitleHighlight", "categoryTitleHighlightHi") || (lang === "hi" ? "खोज रहे" : "looking");
+  const titleAfter = pickPage(home, lang, "categoryTitleAfter", "categoryTitleAfterHi") || (lang === "hi" ? " हैं?" : " for today?");
+  const subtitle =
+    pickPage(home, lang, "categorySubtitle", "categorySubtitleHi") ||
+    (lang === "hi" ? "अपनी यात्रा जारी रखने के लिए एक विकल्प चुनें।" : "Choose one option to continue your journey.");
 
   return (
     <section
@@ -509,21 +399,17 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp }) {
           <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
             ✦
           </span>
-          {lang === "hi" ? "क्विक एक्सप्लोर" : "Quick Explore"}
+          {eyebrow}
           <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
             ✦
           </span>
         </span>
         <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance")}>
-          {lang === "hi" ? "आज आप क्या " : "What are you "}
-          <span className={HIGHLIGHT_SHIMMER}>{lang === "hi" ? "खोज" : "looking"}</span>
-          {lang === "hi" ? " रहे हैं?" : " for today?"}
+          {titleBefore}
+          <span className={HIGHLIGHT_SHIMMER}>{titleHighlight}</span>
+          {titleAfter}
         </h2>
-        <p className="quick-explore__subtitle">
-          {lang === "hi"
-            ? "अपनी यात्रा जारी रखने के लिए एक विकल्प चुनें।"
-            : "Choose one option to continue your journey."}
-        </p>
+        <p className="quick-explore__subtitle">{subtitle}</p>
       </div>
 
       <motion.div
@@ -533,7 +419,7 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp }) {
         whileInView="visible"
         viewport={{ once: true, margin: "-40px" }}
       >
-        {CARDS.map((card) => (
+        {cards.map((card) => (
           <motion.div key={card.key} variants={reduceMotion ? undefined : item} className="quick-explore__cell">
             <ExploreCard card={card} lang={lang} whatsapp={whatsapp || site?.whatsapp} />
           </motion.div>

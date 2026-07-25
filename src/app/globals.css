@@ -9898,13 +9898,27 @@ html.dark .page-cta__eyebrow {
   .about-highlight-shimmer {
     animation: none;
     -webkit-text-fill-color: var(--orange);
+    color: var(--orange);
+    background: none;
+  }
+
+  .home-page .home-band--brand .highlight-shimmer {
+    -webkit-text-fill-color: #fff8f0;
+    color: #fff8f0;
     background: none;
   }
 
   .anim-rise,
+  .anim-rise.opacity-0,
   .anim-hero-media {
-    animation: none;
-    opacity: 1;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .float-soft,

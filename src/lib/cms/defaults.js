@@ -1,5 +1,28 @@
 /** Default CMS content per public page (merged with Supabase settings.pages). */
 
+import {
+  DEFAULT_FOUNDING_YEAR,
+  computeYearsExperience,
+} from "@/lib/site-config";
+import {
+  DEFAULT_ABOUT_JOURNEY,
+  DEFAULT_CATEGORY_CARDS,
+  DEFAULT_HERO_FEATURE_STRIP,
+  DEFAULT_HERO_SERVICE_CARDS,
+} from "@/lib/cms/home-blocks";
+
+const _years = computeYearsExperience(DEFAULT_FOUNDING_YEAR);
+const YEARS_LABEL = `${_years}+ Years`;
+const YEARS_LABEL_HI = `${_years}+ वर्ष`;
+const SINCE_BADGE = `Since ${DEFAULT_FOUNDING_YEAR}`;
+const SINCE_BADGE_HI = `${DEFAULT_FOUNDING_YEAR} से`;
+const YEARS_EXP = `${_years}+ Years Experience`;
+const YEARS_EXP_HI = `${_years}+ वर्षों का अनुभव`;
+const ATELIER_TITLE = `${_years}+ Years of tailoring dreams into reality.`;
+const ATELIER_TITLE_HI = `${_years}+ वर्ष — सिलाई की परंपरा।`;
+const SINCE_HIGHLIGHT = `in Patna Bihar, since ${DEFAULT_FOUNDING_YEAR}`;
+const SINCE_HIGHLIGHT_HI = `पटना बिहार में, ${DEFAULT_FOUNDING_YEAR} से`;
+
 export const DEFAULT_JOURNEY_CARDS = [
   {
     key: "boutique",
@@ -76,8 +99,8 @@ export const PAGE_DEFAULTS = {
     header_subtitle_hi: "ईस्ट बोरिंग कैनाल रोड पर पटना का भरोसेमंद फैशन बुटीक और ट्रेनिंग इंस्टिट्यूट — कौशल से कारोबार तक।",
     hero_title_before: "From skill to business —",
     hero_title_before_hi: "कौशल से कारोबार तक —",
-    hero_title_highlight: "17+ Years.",
-    hero_title_highlight_hi: "17+ वर्ष।",
+    hero_title_highlight: `${YEARS_LABEL} of craft in Patna.`,
+    hero_title_highlight_hi: `पटना में ${YEARS_LABEL_HI} की परंपरा।`,
     team_title: "Our Leadership",
     team_title_hi: "हमारी टीम",
     team_members: [
@@ -95,6 +118,9 @@ export const PAGE_DEFAULTS = {
     cta_subtitle_hi: "स्टूडियो विज़िट बुक करें या WhatsApp पर कस्टम सिलाई की जानकारी लें।",
     cta_wa_message:
       "Hi Shreya Creation! 👋 I'd like to book a studio visit. Please share available timings.",
+    journey_title: "Our Journey",
+    journey_title_hi: "हमारी यात्रा",
+    journey_steps: DEFAULT_ABOUT_JOURNEY.map((step) => ({ ...step })),
   },
   home: {
     hero_badge: "Bihar's No. 1 Boutique And Fashion Institute",
@@ -103,8 +129,8 @@ export const PAGE_DEFAULTS = {
     hero_boutique_badge_hi: "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट",
     hero_boutique_title: "Best Designer Boutique & Fashion Designing Institute",
     hero_boutique_title_hi: "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट",
-    hero_boutique_title_highlight: "in Patna Bihar, since 2012",
-    hero_boutique_title_highlight_hi: "पटना बिहार में, 2012 से",
+    hero_boutique_title_highlight: SINCE_HIGHLIGHT,
+    hero_boutique_title_highlight_hi: SINCE_HIGHLIGHT_HI,
     hero_boutique_subtitle:
       "Boutique courses with real studio training — plus bridal lehengas & designer blouses stitched in 24 hours on Boring Road.",
     hero_boutique_subtitle_hi:
@@ -113,12 +139,36 @@ export const PAGE_DEFAULTS = {
     hero_boutique_keywords_hi: "कोर्स / बुटीक / इंस्टिट्यूट",
     hero_boutique_cta: "Your Career Starts Here",
     hero_boutique_cta_hi: "आपका करियर यहीं से शुरू हो",
+    hero_demo_thumb: "/slider1.png",
+    hero_book_thumb: "/slider2.png",
+    hero_local_video: "/video-1.mp4",
+    hero_book_local_video: "/video-2.mp4",
+    hero_service_cards: DEFAULT_HERO_SERVICE_CARDS.map((card) => ({ ...card })),
+    hero_feature_strip: DEFAULT_HERO_FEATURE_STRIP.map((item) => ({ ...item })),
+    category_eyebrow: "Quick Explore",
+    category_eyebrow_hi: "क्विक एक्सप्लोर",
+    category_title_before: "What are you ",
+    category_title_before_hi: "आज आप क्या ",
+    category_title_highlight: "looking",
+    category_title_highlight_hi: "खोज रहे",
+    category_title_after: " for today?",
+    category_title_after_hi: " हैं?",
+    category_subtitle: "Choose one option to continue your journey.",
+    category_subtitle_hi: "अपनी यात्रा जारी रखने के लिए एक विकल्प चुनें।",
+    category_cards: DEFAULT_CATEGORY_CARDS.map((card) => ({
+      ...card,
+      items: card.items?.map((row) => ({ ...row })),
+      columns: card.columns?.map((col) => ({
+        ...col,
+        items: col.items.map((row) => ({ ...row })),
+      })),
+    })),
     hero_title_line1: "Best Designer Boutique & Fashion Designing Institute",
     hero_title_line1_hi: "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट",
     hero_title_line2: "",
     hero_title_line2_hi: "",
-    hero_title_highlight: "in Patna Bihar, since 2012",
-    hero_title_highlight_hi: "पटना बिहार में, 2012 से",
+    hero_title_highlight: SINCE_HIGHLIGHT,
+    hero_title_highlight_hi: SINCE_HIGHLIGHT_HI,
     hero_subtitle: "Course | Boutique | Institute",
     hero_subtitle_hi: "कोर्स | बुटीक | इंस्टिट्यूट",
     hero_cta_label: "Your career starts here",
@@ -127,25 +177,25 @@ export const PAGE_DEFAULTS = {
     hero_secondary_cta_hi: "सफलता की कहानियाँ देखें",
     hero_cta_href: "/contact",
     hero_tile1_icon: "⭐",
-    hero_tile1_title: "17+ Years",
-    hero_tile1_title_hi: "17+ वर्ष",
-    hero_tile1_sub: "",
-    hero_tile1_sub_hi: "",
+    hero_tile1_title: YEARS_LABEL,
+    hero_tile1_title_hi: YEARS_LABEL_HI,
+    hero_tile1_sub: "of trust in Patna",
+    hero_tile1_sub_hi: "पटना में भरोसा",
     hero_tile2_icon: "🎓",
-    hero_tile2_title: "17+ Years",
-    hero_tile2_title_hi: "17+ वर्ष",
-    hero_tile2_sub: "",
-    hero_tile2_sub_hi: "",
+    hero_tile2_title: "2000+",
+    hero_tile2_title_hi: "2000+",
+    hero_tile2_sub: "Students trained",
+    hero_tile2_sub_hi: "छात्र प्रशिक्षित",
     hero_tile3_icon: "🛡️",
-    hero_tile3_title: "17+ Years",
-    hero_tile3_title_hi: "17+ वर्ष",
-    hero_tile3_sub: "",
-    hero_tile3_sub_hi: "",
+    hero_tile3_title: "100%",
+    hero_tile3_title_hi: "100%",
+    hero_tile3_sub: "Practical training",
+    hero_tile3_sub_hi: "प्रैक्टिकल ट्रेनिंग",
     hero_tile4_icon: "∞",
-    hero_tile4_title: "17+ Years",
-    hero_tile4_title_hi: "17+ वर्ष",
-    hero_tile4_sub: "",
-    hero_tile4_sub_hi: "",
+    hero_tile4_title: "24hr",
+    hero_tile4_title_hi: "24 घंटे",
+    hero_tile4_sub: "Express stitching",
+    hero_tile4_sub_hi: "एक्सप्रेस सिलाई",
     hero_image: "/slider1.png",
     hero_images: ["/slider1.png", "/slider2.png", "/slider3.png", "/slider4.png"],
     hero_floating_cards: [
@@ -158,10 +208,10 @@ export const PAGE_DEFAULTS = {
     hero_card_title_hi: "एक्सप्रेस डिलीवरी",
     hero_card_text: "Get stitched outfits in just 24 hours.",
     hero_card_text_hi: "मात्र 24 घंटे में सिले कपड़े प्राप्त करें।",
-    hero_since_badge: "Since 2007",
-    hero_since_badge_hi: "2007 से",
-    hero_since_text: "17+ Years Experience",
-    hero_since_text_hi: "17+ वर्षों का अनुभव",
+    hero_since_badge: SINCE_BADGE,
+    hero_since_badge_hi: SINCE_BADGE_HI,
+    hero_since_text: YEARS_EXP,
+    hero_since_text_hi: YEARS_EXP_HI,
     hero_wa_cta_label: "WhatsApp Now",
     hero_wa_cta_label_hi: "WhatsApp अभी",
     hero_checklist: [
@@ -223,8 +273,8 @@ export const PAGE_DEFAULTS = {
     explore_view_all_hi: "सभी देखें",
     courses_eyebrow: "Our Popular Courses",
     courses_eyebrow_hi: "हमारे लोकप्रिय कोर्स",
-    courses_title: "Learn. Practice.",
-    courses_title_hi: "सीखें. प्रैक्टिस.",
+    courses_title: "Learn. Practice. Earn.",
+    courses_title_hi: "सीखें. प्रैक्टिस. कमाएँ.",
     courses_subtitle: "From basics to advanced, choose the right course for your career.",
     courses_subtitle_hi: "बेसिक से एडवांस्ड तक — अपने करियर के लिए सही कोर्स चुनें।",
     courses_script_tagline: "Skill that creates income.",
@@ -251,7 +301,6 @@ export const PAGE_DEFAULTS = {
     founder_eyebrow_hi: "संस्थापक का संदेश",
     founder_title: "From skill to business",
     founder_title_hi: "कौशल से कारोबार तक",
-    // TODO(owner): founding year — quote said 2011; site uses 2007. Pick one.
     founder_quote:
       "When we started Shreya Creation, our dream was simple — teach real stitching skills and help every student turn craft into a livelihood. We have trained thousands of learners. We don't just teach sewing — we prepare the path from skill to self-reliance, and self-reliance to success.",
     founder_quote_hi:
@@ -278,8 +327,8 @@ export const PAGE_DEFAULTS = {
     success_subtitle_hi: "पटना के अकादमी ग्रेजुएट और ग्राहकों की असली कहानियाँ।",
     atelier_eyebrow: "The Atelier Studio",
     atelier_eyebrow_hi: "एटेलियर स्टूडियो",
-    atelier_title: "17+ Years of tailoring dreams into reality.",
-    atelier_title_hi: "17+ वर्ष — सिलाई की परंपरा।",
+    atelier_title: ATELIER_TITLE,
+    atelier_title_hi: ATELIER_TITLE_HI,
     atelier_body:
       "From basic salwar-kurti sets to designer blouses with 10+ neck styles — every garment is cut and finished to your exact measurements. We combine hands-on boutique training with real client order experience. Learn. Create. Earn.",
     atelier_body_hi:
@@ -324,8 +373,8 @@ export const PAGE_DEFAULTS = {
       { icon: "💼", text: "Boutique set-up & business guidance", text_hi: "बुटीक सेट-अप और बिज़नेस गाइडेंस" },
     ],
     academy_highlights: [
-      { value: "Years of trust", label: "", label_hi: "" },
-      { value: "Courses", label: "", label_hi: "कोर्स" },
+      { value: YEARS_LABEL, label: "of trust", label_hi: "का भरोसा" },
+      { value: "10+", label: "Courses", label_hi: "कोर्स" },
     ],
     academy_perks: [
       { text: "Professional boutique & fashion courses", text_hi: "प्रोफेशनल बुटीक और फैशन कोर्स" },
