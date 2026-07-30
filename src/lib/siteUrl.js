@@ -1,5 +1,8 @@
 /** Canonical public origin for Open Graph, canonicals, sitemap, and JSON-LD. */
-const PRODUCTION_URL = "https://www.shreyacreation.com";
+export const PRODUCTION_URL = "https://www.shreyacreation.com";
+
+/** Host shown in marketing copy — never the preview/localhost origin. */
+export const SITE_DOMAIN = PRODUCTION_URL.replace(/^https?:\/\//, "");
 
 export function getSiteUrl() {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();

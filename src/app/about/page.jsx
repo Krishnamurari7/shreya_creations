@@ -1,7 +1,7 @@
 import PageShell from "@/components/PageShell";
 import AboutClient from "@/components/AboutClient";
 import PageCTA from "@/components/PageCTA";
-import { getSiteSettings, getTrustStats } from "@/lib/data";
+import { getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
@@ -15,19 +15,19 @@ export const metadata = buildMetadata({
 });
 
 export default async function AboutPage() {
-  const [site, trust] = await Promise.all([getSiteSettings(), getTrustStats()]);
+  const site = await getSiteSettings();
   const about = site.pages?.about || {};
 
   return (
     <PageShell>
-      <AboutClient site={site} trust={trust} aboutPage={about} pillars={site.aboutPillars} />
+      <AboutClient site={site} aboutPage={about} />
       <PageCTA
         whatsapp={site.whatsapp}
         {...pageCtaProps(about)}
-        eyebrow="Academy Visit"
-        eyebrowHi="अकादमी विज़िट"
-        perks={["Studio tour", "Course guidance", "Batch timings", "Free demo"]}
-        perksHi={["स्टूडियो टूर", "कोर्स गाइडेंस", "बैच समय", "मुफ़्त डेमो"]}
+        eyebrow="Visit Us"
+        eyebrowHi="हमसे मिलें"
+        perks={["Studio tour", "Boutique consult", "Course guidance", "Free demo"]}
+        perksHi={["स्टूडियो टूर", "बुटीक सलाह", "कोर्स गाइडेंस", "मुफ़्त डेमो"]}
       />
     </PageShell>
   );
