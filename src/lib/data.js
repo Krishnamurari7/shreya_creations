@@ -12,7 +12,6 @@ function normalizeSettings(data) {
     introHi: data.intro_hi ?? data.introHi,
     aboutBody: data.about_body ?? data.aboutBody,
     aboutBodyHi: data.about_body_hi ?? data.aboutBodyHi,
-    aboutPillars: data.about_pillars ?? data.aboutPillars ?? [],
     mapEmbedUrl: data.map_embed_url ?? data.mapEmbedUrl,
     googleReviewsUrl: data.google_reviews_url ?? data.googleReviewsUrl,
     googleRating: data.google_rating ?? data.googleRating,
