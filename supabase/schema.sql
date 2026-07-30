@@ -33,6 +33,10 @@ create table if not exists public.settings (
   studio_hours     text,
   closed_days      text,
   map_embed_url    text,
+  google_reviews_url text,
+  -- Headline Google Business numbers, maintained by hand from the admin panel
+  google_rating    numeric(2, 1),
+  google_review_count int,
   socials          jsonb default '{}'::jsonb,
   services         jsonb default '[]'::jsonb,
   process_steps    jsonb default '[]'::jsonb,
@@ -114,6 +118,8 @@ create table if not exists public.portfolio (
   image       text,
   slug        text,
   sort_order  int default 0,
+  -- drives the homepage "Portfolio Highlights" band; /portfolio ignores it
+  featured    boolean not null default false,
   meta_title  text,
   meta_description text,
   og_image    text,
@@ -128,7 +134,12 @@ create table if not exists public.testimonials (
   text        text,
   rating      int default 5,
   photo       text,
-  video_url   text
+  video_url   text,
+  -- 'google' is the only value that may display the verified-review badge
+  source      text not null default 'manual' check (source in ('manual', 'google')),
+  review_url  text,
+  -- picks which of the two homepage review tracks the card appears in
+  category    text not null default 'boutique' check (category in ('boutique', 'institute'))
 );
 
 create table if not exists public.trust_stats (
@@ -167,8 +178,10 @@ create table if not exists public.lookbook_posts (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz default now(),
   title       text not null,
+  title_hi    text,
   slug        text unique not null,
   excerpt     text,
+  excerpt_hi  text,
   image       text,
   published   boolean default true
 );

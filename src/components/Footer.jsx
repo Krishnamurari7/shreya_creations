@@ -1,14 +1,15 @@
 "use client";
 
-import { BTN_GOLD, HAIRLINE, REVEAL } from "@/lib/ui";
+import { BTN_PRIMARY, HAIRLINE, REVEAL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI, pickLocalized, pickBrandMessage, pickServiceUsp } from "@/lib/i18n";
-import { LOGO_SRC } from "@/lib/brand";
+import { LOGO_SRC, normalizeBrandName } from "@/lib/brand";
 import PopularCategories from "@/components/PopularCategories";
 import { SITE_STATS } from "@/lib/seed";
+import { formatPhoneDisplay, telHref } from "@/lib/site-config";
 
 const NAV_ROUTES = [
   { href: "/", key: "home" },
@@ -16,7 +17,7 @@ const NAV_ROUTES = [
   { href: "/shop", key: "boutique" },
   { href: "/courses", key: "institute" },
   { href: "/portfolio", key: "gallery" },
-  { href: "/lookbook", key: "blog" },
+  { href: "/lookbook", key: "lookbook" },
   { href: "/nri-clients", key: "nriClients" },
   { href: "/contact", key: "contact" },
 ];
@@ -52,7 +53,7 @@ export default function Footer({ site }) {
   const boutique = pickBrandMessage(site);
   const tagline = pickServiceUsp(site);
   const intro = pickLocalized(site, lang, "intro", "introHi");
-  const brandName = site?.brand || "Shreya creation";
+  const brandName = normalizeBrandName(site?.brand);
 
   return (
     <footer className="relative z-[2] overflow-hidden">
@@ -79,7 +80,7 @@ export default function Footer({ site }) {
                 <img
                   src={LOGO_SRC}
                   alt={brandName}
-                  className="h-14 sm:h-16 w-auto max-w-[10rem] object-contain transition-transform duration-500 hover:scale-105 shrink-0"
+                  className="h-14 sm:h-16 w-auto max-w-[10rem] object-contain transition-all duration-300 hover:scale-105 shrink-0"
                 />
                 <div>
                   <h3 className="font-display text-xl sm:text-2xl leading-none text-balance break-words text-brand-gold">
@@ -115,7 +116,7 @@ export default function Footer({ site }) {
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(BTN_GOLD, "mt-6", "sm:mt-8", "inline-flex", "w-full", "sm:w-auto", "items-center", "justify-center", "gap-2.5", "rounded-full", "px-6", "py-3", "text-xs")}
+                className={cn(BTN_PRIMARY, "mt-6", "sm:mt-8", "w-full", "sm:w-auto")}
               >
                 <svg className="h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
                   <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.436.002 9.861-4.417 9.864-9.858.002-2.636-1.02-5.115-2.879-6.978-1.859-1.862-4.331-2.887-6.974-2.889-5.439 0-9.864 4.417-9.868 9.86-.001 1.57.418 3.101 1.21 4.47l-.995 3.633 3.738-.979c1.378.75 2.766 1.139 4.239 1.14z" />
@@ -155,16 +156,33 @@ export default function Footer({ site }) {
                 {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </h4>
               <ul className="space-y-4 text-sm font-normal text-ink flex flex-col items-center sm:items-start">
-                {site?.phone && (
+                {(site?.phonePrimary || site?.phoneSecondary || site?.phone) && (
                   <li className="flex gap-3">
                     <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange/10 text-orange">
                       <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </span>
-                    <a href={`tel:${site.phone}`} className="hover:text-orange transition-colors">
-                      {site.phone}
-                    </a>
+                    <span className="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2">
+                      {site.phonePrimary && (
+                        <a href={telHref(site.phonePrimary)} className="hover:text-orange transition-colors">
+                          {formatPhoneDisplay(site.phonePrimary)}
+                        </a>
+                      )}
+                      {site.phonePrimary && site.phoneSecondary && (
+                        <span className="hidden sm:inline text-ink/40" aria-hidden>
+                          /
+                        </span>
+                      )}
+                      {site.phoneSecondary && (
+                        <a href={telHref(site.phoneSecondary)} className="hover:text-orange transition-colors">
+                          {formatPhoneDisplay(site.phoneSecondary)}
+                        </a>
+                      )}
+                      {!site.phonePrimary && !site.phoneSecondary && site.phone && (
+                        <span>{site.phone}</span>
+                      )}
+                    </span>
                   </li>
                 )}
                 {site?.email && (

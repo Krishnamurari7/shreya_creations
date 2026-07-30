@@ -14,6 +14,9 @@ function normalizeSettings(data) {
     aboutBodyHi: data.about_body_hi ?? data.aboutBodyHi,
     aboutPillars: data.about_pillars ?? data.aboutPillars ?? [],
     mapEmbedUrl: data.map_embed_url ?? data.mapEmbedUrl,
+    googleReviewsUrl: data.google_reviews_url ?? data.googleReviewsUrl,
+    googleRating: data.google_rating ?? data.googleRating,
+    googleReviewCount: data.google_review_count ?? data.googleReviewCount,
     foundedHi: data.founded_hi ?? data.foundedHi,
     processSteps: data.process_steps ?? data.processSteps ?? [],
     heroMarquee: data.hero_marquee ?? data.heroMarquee ?? [],
@@ -88,6 +91,7 @@ function normalizePortfolioItem(row) {
     ...row,
     title,
     slug: row.slug || slugifyTitle(title) || `portfolio-${row.id}`,
+    featured: row.featured === true,
   });
 }
 
@@ -350,7 +354,7 @@ export async function getPolicyPage(slug) {
 }
 
 export async function getLookbookPosts() {
-  if (!isSupabaseConfigured()) return [];
+  if (!isSupabaseConfigured()) return seed.LOOKBOOK;
   try {
     const supabase = await createClient();
     const { data } = await supabase
@@ -358,9 +362,10 @@ export async function getLookbookPosts() {
       .select("*")
       .eq("published", true)
       .order("created_at", { ascending: false });
-    return data || [];
+    if (data?.length) return data;
+    return seed.LOOKBOOK;
   } catch {
-    return [];
+    return seed.LOOKBOOK;
   }
 }
 
@@ -373,7 +378,7 @@ export async function getAdminCounts() {
       testimonials: seed.TESTIMONIALS.length,
       trust: seed.TRUST.length,
       faqs: seed.FAQS.length,
-      lookbook: 0,
+      lookbook: seed.LOOKBOOK.length,
       inquiries: 0,
     };
   }

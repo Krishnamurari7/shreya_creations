@@ -7,6 +7,7 @@ import { waLink, courseMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickFaq } from "@/lib/i18n";
 import { SITE_STATS } from "@/lib/seed";
+import { DEFAULT_STUDENTS_TAUGHT } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { addonCourseLabel, isAddonCourse } from "@/lib/courses";
 import CoursePdfModal, { coursePdfUrl } from "@/components/CoursePdfModal";
@@ -289,8 +290,8 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
                   const label =
                     badge.key === "students"
                       ? lang === "hi"
-                        ? `${site?.studentsTaught || 2000}+ खुश छात्र`
-                        : `${site?.studentsTaught || 2000}+ Happy Students`
+                        ? `${site?.studentsTaught || DEFAULT_STUDENTS_TAUGHT}+ खुश छात्र`
+                        : `${site?.studentsTaught || DEFAULT_STUDENTS_TAUGHT}+ Happy Students`
                       : lang === "hi"
                         ? badge.hi
                         : badge.en;

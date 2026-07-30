@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD } from "@/lib/ui";
+import { BTN_PRIMARY } from "@/lib/ui";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { productMessage, waLink } from "@/lib/whatsapp";
@@ -47,11 +47,9 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
             target={whatsapp ? "_blank" : undefined}
             rel={whatsapp ? "noopener noreferrer" : undefined}
             className={cn(
-              BTN_GOLD,
-              "product-card-wa-btn mt-auto w-full text-center tracking-widest flex items-center justify-center gap-1.5",
-              compact
-                ? "pt-2 py-2 text-[10px] sm:text-[11px] min-h-[44px]"
-                : "pt-3 sm:pt-4 py-2.5 sm:py-3 text-[11px] sm:text-xs min-h-[44px]"
+              BTN_PRIMARY,
+              "product-card-wa-btn mt-auto w-full gap-1.5",
+              compact ? "px-3 text-[10px] sm:text-[11px]" : "px-4 text-[11px] sm:text-xs"
             )}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="shrink-0 opacity-90">

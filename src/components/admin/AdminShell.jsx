@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { LOGO_SRC } from "@/lib/brand";
+import { BRAND_NAME, LOGO_SRC } from "@/lib/brand";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: "◆" },
@@ -110,7 +110,7 @@ export default function AdminShell({ children }) {
       <aside className="admin-sidebar" aria-label="Admin sidebar">
         <Link href="/" className="admin-brand admin-brand--logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={LOGO_SRC} alt="Shreya creation" className="admin-brand__logo" />
+          <img src={LOGO_SRC} alt={BRAND_NAME} className="admin-brand__logo" />
           <span className="admin-brand__text">
             Shreya <span className={TEXT_GOLD_GRADIENT}>Admin</span>
           </span>
@@ -134,7 +134,7 @@ export default function AdminShell({ children }) {
             <div className="admin-drawer__head">
               <Link href="/" className="admin-brand admin-brand--logo" onClick={closeDrawer}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={LOGO_SRC} alt="Shreya creation" className="admin-brand__logo" />
+                <img src={LOGO_SRC} alt={BRAND_NAME} className="admin-brand__logo" />
                 <span className="admin-brand__text">
                   Shreya <span className={TEXT_GOLD_GRADIENT}>Admin</span>
                 </span>

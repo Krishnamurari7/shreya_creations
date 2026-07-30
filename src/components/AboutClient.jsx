@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD_OUTLINE, BTN_PRIMARY, GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, PAGE_CONTAINER, PAGE_HERO_TITLE, PAGE_HERO_TITLE_COMPACT, REVEAL, SECTION_EYEBROW, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SPARKLE_PULSE } from "@/lib/ui";
+import { BTN_PRIMARY, BTN_SECONDARY, GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, INTERACTIVE_CARD, PAGE_CONTAINER, PAGE_HERO_TITLE, PAGE_HERO_TITLE_COMPACT, REVEAL, SECTION_EYEBROW, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -13,6 +13,13 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickLocalized, pickBrandMessage, pickServiceUsp } from "@/lib/i18n";
 import { pickPage, pickPillar } from "@/lib/cms";
 import { SITE_STATS } from "@/lib/seed";
+import {
+  DEFAULT_COURSES_COUNT,
+  DEFAULT_EXPRESS_DELIVERY_HOURS,
+  DEFAULT_FOUNDING_YEAR,
+  DEFAULT_STUDENTS_TAUGHT,
+  SITE_FACTS,
+} from "@/lib/site-config";
 import { fadeUp, staggerDelay } from "@/lib/motion";
 import TeamSection from "@/components/TeamSection";
 import { DEFAULT_ABOUT_JOURNEY } from "@/lib/cms/home-blocks";
@@ -120,12 +127,12 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
     },
     {
       icon: "🎓",
-      value: `${site.studentsTaught || 2000}+`,
+      value: `${site.studentsTaught || DEFAULT_STUDENTS_TAUGHT}+`,
       label: lang === "hi" ? "छात्र प्रशिक्षित" : "Students trained",
     },
     {
       icon: "📚",
-      value: site.stats?.coursesEn || `${site.coursesCount || ""} Courses`.trim(),
+      value: site.stats?.coursesEn || `${site.coursesCount || DEFAULT_COURSES_COUNT} Courses`,
       label: lang === "hi" ? "प्रोफेशनल कोर्स" : "Professional courses",
     },
   ];
@@ -138,10 +145,10 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
   const journeySteps = journeySource.map((step) => {
     const yearKey = step.yearKey || step.year_key;
     let year = "";
-    if (yearKey === "founding") year = String(site.foundingYear || 2012);
-    else if (yearKey === "students") year = `${site.studentsTaught || 2000}+`;
-    else if (yearKey === "courses") year = String(site.coursesCount || "—");
-    else if (yearKey === "express") year = `${site.expressDeliveryHours || 24}hr`;
+    if (yearKey === "founding") year = String(site.foundingYear || DEFAULT_FOUNDING_YEAR);
+    else if (yearKey === "students") year = `${site.studentsTaught || DEFAULT_STUDENTS_TAUGHT}+`;
+    else if (yearKey === "courses") year = String(site.coursesCount || SITE_FACTS.coursesCount);
+    else if (yearKey === "express") year = `${site.expressDeliveryHours || DEFAULT_EXPRESS_DELIVERY_HOURS}hr`;
     const titleEn = step.titleEn || step.title || "";
     const titleHi = step.titleHi || step.title_hi || titleEn;
     const descEn = step.descEn || step.desc || "";
@@ -301,13 +308,13 @@ export default function AboutClient({ site, trust, pillars, aboutPage }) {
             <div className={cn(REVEAL, "flex", "flex-col", "sm:flex-row", "flex-wrap", "items-stretch", "sm:items-center", "justify-center", "lg:justify-start", "gap-2.5", "sm:gap-3", "pt-1")}>
               <Link
                 href="/courses"
-                className={cn(BTN_PRIMARY, "rounded-full", "px-5", "sm:px-6", "py-2.5", "sm:py-3", "inline-flex", "items-center", "justify-center", "text-xs", "sm:text-sm", "tracking-widest")}
+                className={cn(BTN_PRIMARY, "w-full", "sm:w-auto")}
               >
                 {lang === "hi" ? "कोर्स देखें" : "Explore Courses"}
               </Link>
               <Link
                 href="/contact"
-                className={cn(BTN_GOLD_OUTLINE, "rounded-full", "px-5", "sm:px-6", "py-2.5", "sm:py-3", "inline-flex", "items-center", "justify-center", "text-xs", "sm:text-sm", "tracking-widest")}
+                className={cn(BTN_SECONDARY, "w-full", "sm:w-auto")}
               >
                 {lang === "hi" ? "संपर्क करें" : "Contact Us"}
               </Link>

@@ -21,7 +21,7 @@ export default function FeatureStrip({ items = [] }) {
             return (
               <Glass3DCard
                 key={i}
-                className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "text-center", "group", "relative", "overflow-hidden")}
+                className={cn(REVEAL, INTERACTIVE_CARD, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "text-center", "group", "relative", "overflow-hidden")}
                 style={staggerDelay(i, 80)}
               >
                 <span

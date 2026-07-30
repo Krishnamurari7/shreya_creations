@@ -1,6 +1,6 @@
 "use client";
 
-import { FIELD_SURFACE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_TIGHT_TOP, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
+import { FIELD_SURFACE, PAGE_CONTAINER, PAGE_SECTION, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import CourseCard from "@/components/CourseCard";
@@ -53,10 +53,7 @@ export default function CourseBrowser({ courses = [] }) {
     <section
       className={cn(
         PAGE_SECTION,
-        PAGE_SECTION_TIGHT_TOP,
         "courses-browser",
-        "pb-10",
-        "sm:pb-14",
         "relative",
         "z-20",
         "min-w-0",

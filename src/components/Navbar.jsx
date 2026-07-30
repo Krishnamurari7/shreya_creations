@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD } from "@/lib/ui";
+import { BTN_PRIMARY } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI } from "@/lib/i18n";
-import { NAV_LOGO_SRC } from "@/lib/brand";
+import { NAV_LOGO_SRC, normalizeBrandName } from "@/lib/brand";
 import AnnouncementBar from "@/components/AnnouncementBar";
 
 const ROUTES = [
@@ -17,7 +17,7 @@ const ROUTES = [
   { href: "/shop", key: "boutique" },
   { href: "/courses", key: "institute" },
   { href: "/portfolio", key: "gallery" },
-  { href: "/lookbook", key: "blog" },
+  { href: "/lookbook", key: "lookbook" },
   { href: "/nri-clients", key: "nriClients" },
   { href: "/contact", key: "contact" },
 ];
@@ -75,7 +75,7 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="m21 15-5-5L5 21" />
         </svg>
       );
-    case "blog":
+    case "lookbook":
       return (
         <svg {...props}>
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -109,8 +109,6 @@ function BrandLogo({ brandName, variant = "header" }) {
 
   return (
     <span className={cn("nav-logo-3d", isDrawer && "nav-logo-3d--drawer")}>
-      <span className="nav-logo-3d__shadow" aria-hidden />
-      <span className="nav-logo-3d__glow" aria-hidden />
       <span className="nav-logo-3d__body">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -175,7 +173,7 @@ export default function Navbar({ site }) {
   const prevPath = useRef(pathname);
   const wa = waLink(site?.whatsapp, greetingMessage(lang));
   const enquireHref = "/contact";
-  const brandName = site?.brand || "Shreya creation";
+  const brandName = normalizeBrandName(site?.brand);
 
   const closeMenu = useCallback(() => setOpen(false), []);
 
@@ -324,7 +322,7 @@ export default function Navbar({ site }) {
         <div className="nav-mobile-drawer-head">
           <p className="nav-mobile-drawer-eyebrow" aria-hidden>
             <span className="nav-mobile-drawer-eyebrow__sparkle">✦</span>
-            Shreya Creation
+            {brandName}
           </p>
           <div className="nav-mobile-drawer-head-row">
             <BrandLogo brandName={brandName} variant="drawer" />
@@ -374,7 +372,7 @@ export default function Navbar({ site }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={closeMenu}
-            className={cn(BTN_GOLD, "nav-mobile-drawer-wa")}
+            className={cn(BTN_PRIMARY, "nav-mobile-drawer-wa")}
             tabIndex={open ? 0 : -1}
           >
             <WhatsAppIcon />

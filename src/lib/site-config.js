@@ -1,36 +1,39 @@
 /**
  * Single source of truth for site facts (brand, stats, contact, hours).
  * Backed by Supabase `settings` (id=1) via getSiteSettings() / buildSITE().
- * coursesCount is always computed from published courses — never hardcode.
+ * coursesCount is preferred from published courses; DEFAULT_COURSES_COUNT is the display fallback.
  */
 
-/** @typedef {import('./site-config.types').SiteConfig} SiteConfig */
-
-// TODO(owner): set the ONE real number — site previously showed 1000+, 2000+, and 30,000+ / 30K+
-export const DEFAULT_STUDENTS_TAUGHT = 2000;
-
-// TODO(owner): confirm outfits delivered claim (was shown as 5,000+ in some places)
-export const DEFAULT_OUTFITS_DELIVERED = 5000;
+import { BRAND_NAME, normalizeBrandName } from "@/lib/brand";
 
 /** Brand founding year — years of experience = current year − this. */
 export const DEFAULT_FOUNDING_YEAR = 2012;
 
-// TODO(owner): confirm real studio hours & closed day — conflicts were Mon–Sun 10–8 vs 11 AM–8 Closed Tuesdays
-export const DEFAULT_STUDIO_HOURS = "Mon–Sat, 10 AM–8 PM";
-export const DEFAULT_CLOSED_DAYS = "Sunday";
-
-// TODO(owner): prefer an @shreyacreation.com inbox if it exists; otherwise keep the working inbox
-export const DEFAULT_EMAIL = "hello@shreyacreations.in";
-
+export const DEFAULT_STUDENTS_TAUGHT = 2000;
+export const DEFAULT_OUTFITS_DELIVERED = 5000;
+export const DEFAULT_COURSES_COUNT = 10;
 export const DEFAULT_EXPRESS_DELIVERY_HOURS = 24;
 
-export const DEFAULT_PHONE_PRIMARY = "+91 91175 55125";
-export const DEFAULT_PHONE_SECONDARY = "+91 95073 63125";
+/** E.164-style numbers for tel:/wa.me (no spaces). */
+export const DEFAULT_PHONE_PRIMARY = "+919031105666";
+export const DEFAULT_PHONE_SECONDARY = "+917903155125";
 export const DEFAULT_WHATSAPP = "919031105666";
+
+/** Confirmed live inbox (settings.email) — domain is shreyacreations.in, not the .com site host. */
+export const DEFAULT_EMAIL = "hello@shreyacreations.in";
+
+export const DEFAULT_STUDIO_HOURS = "Mon–Sat, 10 AM–8 PM";
+export const DEFAULT_CLOSED_DAYS = "Sunday";
 export const DEFAULT_CITY = "Patna";
 export const DEFAULT_PINCODE = "800001";
 export const DEFAULT_ADDRESS_LINE =
   "Shreya Creation, Sisodiya Place, East Boring Canal Road, Sri Krishna Puri, Patna, Bihar 800001";
+
+export const DEFAULT_SOCIALS = {
+  instagram: "https://www.instagram.com/shreya.creationss/",
+  youtube: "https://www.youtube.com/@ShreyaCreations111/",
+  facebook: "https://www.facebook.com/shreyascreation",
+};
 
 /**
  * @param {number} foundingYear
@@ -42,13 +45,78 @@ export function computeYearsExperience(foundingYear, nowYear = new Date().getFul
 }
 
 /**
+ * Display-ready business facts for UI copy. Prefer runtime site.* when available;
+ * use these only as fallbacks so marketing numbers stay consistent.
+ */
+export const SITE_FACTS = {
+  yearsOfExperience: `${computeYearsExperience(DEFAULT_FOUNDING_YEAR)}+`,
+  studentsTrained: `${DEFAULT_STUDENTS_TAUGHT}+`,
+  outfitsDelivered: `${DEFAULT_OUTFITS_DELIVERED}+`,
+  coursesCount: String(DEFAULT_COURSES_COUNT),
+  phone1: DEFAULT_PHONE_PRIMARY,
+  phone2: DEFAULT_PHONE_SECONDARY,
+  email: DEFAULT_EMAIL,
+  address: DEFAULT_ADDRESS_LINE,
+  socials: { ...DEFAULT_SOCIALS },
+};
+
+/** Digits suitable for tel: / wa.me (keeps leading +). */
+export function phoneDigits(phone) {
+  if (!phone?.trim()) return "";
+  return String(phone).replace(/[^\d+]/g, "");
+}
+
+/** Build a click-to-call href for a single number. */
+export function telHref(phone) {
+  const digits = phoneDigits(phone);
+  return digits ? `tel:${digits}` : null;
+}
+
+/** Pretty display for E.164 Indian mobiles: +91 XXXXX XXXXX */
+export function formatPhoneDisplay(phone) {
+  const d = phoneDigits(phone).replace(/^\+/, "");
+  if (d.length === 12 && d.startsWith("91")) {
+    return `+91 ${d.slice(2, 7)} ${d.slice(7)}`;
+  }
+  if (d.length === 10) {
+    return `+91 ${d.slice(0, 5)} ${d.slice(5)}`;
+  }
+  return String(phone || "").trim();
+}
+
+/**
+ * Split a combined display string like "+91 90311 05666 / 79031 55125"
+ * into primary + secondary E.164-ish values.
+ */
+export function parsePhonePair(combined, fallbackPrimary, fallbackSecondary) {
+  const parts = String(combined || "")
+    .split(/\s*[/|,]\s*|\s+or\s+/i)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  const toE164 = (raw, fallback) => {
+    if (!raw) return fallback;
+    let d = raw.replace(/[^\d]/g, "");
+    if (d.length === 10) d = `91${d}`;
+    if (d.length === 12 && d.startsWith("91")) return `+${d}`;
+    if (d.length > 0) return raw.startsWith("+") ? `+${d}` : `+${d}`;
+    return fallback;
+  };
+
+  return {
+    primary: toE164(parts[0], fallbackPrimary),
+    secondary: toE164(parts[1], fallbackSecondary),
+  };
+}
+
+/**
  * Display helpers derived from numeric facts.
  * @param {{ foundingYear: number, studentsTaught: number, coursesCount: number, yearsExperience: number }} facts
  */
 export function formatSiteStats(facts) {
   const years = facts.yearsExperience;
   const students = facts.studentsTaught;
-  const courses = facts.coursesCount;
+  const courses = facts.coursesCount || DEFAULT_COURSES_COUNT;
   return {
     yearsEn: `${years}+ Years`,
     yearsHi: `${years}+ वर्ष`,
@@ -80,8 +148,8 @@ export function buildTrustFromSite(site) {
       labelHi: "प्रशिक्षित छात्र",
     },
     {
-      value: `${site.coursesCount}`,
-      valueHi: `${site.coursesCount}`,
+      value: `${site.coursesCount || DEFAULT_COURSES_COUNT}`,
+      valueHi: `${site.coursesCount || DEFAULT_COURSES_COUNT}`,
       label: "Job-Oriented Courses",
       labelHi: "जॉब ओरिएंटेड कोर्स",
     },
@@ -97,6 +165,12 @@ export function buildTrustFromSite(site) {
 function num(value, fallback) {
   const n = Number(value);
   return Number.isFinite(n) && n >= 0 ? n : fallback;
+}
+
+/** Google star average, or null when unset/out of range so callers can hide the card. */
+function ratingOrNull(value) {
+  const n = Number(value);
+  return Number.isFinite(n) && n > 0 && n <= 5 ? Math.round(n * 10) / 10 : null;
 }
 
 function str(value, fallback) {
@@ -119,11 +193,22 @@ export function buildSITE(raw = {}, opts = {}) {
     raw.express_delivery_hours ?? raw.expressDeliveryHours,
     DEFAULT_EXPRESS_DELIVERY_HOURS
   );
-  const coursesCount = num(opts.coursesCount ?? raw.coursesCount, 0);
+  const countedCourses = num(opts.coursesCount ?? raw.coursesCount, 0);
+  const coursesCount = countedCourses > 0 ? countedCourses : DEFAULT_COURSES_COUNT;
 
-  const phonePrimary = str(raw.phone_primary ?? raw.phonePrimary, DEFAULT_PHONE_PRIMARY);
-  const phoneSecondary = str(raw.phone_secondary ?? raw.phoneSecondary, DEFAULT_PHONE_SECONDARY);
-  const legacyPhone = str(raw.phone, `${phonePrimary} / ${phoneSecondary}`);
+  // Google numbers are typed in by hand, so there is no safe default: leaving
+  // them null keeps the rating card hidden instead of publishing a made-up score.
+  const googleRating = ratingOrNull(raw.google_rating ?? raw.googleRating);
+  const googleReviewCount = googleRating == null ? 0 : num(raw.google_review_count ?? raw.googleReviewCount, 0);
+
+  const legacyCombined = str(raw.phone, "");
+  const parsed = parsePhonePair(legacyCombined, DEFAULT_PHONE_PRIMARY, DEFAULT_PHONE_SECONDARY);
+
+  const phonePrimary = str(raw.phone_primary ?? raw.phonePrimary, parsed.primary);
+  const phoneSecondary = str(raw.phone_secondary ?? raw.phoneSecondary, parsed.secondary);
+  const phoneDisplay =
+    legacyCombined ||
+    [formatPhoneDisplay(phonePrimary), formatPhoneDisplay(phoneSecondary)].filter(Boolean).join(" / ");
 
   const whatsappNumber = str(
     raw.whatsapp_number ?? raw.whatsappNumber ?? raw.whatsapp,
@@ -142,8 +227,8 @@ export function buildSITE(raw = {}, opts = {}) {
   const socialsIn = raw.socials && typeof raw.socials === "object" ? raw.socials : {};
 
   return {
-    brandName: str(raw.brand ?? raw.brandName, "Shreya creation"),
-    brand: str(raw.brand ?? raw.brandName, "Shreya creation"),
+    brandName: normalizeBrandName(str(raw.brand ?? raw.brandName, BRAND_NAME)),
+    brand: normalizeBrandName(str(raw.brand ?? raw.brandName, BRAND_NAME)),
     tagline: str(raw.tagline, "Stitched outfits in 24 hours"),
     taglineHi: str(raw.tagline_hi ?? raw.taglineHi, "24 घंटे में सिले कपड़े"),
     boutique: str(raw.boutique, "From Skill to Business"),
@@ -161,7 +246,9 @@ export function buildSITE(raw = {}, opts = {}) {
     coursesCount,
     phonePrimary,
     phoneSecondary,
-    phone: legacyPhone,
+    phone1: phonePrimary,
+    phone2: phoneSecondary,
+    phone: phoneDisplay,
     email,
     addressLine,
     address: addressLine,
@@ -172,10 +259,13 @@ export function buildSITE(raw = {}, opts = {}) {
     whatsapp: whatsappNumber,
     whatsappNumber,
     mapEmbedUrl: raw.map_embed_url ?? raw.mapEmbedUrl,
+    googleReviewsUrl: raw.google_reviews_url ?? raw.googleReviewsUrl ?? "",
+    googleRating,
+    googleReviewCount,
     socials: {
-      instagram: str(socialsIn.instagram, "https://www.instagram.com/shreya.creationss/"),
-      youtube: str(socialsIn.youtube, ""),
-      facebook: str(socialsIn.facebook, "https://www.facebook.com/shreyascreation"),
+      instagram: str(socialsIn.instagram, DEFAULT_SOCIALS.instagram),
+      youtube: str(socialsIn.youtube, DEFAULT_SOCIALS.youtube),
+      facebook: str(socialsIn.facebook, DEFAULT_SOCIALS.facebook),
       whatsappNumber,
     },
     heroMarquee: Array.isArray(raw.hero_marquee ?? raw.heroMarquee)
@@ -197,4 +287,4 @@ export function buildSITE(raw = {}, opts = {}) {
 }
 
 /** Static defaults when DB is empty (seed uses this). */
-export const SITE_DEFAULTS = buildSITE({}, { coursesCount: 0 });
+export const SITE_DEFAULTS = buildSITE({}, { coursesCount: DEFAULT_COURSES_COUNT });

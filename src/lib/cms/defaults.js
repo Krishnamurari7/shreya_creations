@@ -1,7 +1,9 @@
 /** Default CMS content per public page (merged with Supabase settings.pages). */
 
 import {
+  DEFAULT_COURSES_COUNT,
   DEFAULT_FOUNDING_YEAR,
+  SITE_FACTS,
   computeYearsExperience,
 } from "@/lib/site-config";
 import {
@@ -20,8 +22,14 @@ const YEARS_EXP = `${_years}+ Years Experience`;
 const YEARS_EXP_HI = `${_years}+ वर्षों का अनुभव`;
 const ATELIER_TITLE = `${_years}+ Years of tailoring dreams into reality.`;
 const ATELIER_TITLE_HI = `${_years}+ वर्ष — सिलाई की परंपरा।`;
-const SINCE_HIGHLIGHT = `in Patna Bihar, since ${DEFAULT_FOUNDING_YEAR}`;
-const SINCE_HIGHLIGHT_HI = `पटना बिहार में, ${DEFAULT_FOUNDING_YEAR} से`;
+const STUDENTS_LABEL = SITE_FACTS.studentsTrained;
+const COURSES_LABEL = `${DEFAULT_COURSES_COUNT}+`;
+const HERO_TITLE = "Patna's Best Fashion Designing Institute";
+const HERO_TITLE_HI = "पटना का बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट";
+const HERO_TITLE_HIGHLIGHT = "& Designer Boutique";
+const HERO_TITLE_HIGHLIGHT_HI = "और डिज़ाइनर बुटीक";
+const HERO_SUBHEADING = `Practical boutique & fashion designing courses since ${DEFAULT_FOUNDING_YEAR} — plus bridal lehengas and designer blouses stitched in 24 hours on Boring Road.`;
+const HERO_SUBHEADING_HI = `${DEFAULT_FOUNDING_YEAR} से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।`;
 
 export const DEFAULT_JOURNEY_CARDS = [
   {
@@ -127,14 +135,12 @@ export const PAGE_DEFAULTS = {
     hero_badge_hi: "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट",
     hero_boutique_badge: "Bihar's No. 1 Boutique And Fashion Institute",
     hero_boutique_badge_hi: "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट",
-    hero_boutique_title: "Best Designer Boutique & Fashion Designing Institute",
-    hero_boutique_title_hi: "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट",
-    hero_boutique_title_highlight: SINCE_HIGHLIGHT,
-    hero_boutique_title_highlight_hi: SINCE_HIGHLIGHT_HI,
-    hero_boutique_subtitle:
-      "Boutique courses with real studio training — plus bridal lehengas & designer blouses stitched in 24 hours on Boring Road.",
-    hero_boutique_subtitle_hi:
-      "असली स्टूडियो ट्रेनिंग के साथ बुटीक कोर्स — ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।",
+    hero_boutique_title: HERO_TITLE,
+    hero_boutique_title_hi: HERO_TITLE_HI,
+    hero_boutique_title_highlight: HERO_TITLE_HIGHLIGHT,
+    hero_boutique_title_highlight_hi: HERO_TITLE_HIGHLIGHT_HI,
+    hero_boutique_subtitle: HERO_SUBHEADING,
+    hero_boutique_subtitle_hi: HERO_SUBHEADING_HI,
     hero_boutique_keywords: "Course / Boutique / Institute",
     hero_boutique_keywords_hi: "कोर्स / बुटीक / इंस्टिट्यूट",
     hero_boutique_cta: "Your Career Starts Here",
@@ -158,17 +164,13 @@ export const PAGE_DEFAULTS = {
     category_cards: DEFAULT_CATEGORY_CARDS.map((card) => ({
       ...card,
       items: card.items?.map((row) => ({ ...row })),
-      columns: card.columns?.map((col) => ({
-        ...col,
-        items: col.items.map((row) => ({ ...row })),
-      })),
     })),
-    hero_title_line1: "Best Designer Boutique & Fashion Designing Institute",
-    hero_title_line1_hi: "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट",
+    hero_title_line1: HERO_TITLE,
+    hero_title_line1_hi: HERO_TITLE_HI,
     hero_title_line2: "",
     hero_title_line2_hi: "",
-    hero_title_highlight: SINCE_HIGHLIGHT,
-    hero_title_highlight_hi: SINCE_HIGHLIGHT_HI,
+    hero_title_highlight: HERO_TITLE_HIGHLIGHT,
+    hero_title_highlight_hi: HERO_TITLE_HIGHLIGHT_HI,
     hero_subtitle: "Course | Boutique | Institute",
     hero_subtitle_hi: "कोर्स | बुटीक | इंस्टिट्यूट",
     hero_cta_label: "Your career starts here",
@@ -182,8 +184,8 @@ export const PAGE_DEFAULTS = {
     hero_tile1_sub: "of trust in Patna",
     hero_tile1_sub_hi: "पटना में भरोसा",
     hero_tile2_icon: "🎓",
-    hero_tile2_title: "2000+",
-    hero_tile2_title_hi: "2000+",
+    hero_tile2_title: STUDENTS_LABEL,
+    hero_tile2_title_hi: STUDENTS_LABEL,
     hero_tile2_sub: "Students trained",
     hero_tile2_sub_hi: "छात्र प्रशिक्षित",
     hero_tile3_icon: "🛡️",
@@ -357,7 +359,7 @@ export const PAGE_DEFAULTS = {
     academy_heading_highlight_hi: "कमाएँ.",
     academy_subheading: "Professional courses — boutique, blouse, suit, kids wear, fashion design & lehenga. Enroll on WhatsApp.",
     academy_subheading_hi: "प्रोफेशनल कोर्स — बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा। WhatsApp पर एनरोल करें।",
-    academy_location: "Shreya creation, Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001",
+    academy_location: "Shreya Creation, Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001",
     academy_title: "Bespoke Practice at Our",
     academy_title_hi: "हमारे",
     academy_title_accent: "Offline Studio",
@@ -374,7 +376,7 @@ export const PAGE_DEFAULTS = {
     ],
     academy_highlights: [
       { value: YEARS_LABEL, label: "of trust", label_hi: "का भरोसा" },
-      { value: "10+", label: "Courses", label_hi: "कोर्स" },
+      { value: COURSES_LABEL, label: "Courses", label_hi: "कोर्स" },
     ],
     academy_perks: [
       { text: "Professional boutique & fashion courses", text_hi: "प्रोफेशनल बुटीक और फैशन कोर्स" },
@@ -402,7 +404,7 @@ export const PAGE_DEFAULTS = {
     video_title_highlight: "Patna Studio",
     video_title_highlight_hi: "पटना स्टूडियो",
     video_subtitle:
-      "Take a virtual tour of Shreya creation — see our stitching academy, boutique workspace, and the craft behind every outfit.",
+      "Take a virtual tour of Shreya Creation — see our stitching academy, boutique workspace, and the craft behind every outfit.",
     video_subtitle_hi:
       "श्रेया क्रिएशन का वर्चुअल टूर — सिलाई अकादमी, बुटीक वर्कस्पेस और हर आउटफिट के पीछे की कारीगरी देखें।",
     video_perks: [
@@ -513,23 +515,86 @@ export const PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.",
   },
   lookbook: {
-    header_eyebrow: "Blog & lookbook",
+    header_eyebrow: "Lookbook",
     header_eyebrow_hi: "लुकबुक",
-    header_title: "Style",
-    header_title_hi: "स्टाइल",
-    header_highlight: "inspiration",
-    header_highlight_hi: "प्रेरणा",
-    header_subtitle: "Curated looks from the atelier — trends, styling tips and behind-the-scenes from our studio.",
-    header_subtitle_hi: "एटेलियर से क्यूरेटेड लुक — ट्रेंड, स्टाइलिंग टिप्स और स्टूडियो की झलक।",
+    header_title: "Style Inspiration from Our Patna Atelier",
+    header_title_hi: "पटना एटेलियर से स्टाइल प्रेरणा",
+    header_highlight: "",
+    header_highlight_hi: "",
+    header_subtitle: "Curated looks, stitching tips and behind-the-scenes from our Boring Road studio — bridal, blouse and festive wear ideas.",
+    header_subtitle_hi: "बोरिंग रोड स्टूडियो से क्यूरेटेड लुक, सिलाई टिप्स और झलक — ब्राइडल, ब्लाउज और फेस्टिव आइडिया।",
+    features: [
+      { emoji: "🧵", title: "Atelier tips", title_hi: "एटेलियर टिप्स", desc: "Necklines, fabrics and fittings we use every day in the studio.", desc_hi: "नेकलाइन, कपड़े और फिटिंग — रोज़ स्टूडियो में जो हम इस्तेमाल करते हैं।" },
+      { emoji: "👰", title: "Bridal ideas", title_hi: "ब्राइडल आइडिया", desc: "Lehenga, gown and blouse looks for weddings and receptions.", desc_hi: "शादी और रिसेप्शन के लिए लहंगा, गाउन और ब्लाउज लुक।" },
+      { emoji: "✈️", title: "NRI friendly", title_hi: "NRI फ्रेंडली", desc: "Guides for ordering custom wear from abroad via WhatsApp.", desc_hi: "विदेश से WhatsApp पर कस्टम वियर ऑर्डर करने की गाइड।" },
+    ],
     cta_title: "Love a look?",
     cta_title_hi: "कोई लुक पसंद आया?",
     cta_subtitle: "Send us the reference on WhatsApp — we'll recreate it in your size and fabric choice.",
     cta_subtitle_hi: "रेफरेंस WhatsApp पर भेजें — हम आपके माप और कपड़े में बनाएंगे।",
+    cta_primary_label: "WhatsApp the look",
+    cta_primary_label_hi: "लुक WhatsApp करें",
     cta_secondary_href: "/portfolio",
     cta_secondary_label: "View portfolio",
     cta_secondary_label_hi: "पोर्टफोलियो देखें",
     cta_wa_message:
       "Hi Shreya Creation! 👋 I'd love a look from your lookbook made in my size. Please share fabric, design, and timeline.",
+  },
+  nri: {
+    header_eyebrow: "NRI services",
+    header_eyebrow_hi: "NRI सेवाएँ",
+    header_title: "Bridal & Boutique Support for NRI Clients",
+    header_title_hi: "NRI क्लाइंट्स के लिए ब्राइडल और बुटीक सपोर्ट",
+    header_subtitle: "Order from anywhere — custom stitching in Patna with WhatsApp guidance and shipping support for families in India and overseas.",
+    header_subtitle_hi: "कहीं से भी ऑर्डर करें — WhatsApp गाइडेंस के साथ पटना में कस्टम सिलाई, और भारत व विदेश में परिवार के लिए शिपिंग सपोर्ट।",
+    highlights: [
+      {
+        title: "WhatsApp measurements",
+        title_hi: "WhatsApp माप",
+        body: "Share photos, reference looks and body measurements — we guide you step by step from abroad.",
+        body_hi: "फ़ोटो, रेफ़रेंस लुक और माप भेजें — विदेश से भी हम स्टेप-बाय-स्टेप गाइड करेंगे।",
+      },
+      {
+        title: "Bridal & custom stitching",
+        title_hi: "ब्राइडल और कस्टम सिलाई",
+        body: "Lehengas, blouses, suits and designer wear stitched in Patna for your wedding or festive dates.",
+        body_hi: "लहंगा, ब्लाउज, सूट और डिज़ाइनर वियर — शादी या त्योहार की डेट के हिसाब से पटना में सिले।",
+      },
+      {
+        title: "Secure shipping support",
+        title_hi: "सुरक्षित शिपिंग सपोर्ट",
+        body: "Packaging and courier coordination so your outfit reaches family in India or abroad safely.",
+        body_hi: "पैकेजिंग और कूरियर कोऑर्डिनेशन — आउटफ़िट भारत या विदेश में परिवार तक सुरक्षित पहुँचे।",
+      },
+    ],
+    process_eyebrow: "How it works",
+    process_eyebrow_hi: "कैसे काम करता है",
+    process_title: "From WhatsApp to doorstep",
+    process_title_hi: "WhatsApp से डोरस्टेप तक",
+    process_subtitle: "A clear process so NRI families can plan outfits around travel and wedding dates.",
+    process_subtitle_hi: "साफ प्रक्रिया — NRI परिवार यात्रा और शादी की डेट के हिसाब से आउटफ़िट प्लान कर सकें।",
+    process_steps: [
+      { step: "01", title: "Share your brief", title_hi: "अपना ब्रीफ भेजें", desc: "Occasion date, city for delivery/pickup, budget and reference photos on WhatsApp.", desc_hi: "अवसर की डेट, डिलीवरी/पिकअप शहर, बजट और रेफ़रेंस फ़ोटो WhatsApp पर।" },
+      { step: "02", title: "Confirm design & fit", title_hi: "डिज़ाइन और फिट कन्फर्म", desc: "We guide measurements, fabric options and timeline before we start stitching.", desc_hi: "सिलाई शुरू करने से पहले माप, कपड़ा और टाइमलाइन गाइड करते हैं।" },
+      { step: "03", title: "Stitch in Patna", title_hi: "पटना में सिलाई", desc: "Your outfit is cut and finished at our Boring Road atelier to the agreed plan.", desc_hi: "आउटफ़िट बोरिंग रोड एटेलियर में तय प्लान के अनुसार कट और फिनिश होता है।" },
+      { step: "04", title: "Ship or family pickup", title_hi: "शिप या परिवार पिकअप", desc: "Secure packaging with courier support — or family collects from the studio.", desc_hi: "सुरक्षित पैकेजिंग व कूरियर — या परिवार स्टूडियो से ले जाएँ।" },
+    ],
+    features: [
+      { emoji: "🌍", title: "Order from abroad", title_hi: "विदेश से ऑर्डर", desc: "Consult fully on WhatsApp — no studio visit required to start.", desc_hi: "पूरा कंसल्ट WhatsApp पर — शुरू करने के लिए स्टूडियो आना ज़रूरी नहीं।" },
+      { emoji: "📅", title: "Date-led timelines", title_hi: "डेट-आधारित टाइमलाइन", desc: "We plan around flights, mehendi and wedding dates you share.", desc_hi: "आपकी फ्लाइट, मेहंदी और शादी की डेट के हिसाब से प्लान।" },
+      { emoji: "📦", title: "Courier coordination", title_hi: "कूरियर कोऑर्डिनेशन", desc: "Help with packing and tracking so outfits arrive safely.", desc_hi: "पैकिंग और ट्रैकिंग में मदद — आउटफ़िट सुरक्षित पहुँचे।" },
+    ],
+    cta_title: "Planning an outfit from abroad?",
+    cta_title_hi: "विदेश से आउटफ़िट प्लान कर रहे हैं?",
+    cta_subtitle: "Message us on WhatsApp with your occasion date, city, and reference photos — we’ll guide measurements, timeline, and shipping.",
+    cta_subtitle_hi: "WhatsApp पर अवसर की डेट, शहर और रेफ़रेंस फ़ोटो भेजें — माप, टाइमलाइन और शिपिंग हम गाइड करेंगे।",
+    cta_primary_label: "WhatsApp NRI desk",
+    cta_primary_label_hi: "WhatsApp NRI डेस्क",
+    cta_secondary_href: "/contact",
+    cta_secondary_label: "Contact studio",
+    cta_secondary_label_hi: "स्टूडियो से संपर्क",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I'm an NRI client. I'd like details on bridal/custom stitching and shipping support. Please share the process.",
   },
   faq: {
     header_eyebrow: "Help & FAQ",
@@ -549,10 +614,25 @@ export const PAGE_DEFAULTS = {
   },
 };
 
-export const PAGE_EDITOR_KEYS = ["home", "about", "contact", "shop", "courses", "portfolio", "lookbook", "faq"];
+export const PAGE_EDITOR_KEYS = ["home", "about", "contact", "shop", "courses", "portfolio", "lookbook", "nri", "faq"];
 
 export const FEATURE_FIELDS = [
   { key: "emoji", label: "Emoji", default: "✦" },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+  { key: "desc", label: "Description (EN)", type: "textarea", wide: true },
+  { key: "desc_hi", label: "Description (HI)", type: "textarea", wide: true },
+];
+
+export const NRI_HIGHLIGHT_FIELDS = [
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+  { key: "body", label: "Body (EN)", type: "textarea", wide: true },
+  { key: "body_hi", label: "Body (HI)", type: "textarea", wide: true },
+];
+
+export const NRI_STEP_FIELDS = [
+  { key: "step", label: "Step no.", default: "01" },
   { key: "title", label: "Title (EN)" },
   { key: "title_hi", label: "Title (HI)" },
   { key: "desc", label: "Description (EN)", type: "textarea", wide: true },

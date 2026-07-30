@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD, GLASS } from "@/lib/ui";
+import { BTN_PRIMARY, GLASS } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -18,21 +18,19 @@ const BRAND_FIELDS = [
 ];
 
 const FACT_FIELDS = [
-  // TODO(owner): set the ONE real students_taught — was 1000+ / 2000+ / 30K+
   { name: "founding_year", label: "Founding year", hint: "Default 2012 — yearsExperience = currentYear − this" },
-  { name: "students_taught", label: "Students taught", hint: "TODO(owner): confirm the ONE real number" },
-  { name: "outfits_delivered", label: "Outfits delivered", hint: "TODO(owner): confirm" },
+  { name: "students_taught", label: "Students taught", hint: "Default 2000" },
+  { name: "outfits_delivered", label: "Outfits delivered", hint: "Default 5000" },
   { name: "express_delivery_hours", label: "Express delivery (hours)", hint: "Usually 24" },
 ];
 
 const CONTACT_FIELDS = [
-  { name: "whatsapp", label: "WhatsApp number", hint: "International format, no +, e.g. 919876543210" },
+  { name: "whatsapp", label: "WhatsApp number", hint: "International format, no +, e.g. 919031105666" },
   { name: "whatsapp_number", label: "WhatsApp (alias)", hint: "Optional; falls back to WhatsApp number above" },
-  { name: "phone_primary", label: "Primary phone" },
-  { name: "phone_secondary", label: "Secondary phone" },
-  { name: "phone", label: "Phone display (combined)", hint: "Shown as-is if set; else primary / secondary" },
-  // TODO(owner): prefer @shreyacreation.com if that inbox exists
-  { name: "email", label: "Email" },
+  { name: "phone_primary", label: "Primary phone", hint: "e.g. +919031105666" },
+  { name: "phone_secondary", label: "Secondary phone", hint: "e.g. +917903155125" },
+  { name: "phone", label: "Phone display (combined)", hint: "Legacy combined string; prefer primary + secondary for click-to-call" },
+  { name: "email", label: "Email", hint: "hello@shreyacreations.in" },
   { name: "address", label: "Full address", type: "textarea", col: "address" },
   { name: "address_line", label: "Address line (optional override)", type: "textarea" },
   { name: "city", label: "City", hint: "Patna" },
@@ -241,7 +239,7 @@ export default function SettingsAdmin() {
           <FieldList fields={SOCIAL_FIELDS} form={form} setField={setField} getField={getField} />
         </section>
         <div className="admin-form-actions">
-          <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
+          <button type="button" onClick={save} disabled={saving} className={BTN_PRIMARY}>
             {saving ? "Saving…" : "Save settings"}
           </button>
           {msg && <span className="text-sm text-gold break-words">{msg}</span>}

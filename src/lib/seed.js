@@ -4,6 +4,7 @@
 //
 // Image URLs here use local /public assets — replace with real photos via admin.
 
+import { BRAND_NAME } from "@/lib/brand";
 import {
   buildSITE,
   buildTrustFromSite,
@@ -52,7 +53,7 @@ export const SITE_STATS = {
 export const SITE = {
   ...buildSITE(
     {
-      brand: "Shreya creation",
+      brand: BRAND_NAME,
       boutique: "From Skill to Business",
       boutiqueHi: "कौशल से कारोबार तक",
       tagline: "Stitched outfits in 24 hours",
@@ -70,7 +71,7 @@ export const SITE = {
         "https://maps.google.com/maps?q=Shreya+Creation+Sisodiya+Place+East+Boring+Canal+Road+Patna+Bihar+800001&hl=en&z=16&output=embed",
       socials: {
         instagram: "https://www.instagram.com/shreya.creationss/",
-        youtube: "",
+        youtube: "https://www.youtube.com/@ShreyaCreations111/",
         facebook: "https://www.facebook.com/shreyascreation",
       },
     },
@@ -846,20 +847,25 @@ export const COURSE_WA_OPTIONS = [
 ];
 
 export const PORTFOLIO = [
-  { id: "g1", title: "Bridal Lehenga — Maroon & Gold", slug: "bridal-lehenga-maroon-gold", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 1 },
-  { id: "g2", title: "Reception Gown", slug: "reception-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 2 },
-  { id: "g3", title: "Mirror-work Blouse", slug: "mirror-work-blouse", category: "Blouses", image: LOCAL_IMGS[2], sort_order: 3 },
+  { id: "g1", title: "Bridal Lehenga — Maroon & Gold", slug: "bridal-lehenga-maroon-gold", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 1, featured: true },
+  { id: "g2", title: "Reception Gown", slug: "reception-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 2, featured: true },
+  { id: "g3", title: "Mirror-work Blouse", slug: "mirror-work-blouse", category: "Blouses", image: LOCAL_IMGS[2], sort_order: 3, featured: true },
   { id: "g4", title: "Festive Anarkali", slug: "festive-anarkali", category: "Suits", image: LOCAL_IMGS[3], sort_order: 4 },
   { id: "g5", title: "Kundan Bridal Set", slug: "kundan-bridal-set", category: "Jewellery", image: LOCAL_IMGS[4], sort_order: 5 },
   { id: "g6", title: "Silk Saree Drape", slug: "silk-saree-drape", category: "Sarees", image: LOCAL_IMGS[5], sort_order: 6 },
   { id: "g7", title: "Embroidered Dupatta", slug: "embroidered-dupatta", category: "Bridal", image: LOCAL_IMGS[6], sort_order: 7 },
-  { id: "g8", title: "Designer Blouse Back", slug: "designer-blouse-back", category: "Blouses", image: LOCAL_IMGS[7], sort_order: 8 },
-  { id: "g9", title: "Pastel Mehendi Lehenga", slug: "pastel-mehendi-lehenga", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 9 },
-  { id: "g10", title: "Indo-Western Fusion Gown", slug: "indo-western-fusion-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 10 },
+  { id: "g8", title: "Designer Blouse Back", slug: "designer-blouse-back", category: "Blouses", image: LOCAL_IMGS[7], sort_order: 8, featured: true },
+  { id: "g9", title: "Pastel Mehendi Lehenga", slug: "pastel-mehendi-lehenga", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 9, featured: true },
+  { id: "g10", title: "Indo-Western Fusion Gown", slug: "indo-western-fusion-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 10, featured: true },
   { id: "g11", title: "Zardozi Potli Bag", slug: "zardozi-potli-bag", category: "Accessories", image: LOCAL_IMGS[2], sort_order: 11 },
   { id: "g12", title: "Hand-embroidered Cape Blouse", slug: "hand-embroidered-cape-blouse", category: "Blouses", image: LOCAL_IMGS[3], sort_order: 12 },
 ];
 
+/**
+ * Placeholder testimonials shown only when the DB is empty. `source` stays
+ * "manual" so these never render the "Verified Google Review" badge — that
+ * badge is reserved for rows imported from the real Google Business profile.
+ */
 export const TESTIMONIALS = [
   {
     id: "t1",
@@ -867,6 +873,9 @@ export const TESTIMONIALS = [
     text: "My bridal lehenga was stitched to perfection and delivered on time. The fit was flawless — I felt like a queen!",
     photo: null,
     rating: 5,
+    source: "manual",
+    review_url: null,
+    category: "boutique",
   },
   {
     id: "t2",
@@ -874,6 +883,9 @@ export const TESTIMONIALS = [
     text: "I took the fashion designing course and now run my own small boutique. The mentorship was incredible.",
     photo: null,
     rating: 5,
+    source: "manual",
+    review_url: null,
+    category: "institute",
   },
   {
     id: "t3",
@@ -881,6 +893,19 @@ export const TESTIMONIALS = [
     text: "Ordered an Anarkali on WhatsApp, got it stitched in 24 hours. So convenient and the quality is wonderful.",
     photo: null,
     rating: 5,
+    source: "manual",
+    review_url: null,
+    category: "boutique",
+  },
+  {
+    id: "t4",
+    name: "Neha Kumari",
+    text: "The training is fully practical and the faculty gives personal attention. Best decision for my career.",
+    photo: null,
+    rating: 5,
+    source: "manual",
+    review_url: null,
+    category: "institute",
   },
 ];
 
@@ -1020,6 +1045,88 @@ Certificates (where offered) are issued after successful completion of attendanc
 बैच शुरू होने से कम से कम 7 दिन पहले लिखित रद्दीकरण पर जमा/फीस की स्थिति लिखित में बताई जाएगी। कक्षाएँ शुरू होने के बाद फीस आमतौर पर वापस नहीं होती। संस्थान द्वारा बैच रद्द होने पर रिफंड या ट्रांसफर का विकल्प मिलेगा।`,
   },
 };
+
+/** Blog / lookbook posts — used when Supabase has none published yet. */
+export const LOOKBOOK = [
+  {
+    id: "lb1",
+    title: "Bridal blouse necklines that photograph beautifully",
+    title_hi: "ब्राइडल ब्लाउज नेकलाइन जो फोटो में खूबसूरत लगें",
+    slug: "bridal-blouse-necklines",
+    excerpt:
+      "From deep V to illusion net — neckline ideas we stitch most for Patna weddings, with tips on what flatters different saree drapes.",
+    excerpt_hi:
+      "डीप V से इल्यूज़न नेट तक — पटना की शादियों में सबसे ज़्यादा सिली जाने वाली नेकलाइन, और अलग-अलग साड़ी ड्रेप के लिए टिप्स।",
+    image: LOCAL_IMGS[2],
+    published: true,
+    created_at: "2026-06-01T10:00:00.000Z",
+  },
+  {
+    id: "lb2",
+    title: "How we take NRI measurements on WhatsApp",
+    title_hi: "NRI क्लाइंट्स के माप WhatsApp पर कैसे लेते हैं",
+    slug: "nri-whatsapp-measurements",
+    excerpt:
+      "A simple photo + tape guide so families abroad can order bridal and festive wear from our Boring Road atelier with confidence.",
+    excerpt_hi:
+      "सरल फोटो और टेप गाइड — विदेश में परिवार बोरिंग रोड एटेलियर से ब्राइडल और फेस्टिव वियर आत्मविश्वास से ऑर्डर कर सकें।",
+    image: LOCAL_IMGS[0],
+    published: true,
+    created_at: "2026-05-18T10:00:00.000Z",
+  },
+  {
+    id: "lb3",
+    title: "24-hour express stitching: what qualifies",
+    title_hi: "24 घंटे एक्सप्रेस सिलाई: किन स्टाइल पर लागू",
+    slug: "24-hour-express-stitching",
+    excerpt:
+      "Which blouse, suit and lehenga styles we can often finish in a day — and when you should allow extra time for heavy embroidery.",
+    excerpt_hi:
+      "कौन से ब्लाउज, सूट और लहंगा अक्सर एक दिन में तैयार — और भारी कढ़ाई के लिए कब अतिरिक्त समय रखें।",
+    image: LOCAL_IMGS[1],
+    published: true,
+    created_at: "2026-05-02T10:00:00.000Z",
+  },
+  {
+    id: "lb4",
+    title: "Reception gown silhouettes for Indian weddings",
+    title_hi: "भारतीय शादियों के लिए रिसेप्शन गाउन सिल्हूट",
+    slug: "reception-gown-silhouettes",
+    excerpt:
+      "Floor-length, cape, and Indo-western fusion options we craft for reception nights — fabric picks that move well on the dance floor.",
+    excerpt_hi:
+      "फ्लोर-लेंथ, केप और इंडो-वेस्टर्न फ़्यूज़न — रिसेप्शन के लिए गाउन, और डांस फ्लोर पर अच्छे लगने वाले कपड़े।",
+    image: LOCAL_IMGS[4],
+    published: true,
+    created_at: "2026-04-12T10:00:00.000Z",
+  },
+  {
+    id: "lb5",
+    title: "From first stitch to first client: student stories",
+    title_hi: "पहली सिलाई से पहले क्लाइंट तक: छात्राओं की कहानियाँ",
+    slug: "student-success-stories",
+    excerpt:
+      "How boutique course graduates turn practice pieces into paid orders — and the mentorship path we follow at the institute.",
+    excerpt_hi:
+      "बुटीक कोर्स ग्रेजुएट प्रैक्टिस पीस से पेड ऑर्डर तक कैसे पहुँचते हैं — और संस्थान में मेंटरशिप का रास्ता।",
+    image: LOCAL_IMGS[6],
+    published: true,
+    created_at: "2026-03-28T10:00:00.000Z",
+  },
+  {
+    id: "lb6",
+    title: "Zardozi vs aari: choosing embroidery for bridal wear",
+    title_hi: "ज़रदोज़ी बनाम आरी: ब्राइडल कढ़ाई कैसे चुनें",
+    slug: "zardozi-vs-aari-embroidery",
+    excerpt:
+      "Weight, shine and timeline differences — so you pick the right handwork for lehenga panels, blouses and dupattas.",
+    excerpt_hi:
+      "वज़न, चमक और टाइमलाइन का फर्क — लहंगा पैनल, ब्लाउज और दुपट्टे के लिए सही हैंडवर्क चुनें।",
+    image: LOCAL_IMGS[5],
+    published: true,
+    created_at: "2026-03-10T10:00:00.000Z",
+  },
+];
 
 export const FAQS = [
   {

@@ -32,7 +32,7 @@ export default function LookbookGrid({ posts = [] }) {
   return (
     <div className="space-y-6 sm:space-y-8">
       {featured && (
-        <Glass3DCard layered className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-[2rem]", "overflow-hidden", "border-orange/20", "group")}>
+        <Glass3DCard layered className={cn(REVEAL, INTERACTIVE_CARD, "rounded-2xl", "sm:rounded-[2rem]", "overflow-hidden", "border-orange/20", "group")}>
           <div className="grid md:grid-cols-2 gap-0">
             {featured.image && (
               <div className="lookbook-featured-media relative h-full min-h-[280px] md:min-h-[320px]">
@@ -59,7 +59,7 @@ export default function LookbookGrid({ posts = [] }) {
             <Glass3DCard
               key={p.id}
               layered
-              className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "overflow-hidden", "group")}
+              className={cn(REVEAL, INTERACTIVE_CARD, "rounded-2xl", "sm:rounded-3xl", "overflow-hidden", "group")}
               style={staggerDelay(i, 90)}
             >
               {p.image && (

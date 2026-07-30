@@ -1,9 +1,12 @@
 import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import NriClientsHighlights from "@/components/NriClientsHighlights";
+import FeatureStrip from "@/components/FeatureStrip";
 import PageCTA from "@/components/PageCTA";
+import PageSeoIntro from "@/components/PageSeoIntro";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getSiteSettings } from "@/lib/data";
+import { pageCtaProps } from "@/lib/cms";
 import { buildMetadata, breadcrumbJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { nriClientMessage } from "@/lib/whatsapp";
 
@@ -18,6 +21,8 @@ export const metadata = buildMetadata({
 
 export default async function NriClientsPage() {
   const site = await getSiteSettings();
+  const nri = site.pages?.nri || {};
+  const cta = pageCtaProps(nri);
 
   return (
     <PageShell>
@@ -28,28 +33,49 @@ export default async function NriClientsPage() {
         ])}
       />
       <LocalizedPageHeader
-        eyebrow="NRI services"
-        eyebrowHi="NRI सेवाएँ"
-        title="Bridal & boutique support for NRI clients"
-        titleHi="NRI क्लाइंट्स के लिए ब्राइडल और बुटीक सपोर्ट"
-        subtitle="Order from anywhere — custom stitching in Patna with WhatsApp guidance and shipping support for families in India and overseas."
-        subtitleHi="कहीं से भी ऑर्डर करें — WhatsApp गाइडेंस के साथ पटना में कस्टम सिलाई, और भारत व विदेश में परिवार के लिए शिपिंग सपोर्ट।"
+        eyebrow={nri.headerEyebrow || "NRI services"}
+        eyebrowHi={nri.headerEyebrowHi || "NRI सेवाएँ"}
+        title={nri.headerTitle || "Bridal & Boutique Support for NRI Clients"}
+        titleHi={nri.headerTitleHi || "NRI क्लाइंट्स के लिए ब्राइडल और बुटीक सपोर्ट"}
+        subtitle={
+          nri.headerSubtitle ||
+          "Order from anywhere — custom stitching in Patna with WhatsApp guidance and shipping support for families in India and overseas."
+        }
+        subtitleHi={nri.headerSubtitleHi}
       />
-      <NriClientsHighlights />
+
+      <PageSeoIntro
+        links={[
+          { href: "/shop", label: "custom stitching in Patna" },
+          { href: "/portfolio", label: "bridal portfolio" },
+          { href: "/lookbook", label: "style lookbook" },
+          { href: "/contact", label: "contact the studio" },
+        ]}
+      >
+        Living abroad and need bridal or festive wear from Patna? Shreya Creation supports NRI
+        clients with WhatsApp measurements, boutique stitching on Boring Road, and courier or family
+        pickup — so outfits arrive on time for weddings and celebrations.
+      </PageSeoIntro>
+
+      <FeatureStrip items={nri.features || []} />
+
+      <NriClientsHighlights
+        highlights={nri.highlights}
+        processEyebrow={nri.processEyebrow}
+        processEyebrowHi={nri.processEyebrowHi}
+        processTitle={nri.processTitle}
+        processTitleHi={nri.processTitleHi}
+        processSubtitle={nri.processSubtitle}
+        processSubtitleHi={nri.processSubtitleHi}
+        processSteps={nri.processSteps}
+      />
+
       <PageCTA
         whatsapp={site.whatsapp}
+        {...cta}
         eyebrow="NRI enquiry"
         eyebrowHi="NRI पूछताछ"
-        title="Planning an outfit from abroad?"
-        titleHi="विदेश से आउटफ़िट प्लान कर रहे हैं?"
-        subtitle="Message us on WhatsApp with your occasion date, city, and reference photos — we’ll guide measurements, timeline, and shipping."
-        subtitleHi="WhatsApp पर अवसर की डेट, शहर और रेफ़रेंस फ़ोटो भेजें — माप, टाइमलाइन और शिपिंग हम गाइड करेंगे।"
-        primaryLabel="WhatsApp NRI desk"
-        primaryLabelHi="WhatsApp NRI डेस्क"
-        secondaryHref="/contact"
-        secondaryLabel="Contact studio"
-        secondaryLabelHi="स्टूडियो से संपर्क"
-        waMessage={nriClientMessage("en")}
+        waMessage={cta.waMessage || nriClientMessage("en")}
         perks={["Abroad orders", "Bridal dates", "Family pickup", "Courier"]}
         perksHi={["विदेश ऑर्डर", "ब्राइडल डेट", "परिवार पिकअप", "कूरियर"]}
       />

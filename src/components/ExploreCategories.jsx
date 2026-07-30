@@ -1,6 +1,6 @@
 "use client";
 
-import { HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL } from "@/lib/ui";
+import { HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, SECTION_TITLE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import Link from "next/link";
@@ -156,14 +156,14 @@ export default function ExploreCategories({ courses = [], products = [], home = 
 
   return (
     <section className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "explore-categories")}>
-      <div className={cn(PAGE_CONTAINER, "max-w-7xl")}>
+      <div className={PAGE_CONTAINER}>
         <div className={cn(REVEAL, "explore-categories__header")}>
           <div className="explore-categories__header-copy">
             <span className="explore-categories__badge">
               <FolderIcon />
               {eyebrow}
             </span>
-            <h2 className="explore-categories__title">{title}</h2>
+            <h2 className={cn(SECTION_TITLE, "explore-categories__title", "mt-2")}>{title}</h2>
           </div>
           <Link href="/courses" className="explore-categories__view-all">
             {viewAll}

@@ -1,19 +1,20 @@
 // Central helper for building wa.me links with prefilled messages.
 // Every "Order / Stitch / Enroll / Enquire" button on the site uses this.
 
-const FALLBACK_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210";
+import { DEFAULT_WHATSAPP, telHref } from "@/lib/site-config";
+
+const FALLBACK_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP;
 
 export function waLink(number, message) {
   const n = (number || FALLBACK_NUMBER).replace(/[^0-9]/g, "");
   return `https://wa.me/${n}?text=${encodeURIComponent(message || greetingMessage())}`;
 }
 
-/** First dialable number from a display string like "+91 91175 55125 / 95073 63125". */
+/** First dialable number from a display string like "+91 90311 05666 / 79031 55125". */
 export function telLink(phone) {
   if (!phone?.trim()) return null;
   const first = phone.split(/\s*[/|,]\s*|\s+or\s+/i)[0].trim();
-  const digits = first.replace(/[^\d+]/g, "");
-  return digits ? `tel:${digits}` : null;
+  return telHref(first);
 }
 
 function productPageUrl(product, url) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GHOST, BTN_GOLD, GLASS } from "@/lib/ui";
+import { BTN_PRIMARY, BTN_SECONDARY, GLASS } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useState, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -328,7 +328,7 @@ export default function ResourceManager({
               setActiveSection(sections?.[0]?.id ?? null);
               setEditing(blank());
             }}
-            className={cn(BTN_GOLD, "rounded-full", "px-5", "py-2.5", "text-sm")}
+            className={BTN_PRIMARY}
           >
             + Add new
           </button>
@@ -407,7 +407,7 @@ export default function ResourceManager({
         panelClassName={modalWide ? "admin-modal__panel--wide" : ""}
         footer={
           <div className="admin-form-actions">
-            <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
+            <button type="button" onClick={save} disabled={saving} className={BTN_PRIMARY}>
               {saving ? "Saving…" : "Save"}
             </button>
             <button
@@ -416,7 +416,7 @@ export default function ResourceManager({
                 setEditing(null);
                 setModalError("");
               }}
-              className={cn(BTN_GHOST, "rounded-full", "px-7", "py-3")}
+              className={BTN_SECONDARY}
             >
               Cancel
             </button>

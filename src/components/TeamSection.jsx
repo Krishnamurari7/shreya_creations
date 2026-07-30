@@ -59,7 +59,7 @@ export default function TeamSection({ aboutPage, memberImages = [] }) {
           <Glass3DCard
             key={member.name}
             as="article"
-            className={cn(INTERACTIVE_CARD, REVEAL, "team-card", "team-card--photo", "text-center", "rounded-2xl", "sm:rounded-3xl", "px-5", "py-7", "sm:px-8", "sm:py-10", "border-gold/25", "bg-cream/80", "overflow-hidden")}
+            className={cn(REVEAL, INTERACTIVE_CARD, "team-card", "team-card--photo", "text-center", "rounded-2xl", "sm:rounded-3xl", "px-5", "py-7", "sm:px-8", "sm:py-10", "border-gold/25", "bg-cream/80", "overflow-hidden")}
             style={staggerDelay(i, 120)}
           >
             <div className="team-card__portrait mx-auto mb-4 sm:mb-5">

@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD, GLASS } from "@/lib/ui";
+import { BTN_PRIMARY, GLASS } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -16,7 +16,14 @@ import {
   CtaEditor,
   HomeTab,
 } from "@/components/admin/PageEditorForm";
-import { PAGE_DEFAULTS, DEFAULT_PILLARS, PAGE_EDITOR_KEYS, FEATURE_FIELDS } from "@/lib/cms/defaults";
+import {
+  PAGE_DEFAULTS,
+  DEFAULT_PILLARS,
+  PAGE_EDITOR_KEYS,
+  FEATURE_FIELDS,
+  NRI_HIGHLIGHT_FIELDS,
+  NRI_STEP_FIELDS,
+} from "@/lib/cms/defaults";
 import {
   mergeJourneyCardsForEditor,
   mergeHeroServiceCardsForEditor,
@@ -36,6 +43,7 @@ const TABS = [
   { id: "courses", label: "Courses" },
   { id: "portfolio", label: "Portfolio" },
   { id: "lookbook", label: "Lookbook" },
+  { id: "nri", label: "NRI Clients" },
   { id: "faq", label: "FAQ" },
 ];
 
@@ -273,9 +281,51 @@ export default function PagesAdmin() {
         {tab === "lookbook" && (
           <>
             <HeaderWithHighlight page={page} onChange={onChange} />
+            <SectionHeading>Feature cards</SectionHeading>
+            <RepeaterField
+              label="Highlight cards"
+              items={page.features || []}
+              onChange={(v) => onChange("features", v)}
+              addLabel="Add feature"
+              fields={FEATURE_FIELDS}
+            />
             <p className="admin-muted">
               Lookbook posts: <a href="/admin/lookbook" className="text-gold hover:underline">Lookbook admin</a>.
             </p>
+            <CtaEditor page={page} onChange={onChange} showWaMessage />
+          </>
+        )}
+
+        {tab === "nri" && (
+          <>
+            <HeaderSimple page={page} onChange={onChange} />
+            <SectionHeading>Service highlights</SectionHeading>
+            <RepeaterField
+              label="Highlight cards"
+              items={page.highlights || []}
+              onChange={(v) => onChange("highlights", v)}
+              addLabel="Add highlight"
+              fields={NRI_HIGHLIGHT_FIELDS}
+            />
+            <SectionHeading>Process section</SectionHeading>
+            <BilingualField label="Eyebrow" enKey="process_eyebrow" hiKey="process_eyebrow_hi" values={page} onChange={onChange} />
+            <BilingualField label="Title" enKey="process_title" hiKey="process_title_hi" values={page} onChange={onChange} />
+            <BilingualTextarea label="Subtitle" enKey="process_subtitle" hiKey="process_subtitle_hi" values={page} onChange={onChange} />
+            <RepeaterField
+              label="Process steps"
+              items={page.process_steps || []}
+              onChange={(v) => onChange("process_steps", v)}
+              addLabel="Add step"
+              fields={NRI_STEP_FIELDS}
+            />
+            <SectionHeading>Feature strip</SectionHeading>
+            <RepeaterField
+              label="Feature cards"
+              items={page.features || []}
+              onChange={(v) => onChange("features", v)}
+              addLabel="Add feature"
+              fields={FEATURE_FIELDS}
+            />
             <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}
@@ -288,7 +338,7 @@ export default function PagesAdmin() {
         )}
 
         <div className="admin-form-actions pt-4">
-          <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
+          <button type="button" onClick={save} disabled={saving} className={BTN_PRIMARY}>
             {saving ? "Saving…" : "Save all pages"}
           </button>
           {msg && <p className="text-sm text-gold break-words">{msg}</p>}

@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD, FIELD_SURFACE, FILTER_PILL, FILTER_PILLS, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
+import { FIELD_SURFACE, FILTER_PILL, FILTER_PILL_ACTIVE, FILTER_PILLS, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import ProductCard from "@/components/ProductCard";
@@ -43,7 +43,7 @@ export default function ShopBrowser({ products, whatsapp }) {
                 className={cn(
                   "min-h-11 shrink-0 whitespace-nowrap px-4 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300",
                   isSelected
-                    ? cn(BTN_GOLD, "tab-active-glow")
+                    ? cn(FILTER_PILL_ACTIVE, "tab-active-glow")
                     : cn(FILTER_PILL, "tracking-wider font-medium")
                 )}
               >

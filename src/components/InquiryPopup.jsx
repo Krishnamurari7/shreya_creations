@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD, BTN_PRIMARY, FIELD_SURFACE, GLASS, POPUP_PANEL } from "@/lib/ui";
+import { BTN_PRIMARY, FIELD_SURFACE, GLASS, POPUP_PANEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -225,7 +225,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
             <button
               type="button"
               onClick={close}
-              className={cn(BTN_PRIMARY, "rounded-full px-8 py-3 mt-6 min-h-[2.75rem] text-xs tracking-widest uppercase w-full sm:w-auto")}
+              className={cn(BTN_PRIMARY, "mt-6 w-full sm:w-auto")}
             >
               {t.close}
             </button>
@@ -299,10 +299,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
               <button
                 type="submit"
                 disabled={saving}
-                className={cn(
-                  BTN_GOLD,
-                  "rounded-full px-8 py-3.5 w-full min-h-[2.85rem] text-center text-xs tracking-widest font-semibold uppercase disabled:opacity-60 touch-manipulation"
-                )}
+                className={cn(BTN_PRIMARY, "w-full touch-manipulation")}
               >
                 {saving ? "…" : demoMode ? t.demoSubmit : t.submit}
               </button>

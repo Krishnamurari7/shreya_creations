@@ -6,7 +6,6 @@ import {
   PAGE_CONTAINER,
   PAGE_SECTION,
   PAGE_SECTION_BORDERED,
-  PAGE_SECTION_TIGHT_TOP,
   REVEAL,
   SECTION_EYEBROW,
   SECTION_HEADER_GLASS,
@@ -17,21 +16,22 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { SITE } from "@/lib/seed";
-import { greetingMessage, shaktiMessage, stitchOrderMessage, telLink, waLink } from "@/lib/whatsapp";
+import {
+  greetingMessage,
+  shaktiMessage,
+  shopInquiryMessage,
+  stitchOrderMessage,
+  telLink,
+  waLink,
+} from "@/lib/whatsapp";
+import { formatPhoneDisplay, telHref } from "@/lib/site-config";
 import { DEFAULT_CATEGORY_CARDS } from "@/lib/cms/home-blocks";
 import { pickPage } from "@/lib/cms";
 
 function localizeCategoryCard(card) {
-  const columns = (card.columns || [])
-    .filter((col) => col && (col.heading || (col.items || []).length))
-    .map((col) => ({
-      heading: col.heading,
-      headingHi: col.headingHi ?? col.heading_hi,
-      items: (col.items || []).map((row) => ({
-        label: row.label,
-        labelHi: row.labelHi ?? row.label_hi,
-      })),
-    }));
+  const rows = (card.items || []).length
+    ? card.items
+    : (card.columns || []).flatMap((col) => col?.items || []);
 
   return {
     key: card.key,
@@ -45,11 +45,10 @@ function localizeCategoryCard(card) {
     taglineHi: card.taglineHi ?? card.tagline_hi,
     cta: card.cta,
     ctaHi: card.ctaHi ?? card.cta_hi,
-    items: (card.items || []).map((row) => ({
+    items: rows.map((row) => ({
       label: row.label,
       labelHi: row.labelHi ?? row.label_hi,
     })),
-    columns: columns.length ? columns : null,
   };
 }
 
@@ -116,17 +115,6 @@ function ExploreIcon({ type }) {
           <path d="M32 41.5v4" stroke="#CC4F06" strokeWidth="1.5" />
         </svg>
       );
-    case "sewing":
-      return (
-        <svg {...common}>
-          <rect x="12" y="28" width="40" height="22" rx="3" fill="#CC4F06" />
-          <rect x="16" y="18" width="18" height="12" rx="2" fill="#E0681A" />
-          <circle cx="44" cy="24" r="8" fill="#F5E8C8" stroke="#8B4513" strokeWidth="2" />
-          <circle cx="44" cy="24" r="3" fill="#8B4513" />
-          <path d="M20 36h12M20 42h8" stroke="#F5E8C8" strokeWidth="1.75" strokeLinecap="round" />
-          <rect x="22" y="50" width="20" height="4" rx="1" fill="#8B4513" />
-        </svg>
-      );
     case "shakti":
       return (
         <svg {...common}>
@@ -137,30 +125,6 @@ function ExploreIcon({ type }) {
           <text x="32" y="54" textAnchor="middle" fill="#CC4F06" fontSize="8" fontWeight="700" fontFamily="system-ui">
             50
           </text>
-        </svg>
-      );
-    case "trophy":
-      return (
-        <svg {...common}>
-          <path d="M22 14h20v10c0 8-4 14-10 16-6-2-10-8-10-16V14z" fill="#D4AF37" />
-          <path d="M22 18H14c0 8 4 12 8 14M42 18h8c0 8-4 12-8 14" stroke="#D4AF37" strokeWidth="2.5" fill="none" />
-          <rect x="28" y="40" width="8" height="6" fill="#B8860B" />
-          <rect x="22" y="46" width="20" height="5" rx="1" fill="#D4AF37" />
-          <path d="M32 20l1.5 3h3l-2.5 2 1 3-3-2-3 2 1-3-2.5-2h3L32 20z" fill="#F5E8C8" />
-        </svg>
-      );
-    case "phone":
-      return (
-        <svg {...common}>
-          <path
-            d="M38 10c8 4 14 12 14 22 0 2-.3 4-.8 6L44 36l-4 2c-2-4-5-7-9-9l2-4-2-7.2C33 16.3 35 12.5 38 10z"
-            fill="#CC4F06"
-          />
-          <path
-            d="M18 42c1.5 3 4 6 7 8l4-3 6 2c-1.5 2.5-3.5 4.5-6 6-8-3-15-10-18-18 1.5-2.5 3.5-4.5 6-6l2 6-3 4z"
-            fill="#25D366"
-          />
-          <circle cx="22" cy="46" r="1.5" fill="#fff" />
         </svg>
       );
     default:
@@ -188,6 +152,9 @@ function ExploreCard({ card, lang, whatsapp }) {
   if (card.key === "boutique" && waNumber) {
     href = waLink(waNumber, stitchOrderMessage(lang));
     external = true;
+  } else if (card.key === "shop" && waNumber) {
+    href = waLink(waNumber, shopInquiryMessage(lang));
+    external = true;
   } else if (card.key === "shakti" && waNumber) {
     href = waLink(waNumber, shaktiMessage(lang));
     external = true;
@@ -200,7 +167,7 @@ function ExploreCard({ card, lang, whatsapp }) {
   const pickLabel = (en, hi) => (lang === "hi" && hi ? hi : en);
 
   return (
-    <article className="quick-explore-card">
+    <article className="quick-explore-card h-full transition hover:-translate-y-1 hover:shadow-lg">
       {badge && <span className="quick-explore-card__ribbon">{badge}</span>}
 
       <div className="quick-explore-card__icon" aria-hidden>
@@ -210,34 +177,14 @@ function ExploreCard({ card, lang, whatsapp }) {
       <h3 className="quick-explore-card__title font-display">{title}</h3>
       {tagline ? <p className="quick-explore-card__tagline">{tagline}</p> : null}
 
-      {card.columns ? (
-        <div className="quick-explore-card__columns">
-          {card.columns.map((col) => (
-            <div key={col.heading || col.headingHi} className="quick-explore-card__column">
-              <p className="quick-explore-card__column-title">
-                {pickLabel(col.heading, col.headingHi)}
-              </p>
-              <ul className="quick-explore-card__list">
-                {col.items.map((row) => (
-                  <li key={row.label || row.labelHi}>
-                    <span className="quick-explore-card__bullet" aria-hidden />
-                    {pickLabel(row.label, row.labelHi)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <ul className="quick-explore-card__list">
-          {card.items.map((row) => (
-            <li key={row.label || row.labelHi}>
-              <span className="quick-explore-card__bullet" aria-hidden />
-              {pickLabel(row.label, row.labelHi)}
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className="quick-explore-card__list">
+        {card.items.map((row) => (
+          <li key={row.label || row.labelHi}>
+            <span className="quick-explore-card__bullet" aria-hidden />
+            {pickLabel(row.label, row.labelHi)}
+          </li>
+        ))}
+      </ul>
 
       {external ? (
         <a {...ctaProps} className="quick-explore-card__cta">
@@ -255,13 +202,18 @@ function ExploreCard({ card, lang, whatsapp }) {
 }
 
 function ContactBar({ site, whatsapp, lang }) {
-  const phone = site?.phone || SITE.phone;
+  const phonePrimary = site?.phonePrimary || SITE.phonePrimary;
+  const phoneSecondary = site?.phoneSecondary || SITE.phoneSecondary;
+  const phone =
+    [phonePrimary, phoneSecondary].filter(Boolean).map(formatPhoneDisplay).join(" / ") ||
+    site?.phone ||
+    SITE.phone;
   const address = site?.address || SITE.address;
   const waNumber = whatsapp || site?.whatsapp || SITE.whatsapp;
   const directionsUrl = address
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
     : "#";
-  const phoneHref = telLink(phone) || "#";
+  const phoneHref = telHref(phonePrimary) || telLink(phone) || "#";
   const waHref = waLink(waNumber, greetingMessage(lang));
 
   const blocks = [
@@ -281,6 +233,10 @@ function ContactBar({ site, whatsapp, lang }) {
       body: `${phone}\n${site?.studioHours || (lang === "hi" ? "सोम – शनि | सुबह 10 – रात 8" : "Mon–Sat | 10 AM–8 PM")}${site?.closedDays ? (lang === "hi" ? ` · ${site.closedDays} बंद` : ` · Closed ${site.closedDays}`) : ""}`,
       cta: lang === "hi" ? "कॉल करें" : "Call Now",
       href: phoneHref,
+      phones: [
+        phonePrimary && { href: telHref(phonePrimary), label: formatPhoneDisplay(phonePrimary) },
+        phoneSecondary && { href: telHref(phoneSecondary), label: formatPhoneDisplay(phoneSecondary) },
+      ].filter(Boolean),
     },
     {
       key: "wa",
@@ -302,7 +258,23 @@ function ContactBar({ site, whatsapp, lang }) {
           </span>
           <div className="quick-explore-contact__copy">
             <p className="quick-explore-contact__title">{block.title}</p>
-            <p className="quick-explore-contact__body">{block.body}</p>
+            {block.key === "call" && block.phones?.length ? (
+              <p className="quick-explore-contact__body">
+                {block.phones.map((p, i) => (
+                  <span key={p.href}>
+                    {i > 0 ? " / " : ""}
+                    <a href={p.href} className="hover:text-orange transition-colors">
+                      {p.label}
+                    </a>
+                  </span>
+                ))}
+                {"\n"}
+                {site?.studioHours || (lang === "hi" ? "सोम – शनि | सुबह 10 – रात 8" : "Mon–Sat | 10 AM–8 PM")}
+                {site?.closedDays ? (lang === "hi" ? ` · ${site.closedDays} बंद` : ` · Closed ${site.closedDays}`) : ""}
+              </p>
+            ) : (
+              <p className="quick-explore-contact__body">{block.body}</p>
+            )}
           </div>
           <a
             href={block.href}
@@ -369,10 +341,11 @@ function ContactIcon({ type }) {
 
 export default function CategoryCards({ lang = "en", site = {}, whatsapp, home = {} }) {
   const reduceMotion = useReducedMotion();
-  const cards =
-    Array.isArray(home.categoryCards) && home.categoryCards.length
-      ? home.categoryCards.map(localizeCategoryCard)
-      : DEFAULT_CATEGORY_CARDS.map(localizeCategoryCard);
+  const cmsCards = Array.isArray(home.categoryCards) ? home.categoryCards : [];
+  const cards = DEFAULT_CATEGORY_CARDS.map((fallback) => {
+    const override = cmsCards.find((card) => card?.key === fallback.key);
+    return localizeCategoryCard(override ? { ...fallback, ...override } : fallback);
+  });
 
   const eyebrow = pickPage(home, lang, "categoryEyebrow", "categoryEyebrowHi") || (lang === "hi" ? "क्विक एक्सप्लोर" : "Quick Explore");
   const titleBefore = pickPage(home, lang, "categoryTitleBefore", "categoryTitleBeforeHi") || (lang === "hi" ? "आज आप क्या " : "What are you ");
@@ -389,9 +362,7 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp, home =
         PAGE_CONTAINER,
         PAGE_SECTION,
         PAGE_SECTION_BORDERED,
-        PAGE_SECTION_TIGHT_TOP,
-        "quick-explore",
-        "max-w-7xl"
+        "quick-explore"
       )}
     >
       <div className={cn(REVEAL, SECTION_HEADER_GLASS, "text-center", "mb-5", "sm:mb-8")}>
@@ -413,7 +384,7 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp, home =
       </div>
 
       <motion.div
-        className="quick-explore__grid"
+        className="quick-explore__grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch"
         variants={reduceMotion ? undefined : container}
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"

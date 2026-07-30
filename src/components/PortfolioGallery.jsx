@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD, FILTER_PILL, GLASS, INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL, TEXT_GOLD_GRADIENT } from "@/lib/ui";
+import { FILTER_PILL, FILTER_PILL_ACTIVE, FILTER_PILLS, GLASS, INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL, TEXT_GOLD_GRADIENT } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
@@ -58,7 +58,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
   }, [lightboxIndex, closeLightbox, goPrev, goNext]);
 
   const filterBar = (
-    <div className={`filter-pills gap-2.5 ${fullPage ? "justify-start md:flex-wrap" : "justify-center md:flex-wrap"}`}>
+    <div className={cn(FILTER_PILLS, "gap-2.5", fullPage ? "justify-start" : "justify-center")}>
       {categories.map((c) => {
         const isSelected = active === c;
         return (
@@ -68,7 +68,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
             className={cn(
               "min-h-11 shrink-0 whitespace-nowrap px-4 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300",
               isSelected
-                ? cn(BTN_GOLD, "tab-active-glow")
+                ? cn(FILTER_PILL_ACTIVE, "tab-active-glow")
                 : cn(FILTER_PILL, "tracking-wider font-medium")
             )}
           >
@@ -104,8 +104,8 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
             const href = item.slug ? `/portfolio/${item.slug}` : null;
             const className = cn(
               GLASS,
-              INTERACTIVE_CARD,
               REVEAL,
+              INTERACTIVE_CARD,
               "group",
               "relative",
               "block",
@@ -115,8 +115,6 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
               "border",
               "border-ink/15",
               "hover:border-orange/35",
-              "transition-all",
-              "duration-500",
               "shadow-lg",
               "break-inside-avoid"
             );

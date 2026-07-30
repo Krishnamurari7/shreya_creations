@@ -7,6 +7,7 @@ import {
   PAGE_SECTION_BORDERED,
   REVEAL,
   REVEAL_ZOOM,
+  SECTION_TITLE,
 } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
@@ -18,6 +19,11 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { openInquiryPopup } from "@/lib/inquiryPopup";
 import { demoClassMessage } from "@/lib/whatsapp";
 import { SITE_STATS } from "@/lib/seed";
+import {
+  DEFAULT_EXPRESS_DELIVERY_HOURS,
+  DEFAULT_STUDENTS_TAUGHT,
+  SITE_FACTS,
+} from "@/lib/site-config";
 
 const HOME_COURSE_LIMIT = 4;
 
@@ -88,21 +94,6 @@ const FEATURE_STRIP = [
   { icon: "internship", en: "Internship Support", hi: "इंटर्नशिप सपोर्ट" },
   { icon: "placement", en: "Placement Support", hi: "प्लेसमेंट सपोर्ट" },
   { icon: "kit", en: "Free Kit For Practice", hi: "प्रैक्टिस के लिए फ्री किट" },
-];
-
-const WHY_STATS = [
-  { icon: "years", key: "years" },
-  { icon: "students", key: "students" },
-  { icon: "delivery", key: "express" },
-  { icon: "practical", en: "100% Practical Learning", hi: "100% प्रैक्टिकल लर्निंग" },
-  { icon: "career", en: "Job & Business Guidance", hi: "जॉब व बिज़नेस गाइडेंस" },
-];
-
-const TOP_SEARCHES = [
-  { en: "Boutique Course in Patna", hi: "पटना में बुटीक कोर्स" },
-  { en: "Blouse Making Classes", hi: "ब्लाउज मेकिंग क्लास" },
-  { en: "Fashion Designing Course", hi: "फैशन डिज़ाइनिंग कोर्स" },
-  { en: "Tailoring Classes Near Me", hi: "पास में टेलरिंग क्लास" },
 ];
 
 const POPULAR_KEYWORDS = [
@@ -346,10 +337,10 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
 
   if (!availableCourses.length) return null;
 
-  const courseCount = site.coursesCount || courses.filter((c) => !c.is_addon).length || courses.length;
-  const yearsExp = site.yearsExperience || site.stats?.yearsEn?.replace(/\D.*/, "") || "14";
-  const students = site.studentsTaught || 2000;
-  const expressH = site.expressDeliveryHours || 24;
+  const courseCount = site.coursesCount || courses.filter((c) => !c.is_addon).length || courses.length || Number(SITE_FACTS.coursesCount);
+  const yearsExp = site.yearsExperience ?? Number(SITE_FACTS.yearsOfExperience.replace(/\+$/, ""));
+  const students = site.studentsTaught || DEFAULT_STUDENTS_TAUGHT;
+  const expressH = site.expressDeliveryHours || DEFAULT_EXPRESS_DELIVERY_HOURS;
 
   const labelFor = (item) => {
     if (item.key === "years") {
@@ -401,10 +392,6 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
   const demoNote =
     pickPage(home, lang, "coursesDemoNote", "coursesDemoNoteHi") ||
     (hi ? "सीमित सीटें — आज ही एनरोल करें!" : "Limited Seats – Enroll Today!");
-  const whyTitle =
-    pickPage(home, lang, "coursesWhyTitle", "coursesWhyTitleHi") ||
-    (hi ? "श्रेया क्रिएशन क्यों चुनें?" : "Why Choose Shreya Creation?");
-
   const openDemo = () => {
     openInquiryPopup({
       source: "home_courses_demo",
@@ -427,7 +414,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
         "overflow-x-clip"
       )}
     >
-      <div className={cn(PAGE_CONTAINER, "max-w-7xl", "min-w-0", "w-full")}>
+      <div className={cn(PAGE_CONTAINER, "min-w-0", "w-full")}>
         {/* Header */}
         <div className={cn(REVEAL, "home-courses-preview__intro", "in")}>
           <span className="home-courses-preview__eyebrow">
@@ -436,7 +423,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
             <span aria-hidden>+</span>
           </span>
 
-          <h2 className="home-courses-preview__title">
+          <h2 className={cn(SECTION_TITLE, "home-courses-preview__title", "mt-2")}>
             {titleLead}{" "}
             <span className={cn(HIGHLIGHT_SHIMMER, "home-courses-preview__title-accent")}>
               {titleHighlight}
@@ -563,39 +550,11 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
           </div>
         </div>
 
-        {/* Why choose */}
-        <div className={cn(REVEAL, "home-courses-preview__why", "in")}>
-          <div className="home-courses-preview__why-main">
-            <h3 className="home-courses-preview__why-title">{whyTitle}</h3>
-            <ul className="home-courses-preview__why-stats">
-              {WHY_STATS.map((stat) => (
-                <li key={stat.key || stat.en} className="home-courses-preview__why-stat">
-                  <span className="home-courses-preview__why-icon">
-                    <LineIcon type={stat.icon} />
-                  </span>
-                  <span>{labelFor(stat)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="home-courses-preview__searches">
-            <p className="home-courses-preview__searches-label">
-              {hi ? "टॉप सर्च" : "Top Searches"}
-            </p>
-            <ul>
-              {TOP_SEARCHES.map((item) => (
-                <li key={item.en}>
-                  <Link href="/courses">{hi ? item.hi : item.en}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
       </div>
 
       {/* Keywords strip */}
       <div className="home-courses-preview__keywords" aria-label={hi ? "लोकप्रिय कीवर्ड" : "Popular keywords"}>
-        <div className={cn(PAGE_CONTAINER, "max-w-7xl", "home-courses-preview__keywords-inner")}>
+        <div className={cn(PAGE_CONTAINER, "home-courses-preview__keywords-inner")}>
           <span className="home-courses-preview__keywords-label">
             {hi ? "लोकप्रिय कीवर्ड:" : "Popular Keywords:"}
           </span>

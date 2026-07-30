@@ -1,10 +1,43 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { BTN_PRIMARY, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, PAGE_CONTAINER, PAGE_SECTION, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { pickPage } from "@/lib/cms";
+
+const MAX_ITEMS = 6;
+const FILTER_TABS = ["All", "Bridal", "Gowns", "Blouses"];
+
+/**
+ * Test rows typed into the admin panel ("News", "disign", …) still live in the
+ * portfolio table because /portfolio deliberately shows every piece. This band
+ * must never surface them, even if one gets flagged as featured by mistake.
+ */
+const HIDDEN_CATEGORIES = new Set(["news", "uncategorised", "uncategorized"]);
+const PLACEHOLDER_TITLES = new Set([
+  "portfolio piece",
+  "news",
+  "design",
+  "disign",
+  "disiner",
+  "untitled",
+  "test",
+  "demo",
+  "sample",
+]);
+
+const normalize = (value) => String(value ?? "").trim().toLowerCase();
+
+function isHighlightReady(item) {
+  if (!item?.featured || !item.image) return false;
+  const title = normalize(item.title);
+  if (!title || PLACEHOLDER_TITLES.has(title)) return false;
+  return !HIDDEN_CATEGORIES.has(normalize(item.category));
+}
+
+const matchesTab = (item, tab) => normalize(item.category) === normalize(tab);
 
 function PortfolioSectionHeader({ home, lang }) {
   const eyebrow =
@@ -49,10 +82,29 @@ function PortfolioSectionHeader({ home, lang }) {
 }
 
 export default function HomePortfolioPreview({ portfolio = [], home = {}, lang = "en" }) {
-  if (!portfolio.length) return null;
+  const [activeTab, setActiveTab] = useState("All");
 
-  const items = portfolio.slice(0, 4);
-  const categories = [...new Set(items.map((i) => i.category).filter(Boolean))];
+  const items = useMemo(
+    () => portfolio.filter(isHighlightReady).slice(0, MAX_ITEMS),
+    [portfolio]
+  );
+
+  const tabs = useMemo(
+    () =>
+      FILTER_TABS.map((tab) => ({
+        tab,
+        count: tab === "All" ? items.length : items.filter((i) => matchesTab(i, tab)).length,
+      })),
+    [items]
+  );
+
+  const visible = useMemo(
+    () => (activeTab === "All" ? items : items.filter((i) => matchesTab(i, activeTab))),
+    [items, activeTab]
+  );
+
+  if (!items.length) return null;
+
   const portfolioCta =
     pickPage(home, lang, "portfolioPreviewCta", "portfolioPreviewCtaHi") ||
     (lang === "hi" ? "पूरा पोर्टफोलियो" : "View Full Portfolio");
@@ -63,29 +115,45 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
       <div className={cn(PAGE_CONTAINER, "relative", "z-[1]")}>
         <PortfolioSectionHeader home={home} lang={lang} />
 
-        {categories.length > 0 && (
-          <div className={cn(REVEAL, "home-portfolio-showcase__chips")}>
-            {categories.map((cat) => (
-              <span key={cat} className="home-portfolio-showcase__chip">
-                {cat}
-              </span>
-            ))}
-          </div>
-        )}
+        <div
+          className={cn(REVEAL, "home-portfolio-showcase__chips")}
+          role="tablist"
+          aria-label={lang === "hi" ? "श्रेणी फ़िल्टर" : "Filter portfolio by category"}
+        >
+          {tabs.map(({ tab, count }) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab}
+              disabled={!count}
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "home-portfolio-showcase__chip",
+                activeTab === tab && "home-portfolio-showcase__chip--active"
+              )}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
 
         <div className={cn(REVEAL, "home-portfolio-showcase__grid")} data-stagger>
-          {items.map((item, idx) => (
+          {visible.map((item, idx) => (
             <Link
-              key={item.id || idx}
+              key={item.id || item.slug || idx}
               href={item.slug ? `/portfolio/${item.slug}` : "/portfolio"}
-              className={`home-portfolio-showcase__item home-portfolio-showcase__item--${idx + 1} group`}
+              className="home-portfolio-showcase__item group"
               style={{ transitionDelay: `${idx * 70}ms` }}
             >
               <CardImage
                 src={item.image}
-                alt={item.image_alt || item.imageAlt || `${item.title || "Portfolio piece"} Patna`}
-                ratio="fill"
+                alt={item.image_alt || item.imageAlt || `${item.title} Patna`}
+                ratio="3/4"
                 position="top"
+                className="aspect-[3/4]"
+                imgClassName="object-cover"
+                loading="lazy"
               />
               <div className="home-portfolio-showcase__overlay">
                 {item.category && (
@@ -103,7 +171,7 @@ export default function HomePortfolioPreview({ portfolio = [], home = {}, lang =
         </div>
 
         <div className={cn(REVEAL, "text-center", "mt-5", "sm:mt-7")}>
-          <Link href="/portfolio" className={cn(BTN_PRIMARY, "inline-flex", "items-center", "gap-2", "rounded-full", "px-8", "py-3", "text-xs", "sm:text-sm")}>
+          <Link href="/portfolio" className={BTN_PRIMARY}>
             {portfolioCta} <span aria-hidden>→</span>
           </Link>
         </div>

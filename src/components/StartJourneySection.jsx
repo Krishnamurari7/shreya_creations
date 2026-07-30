@@ -6,7 +6,6 @@ import {
   PAGE_CONTAINER,
   PAGE_SECTION,
   PAGE_SECTION_BORDERED,
-  PAGE_SECTION_TIGHT_TOP,
   REVEAL,
   SECTION_EYEBROW,
   SECTION_HEADER_GLASS,
@@ -206,7 +205,9 @@ function JourneyCard({ card, lang }) {
               <span className="start-journey-card__feature-icon" aria-hidden>
                 <FeatureIcon type={feature.icon} />
               </span>
-              <span>{lang === "hi" && feature.labelHi ? feature.labelHi : feature.label}</span>
+              <span className="min-w-0 break-words">
+                {lang === "hi" && feature.labelHi ? feature.labelHi : feature.label}
+              </span>
             </li>
           ))}
         </ul>
@@ -239,9 +240,7 @@ export default function StartJourneySection({ lang = "en", home = {} }) {
         PAGE_CONTAINER,
         PAGE_SECTION,
         PAGE_SECTION_BORDERED,
-        PAGE_SECTION_TIGHT_TOP,
-        "start-journey",
-        "max-w-7xl"
+        "start-journey"
       )}
     >
       <div className={cn(REVEAL, SECTION_HEADER_GLASS, "text-center", "mb-5", "sm:mb-8")}>

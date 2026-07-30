@@ -14,6 +14,10 @@ import {
   DEFAULT_HERO_FEATURE_STRIP,
   DEFAULT_HERO_SERVICE_CARDS,
 } from "@/lib/cms/home-blocks";
+import {
+  DEFAULT_FOUNDING_YEAR,
+  SITE_FACTS,
+} from "@/lib/site-config";
 
 const HERO_STATS_EN = [
   { icon: "trust", highlight: "years", line1: "Years of Trust", line2: "Since 2012" },
@@ -534,26 +538,35 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
   const defaultHeroTitle =
     lang === "hi"
-      ? "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट"
-      : "Best Designer Boutique & Fashion Designing Institute";
+      ? "पटना का बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट"
+      : "Patna's Best Fashion Designing Institute";
   const defaultHeroHighlight =
-    lang === "hi" ? "पटना बिहार में, 2012 से" : "in Patna Bihar, since 2012";
+    lang === "hi" ? "और डिज़ाइनर बुटीक" : "& Designer Boutique";
   const defaultHeroSubtitle =
     lang === "hi"
-      ? "असली स्टूडियो ट्रेनिंग के साथ बुटीक कोर्स — ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
-      : "Boutique courses with real studio training — plus bridal lehengas & designer blouses stitched in 24 hours on Boring Road.";
+      ? "2012 से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
+      : "Practical boutique & fashion designing courses since 2012 — plus bridal lehengas and designer blouses stitched in 24 hours on Boring Road.";
 
   const legacyTitles = new Set([
     "Fashion Boutique & Stitching Institute in Patna",
     "पटना में फैशन बुटीक और सिलाई संस्थान",
     "Your Fashion Career",
     "आपका फैशन करियर",
+    "Best Designer Boutique & Fashion Designing Institute",
+    "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट",
   ]);
-  const legacyHighlights = new Set(["Starts in Patna", "पटना से शुरू"]);
+  const legacyHighlights = new Set([
+    "Starts in Patna",
+    "पटना से शुरू",
+    "in Patna Bihar, since 2012",
+    "पटना बिहार में, 2012 से",
+  ]);
   const legacySubtitles = new Set([
     "Learn boutique courses in Patna or get 24-hour custom stitching — bridal lehengas, designer blouses & more on Boring Road.",
     "पटना में बुटीक कोर्स सीखें या 24 घंटे में सिले कपड़े पाएं — ब्राइडल लहंगा, डिज़ाइनर ब्लाउज और अधिक।",
     "पटना में बुटीक कोर्स सीखें या 24 घंटे में सिले कपड़े पाएं — ब्राइडल लहंगा, डिज़ाइनर ब्लाउज और अधिक, बोरिंग रोड पर।",
+    "Boutique courses with real studio training — plus bridal lehengas & designer blouses stitched in 24 hours on Boring Road.",
+    "असली स्टूडियो ट्रेनिंग के साथ बुटीक कोर्स — ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।",
   ]);
 
   const rawTitle =
@@ -575,10 +588,13 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
   const stats = useMemo(() => {
     const base = lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN;
-    const years = `${site.yearsExperience || 14}+`;
-    const students = `${site.studentsTaught || 2000}+`;
-    const outfits = `${site.outfitsDelivered || 5000}+`;
-    const sinceYear = site.foundingYear || 2012;
+    const years =
+      site.yearsExperience != null ? `${site.yearsExperience}+` : SITE_FACTS.yearsOfExperience;
+    const students =
+      site.studentsTaught != null ? `${site.studentsTaught}+` : SITE_FACTS.studentsTrained;
+    const outfits =
+      site.outfitsDelivered != null ? `${site.outfitsDelivered}+` : SITE_FACTS.outfitsDelivered;
+    const sinceYear = site.foundingYear || DEFAULT_FOUNDING_YEAR;
     return base.map((stat) => {
       let highlight = stat.highlight;
       let line2 = stat.line2;
@@ -731,7 +747,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
         <span className="home-hero__bg-overlay" />
       </div>
 
-      <div className={cn(PAGE_CONTAINER, "home-hero__top")}>
+      <div className={cn(PAGE_CONTAINER, "home-hero__top", "py-16 md:py-24")}>
         <div className="home-hero__grid">
           <div className="home-hero__copy">
             <div className="home-hero__glass-panel">
@@ -745,13 +761,22 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
                 <h1 className={cn(ANIM_RISE, "home-hero__title-block", "anim-delay-2")}>
                   <span className="home-hero__title-lead">{heroTitle}</span>
+                  {/* Whitespace node keeps the H1 text content spaced for SEO/screen readers */}
                   {heroTitleHighlight ? (
-                    <span className="home-hero__title-highlight">{heroTitleHighlight}</span>
+                    <>
+                      {" "}
+                      <span className="home-hero__title-highlight">{heroTitleHighlight}</span>
+                    </>
                   ) : null}
                 </h1>
 
                 {heroSubtitle ? (
-                  <p className={cn(ANIM_RISE, "home-hero__title-sub", "anim-delay-2")}>{heroSubtitle}</p>
+                  <p
+                    role="doc-subtitle"
+                    className={cn(ANIM_RISE, "home-hero__title-sub", "anim-delay-2")}
+                  >
+                    {heroSubtitle}
+                  </p>
                 ) : null}
 
                 <div className={cn(ANIM_RISE, "home-hero__action-row", "anim-delay-3")}>

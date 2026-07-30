@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GOLD, GLASS } from "@/lib/ui";
+import { BTN_PRIMARY, GLASS } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -73,6 +73,9 @@ export default function ContentAdmin() {
     hero_marquee: [],
     process_steps: "[]",
     map_embed_url: "",
+    google_reviews_url: "",
+    google_rating: "",
+    google_review_count: "",
     default_language: "en",
   });
   const [loading, setLoading] = useState(true);
@@ -96,6 +99,9 @@ export default function ContentAdmin() {
           ),
           process_steps: JSON.stringify(data.process_steps || [], null, 2),
           map_embed_url: data.map_embed_url || "",
+          google_reviews_url: data.google_reviews_url || "",
+          google_rating: data.google_rating ?? "",
+          google_review_count: data.google_review_count ?? "",
           default_language: data.default_language || "en",
         });
       }
@@ -121,6 +127,9 @@ export default function ContentAdmin() {
         hero_marquee: form.hero_marquee.map((line) => line.trim()).filter(Boolean),
         process_steps: JSON.parse(form.process_steps),
         map_embed_url: form.map_embed_url,
+        google_reviews_url: form.google_reviews_url,
+        google_rating: form.google_rating === "" ? null : Number(form.google_rating),
+        google_review_count: form.google_review_count === "" ? null : Number(form.google_review_count),
         default_language: form.default_language,
         updated_at: new Date().toISOString(),
       };
@@ -189,8 +198,39 @@ export default function ContentAdmin() {
           <input value={form.map_embed_url} onChange={(e) => setForm((f) => ({ ...f, map_embed_url: e.target.value }))} className={ADMIN_INPUT} />
           <p className={`${ADMIN_MUTED} mt-1`}>Used on the Contact page map.</p>
         </div>
+        <div>
+          <label className={ADMIN_LABEL}>Google Business reviews URL</label>
+          <input value={form.google_reviews_url} onChange={(e) => setForm((f) => ({ ...f, google_reviews_url: e.target.value }))} className={ADMIN_INPUT} />
+          <p className={`${ADMIN_MUTED} mt-1`}>Link to the reviews tab of our Google Business profile. The &ldquo;Read all reviews&rdquo; button under the homepage testimonials stays hidden until this is set.</p>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className={ADMIN_LABEL}>Google star rating</label>
+            <input
+              type="number"
+              step="0.1"
+              min="1"
+              max="5"
+              value={form.google_rating}
+              onChange={(e) => setForm((f) => ({ ...f, google_rating: e.target.value }))}
+              className={ADMIN_INPUT}
+            />
+            <p className={`${ADMIN_MUTED} mt-1`}>Copy the exact average from our Google Business profile, e.g. 4.9. Leave blank and the homepage shows a &ldquo;Years of Trust&rdquo; card instead of the rating card.</p>
+          </div>
+          <div>
+            <label className={ADMIN_LABEL}>Google review count</label>
+            <input
+              type="number"
+              min="0"
+              value={form.google_review_count}
+              onChange={(e) => setForm((f) => ({ ...f, google_review_count: e.target.value }))}
+              className={ADMIN_INPUT}
+            />
+            <p className={`${ADMIN_MUTED} mt-1`}>Total number of Google reviews, e.g. 146. Update it whenever the count moves.</p>
+          </div>
+        </div>
         <div className="admin-form-actions">
-          <button type="button" onClick={save} disabled={saving} className={cn(BTN_GOLD, "rounded-full", "px-7", "py-3", "disabled:opacity-60")}>
+          <button type="button" onClick={save} disabled={saving} className={BTN_PRIMARY}>
             {saving ? "Saving…" : "Save content"}
           </button>
           {msg && <p className="text-sm text-gold break-words">{msg}</p>}

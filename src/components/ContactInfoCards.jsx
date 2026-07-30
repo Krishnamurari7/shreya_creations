@@ -5,6 +5,7 @@ import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
 import { telLink } from "@/lib/whatsapp";
+import { formatPhoneDisplay, telHref } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 const COPY = {
@@ -63,7 +64,13 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
     ? site.socials.instagram.replace(/.*instagram\.com\//, "@").replace(/\/$/, "")
     : "@shreya.creationss";
 
-  const phoneHref = telLink(site.phone);
+  const phonePrimary = site.phonePrimary || null;
+  const phoneSecondary = site.phoneSecondary || null;
+  const phoneHref = telHref(phonePrimary) || telLink(site.phone);
+  const phoneLabel = [phonePrimary, phoneSecondary]
+    .filter(Boolean)
+    .map(formatPhoneDisplay)
+    .join(" / ") || site.phone;
 
   return (
     <div className="contact-bento" data-stagger>
@@ -72,7 +79,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
         href={wa}
         target="_blank"
         rel="noopener noreferrer"
-        className={cn(INTERACTIVE_CARD, REVEAL, "contact-bento-whatsapp", "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "md:p-7", "group")}
+        className={cn(REVEAL, INTERACTIVE_CARD, "contact-bento-whatsapp", "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "md:p-7", "group")}
         style={staggerDelay(0, 80)}
       >
         <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
@@ -92,11 +99,10 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
       </Glass3DCard>
 
       <div className="contact-bento-grid">
-        {phoneHref && (
+        {(phoneHref || phoneSecondary) && (
           <Glass3DCard
             layered
-            href={phoneHref}
-            className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
+            className={cn(REVEAL, INTERACTIVE_CARD, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
             style={staggerDelay(1, 80)}
           >
             <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
@@ -105,9 +111,23 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
               </svg>
             </IconBox>
             <h3 className="contact-card-label">{t.phone}</h3>
-            <span className="text-ink group-hover:text-orange transition-colors text-sm font-medium mt-auto pt-2">
-              {site.phone}
-            </span>
+            <div className="text-ink text-sm font-medium mt-auto pt-2 flex flex-col gap-1">
+              {phonePrimary && (
+                <a href={telHref(phonePrimary)} className="hover:text-orange transition-colors">
+                  {formatPhoneDisplay(phonePrimary)}
+                </a>
+              )}
+              {phoneSecondary && (
+                <a href={telHref(phoneSecondary)} className="hover:text-orange transition-colors">
+                  {formatPhoneDisplay(phoneSecondary)}
+                </a>
+              )}
+              {!phonePrimary && !phoneSecondary && phoneHref && (
+                <a href={phoneHref} className="hover:text-orange transition-colors">
+                  {phoneLabel}
+                </a>
+              )}
+            </div>
           </Glass3DCard>
         )}
 
@@ -115,7 +135,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
           <Glass3DCard
             layered
             href={`mailto:${site.email}`}
-            className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
+            className={cn(REVEAL, INTERACTIVE_CARD, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
             style={staggerDelay(2, 80)}
           >
             <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
@@ -134,7 +154,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
       {site.address && (
         <Glass3DCard
           layered
-          className={cn(INTERACTIVE_CARD, REVEAL, "contact-bento-address", "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "group")}
+          className={cn(REVEAL, INTERACTIVE_CARD, "contact-bento-address", "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "group")}
           style={staggerDelay(3, 80)}
         >
           <div className="flex gap-4 sm:gap-5">
@@ -187,7 +207,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
               href={site.socials.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
+              className={cn(REVEAL, INTERACTIVE_CARD, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
               style={staggerDelay(4, 80)}
             >
               <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">
@@ -211,7 +231,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
               href={site.socials.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(INTERACTIVE_CARD, REVEAL, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
+              className={cn(REVEAL, INTERACTIVE_CARD, "rounded-2xl", "sm:rounded-3xl", "p-5", "sm:p-6", "flex", "flex-col", "group", "min-h-[8.5rem]")}
               style={staggerDelay(5, 80)}
             >
               <IconBox className="h-11 w-11 rounded-xl bg-orange/10 mb-4">

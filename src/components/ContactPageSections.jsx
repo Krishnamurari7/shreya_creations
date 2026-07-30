@@ -7,8 +7,9 @@ import ContactForm from "@/components/ContactForm";
 import ContactInfoCards from "@/components/ContactInfoCards";
 import SectionHeading from "@/components/SectionHeading";
 import { useLanguage } from "@/components/LanguageProvider";
-import { fadeUp } from "@/lib/motion";
 import { telLink } from "@/lib/whatsapp";
+import { fadeUp } from "@/lib/motion";
+import { telHref } from "@/lib/site-config";
 
 const COPY = {
   en: {
@@ -55,7 +56,7 @@ export default function ContactPageSections({ site, wa }) {
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`
     : site.mapEmbedUrl;
 
-  const phoneHref = telLink(site.phone);
+  const phoneHref = telHref(site.phonePrimary) || telLink(site.phone);
 
   const quickActions = [
     {

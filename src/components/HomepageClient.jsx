@@ -7,16 +7,12 @@ import CardImage from "@/components/CardImage";
 import CategoryCards from "@/components/CategoryCards";
 import { Testimonials } from "@/components/Sections";
 import { DesignProcess } from "@/components/FashionSections";
-import { toYoutubeEmbedUrl } from "@/lib/youtube";
-import VideoShowcase from "@/components/VideoShowcase";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
 import InquiryPopup from "@/components/InquiryPopup";
 import HeroSection from "@/components/HeroSection";
-import HomeShopPreview from "@/components/HomeShopPreview";
 import HomePortfolioPreview from "@/components/HomePortfolioPreview";
 import HomeCoursesPreview from "@/components/HomeCoursesPreview";
-import ExploreCategories from "@/components/ExploreCategories";
 
 function SectionHeader({
   home,
@@ -183,7 +179,6 @@ function FounderMessageSlider({ slides }) {
 
 export default function HomepageClient({
   site,
-  products = [],
   courses,
   portfolio = [],
   testimonials,
@@ -214,8 +209,6 @@ export default function HomepageClient({
     [home, lang, founderImage, mentorImage]
   );
 
-  const videoEmbedUrl = toYoutubeEmbedUrl(home.videoUrl);
-
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
       {/* ===== HERO BANNER (includes stats + quick actions) ===== */}
@@ -226,14 +219,8 @@ export default function HomepageClient({
 
       <HomeCoursesPreview courses={courses} home={home} site={site} />
 
-      {/* ===== SHOP PREVIEW ===== */}
-      <HomeShopPreview products={products} home={home} lang={lang} whatsapp={site.whatsapp} />
-
-      {/* ===== VIDEO SECTION ===== */}
-      {videoEmbedUrl && <VideoShowcase home={home} embedUrl={videoEmbedUrl} />}
-
       {/* ===== FOUNDER MESSAGE ===== */}
-      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "max-w-6xl", "relative", "z-20", "overflow-hidden")}>
+      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "relative", "z-20", "overflow-hidden")}>
         <div className="founder-section__bg" aria-hidden />
         <div className="founder-section__glow founder-section__glow--left" aria-hidden />
         <div className="founder-section__glow founder-section__glow--right" aria-hidden />
@@ -254,15 +241,26 @@ export default function HomepageClient({
       {/* ===== PORTFOLIO PREVIEW ===== */}
       <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
 
-      {/* ===== EXPLORE CATEGORIES ===== */}
-      <ExploreCategories courses={courses} products={products} home={home} />
+      {/* ===== STUDENT SUCCESS ===== */}
+      <section id="testimonials" className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "overflow-hidden", "min-w-0")}>
+        <div className={PAGE_CONTAINER}>
+          <SectionHeader
+            home={home}
+            lang={lang}
+            eyebrowKey="successEyebrow"
+            titleKey="successTitle"
+            subtitleKey="successSubtitle"
+          />
+        </div>
+        <Testimonials items={testimonials} site={site} />
+      </section>
 
       {/* ===== DESIGN PROCESS ===== */}
       {processSteps.length > 0 && (
         <section className={cn(HOME_BAND_BRAND, PAGE_SECTION, SECTION_MUTED)}>
           <div className={PAGE_CONTAINER}>
           <div className={cn(REVEAL, "text-center", "mb-5", "sm:mb-8")}>
-            <span className="text-orange uppercase tracking-[0.25em] text-xs font-semibold">
+            <span className={cn(SECTION_EYEBROW, "tracking-[0.25em]", "text-xs")}>
               {pickPage(home, lang, "processEyebrow", "processEyebrowHi") ||
                 (lang === "hi" ? "हमारी प्रक्रिया" : "How It Works")}
             </span>
@@ -276,20 +274,6 @@ export default function HomepageClient({
           </div>
         </section>
       )}
-
-      {/* ===== STUDENT SUCCESS ===== */}
-      <section id="testimonials" className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "overflow-hidden", "min-w-0")}>
-        <div className={PAGE_CONTAINER}>
-          <SectionHeader
-            home={home}
-            lang={lang}
-            eyebrowKey="successEyebrow"
-            titleKey="successTitle"
-            subtitleKey="successSubtitle"
-          />
-        </div>
-        <Testimonials items={testimonials} />
-      </section>
 
       <InquiryPopup source="home_popup" whatsapp={site.whatsapp} />
     </div>

@@ -9,6 +9,12 @@ const FIELDS = [
   { name: "caption", label: "Caption / short story", type: "textarea", hint: "Shown on the portfolio detail page when set." },
   { name: "image", label: "Image", type: "image" },
   { name: "sort_order", label: "Sort order", type: "number", hint: "Lower numbers appear first." },
+  {
+    name: "featured",
+    label: "Featured on homepage",
+    type: "checkbox",
+    hint: "The homepage Portfolio Highlights band shows the first 6 featured pieces (by sort order). This page always shows every piece.",
+  },
   { name: "meta_title", label: "SEO meta title", type: "text", hint: "Optional. Fallback: “{title} | Shreya Creation Patna”." },
   { name: "meta_description", label: "SEO meta description", type: "textarea", hint: "Optional. Fallback: caption / generated summary." },
   { name: "og_image", label: "OG / social share image", type: "image", hint: "Optional. Falls back to the main image." },
@@ -20,7 +26,7 @@ const SECTIONS = [
   {
     id: "basics",
     label: "Basics",
-    fields: ["title", "slug", "category", "caption", "image", "sort_order"],
+    fields: ["title", "slug", "category", "caption", "image", "sort_order", "featured"],
   },
   {
     id: "seo",
@@ -40,6 +46,13 @@ export default function PortfolioAdmin() {
       orderBy="sort_order"
       orderAsc
       listColumns={["title", "category", "slug"]}
+      renderListExtra={(row) =>
+        row.featured ? (
+          <span className="mt-1 inline-block rounded-full border border-marigold/40 px-2 py-0.5 text-[10px] uppercase tracking-wider text-marigold">
+            Featured
+          </span>
+        ) : null
+      }
       modalWide
     />
   );

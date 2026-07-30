@@ -10,7 +10,10 @@ module.exports = {
     extend: {
       colors: {
         bg: "var(--bg)",
-        ink: "rgb(var(--text-rgb) / <alpha-value>)",
+        /* The --*-rgb vars are comma-separated (`204, 79, 6`) because globals.css
+           consumes them through legacy rgba(). Tailwind must use the same legacy
+           form — `rgb(204, 79, 6 / 1)` is invalid CSS and drops the colour. */
+        ink: "rgba(var(--text-rgb), <alpha-value>)",
         muted: "var(--text-muted)",
         subtle: "var(--text-subtle)",
         wine: "var(--accent)",
@@ -21,12 +24,12 @@ module.exports = {
         surface: "var(--surface)",
         lavender: "var(--lavender)",
         orange: {
-          DEFAULT: "rgb(var(--orange-rgb) / <alpha-value>)",
+          DEFAULT: "rgba(var(--orange-rgb), <alpha-value>)",
           light: "var(--orange-light)",
           dark: "var(--orange-dark)",
         },
         golden: {
-          DEFAULT: "rgb(var(--golden-rgb) / <alpha-value>)",
+          DEFAULT: "rgba(var(--golden-rgb), <alpha-value>)",
           light: "#E0C45A",
           dark: "#B8962E",
         },

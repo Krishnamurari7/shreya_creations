@@ -1,6 +1,6 @@
 "use client";
 
-import { BTN_GHOST, BTN_GOLD, GLASS } from "@/lib/ui";
+import { BTN_PRIMARY, BTN_SECONDARY, GLASS } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -94,10 +94,10 @@ export default function PoliciesAdmin() {
         title={editing ? `Edit: ${editing.slug}` : "Policy"}
         footer={
           <div className="admin-form-actions">
-            <button type="button" onClick={save} className={cn(BTN_GOLD, "rounded-full", "px-6", "py-2.5", "text-sm")}>
+            <button type="button" onClick={save} className={BTN_PRIMARY}>
               Save
             </button>
-            <button type="button" onClick={() => setEditing(null)} className={cn(BTN_GHOST, "rounded-full", "px-6", "py-2.5", "text-sm")}>
+            <button type="button" onClick={() => setEditing(null)} className={BTN_SECONDARY}>
               Cancel
             </button>
           </div>

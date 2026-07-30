@@ -164,7 +164,7 @@ export default function VideoShowcase({ home, embedUrl }) {
         ✦
       </span>
 
-      <div className={cn(PAGE_CONTAINER, "relative", "z-10", "max-w-6xl")}>
+      <div className={cn(PAGE_CONTAINER, "relative", "z-10")}>
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center min-w-0 w-full">
           <div className={cn(REVEAL, REVEAL_LEFT, "lg:col-span-5", "text-center", "lg:text-left", "min-w-0")}>
             <div className={cn("video-showcase-panel", SECTION_HEADER_GLASS)}>
