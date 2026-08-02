@@ -16,7 +16,7 @@ const NAV_ROUTES = [
   { href: "/shop", key: "boutique" },
   { href: "/courses", key: "institute" },
   { href: "/portfolio", key: "gallery" },
-  { href: "/lookbook", key: "lookbook" },
+  { href: "/blog", key: "blog" },
   { href: "/faq", key: "faq" },
   { href: "/nri-clients", key: "nriClients" },
   { href: "/contact", key: "contact" },

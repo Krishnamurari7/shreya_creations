@@ -9,7 +9,7 @@ const STATIC_PATHS = [
   { path: "/courses", changeFrequency: "weekly", priority: 0.9 },
   { path: "/shop", changeFrequency: "weekly", priority: 0.9 },
   { path: "/portfolio", changeFrequency: "weekly", priority: 0.7 },
-  { path: "/lookbook", changeFrequency: "weekly", priority: 0.6 },
+  { path: "/blog", changeFrequency: "weekly", priority: 0.6 },
   { path: "/nri-clients", changeFrequency: "monthly", priority: 0.7 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.8 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.5 },

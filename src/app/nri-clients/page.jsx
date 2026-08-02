@@ -48,7 +48,7 @@ export default async function NriClientsPage() {
         links={[
           { href: "/shop", label: "custom stitching in Patna" },
           { href: "/portfolio", label: "bridal portfolio" },
-          { href: "/lookbook", label: "style lookbook" },
+          { href: "/blog", label: "style blog" },
           { href: "/contact", label: "contact the studio" },
         ]}
       >

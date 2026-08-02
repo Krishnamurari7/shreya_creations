@@ -42,7 +42,7 @@ const TABS = [
   { id: "shop", label: "Shop" },
   { id: "courses", label: "Courses" },
   { id: "portfolio", label: "Portfolio" },
-  { id: "lookbook", label: "Lookbook" },
+  { id: "lookbook", label: "Blog" },
   { id: "nri", label: "NRI Clients" },
   { id: "faq", label: "FAQ" },
 ];
@@ -157,7 +157,7 @@ export default function PagesAdmin() {
     <div>
       <AdminPageHeader
         title="Page editor"
-        subtitle="Homepage sections and copy for About, Contact, Shop, Courses, Portfolio, Lookbook, and FAQ — English & Hindi."
+        subtitle="Homepage sections and copy for About, Contact, Shop, Courses, Portfolio, Blog, and FAQ — English & Hindi."
       />
 
       <div className="admin-tabs" role="tablist" aria-label="Page sections">
@@ -290,7 +290,7 @@ export default function PagesAdmin() {
               fields={FEATURE_FIELDS}
             />
             <p className="admin-muted">
-              Lookbook posts: <a href="/admin/lookbook" className="text-gold hover:underline">Lookbook admin</a>.
+              Blog posts: <a href="/admin/lookbook" className="text-gold hover:underline">Blog admin</a>.
             </p>
             <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>

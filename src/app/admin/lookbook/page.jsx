@@ -16,7 +16,7 @@ export default function LookbookAdmin() {
   return (
     <ResourceManager
       table="lookbook_posts"
-      title="Lookbook"
+      title="Blog"
       fields={FIELDS}
       orderBy="created_at"
       listColumns={["title", "slug"]}

@@ -17,7 +17,7 @@ const ROUTES = [
   { href: "/shop", key: "boutique" },
   { href: "/courses", key: "institute" },
   { href: "/portfolio", key: "gallery" },
-  { href: "/lookbook", key: "lookbook" },
+  { href: "/blog", key: "blog" },
   { href: "/nri-clients", key: "nriClients" },
   { href: "/contact", key: "contact" },
 ];
@@ -75,7 +75,7 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="m21 15-5-5L5 21" />
         </svg>
       );
-    case "lookbook":
+    case "blog":
       return (
         <svg {...props}>
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />

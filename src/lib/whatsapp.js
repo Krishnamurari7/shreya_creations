@@ -116,9 +116,9 @@ export function nriClientMessage(lang = "en") {
 
 export function lookbookMessage(lang = "en") {
   if (lang === "hi") {
-    return "नमस्ते श्रेया क्रिएशन! 👋 मुझे लुकबुक वाला लुक अपने माप पर चाहिए। कृपया कपड़ा, डिज़ाइन और टाइमलाइन बताएँ।";
+    return "नमस्ते श्रेया क्रिएशन! 👋 मैंने आपका ब्लॉग देखा — मुझे एक लुक अपने माप पर चाहिए। कृपया कपड़ा, डिज़ाइन और टाइमलाइन बताएँ।";
   }
-  return "Hi Shreya Creation! 👋 I'd love a look from your lookbook made in my size. Please share fabric, design, and timeline.";
+  return "Hi Shreya Creation! 👋 I saw your blog — I'd love a look made in my size. Please share fabric, design, and timeline.";
 }
 
 export function studioVisitMessage(lang = "en") {

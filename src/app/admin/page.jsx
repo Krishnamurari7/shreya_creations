@@ -16,7 +16,7 @@ export default async function Dashboard() {
     { label: "Testimonials", value: counts.testimonials, href: "/admin/testimonials" },
     { label: "Trust stats", value: counts.trust, href: "/admin/trust" },
     { label: "FAQs", value: counts.faqs, href: "/admin/faqs" },
-    { label: "Lookbook", value: counts.lookbook, href: "/admin/lookbook" },
+    { label: "Blog", value: counts.lookbook, href: "/admin/lookbook" },
     { label: "Inquiries", value: counts.inquiries, href: "/admin/inquiries" },
   ];
 
@@ -26,7 +26,7 @@ export default async function Dashboard() {
     { href: "/courses", label: "Courses" },
     { href: "/shop", label: "Shop" },
     { href: "/portfolio", label: "Portfolio" },
-    { href: "/lookbook", label: "Lookbook" },
+    { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
     { href: "/faq", label: "FAQ" },
   ];
@@ -35,7 +35,7 @@ export default async function Dashboard() {
     <div>
       <AdminPageHeader
         title="Dashboard"
-        subtitle="Manage content for Home, About, Courses, Shop, Portfolio, Lookbook, Contact, and FAQ."
+        subtitle="Manage content for Home, About, Courses, Shop, Portfolio, Blog, Contact, and FAQ."
       />
 
       {!configured ? (

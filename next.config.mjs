@@ -9,9 +9,8 @@ const nextConfig = {
     ],
   },
   async redirects() {
-    // The nav label is "Lookbook" and the route is /lookbook; /blog only ever existed
-    // in inbound links and the old nav label.
-    return [{ source: "/blog", destination: "/lookbook", permanent: true }];
+    // Public nav uses Blog at /blog; keep /lookbook working for old inbound links.
+    return [{ source: "/lookbook", destination: "/blog", permanent: true }];
   },
 };
 
