@@ -230,7 +230,6 @@ export default function HomepageClient({
             lang={lang}
             eyebrowKey="founderEyebrow"
             titleKey="founderTitle"
-            hiOnlyKeys={["founderTitle"]}
             compact
             className="founder-section__header"
           />

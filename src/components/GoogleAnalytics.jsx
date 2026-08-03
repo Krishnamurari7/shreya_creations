@@ -8,6 +8,11 @@ export const GA_ID = "G-L0FL0BBDXS";
 export const AW_ID = "AW-11033186057";
 export const AW_CONTACT_CONVERSION = "ads_conversion_Contact_Us_1";
 
+/** GA4 custom event for WhatsApp CTA clicks. */
+export const WA_CLICK_EVENT = "whatsapp_click";
+/** GA4 custom event for phone / tel: CTA clicks. */
+export const PHONE_CLICK_EVENT = "phone_click";
+
 function buildPath(pathname, searchParams) {
   const query = searchParams?.toString();
   return query ? `${pathname}?${query}` : pathname;
@@ -15,6 +20,11 @@ function buildPath(pathname, searchParams) {
 
 function shouldTrack(pathname) {
   return Boolean(pathname) && !pathname.startsWith("/admin");
+}
+
+function sendGaEvent(eventName, params = {}) {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+  window.gtag("event", eventName, params);
 }
 
 /** Fire Google Ads Contact Us conversion; optionally delay navigation until the hit is sent. */
@@ -41,8 +51,33 @@ export function gtagSendEvent(url) {
 
 /** Fire Contact Us conversion without navigating away (e.g. WhatsApp opens in a new tab). */
 export function trackContactConversion() {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
-  window.gtag("event", AW_CONTACT_CONVERSION, {});
+  sendGaEvent(AW_CONTACT_CONVERSION);
+}
+
+/** Fire GA4 WhatsApp click (also use when opening WhatsApp via window.open). */
+export function trackWhatsAppClick(linkUrl = "") {
+  sendGaEvent(WA_CLICK_EVENT, {
+    link_url: linkUrl || undefined,
+    page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
+  });
+}
+
+/** Fire GA4 phone click. */
+export function trackPhoneClick(linkUrl = "") {
+  sendGaEvent(PHONE_CLICK_EVENT, {
+    link_url: linkUrl || undefined,
+    page_path: typeof window !== "undefined" ? window.location.pathname : undefined,
+  });
+}
+
+function isWhatsAppHref(href) {
+  if (!href) return false;
+  return /wa\.me\/|api\.whatsapp\.com|whatsapp:\/\//i.test(href);
+}
+
+function isPhoneHref(href) {
+  if (!href) return false;
+  return /^tel:/i.test(href);
 }
 
 function GAPageViews() {
@@ -70,6 +105,32 @@ function GAPageViews() {
 
     return () => window.clearInterval(id);
   }, [pathname, searchParams]);
+
+  return null;
+}
+
+/** Capture WhatsApp / phone link clicks site-wide via event delegation. */
+function GAClickTracking() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!shouldTrack(pathname)) return undefined;
+
+    const onClick = (event) => {
+      const anchor = event.target?.closest?.("a[href]");
+      if (!anchor) return;
+
+      const href = anchor.getAttribute("href") || "";
+      if (isWhatsAppHref(href)) {
+        trackWhatsAppClick(href);
+      } else if (isPhoneHref(href)) {
+        trackPhoneClick(href);
+      }
+    };
+
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, [pathname]);
 
   return null;
 }
@@ -106,6 +167,7 @@ export default function GoogleAnalytics() {
       </Script>
       <Suspense fallback={null}>
         <GAPageViews />
+        <GAClickTracking />
       </Suspense>
     </>
   );

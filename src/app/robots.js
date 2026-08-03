@@ -1,4 +1,4 @@
-import { getSiteUrl } from "@/lib/siteUrl";
+import { getSiteUrl, SITE_DOMAIN } from "@/lib/siteUrl";
 
 export default function robots() {
   const base = getSiteUrl();
@@ -11,6 +11,6 @@ export default function robots() {
       },
     ],
     sitemap: `${base}/sitemap.xml`,
-    host: base,
+    host: SITE_DOMAIN,
   };
 }

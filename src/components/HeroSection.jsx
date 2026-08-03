@@ -538,10 +538,10 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
   const defaultHeroTitle =
     lang === "hi"
-      ? "पटना का बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट"
-      : "Patna's Best Fashion Designing Institute";
+      ? "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट"
+      : "Best Designer Boutique & Fashion Designing Institute";
   const defaultHeroHighlight =
-    lang === "hi" ? "और डिज़ाइनर बुटीक" : "& Designer Boutique";
+    lang === "hi" ? "पटना में, 2012 से" : "in Patna Since 2012";
   const defaultHeroSubtitle =
     lang === "hi"
       ? "2012 से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
@@ -552,14 +552,16 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     "पटना में फैशन बुटीक और सिलाई संस्थान",
     "Your Fashion Career",
     "आपका फैशन करियर",
-    "Best Designer Boutique & Fashion Designing Institute",
-    "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट",
+    "Patna's Best Fashion Designing Institute",
+    "पटना का बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट",
   ]);
   const legacyHighlights = new Set([
     "Starts in Patna",
     "पटना से शुरू",
     "in Patna Bihar, since 2012",
     "पटना बिहार में, 2012 से",
+    "& Designer Boutique",
+    "और डिज़ाइनर बुटीक",
   ]);
   const legacySubtitles = new Set([
     "Learn boutique courses in Patna or get 24-hour custom stitching — bridal lehengas, designer blouses & more on Boring Road.",

@@ -8,7 +8,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
 import { INQUIRY_OPEN_EVENT } from "@/lib/inquiryPopup";
 import { enquiryMessage, waLink } from "@/lib/whatsapp";
-import { trackContactConversion } from "@/components/GoogleAnalytics";
+import { trackContactConversion, trackWhatsAppClick } from "@/components/GoogleAnalytics";
 
 const DISMISS_HOURS = 24;
 
@@ -163,6 +163,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
     }
     const href = waLink(whatsapp, enquiryMessage(name, fullMessage, phone));
     trackContactConversion();
+    trackWhatsAppClick(href);
     window.open(href, "_blank", "noopener,noreferrer");
     setSaving(false);
     setDone(true);
