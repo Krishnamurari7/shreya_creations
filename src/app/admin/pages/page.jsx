@@ -33,7 +33,7 @@ import {
   categoryCardsFromEditor,
 } from "@/lib/cms";
 import { ABOUT_JOURNEY_FIELDS } from "@/lib/cms/home-blocks";
-import { ADMIN_LABEL } from "@/lib/admin/formClasses";
+import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 
 const TABS = [
   { id: "home", label: "Home" },
@@ -281,6 +281,44 @@ export default function PagesAdmin() {
         {tab === "lookbook" && (
           <>
             <HeaderWithHighlight page={page} onChange={onChange} />
+            <SectionHeading>Listing SEO</SectionHeading>
+            <p className="admin-muted">
+              Controls the <code>/blog</code> listing page title, description and social image. Per-post SEO is in{" "}
+              <a href="/admin/lookbook" className="text-gold hover:underline">
+                Blog admin
+              </a>
+              .
+            </p>
+            <div>
+              <label className={ADMIN_LABEL}>Meta title</label>
+              <input
+                value={page.meta_title || ""}
+                onChange={(e) => onChange("meta_title", e.target.value)}
+                className={ADMIN_INPUT}
+                placeholder="Blog | Style Tips & Atelier Guides from Shreya Creation Patna"
+              />
+            </div>
+            <div>
+              <label className={ADMIN_LABEL}>Meta description</label>
+              <textarea
+                rows={3}
+                value={page.meta_description || ""}
+                onChange={(e) => onChange("meta_description", e.target.value)}
+                className={ADMIN_INPUT}
+                placeholder="Bridal blouse ideas, stitching tips…"
+              />
+            </div>
+            <div>
+              <label className={ADMIN_LABEL}>OG / social image</label>
+              <ImageUploader value={page.og_image || ""} onChange={(url) => onChange("og_image", url)} />
+            </div>
+            <BilingualTextarea
+              label="SEO intro paragraph"
+              enKey="seo_intro"
+              hiKey="seo_intro_hi"
+              values={page}
+              onChange={onChange}
+            />
             <SectionHeading>Feature cards</SectionHeading>
             <RepeaterField
               label="Highlight cards"
@@ -290,7 +328,11 @@ export default function PagesAdmin() {
               fields={FEATURE_FIELDS}
             />
             <p className="admin-muted">
-              Blog posts: <a href="/admin/lookbook" className="text-gold hover:underline">Blog admin</a>.
+              Blog posts:{" "}
+              <a href="/admin/lookbook" className="text-gold hover:underline">
+                Blog admin
+              </a>
+              .
             </p>
             <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>

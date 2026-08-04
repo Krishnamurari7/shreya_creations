@@ -12861,7 +12861,8 @@ html.dark .popular-cat-card__icon {
   height: 1.35rem;
 }
 
-.home-courses-preview__demo-copy h3 {
+.home-courses-preview__demo-copy h3,
+.home-courses-preview__demo-copy .home-courses-preview__demo-title {
   font-family: var(--font-display, Georgia, serif);
   font-size: clamp(1.15rem, 2.2vw, 1.45rem);
   font-weight: 700;
@@ -12873,6 +12874,10 @@ html.dark .popular-cat-card__icon {
   margin-top: 0.3rem;
   font-size: 0.88rem;
   color: var(--text-muted, #5c4a3a);
+}
+
+.home-courses-preview__demo-copy .home-courses-preview__demo-title + p {
+  margin-top: 0.3rem;
 }
 
 .home-courses-preview__demo-perks {
@@ -13055,11 +13060,20 @@ html.dark .popular-cat-card__icon {
 
 .home-courses-preview__keywords-inner {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.55rem 0.85rem;
-  padding-top: 0.85rem;
-  padding-bottom: 0.85rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.home-courses-preview__why-title {
+  margin: 0;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
 }
 
 .home-courses-preview__keywords-label {
@@ -13076,6 +13090,79 @@ html.dark .popular-cat-card__icon {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.home-courses-preview__seo-h3 .seo-subheadings__title,
+.home-courses-preview__seo-h3 .seo-subheadings__link {
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.home-courses-preview__seo-h3 .seo-subheadings__link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* Local SEO H3 keyword chips */
+.seo-subheadings {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 0.55rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seo-subheadings__item {
+  margin: 0;
+}
+
+.seo-subheadings__title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  font-family: inherit;
+}
+
+.seo-subheadings__link,
+.seo-subheadings__title:not(:has(a)) {
+  display: inline-flex;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--orange-rgb, 204, 79, 6), 0.28);
+  background: rgba(255, 248, 240, 0.65);
+  color: var(--ink, #1a1208);
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.seo-subheadings__link:hover {
+  background: rgba(var(--orange-rgb, 204, 79, 6), 0.1);
+  border-color: rgba(var(--orange-rgb, 204, 79, 6), 0.45);
+}
+
+.quick-explore__seo-h3 {
+  margin-top: 0.95rem;
+}
+
+.home-hero__services-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.home-hero__services-title {
+  margin: 0;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+  font-weight: 650;
+  line-height: 1.25;
+  color: var(--ink, #1a1208);
+}
+
+.home-hero__seo-h3 {
+  margin-top: 0.7rem;
 }
 
 .home-courses-preview__keywords a {

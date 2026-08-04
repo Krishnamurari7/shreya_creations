@@ -1057,7 +1057,12 @@ export const LOOKBOOK = [
       "From deep V to illusion net — neckline ideas we stitch most for Patna weddings, with tips on what flatters different saree drapes.",
     excerpt_hi:
       "डीप V से इल्यूज़न नेट तक — पटना की शादियों में सबसे ज़्यादा सिली जाने वाली नेकलाइन, और अलग-अलग साड़ी ड्रेप के लिए टिप्स।",
+    body: "At our Boring Road atelier, bridal blouse necklines are chosen for both comfort and the camera.\n\nDeep V, sweetheart, boat neck and illusion net each sit differently under a saree drape. We recommend trying the neckline with your fabric and jewellery before final stitching.\n\nShare a reference photo on WhatsApp and we will suggest what flatters your face shape and saree pallu.",
+    body_hi:
+      "बोरिंग रोड एटेलियर में ब्राइडल ब्लाउज नेकलाइन आराम और फोटो दोनों के लिए चुनी जाती हैं।\n\nडीप V, स्वीटहार्ट, बोट नेक और इल्यूज़न नेट साड़ी ड्रेप के साथ अलग लगते हैं। सिलाई से पहले कपड़े और ज्वेलरी के साथ नेकलाइन ट्राई करें।\n\nरेफरेंस फोटो WhatsApp पर भेजें — हम चेहरे और पल्लू के हिसाब से सुझाव देंगे।",
     image: LOCAL_IMGS[2],
+    image_alt: "Bridal blouse neckline styles stitched in Patna",
+    focus_keyword: "bridal blouse necklines Patna",
     published: true,
     created_at: "2026-06-01T10:00:00.000Z",
   },
@@ -1070,7 +1075,12 @@ export const LOOKBOOK = [
       "A simple photo + tape guide so families abroad can order bridal and festive wear from our Boring Road atelier with confidence.",
     excerpt_hi:
       "सरल फोटो और टेप गाइड — विदेश में परिवार बोरिंग रोड एटेलियर से ब्राइडल और फेस्टिव वियर आत्मविश्वास से ऑर्डर कर सकें।",
+    body: "NRI clients often order bridal and festive wear without visiting the studio. We guide measurements over WhatsApp with clear photo angles and a soft tape.\n\nYou send front, side and back photos plus bust, waist, hip and blouse length. We confirm fabric, design and timeline before stitching begins.\n\nFamilies in India can also collect or ship the finished piece — ask us for the current process.",
+    body_hi:
+      "NRI क्लाइंट अक्सर स्टूडियो आए बिना ब्राइडल और फेस्टिव वियर ऑर्डर करते हैं। हम WhatsApp पर फोटो एंगल और सॉफ्ट टेप से माप गाइड करते हैं।\n\nसामने, साइड और बैक फोटो के साथ बस्ट, कमर, हिप और ब्लाउज लंबाई भेजें। सिलाई से पहले कपड़ा, डिज़ाइन और टाइमलाइन कन्फर्म होती है।\n\nभारत में परिवार कलेक्ट या शिप भी कर सकते हैं — वर्तमान प्रोसेस पूछें।",
     image: LOCAL_IMGS[0],
+    image_alt: "NRI WhatsApp measurement guide for custom stitching Patna",
+    focus_keyword: "NRI measurements WhatsApp stitching Patna",
     published: true,
     created_at: "2026-05-18T10:00:00.000Z",
   },
@@ -1083,7 +1093,12 @@ export const LOOKBOOK = [
       "Which blouse, suit and lehenga styles we can often finish in a day — and when you should allow extra time for heavy embroidery.",
     excerpt_hi:
       "कौन से ब्लाउज, सूट और लहंगा अक्सर एक दिन में तैयार — और भारी कढ़ाई के लिए कब अतिरिक्त समय रखें।",
+    body: "Many blouse and suit styles can be finished within 24 hours when fabric is ready and the design is clear.\n\nHeavy zardozi, dense aari panels or multi-piece bridal sets need more time. Share your event date early so we can plan express slots honestly.\n\nConfirm express availability on WhatsApp with your reference look and measurements.",
+    body_hi:
+      "कई ब्लाउज और सूट स्टाइल 24 घंटे में तैयार हो सकते हैं जब कपड़ा तैयार हो और डिज़ाइन साफ हो।\n\nभारी ज़रदोज़ी, घनी आरी या मल्टी-पीस ब्राइडल सेट को ज़्यादा समय लगता है। इवेंट डेट जल्दी बताएँ ताकि एक्सप्रेस स्लॉट सही प्लान हो।\n\nरेफरेंस लुक और माप के साथ WhatsApp पर एक्सप्रेस उपलब्धता कन्फर्म करें।",
     image: LOCAL_IMGS[1],
+    image_alt: "24-hour express stitching at Shreya Creation Patna",
+    focus_keyword: "24 hour stitching Patna",
     published: true,
     created_at: "2026-05-02T10:00:00.000Z",
   },
@@ -1096,7 +1111,12 @@ export const LOOKBOOK = [
       "Floor-length, cape, and Indo-western fusion options we craft for reception nights — fabric picks that move well on the dance floor.",
     excerpt_hi:
       "फ्लोर-लेंथ, केप और इंडो-वेस्टर्न फ़्यूज़न — रिसेप्शन के लिए गाउन, और डांस फ्लोर पर अच्छे लगने वाले कपड़े।",
+    body: "Reception nights call for movement — floor-length gowns, cape overlays and Indo-western fusion cuts that photograph well under lights.\n\nWe help pick fabrics that drape without clinging, and finishes that survive a long evening of dance and photos.\n\nBring your jewellery plan; neckline and sleeve choices should balance the rest of the look.",
+    body_hi:
+      "रिसेप्शन रात में मूवमेंट ज़रूरी है — फ्लोर-लेंथ गाउन, केप और इंडो-वेस्टर्न कट जो लाइट में अच्छे फोटो आएँ।\n\nहम ऐसे कपड़े चुनने में मदद करते हैं जो चिपकें नहीं, और लंबी शाम की डांस-फोटो के लिए फिनिश टिके।\n\nज्वेलरी प्लान साथ लाएँ; नेकलाइन और स्लीव बाकी लुक से मैच करें।",
     image: LOCAL_IMGS[4],
+    image_alt: "Reception gown silhouettes for Indian weddings Patna",
+    focus_keyword: "reception gown Indian wedding Patna",
     published: true,
     created_at: "2026-04-12T10:00:00.000Z",
   },
@@ -1109,7 +1129,12 @@ export const LOOKBOOK = [
       "How boutique course graduates turn practice pieces into paid orders — and the mentorship path we follow at the institute.",
     excerpt_hi:
       "बुटीक कोर्स ग्रेजुएट प्रैक्टिस पीस से पेड ऑर्डर तक कैसे पहुँचते हैं — और संस्थान में मेंटरशिप का रास्ता।",
+    body: "Boutique course students start with practice pieces, then learn fittings, finishing and client communication.\n\nMany graduates take small WhatsApp orders while still training, with mentor feedback on fit and pricing.\n\nIf you want a job or your own boutique, ask about current batches and the free demo on WhatsApp.",
+    body_hi:
+      "बुटीक कोर्स की छात्राएँ प्रैक्टिस पीस से शुरू करती हैं, फिर फिटिंग, फिनिशिंग और क्लाइंट कम्युनिकेशन सीखती हैं।\n\nकई ग्रेजुएट ट्रेनिंग के दौरान छोटे WhatsApp ऑर्डर लेती हैं, फिट और प्राइसिंग पर मेंटर फीडबैक के साथ।\n\nजॉब या अपना बुटीक चाहिए तो वर्तमान बैच और मुफ़्त डेमो WhatsApp पर पूछें।",
     image: LOCAL_IMGS[6],
+    image_alt: "Boutique course student success stories Patna",
+    focus_keyword: "boutique course Patna student stories",
     published: true,
     created_at: "2026-03-28T10:00:00.000Z",
   },
@@ -1122,7 +1147,12 @@ export const LOOKBOOK = [
       "Weight, shine and timeline differences — so you pick the right handwork for lehenga panels, blouses and dupattas.",
     excerpt_hi:
       "वज़न, चमक और टाइमलाइन का फर्क — लहंगा पैनल, ब्लाउज और दुपट्टे के लिए सही हैंडवर्क चुनें।",
+    body: "Zardozi brings heavier metallic shine; aari is often finer and faster on large panels. The right choice depends on fabric weight, budget and event timeline.\n\nFor blouses we often mix both — denser work near the neckline, lighter fill on sleeves.\n\nShare your fabric and date; we will recommend handwork that will not overpower the silhouette.",
+    body_hi:
+      "ज़रदोज़ी में भारी मेटैलिक चमक होती है; आरी अक्सर बड़े पैनल पर बारीक और तेज़ होती है। सही चुनाव कपड़े के वज़न, बजट और इवेंट टाइमलाइन पर निर्भर करता है।\n\nब्लाउज पर अक्सर दोनों मिलाते हैं — नेकलाइन के पास घना काम, स्लीव पर हल्का।\n\nकपड़ा और डेट बताएँ; हम ऐसा हैंडवर्क सुझाएँगे जो सिल्हूट पर भारी न पड़े।",
     image: LOCAL_IMGS[5],
+    image_alt: "Zardozi vs aari embroidery for bridal wear Patna",
+    focus_keyword: "zardozi vs aari bridal embroidery",
     published: true,
     created_at: "2026-03-10T10:00:00.000Z",
   },

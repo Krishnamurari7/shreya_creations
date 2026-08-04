@@ -368,6 +368,25 @@ export async function getLookbookPosts() {
   }
 }
 
+export async function getLookbookPostBySlug(slug) {
+  const fromSeed = () => seed.LOOKBOOK.find((post) => post.slug === slug) || null;
+
+  if (!isSupabaseConfigured()) return fromSeed();
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("lookbook_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    if (data) return data;
+    return fromSeed();
+  } catch {
+    return fromSeed();
+  }
+}
+
 export async function getAdminCounts() {
   if (!isSupabaseConfigured()) {
     return {

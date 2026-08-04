@@ -11,12 +11,12 @@ import { PROCESS } from "@/lib/seed";
 import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Fashion Boutique Institute & 24hr Stitching in Patna | Shreya Creation",
+  title: "Best Designer Boutique & Fashion Designing Institute in Boring Road, Patna | Shreya Creation",
   description:
-    "Learn fashion designing & boutique courses in Patna, or get custom outfits stitched in 24 hours — bridal lehengas, designer blouses & more. Call/WhatsApp today.",
+    "Best boutique, ladies tailors & fashion designing institute on Boring Road, Patna, Bihar — bridal blouse, lehenga stitching, boutique master & silai courses. Call/WhatsApp today.",
   path: "/",
   image: DEFAULT_OG_IMAGE,
-  imageAlt: "Fashion boutique institute and 24-hour stitching studio in Patna",
+  imageAlt: "Best designer boutique and fashion designing institute in Boring Road, Patna, Bihar",
 });
 
 export default async function HomePage() {

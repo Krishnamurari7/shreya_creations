@@ -26,8 +26,8 @@ const STUDENTS_LABEL = SITE_FACTS.studentsTrained;
 const COURSES_LABEL = `${DEFAULT_COURSES_COUNT}+`;
 const HERO_TITLE = "Best Designer Boutique & Fashion Designing Institute";
 const HERO_TITLE_HI = "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट";
-const HERO_TITLE_HIGHLIGHT = "in Patna Since 2012";
-const HERO_TITLE_HIGHLIGHT_HI = "पटना में, 2012 से";
+const HERO_TITLE_HIGHLIGHT = "in Boring Road, Patna, Bihar";
+const HERO_TITLE_HIGHLIGHT_HI = "बोरिंग रोड, पटना, बिहार में";
 const HERO_SUBHEADING = `Practical boutique & fashion designing courses since ${DEFAULT_FOUNDING_YEAR} — plus bridal lehengas and designer blouses stitched in 24 hours on Boring Road.`;
 const HERO_SUBHEADING_HI = `${DEFAULT_FOUNDING_YEAR} से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।`;
 
@@ -153,14 +153,14 @@ export const PAGE_DEFAULTS = {
     hero_feature_strip: DEFAULT_HERO_FEATURE_STRIP.map((item) => ({ ...item })),
     category_eyebrow: "Quick Explore",
     category_eyebrow_hi: "क्विक एक्सप्लोर",
-    category_title_before: "Boutique Courses & ",
-    category_title_before_hi: "पटना में बुटीक कोर्स और ",
-    category_title_highlight: "Custom Stitching",
-    category_title_highlight_hi: "कस्टम सिलाई",
-    category_title_after: " in Patna",
+    category_title_before: "Best Boutique in ",
+    category_title_before_hi: "बोरिंग रोड, पटना का ",
+    category_title_highlight: "Boring Road, Patna",
+    category_title_highlight_hi: "बेस्ट बुटीक",
+    category_title_after: "",
     category_title_after_hi: "",
-    category_subtitle: "Choose institute courses, boutique stitching, or designer collection.",
-    category_subtitle_hi: "इंस्टिट्यूट कोर्स, बुटीक सिलाई या डिज़ाइनर कलेक्शन चुनें।",
+    category_subtitle: "Designer boutique, ladies tailors & custom stitching on Boring Road, Patna.",
+    category_subtitle_hi: "बोरिंग रोड, पटना पर डिज़ाइनर बुटीक, लेडीज़ टेलर और कस्टम सिलाई।",
     category_cards: DEFAULT_CATEGORY_CARDS.map((card) => ({
       ...card,
       items: card.items?.map((row) => ({ ...row })),
@@ -228,8 +228,8 @@ export const PAGE_DEFAULTS = {
     trust_title_hi: "हज़ारों का भरोसा",
     process_eyebrow: "How It Works",
     process_eyebrow_hi: "हमारी प्रक्रिया",
-    process_title: "Custom Stitching in Patna — WhatsApp to Delivery",
-    process_title_hi: "पटना में कस्टम सिलाई — WhatsApp से डिलीवरी तक",
+    process_title: "Ladies Tailors in Boring Road, Patna",
+    process_title_hi: "बोरिंग रोड, पटना में लेडीज़ टेलर",
     journey_eyebrow: "Start Your Journey",
     journey_eyebrow_hi: "अपनी यात्रा शुरू करें",
     journey_title: "Everything",
@@ -259,10 +259,10 @@ export const PAGE_DEFAULTS = {
     ],
     portfolio_preview_eyebrow: "Our Work",
     portfolio_preview_eyebrow_hi: "हमारा काम",
-    portfolio_preview_title: "Bridal & Designer Portfolio",
-    portfolio_preview_title_hi: "ब्राइडल और डिज़ाइनर पोर्टफोलियो",
-    portfolio_preview_title_highlight: "in Patna",
-    portfolio_preview_title_highlight_hi: "पटना",
+    portfolio_preview_title: "Bridal Blouse, Lehenga & Designer Stitching Services",
+    portfolio_preview_title_hi: "ब्राइडल ब्लाउज, लहंगा और डिज़ाइनर सिलाई सेवाएँ",
+    portfolio_preview_title_highlight: "",
+    portfolio_preview_title_highlight_hi: "",
     portfolio_preview_subtitle: "Lehengas, gowns and bridal pieces crafted at our Patna atelier.",
     portfolio_preview_subtitle_hi: "पटना एटेलियर में बने लहंगे, गाउन और ब्राइडल पीस।",
     portfolio_preview_cta: "View Full Portfolio",
@@ -275,8 +275,8 @@ export const PAGE_DEFAULTS = {
     explore_view_all_hi: "सभी देखें",
     courses_eyebrow: "Our Popular Courses",
     courses_eyebrow_hi: "हमारे लोकप्रिय कोर्स",
-    courses_title: "Fashion Designing & Boutique Courses in Patna",
-    courses_title_hi: "पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स",
+    courses_title: "Best Fashion Designing Institute in Patna, Bihar",
+    courses_title_hi: "पटना, बिहार का बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट",
     courses_subtitle: "From basics to advanced, choose the right course for your career.",
     courses_subtitle_hi: "बेसिक से एडवांस्ड तक — अपने करियर के लिए सही कोर्स चुनें।",
     courses_script_tagline: "Skill that creates income.",
@@ -291,8 +291,10 @@ export const PAGE_DEFAULTS = {
     courses_demo_cta_hi: "अभी मुफ़्त डेमो बुक करें",
     courses_demo_note: "Limited Seats – Enroll Today!",
     courses_demo_note_hi: "सीमित सीटें — आज ही एनरोल करें!",
-    courses_why_title: "Why Choose Shreya Creation?",
-    courses_why_title_hi: "श्रेया क्रिएशन क्यों चुनें?",
+    courses_why_title: "Boutique Master Course & Fashion Designing Course",
+    courses_why_title_hi: "बुटीक मास्टर कोर्स और फैशन डिज़ाइनिंग कोर्स",
+    services_seo_title: "Designer Boutique in Patna, Bihar",
+    services_seo_title_hi: "पटना, बिहार में डिज़ाइनर बुटीक",
     services_eyebrow: "Boutique Services Overview",
     services_eyebrow_hi: "बुटीक सेवाएँ",
     services_title: "Services Tailored for You",
@@ -301,8 +303,8 @@ export const PAGE_DEFAULTS = {
     services_subtitle_hi: "कस्टम सिलाई, ब्राइडल कउचर, कढ़ाई और स्टाइलिंग — सब WhatsApp पर।",
     founder_eyebrow: "Founder Message",
     founder_eyebrow_hi: "संस्थापक का संदेश",
-    founder_title: "From Skill to Business — Fashion Institute in Patna",
-    founder_title_hi: "कौशल से कारोबार तक — पटना फैशन इंस्टिट्यूट",
+    founder_title: "Best Stitching & Silai Course in Patna",
+    founder_title_hi: "पटना में बेस्ट स्टिचिंग और सिलाई कोर्स",
     founder_quote:
       "When we started Shreya Creation, our dream was simple — teach real stitching skills and help every student turn craft into a livelihood. We have trained thousands of learners. We don't just teach sewing — we prepare the path from skill to self-reliance, and self-reliance to success.",
     founder_quote_hi:
@@ -323,8 +325,8 @@ export const PAGE_DEFAULTS = {
     mentor_image: "/hero_studio_banner.png",
     success_eyebrow: "Student Success",
     success_eyebrow_hi: "छात्र सफलता",
-    success_title: "Reviews from Fashion Students & Boutique Clients in Patna",
-    success_title_hi: "पटना के फैशन छात्र और बुटीक क्लाइंट की समीक्षाएँ",
+    success_title: "Why Choose Shreya Creation Boutique & Institute",
+    success_title_hi: "श्रेया क्रिएशन बुटीक और इंस्टिट्यूट क्यों चुनें",
     success_subtitle: "Real stories from our academy graduates and boutique clients across Patna.",
     success_subtitle_hi: "पटना के अकादमी ग्रेजुएट और ग्राहकों की असली कहानियाँ।",
     atelier_eyebrow: "The Atelier Studio",
@@ -353,10 +355,10 @@ export const PAGE_DEFAULTS = {
     collection_image_right: "/atelier_details.png",
     academy_badge: "Academy Studio",
     academy_badge_hi: "अकादमी स्टूडियो",
-    academy_heading: "Fashion Designing & Boutique Courses",
-    academy_heading_hi: "पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स",
-    academy_heading_highlight: "in Patna",
-    academy_heading_highlight_hi: "",
+    academy_heading: "Best Fashion Designing Institute",
+    academy_heading_hi: "बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट",
+    academy_heading_highlight: "in Patna, Bihar",
+    academy_heading_highlight_hi: "पटना, बिहार में",
     academy_subheading: "Professional courses — boutique, blouse, suit, kids wear, fashion design & lehenga. Enroll on WhatsApp.",
     academy_subheading_hi: "प्रोफेशनल कोर्स — बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा। WhatsApp पर एनरोल करें।",
     academy_location: "Shreya Creation, Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001",
@@ -523,6 +525,14 @@ export const PAGE_DEFAULTS = {
     header_highlight_hi: "",
     header_subtitle: "Guides, stitching tips and behind-the-scenes stories from our Boring Road studio — bridal, blouse and festive wear ideas.",
     header_subtitle_hi: "बोरिंग रोड स्टूडियो से गाइड, सिलाई टिप्स और कहानियाँ — ब्राइडल, ब्लाउज और फेस्टिव आइडिया।",
+    meta_title: "Blog | Style Tips & Atelier Guides from Shreya Creation Patna",
+    meta_description:
+      "Bridal blouse ideas, 24-hour stitching tips, NRI ordering guides and atelier stories from Shreya Creation on Boring Road, Patna.",
+    og_image: "",
+    seo_intro:
+      "Read style tips from our bridal boutique in Patna — necklines, NRI WhatsApp measurements, 24-hour express stitching and embroidery guides from Boring Road.",
+    seo_intro_hi:
+      "पटना बुटीक से स्टाइल टिप्स पढ़ें — नेकलाइन, NRI WhatsApp माप, 24 घंटे एक्सप्रेस सिलाई और कढ़ाई गाइड बोरिंग रोड से।",
     features: [
       { emoji: "🧵", title: "Atelier tips", title_hi: "एटेलियर टिप्स", desc: "Necklines, fabrics and fittings we use every day in the studio.", desc_hi: "नेकलाइन, कपड़े और फिटिंग — रोज़ स्टूडियो में जो हम इस्तेमाल करते हैं।" },
       { emoji: "👰", title: "Bridal ideas", title_hi: "ब्राइडल आइडिया", desc: "Lehenga, gown and blouse looks for weddings and receptions.", desc_hi: "शादी और रिसेप्शन के लिए लहंगा, गाउन और ब्लाउज लुक।" },

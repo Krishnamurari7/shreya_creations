@@ -49,6 +49,93 @@ export function mergePageDefaults(pages = {}) {
     const fromDb = pages[slug] && typeof pages[slug] === "object" ? keysToCamel(pages[slug]) : {};
     merged[slug] = mergePreferFilled(base, fromDb);
   }
+
+  // Replace known older marketing H1/H2 copy with researched SEO headings.
+  if (merged.home) {
+    const homeBase = keysToCamel(PAGE_DEFAULTS.home);
+    const legacyHomeSeo = {
+      heroBoutiqueTitleHighlight: new Set([
+        "in Patna Since 2012",
+        "in Patna Bihar, since 2012",
+        "& Designer Boutique",
+        "Starts in Patna",
+      ]),
+      heroBoutiqueTitleHighlightHi: new Set([
+        "पटना में, 2012 से",
+        "पटना बिहार में, 2012 से",
+        "और डिज़ाइनर बुटीक",
+        "पटना से शुरू",
+      ]),
+      heroTitleHighlight: new Set([
+        "in Patna Since 2012",
+        "in Patna Bihar, since 2012",
+        "& Designer Boutique",
+        "Starts in Patna",
+      ]),
+      heroTitleHighlightHi: new Set([
+        "पटना में, 2012 से",
+        "पटना बिहार में, 2012 से",
+        "और डिज़ाइनर बुटीक",
+        "पटना से शुरू",
+      ]),
+      categoryTitleBefore: new Set(["Boutique Courses & ", "What are you "]),
+      categoryTitleBeforeHi: new Set(["पटना में बुटीक कोर्स और ", "आज आप क्या "]),
+      categoryTitleHighlight: new Set(["Custom Stitching", "looking"]),
+      categoryTitleHighlightHi: new Set(["कस्टम सिलाई", "खोज रहे"]),
+      categoryTitleAfter: new Set([" in Patna", " for today?"]),
+      academyHeading: new Set(["Fashion Designing & Boutique Courses", "Learn. Practice."]),
+      academyHeadingHi: new Set(["पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स", "सीखें. प्रैक्टिस."]),
+      academyHeadingHighlight: new Set(["in Patna", "Earn."]),
+      coursesTitle: new Set([
+        "Fashion Designing & Boutique Courses in Patna",
+        "Learn. Practice. Earn.",
+      ]),
+      coursesTitleHi: new Set(["पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स", "सीखें. प्रैक्टिस. कमाएँ."]),
+      coursesWhyTitle: new Set(["Why Choose Shreya Creation?"]),
+      coursesWhyTitleHi: new Set(["श्रेया क्रिएशन क्यों चुनें?"]),
+      founderTitle: new Set([
+        "From Skill to Business — Fashion Institute in Patna",
+        "From skill to business",
+      ]),
+      founderTitleHi: new Set([
+        "कौशल से कारोबार तक — पटना फैशन इंस्टिट्यूट",
+        "कौशल से कारोबार तक",
+      ]),
+      portfolioPreviewTitle: new Set(["Bridal & Designer Portfolio", "Portfolio"]),
+      portfolioPreviewTitleHi: new Set(["ब्राइडल और डिज़ाइनर पोर्टफोलियो", "पोर्टफोलियो"]),
+      portfolioPreviewTitleHighlight: new Set(["in Patna", "Highlights"]),
+      portfolioPreviewTitleHighlightHi: new Set(["पटना", "झलक"]),
+      successTitle: new Set([
+        "Reviews from Fashion Students & Boutique Clients in Patna",
+        "Reviews from Students & Clients",
+      ]),
+      successTitleHi: new Set([
+        "पटना के फैशन छात्र और बुटीक क्लाइंट की समीक्षाएँ",
+        "छात्रों और ग्राहकों की राय",
+      ]),
+      processTitle: new Set([
+        "Custom Stitching in Patna — WhatsApp to Delivery",
+        "From WhatsApp to Delivery",
+      ]),
+      processTitleHi: new Set([
+        "पटना में कस्टम सिलाई — WhatsApp से डिलीवरी तक",
+        "WhatsApp से डिलीवरी तक",
+      ]),
+    };
+
+    for (const [key, legacySet] of Object.entries(legacyHomeSeo)) {
+      const current = merged.home[key];
+      if (!current || legacySet.has(current)) {
+        if (homeBase[key] != null) merged.home[key] = homeBase[key];
+      }
+    }
+
+    // New SEO keys — fill if CMS has never stored them.
+    for (const key of ["servicesSeoTitle", "servicesSeoTitleHi"]) {
+      if (!merged.home[key] && homeBase[key]) merged.home[key] = homeBase[key];
+    }
+  }
+
   return merged;
 }
 

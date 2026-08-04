@@ -1,3 +1,3 @@
 CREATE TABLE IF NOT EXISTS tags (tag TEXT NOT NULL, path TEXT NOT NULL, UNIQUE(tag, path) ON CONFLICT REPLACE);
      CREATE TABLE IF NOT EXISTS revalidations (tag TEXT NOT NULL, revalidatedAt INTEGER NOT NULL, UNIQUE(tag) ON CONFLICT REPLACE);
-INSERT INTO tags (tag, path) VALUES ("Q7mIZ0t-CjsuA84Eo0D8i/_N_T_/layout", "Q7mIZ0t-CjsuA84Eo0D8i/robots.txt"), ("Q7mIZ0t-CjsuA84Eo0D8i/_N_T_/robots.txt/layout", "Q7mIZ0t-CjsuA84Eo0D8i/robots.txt"), ("Q7mIZ0t-CjsuA84Eo0D8i/_N_T_/robots.txt/route", "Q7mIZ0t-CjsuA84Eo0D8i/robots.txt"), ("Q7mIZ0t-CjsuA84Eo0D8i/_N_T_/robots.txt", "Q7mIZ0t-CjsuA84Eo0D8i/robots.txt");
+INSERT INTO tags (tag, path) VALUES ("Qwbn2a7-Qih_QNmCbsEQO/_N_T_/layout", "Qwbn2a7-Qih_QNmCbsEQO/robots.txt"), ("Qwbn2a7-Qih_QNmCbsEQO/_N_T_/robots.txt/layout", "Qwbn2a7-Qih_QNmCbsEQO/robots.txt"), ("Qwbn2a7-Qih_QNmCbsEQO/_N_T_/robots.txt/route", "Qwbn2a7-Qih_QNmCbsEQO/robots.txt"), ("Qwbn2a7-Qih_QNmCbsEQO/_N_T_/robots.txt", "Qwbn2a7-Qih_QNmCbsEQO/robots.txt");

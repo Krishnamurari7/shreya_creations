@@ -24,6 +24,7 @@ import {
   DEFAULT_STUDENTS_TAUGHT,
   SITE_FACTS,
 } from "@/lib/site-config";
+import SeoSubheadings from "@/components/SeoSubheadings";
 
 const HOME_COURSE_LIMIT = 4;
 
@@ -97,14 +98,9 @@ const FEATURE_STRIP = [
 ];
 
 const POPULAR_KEYWORDS = [
-  { en: "Tailoring Classes", hi: "टेलरिंग क्लास" },
-  { en: "Blouse Making Course", hi: "ब्लाउज मेकिंग कोर्स" },
-  { en: "Boutique Course Patna", hi: "बुटीक कोर्स पटना" },
-  { en: "Fashion Designing", hi: "फैशन डिज़ाइनिंग" },
-  { en: "NIFT Coaching", hi: "NIFT कोचिंग" },
-  { en: "Sewing Classes", hi: "सिलाई क्लास" },
-  { en: "Bridal Blouse Course", hi: "ब्राइडल ब्लाउज कोर्स" },
-  { en: "Ladies Tailoring", hi: "लेडीज़ टेलरिंग" },
+  { en: "Boutique Course in Boring Road", hi: "बोरिंग रोड में बुटीक कोर्स" },
+  { en: "Fashion Designing Course in Patna", hi: "पटना में फैशन डिज़ाइनिंग कोर्स" },
+  { en: "Silai Course Patna Bihar", hi: "सिलाई कोर्स पटना बिहार" },
 ];
 
 function TabIcon({ type }) {
@@ -392,6 +388,11 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
   const demoNote =
     pickPage(home, lang, "coursesDemoNote", "coursesDemoNoteHi") ||
     (hi ? "सीमित सीटें — आज ही एनरोल करें!" : "Limited Seats – Enroll Today!");
+  const whyTitle =
+    pickPage(home, lang, "coursesWhyTitle", "coursesWhyTitleHi") ||
+    (hi
+      ? "बुटीक मास्टर कोर्स और फैशन डिज़ाइनिंग कोर्स"
+      : "Boutique Master Course & Fashion Designing Course");
   const openDemo = () => {
     openInquiryPopup({
       source: "home_courses_demo",
@@ -524,7 +525,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
             <LineIcon type="calendar" />
           </div>
           <div className="home-courses-preview__demo-copy">
-            <h3>{demoTitle}</h3>
+            <p className="home-courses-preview__demo-title">{demoTitle}</p>
             <p>{demoSubtitle}</p>
             <ul className="home-courses-preview__demo-perks">
               <li>
@@ -552,19 +553,15 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
 
       </div>
 
-      {/* Keywords strip */}
-      <div className="home-courses-preview__keywords" aria-label={hi ? "लोकप्रिय कीवर्ड" : "Popular keywords"}>
+      {/* Course SEO H2 + H3 keywords */}
+      <div className="home-courses-preview__keywords" aria-label={hi ? "कोर्स कीवर्ड" : "Course keywords"}>
         <div className={cn(PAGE_CONTAINER, "home-courses-preview__keywords-inner")}>
-          <span className="home-courses-preview__keywords-label">
-            {hi ? "लोकप्रिय कीवर्ड:" : "Popular Keywords:"}
-          </span>
-          <ul>
-            {POPULAR_KEYWORDS.map((kw) => (
-              <li key={kw.en}>
-                <Link href="/courses">{hi ? kw.hi : kw.en}</Link>
-              </li>
-            ))}
-          </ul>
+          <h2 className="home-courses-preview__why-title">{whyTitle}</h2>
+          <SeoSubheadings
+            className="home-courses-preview__seo-h3"
+            linkHref="/courses"
+            items={POPULAR_KEYWORDS.map((kw) => (hi ? kw.hi : kw.en))}
+          />
         </div>
       </div>
 

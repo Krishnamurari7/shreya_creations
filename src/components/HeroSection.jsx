@@ -18,6 +18,7 @@ import {
   DEFAULT_FOUNDING_YEAR,
   SITE_FACTS,
 } from "@/lib/site-config";
+import SeoSubheadings from "@/components/SeoSubheadings";
 
 const HERO_STATS_EN = [
   { icon: "trust", highlight: "years", line1: "Years of Trust", line2: "Since 2012" },
@@ -541,7 +542,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
       ? "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट"
       : "Best Designer Boutique & Fashion Designing Institute";
   const defaultHeroHighlight =
-    lang === "hi" ? "पटना में, 2012 से" : "in Patna Since 2012";
+    lang === "hi" ? "बोरिंग रोड, पटना, बिहार में" : "in Boring Road, Patna, Bihar";
   const defaultHeroSubtitle =
     lang === "hi"
       ? "2012 से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
@@ -560,6 +561,8 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     "पटना से शुरू",
     "in Patna Bihar, since 2012",
     "पटना बिहार में, 2012 से",
+    "in Patna Since 2012",
+    "पटना में, 2012 से",
     "& Designer Boutique",
     "और डिज़ाइनर बुटीक",
   ]);
@@ -858,6 +861,24 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
         <div className="home-hero__paths" aria-label={lang === "hi" ? "हमारी सेवाएँ" : "Our services"}>
           <div className={cn(PAGE_CONTAINER, "home-hero__paths-inner")}>
+            <div className="home-hero__services-heading">
+              <h2 className="home-hero__services-title">
+                {pickPage(home, lang, "servicesSeoTitle", "servicesSeoTitleHi") ||
+                  (lang === "hi"
+                    ? "पटना, बिहार में डिज़ाइनर बुटीक"
+                    : "Designer Boutique in Patna, Bihar")}
+              </h2>
+              <SeoSubheadings
+                className="home-hero__seo-h3"
+                linkHref="/shop"
+                items={
+                  lang === "hi"
+                    ? ["लेडीज़ बुटीक बोरिंग रोड पटना", "लेडीज़ टेलर बोरिंग कैनाल रोड"]
+                    : ["Ladies Boutique Boring Road Patna", "Ladies Tailors Boring Canal Road"]
+                }
+              />
+            </div>
+
             <div className="home-hero__services-track" role="list">
               {serviceCards.map((card) => (
                 <article key={card.key} className="home-hero__service-card" role="listitem">
@@ -883,7 +904,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                     <span className="home-hero__service-icon" aria-hidden>
                       <ServiceIcon type={card.icon} />
                     </span>
-                    <h3 className="home-hero__service-title">{card.title}</h3>
+                    <p className="home-hero__service-title">{card.title}</p>
                     <p className="home-hero__service-desc">{card.desc}</p>
                     <button
                       type="button"
@@ -905,7 +926,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                     <FeatureStripIcon type={item.icon} />
                   </span>
                   <div className="home-hero__feature-copy">
-                    <h3 className="home-hero__feature-title">{item.title}</h3>
+                    <p className="home-hero__feature-title">{item.title}</p>
                     <p className="home-hero__feature-sub">{item.subtitle}</p>
                   </div>
                 </article>

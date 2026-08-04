@@ -265,7 +265,7 @@ export default function HomepageClient({
             </span>
             <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance")}>
               {pickPage(home, lang, "processTitle", "processTitleHi") ||
-                (lang === "hi" ? "WhatsApp से डिलीवरी तक" : "From WhatsApp to Delivery")}
+                (lang === "hi" ? "बोरिंग रोड, पटना में लेडीज़ टेलर" : "Ladies Tailors in Boring Road, Patna")}
             </h2>
             <div className={cn(HAIRLINE, "max-w-xs", "mx-auto", "mt-6")} />
           </div>

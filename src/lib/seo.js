@@ -89,6 +89,79 @@ export function portfolioMetaDescription(item) {
   );
 }
 
+export function lookbookMetaTitle(post) {
+  if (post?.meta_title || post?.metaTitle) return post.meta_title || post.metaTitle;
+  const name = itemName(post);
+  return name ? `${name} | Shreya Creation Patna Blog` : "Blog | Shreya Creation Patna";
+}
+
+export function lookbookMetaDescription(post) {
+  if (post?.meta_description || post?.metaDescription) {
+    return post.meta_description || post.metaDescription;
+  }
+  return (
+    post?.excerpt ||
+    post?.body ||
+    `${itemName(post) || "Style tip"} from Shreya Creation Patna — bridal, blouse & boutique guides from Boring Road.`
+  );
+}
+
+export function blogListingMetaTitle(page) {
+  if (page?.metaTitle || page?.meta_title) return page.metaTitle || page.meta_title;
+  return "Blog | Style Tips & Atelier Guides from Shreya Creation Patna";
+}
+
+export function blogListingMetaDescription(page) {
+  if (page?.metaDescription || page?.meta_description) {
+    return page.metaDescription || page.meta_description;
+  }
+  return (
+    page?.headerSubtitle ||
+    page?.header_subtitle ||
+    "Bridal blouse ideas, 24-hour stitching tips, NRI ordering guides and atelier stories from Shreya Creation on Boring Road, Patna."
+  );
+}
+
+export function blogPostingJsonLd(post) {
+  const name = itemName(post);
+  const description = seoDescription(lookbookMetaDescription(post));
+  const image = absoluteUrl(itemImage(post));
+  const url = absoluteUrl(`/blog/${post.slug}`);
+  const published = post.created_at || post.createdAt;
+  const modified = post.updated_at || post.updatedAt || published;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: name,
+    description,
+    image,
+    url,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    datePublished: published || undefined,
+    dateModified: modified || undefined,
+    author: {
+      "@type": "Organization",
+      name: "Shreya Creation",
+      url: absoluteUrl("/"),
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Shreya Creation",
+      url: absoluteUrl("/"),
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/logo.png"),
+      },
+    },
+    inLanguage: ["en", "hi"],
+    keywords: post.focus_keyword || post.focusKeyword || undefined,
+  };
+}
+
 export function buildMetadata({
   title,
   description,

@@ -177,12 +177,20 @@ create table if not exists public.policy_pages (
 create table if not exists public.lookbook_posts (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz default now(),
+  updated_at  timestamptz default now(),
   title       text not null,
   title_hi    text,
   slug        text unique not null,
   excerpt     text,
   excerpt_hi  text,
+  body        text,
+  body_hi     text,
   image       text,
+  meta_title  text,
+  meta_description text,
+  og_image    text,
+  image_alt   text,
+  focus_keyword text,
   published   boolean default true
 );
 

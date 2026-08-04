@@ -47,6 +47,7 @@ export default function ResourceManager({
   persistId = "id",
   rowKey = "id",
   canDelete,
+  itemLabel = "item",
 }) {
   const configured = isSupabaseConfigured();
   const [rows, setRows] = useState([]);
@@ -142,7 +143,10 @@ export default function ResourceManager({
       payload.slug = slugify(payload.title);
     }
 
-    if (fields.some((f) => f.name === "updated_at") || ["courses", "products", "portfolio"].includes(table)) {
+    if (
+      fields.some((f) => f.name === "updated_at") ||
+      ["courses", "products", "portfolio", "lookbook_posts"].includes(table)
+    ) {
       payload.updated_at = new Date().toISOString();
     }
 
@@ -198,7 +202,7 @@ export default function ResourceManager({
   const remove = async (row) => {
     const recordId = typeof row === "object" ? row[persistId] : row;
     if (!recordId) {
-      setError("This course is demo-only in the database. Edit and save it first to create a record you can delete.");
+      setError(`This ${itemLabel} is demo-only in the database. Edit and save it first to create a record you can delete.`);
       return;
     }
     if (!confirm("Delete this item?")) return;
@@ -403,7 +407,13 @@ export default function ResourceManager({
           setEditing(null);
           setModalError("");
         }}
-        title={editing?._dbId ? "Edit course" : editing?.slug ? "Save course" : "New course"}
+        title={
+          editing?.[persistId]
+            ? `Edit ${itemLabel}`
+            : editing?.slug
+              ? `Save ${itemLabel}`
+              : `New ${itemLabel}`
+        }
         panelClassName={modalWide ? "admin-modal__panel--wide" : ""}
         footer={
           <div className="admin-form-actions">

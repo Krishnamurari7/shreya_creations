@@ -27,6 +27,7 @@ import {
 import { formatPhoneDisplay, telHref } from "@/lib/site-config";
 import { DEFAULT_CATEGORY_CARDS } from "@/lib/cms/home-blocks";
 import { pickPage } from "@/lib/cms";
+import SeoSubheadings from "@/components/SeoSubheadings";
 
 function localizeCategoryCard(card) {
   const rows = (card.items || []).length
@@ -174,7 +175,7 @@ function ExploreCard({ card, lang, whatsapp }) {
         <ExploreIcon type={card.icon} />
       </div>
 
-      <h3 className="quick-explore-card__title font-display">{title}</h3>
+      <p className="quick-explore-card__title font-display">{title}</p>
       {tagline ? <p className="quick-explore-card__tagline">{tagline}</p> : null}
 
       <ul className="quick-explore-card__list">
@@ -377,10 +378,26 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp, home =
         </span>
         <h2 className={cn(SECTION_TITLE, "mt-2", "text-balance")}>
           {titleBefore}
-          <span className={HIGHLIGHT_SHIMMER}>{titleHighlight}</span>
+          {titleHighlight ? <span className={HIGHLIGHT_SHIMMER}>{titleHighlight}</span> : null}
           {titleAfter}
         </h2>
         <p className="quick-explore__subtitle">{subtitle}</p>
+        <SeoSubheadings
+          className="quick-explore__seo-h3"
+          items={
+            lang === "hi"
+              ? [
+                  { label: "बुटीक नियर मी", href: "/shop" },
+                  { label: "बेस्ट बुटीक नियर मी", href: "/shop" },
+                  { label: "डिज़ाइनर बुटीक बोरिंग रोड", href: "/shop" },
+                ]
+              : [
+                  { label: "Boutique Near Me", href: "/shop" },
+                  { label: "Best Boutique Near Me", href: "/shop" },
+                  { label: "Designer Boutique Boring Road", href: "/shop" },
+                ]
+          }
+        />
       </div>
 
       <motion.div

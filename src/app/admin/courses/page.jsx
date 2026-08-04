@@ -105,6 +105,7 @@ export default function CoursesAdmin() {
       listColumns={["title", "category", "price"]}
       renderListExtra={(course) => <CourseListBadges course={course} />}
       modalWide
+      itemLabel="course"
     />
   );
 }
