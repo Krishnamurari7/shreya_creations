@@ -18,6 +18,23 @@ export function isDbUuid(id) {
 
 /** Merge seed catalog with Supabase rows for the admin course list. */
 export function mergeAdminCourses(dbRows = []) {
+  if (dbRows.length) {
+    return dbRows
+      .map((row) => ({
+        ...row,
+        title_hi: row.title_hi ?? row.titleHi ?? "",
+        syllabus: normalizeSyllabus(row.syllabus),
+        is_addon: Boolean(row.is_addon),
+        _dbId: row.id,
+        _source: "db",
+      }))
+      .sort((a, b) => {
+        const byCategory = (a.category || "").localeCompare(b.category || "");
+        if (byCategory !== 0) return byCategory;
+        return (a.title || "").localeCompare(b.title || "");
+      });
+  }
+
   const dbBySlug = new Map();
 
   dbRows.forEach((row) => {

@@ -18,19 +18,23 @@ function keysToCamel(obj) {
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [toCamel(k), keysToCamel(v)]));
 }
 
-/** Prefer DB values, but keep defaults when CMS stores blank strings. */
+/** Prefer DB values; honor explicit blanks/empty arrays saved from admin. */
 function mergePreferFilled(base, fromDb) {
   if (Array.isArray(fromDb)) {
-    return fromDb.length ? fromDb.map(keysToCamel) : base;
+    return fromDb.map(keysToCamel);
   }
   if (!fromDb || typeof fromDb !== "object") {
     return fromDb === "" || fromDb == null ? base : fromDb;
   }
   const out = { ...(base && typeof base === "object" && !Array.isArray(base) ? base : {}) };
   for (const [key, value] of Object.entries(fromDb)) {
-    if (value === "" || value == null) continue;
+    if (value == null) continue;
+    if (value === "") {
+      out[key] = "";
+      continue;
+    }
     if (Array.isArray(value)) {
-      out[key] = value.length ? value : out[key];
+      out[key] = value.map(keysToCamel);
       continue;
     }
     if (typeof value === "object") {
@@ -48,92 +52,6 @@ export function mergePageDefaults(pages = {}) {
     const base = keysToCamel(PAGE_DEFAULTS[slug]);
     const fromDb = pages[slug] && typeof pages[slug] === "object" ? keysToCamel(pages[slug]) : {};
     merged[slug] = mergePreferFilled(base, fromDb);
-  }
-
-  // Replace known older marketing H1/H2 copy with researched SEO headings.
-  if (merged.home) {
-    const homeBase = keysToCamel(PAGE_DEFAULTS.home);
-    const legacyHomeSeo = {
-      heroBoutiqueTitleHighlight: new Set([
-        "in Patna Since 2012",
-        "in Patna Bihar, since 2012",
-        "& Designer Boutique",
-        "Starts in Patna",
-      ]),
-      heroBoutiqueTitleHighlightHi: new Set([
-        "पटना में, 2012 से",
-        "पटना बिहार में, 2012 से",
-        "और डिज़ाइनर बुटीक",
-        "पटना से शुरू",
-      ]),
-      heroTitleHighlight: new Set([
-        "in Patna Since 2012",
-        "in Patna Bihar, since 2012",
-        "& Designer Boutique",
-        "Starts in Patna",
-      ]),
-      heroTitleHighlightHi: new Set([
-        "पटना में, 2012 से",
-        "पटना बिहार में, 2012 से",
-        "और डिज़ाइनर बुटीक",
-        "पटना से शुरू",
-      ]),
-      categoryTitleBefore: new Set(["Boutique Courses & ", "What are you "]),
-      categoryTitleBeforeHi: new Set(["पटना में बुटीक कोर्स और ", "आज आप क्या "]),
-      categoryTitleHighlight: new Set(["Custom Stitching", "looking"]),
-      categoryTitleHighlightHi: new Set(["कस्टम सिलाई", "खोज रहे"]),
-      categoryTitleAfter: new Set([" in Patna", " for today?"]),
-      academyHeading: new Set(["Fashion Designing & Boutique Courses", "Learn. Practice."]),
-      academyHeadingHi: new Set(["पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स", "सीखें. प्रैक्टिस."]),
-      academyHeadingHighlight: new Set(["in Patna", "Earn."]),
-      coursesTitle: new Set([
-        "Fashion Designing & Boutique Courses in Patna",
-        "Learn. Practice. Earn.",
-      ]),
-      coursesTitleHi: new Set(["पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स", "सीखें. प्रैक्टिस. कमाएँ."]),
-      coursesWhyTitle: new Set(["Why Choose Shreya Creation?"]),
-      coursesWhyTitleHi: new Set(["श्रेया क्रिएशन क्यों चुनें?"]),
-      founderTitle: new Set([
-        "From Skill to Business — Fashion Institute in Patna",
-        "From skill to business",
-      ]),
-      founderTitleHi: new Set([
-        "कौशल से कारोबार तक — पटना फैशन इंस्टिट्यूट",
-        "कौशल से कारोबार तक",
-      ]),
-      portfolioPreviewTitle: new Set(["Bridal & Designer Portfolio", "Portfolio"]),
-      portfolioPreviewTitleHi: new Set(["ब्राइडल और डिज़ाइनर पोर्टफोलियो", "पोर्टफोलियो"]),
-      portfolioPreviewTitleHighlight: new Set(["in Patna", "Highlights"]),
-      portfolioPreviewTitleHighlightHi: new Set(["पटना", "झलक"]),
-      successTitle: new Set([
-        "Reviews from Fashion Students & Boutique Clients in Patna",
-        "Reviews from Students & Clients",
-      ]),
-      successTitleHi: new Set([
-        "पटना के फैशन छात्र और बुटीक क्लाइंट की समीक्षाएँ",
-        "छात्रों और ग्राहकों की राय",
-      ]),
-      processTitle: new Set([
-        "Custom Stitching in Patna — WhatsApp to Delivery",
-        "From WhatsApp to Delivery",
-      ]),
-      processTitleHi: new Set([
-        "पटना में कस्टम सिलाई — WhatsApp से डिलीवरी तक",
-        "WhatsApp से डिलीवरी तक",
-      ]),
-    };
-
-    for (const [key, legacySet] of Object.entries(legacyHomeSeo)) {
-      const current = merged.home[key];
-      if (!current || legacySet.has(current)) {
-        if (homeBase[key] != null) merged.home[key] = homeBase[key];
-      }
-    }
-
-    // New SEO keys — fill if CMS has never stored them.
-    for (const key of ["servicesSeoTitle", "servicesSeoTitleHi"]) {
-      if (!merged.home[key] && homeBase[key]) merged.home[key] = homeBase[key];
-    }
   }
 
   return merged;
@@ -167,13 +85,16 @@ export function normalizeJourneyCards(raw) {
   const defaults = DEFAULT_JOURNEY_CARDS.map((card) => keysToCamel(card));
   if (!Array.isArray(raw) || !raw.length) return defaults;
 
-  return defaults.map((def, index) => {
-    const match = raw.find((card) => (card.key || keysToCamel(card).key) === def.key) || raw[index];
+  return raw.map((match, index) => {
+    const def =
+      defaults.find((card) => card.key === (match.key || keysToCamel(match).key)) ||
+      defaults[index] ||
+      {};
     const fromDb = match ? keysToCamel(match) : {};
     return {
       ...def,
       ...fromDb,
-      key: def.key,
+      key: fromDb.key || def.key,
       theme: fromDb.theme || def.theme,
       icon: fromDb.icon || def.icon,
       image: fromDb.image || def.image,
@@ -182,28 +103,29 @@ export function normalizeJourneyCards(raw) {
       titleHi: fromDb.titleHi || def.titleHi,
       cta: fromDb.cta || def.cta,
       ctaHi: fromDb.ctaHi || def.ctaHi,
-      features: normalizeJourneyFeatures(fromDb.features || match?.features, DEFAULT_JOURNEY_CARDS[index].features),
+      features: normalizeJourneyFeatures(fromDb.features || match?.features, def.features),
     };
   });
 }
 
 /** Merge saved journey cards with defaults for the admin editor (snake_case). */
 export function mergeJourneyCardsForEditor(raw) {
-  return DEFAULT_JOURNEY_CARDS.map((def, index) => {
-    const fromDb = Array.isArray(raw)
-      ? raw.find((card) => card.key === def.key) || raw[index]
-      : null;
-    if (!fromDb) {
-      return {
-        ...def,
-        features: def.features.map((feature) => ({ ...feature })),
-      };
-    }
+  if (!Array.isArray(raw) || !raw.length) {
+    return DEFAULT_JOURNEY_CARDS.map((def) => ({
+      ...def,
+      features: def.features.map((feature) => ({ ...feature })),
+    }));
+  }
 
+  return raw.map((fromDb, index) => {
+    const def =
+      DEFAULT_JOURNEY_CARDS.find((card) => card.key === fromDb.key) ||
+      DEFAULT_JOURNEY_CARDS[index] ||
+      {};
     return {
       ...def,
       ...fromDb,
-      key: def.key,
+      key: fromDb.key || def.key,
       image: fromDb.image || def.image,
       href: fromDb.href || def.href,
       theme: fromDb.theme || def.theme,
@@ -212,13 +134,12 @@ export function mergeJourneyCardsForEditor(raw) {
       title_hi: fromDb.title_hi ?? def.title_hi,
       cta: fromDb.cta ?? def.cta,
       cta_hi: fromDb.cta_hi ?? def.cta_hi,
-      features: def.features.map((feature, featureIndex) => ({
-        ...feature,
-        ...(fromDb.features?.[featureIndex] || {}),
-        icon: fromDb.features?.[featureIndex]?.icon || feature.icon,
-        label: fromDb.features?.[featureIndex]?.label ?? feature.label,
-        label_hi: fromDb.features?.[featureIndex]?.label_hi ?? feature.label_hi,
-      })),
+      features: (fromDb.features?.length ? fromDb.features : def.features || []).map(
+        (feature, featureIndex) => ({
+          ...(def.features?.[featureIndex] || {}),
+          ...feature,
+        }),
+      ),
     };
   });
 }
@@ -227,9 +148,10 @@ function mergeKeyedList(raw, defaults) {
   if (!Array.isArray(raw) || !raw.length) {
     return defaults.map((item) => ({ ...item }));
   }
-  return defaults.map((def, index) => {
-    const match = raw.find((item) => item.key === def.key) || raw[index] || {};
-    return { ...def, ...match, key: def.key };
+  return raw.map((item) => {
+    if (!item?.key) return { ...item };
+    const def = defaults.find((d) => d.key === item.key) || {};
+    return { ...def, ...item, key: item.key };
   });
 }
 
@@ -245,9 +167,13 @@ export function mergeAboutJourneyForEditor(raw) {
   if (!Array.isArray(raw) || !raw.length) {
     return DEFAULT_ABOUT_JOURNEY.map((step) => ({ ...step }));
   }
-  return DEFAULT_ABOUT_JOURNEY.map((def, index) => {
-    const match =
-      raw.find((step) => (step.year_key || step.yearKey) === def.year_key) || raw[index] || {};
+  return raw.map((match, index) => {
+    const def =
+      DEFAULT_ABOUT_JOURNEY.find(
+        (step) => (step.year_key || step.yearKey) === (match.year_key || match.yearKey),
+      ) ||
+      DEFAULT_ABOUT_JOURNEY[index] ||
+      {};
     return {
       ...def,
       ...match,

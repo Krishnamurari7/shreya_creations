@@ -91,7 +91,7 @@ export default function CoursesAdmin() {
     <ResourceManager
       table="courses"
       title="Courses"
-      subtitle="All 15 seed courses appear here. Edit any course and save to store your changes in Supabase — use the same slug (e.g. blouse-suit-making-course) to override demo content. A course shows Enroll Now only when it has a PDF brochure and full about text. Use the SEO tab for per-course titles, descriptions and image alt."
+      subtitle="Manage courses stored in Supabase. A course shows Enroll Now only when it has a PDF brochure and full about text."
       fields={FIELDS}
       sections={SECTIONS}
       mergeRows={mergeAdminCourses}

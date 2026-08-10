@@ -78,7 +78,7 @@ export default function LookbookAdmin() {
     <ResourceManager
       table="lookbook_posts"
       title="Blog"
-      subtitle="All seed blog posts appear here. Edit and save to store changes in Supabase (same slug overrides demo content). Each published post gets its own SEO page at /blog/slug. Listing-page SEO is under Pages → Blog."
+      subtitle="Manage blog posts stored in Supabase. Each published post gets its own page at /blog/slug. Listing-page SEO is under Pages → Blog."
       fields={FIELDS}
       sections={SECTIONS}
       mergeRows={mergeAdminLookbook}

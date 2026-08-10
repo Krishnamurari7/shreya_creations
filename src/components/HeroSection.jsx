@@ -526,16 +526,10 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     lang === "hi"
       ? "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट"
       : "Bihar's No. 1 Boutique And Fashion Institute";
-  const legacyBadges = new Set([
-    "Bihar's No. 1 Fashion Boutique Institute",
-    "Bihar No 1 Fashion Boutique Institute",
-    "बिहार का नं. 1 फैशन बुटीक इंस्टिट्यूट",
-  ]);
-  const rawBadge =
+  const heroBadge =
     pickPage(home, lang, "heroBoutiqueBadge", "heroBoutiqueBadgeHi") ||
     pickPage(home, lang, "heroBadge", "heroBadgeHi") ||
     defaultHeroBadge;
-  const heroBadge = legacyBadges.has(rawBadge) ? defaultHeroBadge : rawBadge;
 
   const defaultHeroTitle =
     lang === "hi"
@@ -548,48 +542,18 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
       ? "2012 से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
       : "Practical boutique & fashion designing courses since 2012 — plus bridal lehengas and designer blouses stitched in 24 hours on Boring Road.";
 
-  const legacyTitles = new Set([
-    "Fashion Boutique & Stitching Institute in Patna",
-    "पटना में फैशन बुटीक और सिलाई संस्थान",
-    "Your Fashion Career",
-    "आपका फैशन करियर",
-    "Patna's Best Fashion Designing Institute",
-    "पटना का बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट",
-  ]);
-  const legacyHighlights = new Set([
-    "Starts in Patna",
-    "पटना से शुरू",
-    "in Patna Bihar, since 2012",
-    "पटना बिहार में, 2012 से",
-    "in Patna Since 2012",
-    "पटना में, 2012 से",
-    "& Designer Boutique",
-    "और डिज़ाइनर बुटीक",
-  ]);
-  const legacySubtitles = new Set([
-    "Learn boutique courses in Patna or get 24-hour custom stitching — bridal lehengas, designer blouses & more on Boring Road.",
-    "पटना में बुटीक कोर्स सीखें या 24 घंटे में सिले कपड़े पाएं — ब्राइडल लहंगा, डिज़ाइनर ब्लाउज और अधिक।",
-    "पटना में बुटीक कोर्स सीखें या 24 घंटे में सिले कपड़े पाएं — ब्राइडल लहंगा, डिज़ाइनर ब्लाउज और अधिक, बोरिंग रोड पर।",
-    "Boutique courses with real studio training — plus bridal lehengas & designer blouses stitched in 24 hours on Boring Road.",
-    "असली स्टूडियो ट्रेनिंग के साथ बुटीक कोर्स — ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।",
-  ]);
-
-  const rawTitle =
+  const heroTitle =
     pickPage(home, lang, "heroBoutiqueTitle", "heroBoutiqueTitleHi") ||
     pickPage(home, lang, "heroTitleLine1", "heroTitleLine1Hi") ||
     defaultHeroTitle;
-  const heroTitle = legacyTitles.has(rawTitle) ? defaultHeroTitle : rawTitle;
 
-  const rawHighlight =
+  const heroTitleHighlight =
     pickPage(home, lang, "heroBoutiqueTitleHighlight", "heroBoutiqueTitleHighlightHi") ||
     pickPage(home, lang, "heroTitleHighlight", "heroTitleHighlightHi") ||
-    "";
-  const heroTitleHighlight = !rawHighlight || legacyHighlights.has(rawHighlight)
-    ? defaultHeroHighlight
-    : rawHighlight;
+    defaultHeroHighlight;
 
-  const rawSubtitle = pickPage(home, lang, "heroBoutiqueSubtitle", "heroBoutiqueSubtitleHi") || defaultHeroSubtitle;
-  const heroSubtitle = legacySubtitles.has(rawSubtitle) ? defaultHeroSubtitle : rawSubtitle;
+  const heroSubtitle =
+    pickPage(home, lang, "heroBoutiqueSubtitle", "heroBoutiqueSubtitleHi") || defaultHeroSubtitle;
 
   const stats = useMemo(() => {
     const base = lang === "hi" ? HERO_STATS_HI : HERO_STATS_EN;

@@ -87,20 +87,24 @@ export default function PagesAdmin() {
       const { data } = await supabase.from("settings").select("pages, about_pillars").eq("id", 1).single();
       if (data) {
         const base = emptyPages();
-        const fromDb = data.pages && typeof data.pages === "object" ? data.pages : {};
         for (const key of PAGE_EDITOR_KEYS) {
-          const merged = { ...base[key], ...(fromDb[key] || {}) };
+          const pageFromDb = data.pages && typeof data.pages === "object" ? data.pages[key] : null;
+          if (pageFromDb && typeof pageFromDb === "object") {
+            base[key] = { ...pageFromDb };
+          }
           if (key === "home") {
-            merged.academy_perks = normalizeAcademyPerks(merged.academy_perks, merged.academy_perks_hi);
-            merged.journey_cards = mergeJourneyCardsForEditor(merged.journey_cards);
-            merged.hero_service_cards = mergeHeroServiceCardsForEditor(merged.hero_service_cards);
-            merged.hero_feature_strip = mergeHeroFeatureStripForEditor(merged.hero_feature_strip);
-            merged.category_cards = categoryCardsForEditor(merged.category_cards);
+            base[key].academy_perks = normalizeAcademyPerks(
+              base[key].academy_perks,
+              base[key].academy_perks_hi,
+            );
+            base[key].journey_cards = mergeJourneyCardsForEditor(base[key].journey_cards);
+            base[key].hero_service_cards = mergeHeroServiceCardsForEditor(base[key].hero_service_cards);
+            base[key].hero_feature_strip = mergeHeroFeatureStripForEditor(base[key].hero_feature_strip);
+            base[key].category_cards = categoryCardsForEditor(base[key].category_cards);
           }
           if (key === "about") {
-            merged.journey_steps = mergeAboutJourneyForEditor(merged.journey_steps);
+            base[key].journey_steps = mergeAboutJourneyForEditor(base[key].journey_steps);
           }
-          base[key] = merged;
         }
         setPages(base);
         if (Array.isArray(data.about_pillars) && data.about_pillars.length) {

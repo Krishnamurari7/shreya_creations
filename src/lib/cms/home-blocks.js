@@ -371,9 +371,9 @@ export function categoryCardsForEditor(raw) {
     }));
   }
 
-  return defaults.map((def, index) => {
-    const match = raw.find((c) => c.key === def.key) || raw[index] || {};
-    const merged = { ...def, ...match, key: def.key };
+  return raw.map((match, index) => {
+    const def = defaults.find((c) => c.key === match.key) || defaults[index] || {};
+    const merged = { ...def, ...match, key: match.key || def.key };
     if (!merged.items_text) merged.items_text = categoryItemsToText(merged);
     return merged;
   });

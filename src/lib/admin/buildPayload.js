@@ -1,11 +1,9 @@
 /** Prepare a row for Supabase insert/update from admin form state. */
 export function buildPayload(editing, fields, { isUpdate = false } = {}) {
-  const payload = { ...editing };
-
-  if (!isUpdate) {
-    delete payload.id;
-    delete payload.created_at;
-  }
+  const payload = {};
+  fields.forEach((f) => {
+    payload[f.name] = editing[f.name];
+  });
 
   fields.forEach((f) => {
     const key = f.name;

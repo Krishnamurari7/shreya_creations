@@ -8,6 +8,23 @@ export function isDbUuid(id) {
 
 /** Merge seed blog posts with Supabase rows for the admin Blog list. */
 export function mergeAdminLookbook(dbRows = []) {
+  if (dbRows.length) {
+    return dbRows
+      .map((row) => ({
+        ...row,
+        title_hi: row.title_hi ?? row.titleHi ?? "",
+        excerpt_hi: row.excerpt_hi ?? row.excerptHi ?? "",
+        body_hi: row.body_hi ?? row.bodyHi ?? "",
+        _dbId: row.id,
+        _source: "db",
+      }))
+      .sort((a, b) => {
+        const aTime = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const bTime = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return bTime - aTime;
+      });
+  }
+
   const dbBySlug = new Map();
 
   dbRows.forEach((row) => {

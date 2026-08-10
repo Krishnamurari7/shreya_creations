@@ -125,10 +125,17 @@ function mergeCoursesWithSeed(dbRows, { includeUnpublished = false } = {}) {
   if (!dbRows?.length) return seedList;
 
   const dbBySlug = new Map(dbRows.map((row) => [row.slug, normalizeCourse(row)]));
-  return seedList.map((seedCourse) => {
-    const dbCourse = dbBySlug.get(seedCourse.slug);
-    return dbCourse ? mergeCourseRecord(seedCourse, dbCourse) : seedCourse;
+  const merged = dbRows.map((row) => {
+    const seedCourse = seedList.find((c) => c.slug === row.slug);
+    const dbCourse = dbBySlug.get(row.slug);
+    return seedCourse ? mergeCourseRecord(seedCourse, dbCourse) : dbCourse;
   });
+
+  seedList.forEach((seedCourse) => {
+    if (!dbBySlug.has(seedCourse.slug)) merged.push(seedCourse);
+  });
+
+  return merged;
 }
 
 async function query(supabase, table, options = {}) {
