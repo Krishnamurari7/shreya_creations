@@ -10204,7 +10204,7 @@ html.dark .page-cta__eyebrow {
 
 .card-media > span,
 .home-hero--boutique .home-hero__ambient > span,
-.home-hero--boutique .home-hero__video-body > span,
+.home-hero--boutique .home-hero__video-body > span:not(.home-hero__video-watch),
 .home-hero--boutique .home-hero__service-media > span,
 .explore-cat-card__visual > span,
 .start-journey-card__visual > span {
@@ -16928,6 +16928,9 @@ html.dark .course-pdf-modal__state p {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  width: auto;
+  height: auto;
+  inset: auto;
   padding: 0.28rem 0.65rem;
   border-radius: 9999px;
   font-family: var(--hero-font-ui);
@@ -16940,6 +16943,10 @@ html.dark .course-pdf-modal__state p {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   pointer-events: none;
+}
+
+.home-hero--boutique .home-hero__video-card--live .home-hero__video-watch {
+  display: none;
 }
 
 .home-hero--boutique .home-hero__video-watch svg {

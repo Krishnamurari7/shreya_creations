@@ -794,7 +794,38 @@ var init_node_async_hooks = __esm({
 // .next/server/src/middleware.js
 var require_middleware = __commonJS({
   ".next/server/src/middleware.js"() {
-    (self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([[550], { 88: (a, b) => {
+    (self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([[550], { 28: (a, b, c) => {
+      "use strict";
+      c.d(b, { Ud: () => d.stringifyCookie, VO: () => d.ResponseCookies, tm: () => d.RequestCookies });
+      var d = c(443);
+    }, 58: (a, b, c) => {
+      "use strict";
+      c.d(b, { xl: () => g });
+      let d = Object.defineProperty(Error("Invariant: AsyncLocalStorage accessed in runtime where it is not available"), "__NEXT_ERROR_CODE", { value: "E504", enumerable: false, configurable: true });
+      class e {
+        disable() {
+          throw d;
+        }
+        getStore() {
+        }
+        run() {
+          throw d;
+        }
+        exit() {
+          throw d;
+        }
+        enterWith() {
+          throw d;
+        }
+        static bind(a2) {
+          return a2;
+        }
+      }
+      let f = "undefined" != typeof globalThis && globalThis.AsyncLocalStorage;
+      function g() {
+        return f ? new f() : new e();
+      }
+    }, 88: (a, b) => {
       "use strict";
       b.q = function(a2, b2) {
         if ("string" != typeof a2) throw TypeError("argument str must be a string");
@@ -897,6 +928,39 @@ var require_middleware = __commonJS({
       function k(a2) {
         return -1 !== a2.indexOf("%") ? decodeURIComponent(a2) : a2;
       }
+    }, 115: (a, b, c) => {
+      "use strict";
+      c.d(b, { l: () => d });
+      class d {
+        static get(a2, b2, c2) {
+          let d2 = Reflect.get(a2, b2, c2);
+          return "function" == typeof d2 ? d2.bind(a2) : d2;
+        }
+        static set(a2, b2, c2, d2) {
+          return Reflect.set(a2, b2, c2, d2);
+        }
+        static has(a2, b2) {
+          return Reflect.has(a2, b2);
+        }
+        static deleteProperty(a2, b2) {
+          return Reflect.deleteProperty(a2, b2);
+        }
+      }
+    }, 128: (a, b, c) => {
+      "use strict";
+      c.d(b, { M1: () => e, FP: () => d });
+      let d = (0, c(58).xl)();
+      function e(a2) {
+        throw Object.defineProperty(Error(`\`${a2}\` was called outside a request scope. Read more: https://nextjs.org/docs/messages/next-dynamic-api-wrong-context`), "__NEXT_ERROR_CODE", { value: "E251", enumerable: false, configurable: true });
+      }
+    }, 159: (a, b, c) => {
+      "use strict";
+      c.d(b, { F: () => d });
+      class d extends Error {
+        constructor(a2) {
+          super("Dynamic server usage: " + a2), this.description = a2, this.digest = "DYNAMIC_SERVER_USAGE";
+        }
+      }
     }, 165: (a, b, c) => {
       "use strict";
       var d = c(356).Buffer;
@@ -947,6 +1011,6321 @@ var require_middleware = __commonJS({
         }, () => {
           c.g.fetch = a2;
         };
+      }
+    }, 191: (a, b, c) => {
+      "use strict";
+      let d, e, f;
+      c.r(b), c.d(b, { default: () => e3 });
+      var g, h, i, j, k, l, m, n = {};
+      async function o() {
+        return "_ENTRIES" in globalThis && _ENTRIES.middleware_instrumentation && await _ENTRIES.middleware_instrumentation;
+      }
+      c.r(n), c.d(n, { config: () => e_, middleware: () => e$ });
+      let p = null;
+      async function q() {
+        if ("phase-production-build" === process.env.NEXT_PHASE) return;
+        p || (p = o());
+        let a10 = await p;
+        if (null == a10 ? void 0 : a10.register) try {
+          await a10.register();
+        } catch (a11) {
+          throw a11.message = `An error occurred while loading instrumentation hook: ${a11.message}`, a11;
+        }
+      }
+      async function r(...a10) {
+        let b10 = await o();
+        try {
+          var c10;
+          await (null == b10 || null == (c10 = b10.onRequestError) ? void 0 : c10.call(b10, ...a10));
+        } catch (a11) {
+          console.error("Error in instrumentation.onRequestError:", a11);
+        }
+      }
+      let s = null;
+      function t() {
+        return s || (s = q()), s;
+      }
+      function u(a10) {
+        return `The edge runtime does not support Node.js '${a10}' module.
+Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime`;
+      }
+      process !== c.g.process && (process.env = c.g.process.env, c.g.process = process);
+      try {
+        Object.defineProperty(globalThis, "__import_unsupported", { value: function(a10) {
+          let b10 = new Proxy(function() {
+          }, { get(b11, c10) {
+            if ("then" === c10) return {};
+            throw Object.defineProperty(Error(u(a10)), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+          }, construct() {
+            throw Object.defineProperty(Error(u(a10)), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+          }, apply(c10, d10, e4) {
+            if ("function" == typeof e4[0]) return e4[0](b10);
+            throw Object.defineProperty(Error(u(a10)), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+          } });
+          return new Proxy({}, { get: () => b10 });
+        }, enumerable: false, configurable: false });
+      } catch {
+      }
+      t();
+      class v extends Error {
+        constructor({ page: a10 }) {
+          super(`The middleware "${a10}" accepts an async API directly with the form:
+  
+  export function middleware(request, event) {
+    return NextResponse.redirect('/new-location')
+  }
+  
+  Read more: https://nextjs.org/docs/messages/middleware-new-signature
+  `);
+        }
+      }
+      class w extends Error {
+        constructor() {
+          super(`The request.page has been deprecated in favour of \`URLPattern\`.
+  Read more: https://nextjs.org/docs/messages/middleware-request-page
+  `);
+        }
+      }
+      class x extends Error {
+        constructor() {
+          super(`The request.ua has been removed in favour of \`userAgent\` function.
+  Read more: https://nextjs.org/docs/messages/middleware-parse-user-agent
+  `);
+        }
+      }
+      let y = "_N_T_", z = { shared: "shared", reactServerComponents: "rsc", serverSideRendering: "ssr", actionBrowser: "action-browser", apiNode: "api-node", apiEdge: "api-edge", middleware: "middleware", instrument: "instrument", edgeAsset: "edge-asset", appPagesBrowser: "app-pages-browser", pagesDirBrowser: "pages-dir-browser", pagesDirEdge: "pages-dir-edge", pagesDirNode: "pages-dir-node" };
+      function A(a10) {
+        var b10, c10, d10, e4, f2, g2 = [], h2 = 0;
+        function i2() {
+          for (; h2 < a10.length && /\s/.test(a10.charAt(h2)); ) h2 += 1;
+          return h2 < a10.length;
+        }
+        for (; h2 < a10.length; ) {
+          for (b10 = h2, f2 = false; i2(); ) if ("," === (c10 = a10.charAt(h2))) {
+            for (d10 = h2, h2 += 1, i2(), e4 = h2; h2 < a10.length && "=" !== (c10 = a10.charAt(h2)) && ";" !== c10 && "," !== c10; ) h2 += 1;
+            h2 < a10.length && "=" === a10.charAt(h2) ? (f2 = true, h2 = e4, g2.push(a10.substring(b10, d10)), b10 = h2) : h2 = d10 + 1;
+          } else h2 += 1;
+          (!f2 || h2 >= a10.length) && g2.push(a10.substring(b10, a10.length));
+        }
+        return g2;
+      }
+      function B(a10) {
+        let b10 = {}, c10 = [];
+        if (a10) for (let [d10, e4] of a10.entries()) "set-cookie" === d10.toLowerCase() ? (c10.push(...A(e4)), b10[d10] = 1 === c10.length ? c10[0] : c10) : b10[d10] = e4;
+        return b10;
+      }
+      function C(a10) {
+        try {
+          return String(new URL(String(a10)));
+        } catch (b10) {
+          throw Object.defineProperty(Error(`URL is malformed "${String(a10)}". Please use only absolute URLs - https://nextjs.org/docs/messages/middleware-relative-urls`, { cause: b10 }), "__NEXT_ERROR_CODE", { value: "E61", enumerable: false, configurable: true });
+        }
+      }
+      ({ ...z, GROUP: { builtinReact: [z.reactServerComponents, z.actionBrowser], serverOnly: [z.reactServerComponents, z.actionBrowser, z.instrument, z.middleware], neutralTarget: [z.apiNode, z.apiEdge], clientOnly: [z.serverSideRendering, z.appPagesBrowser], bundled: [z.reactServerComponents, z.actionBrowser, z.serverSideRendering, z.appPagesBrowser, z.shared, z.instrument, z.middleware], appPages: [z.reactServerComponents, z.serverSideRendering, z.appPagesBrowser, z.actionBrowser] } });
+      let D = Symbol("response"), E = Symbol("passThrough"), F = Symbol("waitUntil");
+      class G {
+        constructor(a10, b10) {
+          this[E] = false, this[F] = b10 ? { kind: "external", function: b10 } : { kind: "internal", promises: [] };
+        }
+        respondWith(a10) {
+          this[D] || (this[D] = Promise.resolve(a10));
+        }
+        passThroughOnException() {
+          this[E] = true;
+        }
+        waitUntil(a10) {
+          if ("external" === this[F].kind) return (0, this[F].function)(a10);
+          this[F].promises.push(a10);
+        }
+      }
+      class H extends G {
+        constructor(a10) {
+          var b10;
+          super(a10.request, null == (b10 = a10.context) ? void 0 : b10.waitUntil), this.sourcePage = a10.page;
+        }
+        get request() {
+          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+        }
+        respondWith() {
+          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+        }
+      }
+      function I(a10) {
+        return a10.replace(/\/$/, "") || "/";
+      }
+      function J(a10) {
+        let b10 = a10.indexOf("#"), c10 = a10.indexOf("?"), d10 = c10 > -1 && (b10 < 0 || c10 < b10);
+        return d10 || b10 > -1 ? { pathname: a10.substring(0, d10 ? c10 : b10), query: d10 ? a10.substring(c10, b10 > -1 ? b10 : void 0) : "", hash: b10 > -1 ? a10.slice(b10) : "" } : { pathname: a10, query: "", hash: "" };
+      }
+      function K(a10, b10) {
+        if (!a10.startsWith("/") || !b10) return a10;
+        let { pathname: c10, query: d10, hash: e4 } = J(a10);
+        return "" + b10 + c10 + d10 + e4;
+      }
+      function L(a10, b10) {
+        if (!a10.startsWith("/") || !b10) return a10;
+        let { pathname: c10, query: d10, hash: e4 } = J(a10);
+        return "" + c10 + b10 + d10 + e4;
+      }
+      function M(a10, b10) {
+        if ("string" != typeof a10) return false;
+        let { pathname: c10 } = J(a10);
+        return c10 === b10 || c10.startsWith(b10 + "/");
+      }
+      let N = /* @__PURE__ */ new WeakMap();
+      function O(a10, b10) {
+        let c10;
+        if (!b10) return { pathname: a10 };
+        let d10 = N.get(b10);
+        d10 || (d10 = b10.map((a11) => a11.toLowerCase()), N.set(b10, d10));
+        let e4 = a10.split("/", 2);
+        if (!e4[1]) return { pathname: a10 };
+        let f2 = e4[1].toLowerCase(), g2 = d10.indexOf(f2);
+        return g2 < 0 ? { pathname: a10 } : (c10 = b10[g2], { pathname: a10 = a10.slice(c10.length + 1) || "/", detectedLocale: c10 });
+      }
+      let P = /(?!^https?:\/\/)(127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}|\[::1\]|localhost)/;
+      function Q(a10, b10) {
+        return new URL(String(a10).replace(P, "localhost"), b10 && String(b10).replace(P, "localhost"));
+      }
+      let R = Symbol("NextURLInternal");
+      class S {
+        constructor(a10, b10, c10) {
+          let d10, e4;
+          "object" == typeof b10 && "pathname" in b10 || "string" == typeof b10 ? (d10 = b10, e4 = c10 || {}) : e4 = c10 || b10 || {}, this[R] = { url: Q(a10, d10 ?? e4.base), options: e4, basePath: "" }, this.analyze();
+        }
+        analyze() {
+          var a10, b10, c10, d10, e4;
+          let f2 = function(a11, b11) {
+            var c11, d11;
+            let { basePath: e5, i18n: f3, trailingSlash: g3 } = null != (c11 = b11.nextConfig) ? c11 : {}, h3 = { pathname: a11, trailingSlash: "/" !== a11 ? a11.endsWith("/") : g3 };
+            e5 && M(h3.pathname, e5) && (h3.pathname = function(a12, b12) {
+              if (!M(a12, b12)) return a12;
+              let c12 = a12.slice(b12.length);
+              return c12.startsWith("/") ? c12 : "/" + c12;
+            }(h3.pathname, e5), h3.basePath = e5);
+            let i2 = h3.pathname;
+            if (h3.pathname.startsWith("/_next/data/") && h3.pathname.endsWith(".json")) {
+              let a12 = h3.pathname.replace(/^\/_next\/data\//, "").replace(/\.json$/, "").split("/");
+              h3.buildId = a12[0], i2 = "index" !== a12[1] ? "/" + a12.slice(1).join("/") : "/", true === b11.parseData && (h3.pathname = i2);
+            }
+            if (f3) {
+              let a12 = b11.i18nProvider ? b11.i18nProvider.analyze(h3.pathname) : O(h3.pathname, f3.locales);
+              h3.locale = a12.detectedLocale, h3.pathname = null != (d11 = a12.pathname) ? d11 : h3.pathname, !a12.detectedLocale && h3.buildId && (a12 = b11.i18nProvider ? b11.i18nProvider.analyze(i2) : O(i2, f3.locales)).detectedLocale && (h3.locale = a12.detectedLocale);
+            }
+            return h3;
+          }(this[R].url.pathname, { nextConfig: this[R].options.nextConfig, parseData: true, i18nProvider: this[R].options.i18nProvider }), g2 = function(a11, b11) {
+            let c11;
+            if ((null == b11 ? void 0 : b11.host) && !Array.isArray(b11.host)) c11 = b11.host.toString().split(":", 1)[0];
+            else {
+              if (!a11.hostname) return;
+              c11 = a11.hostname;
+            }
+            return c11.toLowerCase();
+          }(this[R].url, this[R].options.headers);
+          this[R].domainLocale = this[R].options.i18nProvider ? this[R].options.i18nProvider.detectDomainLocale(g2) : function(a11, b11, c11) {
+            if (a11) for (let f3 of (c11 && (c11 = c11.toLowerCase()), a11)) {
+              var d11, e5;
+              if (b11 === (null == (d11 = f3.domain) ? void 0 : d11.split(":", 1)[0].toLowerCase()) || c11 === f3.defaultLocale.toLowerCase() || (null == (e5 = f3.locales) ? void 0 : e5.some((a12) => a12.toLowerCase() === c11))) return f3;
+            }
+          }(null == (b10 = this[R].options.nextConfig) || null == (a10 = b10.i18n) ? void 0 : a10.domains, g2);
+          let h2 = (null == (c10 = this[R].domainLocale) ? void 0 : c10.defaultLocale) || (null == (e4 = this[R].options.nextConfig) || null == (d10 = e4.i18n) ? void 0 : d10.defaultLocale);
+          this[R].url.pathname = f2.pathname, this[R].defaultLocale = h2, this[R].basePath = f2.basePath ?? "", this[R].buildId = f2.buildId, this[R].locale = f2.locale ?? h2, this[R].trailingSlash = f2.trailingSlash;
+        }
+        formatPathname() {
+          var a10;
+          let b10;
+          return b10 = function(a11, b11, c10, d10) {
+            if (!b11 || b11 === c10) return a11;
+            let e4 = a11.toLowerCase();
+            return !d10 && (M(e4, "/api") || M(e4, "/" + b11.toLowerCase())) ? a11 : K(a11, "/" + b11);
+          }((a10 = { basePath: this[R].basePath, buildId: this[R].buildId, defaultLocale: this[R].options.forceLocale ? void 0 : this[R].defaultLocale, locale: this[R].locale, pathname: this[R].url.pathname, trailingSlash: this[R].trailingSlash }).pathname, a10.locale, a10.buildId ? void 0 : a10.defaultLocale, a10.ignorePrefix), (a10.buildId || !a10.trailingSlash) && (b10 = I(b10)), a10.buildId && (b10 = L(K(b10, "/_next/data/" + a10.buildId), "/" === a10.pathname ? "index.json" : ".json")), b10 = K(b10, a10.basePath), !a10.buildId && a10.trailingSlash ? b10.endsWith("/") ? b10 : L(b10, "/") : I(b10);
+        }
+        formatSearch() {
+          return this[R].url.search;
+        }
+        get buildId() {
+          return this[R].buildId;
+        }
+        set buildId(a10) {
+          this[R].buildId = a10;
+        }
+        get locale() {
+          return this[R].locale ?? "";
+        }
+        set locale(a10) {
+          var b10, c10;
+          if (!this[R].locale || !(null == (c10 = this[R].options.nextConfig) || null == (b10 = c10.i18n) ? void 0 : b10.locales.includes(a10))) throw Object.defineProperty(TypeError(`The NextURL configuration includes no locale "${a10}"`), "__NEXT_ERROR_CODE", { value: "E597", enumerable: false, configurable: true });
+          this[R].locale = a10;
+        }
+        get defaultLocale() {
+          return this[R].defaultLocale;
+        }
+        get domainLocale() {
+          return this[R].domainLocale;
+        }
+        get searchParams() {
+          return this[R].url.searchParams;
+        }
+        get host() {
+          return this[R].url.host;
+        }
+        set host(a10) {
+          this[R].url.host = a10;
+        }
+        get hostname() {
+          return this[R].url.hostname;
+        }
+        set hostname(a10) {
+          this[R].url.hostname = a10;
+        }
+        get port() {
+          return this[R].url.port;
+        }
+        set port(a10) {
+          this[R].url.port = a10;
+        }
+        get protocol() {
+          return this[R].url.protocol;
+        }
+        set protocol(a10) {
+          this[R].url.protocol = a10;
+        }
+        get href() {
+          let a10 = this.formatPathname(), b10 = this.formatSearch();
+          return `${this.protocol}//${this.host}${a10}${b10}${this.hash}`;
+        }
+        set href(a10) {
+          this[R].url = Q(a10), this.analyze();
+        }
+        get origin() {
+          return this[R].url.origin;
+        }
+        get pathname() {
+          return this[R].url.pathname;
+        }
+        set pathname(a10) {
+          this[R].url.pathname = a10;
+        }
+        get hash() {
+          return this[R].url.hash;
+        }
+        set hash(a10) {
+          this[R].url.hash = a10;
+        }
+        get search() {
+          return this[R].url.search;
+        }
+        set search(a10) {
+          this[R].url.search = a10;
+        }
+        get password() {
+          return this[R].url.password;
+        }
+        set password(a10) {
+          this[R].url.password = a10;
+        }
+        get username() {
+          return this[R].url.username;
+        }
+        set username(a10) {
+          this[R].url.username = a10;
+        }
+        get basePath() {
+          return this[R].basePath;
+        }
+        set basePath(a10) {
+          this[R].basePath = a10.startsWith("/") ? a10 : `/${a10}`;
+        }
+        toString() {
+          return this.href;
+        }
+        toJSON() {
+          return this.href;
+        }
+        [Symbol.for("edge-runtime.inspect.custom")]() {
+          return { href: this.href, origin: this.origin, protocol: this.protocol, username: this.username, password: this.password, host: this.host, hostname: this.hostname, port: this.port, pathname: this.pathname, search: this.search, searchParams: this.searchParams, hash: this.hash };
+        }
+        clone() {
+          return new S(String(this), this[R].options);
+        }
+      }
+      var T = c(28);
+      let U = Symbol("internal request");
+      class V extends Request {
+        constructor(a10, b10 = {}) {
+          let c10 = "string" != typeof a10 && "url" in a10 ? a10.url : String(a10);
+          C(c10), a10 instanceof Request ? super(a10, b10) : super(c10, b10);
+          let d10 = new S(c10, { headers: B(this.headers), nextConfig: b10.nextConfig });
+          this[U] = { cookies: new T.tm(this.headers), nextUrl: d10, url: d10.toString() };
+        }
+        [Symbol.for("edge-runtime.inspect.custom")]() {
+          return { cookies: this.cookies, nextUrl: this.nextUrl, url: this.url, bodyUsed: this.bodyUsed, cache: this.cache, credentials: this.credentials, destination: this.destination, headers: Object.fromEntries(this.headers), integrity: this.integrity, keepalive: this.keepalive, method: this.method, mode: this.mode, redirect: this.redirect, referrer: this.referrer, referrerPolicy: this.referrerPolicy, signal: this.signal };
+        }
+        get cookies() {
+          return this[U].cookies;
+        }
+        get nextUrl() {
+          return this[U].nextUrl;
+        }
+        get page() {
+          throw new w();
+        }
+        get ua() {
+          throw new x();
+        }
+        get url() {
+          return this[U].url;
+        }
+      }
+      var W = c(115);
+      let X = Symbol("internal response"), Y = /* @__PURE__ */ new Set([301, 302, 303, 307, 308]);
+      function Z(a10, b10) {
+        var c10;
+        if (null == a10 || null == (c10 = a10.request) ? void 0 : c10.headers) {
+          if (!(a10.request.headers instanceof Headers)) throw Object.defineProperty(Error("request.headers must be an instance of Headers"), "__NEXT_ERROR_CODE", { value: "E119", enumerable: false, configurable: true });
+          let c11 = [];
+          for (let [d10, e4] of a10.request.headers) b10.set("x-middleware-request-" + d10, e4), c11.push(d10);
+          b10.set("x-middleware-override-headers", c11.join(","));
+        }
+      }
+      class $ extends Response {
+        constructor(a10, b10 = {}) {
+          super(a10, b10);
+          let c10 = this.headers, d10 = new Proxy(new T.VO(c10), { get(a11, d11, e4) {
+            switch (d11) {
+              case "delete":
+              case "set":
+                return (...e5) => {
+                  let f2 = Reflect.apply(a11[d11], a11, e5), g2 = new Headers(c10);
+                  return f2 instanceof T.VO && c10.set("x-middleware-set-cookie", f2.getAll().map((a12) => (0, T.Ud)(a12)).join(",")), Z(b10, g2), f2;
+                };
+              default:
+                return W.l.get(a11, d11, e4);
+            }
+          } });
+          this[X] = { cookies: d10, url: b10.url ? new S(b10.url, { headers: B(c10), nextConfig: b10.nextConfig }) : void 0 };
+        }
+        [Symbol.for("edge-runtime.inspect.custom")]() {
+          return { cookies: this.cookies, url: this.url, body: this.body, bodyUsed: this.bodyUsed, headers: Object.fromEntries(this.headers), ok: this.ok, redirected: this.redirected, status: this.status, statusText: this.statusText, type: this.type };
+        }
+        get cookies() {
+          return this[X].cookies;
+        }
+        static json(a10, b10) {
+          let c10 = Response.json(a10, b10);
+          return new $(c10.body, c10);
+        }
+        static redirect(a10, b10) {
+          let c10 = "number" == typeof b10 ? b10 : (null == b10 ? void 0 : b10.status) ?? 307;
+          if (!Y.has(c10)) throw Object.defineProperty(RangeError('Failed to execute "redirect" on "response": Invalid status code'), "__NEXT_ERROR_CODE", { value: "E529", enumerable: false, configurable: true });
+          let d10 = "object" == typeof b10 ? b10 : {}, e4 = new Headers(null == d10 ? void 0 : d10.headers);
+          return e4.set("Location", C(a10)), new $(null, { ...d10, headers: e4, status: c10 });
+        }
+        static rewrite(a10, b10) {
+          let c10 = new Headers(null == b10 ? void 0 : b10.headers);
+          return c10.set("x-middleware-rewrite", C(a10)), Z(b10, c10), new $(null, { ...b10, headers: c10 });
+        }
+        static next(a10) {
+          let b10 = new Headers(null == a10 ? void 0 : a10.headers);
+          return b10.set("x-middleware-next", "1"), Z(a10, b10), new $(null, { ...a10, headers: b10 });
+        }
+      }
+      function _(a10, b10) {
+        let c10 = "string" == typeof b10 ? new URL(b10) : b10, d10 = new URL(a10, b10), e4 = d10.origin === c10.origin;
+        return { url: e4 ? d10.toString().slice(c10.origin.length) : d10.toString(), isRelative: e4 };
+      }
+      let aa = "next-router-prefetch", ab = ["rsc", "next-router-state-tree", aa, "next-hmr-refresh", "next-router-segment-prefetch"], ac = "_rsc";
+      var ad = c(458), ae = c(261), af = function(a10) {
+        return a10.handleRequest = "BaseServer.handleRequest", a10.run = "BaseServer.run", a10.pipe = "BaseServer.pipe", a10.getStaticHTML = "BaseServer.getStaticHTML", a10.render = "BaseServer.render", a10.renderToResponseWithComponents = "BaseServer.renderToResponseWithComponents", a10.renderToResponse = "BaseServer.renderToResponse", a10.renderToHTML = "BaseServer.renderToHTML", a10.renderError = "BaseServer.renderError", a10.renderErrorToResponse = "BaseServer.renderErrorToResponse", a10.renderErrorToHTML = "BaseServer.renderErrorToHTML", a10.render404 = "BaseServer.render404", a10;
+      }(af || {}), ag = function(a10) {
+        return a10.loadDefaultErrorComponents = "LoadComponents.loadDefaultErrorComponents", a10.loadComponents = "LoadComponents.loadComponents", a10;
+      }(ag || {}), ah = function(a10) {
+        return a10.getRequestHandler = "NextServer.getRequestHandler", a10.getServer = "NextServer.getServer", a10.getServerRequestHandler = "NextServer.getServerRequestHandler", a10.createServer = "createServer.createServer", a10;
+      }(ah || {}), ai = function(a10) {
+        return a10.compression = "NextNodeServer.compression", a10.getBuildId = "NextNodeServer.getBuildId", a10.createComponentTree = "NextNodeServer.createComponentTree", a10.clientComponentLoading = "NextNodeServer.clientComponentLoading", a10.getLayoutOrPageModule = "NextNodeServer.getLayoutOrPageModule", a10.generateStaticRoutes = "NextNodeServer.generateStaticRoutes", a10.generateFsStaticRoutes = "NextNodeServer.generateFsStaticRoutes", a10.generatePublicRoutes = "NextNodeServer.generatePublicRoutes", a10.generateImageRoutes = "NextNodeServer.generateImageRoutes.route", a10.sendRenderResult = "NextNodeServer.sendRenderResult", a10.proxyRequest = "NextNodeServer.proxyRequest", a10.runApi = "NextNodeServer.runApi", a10.render = "NextNodeServer.render", a10.renderHTML = "NextNodeServer.renderHTML", a10.imageOptimizer = "NextNodeServer.imageOptimizer", a10.getPagePath = "NextNodeServer.getPagePath", a10.getRoutesManifest = "NextNodeServer.getRoutesManifest", a10.findPageComponents = "NextNodeServer.findPageComponents", a10.getFontManifest = "NextNodeServer.getFontManifest", a10.getServerComponentManifest = "NextNodeServer.getServerComponentManifest", a10.getRequestHandler = "NextNodeServer.getRequestHandler", a10.renderToHTML = "NextNodeServer.renderToHTML", a10.renderError = "NextNodeServer.renderError", a10.renderErrorToHTML = "NextNodeServer.renderErrorToHTML", a10.render404 = "NextNodeServer.render404", a10.startResponse = "NextNodeServer.startResponse", a10.route = "route", a10.onProxyReq = "onProxyReq", a10.apiResolver = "apiResolver", a10.internalFetch = "internalFetch", a10;
+      }(ai || {}), aj = function(a10) {
+        return a10.startServer = "startServer.startServer", a10;
+      }(aj || {}), ak = function(a10) {
+        return a10.getServerSideProps = "Render.getServerSideProps", a10.getStaticProps = "Render.getStaticProps", a10.renderToString = "Render.renderToString", a10.renderDocument = "Render.renderDocument", a10.createBodyResult = "Render.createBodyResult", a10;
+      }(ak || {}), al = function(a10) {
+        return a10.renderToString = "AppRender.renderToString", a10.renderToReadableStream = "AppRender.renderToReadableStream", a10.getBodyResult = "AppRender.getBodyResult", a10.fetch = "AppRender.fetch", a10;
+      }(al || {}), am = function(a10) {
+        return a10.executeRoute = "Router.executeRoute", a10;
+      }(am || {}), an = function(a10) {
+        return a10.runHandler = "Node.runHandler", a10;
+      }(an || {}), ao = function(a10) {
+        return a10.runHandler = "AppRouteRouteHandlers.runHandler", a10;
+      }(ao || {}), ap = function(a10) {
+        return a10.generateMetadata = "ResolveMetadata.generateMetadata", a10.generateViewport = "ResolveMetadata.generateViewport", a10;
+      }(ap || {}), aq = function(a10) {
+        return a10.execute = "Middleware.execute", a10;
+      }(aq || {});
+      let ar = /* @__PURE__ */ new Set(["Middleware.execute", "BaseServer.handleRequest", "Render.getServerSideProps", "Render.getStaticProps", "AppRender.fetch", "AppRender.getBodyResult", "Render.renderDocument", "Node.runHandler", "AppRouteRouteHandlers.runHandler", "ResolveMetadata.generateMetadata", "ResolveMetadata.generateViewport", "NextNodeServer.createComponentTree", "NextNodeServer.findPageComponents", "NextNodeServer.getLayoutOrPageModule", "NextNodeServer.startResponse", "NextNodeServer.clientComponentLoading"]), as = /* @__PURE__ */ new Set(["NextNodeServer.findPageComponents", "NextNodeServer.createComponentTree", "NextNodeServer.clientComponentLoading"]);
+      function at(a10) {
+        return null !== a10 && "object" == typeof a10 && "then" in a10 && "function" == typeof a10.then;
+      }
+      let au = process.env.NEXT_OTEL_PERFORMANCE_PREFIX, { context: av, propagation: aw, trace: ax, SpanStatusCode: ay, SpanKind: az, ROOT_CONTEXT: aA } = d = c(817);
+      class aB extends Error {
+        constructor(a10, b10) {
+          super(), this.bubble = a10, this.result = b10;
+        }
+      }
+      let aC = (a10, b10) => {
+        (function(a11) {
+          return "object" == typeof a11 && null !== a11 && a11 instanceof aB;
+        })(b10) && b10.bubble ? a10.setAttribute("next.bubble", true) : (b10 && (a10.recordException(b10), a10.setAttribute("error.type", b10.name)), a10.setStatus({ code: ay.ERROR, message: null == b10 ? void 0 : b10.message })), a10.end();
+      }, aD = /* @__PURE__ */ new Map(), aE = d.createContextKey("next.rootSpanId"), aF = 0, aG = { set(a10, b10, c10) {
+        a10.push({ key: b10, value: c10 });
+      } };
+      class aH {
+        getTracerInstance() {
+          return ax.getTracer("next.js", "0.0.1");
+        }
+        getContext() {
+          return av;
+        }
+        getTracePropagationData() {
+          let a10 = av.active(), b10 = [];
+          return aw.inject(a10, b10, aG), b10;
+        }
+        getActiveScopeSpan() {
+          return ax.getSpan(null == av ? void 0 : av.active());
+        }
+        withPropagatedContext(a10, b10, c10) {
+          let d10 = av.active();
+          if (ax.getSpanContext(d10)) return b10();
+          let e4 = aw.extract(d10, a10, c10);
+          return av.with(e4, b10);
+        }
+        trace(...a10) {
+          var b10;
+          let [c10, d10, e4] = a10, { fn: f2, options: g2 } = "function" == typeof d10 ? { fn: d10, options: {} } : { fn: e4, options: { ...d10 } }, h2 = g2.spanName ?? c10;
+          if (!ar.has(c10) && "1" !== process.env.NEXT_OTEL_VERBOSE || g2.hideSpan) return f2();
+          let i2 = this.getSpanContext((null == g2 ? void 0 : g2.parentSpan) ?? this.getActiveScopeSpan()), j2 = false;
+          i2 ? (null == (b10 = ax.getSpanContext(i2)) ? void 0 : b10.isRemote) && (j2 = true) : (i2 = (null == av ? void 0 : av.active()) ?? aA, j2 = true);
+          let k2 = aF++;
+          return g2.attributes = { "next.span_name": h2, "next.span_type": c10, ...g2.attributes }, av.with(i2.setValue(aE, k2), () => this.getTracerInstance().startActiveSpan(h2, g2, (a11) => {
+            let b11;
+            au && c10 && as.has(c10) && (b11 = "performance" in globalThis && "measure" in performance ? globalThis.performance.now() : void 0);
+            let d11 = false, e5 = () => {
+              !d11 && (d11 = true, aD.delete(k2), b11 && performance.measure(`${au}:next-${(c10.split(".").pop() || "").replace(/[A-Z]/g, (a12) => "-" + a12.toLowerCase())}`, { start: b11, end: performance.now() }));
+            };
+            if (j2 && aD.set(k2, new Map(Object.entries(g2.attributes ?? {}))), f2.length > 1) try {
+              return f2(a11, (b12) => aC(a11, b12));
+            } catch (b12) {
+              throw aC(a11, b12), b12;
+            } finally {
+              e5();
+            }
+            try {
+              let b12 = f2(a11);
+              if (at(b12)) return b12.then((b13) => (a11.end(), b13)).catch((b13) => {
+                throw aC(a11, b13), b13;
+              }).finally(e5);
+              return a11.end(), e5(), b12;
+            } catch (b12) {
+              throw aC(a11, b12), e5(), b12;
+            }
+          }));
+        }
+        wrap(...a10) {
+          let b10 = this, [c10, d10, e4] = 3 === a10.length ? a10 : [a10[0], {}, a10[1]];
+          return ar.has(c10) || "1" === process.env.NEXT_OTEL_VERBOSE ? function() {
+            let a11 = d10;
+            "function" == typeof a11 && "function" == typeof e4 && (a11 = a11.apply(this, arguments));
+            let f2 = arguments.length - 1, g2 = arguments[f2];
+            if ("function" != typeof g2) return b10.trace(c10, a11, () => e4.apply(this, arguments));
+            {
+              let d11 = b10.getContext().bind(av.active(), g2);
+              return b10.trace(c10, a11, (a12, b11) => (arguments[f2] = function(a13) {
+                return null == b11 || b11(a13), d11.apply(this, arguments);
+              }, e4.apply(this, arguments)));
+            }
+          } : e4;
+        }
+        startSpan(...a10) {
+          let [b10, c10] = a10, d10 = this.getSpanContext((null == c10 ? void 0 : c10.parentSpan) ?? this.getActiveScopeSpan());
+          return this.getTracerInstance().startSpan(b10, c10, d10);
+        }
+        getSpanContext(a10) {
+          return a10 ? ax.setSpan(av.active(), a10) : void 0;
+        }
+        getRootSpanAttributes() {
+          let a10 = av.active().getValue(aE);
+          return aD.get(a10);
+        }
+        setRootSpanAttribute(a10, b10) {
+          let c10 = av.active().getValue(aE), d10 = aD.get(c10);
+          d10 && d10.set(a10, b10);
+        }
+      }
+      let aI = (() => {
+        let a10 = new aH();
+        return () => a10;
+      })(), aJ = "__prerender_bypass";
+      Symbol("__next_preview_data"), Symbol(aJ);
+      class aK {
+        constructor(a10, b10, c10, d10) {
+          var e4;
+          let f2 = a10 && function(a11, b11) {
+            let c11 = ad.o.from(a11.headers);
+            return { isOnDemandRevalidate: c11.get("x-prerender-revalidate") === b11.previewModeId, revalidateOnlyGenerated: c11.has("x-prerender-revalidate-if-generated") };
+          }(b10, a10).isOnDemandRevalidate, g2 = null == (e4 = c10.get(aJ)) ? void 0 : e4.value;
+          this._isEnabled = !!(!f2 && g2 && a10 && g2 === a10.previewModeId), this._previewModeId = null == a10 ? void 0 : a10.previewModeId, this._mutableCookies = d10;
+        }
+        get isEnabled() {
+          return this._isEnabled;
+        }
+        enable() {
+          if (!this._previewModeId) throw Object.defineProperty(Error("Invariant: previewProps missing previewModeId this should never happen"), "__NEXT_ERROR_CODE", { value: "E93", enumerable: false, configurable: true });
+          this._mutableCookies.set({ name: aJ, value: this._previewModeId, httpOnly: true, sameSite: "none", secure: true, path: "/" }), this._isEnabled = true;
+        }
+        disable() {
+          this._mutableCookies.set({ name: aJ, value: "", httpOnly: true, sameSite: "none", secure: true, path: "/", expires: /* @__PURE__ */ new Date(0) }), this._isEnabled = false;
+        }
+      }
+      function aL(a10, b10) {
+        if ("x-middleware-set-cookie" in a10.headers && "string" == typeof a10.headers["x-middleware-set-cookie"]) {
+          let c10 = a10.headers["x-middleware-set-cookie"], d10 = new Headers();
+          for (let a11 of A(c10)) d10.append("set-cookie", a11);
+          for (let a11 of new T.VO(d10).getAll()) b10.set(a11);
+        }
+      }
+      var aM = c(128), aN = c(213), aO = c.n(aN), aP = c(809), aQ = c(379);
+      class aR {
+        constructor(a10, b10, c10) {
+          this.prev = null, this.next = null, this.key = a10, this.data = b10, this.size = c10;
+        }
+      }
+      class aS {
+        constructor() {
+          this.prev = null, this.next = null;
+        }
+      }
+      class aT {
+        constructor(a10, b10, c10) {
+          this.cache = /* @__PURE__ */ new Map(), this.totalSize = 0, this.maxSize = a10, this.calculateSize = b10, this.onEvict = c10, this.head = new aS(), this.tail = new aS(), this.head.next = this.tail, this.tail.prev = this.head;
+        }
+        addToHead(a10) {
+          a10.prev = this.head, a10.next = this.head.next, this.head.next.prev = a10, this.head.next = a10;
+        }
+        removeNode(a10) {
+          a10.prev.next = a10.next, a10.next.prev = a10.prev;
+        }
+        moveToHead(a10) {
+          this.removeNode(a10), this.addToHead(a10);
+        }
+        removeTail() {
+          let a10 = this.tail.prev;
+          return this.removeNode(a10), a10;
+        }
+        set(a10, b10) {
+          let c10 = (null == this.calculateSize ? void 0 : this.calculateSize.call(this, b10)) ?? 1;
+          if (c10 <= 0) throw Object.defineProperty(Error(`LRUCache: calculateSize returned ${c10}, but size must be > 0. Items with size 0 would never be evicted, causing unbounded cache growth.`), "__NEXT_ERROR_CODE", { value: "E789", enumerable: false, configurable: true });
+          if (c10 > this.maxSize) return console.warn("Single item size exceeds maxSize"), false;
+          let d10 = this.cache.get(a10);
+          if (d10) d10.data = b10, this.totalSize = this.totalSize - d10.size + c10, d10.size = c10, this.moveToHead(d10);
+          else {
+            let d11 = new aR(a10, b10, c10);
+            this.cache.set(a10, d11), this.addToHead(d11), this.totalSize += c10;
+          }
+          for (; this.totalSize > this.maxSize && this.cache.size > 0; ) {
+            let a11 = this.removeTail();
+            this.cache.delete(a11.key), this.totalSize -= a11.size, null == this.onEvict || this.onEvict.call(this, a11.key, a11.data);
+          }
+          return true;
+        }
+        has(a10) {
+          return this.cache.has(a10);
+        }
+        get(a10) {
+          let b10 = this.cache.get(a10);
+          if (b10) return this.moveToHead(b10), b10.data;
+        }
+        *[Symbol.iterator]() {
+          let a10 = this.head.next;
+          for (; a10 && a10 !== this.tail; ) {
+            let b10 = a10;
+            yield [b10.key, b10.data], a10 = a10.next;
+          }
+        }
+        remove(a10) {
+          let b10 = this.cache.get(a10);
+          b10 && (this.removeNode(b10), this.cache.delete(a10), this.totalSize -= b10.size);
+        }
+        get size() {
+          return this.cache.size;
+        }
+        get currentSize() {
+          return this.totalSize;
+        }
+      }
+      c(356).Buffer, new aT(52428800, (a10) => a10.size), process.env.NEXT_PRIVATE_DEBUG_CACHE && console.debug.bind(console, "DefaultCacheHandler:"), process.env.NEXT_PRIVATE_DEBUG_CACHE && ((a10, ...b10) => {
+        console.log(`use-cache: ${a10}`, ...b10);
+      }), Symbol.for("@next/cache-handlers");
+      let aU = Symbol.for("@next/cache-handlers-map"), aV = Symbol.for("@next/cache-handlers-set"), aW = globalThis;
+      function aX() {
+        if (aW[aU]) return aW[aU].entries();
+      }
+      async function aY(a10, b10) {
+        if (!a10) return b10();
+        let c10 = aZ(a10);
+        try {
+          return await b10();
+        } finally {
+          let b11 = function(a11, b12) {
+            let c11 = new Set(a11.pendingRevalidatedTags), d10 = new Set(a11.pendingRevalidateWrites);
+            return { pendingRevalidatedTags: b12.pendingRevalidatedTags.filter((a12) => !c11.has(a12)), pendingRevalidates: Object.fromEntries(Object.entries(b12.pendingRevalidates).filter(([b13]) => !(b13 in a11.pendingRevalidates))), pendingRevalidateWrites: b12.pendingRevalidateWrites.filter((a12) => !d10.has(a12)) };
+          }(c10, aZ(a10));
+          await a_(a10, b11);
+        }
+      }
+      function aZ(a10) {
+        return { pendingRevalidatedTags: a10.pendingRevalidatedTags ? [...a10.pendingRevalidatedTags] : [], pendingRevalidates: { ...a10.pendingRevalidates }, pendingRevalidateWrites: a10.pendingRevalidateWrites ? [...a10.pendingRevalidateWrites] : [] };
+      }
+      async function a$(a10, b10) {
+        if (0 === a10.length) return;
+        let c10 = [];
+        b10 && c10.push(b10.revalidateTag(a10));
+        let d10 = function() {
+          if (aW[aV]) return aW[aV].values();
+        }();
+        if (d10) for (let b11 of d10) c10.push(b11.expireTags(...a10));
+        await Promise.all(c10);
+      }
+      async function a_(a10, b10) {
+        let c10 = (null == b10 ? void 0 : b10.pendingRevalidatedTags) ?? a10.pendingRevalidatedTags ?? [], d10 = (null == b10 ? void 0 : b10.pendingRevalidates) ?? a10.pendingRevalidates ?? {}, e4 = (null == b10 ? void 0 : b10.pendingRevalidateWrites) ?? a10.pendingRevalidateWrites ?? [];
+        return Promise.all([a$(c10, a10.incrementalCache), ...Object.values(d10), ...e4]);
+      }
+      var a0 = c(669), a1 = c(566);
+      class a2 {
+        constructor({ waitUntil: a10, onClose: b10, onTaskError: c10 }) {
+          this.workUnitStores = /* @__PURE__ */ new Set(), this.waitUntil = a10, this.onClose = b10, this.onTaskError = c10, this.callbackQueue = new (aO())(), this.callbackQueue.pause();
+        }
+        after(a10) {
+          if (at(a10)) this.waitUntil || a3(), this.waitUntil(a10.catch((a11) => this.reportTaskError("promise", a11)));
+          else if ("function" == typeof a10) this.addCallback(a10);
+          else throw Object.defineProperty(Error("`after()`: Argument must be a promise or a function"), "__NEXT_ERROR_CODE", { value: "E50", enumerable: false, configurable: true });
+        }
+        addCallback(a10) {
+          this.waitUntil || a3();
+          let b10 = aM.FP.getStore();
+          b10 && this.workUnitStores.add(b10);
+          let c10 = a1.Z.getStore(), d10 = c10 ? c10.rootTaskSpawnPhase : null == b10 ? void 0 : b10.phase;
+          this.runCallbacksOnClosePromise || (this.runCallbacksOnClosePromise = this.runCallbacksOnClose(), this.waitUntil(this.runCallbacksOnClosePromise));
+          let e4 = (0, a0.cg)(async () => {
+            try {
+              await a1.Z.run({ rootTaskSpawnPhase: d10 }, () => a10());
+            } catch (a11) {
+              this.reportTaskError("function", a11);
+            }
+          });
+          this.callbackQueue.add(e4);
+        }
+        async runCallbacksOnClose() {
+          return await new Promise((a10) => this.onClose(a10)), this.runCallbacks();
+        }
+        async runCallbacks() {
+          if (0 === this.callbackQueue.size) return;
+          for (let a11 of this.workUnitStores) a11.phase = "after";
+          let a10 = aQ.J.getStore();
+          if (!a10) throw Object.defineProperty(new aP.z("Missing workStore in AfterContext.runCallbacks"), "__NEXT_ERROR_CODE", { value: "E547", enumerable: false, configurable: true });
+          return aY(a10, () => (this.callbackQueue.start(), this.callbackQueue.onIdle()));
+        }
+        reportTaskError(a10, b10) {
+          if (console.error("promise" === a10 ? "A promise passed to `after()` rejected:" : "An error occurred in a function passed to `after()`:", b10), this.onTaskError) try {
+            null == this.onTaskError || this.onTaskError.call(this, b10);
+          } catch (a11) {
+            console.error(Object.defineProperty(new aP.z("`onTaskError` threw while handling an error thrown from an `after` task", { cause: a11 }), "__NEXT_ERROR_CODE", { value: "E569", enumerable: false, configurable: true }));
+          }
+        }
+      }
+      function a3() {
+        throw Object.defineProperty(Error("`after()` will not work correctly, because `waitUntil` is not available in the current environment."), "__NEXT_ERROR_CODE", { value: "E91", enumerable: false, configurable: true });
+      }
+      function a4(a10) {
+        let b10, c10 = { then: (d10, e4) => (b10 || (b10 = a10()), b10.then((a11) => {
+          c10.value = a11;
+        }).catch(() => {
+        }), b10.then(d10, e4)) };
+        return c10;
+      }
+      class a5 {
+        onClose(a10) {
+          if (this.isClosed) throw Object.defineProperty(Error("Cannot subscribe to a closed CloseController"), "__NEXT_ERROR_CODE", { value: "E365", enumerable: false, configurable: true });
+          this.target.addEventListener("close", a10), this.listeners++;
+        }
+        dispatchClose() {
+          if (this.isClosed) throw Object.defineProperty(Error("Cannot close a CloseController multiple times"), "__NEXT_ERROR_CODE", { value: "E229", enumerable: false, configurable: true });
+          this.listeners > 0 && this.target.dispatchEvent(new Event("close")), this.isClosed = true;
+        }
+        constructor() {
+          this.target = new EventTarget(), this.listeners = 0, this.isClosed = false;
+        }
+      }
+      function a6() {
+        return { previewModeId: process.env.__NEXT_PREVIEW_MODE_ID || "", previewModeSigningKey: process.env.__NEXT_PREVIEW_MODE_SIGNING_KEY || "", previewModeEncryptionKey: process.env.__NEXT_PREVIEW_MODE_ENCRYPTION_KEY || "" };
+      }
+      let a7 = Symbol.for("@next/request-context");
+      async function a8(a10, b10, c10) {
+        let d10 = [], e4 = c10 && c10.size > 0;
+        for (let b11 of ((a11) => {
+          let b12 = ["/layout"];
+          if (a11.startsWith("/")) {
+            let c11 = a11.split("/");
+            for (let a12 = 1; a12 < c11.length + 1; a12++) {
+              let d11 = c11.slice(0, a12).join("/");
+              d11 && (d11.endsWith("/page") || d11.endsWith("/route") || (d11 = `${d11}${!d11.endsWith("/") ? "/" : ""}layout`), b12.push(d11));
+            }
+          }
+          return b12;
+        })(a10)) b11 = `${y}${b11}`, d10.push(b11);
+        if (b10.pathname && !e4) {
+          let a11 = `${y}${b10.pathname}`;
+          d10.push(a11);
+        }
+        return { tags: d10, expirationsByCacheKind: function(a11) {
+          let b11 = /* @__PURE__ */ new Map(), c11 = aX();
+          if (c11) for (let [d11, e5] of c11) "getExpiration" in e5 && b11.set(d11, a4(async () => e5.getExpiration(...a11)));
+          return b11;
+        }(d10) };
+      }
+      class a9 extends V {
+        constructor(a10) {
+          super(a10.input, a10.init), this.sourcePage = a10.page;
+        }
+        get request() {
+          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+        }
+        respondWith() {
+          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+        }
+        waitUntil() {
+          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
+        }
+      }
+      let ba = { keys: (a10) => Array.from(a10.keys()), get: (a10, b10) => a10.get(b10) ?? void 0 }, bb = (a10, b10) => aI().withPropagatedContext(a10.headers, b10, ba), bc = false;
+      async function bd(a10) {
+        var b10;
+        let d10, e4;
+        if (!bc && (bc = true, "true" === process.env.NEXT_PRIVATE_TEST_PROXY)) {
+          let { interceptTestApis: a11, wrapRequestHandler: b11 } = c(720);
+          a11(), bb = b11(bb);
+        }
+        await t();
+        let f2 = void 0 !== globalThis.__BUILD_MANIFEST;
+        a10.request.url = a10.request.url.replace(/\.rsc($|\?)/, "$1");
+        let g2 = a10.bypassNextUrl ? new URL(a10.request.url) : new S(a10.request.url, { headers: a10.request.headers, nextConfig: a10.request.nextConfig });
+        for (let a11 of [...g2.searchParams.keys()]) {
+          let b11 = g2.searchParams.getAll(a11), c10 = function(a12) {
+            for (let b12 of ["nxtP", "nxtI"]) if (a12 !== b12 && a12.startsWith(b12)) return a12.substring(b12.length);
+            return null;
+          }(a11);
+          if (c10) {
+            for (let a12 of (g2.searchParams.delete(c10), b11)) g2.searchParams.append(c10, a12);
+            g2.searchParams.delete(a11);
+          }
+        }
+        let h2 = process.env.__NEXT_BUILD_ID || "";
+        "buildId" in g2 && (h2 = g2.buildId || "", g2.buildId = "");
+        let i2 = function(a11) {
+          let b11 = new Headers();
+          for (let [c10, d11] of Object.entries(a11)) for (let a12 of Array.isArray(d11) ? d11 : [d11]) void 0 !== a12 && ("number" == typeof a12 && (a12 = a12.toString()), b11.append(c10, a12));
+          return b11;
+        }(a10.request.headers), j2 = i2.has("x-nextjs-data"), k2 = "1" === i2.get("rsc");
+        j2 && "/index" === g2.pathname && (g2.pathname = "/");
+        let l2 = /* @__PURE__ */ new Map();
+        if (!f2) for (let a11 of ab) {
+          let b11 = i2.get(a11);
+          null !== b11 && (l2.set(a11, b11), i2.delete(a11));
+        }
+        let m2 = g2.searchParams.get(ac), n2 = new a9({ page: a10.page, input: function(a11) {
+          let b11 = "string" == typeof a11, c10 = b11 ? new URL(a11) : a11;
+          return c10.searchParams.delete(ac), b11 ? c10.toString() : c10;
+        }(g2).toString(), init: { body: a10.request.body, headers: i2, method: a10.request.method, nextConfig: a10.request.nextConfig, signal: a10.request.signal } });
+        j2 && Object.defineProperty(n2, "__isData", { enumerable: false, value: true }), !globalThis.__incrementalCacheShared && a10.IncrementalCache && (globalThis.__incrementalCache = new a10.IncrementalCache({ CurCacheHandler: a10.incrementalCacheHandler, minimalMode: true, fetchCacheKeyPrefix: "", dev: false, requestHeaders: a10.request.headers, getPrerenderManifest: () => ({ version: -1, routes: {}, dynamicRoutes: {}, notFoundRoutes: [], preview: a6() }) }));
+        let o2 = a10.request.waitUntil ?? (null == (b10 = function() {
+          let a11 = globalThis[a7];
+          return null == a11 ? void 0 : a11.get();
+        }()) ? void 0 : b10.waitUntil), p2 = new H({ request: n2, page: a10.page, context: o2 ? { waitUntil: o2 } : void 0 });
+        if ((d10 = await bb(n2, () => {
+          if ("/middleware" === a10.page || "/src/middleware" === a10.page) {
+            let b11 = p2.waitUntil.bind(p2), c10 = new a5();
+            return aI().trace(aq.execute, { spanName: `middleware ${n2.method} ${n2.nextUrl.pathname}`, attributes: { "http.target": n2.nextUrl.pathname, "http.method": n2.method } }, async () => {
+              try {
+                var d11, f3, g3, i3, j3, k3;
+                let l3 = a6(), m3 = await a8("/", n2.nextUrl, null), o3 = (j3 = n2.nextUrl, k3 = (a11) => {
+                  e4 = a11;
+                }, function(a11, b12, c11, d12, e5, f4, g4, h3, i4, j4, k4, l4) {
+                  function m4(a12) {
+                    c11 && c11.setHeader("Set-Cookie", a12);
+                  }
+                  let n3 = {};
+                  return { type: "request", phase: a11, implicitTags: f4, url: { pathname: d12.pathname, search: d12.search ?? "" }, rootParams: e5, get headers() {
+                    return n3.headers || (n3.headers = function(a12) {
+                      let b13 = ad.o.from(a12);
+                      for (let a13 of ab) b13.delete(a13);
+                      return ad.o.seal(b13);
+                    }(b12.headers)), n3.headers;
+                  }, get cookies() {
+                    if (!n3.cookies) {
+                      let a12 = new T.tm(ad.o.from(b12.headers));
+                      aL(b12, a12), n3.cookies = ae.Ck.seal(a12);
+                    }
+                    return n3.cookies;
+                  }, set cookies(value) {
+                    n3.cookies = value;
+                  }, get mutableCookies() {
+                    if (!n3.mutableCookies) {
+                      let a12 = function(a13, b13) {
+                        let c12 = new T.tm(ad.o.from(a13));
+                        return ae.K8.wrap(c12, b13);
+                      }(b12.headers, g4 || (c11 ? m4 : void 0));
+                      aL(b12, a12), n3.mutableCookies = a12;
+                    }
+                    return n3.mutableCookies;
+                  }, get userspaceMutableCookies() {
+                    return n3.userspaceMutableCookies || (n3.userspaceMutableCookies = (0, ae.EJ)(this)), n3.userspaceMutableCookies;
+                  }, get draftMode() {
+                    return n3.draftMode || (n3.draftMode = new aK(i4, b12, this.cookies, this.mutableCookies)), n3.draftMode;
+                  }, renderResumeDataCache: h3 ?? null, isHmrRefresh: j4, serverComponentsHmrCache: k4 || globalThis.__serverComponentsHmrCache, devFallbackParams: null };
+                }("action", n2, void 0, j3, {}, m3, k3, void 0, l3, false, void 0, null)), q3 = function({ page: a11, renderOpts: b12, isPrefetchRequest: c11, buildId: d12, previouslyRevalidatedTags: e5 }) {
+                  var f4;
+                  let g4 = !b12.shouldWaitOnAllReady && !b12.supportsDynamicResponse && !b12.isDraftMode && !b12.isPossibleServerAction, h3 = b12.dev ?? false, i4 = h3 || g4 && (!!process.env.NEXT_DEBUG_BUILD || "1" === process.env.NEXT_SSG_FETCH_METRICS), j4 = { isStaticGeneration: g4, page: a11, route: (f4 = a11.split("/").reduce((a12, b13, c12, d13) => b13 ? "(" === b13[0] && b13.endsWith(")") || "@" === b13[0] || ("page" === b13 || "route" === b13) && c12 === d13.length - 1 ? a12 : a12 + "/" + b13 : a12, "")).startsWith("/") ? f4 : "/" + f4, incrementalCache: b12.incrementalCache || globalThis.__incrementalCache, cacheLifeProfiles: b12.cacheLifeProfiles, isRevalidate: b12.isRevalidate, isBuildTimePrerendering: b12.nextExport, hasReadableErrorStacks: b12.hasReadableErrorStacks, fetchCache: b12.fetchCache, isOnDemandRevalidate: b12.isOnDemandRevalidate, isDraftMode: b12.isDraftMode, isPrefetchRequest: c11, buildId: d12, reactLoadableManifest: (null == b12 ? void 0 : b12.reactLoadableManifest) || {}, assetPrefix: (null == b12 ? void 0 : b12.assetPrefix) || "", afterContext: function(a12) {
+                    let { waitUntil: b13, onClose: c12, onAfterTaskError: d13 } = a12;
+                    return new a2({ waitUntil: b13, onClose: c12, onTaskError: d13 });
+                  }(b12), cacheComponentsEnabled: b12.experimental.cacheComponents, dev: h3, previouslyRevalidatedTags: e5, refreshTagsByCacheKind: function() {
+                    let a12 = /* @__PURE__ */ new Map(), b13 = aX();
+                    if (b13) for (let [c12, d13] of b13) "refreshTags" in d13 && a12.set(c12, a4(async () => d13.refreshTags()));
+                    return a12;
+                  }(), runInCleanSnapshot: (0, a0.$p)(), shouldTrackFetchMetrics: i4 };
+                  return b12.store = j4, j4;
+                }({ page: "/", renderOpts: { cacheLifeProfiles: null == (f3 = a10.request.nextConfig) || null == (d11 = f3.experimental) ? void 0 : d11.cacheLife, experimental: { isRoutePPREnabled: false, cacheComponents: false, authInterrupts: !!(null == (i3 = a10.request.nextConfig) || null == (g3 = i3.experimental) ? void 0 : g3.authInterrupts) }, supportsDynamicResponse: true, waitUntil: b11, onClose: c10.onClose.bind(c10), onAfterTaskError: void 0 }, isPrefetchRequest: "1" === n2.headers.get(aa), buildId: h2 ?? "", previouslyRevalidatedTags: [] });
+                return await aQ.J.run(q3, () => aM.FP.run(o3, a10.handler, n2, p2));
+              } finally {
+                setTimeout(() => {
+                  c10.dispatchClose();
+                }, 0);
+              }
+            });
+          }
+          return a10.handler(n2, p2);
+        })) && !(d10 instanceof Response)) throw Object.defineProperty(TypeError("Expected an instance of Response to be returned"), "__NEXT_ERROR_CODE", { value: "E567", enumerable: false, configurable: true });
+        d10 && e4 && d10.headers.set("set-cookie", e4);
+        let q2 = null == d10 ? void 0 : d10.headers.get("x-middleware-rewrite");
+        if (d10 && q2 && (k2 || !f2)) {
+          let b11 = new S(q2, { forceLocale: true, headers: a10.request.headers, nextConfig: a10.request.nextConfig });
+          f2 || b11.host !== n2.nextUrl.host || (b11.buildId = h2 || b11.buildId, d10.headers.set("x-middleware-rewrite", String(b11)));
+          let { url: c10, isRelative: e5 } = _(b11.toString(), g2.toString());
+          !f2 && j2 && d10.headers.set("x-nextjs-rewrite", c10), k2 && e5 && (g2.pathname !== b11.pathname && d10.headers.set("x-nextjs-rewritten-path", b11.pathname), g2.search !== b11.search && d10.headers.set("x-nextjs-rewritten-query", b11.search.slice(1)));
+        }
+        if (d10 && q2 && k2 && m2) {
+          let a11 = new URL(q2);
+          a11.searchParams.has(ac) || (a11.searchParams.set(ac, m2), d10.headers.set("x-middleware-rewrite", a11.toString()));
+        }
+        let r2 = null == d10 ? void 0 : d10.headers.get("Location");
+        if (d10 && r2 && !f2) {
+          let b11 = new S(r2, { forceLocale: false, headers: a10.request.headers, nextConfig: a10.request.nextConfig });
+          d10 = new Response(d10.body, d10), b11.host === g2.host && (b11.buildId = h2 || b11.buildId, d10.headers.set("Location", b11.toString())), j2 && (d10.headers.delete("Location"), d10.headers.set("x-nextjs-redirect", _(b11.toString(), g2.toString()).url));
+        }
+        let s2 = d10 || $.next(), u2 = s2.headers.get("x-middleware-override-headers"), v2 = [];
+        if (u2) {
+          for (let [a11, b11] of l2) s2.headers.set(`x-middleware-request-${a11}`, b11), v2.push(a11);
+          v2.length > 0 && s2.headers.set("x-middleware-override-headers", u2 + "," + v2.join(","));
+        }
+        return { response: s2, waitUntil: ("internal" === p2[F].kind ? Promise.all(p2[F].promises).then(() => {
+        }) : void 0) ?? Promise.resolve(), fetchMetrics: n2.fetchMetrics };
+      }
+      var be = c(88);
+      function bf() {
+        return "undefined" != typeof window && void 0 !== window.document;
+      }
+      let bg = { path: "/", sameSite: "lax", httpOnly: false, maxAge: 3456e4 }, bh = /^(.*)[.](0|[1-9][0-9]*)$/;
+      function bi(a10, b10) {
+        if (a10 === b10) return true;
+        let c10 = a10.match(bh);
+        return !!c10 && c10[1] === b10;
+      }
+      function bj(a10, b10, c10) {
+        let d10 = c10 ?? 3180, e4 = encodeURIComponent(b10);
+        if (e4.length <= d10) return [{ name: a10, value: b10 }];
+        let f2 = [];
+        for (; e4.length > 0; ) {
+          let a11 = e4.slice(0, d10), b11 = a11.lastIndexOf("%");
+          b11 > d10 - 3 && (a11 = a11.slice(0, b11));
+          let c11 = "";
+          for (; a11.length > 0; ) try {
+            c11 = decodeURIComponent(a11);
+            break;
+          } catch (b12) {
+            if (b12 instanceof URIError && "%" === a11.at(-3) && a11.length > 3) a11 = a11.slice(0, a11.length - 3);
+            else throw b12;
+          }
+          f2.push(c11), e4 = e4.slice(a11.length);
+        }
+        return f2.map((b11, c11) => ({ name: `${a10}.${c11}`, value: b11 }));
+      }
+      async function bk(a10, b10) {
+        let c10 = await b10(a10);
+        if (c10) return c10;
+        let d10 = [];
+        for (let c11 = 0; ; c11++) {
+          let e4 = `${a10}.${c11}`, f2 = await b10(e4);
+          if (!f2) break;
+          d10.push(f2);
+        }
+        return d10.length > 0 ? d10.join("") : null;
+      }
+      let bl = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split(""), bm = " 	\n\r=".split(""), bn = (() => {
+        let a10 = Array(128);
+        for (let b10 = 0; b10 < a10.length; b10 += 1) a10[b10] = -1;
+        for (let b10 = 0; b10 < bm.length; b10 += 1) a10[bm[b10].charCodeAt(0)] = -2;
+        for (let b10 = 0; b10 < bl.length; b10 += 1) a10[bl[b10].charCodeAt(0)] = b10;
+        return a10;
+      })();
+      function bo(a10) {
+        let b10 = [], c10 = 0, d10 = 0;
+        if (function(a11, b11) {
+          for (let c11 = 0; c11 < a11.length; c11 += 1) {
+            let d11 = a11.charCodeAt(c11);
+            if (d11 > 55295 && d11 <= 56319) {
+              let b12 = (d11 - 55296) * 1024 & 65535;
+              d11 = (a11.charCodeAt(c11 + 1) - 56320 & 65535 | b12) + 65536, c11 += 1;
+            }
+            !function(a12, b12) {
+              if (a12 <= 127) return b12(a12);
+              if (a12 <= 2047) {
+                b12(192 | a12 >> 6), b12(128 | 63 & a12);
+                return;
+              }
+              if (a12 <= 65535) {
+                b12(224 | a12 >> 12), b12(128 | a12 >> 6 & 63), b12(128 | 63 & a12);
+                return;
+              }
+              if (a12 <= 1114111) {
+                b12(240 | a12 >> 18), b12(128 | a12 >> 12 & 63), b12(128 | a12 >> 6 & 63), b12(128 | 63 & a12);
+                return;
+              }
+              throw Error(`Unrecognized Unicode codepoint: ${a12.toString(16)}`);
+            }(d11, b11);
+          }
+        }(a10, (a11) => {
+          for (c10 = c10 << 8 | a11, d10 += 8; d10 >= 6; ) {
+            let a12 = c10 >> d10 - 6 & 63;
+            b10.push(bl[a12]), d10 -= 6;
+          }
+        }), d10 > 0) for (c10 <<= 6 - d10, d10 = 6; d10 >= 6; ) {
+          let a11 = c10 >> d10 - 6 & 63;
+          b10.push(bl[a11]), d10 -= 6;
+        }
+        return b10.join("");
+      }
+      function bp(a10) {
+        let b10 = [], c10 = (a11) => {
+          b10.push(String.fromCodePoint(a11));
+        }, d10 = { utf8seq: 0, codepoint: 0 }, e4 = 0, f2 = 0;
+        for (let b11 = 0; b11 < a10.length; b11 += 1) {
+          let g2 = bn[a10.charCodeAt(b11)];
+          if (g2 > -1) for (e4 = e4 << 6 | g2, f2 += 6; f2 >= 8; ) (function(a11, b12, c11) {
+            if (0 === b12.utf8seq) {
+              if (a11 <= 127) return c11(a11);
+              for (let c12 = 1; c12 < 6; c12 += 1) if ((a11 >> 7 - c12 & 1) == 0) {
+                b12.utf8seq = c12;
+                break;
+              }
+              if (2 === b12.utf8seq) b12.codepoint = 31 & a11;
+              else if (3 === b12.utf8seq) b12.codepoint = 15 & a11;
+              else if (4 === b12.utf8seq) b12.codepoint = 7 & a11;
+              else throw Error("Invalid UTF-8 sequence");
+              b12.utf8seq -= 1;
+            } else if (b12.utf8seq > 0) {
+              if (a11 <= 127) throw Error("Invalid UTF-8 sequence");
+              b12.codepoint = b12.codepoint << 6 | 63 & a11, b12.utf8seq -= 1, 0 === b12.utf8seq && c11(b12.codepoint);
+            }
+          })(e4 >> f2 - 8 & 255, d10, c10), f2 -= 8;
+          else if (-2 === g2) continue;
+          else throw Error(`Invalid Base64-URL character "${a10.at(b11)}" at position ${b11}`);
+        }
+        return b10.join("");
+      }
+      let bq = "base64-";
+      async function br({ getAll: a10, setAll: b10, setItems: c10, removedItems: d10 }, e4) {
+        let f2 = e4.cookieEncoding, g2 = e4.cookieOptions ?? null, h2 = await a10([...c10 ? Object.keys(c10) : [], ...d10 ? Object.keys(d10) : []]), i2 = h2?.map(({ name: a11 }) => a11) || [], j2 = Object.keys(d10).flatMap((a11) => i2.filter((b11) => bi(b11, a11))), k2 = Object.keys(c10).flatMap((a11) => {
+          let b11 = new Set(i2.filter((b12) => bi(b12, a11))), d11 = c10[a11];
+          "base64url" === f2 && (d11 = bq + bo(d11));
+          let e5 = bj(a11, d11);
+          return e5.forEach((a12) => {
+            b11.delete(a12.name);
+          }), j2.push(...b11), e5;
+        }), l2 = { ...bg, ...g2, maxAge: 0 }, m2 = { ...bg, ...g2, maxAge: bg.maxAge };
+        delete l2.name, delete m2.name, await b10([...j2.map((a11) => ({ name: a11, value: "", options: l2 })), ...k2.map(({ name: a11, value: b11 }) => ({ name: a11, value: b11, options: m2 }))]);
+      }
+      function bs(a10, b10) {
+        var c10 = {};
+        for (var d10 in a10) Object.prototype.hasOwnProperty.call(a10, d10) && 0 > b10.indexOf(d10) && (c10[d10] = a10[d10]);
+        if (null != a10 && "function" == typeof Object.getOwnPropertySymbols) for (var e4 = 0, d10 = Object.getOwnPropertySymbols(a10); e4 < d10.length; e4++) 0 > b10.indexOf(d10[e4]) && Object.prototype.propertyIsEnumerable.call(a10, d10[e4]) && (c10[d10[e4]] = a10[d10[e4]]);
+        return c10;
+      }
+      Object.create;
+      Object.create, "function" == typeof SuppressedError && SuppressedError;
+      class bt extends Error {
+        constructor(a10, b10 = "FunctionsError", c10) {
+          super(a10), this.name = b10, this.context = c10;
+        }
+        toJSON() {
+          return { name: this.name, message: this.message, context: this.context };
+        }
+      }
+      class bu extends bt {
+        constructor(a10) {
+          super("Failed to send a request to the Edge Function", "FunctionsFetchError", a10);
+        }
+      }
+      class bv extends bt {
+        constructor(a10) {
+          super("Relay Error invoking the Edge Function", "FunctionsRelayError", a10);
+        }
+      }
+      class bw extends bt {
+        constructor(a10) {
+          super("Edge Function returned a non-2xx status code", "FunctionsHttpError", a10);
+        }
+      }
+      !function(a10) {
+        a10.Any = "any", a10.ApNortheast1 = "ap-northeast-1", a10.ApNortheast2 = "ap-northeast-2", a10.ApSouth1 = "ap-south-1", a10.ApSoutheast1 = "ap-southeast-1", a10.ApSoutheast2 = "ap-southeast-2", a10.CaCentral1 = "ca-central-1", a10.EuCentral1 = "eu-central-1", a10.EuWest1 = "eu-west-1", a10.EuWest2 = "eu-west-2", a10.EuWest3 = "eu-west-3", a10.SaEast1 = "sa-east-1", a10.UsEast1 = "us-east-1", a10.UsWest1 = "us-west-1", a10.UsWest2 = "us-west-2";
+      }(g || (g = {}));
+      class bx {
+        constructor(a10, { headers: b10 = {}, customFetch: c10, region: d10 = g.Any } = {}) {
+          this.url = a10, this.headers = b10, this.region = d10, this.fetch = /* @__PURE__ */ ((a11) => a11 ? (...b11) => a11(...b11) : (...a12) => fetch(...a12))(c10);
+        }
+        setAuth(a10) {
+          this.headers.Authorization = `Bearer ${a10}`;
+        }
+        invoke(a10) {
+          var b10, c10, d10, e4;
+          return b10 = this, c10 = arguments, d10 = void 0, e4 = function* (a11, b11 = {}) {
+            var c11;
+            let d11, e5;
+            try {
+              let f2, { headers: g2, method: h2, body: i2, signal: j2, timeout: k2 } = b11, l2 = {}, { region: m2 } = b11;
+              m2 || (m2 = this.region);
+              let n2 = new URL(`${this.url}/${a11}`);
+              m2 && "any" !== m2 && (l2["x-region"] = m2, n2.searchParams.set("forceFunctionRegion", m2)), i2 && (g2 && !Object.prototype.hasOwnProperty.call(g2, "Content-Type") || !g2) ? "undefined" != typeof Blob && i2 instanceof Blob || i2 instanceof ArrayBuffer ? (l2["Content-Type"] = "application/octet-stream", f2 = i2) : "string" == typeof i2 ? (l2["Content-Type"] = "text/plain", f2 = i2) : "undefined" != typeof FormData && i2 instanceof FormData ? f2 = i2 : (l2["Content-Type"] = "application/json", f2 = JSON.stringify(i2)) : f2 = !i2 || "string" == typeof i2 || "undefined" != typeof Blob && i2 instanceof Blob || i2 instanceof ArrayBuffer || "undefined" != typeof FormData && i2 instanceof FormData ? i2 : JSON.stringify(i2);
+              let o2 = j2;
+              k2 && (e5 = new AbortController(), d11 = setTimeout(() => e5.abort(), k2), j2 ? (o2 = e5.signal, j2.addEventListener("abort", () => e5.abort())) : o2 = e5.signal);
+              let p2 = yield this.fetch(n2.toString(), { method: h2 || "POST", headers: Object.assign(Object.assign(Object.assign({}, l2), this.headers), g2), body: f2, signal: o2 }).catch((a12) => {
+                throw new bu(a12);
+              }), q2 = p2.headers.get("x-relay-error");
+              if (q2 && "true" === q2) throw new bv(p2);
+              if (!p2.ok) throw new bw(p2);
+              let r2 = (null != (c11 = p2.headers.get("Content-Type")) ? c11 : "text/plain").split(";")[0].trim();
+              return { data: "application/json" === r2 ? yield p2.json() : "application/octet-stream" === r2 || "application/pdf" === r2 ? yield p2.blob() : "text/event-stream" === r2 ? p2 : "multipart/form-data" === r2 ? yield p2.formData() : yield p2.text(), error: null, response: p2 };
+            } catch (a12) {
+              return { data: null, error: a12, response: a12 instanceof bw || a12 instanceof bv ? a12.context : void 0 };
+            } finally {
+              d11 && clearTimeout(d11);
+            }
+          }, new (d10 || (d10 = Promise))(function(a11, f2) {
+            function g2(a12) {
+              try {
+                i2(e4.next(a12));
+              } catch (a13) {
+                f2(a13);
+              }
+            }
+            function h2(a12) {
+              try {
+                i2(e4.throw(a12));
+              } catch (a13) {
+                f2(a13);
+              }
+            }
+            function i2(b11) {
+              var c11;
+              b11.done ? a11(b11.value) : ((c11 = b11.value) instanceof d10 ? c11 : new d10(function(a12) {
+                a12(c11);
+              })).then(g2, h2);
+            }
+            i2((e4 = e4.apply(b10, c10 || [])).next());
+          });
+        }
+      }
+      let by = (a10) => Math.min(1e3 * 2 ** a10, 3e4), bz = [520, 503], bA = ["GET", "HEAD", "OPTIONS"];
+      var bB = class extends Error {
+        constructor(a10) {
+          super(a10.message), this.name = "PostgrestError", this.details = a10.details, this.hint = a10.hint, this.code = a10.code;
+        }
+        toJSON() {
+          return { name: this.name, message: this.message, details: this.details, hint: this.hint, code: this.code };
+        }
+      };
+      function bC(a10, b10) {
+        return new Promise((c10) => {
+          if (null == b10 ? void 0 : b10.aborted) return void c10();
+          let d10 = setTimeout(() => {
+            null == b10 || b10.removeEventListener("abort", e4), c10();
+          }, a10);
+          function e4() {
+            clearTimeout(d10), c10();
+          }
+          null == b10 || b10.addEventListener("abort", e4);
+        });
+      }
+      var bD = class {
+        constructor(a10) {
+          var b10, c10, d10, e4, f2;
+          this.shouldThrowOnError = false, this.retryEnabled = true, this.method = a10.method, this.url = a10.url, this.headers = new Headers(a10.headers), this.schema = a10.schema, this.body = a10.body, this.shouldThrowOnError = null != (b10 = a10.shouldThrowOnError) && b10, this.signal = a10.signal, this.isMaybeSingle = null != (c10 = a10.isMaybeSingle) && c10, this.shouldStripNulls = null != (d10 = a10.shouldStripNulls) && d10, this.urlLengthLimit = null != (e4 = a10.urlLengthLimit) ? e4 : 8e3, this.retryEnabled = null == (f2 = a10.retry) || f2, a10.fetch ? this.fetch = a10.fetch : this.fetch = fetch;
+        }
+        throwOnError() {
+          return this.shouldThrowOnError = true, this;
+        }
+        stripNulls() {
+          if ("text/csv" === this.headers.get("Accept")) throw Error("stripNulls() cannot be used with csv()");
+          return this.shouldStripNulls = true, this;
+        }
+        setHeader(a10, b10) {
+          return this.headers = new Headers(this.headers), this.headers.set(a10, b10), this;
+        }
+        retry(a10) {
+          return this.retryEnabled = a10, this;
+        }
+        then(a10, b10) {
+          var c10 = this;
+          if (void 0 === this.schema || (["GET", "HEAD"].includes(this.method) ? this.headers.set("Accept-Profile", this.schema) : this.headers.set("Content-Profile", this.schema)), "GET" !== this.method && "HEAD" !== this.method && this.headers.set("Content-Type", "application/json"), this.shouldStripNulls) {
+            let a11 = this.headers.get("Accept");
+            "application/vnd.pgrst.object+json" === a11 ? this.headers.set("Accept", "application/vnd.pgrst.object+json;nulls=stripped") : a11 && "application/json" !== a11 || this.headers.set("Accept", "application/vnd.pgrst.array+json;nulls=stripped");
+          }
+          let d10 = this.fetch, e4 = (async () => {
+            let a11 = 0;
+            for (; ; ) {
+              var b11, e5, f2, g2, h2;
+              let i2, j2 = new Headers(c10.headers);
+              a11 > 0 && j2.set("X-Retry-Count", String(a11));
+              try {
+                i2 = await d10(c10.url.toString(), { method: c10.method, headers: j2, body: JSON.stringify(c10.body, (a12, b12) => "bigint" == typeof b12 ? b12.toString() : b12), signal: c10.signal });
+              } catch (b12) {
+                if ((null == b12 ? void 0 : b12.name) === "AbortError" || (null == b12 ? void 0 : b12.code) === "ABORT_ERR" || !bA.includes(c10.method)) throw b12;
+                if (c10.retryEnabled && a11 < 3) {
+                  let b13 = by(a11);
+                  a11++, await bC(b13, c10.signal);
+                  continue;
+                }
+                throw b12;
+              }
+              if (b11 = c10.method, e5 = i2.status, f2 = a11, c10.retryEnabled && !(f2 >= 3) && bA.includes(b11) && bz.includes(e5) && 1) {
+                let b12 = null != (g2 = null == (h2 = i2.headers) ? void 0 : h2.get("Retry-After")) ? g2 : null, d11 = null !== b12 ? 1e3 * Math.max(0, parseInt(b12, 10) || 0) : by(a11);
+                await i2.text(), a11++, await bC(d11, c10.signal);
+                continue;
+              }
+              return await c10.processResponse(i2);
+            }
+          })();
+          return this.shouldThrowOnError || (e4 = e4.catch((a11) => {
+            var b11, c11, d11, e5, f2, g2;
+            let h2 = "", i2 = "", j2 = "", k2 = null == a11 ? void 0 : a11.cause;
+            if (k2) {
+              let b12 = null != (c11 = null == k2 ? void 0 : k2.message) ? c11 : "", g3 = null != (d11 = null == k2 ? void 0 : k2.code) ? d11 : "";
+              h2 = `${null != (e5 = null == a11 ? void 0 : a11.name) ? e5 : "FetchError"}: ${null == a11 ? void 0 : a11.message}
+
+Caused by: ${null != (f2 = null == k2 ? void 0 : k2.name) ? f2 : "Error"}: ${b12}`, g3 && (h2 += ` (${g3})`), (null == k2 ? void 0 : k2.stack) && (h2 += `
+${k2.stack}`);
+            } else h2 = null != (g2 = null == a11 ? void 0 : a11.stack) ? g2 : "";
+            let l2 = this.url.toString().length;
+            return (null == a11 ? void 0 : a11.name) === "AbortError" || (null == a11 ? void 0 : a11.code) === "ABORT_ERR" ? (j2 = "", i2 = "Request was aborted (timeout or manual cancellation)", l2 > this.urlLengthLimit && (i2 += `. Note: Your request URL is ${l2} characters, which may exceed server limits. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [many IDs])), consider using an RPC function to pass values server-side.`)) : ((null == k2 ? void 0 : k2.name) === "HeadersOverflowError" || (null == k2 ? void 0 : k2.code) === "UND_ERR_HEADERS_OVERFLOW") && (j2 = "", i2 = "HTTP headers exceeded server limits (typically 16KB)", l2 > this.urlLengthLimit && (i2 += `. Your request URL is ${l2} characters. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [200+ IDs])), consider using an RPC function instead.`)), { success: false, error: { message: `${null != (b11 = null == a11 ? void 0 : a11.name) ? b11 : "FetchError"}: ${null == a11 ? void 0 : a11.message}`, details: h2, hint: i2, code: j2 }, data: null, count: null, status: 0, statusText: "" };
+          })), e4.then(a10, b10);
+        }
+        async processResponse(a10) {
+          var b10, c10, d10;
+          let e4 = null, f2 = null, g2 = null, h2 = a10.status, i2 = a10.statusText;
+          if (a10.ok) {
+            if ("HEAD" !== this.method) {
+              let b11 = await a10.text();
+              "" === b11 || (f2 = "text/csv" === this.headers.get("Accept") || this.headers.get("Accept") && (null == (d10 = this.headers.get("Accept")) ? void 0 : d10.includes("application/vnd.pgrst.plan+text")) ? b11 : JSON.parse(b11));
+            }
+            let j2 = null == (b10 = this.headers.get("Prefer")) ? void 0 : b10.match(/count=(exact|planned|estimated)/), k2 = null == (c10 = a10.headers.get("content-range")) ? void 0 : c10.split("/");
+            j2 && k2 && k2.length > 1 && (g2 = parseInt(k2[1])), this.isMaybeSingle && Array.isArray(f2) && (f2.length > 1 ? (e4 = { code: "PGRST116", details: `Results contain ${f2.length} rows, application/vnd.pgrst.object+json requires 1 row`, hint: null, message: "JSON object requested, multiple (or no) rows returned" }, f2 = null, g2 = null, h2 = 406, i2 = "Not Acceptable") : f2 = 1 === f2.length ? f2[0] : null);
+          } else {
+            let b11 = await a10.text();
+            try {
+              e4 = JSON.parse(b11), Array.isArray(e4) && 404 === a10.status && (f2 = [], e4 = null, h2 = 200, i2 = "OK");
+            } catch (c11) {
+              404 === a10.status && "" === b11 ? (h2 = 204, i2 = "No Content") : e4 = { message: b11 };
+            }
+            if (e4 && this.shouldThrowOnError) throw new bB(e4);
+          }
+          return { success: null === e4, error: e4, data: f2, count: g2, status: h2, statusText: i2 };
+        }
+        returns() {
+          return this;
+        }
+        overrideTypes() {
+          return this;
+        }
+      }, bE = class extends bD {
+        select(a10) {
+          let b10 = false, c10 = (null != a10 ? a10 : "*").split("").map((a11) => /\s/.test(a11) && !b10 ? "" : ('"' === a11 && (b10 = !b10), a11)).join("");
+          return this.url.searchParams.set("select", c10), this.headers.append("Prefer", "return=representation"), this;
+        }
+        order(a10, { ascending: b10 = true, nullsFirst: c10, foreignTable: d10, referencedTable: e4 = d10 } = {}) {
+          let f2 = e4 ? `${e4}.order` : "order", g2 = this.url.searchParams.get(f2);
+          return this.url.searchParams.set(f2, `${g2 ? `${g2},` : ""}${a10}.${b10 ? "asc" : "desc"}${void 0 === c10 ? "" : c10 ? ".nullsfirst" : ".nullslast"}`), this;
+        }
+        limit(a10, { foreignTable: b10, referencedTable: c10 = b10 } = {}) {
+          let d10 = void 0 === c10 ? "limit" : `${c10}.limit`;
+          return this.url.searchParams.set(d10, `${a10}`), this;
+        }
+        range(a10, b10, { foreignTable: c10, referencedTable: d10 = c10 } = {}) {
+          let e4 = void 0 === d10 ? "offset" : `${d10}.offset`, f2 = void 0 === d10 ? "limit" : `${d10}.limit`;
+          return this.url.searchParams.set(e4, `${a10}`), this.url.searchParams.set(f2, `${b10 - a10 + 1}`), this;
+        }
+        abortSignal(a10) {
+          return this.signal = a10, this;
+        }
+        single() {
+          return this.headers.set("Accept", "application/vnd.pgrst.object+json"), this;
+        }
+        maybeSingle() {
+          return this.isMaybeSingle = true, this;
+        }
+        csv() {
+          return this.headers.set("Accept", "text/csv"), this;
+        }
+        geojson() {
+          return this.headers.set("Accept", "application/geo+json"), this;
+        }
+        explain({ analyze: a10 = false, verbose: b10 = false, settings: c10 = false, buffers: d10 = false, wal: e4 = false, format: f2 = "text" } = {}) {
+          var g2;
+          let h2 = [a10 ? "analyze" : null, b10 ? "verbose" : null, c10 ? "settings" : null, d10 ? "buffers" : null, e4 ? "wal" : null].filter(Boolean).join("|"), i2 = null != (g2 = this.headers.get("Accept")) ? g2 : "application/json";
+          return this.headers.set("Accept", `application/vnd.pgrst.plan+${f2}; for="${i2}"; options=${h2};`), this;
+        }
+        rollback() {
+          return this.headers.append("Prefer", "tx=rollback"), this;
+        }
+        returns() {
+          return this;
+        }
+        maxAffected(a10) {
+          return this.headers.append("Prefer", "handling=strict"), this.headers.append("Prefer", `max-affected=${a10}`), this;
+        }
+      };
+      let bF = RegExp("[,()]");
+      var bG = class extends bE {
+        eq(a10, b10) {
+          return this.url.searchParams.append(a10, `eq.${b10}`), this;
+        }
+        neq(a10, b10) {
+          return this.url.searchParams.append(a10, `neq.${b10}`), this;
+        }
+        gt(a10, b10) {
+          return this.url.searchParams.append(a10, `gt.${b10}`), this;
+        }
+        gte(a10, b10) {
+          return this.url.searchParams.append(a10, `gte.${b10}`), this;
+        }
+        lt(a10, b10) {
+          return this.url.searchParams.append(a10, `lt.${b10}`), this;
+        }
+        lte(a10, b10) {
+          return this.url.searchParams.append(a10, `lte.${b10}`), this;
+        }
+        like(a10, b10) {
+          return this.url.searchParams.append(a10, `like.${b10}`), this;
+        }
+        likeAllOf(a10, b10) {
+          return this.url.searchParams.append(a10, `like(all).{${b10.join(",")}}`), this;
+        }
+        likeAnyOf(a10, b10) {
+          return this.url.searchParams.append(a10, `like(any).{${b10.join(",")}}`), this;
+        }
+        ilike(a10, b10) {
+          return this.url.searchParams.append(a10, `ilike.${b10}`), this;
+        }
+        ilikeAllOf(a10, b10) {
+          return this.url.searchParams.append(a10, `ilike(all).{${b10.join(",")}}`), this;
+        }
+        ilikeAnyOf(a10, b10) {
+          return this.url.searchParams.append(a10, `ilike(any).{${b10.join(",")}}`), this;
+        }
+        regexMatch(a10, b10) {
+          return this.url.searchParams.append(a10, `match.${b10}`), this;
+        }
+        regexIMatch(a10, b10) {
+          return this.url.searchParams.append(a10, `imatch.${b10}`), this;
+        }
+        is(a10, b10) {
+          return this.url.searchParams.append(a10, `is.${b10}`), this;
+        }
+        isDistinct(a10, b10) {
+          return this.url.searchParams.append(a10, `isdistinct.${b10}`), this;
+        }
+        in(a10, b10) {
+          let c10 = Array.from(new Set(b10)).map((a11) => "string" == typeof a11 && bF.test(a11) ? `"${a11}"` : `${a11}`).join(",");
+          return this.url.searchParams.append(a10, `in.(${c10})`), this;
+        }
+        notIn(a10, b10) {
+          let c10 = Array.from(new Set(b10)).map((a11) => "string" == typeof a11 && bF.test(a11) ? `"${a11}"` : `${a11}`).join(",");
+          return this.url.searchParams.append(a10, `not.in.(${c10})`), this;
+        }
+        contains(a10, b10) {
+          return "string" == typeof b10 ? this.url.searchParams.append(a10, `cs.${b10}`) : Array.isArray(b10) ? this.url.searchParams.append(a10, `cs.{${b10.join(",")}}`) : this.url.searchParams.append(a10, `cs.${JSON.stringify(b10)}`), this;
+        }
+        containedBy(a10, b10) {
+          return "string" == typeof b10 ? this.url.searchParams.append(a10, `cd.${b10}`) : Array.isArray(b10) ? this.url.searchParams.append(a10, `cd.{${b10.join(",")}}`) : this.url.searchParams.append(a10, `cd.${JSON.stringify(b10)}`), this;
+        }
+        rangeGt(a10, b10) {
+          return this.url.searchParams.append(a10, `sr.${b10}`), this;
+        }
+        rangeGte(a10, b10) {
+          return this.url.searchParams.append(a10, `nxl.${b10}`), this;
+        }
+        rangeLt(a10, b10) {
+          return this.url.searchParams.append(a10, `sl.${b10}`), this;
+        }
+        rangeLte(a10, b10) {
+          return this.url.searchParams.append(a10, `nxr.${b10}`), this;
+        }
+        rangeAdjacent(a10, b10) {
+          return this.url.searchParams.append(a10, `adj.${b10}`), this;
+        }
+        overlaps(a10, b10) {
+          return "string" == typeof b10 ? this.url.searchParams.append(a10, `ov.${b10}`) : this.url.searchParams.append(a10, `ov.{${b10.join(",")}}`), this;
+        }
+        textSearch(a10, b10, { config: c10, type: d10 } = {}) {
+          let e4 = "";
+          "plain" === d10 ? e4 = "pl" : "phrase" === d10 ? e4 = "ph" : "websearch" === d10 && (e4 = "w");
+          let f2 = void 0 === c10 ? "" : `(${c10})`;
+          return this.url.searchParams.append(a10, `${e4}fts${f2}.${b10}`), this;
+        }
+        match(a10) {
+          return Object.entries(a10).filter(([a11, b10]) => void 0 !== b10).forEach(([a11, b10]) => {
+            this.url.searchParams.append(a11, `eq.${b10}`);
+          }), this;
+        }
+        not(a10, b10, c10) {
+          return this.url.searchParams.append(a10, `not.${b10}.${c10}`), this;
+        }
+        or(a10, { foreignTable: b10, referencedTable: c10 = b10 } = {}) {
+          let d10 = c10 ? `${c10}.or` : "or";
+          return this.url.searchParams.append(d10, `(${a10})`), this;
+        }
+        filter(a10, b10, c10) {
+          return this.url.searchParams.append(a10, `${b10}.${c10}`), this;
+        }
+      }, bH = class {
+        constructor(a10, { headers: b10 = {}, schema: c10, fetch: d10, urlLengthLimit: e4 = 8e3, retry: f2 }) {
+          this.url = a10, this.headers = new Headers(b10), this.schema = c10, this.fetch = d10, this.urlLengthLimit = e4, this.retry = f2;
+        }
+        cloneRequestState() {
+          return { url: new URL(this.url.toString()), headers: new Headers(this.headers) };
+        }
+        select(a10, b10) {
+          let { head: c10 = false, count: d10 } = null != b10 ? b10 : {}, e4 = false, f2 = (null != a10 ? a10 : "*").split("").map((a11) => /\s/.test(a11) && !e4 ? "" : ('"' === a11 && (e4 = !e4), a11)).join(""), { url: g2, headers: h2 } = this.cloneRequestState();
+          return g2.searchParams.set("select", f2), d10 && h2.append("Prefer", `count=${d10}`), new bG({ method: c10 ? "HEAD" : "GET", url: g2, headers: h2, schema: this.schema, fetch: this.fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+        insert(a10, { count: b10, defaultToNull: c10 = true } = {}) {
+          var d10;
+          let { url: e4, headers: f2 } = this.cloneRequestState();
+          if (b10 && f2.append("Prefer", `count=${b10}`), c10 || f2.append("Prefer", "missing=default"), Array.isArray(a10)) {
+            let b11 = a10.reduce((a11, b12) => a11.concat(Object.keys(b12)), []);
+            if (b11.length > 0) {
+              let a11 = [...new Set(b11)].map((a12) => `"${a12}"`);
+              e4.searchParams.set("columns", a11.join(","));
+            }
+          }
+          return new bG({ method: "POST", url: e4, headers: f2, schema: this.schema, body: a10, fetch: null != (d10 = this.fetch) ? d10 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+        upsert(a10, { onConflict: b10, ignoreDuplicates: c10 = false, count: d10, defaultToNull: e4 = true } = {}) {
+          var f2;
+          let { url: g2, headers: h2 } = this.cloneRequestState();
+          if (h2.append("Prefer", `resolution=${c10 ? "ignore" : "merge"}-duplicates`), void 0 !== b10 && g2.searchParams.set("on_conflict", b10), d10 && h2.append("Prefer", `count=${d10}`), e4 || h2.append("Prefer", "missing=default"), Array.isArray(a10)) {
+            let b11 = a10.reduce((a11, b12) => a11.concat(Object.keys(b12)), []);
+            if (b11.length > 0) {
+              let a11 = [...new Set(b11)].map((a12) => `"${a12}"`);
+              g2.searchParams.set("columns", a11.join(","));
+            }
+          }
+          return new bG({ method: "POST", url: g2, headers: h2, schema: this.schema, body: a10, fetch: null != (f2 = this.fetch) ? f2 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+        update(a10, { count: b10 } = {}) {
+          var c10;
+          let { url: d10, headers: e4 } = this.cloneRequestState();
+          return b10 && e4.append("Prefer", `count=${b10}`), new bG({ method: "PATCH", url: d10, headers: e4, schema: this.schema, body: a10, fetch: null != (c10 = this.fetch) ? c10 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+        delete({ count: a10 } = {}) {
+          var b10;
+          let { url: c10, headers: d10 } = this.cloneRequestState();
+          return a10 && d10.append("Prefer", `count=${a10}`), new bG({ method: "DELETE", url: c10, headers: d10, schema: this.schema, fetch: null != (b10 = this.fetch) ? b10 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+      };
+      function bI(a10) {
+        return (bI = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(a11) {
+          return typeof a11;
+        } : function(a11) {
+          return a11 && "function" == typeof Symbol && a11.constructor === Symbol && a11 !== Symbol.prototype ? "symbol" : typeof a11;
+        })(a10);
+      }
+      function bJ(a10, b10) {
+        var c10 = Object.keys(a10);
+        if (Object.getOwnPropertySymbols) {
+          var d10 = Object.getOwnPropertySymbols(a10);
+          b10 && (d10 = d10.filter(function(b11) {
+            return Object.getOwnPropertyDescriptor(a10, b11).enumerable;
+          })), c10.push.apply(c10, d10);
+        }
+        return c10;
+      }
+      function bK(a10) {
+        for (var b10 = 1; b10 < arguments.length; b10++) {
+          var c10 = null != arguments[b10] ? arguments[b10] : {};
+          b10 % 2 ? bJ(Object(c10), true).forEach(function(b11) {
+            !function(a11, b12, c11) {
+              var d10;
+              (d10 = function(a12, b13) {
+                if ("object" != bI(a12) || !a12) return a12;
+                var c12 = a12[Symbol.toPrimitive];
+                if (void 0 !== c12) {
+                  var d11 = c12.call(a12, b13 || "default");
+                  if ("object" != bI(d11)) return d11;
+                  throw TypeError("@@toPrimitive must return a primitive value.");
+                }
+                return ("string" === b13 ? String : Number)(a12);
+              }(b12, "string"), (b12 = "symbol" == bI(d10) ? d10 : d10 + "") in a11) ? Object.defineProperty(a11, b12, { value: c11, enumerable: true, configurable: true, writable: true }) : a11[b12] = c11;
+            }(a10, b11, c10[b11]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(a10, Object.getOwnPropertyDescriptors(c10)) : bJ(Object(c10)).forEach(function(b11) {
+            Object.defineProperty(a10, b11, Object.getOwnPropertyDescriptor(c10, b11));
+          });
+        }
+        return a10;
+      }
+      var bL = class a10 {
+        constructor(a11, { headers: b10 = {}, schema: c10, fetch: d10, timeout: e4, urlLengthLimit: f2 = 8e3, retry: g2 } = {}) {
+          this.url = a11, this.headers = new Headers(b10), this.schemaName = c10, this.urlLengthLimit = f2;
+          let h2 = null != d10 ? d10 : globalThis.fetch;
+          void 0 !== e4 && e4 > 0 ? this.fetch = (a12, b11) => {
+            let c11 = new AbortController(), d11 = setTimeout(() => c11.abort(), e4), f3 = null == b11 ? void 0 : b11.signal;
+            if (f3) {
+              if (f3.aborted) return clearTimeout(d11), h2(a12, b11);
+              let e5 = () => {
+                clearTimeout(d11), c11.abort();
+              };
+              return f3.addEventListener("abort", e5, { once: true }), h2(a12, bK(bK({}, b11), {}, { signal: c11.signal })).finally(() => {
+                clearTimeout(d11), f3.removeEventListener("abort", e5);
+              });
+            }
+            return h2(a12, bK(bK({}, b11), {}, { signal: c11.signal })).finally(() => clearTimeout(d11));
+          } : this.fetch = h2, this.retry = g2;
+        }
+        from(a11) {
+          if (!a11 || "string" != typeof a11 || "" === a11.trim()) throw Error("Invalid relation name: relation must be a non-empty string.");
+          return new bH(new URL(`${this.url}/${a11}`), { headers: new Headers(this.headers), schema: this.schemaName, fetch: this.fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+        schema(b10) {
+          return new a10(this.url, { headers: this.headers, schema: b10, fetch: this.fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+        rpc(a11, b10 = {}, { head: c10 = false, get: d10 = false, count: e4 } = {}) {
+          var f2;
+          let g2, h2, i2 = new URL(`${this.url}/rpc/${a11}`), j2 = (a12) => null !== a12 && "object" == typeof a12 && (!Array.isArray(a12) || a12.some(j2)), k2 = c10 && Object.values(b10).some(j2);
+          k2 ? (g2 = "POST", h2 = b10) : c10 || d10 ? (g2 = c10 ? "HEAD" : "GET", Object.entries(b10).filter(([a12, b11]) => void 0 !== b11).map(([a12, b11]) => [a12, Array.isArray(b11) ? `{${b11.join(",")}}` : `${b11}`]).forEach(([a12, b11]) => {
+            i2.searchParams.append(a12, b11);
+          })) : (g2 = "POST", h2 = b10);
+          let l2 = new Headers(this.headers);
+          return k2 ? l2.set("Prefer", e4 ? `count=${e4},return=minimal` : "return=minimal") : e4 && l2.set("Prefer", `count=${e4}`), new bG({ method: g2, url: i2, headers: l2, schema: this.schemaName, body: h2, fetch: null != (f2 = this.fetch) ? f2 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
+        }
+      };
+      class bM {
+        constructor() {
+        }
+        static detectEnvironment() {
+          var a10;
+          if ("undefined" != typeof WebSocket) return { type: "native", wsConstructor: WebSocket };
+          let b10 = globalThis;
+          if ("undefined" != typeof globalThis && void 0 !== b10.WebSocket) return { type: "native", wsConstructor: b10.WebSocket };
+          let d10 = void 0 !== c.g ? c.g : void 0;
+          if (d10 && void 0 !== d10.WebSocket) return { type: "native", wsConstructor: d10.WebSocket };
+          if ("undefined" != typeof globalThis && void 0 !== b10.WebSocketPair && void 0 === globalThis.WebSocket) return { type: "cloudflare", error: "Cloudflare Workers detected. WebSocket clients are not supported in Cloudflare Workers.", workaround: "Use Cloudflare Workers WebSocket API for server-side WebSocket handling, or deploy to a different runtime." };
+          if ("undefined" != typeof globalThis && b10.EdgeRuntime || "undefined" != typeof navigator && (null == (a10 = navigator.userAgent) ? void 0 : a10.includes("Vercel-Edge"))) return { type: "unsupported", error: "Edge runtime detected (Vercel Edge/Netlify Edge). WebSockets are not supported in edge functions.", workaround: "Use serverless functions or a different deployment target for WebSocket functionality." };
+          let e4 = globalThis.process;
+          if (e4) {
+            let a11 = e4.versions;
+            if (a11 && a11.node) {
+              let b11 = parseInt(a11.node.replace(/^v/, "").split(".")[0]);
+              return b11 >= 22 ? void 0 !== globalThis.WebSocket ? { type: "native", wsConstructor: globalThis.WebSocket } : { type: "unsupported", error: `Node.js ${b11} detected but native WebSocket not found.`, workaround: "Provide a WebSocket implementation via the transport option." } : { type: "unsupported", error: `Node.js ${b11} detected without native WebSocket support.`, workaround: 'For Node.js < 22, install "ws" package and provide it via the transport option:\nimport ws from "ws"\nnew RealtimeClient(url, { transport: ws })' };
+            }
+          }
+          return { type: "unsupported", error: "Unknown JavaScript runtime without WebSocket support.", workaround: "Ensure you're running in a supported environment (browser, Node.js, Deno) or provide a custom WebSocket implementation." };
+        }
+        static getWebSocketConstructor() {
+          let a10 = this.detectEnvironment();
+          if (a10.wsConstructor) return a10.wsConstructor;
+          let b10 = a10.error || "WebSocket not supported in this environment.";
+          throw a10.workaround && (b10 += `
+
+Suggested solution: ${a10.workaround}`), Error(b10);
+        }
+        static isWebSocketSupported() {
+          try {
+            let a10 = this.detectEnvironment();
+            return "native" === a10.type || "ws" === a10.type;
+          } catch (a10) {
+            return false;
+          }
+        }
+      }
+      let bN = "2.0.0", bO = { closed: "closed", errored: "errored", joined: "joined", joining: "joining", leaving: "leaving" }, bP = { close: "phx_close", error: "phx_error", join: "phx_join", reply: "phx_reply", leave: "phx_leave", access_token: "access_token" }, bQ = { connecting: "connecting", closing: "closing", closed: "closed" };
+      class bR {
+        constructor(a10) {
+          this.HEADER_LENGTH = 1, this.USER_BROADCAST_PUSH_META_LENGTH = 6, this.KINDS = { userBroadcastPush: 3, userBroadcast: 4 }, this.BINARY_ENCODING = 0, this.JSON_ENCODING = 1, this.BROADCAST_EVENT = "broadcast", this.allowedMetadataKeys = [], this.allowedMetadataKeys = null != a10 ? a10 : [];
+        }
+        encode(a10, b10) {
+          return a10.event !== this.BROADCAST_EVENT || a10.payload instanceof ArrayBuffer || "string" != typeof a10.payload.event ? b10(JSON.stringify([a10.join_ref, a10.ref, a10.topic, a10.event, a10.payload])) : b10(this._binaryEncodeUserBroadcastPush(a10));
+        }
+        _binaryEncodeUserBroadcastPush(a10) {
+          var b10;
+          return this._isArrayBuffer(null == (b10 = a10.payload) ? void 0 : b10.payload) ? this._encodeBinaryUserBroadcastPush(a10) : this._encodeJsonUserBroadcastPush(a10);
+        }
+        _encodeBinaryUserBroadcastPush(a10) {
+          var b10, c10;
+          let d10 = null != (c10 = null == (b10 = a10.payload) ? void 0 : b10.payload) ? c10 : new ArrayBuffer(0);
+          return this._encodeUserBroadcastPush(a10, this.BINARY_ENCODING, d10);
+        }
+        _encodeJsonUserBroadcastPush(a10) {
+          var b10, c10;
+          let d10 = null != (c10 = null == (b10 = a10.payload) ? void 0 : b10.payload) ? c10 : {}, e4 = new TextEncoder().encode(JSON.stringify(d10)).buffer;
+          return this._encodeUserBroadcastPush(a10, this.JSON_ENCODING, e4);
+        }
+        _encodeUserBroadcastPush(a10, b10, c10) {
+          let d10 = a10.topic, e4 = null != (n2 = a10.ref) ? n2 : "", f2 = null != (o2 = a10.join_ref) ? o2 : "", g2 = a10.payload.event, h2 = this.allowedMetadataKeys ? this._pick(a10.payload, this.allowedMetadataKeys) : {}, i2 = 0 === Object.keys(h2).length ? "" : JSON.stringify(h2);
+          if (f2.length > 255) throw Error(`joinRef length ${f2.length} exceeds maximum of 255`);
+          if (e4.length > 255) throw Error(`ref length ${e4.length} exceeds maximum of 255`);
+          if (d10.length > 255) throw Error(`topic length ${d10.length} exceeds maximum of 255`);
+          if (g2.length > 255) throw Error(`userEvent length ${g2.length} exceeds maximum of 255`);
+          if (i2.length > 255) throw Error(`metadata length ${i2.length} exceeds maximum of 255`);
+          let j2 = this.USER_BROADCAST_PUSH_META_LENGTH + f2.length + e4.length + d10.length + g2.length + i2.length, k2 = new ArrayBuffer(this.HEADER_LENGTH + j2), l2 = new DataView(k2), m2 = 0;
+          l2.setUint8(m2++, this.KINDS.userBroadcastPush), l2.setUint8(m2++, f2.length), l2.setUint8(m2++, e4.length), l2.setUint8(m2++, d10.length), l2.setUint8(m2++, g2.length), l2.setUint8(m2++, i2.length), l2.setUint8(m2++, b10), Array.from(f2, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(e4, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(d10, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(g2, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(i2, (a11) => l2.setUint8(m2++, a11.charCodeAt(0)));
+          var n2, o2, p2 = new Uint8Array(k2.byteLength + c10.byteLength);
+          return p2.set(new Uint8Array(k2), 0), p2.set(new Uint8Array(c10), k2.byteLength), p2.buffer;
+        }
+        decode(a10, b10) {
+          if (this._isArrayBuffer(a10)) return b10(this._binaryDecode(a10));
+          if ("string" == typeof a10) {
+            let [c10, d10, e4, f2, g2] = JSON.parse(a10);
+            return b10({ join_ref: c10, ref: d10, topic: e4, event: f2, payload: g2 });
+          }
+          return b10({});
+        }
+        _binaryDecode(a10) {
+          let b10 = new DataView(a10), c10 = b10.getUint8(0), d10 = new TextDecoder();
+          if (c10 === this.KINDS.userBroadcast) return this._decodeUserBroadcast(a10, b10, d10);
+        }
+        _decodeUserBroadcast(a10, b10, c10) {
+          let d10 = b10.getUint8(1), e4 = b10.getUint8(2), f2 = b10.getUint8(3), g2 = b10.getUint8(4), h2 = this.HEADER_LENGTH + 4, i2 = c10.decode(a10.slice(h2, h2 + d10));
+          h2 += d10;
+          let j2 = c10.decode(a10.slice(h2, h2 + e4));
+          h2 += e4;
+          let k2 = c10.decode(a10.slice(h2, h2 + f2));
+          h2 += f2;
+          let l2 = a10.slice(h2, a10.byteLength), m2 = g2 === this.JSON_ENCODING ? JSON.parse(c10.decode(l2)) : l2, n2 = { type: this.BROADCAST_EVENT, event: j2, payload: m2 };
+          return f2 > 0 && (n2.meta = JSON.parse(k2)), { join_ref: null, ref: null, topic: i2, event: this.BROADCAST_EVENT, payload: n2 };
+        }
+        _isArrayBuffer(a10) {
+          var b10;
+          return a10 instanceof ArrayBuffer || (null == (b10 = null == a10 ? void 0 : a10.constructor) ? void 0 : b10.name) === "ArrayBuffer";
+        }
+        _pick(a10, b10) {
+          return a10 && "object" == typeof a10 ? Object.fromEntries(Object.entries(a10).filter(([a11]) => b10.includes(a11))) : {};
+        }
+      }
+      !function(a10) {
+        a10.abstime = "abstime", a10.bool = "bool", a10.date = "date", a10.daterange = "daterange", a10.float4 = "float4", a10.float8 = "float8", a10.int2 = "int2", a10.int4 = "int4", a10.int4range = "int4range", a10.int8 = "int8", a10.int8range = "int8range", a10.json = "json", a10.jsonb = "jsonb", a10.money = "money", a10.numeric = "numeric", a10.oid = "oid", a10.reltime = "reltime", a10.text = "text", a10.time = "time", a10.timestamp = "timestamp", a10.timestamptz = "timestamptz", a10.timetz = "timetz", a10.tsrange = "tsrange", a10.tstzrange = "tstzrange";
+      }(h || (h = {}));
+      let bS = (a10, b10, c10 = {}) => {
+        var d10;
+        let e4 = null != (d10 = c10.skipTypes) ? d10 : [];
+        return b10 ? Object.keys(b10).reduce((c11, d11) => (c11[d11] = bT(d11, a10, b10, e4), c11), {}) : {};
+      }, bT = (a10, b10, c10, d10) => {
+        let e4 = b10.find((b11) => b11.name === a10), f2 = null == e4 ? void 0 : e4.type, g2 = c10[a10];
+        return f2 && !d10.includes(f2) ? bU(f2, g2) : bV(g2);
+      }, bU = (a10, b10) => {
+        if ("_" === a10.charAt(0)) return bZ(b10, a10.slice(1, a10.length));
+        switch (a10) {
+          case h.bool:
+            return bW(b10);
+          case h.float4:
+          case h.float8:
+          case h.int2:
+          case h.int4:
+          case h.int8:
+          case h.numeric:
+          case h.oid:
+            return bX(b10);
+          case h.json:
+          case h.jsonb:
+            return bY(b10);
+          case h.timestamp:
+            return b$(b10);
+          case h.abstime:
+          case h.date:
+          case h.daterange:
+          case h.int4range:
+          case h.int8range:
+          case h.money:
+          case h.reltime:
+          case h.text:
+          case h.time:
+          case h.timestamptz:
+          case h.timetz:
+          case h.tsrange:
+          case h.tstzrange:
+          default:
+            return bV(b10);
+        }
+      }, bV = (a10) => a10, bW = (a10) => {
+        switch (a10) {
+          case "t":
+            return true;
+          case "f":
+            return false;
+          default:
+            return a10;
+        }
+      }, bX = (a10) => {
+        if ("string" == typeof a10) {
+          let b10 = parseFloat(a10);
+          if (!Number.isNaN(b10)) return b10;
+        }
+        return a10;
+      }, bY = (a10) => {
+        if ("string" == typeof a10) try {
+          return JSON.parse(a10);
+        } catch (a11) {
+        }
+        return a10;
+      }, bZ = (a10, b10) => {
+        if ("string" != typeof a10) return a10;
+        let c10 = a10.length - 1, d10 = a10[c10];
+        if ("{" === a10[0] && "}" === d10) {
+          let d11, e4 = a10.slice(1, c10);
+          try {
+            d11 = JSON.parse("[" + e4 + "]");
+          } catch (a11) {
+            d11 = e4 ? e4.split(",") : [];
+          }
+          return d11.map((a11) => bU(b10, a11));
+        }
+        return a10;
+      }, b$ = (a10) => "string" == typeof a10 ? a10.replace(" ", "T") : a10, b_ = (a10) => {
+        let b10 = new URL(a10);
+        return b10.protocol = b10.protocol.replace(/^ws/i, "http"), b10.pathname = b10.pathname.replace(/\/+$/, "").replace(/\/socket\/websocket$/i, "").replace(/\/socket$/i, "").replace(/\/websocket$/i, ""), "" === b10.pathname || "/" === b10.pathname ? b10.pathname = "/api/broadcast" : b10.pathname = b10.pathname + "/api/broadcast", b10.href;
+      };
+      var b0 = (a10) => "function" == typeof a10 ? a10 : function() {
+        return a10;
+      }, b1 = "undefined" != typeof window ? window : null, b2 = ("undefined" != typeof self ? self : null) || b1 || globalThis, b3 = { connecting: 0, open: 1, closing: 2, closed: 3 }, b4 = { closed: "closed", errored: "errored", joined: "joined", joining: "joining", leaving: "leaving" }, b5 = { close: "phx_close", error: "phx_error", join: "phx_join", reply: "phx_reply", leave: "phx_leave" }, b6 = { longpoll: "longpoll", websocket: "websocket" }, b7 = { complete: 4 }, b8 = "base64url.bearer.phx.", b9 = class {
+        constructor(a10, b10, c10, d10) {
+          this.channel = a10, this.event = b10, this.payload = c10 || function() {
+            return {};
+          }, this.receivedResp = null, this.timeout = d10, this.timeoutTimer = null, this.recHooks = [], this.sent = false, this.ref = void 0;
+        }
+        resend(a10) {
+          this.timeout = a10, this.reset(), this.send();
+        }
+        send() {
+          this.hasReceived("timeout") || (this.startTimeout(), this.sent = true, this.channel.socket.push({ topic: this.channel.topic, event: this.event, payload: this.payload(), ref: this.ref, join_ref: this.channel.joinRef() }));
+        }
+        receive(a10, b10) {
+          return this.hasReceived(a10) && b10(this.receivedResp.response), this.recHooks.push({ status: a10, callback: b10 }), this;
+        }
+        reset() {
+          this.cancelRefEvent(), this.ref = null, this.refEvent = null, this.receivedResp = null, this.sent = false;
+        }
+        destroy() {
+          this.cancelRefEvent(), this.cancelTimeout();
+        }
+        matchReceive({ status: a10, response: b10, _ref: c10 }) {
+          this.recHooks.filter((b11) => b11.status === a10).forEach((a11) => a11.callback(b10));
+        }
+        cancelRefEvent() {
+          this.refEvent && this.channel.off(this.refEvent);
+        }
+        cancelTimeout() {
+          clearTimeout(this.timeoutTimer), this.timeoutTimer = null;
+        }
+        startTimeout() {
+          this.timeoutTimer && this.cancelTimeout(), this.ref = this.channel.socket.makeRef(), this.refEvent = this.channel.replyEventName(this.ref), this.channel.on(this.refEvent, (a10) => {
+            this.cancelRefEvent(), this.cancelTimeout(), this.receivedResp = a10, this.matchReceive(a10);
+          }), this.timeoutTimer = setTimeout(() => {
+            this.trigger("timeout", {});
+          }, this.timeout);
+        }
+        hasReceived(a10) {
+          return this.receivedResp && this.receivedResp.status === a10;
+        }
+        trigger(a10, b10) {
+          this.channel.trigger(this.refEvent, { status: a10, response: b10 });
+        }
+      }, ca = class {
+        constructor(a10, b10) {
+          this.callback = a10, this.timerCalc = b10, this.timer = void 0, this.tries = 0;
+        }
+        reset() {
+          this.tries = 0, clearTimeout(this.timer);
+        }
+        scheduleTimeout() {
+          clearTimeout(this.timer), this.timer = setTimeout(() => {
+            this.tries = this.tries + 1, this.callback();
+          }, this.timerCalc(this.tries + 1));
+        }
+      }, cb = class {
+        constructor(a10, b10, c10) {
+          this.state = b4.closed, this.topic = a10, this.params = b0(b10 || {}), this.socket = c10, this.bindings = [], this.bindingRef = 0, this.timeout = this.socket.timeout, this.joinedOnce = false, this.joinPush = new b9(this, b5.join, this.params, this.timeout), this.pushBuffer = [], this.stateChangeRefs = [], this.rejoinTimer = new ca(() => {
+            this.socket.isConnected() && this.rejoin();
+          }, this.socket.rejoinAfterMs), this.stateChangeRefs.push(this.socket.onError(() => this.rejoinTimer.reset())), this.stateChangeRefs.push(this.socket.onOpen(() => {
+            this.rejoinTimer.reset(), this.isErrored() && this.rejoin();
+          })), this.joinPush.receive("ok", () => {
+            this.state = b4.joined, this.rejoinTimer.reset(), this.pushBuffer.forEach((a11) => a11.send()), this.pushBuffer = [];
+          }), this.joinPush.receive("error", (a11) => {
+            this.state = b4.errored, this.socket.hasLogger() && this.socket.log("channel", `error ${this.topic}`, a11), this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
+          }), this.onClose(() => {
+            this.rejoinTimer.reset(), this.socket.hasLogger() && this.socket.log("channel", `close ${this.topic}`), this.state = b4.closed, this.socket.remove(this);
+          }), this.onError((a11) => {
+            this.socket.hasLogger() && this.socket.log("channel", `error ${this.topic}`, a11), this.isJoining() && this.joinPush.reset(), this.state = b4.errored, this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
+          }), this.joinPush.receive("timeout", () => {
+            this.socket.hasLogger() && this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout), new b9(this, b5.leave, b0({}), this.timeout).send(), this.state = b4.errored, this.joinPush.reset(), this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
+          }), this.on(b5.reply, (a11, b11) => {
+            this.trigger(this.replyEventName(b11), a11);
+          });
+        }
+        join(a10 = this.timeout) {
+          if (!this.joinedOnce) return this.timeout = a10, this.joinedOnce = true, this.rejoin(), this.joinPush;
+          throw Error("tried to join multiple times. 'join' can only be called a single time per channel instance");
+        }
+        teardown() {
+          this.pushBuffer.forEach((a10) => a10.destroy()), this.pushBuffer = [], this.rejoinTimer.reset(), this.joinPush.destroy(), this.state = b4.closed, this.bindings = [];
+        }
+        onClose(a10) {
+          this.on(b5.close, a10);
+        }
+        onError(a10) {
+          return this.on(b5.error, (b10) => a10(b10));
+        }
+        on(a10, b10) {
+          let c10 = this.bindingRef++;
+          return this.bindings.push({ event: a10, ref: c10, callback: b10 }), c10;
+        }
+        off(a10, b10) {
+          this.bindings = this.bindings.filter((c10) => c10.event !== a10 || void 0 !== b10 && b10 !== c10.ref);
+        }
+        canPush() {
+          return this.socket.isConnected() && this.isJoined();
+        }
+        push(a10, b10, c10 = this.timeout) {
+          if (b10 = b10 || {}, !this.joinedOnce) throw Error(`tried to push '${a10}' to '${this.topic}' before joining. Use channel.join() before pushing events`);
+          let d10 = new b9(this, a10, function() {
+            return b10;
+          }, c10);
+          return this.canPush() ? d10.send() : (d10.startTimeout(), this.pushBuffer.push(d10)), d10;
+        }
+        leave(a10 = this.timeout) {
+          this.rejoinTimer.reset(), this.joinPush.cancelTimeout(), this.state = b4.leaving;
+          let b10 = () => {
+            this.socket.hasLogger() && this.socket.log("channel", `leave ${this.topic}`), this.trigger(b5.close, "leave");
+          }, c10 = new b9(this, b5.leave, b0({}), a10);
+          return c10.receive("ok", () => b10()).receive("timeout", () => b10()), c10.send(), this.canPush() || c10.trigger("ok", {}), c10;
+        }
+        onMessage(a10, b10, c10) {
+          return b10;
+        }
+        filterBindings(a10, b10, c10) {
+          return true;
+        }
+        isMember(a10, b10, c10, d10) {
+          return this.topic === a10 && (!d10 || d10 === this.joinRef() || (this.socket.hasLogger() && this.socket.log("channel", "dropping outdated message", { topic: a10, event: b10, payload: c10, joinRef: d10 }), false));
+        }
+        joinRef() {
+          return this.joinPush.ref;
+        }
+        rejoin(a10 = this.timeout) {
+          this.isLeaving() || (this.socket.leaveOpenTopic(this.topic), this.state = b4.joining, this.joinPush.resend(a10));
+        }
+        trigger(a10, b10, c10, d10) {
+          let e4 = this.onMessage(a10, b10, c10, d10);
+          if (b10 && !e4) throw Error("channel onMessage callbacks must return the payload, modified or unmodified");
+          let f2 = this.bindings.filter((d11) => d11.event === a10 && this.filterBindings(d11, b10, c10));
+          for (let a11 = 0; a11 < f2.length; a11++) f2[a11].callback(e4, c10, d10 || this.joinRef());
+        }
+        replyEventName(a10) {
+          return `chan_reply_${a10}`;
+        }
+        isClosed() {
+          return this.state === b4.closed;
+        }
+        isErrored() {
+          return this.state === b4.errored;
+        }
+        isJoined() {
+          return this.state === b4.joined;
+        }
+        isJoining() {
+          return this.state === b4.joining;
+        }
+        isLeaving() {
+          return this.state === b4.leaving;
+        }
+      }, cc = class {
+        static request(a10, b10, c10, d10, e4, f2, g2) {
+          if (b2.XDomainRequest) {
+            let c11 = new b2.XDomainRequest();
+            return this.xdomainRequest(c11, a10, b10, d10, e4, f2, g2);
+          }
+          if (b2.XMLHttpRequest) {
+            let h2 = new b2.XMLHttpRequest();
+            return this.xhrRequest(h2, a10, b10, c10, d10, e4, f2, g2);
+          }
+          if (b2.fetch && b2.AbortController) return this.fetchRequest(a10, b10, c10, d10, e4, f2, g2);
+          throw Error("No suitable XMLHttpRequest implementation found");
+        }
+        static fetchRequest(a10, b10, c10, d10, e4, f2, g2) {
+          let h2 = { method: a10, headers: c10, body: d10 }, i2 = null;
+          return e4 && (i2 = new AbortController(), setTimeout(() => i2.abort(), e4), h2.signal = i2.signal), b2.fetch(b10, h2).then((a11) => a11.text()).then((a11) => this.parseJSON(a11)).then((a11) => g2 && g2(a11)).catch((a11) => {
+            "AbortError" === a11.name && f2 ? f2() : g2 && g2(null);
+          }), i2;
+        }
+        static xdomainRequest(a10, b10, c10, d10, e4, f2, g2) {
+          return a10.timeout = e4, a10.open(b10, c10), a10.onload = () => {
+            let b11 = this.parseJSON(a10.responseText);
+            g2 && g2(b11);
+          }, f2 && (a10.ontimeout = f2), a10.onprogress = () => {
+          }, a10.send(d10), a10;
+        }
+        static xhrRequest(a10, b10, c10, d10, e4, f2, g2, h2) {
+          for (let [e5, g3] of (a10.open(b10, c10, true), a10.timeout = f2, Object.entries(d10))) a10.setRequestHeader(e5, g3);
+          return a10.onerror = () => h2 && h2(null), a10.onreadystatechange = () => {
+            a10.readyState === b7.complete && h2 && h2(this.parseJSON(a10.responseText));
+          }, g2 && (a10.ontimeout = g2), a10.send(e4), a10;
+        }
+        static parseJSON(a10) {
+          if (!a10 || "" === a10) return null;
+          try {
+            return JSON.parse(a10);
+          } catch {
+            return console && console.log("failed to parse JSON response", a10), null;
+          }
+        }
+        static serialize(a10, b10) {
+          let c10 = [];
+          for (var d10 in a10) {
+            if (!Object.prototype.hasOwnProperty.call(a10, d10)) continue;
+            let e4 = b10 ? `${b10}[${d10}]` : d10, f2 = a10[d10];
+            "object" == typeof f2 ? c10.push(this.serialize(f2, e4)) : c10.push(encodeURIComponent(e4) + "=" + encodeURIComponent(f2));
+          }
+          return c10.join("&");
+        }
+        static appendParams(a10, b10) {
+          if (0 === Object.keys(b10).length) return a10;
+          let c10 = a10.match(/\?/) ? "&" : "?";
+          return `${a10}${c10}${this.serialize(b10)}`;
+        }
+      }, cd = class {
+        constructor(a10, b10) {
+          b10 && 2 === b10.length && b10[1].startsWith(b8) && (this.authToken = atob(b10[1].slice(b8.length))), this.endPoint = null, this.token = null, this.skipHeartbeat = true, this.reqs = /* @__PURE__ */ new Set(), this.awaitingBatchAck = false, this.currentBatch = null, this.currentBatchTimer = null, this.batchBuffer = [], this.onopen = function() {
+          }, this.onerror = function() {
+          }, this.onmessage = function() {
+          }, this.onclose = function() {
+          }, this.pollEndpoint = this.normalizeEndpoint(a10), this.readyState = b3.connecting, setTimeout(() => this.poll(), 0);
+        }
+        normalizeEndpoint(a10) {
+          return a10.replace("ws://", "http://").replace("wss://", "https://").replace(RegExp("(.*)/" + b6.websocket), "$1/" + b6.longpoll);
+        }
+        endpointURL() {
+          return cc.appendParams(this.pollEndpoint, { token: this.token });
+        }
+        closeAndRetry(a10, b10, c10) {
+          this.close(a10, b10, c10), this.readyState = b3.connecting;
+        }
+        ontimeout() {
+          this.onerror("timeout"), this.closeAndRetry(1005, "timeout", false);
+        }
+        isActive() {
+          return this.readyState === b3.open || this.readyState === b3.connecting;
+        }
+        poll() {
+          let a10 = { Accept: "application/json" };
+          this.authToken && (a10["X-Phoenix-AuthToken"] = this.authToken), this.ajax("GET", a10, null, () => this.ontimeout(), (a11) => {
+            if (a11) {
+              var { status: b10, token: c10, messages: d10 } = a11;
+              if (410 === b10 && null !== this.token) {
+                this.onerror(410), this.closeAndRetry(3410, "session_gone", false);
+                return;
+              }
+              this.token = c10;
+            } else b10 = 0;
+            switch (b10) {
+              case 200:
+                d10.forEach((a12) => {
+                  setTimeout(() => this.onmessage({ data: a12 }), 0);
+                }), this.poll();
+                break;
+              case 204:
+                this.poll();
+                break;
+              case 410:
+                this.readyState = b3.open, this.onopen({}), this.poll();
+                break;
+              case 403:
+                this.onerror(403), this.close(1008, "forbidden", false);
+                break;
+              case 0:
+              case 500:
+                this.onerror(500), this.closeAndRetry(1011, "internal server error", 500);
+                break;
+              default:
+                throw Error(`unhandled poll status ${b10}`);
+            }
+          });
+        }
+        send(a10) {
+          "string" != typeof a10 && (a10 = ((a11) => {
+            let b10 = "", c10 = new Uint8Array(a11), d10 = c10.byteLength;
+            for (let a12 = 0; a12 < d10; a12++) b10 += String.fromCharCode(c10[a12]);
+            return btoa(b10);
+          })(a10)), this.currentBatch ? this.currentBatch.push(a10) : this.awaitingBatchAck ? this.batchBuffer.push(a10) : (this.currentBatch = [a10], this.currentBatchTimer = setTimeout(() => {
+            this.batchSend(this.currentBatch), this.currentBatch = null;
+          }, 0));
+        }
+        batchSend(a10) {
+          this.awaitingBatchAck = true, this.ajax("POST", { "Content-Type": "application/x-ndjson" }, a10.join("\n"), () => this.onerror("timeout"), (a11) => {
+            this.awaitingBatchAck = false, a11 && 200 === a11.status ? this.batchBuffer.length > 0 && (this.batchSend(this.batchBuffer), this.batchBuffer = []) : (this.onerror(a11 && a11.status), this.closeAndRetry(1011, "internal server error", false));
+          });
+        }
+        close(a10, b10, c10) {
+          for (let a11 of this.reqs) a11.abort();
+          this.readyState = b3.closed;
+          let d10 = Object.assign({ code: 1e3, reason: void 0, wasClean: true }, { code: a10, reason: b10, wasClean: c10 });
+          this.batchBuffer = [], clearTimeout(this.currentBatchTimer), this.currentBatchTimer = null, "undefined" != typeof CloseEvent ? this.onclose(new CloseEvent("close", d10)) : this.onclose(d10);
+        }
+        ajax(a10, b10, c10, d10, e4) {
+          let f2, g2 = () => {
+            this.reqs.delete(f2), d10();
+          };
+          f2 = cc.request(a10, this.endpointURL(), b10, c10, this.timeout, g2, (a11) => {
+            this.reqs.delete(f2), this.isActive() && e4(a11);
+          }), this.reqs.add(f2);
+        }
+      }, ce = class a10 {
+        constructor(b10, c10 = {}) {
+          let d10 = c10.events || { state: "presence_state", diff: "presence_diff" };
+          this.state = {}, this.pendingDiffs = [], this.channel = b10, this.joinRef = null, this.caller = { onJoin: function() {
+          }, onLeave: function() {
+          }, onSync: function() {
+          } }, this.channel.on(d10.state, (b11) => {
+            let { onJoin: c11, onLeave: d11, onSync: e4 } = this.caller;
+            this.joinRef = this.channel.joinRef(), this.state = a10.syncState(this.state, b11, c11, d11), this.pendingDiffs.forEach((b12) => {
+              this.state = a10.syncDiff(this.state, b12, c11, d11);
+            }), this.pendingDiffs = [], e4();
+          }), this.channel.on(d10.diff, (b11) => {
+            let { onJoin: c11, onLeave: d11, onSync: e4 } = this.caller;
+            this.inPendingSyncState() ? this.pendingDiffs.push(b11) : (this.state = a10.syncDiff(this.state, b11, c11, d11), e4());
+          });
+        }
+        onJoin(a11) {
+          this.caller.onJoin = a11;
+        }
+        onLeave(a11) {
+          this.caller.onLeave = a11;
+        }
+        onSync(a11) {
+          this.caller.onSync = a11;
+        }
+        list(b10) {
+          return a10.list(this.state, b10);
+        }
+        inPendingSyncState() {
+          return !this.joinRef || this.joinRef !== this.channel.joinRef();
+        }
+        static syncState(a11, b10, c10, d10) {
+          let e4 = this.clone(a11), f2 = {}, g2 = {};
+          return this.map(e4, (a12, c11) => {
+            b10[a12] || (g2[a12] = c11);
+          }), this.map(b10, (a12, b11) => {
+            let c11 = e4[a12];
+            if (c11) {
+              let d11 = b11.metas.map((a13) => a13.phx_ref), e5 = c11.metas.map((a13) => a13.phx_ref), h2 = b11.metas.filter((a13) => 0 > e5.indexOf(a13.phx_ref)), i2 = c11.metas.filter((a13) => 0 > d11.indexOf(a13.phx_ref));
+              h2.length > 0 && (f2[a12] = b11, f2[a12].metas = h2), i2.length > 0 && (g2[a12] = this.clone(c11), g2[a12].metas = i2);
+            } else f2[a12] = b11;
+          }), this.syncDiff(e4, { joins: f2, leaves: g2 }, c10, d10);
+        }
+        static syncDiff(a11, b10, c10, d10) {
+          let { joins: e4, leaves: f2 } = this.clone(b10);
+          return c10 || (c10 = function() {
+          }), d10 || (d10 = function() {
+          }), this.map(e4, (b11, d11) => {
+            let e5 = a11[b11];
+            if (a11[b11] = this.clone(d11), e5) {
+              let c11 = a11[b11].metas.map((a12) => a12.phx_ref), d12 = e5.metas.filter((a12) => 0 > c11.indexOf(a12.phx_ref));
+              a11[b11].metas.unshift(...d12);
+            }
+            c10(b11, e5, d11);
+          }), this.map(f2, (b11, c11) => {
+            let e5 = a11[b11];
+            if (!e5) return;
+            let f3 = c11.metas.map((a12) => a12.phx_ref);
+            e5.metas = e5.metas.filter((a12) => 0 > f3.indexOf(a12.phx_ref)), d10(b11, e5, c11), 0 === e5.metas.length && delete a11[b11];
+          }), a11;
+        }
+        static list(a11, b10) {
+          return b10 || (b10 = function(a12, b11) {
+            return b11;
+          }), this.map(a11, (a12, c10) => b10(a12, c10));
+        }
+        static map(a11, b10) {
+          return Object.getOwnPropertyNames(a11).map((c10) => b10(c10, a11[c10]));
+        }
+        static clone(a11) {
+          return JSON.parse(JSON.stringify(a11));
+        }
+      }, cf = { HEADER_LENGTH: 1, META_LENGTH: 4, KINDS: { push: 0, reply: 1, broadcast: 2 }, encode(a10, b10) {
+        return a10.payload.constructor === ArrayBuffer ? b10(this.binaryEncode(a10)) : b10(JSON.stringify([a10.join_ref, a10.ref, a10.topic, a10.event, a10.payload]));
+      }, decode(a10, b10) {
+        if (a10.constructor === ArrayBuffer) return b10(this.binaryDecode(a10));
+        {
+          let [c10, d10, e4, f2, g2] = JSON.parse(a10);
+          return b10({ join_ref: c10, ref: d10, topic: e4, event: f2, payload: g2 });
+        }
+      }, binaryEncode(a10) {
+        let { join_ref: b10, ref: c10, event: d10, topic: e4, payload: f2 } = a10, g2 = this.META_LENGTH + b10.length + c10.length + e4.length + d10.length, h2 = new ArrayBuffer(this.HEADER_LENGTH + g2), i2 = new DataView(h2), j2 = 0;
+        i2.setUint8(j2++, this.KINDS.push), i2.setUint8(j2++, b10.length), i2.setUint8(j2++, c10.length), i2.setUint8(j2++, e4.length), i2.setUint8(j2++, d10.length), Array.from(b10, (a11) => i2.setUint8(j2++, a11.charCodeAt(0))), Array.from(c10, (a11) => i2.setUint8(j2++, a11.charCodeAt(0))), Array.from(e4, (a11) => i2.setUint8(j2++, a11.charCodeAt(0))), Array.from(d10, (a11) => i2.setUint8(j2++, a11.charCodeAt(0)));
+        var k2 = new Uint8Array(h2.byteLength + f2.byteLength);
+        return k2.set(new Uint8Array(h2), 0), k2.set(new Uint8Array(f2), h2.byteLength), k2.buffer;
+      }, binaryDecode(a10) {
+        let b10 = new DataView(a10), c10 = b10.getUint8(0), d10 = new TextDecoder();
+        switch (c10) {
+          case this.KINDS.push:
+            return this.decodePush(a10, b10, d10);
+          case this.KINDS.reply:
+            return this.decodeReply(a10, b10, d10);
+          case this.KINDS.broadcast:
+            return this.decodeBroadcast(a10, b10, d10);
+        }
+      }, decodePush(a10, b10, c10) {
+        let d10 = b10.getUint8(1), e4 = b10.getUint8(2), f2 = b10.getUint8(3), g2 = this.HEADER_LENGTH + this.META_LENGTH - 1, h2 = c10.decode(a10.slice(g2, g2 + d10));
+        g2 += d10;
+        let i2 = c10.decode(a10.slice(g2, g2 + e4));
+        g2 += e4;
+        let j2 = c10.decode(a10.slice(g2, g2 + f2));
+        return g2 += f2, { join_ref: h2, ref: null, topic: i2, event: j2, payload: a10.slice(g2, a10.byteLength) };
+      }, decodeReply(a10, b10, c10) {
+        let d10 = b10.getUint8(1), e4 = b10.getUint8(2), f2 = b10.getUint8(3), g2 = b10.getUint8(4), h2 = this.HEADER_LENGTH + this.META_LENGTH, i2 = c10.decode(a10.slice(h2, h2 + d10));
+        h2 += d10;
+        let j2 = c10.decode(a10.slice(h2, h2 + e4));
+        h2 += e4;
+        let k2 = c10.decode(a10.slice(h2, h2 + f2));
+        h2 += f2;
+        let l2 = c10.decode(a10.slice(h2, h2 + g2));
+        h2 += g2;
+        let m2 = a10.slice(h2, a10.byteLength);
+        return { join_ref: i2, ref: j2, topic: k2, event: b5.reply, payload: { status: l2, response: m2 } };
+      }, decodeBroadcast(a10, b10, c10) {
+        let d10 = b10.getUint8(1), e4 = b10.getUint8(2), f2 = this.HEADER_LENGTH + 2, g2 = c10.decode(a10.slice(f2, f2 + d10));
+        f2 += d10;
+        let h2 = c10.decode(a10.slice(f2, f2 + e4));
+        return f2 += e4, { join_ref: null, ref: null, topic: g2, event: h2, payload: a10.slice(f2, a10.byteLength) };
+      } }, cg = class {
+        constructor(a10, b10 = {}) {
+          this.stateChangeCallbacks = { open: [], close: [], error: [], message: [] }, this.channels = [], this.sendBuffer = [], this.ref = 0, this.fallbackRef = null, this.timeout = b10.timeout || 1e4, this.transport = b10.transport || b2.WebSocket || cd, this.conn = void 0, this.primaryPassedHealthCheck = false, this.longPollFallbackMs = b10.longPollFallbackMs, this.fallbackTimer = null;
+          let c10 = null;
+          try {
+            c10 = b2 && b2.sessionStorage;
+          } catch {
+          }
+          this.sessionStore = b10.sessionStorage || c10, this.establishedConnections = 0, this.defaultEncoder = cf.encode.bind(cf), this.defaultDecoder = cf.decode.bind(cf), this.closeWasClean = true, this.disconnecting = false, this.binaryType = b10.binaryType || "arraybuffer", this.connectClock = 1, this.pageHidden = false, this.encode = void 0, this.decode = void 0, this.transport !== cd ? (this.encode = b10.encode || this.defaultEncoder, this.decode = b10.decode || this.defaultDecoder) : (this.encode = this.defaultEncoder, this.decode = this.defaultDecoder);
+          let d10 = null;
+          b1 && b1.addEventListener && (b1.addEventListener("pagehide", (a11) => {
+            this.conn && (this.disconnect(), d10 = this.connectClock);
+          }), b1.addEventListener("pageshow", (a11) => {
+            d10 === this.connectClock && (d10 = null, this.connect());
+          }), b1.addEventListener("visibilitychange", () => {
+            "hidden" === document.visibilityState ? this.pageHidden = true : (this.pageHidden = false, this.isConnected() || this.closeWasClean || this.teardown(() => this.connect()));
+          })), this.heartbeatIntervalMs = b10.heartbeatIntervalMs || 3e4, this.autoSendHeartbeat = b10.autoSendHeartbeat ?? true, this.heartbeatCallback = b10.heartbeatCallback ?? (() => {
+          }), this.rejoinAfterMs = (a11) => b10.rejoinAfterMs ? b10.rejoinAfterMs(a11) : [1e3, 2e3, 5e3][a11 - 1] || 1e4, this.reconnectAfterMs = (a11) => b10.reconnectAfterMs ? b10.reconnectAfterMs(a11) : [10, 50, 100, 150, 200, 250, 500, 1e3, 2e3][a11 - 1] || 5e3, this.logger = b10.logger || null, !this.logger && b10.debug && (this.logger = (a11, b11, c11) => {
+            console.log(`${a11}: ${b11}`, c11);
+          }), this.longpollerTimeout = b10.longpollerTimeout || 2e4, this.params = b0(b10.params || {}), this.endPoint = `${a10}/${b6.websocket}`, this.vsn = b10.vsn || "2.0.0", this.heartbeatTimeoutTimer = null, this.heartbeatTimer = null, this.heartbeatSentAt = null, this.pendingHeartbeatRef = null, this.reconnectTimer = new ca(() => {
+            if (this.pageHidden) {
+              this.log("Not reconnecting as page is hidden!"), this.teardown();
+              return;
+            }
+            this.teardown(async () => {
+              b10.beforeReconnect && await b10.beforeReconnect(), this.connect();
+            });
+          }, this.reconnectAfterMs), this.authToken = b10.authToken;
+        }
+        getLongPollTransport() {
+          return cd;
+        }
+        replaceTransport(a10) {
+          this.connectClock++, this.closeWasClean = true, clearTimeout(this.fallbackTimer), this.reconnectTimer.reset(), this.conn && (this.conn.close(), this.conn = null), this.transport = a10;
+        }
+        protocol() {
+          return location.protocol.match(/^https/) ? "wss" : "ws";
+        }
+        endPointURL() {
+          let a10 = cc.appendParams(cc.appendParams(this.endPoint, this.params()), { vsn: this.vsn });
+          return "/" !== a10.charAt(0) ? a10 : "/" === a10.charAt(1) ? `${this.protocol()}:${a10}` : `${this.protocol()}://${location.host}${a10}`;
+        }
+        disconnect(a10, b10, c10) {
+          this.connectClock++, this.disconnecting = true, this.closeWasClean = true, clearTimeout(this.fallbackTimer), this.reconnectTimer.reset(), this.teardown(() => {
+            this.disconnecting = false, a10 && a10();
+          }, b10, c10);
+        }
+        connect(a10) {
+          a10 && (console && console.log("passing params to connect is deprecated. Instead pass :params to the Socket constructor"), this.params = b0(a10)), (!this.conn || this.disconnecting) && (this.longPollFallbackMs && this.transport !== cd ? this.connectWithFallback(cd, this.longPollFallbackMs) : this.transportConnect());
+        }
+        log(a10, b10, c10) {
+          this.logger && this.logger(a10, b10, c10);
+        }
+        hasLogger() {
+          return null !== this.logger;
+        }
+        onOpen(a10) {
+          let b10 = this.makeRef();
+          return this.stateChangeCallbacks.open.push([b10, a10]), b10;
+        }
+        onClose(a10) {
+          let b10 = this.makeRef();
+          return this.stateChangeCallbacks.close.push([b10, a10]), b10;
+        }
+        onError(a10) {
+          let b10 = this.makeRef();
+          return this.stateChangeCallbacks.error.push([b10, a10]), b10;
+        }
+        onMessage(a10) {
+          let b10 = this.makeRef();
+          return this.stateChangeCallbacks.message.push([b10, a10]), b10;
+        }
+        onHeartbeat(a10) {
+          this.heartbeatCallback = a10;
+        }
+        ping(a10) {
+          if (!this.isConnected()) return false;
+          let b10 = this.makeRef(), c10 = Date.now();
+          this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref: b10 });
+          let d10 = this.onMessage((e4) => {
+            e4.ref === b10 && (this.off([d10]), a10(Date.now() - c10));
+          });
+          return true;
+        }
+        transportName(a10) {
+          return a10 === cd ? "LongPoll" : a10.name;
+        }
+        transportConnect() {
+          let a10;
+          this.connectClock++, this.closeWasClean = false, this.authToken && (a10 = ["phoenix", `${b8}${btoa(this.authToken).replace(/=/g, "")}`]), this.conn = new this.transport(this.endPointURL(), a10), this.conn.binaryType = this.binaryType, this.conn.timeout = this.longpollerTimeout, this.conn.onopen = () => this.onConnOpen(), this.conn.onerror = (a11) => this.onConnError(a11), this.conn.onmessage = (a11) => this.onConnMessage(a11), this.conn.onclose = (a11) => this.onConnClose(a11);
+        }
+        getSession(a10) {
+          return this.sessionStore && this.sessionStore.getItem(a10);
+        }
+        storeSession(a10, b10) {
+          this.sessionStore && this.sessionStore.setItem(a10, b10);
+        }
+        connectWithFallback(a10, b10 = 2500) {
+          let c10, d10;
+          clearTimeout(this.fallbackTimer);
+          let e4 = false, f2 = true, g2 = this.transportName(a10), h2 = (b11) => {
+            this.log("transport", `falling back to ${g2}...`, b11), this.off([c10, d10]), f2 = false, this.replaceTransport(a10), this.transportConnect();
+          };
+          if (this.getSession(`phx:fallback:${g2}`)) return h2("memorized");
+          this.fallbackTimer = setTimeout(h2, b10), d10 = this.onError((a11) => {
+            this.log("transport", "error", a11), f2 && !e4 && (clearTimeout(this.fallbackTimer), h2(a11));
+          }), this.fallbackRef && this.off([this.fallbackRef]), this.fallbackRef = this.onOpen(() => {
+            if (e4 = true, !f2) {
+              let b11 = this.transportName(a10);
+              return this.primaryPassedHealthCheck || this.storeSession(`phx:fallback:${b11}`, "true"), this.log("transport", `established ${b11} fallback`);
+            }
+            clearTimeout(this.fallbackTimer), this.fallbackTimer = setTimeout(h2, b10), this.ping((a11) => {
+              this.log("transport", "connected to primary after", a11), this.primaryPassedHealthCheck = true, clearTimeout(this.fallbackTimer);
+            });
+          }), this.transportConnect();
+        }
+        clearHeartbeats() {
+          clearTimeout(this.heartbeatTimer), clearTimeout(this.heartbeatTimeoutTimer);
+        }
+        onConnOpen() {
+          this.hasLogger() && this.log("transport", `connected to ${this.endPointURL()}`), this.closeWasClean = false, this.disconnecting = false, this.establishedConnections++, this.flushSendBuffer(), this.reconnectTimer.reset(), this.autoSendHeartbeat && this.resetHeartbeat(), this.triggerStateCallbacks("open");
+        }
+        heartbeatTimeout() {
+          if (this.pendingHeartbeatRef) {
+            this.pendingHeartbeatRef = null, this.heartbeatSentAt = null, this.hasLogger() && this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
+            try {
+              this.heartbeatCallback("timeout");
+            } catch (a10) {
+              this.log("error", "error in heartbeat callback", a10);
+            }
+            this.triggerChanError(Error("heartbeat timeout")), this.closeWasClean = false, this.teardown(() => this.reconnectTimer.scheduleTimeout(), 1e3, "heartbeat timeout");
+          }
+        }
+        resetHeartbeat() {
+          this.conn && this.conn.skipHeartbeat || (this.pendingHeartbeatRef = null, this.clearHeartbeats(), this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs));
+        }
+        teardown(a10, b10, c10) {
+          if (!this.conn) return a10 && a10();
+          let d10 = this.conn;
+          this.waitForBufferDone(d10, () => {
+            b10 ? d10.close(b10, c10 || "") : d10.close(), this.waitForSocketClosed(d10, () => {
+              this.conn === d10 && (this.conn.onopen = function() {
+              }, this.conn.onerror = function() {
+              }, this.conn.onmessage = function() {
+              }, this.conn.onclose = function() {
+              }, this.conn = null), a10 && a10();
+            });
+          });
+        }
+        waitForBufferDone(a10, b10, c10 = 1) {
+          if (5 === c10 || !a10.bufferedAmount) return void b10();
+          setTimeout(() => {
+            this.waitForBufferDone(a10, b10, c10 + 1);
+          }, 150 * c10);
+        }
+        waitForSocketClosed(a10, b10, c10 = 1) {
+          if (5 === c10 || a10.readyState === b3.closed) return void b10();
+          setTimeout(() => {
+            this.waitForSocketClosed(a10, b10, c10 + 1);
+          }, 150 * c10);
+        }
+        onConnClose(a10) {
+          this.conn && (this.conn.onclose = () => {
+          }), this.hasLogger() && this.log("transport", "close", a10), this.triggerChanError(a10), this.clearHeartbeats(), this.closeWasClean || this.reconnectTimer.scheduleTimeout(), this.triggerStateCallbacks("close", a10);
+        }
+        onConnError(a10) {
+          this.hasLogger() && this.log("transport", "error", a10);
+          let b10 = this.transport, c10 = this.establishedConnections;
+          this.triggerStateCallbacks("error", a10, b10, c10), (b10 === this.transport || c10 > 0) && this.triggerChanError(a10);
+        }
+        triggerChanError(a10) {
+          this.channels.forEach((b10) => {
+            b10.isErrored() || b10.isLeaving() || b10.isClosed() || b10.trigger(b5.error, a10);
+          });
+        }
+        connectionState() {
+          switch (this.conn && this.conn.readyState) {
+            case b3.connecting:
+              return "connecting";
+            case b3.open:
+              return "open";
+            case b3.closing:
+              return "closing";
+            default:
+              return "closed";
+          }
+        }
+        isConnected() {
+          return "open" === this.connectionState();
+        }
+        remove(a10) {
+          this.off(a10.stateChangeRefs), this.channels = this.channels.filter((b10) => b10 !== a10);
+        }
+        off(a10) {
+          for (let b10 in this.stateChangeCallbacks) this.stateChangeCallbacks[b10] = this.stateChangeCallbacks[b10].filter(([b11]) => -1 === a10.indexOf(b11));
+        }
+        channel(a10, b10 = {}) {
+          let c10 = new cb(a10, b10, this);
+          return this.channels.push(c10), c10;
+        }
+        push(a10) {
+          if (this.hasLogger()) {
+            let { topic: b10, event: c10, payload: d10, ref: e4, join_ref: f2 } = a10;
+            this.log("push", `${b10} ${c10} (${f2}, ${e4})`, d10);
+          }
+          this.isConnected() ? this.encode(a10, (a11) => this.conn.send(a11)) : this.sendBuffer.push(() => this.encode(a10, (a11) => this.conn.send(a11)));
+        }
+        makeRef() {
+          let a10 = this.ref + 1;
+          return a10 === this.ref ? this.ref = 0 : this.ref = a10, this.ref.toString();
+        }
+        sendHeartbeat() {
+          if (!this.isConnected()) {
+            try {
+              this.heartbeatCallback("disconnected");
+            } catch (a10) {
+              this.log("error", "error in heartbeat callback", a10);
+            }
+            return;
+          }
+          if (this.pendingHeartbeatRef) return void this.heartbeatTimeout();
+          this.pendingHeartbeatRef = this.makeRef(), this.heartbeatSentAt = Date.now(), this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref: this.pendingHeartbeatRef });
+          try {
+            this.heartbeatCallback("sent");
+          } catch (a10) {
+            this.log("error", "error in heartbeat callback", a10);
+          }
+          this.heartbeatTimeoutTimer = setTimeout(() => this.heartbeatTimeout(), this.heartbeatIntervalMs);
+        }
+        flushSendBuffer() {
+          this.isConnected() && this.sendBuffer.length > 0 && (this.sendBuffer.forEach((a10) => a10()), this.sendBuffer = []);
+        }
+        onConnMessage(a10) {
+          this.decode(a10.data, (a11) => {
+            let { topic: b10, event: c10, payload: d10, ref: e4, join_ref: f2 } = a11;
+            if (e4 && e4 === this.pendingHeartbeatRef) {
+              let a12 = this.heartbeatSentAt ? Date.now() - this.heartbeatSentAt : void 0;
+              this.clearHeartbeats();
+              try {
+                this.heartbeatCallback("ok" === d10.status ? "ok" : "error", a12);
+              } catch (a13) {
+                this.log("error", "error in heartbeat callback", a13);
+              }
+              this.pendingHeartbeatRef = null, this.heartbeatSentAt = null, this.autoSendHeartbeat && (this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs));
+            }
+            this.hasLogger() && this.log("receive", `${d10.status || ""} ${b10} ${c10} ${e4 && "(" + e4 + ")" || ""}`.trim(), d10);
+            for (let a12 = 0; a12 < this.channels.length; a12++) {
+              let g2 = this.channels[a12];
+              g2.isMember(b10, c10, d10, f2) && g2.trigger(c10, d10, e4, f2);
+            }
+            this.triggerStateCallbacks("message", a11);
+          });
+        }
+        triggerStateCallbacks(a10, ...b10) {
+          try {
+            this.stateChangeCallbacks[a10].forEach(([c10, d10]) => {
+              try {
+                d10(...b10);
+              } catch (b11) {
+                this.log("error", `error in ${a10} callback`, b11);
+              }
+            });
+          } catch (b11) {
+            this.log("error", `error triggering ${a10} callbacks`, b11);
+          }
+        }
+        leaveOpenTopic(a10) {
+          let b10 = this.channels.find((b11) => b11.topic === a10 && (b11.isJoined() || b11.isJoining()));
+          b10 && (this.hasLogger() && this.log("transport", `leaving duplicate topic "${a10}"`), b10.leave());
+        }
+      };
+      class ch {
+        constructor(a10, b10) {
+          let c10 = function(a11) {
+            return (null == a11 ? void 0 : a11.events) && { events: a11.events };
+          }(b10);
+          this.presence = new ce(a10.getChannel(), c10), this.presence.onJoin((b11, c11, d10) => {
+            let e4 = ch.onJoinPayload(b11, c11, d10);
+            a10.getChannel().trigger("presence", e4);
+          }), this.presence.onLeave((b11, c11, d10) => {
+            let e4 = ch.onLeavePayload(b11, c11, d10);
+            a10.getChannel().trigger("presence", e4);
+          }), this.presence.onSync(() => {
+            a10.getChannel().trigger("presence", { event: "sync" });
+          });
+        }
+        get state() {
+          return ch.transformState(this.presence.state);
+        }
+        static transformState(a10) {
+          return Object.getOwnPropertyNames(a10 = JSON.parse(JSON.stringify(a10))).reduce((b10, c10) => {
+            let d10 = a10[c10];
+            return b10[c10] = ci(d10), b10;
+          }, {});
+        }
+        static onJoinPayload(a10, b10, c10) {
+          return { event: "join", key: a10, currentPresences: cj(b10), newPresences: ci(c10) };
+        }
+        static onLeavePayload(a10, b10, c10) {
+          return { event: "leave", key: a10, currentPresences: cj(b10), leftPresences: ci(c10) };
+        }
+      }
+      function ci(a10) {
+        return a10.metas.map((a11) => (a11.presence_ref = a11.phx_ref, delete a11.phx_ref, delete a11.phx_ref_prev, a11));
+      }
+      function cj(a10) {
+        return (null == a10 ? void 0 : a10.metas) ? ci(a10) : [];
+      }
+      !function(a10) {
+        a10.SYNC = "sync", a10.JOIN = "join", a10.LEAVE = "leave";
+      }(i || (i = {}));
+      class ck {
+        get state() {
+          return this.presenceAdapter.state;
+        }
+        constructor(a10, b10) {
+          this.channel = a10, this.presenceAdapter = new ch(this.channel.channelAdapter, b10);
+        }
+      }
+      class cl {
+        constructor(a10, b10, c10) {
+          let d10 = { config: Object.assign({ broadcast: { ack: false, self: false }, presence: { key: "", enabled: false }, private: false }, c10.config) };
+          this.channel = a10.getSocket().channel(b10, d10), this.socket = a10;
+        }
+        get state() {
+          return this.channel.state;
+        }
+        set state(a10) {
+          this.channel.state = a10;
+        }
+        get joinedOnce() {
+          return this.channel.joinedOnce;
+        }
+        get joinPush() {
+          return this.channel.joinPush;
+        }
+        get rejoinTimer() {
+          return this.channel.rejoinTimer;
+        }
+        on(a10, b10) {
+          return this.channel.on(a10, b10);
+        }
+        off(a10, b10) {
+          this.channel.off(a10, b10);
+        }
+        subscribe(a10) {
+          return this.channel.join(a10);
+        }
+        unsubscribe(a10) {
+          return this.channel.leave(a10);
+        }
+        teardown() {
+          this.channel.teardown();
+        }
+        onClose(a10) {
+          this.channel.onClose(a10);
+        }
+        onError(a10) {
+          return this.channel.onError(a10);
+        }
+        push(a10, b10, c10) {
+          let d10;
+          try {
+            d10 = this.channel.push(a10, b10, c10);
+          } catch (b11) {
+            throw Error(`tried to push '${a10}' to '${this.channel.topic}' before joining. Use channel.subscribe() before pushing events`);
+          }
+          if (this.channel.pushBuffer.length > 100) {
+            let a11 = this.channel.pushBuffer.shift();
+            a11.cancelTimeout(), this.socket.log("channel", `discarded push due to buffer overflow: ${a11.event}`, a11.payload());
+          }
+          return d10;
+        }
+        updateJoinPayload(a10) {
+          let b10 = this.channel.joinPush.payload();
+          this.channel.joinPush.payload = () => Object.assign(Object.assign({}, b10), a10);
+        }
+        canPush() {
+          return this.socket.isConnected() && this.state === bO.joined;
+        }
+        isJoined() {
+          return this.state === bO.joined;
+        }
+        isJoining() {
+          return this.state === bO.joining;
+        }
+        isClosed() {
+          return this.state === bO.closed;
+        }
+        isLeaving() {
+          return this.state === bO.leaving;
+        }
+        updateFilterBindings(a10) {
+          this.channel.filterBindings = a10;
+        }
+        updatePayloadTransform(a10) {
+          this.channel.onMessage = a10;
+        }
+        getChannel() {
+          return this.channel;
+        }
+      }
+      !function(a10) {
+        a10.ALL = "*", a10.INSERT = "INSERT", a10.UPDATE = "UPDATE", a10.DELETE = "DELETE";
+      }(j || (j = {})), function(a10) {
+        a10.BROADCAST = "broadcast", a10.PRESENCE = "presence", a10.POSTGRES_CHANGES = "postgres_changes", a10.SYSTEM = "system";
+      }(k || (k = {})), function(a10) {
+        a10.SUBSCRIBED = "SUBSCRIBED", a10.TIMED_OUT = "TIMED_OUT", a10.CLOSED = "CLOSED", a10.CHANNEL_ERROR = "CHANNEL_ERROR";
+      }(l || (l = {}));
+      class cm {
+        get state() {
+          return this.channelAdapter.state;
+        }
+        set state(a10) {
+          this.channelAdapter.state = a10;
+        }
+        get joinedOnce() {
+          return this.channelAdapter.joinedOnce;
+        }
+        get timeout() {
+          return this.socket.timeout;
+        }
+        get joinPush() {
+          return this.channelAdapter.joinPush;
+        }
+        get rejoinTimer() {
+          return this.channelAdapter.rejoinTimer;
+        }
+        constructor(a10, b10 = { config: {} }, c10) {
+          var d10, e4;
+          if (this.topic = a10, this.params = b10, this.socket = c10, this.bindings = {}, this.subTopic = a10.replace(/^realtime:/i, ""), this.params.config = Object.assign({ broadcast: { ack: false, self: false }, presence: { key: "", enabled: false }, private: false }, b10.config), this.channelAdapter = new cl(this.socket.socketAdapter, a10, this.params), this.presence = new ck(this), this._onClose(() => {
+            this.socket._remove(this);
+          }), this._updateFilterTransform(), this.broadcastEndpointURL = b_(this.socket.socketAdapter.endPointURL()), this.private = this.params.config.private || false, !this.private && (null == (e4 = null == (d10 = this.params.config) ? void 0 : d10.broadcast) ? void 0 : e4.replay)) throw Error(`tried to use replay on public channel '${this.topic}'. It must be a private channel.`);
+        }
+        subscribe(a10, b10 = this.timeout) {
+          var c10, d10, e4;
+          if (this.socket.isConnected() || this.socket.connect(), this.channelAdapter.isClosed()) {
+            let { config: { broadcast: f2, presence: g2, private: h2 } } = this.params, i2 = null != (d10 = null == (c10 = this.bindings.postgres_changes) ? void 0 : c10.map((a11) => a11.filter)) ? d10 : [], j2 = !!this.bindings[k.PRESENCE] && this.bindings[k.PRESENCE].length > 0 || (null == (e4 = this.params.config.presence) ? void 0 : e4.enabled) === true, m2 = {}, n2 = { broadcast: f2, presence: Object.assign(Object.assign({}, g2), { enabled: j2 }), postgres_changes: i2, private: h2 };
+            this.socket.accessTokenValue && (m2.access_token = this.socket.accessTokenValue), this._onError((b11) => {
+              null == a10 || a10(l.CHANNEL_ERROR, function(a11) {
+                if (a11 instanceof Error) return a11;
+                if ("string" == typeof a11) return Error(a11);
+                if (a11 && "object" == typeof a11) {
+                  if ("number" == typeof a11.code) {
+                    let b12 = "string" == typeof a11.reason && a11.reason ? ` (${a11.reason})` : "";
+                    return Error(`socket closed: ${a11.code}${b12}`, { cause: a11 });
+                  }
+                  return Error("channel error: transport failure", { cause: a11 });
+                }
+                return Error("channel error: connection lost");
+              }(b11));
+            }), this._onClose(() => null == a10 ? void 0 : a10(l.CLOSED)), this.updateJoinPayload(Object.assign({ config: n2 }, m2)), this._updateFilterMessage(), this.channelAdapter.subscribe(b10).receive("ok", async ({ postgres_changes: b11 }) => {
+              if (this.socket._isManualToken() || this.socket.setAuth(), void 0 === b11) {
+                null == a10 || a10(l.SUBSCRIBED);
+                return;
+              }
+              this._updatePostgresBindings(b11, a10);
+            }).receive("error", (b11) => {
+              this.state = bO.errored;
+              let c11 = Object.values(b11).join(", ") || "error";
+              null == a10 || a10(l.CHANNEL_ERROR, Error(c11, { cause: b11 }));
+            }).receive("timeout", () => {
+              null == a10 || a10(l.TIMED_OUT);
+            });
+          }
+          return this;
+        }
+        _updatePostgresBindings(a10, b10) {
+          var c10;
+          let d10 = this.bindings.postgres_changes, e4 = null != (c10 = null == d10 ? void 0 : d10.length) ? c10 : 0, f2 = [];
+          for (let c11 = 0; c11 < e4; c11++) {
+            let e5 = d10[c11], { filter: { event: g2, schema: h2, table: i2, filter: j2 } } = e5, k2 = a10 && a10[c11];
+            if (k2 && k2.event === g2 && cm.isFilterValueEqual(k2.schema, h2) && cm.isFilterValueEqual(k2.table, i2) && cm.isFilterValueEqual(k2.filter, j2)) f2.push(Object.assign(Object.assign({}, e5), { id: k2.id }));
+            else {
+              this.unsubscribe(), this.state = bO.errored, null == b10 || b10(l.CHANNEL_ERROR, Error("mismatch between server and client bindings for postgres changes"));
+              return;
+            }
+          }
+          this.bindings.postgres_changes = f2, this.state != bO.errored && b10 && b10(l.SUBSCRIBED);
+        }
+        presenceState() {
+          return this.presence.state;
+        }
+        async track(a10, b10 = {}) {
+          return await this.send({ type: "presence", event: "track", payload: a10 }, b10.timeout || this.timeout);
+        }
+        async untrack(a10 = {}) {
+          return await this.send({ type: "presence", event: "untrack" }, a10);
+        }
+        on(a10, b10, c10) {
+          let d10 = this.channelAdapter.isJoined() || this.channelAdapter.isJoining(), e4 = a10 === k.PRESENCE || a10 === k.POSTGRES_CHANGES;
+          if (d10 && e4) throw this.socket.log("channel", `cannot add \`${a10}\` callbacks for ${this.topic} after \`subscribe()\`.`), Error(`cannot add \`${a10}\` callbacks for ${this.topic} after \`subscribe()\`.`);
+          return this._on(a10, b10, c10);
+        }
+        async httpSend(a10, b10, c10 = {}) {
+          var d10;
+          if (null == b10) return Promise.reject(Error("Payload is required for httpSend()"));
+          let e4 = { apikey: this.socket.apiKey ? this.socket.apiKey : "", "Content-Type": "application/json" };
+          this.socket.accessTokenValue && (e4.Authorization = `Bearer ${this.socket.accessTokenValue}`);
+          let f2 = { method: "POST", headers: e4, body: JSON.stringify({ messages: [{ topic: this.subTopic, event: a10, payload: b10, private: this.private }] }) }, g2 = await this._fetchWithTimeout(this.broadcastEndpointURL, f2, null != (d10 = c10.timeout) ? d10 : this.timeout);
+          if (202 === g2.status) return { success: true };
+          let h2 = g2.statusText;
+          try {
+            let a11 = await g2.json();
+            h2 = a11.error || a11.message || h2;
+          } catch (a11) {
+          }
+          return Promise.reject(Error(h2));
+        }
+        async send(a10, b10 = {}) {
+          var c10, d10;
+          if (this.channelAdapter.canPush() || "broadcast" !== a10.type) return new Promise((c11) => {
+            var d11, e4, f2;
+            let g2 = this.channelAdapter.push(a10.type, a10, b10.timeout || this.timeout);
+            "broadcast" !== a10.type || (null == (f2 = null == (e4 = null == (d11 = this.params) ? void 0 : d11.config) ? void 0 : e4.broadcast) ? void 0 : f2.ack) || c11("ok"), g2.receive("ok", () => c11("ok")), g2.receive("error", () => c11("error")), g2.receive("timeout", () => c11("timed out"));
+          });
+          {
+            console.warn("Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.");
+            let { event: e4, payload: f2 } = a10, g2 = { apikey: this.socket.apiKey ? this.socket.apiKey : "", "Content-Type": "application/json" };
+            this.socket.accessTokenValue && (g2.Authorization = `Bearer ${this.socket.accessTokenValue}`);
+            let h2 = { method: "POST", headers: g2, body: JSON.stringify({ messages: [{ topic: this.subTopic, event: e4, payload: f2, private: this.private }] }) };
+            try {
+              let a11 = await this._fetchWithTimeout(this.broadcastEndpointURL, h2, null != (c10 = b10.timeout) ? c10 : this.timeout);
+              return await (null == (d10 = a11.body) ? void 0 : d10.cancel()), a11.ok ? "ok" : "error";
+            } catch (a11) {
+              if (a11 instanceof Error && "AbortError" === a11.name) return "timed out";
+              return "error";
+            }
+          }
+        }
+        updateJoinPayload(a10) {
+          this.channelAdapter.updateJoinPayload(a10);
+        }
+        async unsubscribe(a10 = this.timeout) {
+          return new Promise((b10) => {
+            this.channelAdapter.unsubscribe(a10).receive("ok", () => b10("ok")).receive("timeout", () => b10("timed out")).receive("error", () => b10("error"));
+          });
+        }
+        teardown() {
+          this.channelAdapter.teardown();
+        }
+        async _fetchWithTimeout(a10, b10, c10) {
+          let d10 = new AbortController(), e4 = setTimeout(() => d10.abort(), c10), f2 = await this.socket.fetch(a10, Object.assign(Object.assign({}, b10), { signal: d10.signal }));
+          return clearTimeout(e4), f2;
+        }
+        _on(a10, b10, c10) {
+          let d10 = a10.toLocaleLowerCase(), e4 = this.channelAdapter.on(a10, c10), f2 = { type: d10, filter: b10, callback: c10, ref: e4 };
+          return this.bindings[d10] ? this.bindings[d10].push(f2) : this.bindings[d10] = [f2], this._updateFilterMessage(), this;
+        }
+        _onClose(a10) {
+          this.channelAdapter.onClose(a10);
+        }
+        _onError(a10) {
+          this.channelAdapter.onError(a10);
+        }
+        _updateFilterMessage() {
+          this.channelAdapter.updateFilterBindings((a10, b10, c10) => {
+            var d10, e4, f2, g2, h2, i2, j2;
+            let k2 = a10.event.toLocaleLowerCase();
+            if (this._notThisChannelEvent(k2, c10)) return false;
+            let l2 = null == (d10 = this.bindings[k2]) ? void 0 : d10.find((b11) => b11.ref === a10.ref);
+            if (!l2) return true;
+            if (!["broadcast", "presence", "postgres_changes"].includes(k2)) return l2.type.toLocaleLowerCase() === k2;
+            if ("id" in l2) {
+              let a11 = l2.id, c11 = null == (e4 = l2.filter) ? void 0 : e4.event;
+              return a11 && (null == (f2 = b10.ids) ? void 0 : f2.includes(a11)) && ("*" === c11 || (null == c11 ? void 0 : c11.toLocaleLowerCase()) === (null == (g2 = b10.data) ? void 0 : g2.type.toLocaleLowerCase()));
+            }
+            {
+              let a11 = null == (i2 = null == (h2 = null == l2 ? void 0 : l2.filter) ? void 0 : h2.event) ? void 0 : i2.toLocaleLowerCase();
+              return "*" === a11 || a11 === (null == (j2 = null == b10 ? void 0 : b10.event) ? void 0 : j2.toLocaleLowerCase());
+            }
+          });
+        }
+        _notThisChannelEvent(a10, b10) {
+          let { close: c10, error: d10, leave: e4, join: f2 } = bP;
+          return b10 && [c10, d10, e4, f2].includes(a10) && b10 !== this.joinPush.ref;
+        }
+        _updateFilterTransform() {
+          this.channelAdapter.updatePayloadTransform((a10, b10, c10) => {
+            if ("object" == typeof b10 && "ids" in b10) {
+              let a11 = b10.data, { schema: c11, table: d10, commit_timestamp: e4, type: f2, errors: g2 } = a11;
+              return Object.assign(Object.assign({}, { schema: c11, table: d10, commit_timestamp: e4, eventType: f2, new: {}, old: {}, errors: g2 }), this._getPayloadRecords(a11));
+            }
+            return b10;
+          });
+        }
+        copyBindings(a10) {
+          if (this.joinedOnce) throw Error("cannot copy bindings into joined channel");
+          for (let b10 in a10.bindings) for (let c10 of a10.bindings[b10]) this._on(c10.type, c10.filter, c10.callback);
+        }
+        static isFilterValueEqual(a10, b10) {
+          return (null != a10 ? a10 : void 0) === (null != b10 ? b10 : void 0);
+        }
+        _getPayloadRecords(a10) {
+          let b10 = { new: {}, old: {} };
+          return ("INSERT" === a10.type || "UPDATE" === a10.type) && (b10.new = bS(a10.columns, a10.record)), ("UPDATE" === a10.type || "DELETE" === a10.type) && (b10.old = bS(a10.columns, a10.old_record)), b10;
+        }
+      }
+      class cn {
+        constructor(a10, b10) {
+          this.socket = new cg(a10, b10);
+        }
+        get timeout() {
+          return this.socket.timeout;
+        }
+        get endPoint() {
+          return this.socket.endPoint;
+        }
+        get transport() {
+          return this.socket.transport;
+        }
+        get heartbeatIntervalMs() {
+          return this.socket.heartbeatIntervalMs;
+        }
+        get heartbeatCallback() {
+          return this.socket.heartbeatCallback;
+        }
+        set heartbeatCallback(a10) {
+          this.socket.heartbeatCallback = a10;
+        }
+        get heartbeatTimer() {
+          return this.socket.heartbeatTimer;
+        }
+        get pendingHeartbeatRef() {
+          return this.socket.pendingHeartbeatRef;
+        }
+        get reconnectTimer() {
+          return this.socket.reconnectTimer;
+        }
+        get vsn() {
+          return this.socket.vsn;
+        }
+        get encode() {
+          return this.socket.encode;
+        }
+        get decode() {
+          return this.socket.decode;
+        }
+        get reconnectAfterMs() {
+          return this.socket.reconnectAfterMs;
+        }
+        get sendBuffer() {
+          return this.socket.sendBuffer;
+        }
+        get stateChangeCallbacks() {
+          return this.socket.stateChangeCallbacks;
+        }
+        connect() {
+          this.socket.connect();
+        }
+        disconnect(a10, b10, c10, d10 = 1e4) {
+          return new Promise((e4) => {
+            setTimeout(() => e4("timeout"), d10), this.socket.disconnect(() => {
+              a10(), e4("ok");
+            }, b10, c10);
+          });
+        }
+        push(a10) {
+          this.socket.push(a10);
+        }
+        log(a10, b10, c10) {
+          this.socket.log(a10, b10, c10);
+        }
+        makeRef() {
+          return this.socket.makeRef();
+        }
+        onOpen(a10) {
+          this.socket.onOpen(a10);
+        }
+        onClose(a10) {
+          this.socket.onClose(a10);
+        }
+        onError(a10) {
+          this.socket.onError(a10);
+        }
+        onMessage(a10) {
+          this.socket.onMessage(a10);
+        }
+        isConnected() {
+          return this.socket.isConnected();
+        }
+        isConnecting() {
+          return this.socket.connectionState() == bQ.connecting;
+        }
+        isDisconnecting() {
+          return this.socket.connectionState() == bQ.closing;
+        }
+        connectionState() {
+          return this.socket.connectionState();
+        }
+        endPointURL() {
+          return this.socket.endPointURL();
+        }
+        sendHeartbeat() {
+          this.socket.sendHeartbeat();
+        }
+        getSocket() {
+          return this.socket;
+        }
+      }
+      let co = { HEARTBEAT_INTERVAL: 25e3 }, cp = [1e3, 2e3, 5e3, 1e4], cq = `
+  addEventListener("message", (e) => {
+    if (e.data.event === "start") {
+      setInterval(() => postMessage({ event: "keepAlive" }), e.data.interval);
+    }
+  });`;
+      class cr {
+        get endPoint() {
+          return this.socketAdapter.endPoint;
+        }
+        get timeout() {
+          return this.socketAdapter.timeout;
+        }
+        get transport() {
+          return this.socketAdapter.transport;
+        }
+        get heartbeatCallback() {
+          return this.socketAdapter.heartbeatCallback;
+        }
+        get heartbeatIntervalMs() {
+          return this.socketAdapter.heartbeatIntervalMs;
+        }
+        get heartbeatTimer() {
+          return this.worker ? this._workerHeartbeatTimer : this.socketAdapter.heartbeatTimer;
+        }
+        get pendingHeartbeatRef() {
+          return this.worker ? this._pendingWorkerHeartbeatRef : this.socketAdapter.pendingHeartbeatRef;
+        }
+        get reconnectTimer() {
+          return this.socketAdapter.reconnectTimer;
+        }
+        get vsn() {
+          return this.socketAdapter.vsn;
+        }
+        get encode() {
+          return this.socketAdapter.encode;
+        }
+        get decode() {
+          return this.socketAdapter.decode;
+        }
+        get reconnectAfterMs() {
+          return this.socketAdapter.reconnectAfterMs;
+        }
+        get sendBuffer() {
+          return this.socketAdapter.sendBuffer;
+        }
+        get stateChangeCallbacks() {
+          return this.socketAdapter.stateChangeCallbacks;
+        }
+        constructor(a10, b10) {
+          var c10;
+          if (this.channels = [], this.accessTokenValue = null, this.accessToken = null, this.apiKey = null, this.httpEndpoint = "", this.headers = {}, this.params = {}, this.ref = 0, this.serializer = new bR(), this._manuallySetToken = false, this._authPromise = null, this._workerHeartbeatTimer = void 0, this._pendingWorkerHeartbeatRef = null, this._pendingDisconnectTimer = null, this._disconnectOnEmptyChannelsAfterMs = 0, this._resolveFetch = (a11) => a11 ? (...b11) => a11(...b11) : (...a12) => fetch(...a12), !(null == (c10 = null == b10 ? void 0 : b10.params) ? void 0 : c10.apikey)) throw Error("API key is required to connect to Realtime");
+          this.apiKey = b10.params.apikey;
+          let d10 = this._initializeOptions(b10);
+          this.socketAdapter = new cn(a10, d10), this.httpEndpoint = b_(a10), this.fetch = this._resolveFetch(null == b10 ? void 0 : b10.fetch);
+        }
+        connect() {
+          if (!(this.isConnecting() || this.isDisconnecting() || this.isConnected())) {
+            this.accessToken && !this._authPromise && this._setAuthSafely("connect"), this._setupConnectionHandlers();
+            try {
+              this.socketAdapter.connect();
+            } catch (b10) {
+              let a10 = b10.message;
+              if (a10.includes("Node.js")) throw Error(`${a10}
+
+To use Realtime in Node.js, you need to provide a WebSocket implementation:
+
+Option 1: Use Node.js 22+ which has native WebSocket support
+Option 2: Install and provide the "ws" package:
+
+  npm install ws
+
+  import ws from "ws"
+  const client = new RealtimeClient(url, {
+    ...options,
+    transport: ws
+  })`);
+              throw Error(`WebSocket not available: ${a10}`);
+            }
+            this._handleNodeJsRaceCondition();
+          }
+        }
+        endpointURL() {
+          return this.socketAdapter.endPointURL();
+        }
+        async disconnect(a10, b10) {
+          return (this._cancelPendingDisconnect(), this.isDisconnecting()) ? "ok" : await this.socketAdapter.disconnect(() => {
+            clearInterval(this._workerHeartbeatTimer), this._terminateWorker();
+          }, a10, b10);
+        }
+        getChannels() {
+          return this.channels;
+        }
+        async removeChannel(a10) {
+          let b10 = await a10.unsubscribe();
+          return "ok" === b10 && a10.teardown(), b10;
+        }
+        async removeAllChannels() {
+          let a10 = this.channels.map(async (a11) => {
+            let b11 = await a11.unsubscribe();
+            return a11.teardown(), b11;
+          }), b10 = await Promise.all(a10);
+          return await this.disconnect(), b10;
+        }
+        log(a10, b10, c10) {
+          this.socketAdapter.log(a10, b10, c10);
+        }
+        connectionState() {
+          return this.socketAdapter.connectionState() || bQ.closed;
+        }
+        isConnected() {
+          return this.socketAdapter.isConnected();
+        }
+        isConnecting() {
+          return this.socketAdapter.isConnecting();
+        }
+        isDisconnecting() {
+          return this.socketAdapter.isDisconnecting();
+        }
+        channel(a10, b10 = { config: {} }) {
+          let c10 = `realtime:${a10}`, d10 = this.getChannels().find((a11) => a11.topic === c10);
+          if (d10) return d10;
+          {
+            let c11 = new cm(`realtime:${a10}`, b10, this);
+            return this._cancelPendingDisconnect(), this.channels.push(c11), c11;
+          }
+        }
+        push(a10) {
+          this.socketAdapter.push(a10);
+        }
+        async setAuth(a10 = null) {
+          this._authPromise = this._performAuth(a10);
+          try {
+            await this._authPromise;
+          } finally {
+            this._authPromise = null;
+          }
+        }
+        _isManualToken() {
+          return this._manuallySetToken;
+        }
+        async sendHeartbeat() {
+          this.socketAdapter.sendHeartbeat();
+        }
+        onHeartbeat(a10) {
+          this.socketAdapter.heartbeatCallback = this._wrapHeartbeatCallback(a10);
+        }
+        _makeRef() {
+          return this.socketAdapter.makeRef();
+        }
+        _remove(a10) {
+          this.channels = this.channels.filter((b10) => b10.topic !== a10.topic), 0 === this.channels.length && (this.log("transport", "no channels remaining, scheduling disconnect"), this._schedulePendingDisconnect());
+        }
+        _schedulePendingDisconnect() {
+          if (this._cancelPendingDisconnect(), 0 === this._disconnectOnEmptyChannelsAfterMs) {
+            this.log("transport", "disconnecting immediately - no channels"), this.disconnect();
+            return;
+          }
+          this._pendingDisconnectTimer = setTimeout(() => {
+            this._pendingDisconnectTimer = null, 0 === this.channels.length && (this.log("transport", "deferred disconnect fired - no channels, disconnecting"), this.disconnect());
+          }, this._disconnectOnEmptyChannelsAfterMs), this.log("transport", `deferred disconnect scheduled in ${this._disconnectOnEmptyChannelsAfterMs}ms`);
+        }
+        _cancelPendingDisconnect() {
+          null !== this._pendingDisconnectTimer && (this.log("transport", "pending disconnect cancelled - channel activity detected"), clearTimeout(this._pendingDisconnectTimer), this._pendingDisconnectTimer = null);
+        }
+        async _performAuth(a10 = null) {
+          let b10, c10 = false;
+          if (a10) b10 = a10, c10 = true;
+          else if (this.accessToken) try {
+            b10 = await this.accessToken();
+          } catch (a11) {
+            this.log("error", "Error fetching access token from callback", a11), b10 = this.accessTokenValue;
+          }
+          else b10 = this.accessTokenValue;
+          c10 ? this._manuallySetToken = true : this.accessToken && (this._manuallySetToken = false), this.accessTokenValue != b10 && (this.accessTokenValue = b10, this.channels.forEach((a11) => {
+            let c11 = { access_token: b10, version: "realtime-js/2.106.1" };
+            b10 && a11.updateJoinPayload(c11), a11.joinedOnce && a11.channelAdapter.isJoined() && a11.channelAdapter.push(bP.access_token, { access_token: b10 });
+          }));
+        }
+        async _waitForAuthIfNeeded() {
+          this._authPromise && await this._authPromise;
+        }
+        _setAuthSafely(a10 = "general") {
+          this._isManualToken() || this.setAuth().catch((b10) => {
+            this.log("error", `Error setting auth in ${a10}`, b10);
+          });
+        }
+        _setupConnectionHandlers() {
+          this.socketAdapter.onOpen(() => {
+            (this._authPromise || (this.accessToken && !this.accessTokenValue ? this.setAuth() : Promise.resolve())).catch((a10) => {
+              this.log("error", "error waiting for auth on connect", a10);
+            }), this.worker && !this.workerRef && this._startWorkerHeartbeat();
+          }), this.socketAdapter.onClose(() => {
+            this.worker && this.workerRef && this._terminateWorker();
+          }), this.socketAdapter.onMessage((a10) => {
+            a10.ref && a10.ref === this._pendingWorkerHeartbeatRef && (this._pendingWorkerHeartbeatRef = null);
+          });
+        }
+        _handleNodeJsRaceCondition() {
+          this.socketAdapter.isConnected() && this.socketAdapter.getSocket().onConnOpen();
+        }
+        _wrapHeartbeatCallback(a10) {
+          return (b10, c10) => {
+            "sent" == b10 && this._setAuthSafely(), a10 && a10(b10, c10);
+          };
+        }
+        _startWorkerHeartbeat() {
+          this.workerUrl ? this.log("worker", `starting worker for from ${this.workerUrl}`) : this.log("worker", "starting default worker");
+          let a10 = this._workerObjectUrl(this.workerUrl);
+          this.workerRef = new Worker(a10), this.workerRef.onerror = (a11) => {
+            this.log("worker", "worker error", a11.message), this._terminateWorker(), this.disconnect();
+          }, this.workerRef.onmessage = (a11) => {
+            "keepAlive" === a11.data.event && this.sendHeartbeat();
+          }, this.workerRef.postMessage({ event: "start", interval: this.heartbeatIntervalMs });
+        }
+        _terminateWorker() {
+          this.workerRef && (this.log("worker", "terminating worker"), this.workerRef.terminate(), this.workerRef = void 0);
+        }
+        _workerObjectUrl(a10) {
+          let b10;
+          if (a10) b10 = a10;
+          else {
+            let a11 = new Blob([cq], { type: "application/javascript" });
+            b10 = URL.createObjectURL(a11);
+          }
+          return b10;
+        }
+        _initializeOptions(a10) {
+          var b10, c10, d10, e4, f2, g2, h2, i2, j2, k2, l2, m2;
+          let n2, o2;
+          this.worker = null != (b10 = null == a10 ? void 0 : a10.worker) && b10, this.accessToken = null != (c10 = null == a10 ? void 0 : a10.accessToken) ? c10 : null;
+          let p2 = {};
+          p2.timeout = null != (d10 = null == a10 ? void 0 : a10.timeout) ? d10 : 1e4, p2.heartbeatIntervalMs = null != (e4 = null == a10 ? void 0 : a10.heartbeatIntervalMs) ? e4 : co.HEARTBEAT_INTERVAL, this._disconnectOnEmptyChannelsAfterMs = null != (f2 = null == a10 ? void 0 : a10.disconnectOnEmptyChannelsAfterMs) ? f2 : 2 * (null != (g2 = null == a10 ? void 0 : a10.heartbeatIntervalMs) ? g2 : co.HEARTBEAT_INTERVAL), p2.transport = null != (h2 = null == a10 ? void 0 : a10.transport) ? h2 : bM.getWebSocketConstructor(), p2.params = null == a10 ? void 0 : a10.params, p2.logger = null == a10 ? void 0 : a10.logger, p2.heartbeatCallback = this._wrapHeartbeatCallback(null == a10 ? void 0 : a10.heartbeatCallback), p2.sessionStorage = null != (i2 = null == a10 ? void 0 : a10.sessionStorage) ? i2 : function() {
+            try {
+              if ("undefined" != typeof globalThis && globalThis.sessionStorage) return globalThis.sessionStorage;
+            } catch (a12) {
+            }
+            let a11 = /* @__PURE__ */ new Map();
+            return { get length() {
+              return a11.size;
+            }, clear() {
+              a11.clear();
+            }, getItem: (b11) => a11.has(b11) ? a11.get(b11) : null, key(b11) {
+              var c11;
+              return null != (c11 = Array.from(a11.keys())[b11]) ? c11 : null;
+            }, removeItem(b11) {
+              a11.delete(b11);
+            }, setItem(b11, c11) {
+              a11.set(b11, String(c11));
+            } };
+          }(), p2.reconnectAfterMs = null != (j2 = null == a10 ? void 0 : a10.reconnectAfterMs) ? j2 : (a11) => cp[a11 - 1] || 1e4;
+          let q2 = null != (k2 = null == a10 ? void 0 : a10.vsn) ? k2 : bN;
+          switch (q2) {
+            case "1.0.0":
+              n2 = (a11, b11) => b11(JSON.stringify(a11)), o2 = (a11, b11) => b11(JSON.parse(a11));
+              break;
+            case bN:
+              n2 = this.serializer.encode.bind(this.serializer), o2 = this.serializer.decode.bind(this.serializer);
+              break;
+            default:
+              throw Error(`Unsupported serializer version: ${p2.vsn}`);
+          }
+          if (p2.vsn = q2, p2.encode = null != (l2 = null == a10 ? void 0 : a10.encode) ? l2 : n2, p2.decode = null != (m2 = null == a10 ? void 0 : a10.decode) ? m2 : o2, p2.beforeReconnect = this._reconnectAuth.bind(this), ((null == a10 ? void 0 : a10.logLevel) || (null == a10 ? void 0 : a10.log_level)) && (this.logLevel = a10.logLevel || a10.log_level, p2.params = Object.assign(Object.assign({}, p2.params), { log_level: this.logLevel })), this.worker) {
+            if ("undefined" != typeof window && !window.Worker) throw Error("Web Worker is not supported");
+            this.workerUrl = null == a10 ? void 0 : a10.workerUrl, p2.autoSendHeartbeat = !this.worker;
+          }
+          return p2;
+        }
+        async _reconnectAuth() {
+          await this._waitForAuthIfNeeded(), this.isConnected() || this.connect();
+        }
+      }
+      var cs = class extends Error {
+        constructor(a10, b10) {
+          super(a10), this.name = "IcebergError", this.status = b10.status, this.icebergType = b10.icebergType, this.icebergCode = b10.icebergCode, this.details = b10.details, this.isCommitStateUnknown = "CommitStateUnknownException" === b10.icebergType || [500, 502, 504].includes(b10.status) && b10.icebergType?.includes("CommitState") === true;
+        }
+        isNotFound() {
+          return 404 === this.status;
+        }
+        isConflict() {
+          return 409 === this.status;
+        }
+        isAuthenticationTimeout() {
+          return 419 === this.status;
+        }
+      };
+      async function ct(a10) {
+        return a10 && "none" !== a10.type ? "bearer" === a10.type ? { Authorization: `Bearer ${a10.token}` } : "header" === a10.type ? { [a10.name]: a10.value } : "custom" === a10.type ? await a10.getHeaders() : {} : {};
+      }
+      function cu(a10) {
+        return a10.join("");
+      }
+      var cv = class {
+        constructor(a10, b10 = "") {
+          this.client = a10, this.prefix = b10;
+        }
+        async listNamespaces(a10) {
+          let b10 = a10 ? { parent: cu(a10.namespace) } : void 0;
+          return (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces`, query: b10 })).data.namespaces.map((a11) => ({ namespace: a11 }));
+        }
+        async createNamespace(a10, b10) {
+          let c10 = { namespace: a10.namespace, properties: b10?.properties };
+          return (await this.client.request({ method: "POST", path: `${this.prefix}/namespaces`, body: c10 })).data;
+        }
+        async dropNamespace(a10) {
+          await this.client.request({ method: "DELETE", path: `${this.prefix}/namespaces/${cu(a10.namespace)}` });
+        }
+        async loadNamespaceMetadata(a10) {
+          return { properties: (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces/${cu(a10.namespace)}` })).data.properties };
+        }
+        async namespaceExists(a10) {
+          try {
+            return await this.client.request({ method: "HEAD", path: `${this.prefix}/namespaces/${cu(a10.namespace)}` }), true;
+          } catch (a11) {
+            if (a11 instanceof cs && 404 === a11.status) return false;
+            throw a11;
+          }
+        }
+        async createNamespaceIfNotExists(a10, b10) {
+          try {
+            return await this.createNamespace(a10, b10);
+          } catch (a11) {
+            if (a11 instanceof cs && 409 === a11.status) return;
+            throw a11;
+          }
+        }
+      };
+      function cw(a10) {
+        return a10.join("");
+      }
+      var cx = class {
+        constructor(a10, b10 = "", c10) {
+          this.client = a10, this.prefix = b10, this.accessDelegation = c10;
+        }
+        async listTables(a10) {
+          return (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces/${cw(a10.namespace)}/tables` })).data.identifiers;
+        }
+        async createTable(a10, b10) {
+          let c10 = {};
+          return this.accessDelegation && (c10["X-Iceberg-Access-Delegation"] = this.accessDelegation), (await this.client.request({ method: "POST", path: `${this.prefix}/namespaces/${cw(a10.namespace)}/tables`, body: b10, headers: c10 })).data.metadata;
+        }
+        async updateTable(a10, b10) {
+          let c10 = await this.client.request({ method: "POST", path: `${this.prefix}/namespaces/${cw(a10.namespace)}/tables/${a10.name}`, body: b10 });
+          return { "metadata-location": c10.data["metadata-location"], metadata: c10.data.metadata };
+        }
+        async dropTable(a10, b10) {
+          await this.client.request({ method: "DELETE", path: `${this.prefix}/namespaces/${cw(a10.namespace)}/tables/${a10.name}`, query: { purgeRequested: String(b10?.purge ?? false) } });
+        }
+        async loadTable(a10) {
+          let b10 = {};
+          return this.accessDelegation && (b10["X-Iceberg-Access-Delegation"] = this.accessDelegation), (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces/${cw(a10.namespace)}/tables/${a10.name}`, headers: b10 })).data.metadata;
+        }
+        async tableExists(a10) {
+          let b10 = {};
+          this.accessDelegation && (b10["X-Iceberg-Access-Delegation"] = this.accessDelegation);
+          try {
+            return await this.client.request({ method: "HEAD", path: `${this.prefix}/namespaces/${cw(a10.namespace)}/tables/${a10.name}`, headers: b10 }), true;
+          } catch (a11) {
+            if (a11 instanceof cs && 404 === a11.status) return false;
+            throw a11;
+          }
+        }
+        async createTableIfNotExists(a10, b10) {
+          try {
+            return await this.createTable(a10, b10);
+          } catch (c10) {
+            if (c10 instanceof cs && 409 === c10.status) return await this.loadTable({ namespace: a10.namespace, name: b10.name });
+            throw c10;
+          }
+        }
+      }, cy = class {
+        constructor(a10) {
+          let b10 = "v1";
+          a10.catalogName && (b10 += `/${a10.catalogName}`);
+          let c10 = a10.baseUrl.endsWith("/") ? a10.baseUrl : `${a10.baseUrl}/`;
+          this.client = function(a11) {
+            let b11 = a11.fetchImpl ?? globalThis.fetch;
+            return { async request({ method: c11, path: d10, query: e4, body: f2, headers: g2 }) {
+              let h2 = function(a12, b12, c12) {
+                let d11 = new URL(b12, a12);
+                if (c12) for (let [a13, b13] of Object.entries(c12)) void 0 !== b13 && d11.searchParams.set(a13, b13);
+                return d11.toString();
+              }(a11.baseUrl, d10, e4), i2 = await ct(a11.auth), j2 = await b11(h2, { method: c11, headers: { ...f2 ? { "Content-Type": "application/json" } : {}, ...i2, ...g2 }, body: f2 ? JSON.stringify(f2) : void 0 }), k2 = await j2.text(), l2 = (j2.headers.get("content-type") || "").includes("application/json"), m2 = l2 && k2 ? JSON.parse(k2) : k2;
+              if (!j2.ok) {
+                let a12 = l2 ? m2 : void 0, b12 = a12?.error;
+                throw new cs(b12?.message ?? `Request failed with status ${j2.status}`, { status: j2.status, icebergType: b12?.type, icebergCode: b12?.code, details: a12 });
+              }
+              return { status: j2.status, headers: j2.headers, data: m2 };
+            } };
+          }({ baseUrl: c10, auth: a10.auth, fetchImpl: a10.fetch }), this.accessDelegation = a10.accessDelegation?.join(","), this.namespaceOps = new cv(this.client, b10), this.tableOps = new cx(this.client, b10, this.accessDelegation);
+        }
+        async listNamespaces(a10) {
+          return this.namespaceOps.listNamespaces(a10);
+        }
+        async createNamespace(a10, b10) {
+          return this.namespaceOps.createNamespace(a10, b10);
+        }
+        async dropNamespace(a10) {
+          await this.namespaceOps.dropNamespace(a10);
+        }
+        async loadNamespaceMetadata(a10) {
+          return this.namespaceOps.loadNamespaceMetadata(a10);
+        }
+        async listTables(a10) {
+          return this.tableOps.listTables(a10);
+        }
+        async createTable(a10, b10) {
+          return this.tableOps.createTable(a10, b10);
+        }
+        async updateTable(a10, b10) {
+          return this.tableOps.updateTable(a10, b10);
+        }
+        async dropTable(a10, b10) {
+          await this.tableOps.dropTable(a10, b10);
+        }
+        async loadTable(a10) {
+          return this.tableOps.loadTable(a10);
+        }
+        async namespaceExists(a10) {
+          return this.namespaceOps.namespaceExists(a10);
+        }
+        async tableExists(a10) {
+          return this.tableOps.tableExists(a10);
+        }
+        async createNamespaceIfNotExists(a10, b10) {
+          return this.namespaceOps.createNamespaceIfNotExists(a10, b10);
+        }
+        async createTableIfNotExists(a10, b10) {
+          return this.tableOps.createTableIfNotExists(a10, b10);
+        }
+      }, cz = c(356).Buffer;
+      function cA(a10) {
+        return (cA = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(a11) {
+          return typeof a11;
+        } : function(a11) {
+          return a11 && "function" == typeof Symbol && a11.constructor === Symbol && a11 !== Symbol.prototype ? "symbol" : typeof a11;
+        })(a10);
+      }
+      function cB(a10, b10) {
+        var c10 = Object.keys(a10);
+        if (Object.getOwnPropertySymbols) {
+          var d10 = Object.getOwnPropertySymbols(a10);
+          b10 && (d10 = d10.filter(function(b11) {
+            return Object.getOwnPropertyDescriptor(a10, b11).enumerable;
+          })), c10.push.apply(c10, d10);
+        }
+        return c10;
+      }
+      function cC(a10) {
+        for (var b10 = 1; b10 < arguments.length; b10++) {
+          var c10 = null != arguments[b10] ? arguments[b10] : {};
+          b10 % 2 ? cB(Object(c10), true).forEach(function(b11) {
+            !function(a11, b12, c11) {
+              var d10;
+              (d10 = function(a12, b13) {
+                if ("object" != cA(a12) || !a12) return a12;
+                var c12 = a12[Symbol.toPrimitive];
+                if (void 0 !== c12) {
+                  var d11 = c12.call(a12, b13 || "default");
+                  if ("object" != cA(d11)) return d11;
+                  throw TypeError("@@toPrimitive must return a primitive value.");
+                }
+                return ("string" === b13 ? String : Number)(a12);
+              }(b12, "string"), (b12 = "symbol" == cA(d10) ? d10 : d10 + "") in a11) ? Object.defineProperty(a11, b12, { value: c11, enumerable: true, configurable: true, writable: true }) : a11[b12] = c11;
+            }(a10, b11, c10[b11]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(a10, Object.getOwnPropertyDescriptors(c10)) : cB(Object(c10)).forEach(function(b11) {
+            Object.defineProperty(a10, b11, Object.getOwnPropertyDescriptor(c10, b11));
+          });
+        }
+        return a10;
+      }
+      var cD = class extends Error {
+        constructor(a10, b10 = "storage", c10, d10) {
+          super(a10), this.__isStorageError = true, this.namespace = b10, this.name = "vectors" === b10 ? "StorageVectorsError" : "StorageError", this.status = c10, this.statusCode = d10;
+        }
+        toJSON() {
+          return { name: this.name, message: this.message, status: this.status, statusCode: this.statusCode };
+        }
+      };
+      function cE(a10) {
+        return "object" == typeof a10 && null !== a10 && "__isStorageError" in a10;
+      }
+      var cF = class extends cD {
+        constructor(a10, b10, c10, d10 = "storage") {
+          super(a10, d10, b10, c10), this.name = "vectors" === d10 ? "StorageVectorsApiError" : "StorageApiError", this.status = b10, this.statusCode = c10;
+        }
+        toJSON() {
+          return cC({}, super.toJSON());
+        }
+      }, cG = class extends cD {
+        constructor(a10, b10, c10 = "storage") {
+          super(a10, c10), this.name = "vectors" === c10 ? "StorageVectorsUnknownError" : "StorageUnknownError", this.originalError = b10;
+        }
+      };
+      function cH(a10, b10, c10) {
+        let d10 = cC({}, a10), e4 = b10.toLowerCase();
+        for (let a11 of Object.keys(d10)) a11.toLowerCase() === e4 && delete d10[a11];
+        return d10[e4] = c10, d10;
+      }
+      let cI = (a10) => {
+        if (Array.isArray(a10)) return a10.map((a11) => cI(a11));
+        if ("function" == typeof a10 || a10 !== Object(a10)) return a10;
+        let b10 = {};
+        return Object.entries(a10).forEach(([a11, c10]) => {
+          b10[a11.replace(/([-_][a-z])/gi, (a12) => a12.toUpperCase().replace(/[-_]/g, ""))] = cI(c10);
+        }), b10;
+      }, cJ = (a10) => {
+        if ("object" == typeof a10 && null !== a10) {
+          if ("string" == typeof a10.msg) return a10.msg;
+          if ("string" == typeof a10.message) return a10.message;
+          if ("string" == typeof a10.error_description) return a10.error_description;
+          if ("string" == typeof a10.error) return a10.error;
+          if ("object" == typeof a10.error && null !== a10.error) {
+            let b10 = a10.error;
+            if ("string" == typeof b10.message) return b10.message;
+          }
+        }
+        return JSON.stringify(a10);
+      }, cK = async (a10, b10, c10, d10) => {
+        if (null !== a10 && "object" == typeof a10 && "json" in a10 && "function" == typeof a10.json) {
+          let c11 = parseInt(String(a10.status), 10);
+          Number.isFinite(c11) || (c11 = 500), a10.json().then((a11) => {
+            let e4 = (null == a11 ? void 0 : a11.statusCode) || (null == a11 ? void 0 : a11.code) || c11 + "";
+            b10(new cF(cJ(a11), c11, e4, d10));
+          }).catch(() => {
+            let e4 = c11 + "";
+            b10(new cF(a10.statusText || `HTTP ${c11} error`, c11, e4, d10));
+          });
+        } else b10(new cG(cJ(a10), a10, d10));
+      };
+      async function cL(a10, b10, c10, d10, e4, f2, g2) {
+        return new Promise((h2, i2) => {
+          a10(c10, ((a11, b11, c11, d11) => {
+            let e5 = { method: a11, headers: (null == b11 ? void 0 : b11.headers) || {} };
+            if ("GET" === a11 || "HEAD" === a11 || !d11) return cC(cC({}, e5), c11);
+            if (((a12) => {
+              if ("object" != typeof a12 || null === a12) return false;
+              let b12 = Object.getPrototypeOf(a12);
+              return (null === b12 || b12 === Object.prototype || null === Object.getPrototypeOf(b12)) && !(Symbol.toStringTag in a12) && !(Symbol.iterator in a12);
+            })(d11)) {
+              var f3;
+              let a12, c12 = (null == b11 ? void 0 : b11.headers) || {};
+              for (let [b12, d12] of Object.entries(c12)) "content-type" === b12.toLowerCase() && (a12 = d12);
+              e5.headers = cH(c12, "Content-Type", null != (f3 = a12) ? f3 : "application/json"), e5.body = JSON.stringify(d11);
+            } else e5.body = d11;
+            return (null == b11 ? void 0 : b11.duplex) && (e5.duplex = b11.duplex), cC(cC({}, e5), c11);
+          })(b10, d10, e4, f2)).then((a11) => {
+            if (!a11.ok) throw a11;
+            if (null == d10 ? void 0 : d10.noResolveJson) return a11;
+            if ("vectors" === g2) {
+              let b11 = a11.headers.get("content-type");
+              if ("0" === a11.headers.get("content-length") || 204 === a11.status || !b11 || !b11.includes("application/json")) return {};
+            }
+            return a11.json();
+          }).then((a11) => h2(a11)).catch((a11) => cK(a11, i2, d10, g2));
+        });
+      }
+      function cM(a10 = "storage") {
+        return { get: async (b10, c10, d10, e4) => cL(b10, "GET", c10, d10, e4, void 0, a10), post: async (b10, c10, d10, e4, f2) => cL(b10, "POST", c10, e4, f2, d10, a10), put: async (b10, c10, d10, e4, f2) => cL(b10, "PUT", c10, e4, f2, d10, a10), head: async (b10, c10, d10, e4) => cL(b10, "HEAD", c10, cC(cC({}, d10), {}, { noResolveJson: true }), e4, void 0, a10), remove: async (b10, c10, d10, e4, f2) => cL(b10, "DELETE", c10, e4, f2, d10, a10) };
+      }
+      let { get: cN, post: cO, put: cP, head: cQ, remove: cR } = cM("storage"), cS = cM("vectors");
+      var cT = class {
+        constructor(a10, b10 = {}, c10, d10 = "storage") {
+          this.shouldThrowOnError = false, this.url = a10, this.headers = function(a11) {
+            let b11 = {};
+            for (let [c11, d11] of Object.entries(a11)) b11[c11.toLowerCase()] = d11;
+            return b11;
+          }(b10), this.fetch = /* @__PURE__ */ ((a11) => a11 ? (...b11) => a11(...b11) : (...a12) => fetch(...a12))(c10), this.namespace = d10;
+        }
+        throwOnError() {
+          return this.shouldThrowOnError = true, this;
+        }
+        setHeader(a10, b10) {
+          return this.headers = cH(this.headers, a10, b10), this;
+        }
+        async handleOperation(a10) {
+          try {
+            return { data: await a10(), error: null };
+          } catch (a11) {
+            if (this.shouldThrowOnError) throw a11;
+            if (cE(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+      };
+      e = Symbol.toStringTag;
+      var cU = class {
+        constructor(a10, b10) {
+          this.downloadFn = a10, this.shouldThrowOnError = b10, this[e] = "StreamDownloadBuilder", this.promise = null;
+        }
+        then(a10, b10) {
+          return this.getPromise().then(a10, b10);
+        }
+        catch(a10) {
+          return this.getPromise().catch(a10);
+        }
+        finally(a10) {
+          return this.getPromise().finally(a10);
+        }
+        getPromise() {
+          return this.promise || (this.promise = this.execute()), this.promise;
+        }
+        async execute() {
+          try {
+            return { data: (await this.downloadFn()).body, error: null };
+          } catch (a10) {
+            if (this.shouldThrowOnError) throw a10;
+            if (cE(a10)) return { data: null, error: a10 };
+            throw a10;
+          }
+        }
+      };
+      f = Symbol.toStringTag;
+      var cV = class {
+        constructor(a10, b10) {
+          this.downloadFn = a10, this.shouldThrowOnError = b10, this[f] = "BlobDownloadBuilder", this.promise = null;
+        }
+        asStream() {
+          return new cU(this.downloadFn, this.shouldThrowOnError);
+        }
+        then(a10, b10) {
+          return this.getPromise().then(a10, b10);
+        }
+        catch(a10) {
+          return this.getPromise().catch(a10);
+        }
+        finally(a10) {
+          return this.getPromise().finally(a10);
+        }
+        getPromise() {
+          return this.promise || (this.promise = this.execute()), this.promise;
+        }
+        async execute() {
+          try {
+            return { data: await (await this.downloadFn()).blob(), error: null };
+          } catch (a10) {
+            if (this.shouldThrowOnError) throw a10;
+            if (cE(a10)) return { data: null, error: a10 };
+            throw a10;
+          }
+        }
+      };
+      let cW = { limit: 100, offset: 0, sortBy: { column: "name", order: "asc" } }, cX = { cacheControl: "3600", contentType: "text/plain;charset=UTF-8", upsert: false };
+      var cY = class extends cT {
+        constructor(a10, b10 = {}, c10, d10) {
+          super(a10, b10, d10, "storage"), this.bucketId = c10;
+        }
+        async uploadOrUpdate(a10, b10, c10, d10) {
+          var e4 = this;
+          return e4.handleOperation(async () => {
+            let f2, g2 = cC(cC({}, cX), d10), h2 = cC(cC({}, e4.headers), "POST" === a10 && { "x-upsert": String(g2.upsert) }), i2 = g2.metadata;
+            if ("undefined" != typeof Blob && c10 instanceof Blob ? ((f2 = new FormData()).append("cacheControl", g2.cacheControl), i2 && f2.append("metadata", e4.encodeMetadata(i2)), f2.append("", c10)) : "undefined" != typeof FormData && c10 instanceof FormData ? ((f2 = c10).has("cacheControl") || f2.append("cacheControl", g2.cacheControl), i2 && !f2.has("metadata") && f2.append("metadata", e4.encodeMetadata(i2))) : (f2 = c10, h2["cache-control"] = `max-age=${g2.cacheControl}`, h2["content-type"] = g2.contentType, i2 && (h2["x-metadata"] = e4.toBase64(e4.encodeMetadata(i2))), ("undefined" != typeof ReadableStream && f2 instanceof ReadableStream || f2 && "object" == typeof f2 && "pipe" in f2 && "function" == typeof f2.pipe) && !g2.duplex && (g2.duplex = "half")), null == d10 ? void 0 : d10.headers) for (let [a11, b11] of Object.entries(d10.headers)) h2 = cH(h2, a11, b11);
+            let j2 = e4._removeEmptyFolders(b10), k2 = e4._getFinalPath(j2), l2 = await ("PUT" == a10 ? cP : cO)(e4.fetch, `${e4.url}/object/${k2}`, f2, cC({ headers: h2 }, (null == g2 ? void 0 : g2.duplex) ? { duplex: g2.duplex } : {}));
+            return { path: j2, id: l2.Id, fullPath: l2.Key };
+          });
+        }
+        async upload(a10, b10, c10) {
+          return this.uploadOrUpdate("POST", a10, b10, c10);
+        }
+        async uploadToSignedUrl(a10, b10, c10, d10) {
+          var e4 = this;
+          let f2 = e4._removeEmptyFolders(a10), g2 = e4._getFinalPath(f2), h2 = new URL(e4.url + `/object/upload/sign/${g2}`);
+          return h2.searchParams.set("token", b10), e4.handleOperation(async () => {
+            let a11, b11 = cC(cC({}, cX), d10), g3 = cC(cC({}, e4.headers), { "x-upsert": String(b11.upsert) }), i2 = b11.metadata;
+            if ("undefined" != typeof Blob && c10 instanceof Blob ? ((a11 = new FormData()).append("cacheControl", b11.cacheControl), i2 && a11.append("metadata", e4.encodeMetadata(i2)), a11.append("", c10)) : "undefined" != typeof FormData && c10 instanceof FormData ? ((a11 = c10).has("cacheControl") || a11.append("cacheControl", b11.cacheControl), i2 && !a11.has("metadata") && a11.append("metadata", e4.encodeMetadata(i2))) : (a11 = c10, g3["cache-control"] = `max-age=${b11.cacheControl}`, g3["content-type"] = b11.contentType, i2 && (g3["x-metadata"] = e4.toBase64(e4.encodeMetadata(i2))), ("undefined" != typeof ReadableStream && a11 instanceof ReadableStream || a11 && "object" == typeof a11 && "pipe" in a11 && "function" == typeof a11.pipe) && !b11.duplex && (b11.duplex = "half")), null == d10 ? void 0 : d10.headers) for (let [a12, b12] of Object.entries(d10.headers)) g3 = cH(g3, a12, b12);
+            return { path: f2, fullPath: (await cP(e4.fetch, h2.toString(), a11, cC({ headers: g3 }, (null == b11 ? void 0 : b11.duplex) ? { duplex: b11.duplex } : {}))).Key };
+          });
+        }
+        async createSignedUploadUrl(a10, b10) {
+          var c10 = this;
+          return c10.handleOperation(async () => {
+            let d10 = c10._getFinalPath(a10), e4 = cC({}, c10.headers);
+            (null == b10 ? void 0 : b10.upsert) && (e4["x-upsert"] = "true");
+            let f2 = await cO(c10.fetch, `${c10.url}/object/upload/sign/${d10}`, {}, { headers: e4 }), g2 = new URL(c10.url + f2.url), h2 = g2.searchParams.get("token");
+            if (!h2) throw new cD("No token returned by API");
+            return { signedUrl: g2.toString(), path: a10, token: h2 };
+          });
+        }
+        async update(a10, b10, c10) {
+          return this.uploadOrUpdate("PUT", a10, b10, c10);
+        }
+        async move(a10, b10, c10) {
+          var d10 = this;
+          return d10.handleOperation(async () => await cO(d10.fetch, `${d10.url}/object/move`, { bucketId: d10.bucketId, sourceKey: a10, destinationKey: b10, destinationBucket: null == c10 ? void 0 : c10.destinationBucket }, { headers: d10.headers }));
+        }
+        async copy(a10, b10, c10) {
+          var d10 = this;
+          return d10.handleOperation(async () => ({ path: (await cO(d10.fetch, `${d10.url}/object/copy`, { bucketId: d10.bucketId, sourceKey: a10, destinationKey: b10, destinationBucket: null == c10 ? void 0 : c10.destinationBucket }, { headers: d10.headers })).Key }));
+        }
+        async createSignedUrl(a10, b10, c10) {
+          var d10 = this;
+          return d10.handleOperation(async () => {
+            let e4 = d10._getFinalPath(a10), f2 = "object" == typeof (null == c10 ? void 0 : c10.transform) && null !== c10.transform && Object.keys(c10.transform).length > 0, g2 = await cO(d10.fetch, `${d10.url}/object/sign/${e4}`, cC({ expiresIn: b10 }, f2 ? { transform: c10.transform } : {}), { headers: d10.headers }), h2 = new URLSearchParams();
+            (null == c10 ? void 0 : c10.download) && h2.set("download", true === c10.download ? "" : c10.download), (null == c10 ? void 0 : c10.cacheNonce) != null && h2.set("cacheNonce", String(c10.cacheNonce));
+            let i2 = h2.toString();
+            return { signedUrl: encodeURI(`${d10.url}${g2.signedURL}${i2 ? `&${i2}` : ""}`) };
+          });
+        }
+        async createSignedUrls(a10, b10, c10) {
+          var d10 = this;
+          return d10.handleOperation(async () => {
+            let e4 = await cO(d10.fetch, `${d10.url}/object/sign/${d10.bucketId}`, { expiresIn: b10, paths: a10 }, { headers: d10.headers }), f2 = new URLSearchParams();
+            (null == c10 ? void 0 : c10.download) && f2.set("download", true === c10.download ? "" : c10.download), (null == c10 ? void 0 : c10.cacheNonce) != null && f2.set("cacheNonce", String(c10.cacheNonce));
+            let g2 = f2.toString();
+            return e4.map((a11) => cC(cC({}, a11), {}, { signedUrl: a11.signedURL ? encodeURI(`${d10.url}${a11.signedURL}${g2 ? `&${g2}` : ""}`) : null }));
+          });
+        }
+        download(a10, b10, c10) {
+          let d10 = "object" == typeof (null == b10 ? void 0 : b10.transform) && null !== b10.transform && Object.keys(b10.transform).length > 0 ? "render/image/authenticated" : "object", e4 = new URLSearchParams();
+          (null == b10 ? void 0 : b10.transform) && this.applyTransformOptsToQuery(e4, b10.transform), (null == b10 ? void 0 : b10.cacheNonce) != null && e4.set("cacheNonce", String(b10.cacheNonce));
+          let f2 = e4.toString(), g2 = this._getFinalPath(a10);
+          return new cV(() => cN(this.fetch, `${this.url}/${d10}/${g2}${f2 ? `?${f2}` : ""}`, { headers: this.headers, noResolveJson: true }, c10), this.shouldThrowOnError);
+        }
+        async info(a10) {
+          var b10 = this;
+          let c10 = b10._getFinalPath(a10);
+          return b10.handleOperation(async () => cI(await cN(b10.fetch, `${b10.url}/object/info/${c10}`, { headers: b10.headers })));
+        }
+        async exists(a10) {
+          var b10;
+          let c10 = this._getFinalPath(a10);
+          try {
+            return await cQ(this.fetch, `${this.url}/object/${c10}`, { headers: this.headers }), { data: true, error: null };
+          } catch (a11) {
+            if (this.shouldThrowOnError) throw a11;
+            if (cE(a11)) {
+              let c11 = a11 instanceof cF ? a11.status : a11 instanceof cG ? null == (b10 = a11.originalError) ? void 0 : b10.status : void 0;
+              if (void 0 !== c11 && [400, 404].includes(c11)) return { data: false, error: a11 };
+            }
+            throw a11;
+          }
+        }
+        getPublicUrl(a10, b10) {
+          let c10 = this._getFinalPath(a10), d10 = new URLSearchParams();
+          (null == b10 ? void 0 : b10.download) && d10.set("download", true === b10.download ? "" : b10.download), (null == b10 ? void 0 : b10.transform) && this.applyTransformOptsToQuery(d10, b10.transform), (null == b10 ? void 0 : b10.cacheNonce) != null && d10.set("cacheNonce", String(b10.cacheNonce));
+          let e4 = d10.toString(), f2 = "object" == typeof (null == b10 ? void 0 : b10.transform) && null !== b10.transform && Object.keys(b10.transform).length > 0 ? "render/image" : "object";
+          return { data: { publicUrl: encodeURI(`${this.url}/${f2}/public/${c10}`) + (e4 ? `?${e4}` : "") } };
+        }
+        async remove(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cR(b10.fetch, `${b10.url}/object/${b10.bucketId}`, { prefixes: a10 }, { headers: b10.headers }));
+        }
+        async list(a10, b10, c10) {
+          var d10 = this;
+          return d10.handleOperation(async () => {
+            let e4 = cC(cC(cC({}, cW), b10), {}, { prefix: a10 || "" });
+            return await cO(d10.fetch, `${d10.url}/object/list/${d10.bucketId}`, e4, { headers: d10.headers }, c10);
+          });
+        }
+        async listV2(a10, b10) {
+          var c10 = this;
+          return c10.handleOperation(async () => {
+            let d10 = cC({}, a10);
+            return await cO(c10.fetch, `${c10.url}/object/list-v2/${c10.bucketId}`, d10, { headers: c10.headers }, b10);
+          });
+        }
+        encodeMetadata(a10) {
+          return JSON.stringify(a10);
+        }
+        toBase64(a10) {
+          return void 0 !== cz ? cz.from(a10).toString("base64") : btoa(a10);
+        }
+        _getFinalPath(a10) {
+          return `${this.bucketId}/${a10.replace(/^\/+/, "")}`;
+        }
+        _removeEmptyFolders(a10) {
+          return a10.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
+        }
+        applyTransformOptsToQuery(a10, b10) {
+          return b10.width && a10.set("width", b10.width.toString()), b10.height && a10.set("height", b10.height.toString()), b10.resize && a10.set("resize", b10.resize), b10.format && a10.set("format", b10.format), b10.quality && a10.set("quality", b10.quality.toString()), a10;
+        }
+      };
+      let cZ = { "X-Client-Info": "storage-js/2.106.1" };
+      var c$ = class extends cT {
+        constructor(a10, b10 = {}, c10, d10) {
+          let e4 = new URL(a10);
+          (null == d10 ? void 0 : d10.useNewHostname) && /supabase\.(co|in|red)$/.test(e4.hostname) && !e4.hostname.includes("storage.supabase.") && (e4.hostname = e4.hostname.replace("supabase.", "storage.supabase.")), super(e4.href.replace(/\/$/, ""), cC(cC({}, cZ), b10), c10, "storage");
+        }
+        async listBuckets(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => {
+            let c10 = b10.listBucketOptionsToQueryString(a10);
+            return await cN(b10.fetch, `${b10.url}/bucket${c10}`, { headers: b10.headers });
+          });
+        }
+        async getBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cN(b10.fetch, `${b10.url}/bucket/${a10}`, { headers: b10.headers }));
+        }
+        async createBucket(a10, b10 = { public: false }) {
+          var c10 = this;
+          return c10.handleOperation(async () => await cO(c10.fetch, `${c10.url}/bucket`, { id: a10, name: a10, type: b10.type, public: b10.public, file_size_limit: b10.fileSizeLimit, allowed_mime_types: b10.allowedMimeTypes }, { headers: c10.headers }));
+        }
+        async updateBucket(a10, b10) {
+          var c10 = this;
+          return c10.handleOperation(async () => await cP(c10.fetch, `${c10.url}/bucket/${a10}`, { id: a10, name: a10, public: b10.public, file_size_limit: b10.fileSizeLimit, allowed_mime_types: b10.allowedMimeTypes }, { headers: c10.headers }));
+        }
+        async emptyBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cO(b10.fetch, `${b10.url}/bucket/${a10}/empty`, {}, { headers: b10.headers }));
+        }
+        async deleteBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cR(b10.fetch, `${b10.url}/bucket/${a10}`, {}, { headers: b10.headers }));
+        }
+        listBucketOptionsToQueryString(a10) {
+          let b10 = {};
+          return a10 && ("limit" in a10 && (b10.limit = String(a10.limit)), "offset" in a10 && (b10.offset = String(a10.offset)), a10.search && (b10.search = a10.search), a10.sortColumn && (b10.sortColumn = a10.sortColumn), a10.sortOrder && (b10.sortOrder = a10.sortOrder)), Object.keys(b10).length > 0 ? "?" + new URLSearchParams(b10).toString() : "";
+        }
+      }, c_ = class extends cT {
+        constructor(a10, b10 = {}, c10) {
+          super(a10.replace(/\/$/, ""), cC(cC({}, cZ), b10), c10, "storage");
+        }
+        async createBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cO(b10.fetch, `${b10.url}/bucket`, { name: a10 }, { headers: b10.headers }));
+        }
+        async listBuckets(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => {
+            let c10 = new URLSearchParams();
+            (null == a10 ? void 0 : a10.limit) !== void 0 && c10.set("limit", a10.limit.toString()), (null == a10 ? void 0 : a10.offset) !== void 0 && c10.set("offset", a10.offset.toString()), (null == a10 ? void 0 : a10.sortColumn) && c10.set("sortColumn", a10.sortColumn), (null == a10 ? void 0 : a10.sortOrder) && c10.set("sortOrder", a10.sortOrder), (null == a10 ? void 0 : a10.search) && c10.set("search", a10.search);
+            let d10 = c10.toString(), e4 = d10 ? `${b10.url}/bucket?${d10}` : `${b10.url}/bucket`;
+            return await cN(b10.fetch, e4, { headers: b10.headers });
+          });
+        }
+        async deleteBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cR(b10.fetch, `${b10.url}/bucket/${a10}`, {}, { headers: b10.headers }));
+        }
+        from(a10) {
+          var b10 = this;
+          if (!(!(!a10 || "string" != typeof a10 || 0 === a10.length || a10.length > 100 || a10.trim() !== a10 || a10.includes("/") || a10.includes("\\")) && /^[\w!.\*'() &$@=;:+,?-]+$/.test(a10))) throw new cD("Invalid bucket name: File, folder, and bucket names must follow AWS object key naming guidelines and should avoid the use of any other characters.");
+          let c10 = new cy({ baseUrl: this.url, catalogName: a10, auth: { type: "custom", getHeaders: async () => b10.headers }, fetch: this.fetch }), d10 = this.shouldThrowOnError;
+          return new Proxy(c10, { get(a11, b11) {
+            let c11 = a11[b11];
+            return "function" != typeof c11 ? c11 : async (...b12) => {
+              try {
+                return { data: await c11.apply(a11, b12), error: null };
+              } catch (a12) {
+                if (d10) throw a12;
+                return { data: null, error: a12 };
+              }
+            };
+          } });
+        }
+      }, c0 = class extends cT {
+        constructor(a10, b10 = {}, c10) {
+          super(a10.replace(/\/$/, ""), cC(cC({}, cZ), {}, { "Content-Type": "application/json" }, b10), c10, "vectors");
+        }
+        async createIndex(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/CreateIndex`, a10, { headers: b10.headers }) || {});
+        }
+        async getIndex(a10, b10) {
+          var c10 = this;
+          return c10.handleOperation(async () => await cS.post(c10.fetch, `${c10.url}/GetIndex`, { vectorBucketName: a10, indexName: b10 }, { headers: c10.headers }));
+        }
+        async listIndexes(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/ListIndexes`, a10, { headers: b10.headers }));
+        }
+        async deleteIndex(a10, b10) {
+          var c10 = this;
+          return c10.handleOperation(async () => await cS.post(c10.fetch, `${c10.url}/DeleteIndex`, { vectorBucketName: a10, indexName: b10 }, { headers: c10.headers }) || {});
+        }
+      }, c1 = class extends cT {
+        constructor(a10, b10 = {}, c10) {
+          super(a10.replace(/\/$/, ""), cC(cC({}, cZ), {}, { "Content-Type": "application/json" }, b10), c10, "vectors");
+        }
+        async putVectors(a10) {
+          var b10 = this;
+          if (a10.vectors.length < 1 || a10.vectors.length > 500) throw Error("Vector batch size must be between 1 and 500 items");
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/PutVectors`, a10, { headers: b10.headers }) || {});
+        }
+        async getVectors(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/GetVectors`, a10, { headers: b10.headers }));
+        }
+        async listVectors(a10) {
+          var b10 = this;
+          if (void 0 !== a10.segmentCount) {
+            if (a10.segmentCount < 1 || a10.segmentCount > 16) throw Error("segmentCount must be between 1 and 16");
+            if (void 0 !== a10.segmentIndex && (a10.segmentIndex < 0 || a10.segmentIndex >= a10.segmentCount)) throw Error(`segmentIndex must be between 0 and ${a10.segmentCount - 1}`);
+          }
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/ListVectors`, a10, { headers: b10.headers }));
+        }
+        async queryVectors(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/QueryVectors`, a10, { headers: b10.headers }));
+        }
+        async deleteVectors(a10) {
+          var b10 = this;
+          if (a10.keys.length < 1 || a10.keys.length > 500) throw Error("Keys batch size must be between 1 and 500 items");
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/DeleteVectors`, a10, { headers: b10.headers }) || {});
+        }
+      }, c2 = class extends cT {
+        constructor(a10, b10 = {}, c10) {
+          super(a10.replace(/\/$/, ""), cC(cC({}, cZ), {}, { "Content-Type": "application/json" }, b10), c10, "vectors");
+        }
+        async createBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/CreateVectorBucket`, { vectorBucketName: a10 }, { headers: b10.headers }) || {});
+        }
+        async getBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/GetVectorBucket`, { vectorBucketName: a10 }, { headers: b10.headers }));
+        }
+        async listBuckets(a10 = {}) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/ListVectorBuckets`, a10, { headers: b10.headers }));
+        }
+        async deleteBucket(a10) {
+          var b10 = this;
+          return b10.handleOperation(async () => await cS.post(b10.fetch, `${b10.url}/DeleteVectorBucket`, { vectorBucketName: a10 }, { headers: b10.headers }) || {});
+        }
+      }, c3 = class extends c2 {
+        constructor(a10, b10 = {}) {
+          super(a10, b10.headers || {}, b10.fetch);
+        }
+        from(a10) {
+          return new c4(this.url, this.headers, a10, this.fetch);
+        }
+        async createBucket(a10) {
+          return super.createBucket.call(this, a10);
+        }
+        async getBucket(a10) {
+          return super.getBucket.call(this, a10);
+        }
+        async listBuckets(a10 = {}) {
+          return super.listBuckets.call(this, a10);
+        }
+        async deleteBucket(a10) {
+          return super.deleteBucket.call(this, a10);
+        }
+      }, c4 = class extends c0 {
+        constructor(a10, b10, c10, d10) {
+          super(a10, b10, d10), this.vectorBucketName = c10;
+        }
+        async createIndex(a10) {
+          return super.createIndex.call(this, cC(cC({}, a10), {}, { vectorBucketName: this.vectorBucketName }));
+        }
+        async listIndexes(a10 = {}) {
+          return super.listIndexes.call(this, cC(cC({}, a10), {}, { vectorBucketName: this.vectorBucketName }));
+        }
+        async getIndex(a10) {
+          return super.getIndex.call(this, this.vectorBucketName, a10);
+        }
+        async deleteIndex(a10) {
+          return super.deleteIndex.call(this, this.vectorBucketName, a10);
+        }
+        index(a10) {
+          return new c5(this.url, this.headers, this.vectorBucketName, a10, this.fetch);
+        }
+      }, c5 = class extends c1 {
+        constructor(a10, b10, c10, d10, e4) {
+          super(a10, b10, e4), this.vectorBucketName = c10, this.indexName = d10;
+        }
+        async putVectors(a10) {
+          return super.putVectors.call(this, cC(cC({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
+        }
+        async getVectors(a10) {
+          return super.getVectors.call(this, cC(cC({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
+        }
+        async listVectors(a10 = {}) {
+          return super.listVectors.call(this, cC(cC({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
+        }
+        async queryVectors(a10) {
+          return super.queryVectors.call(this, cC(cC({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
+        }
+        async deleteVectors(a10) {
+          return super.deleteVectors.call(this, cC(cC({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
+        }
+      }, c6 = class extends c$ {
+        constructor(a10, b10 = {}, c10, d10) {
+          super(a10, b10, c10, d10);
+        }
+        from(a10) {
+          return new cY(this.url, this.headers, a10, this.fetch);
+        }
+        get vectors() {
+          return new c3(this.url + "/vector", { headers: this.headers, fetch: this.fetch });
+        }
+        get analytics() {
+          return new c_(this.url + "/iceberg", this.headers, this.fetch);
+        }
+      };
+      let c7 = "2.106.1", c8 = { "X-Client-Info": `gotrue-js/${c7}` }, c9 = "X-Supabase-Api-Version", da = { "2024-01-01": { timestamp: Date.parse("2024-01-01T00:00:00.0Z"), name: "2024-01-01" } }, db = /^([a-z0-9_-]{4})*($|[a-z0-9_-]{3}$|[a-z0-9_-]{2}$)$/i;
+      class dc extends Error {
+        constructor(a10, b10, c10) {
+          super(a10), this.__isAuthError = true, this.name = "AuthError", this.status = b10, this.code = c10;
+        }
+        toJSON() {
+          return { name: this.name, message: this.message, status: this.status, code: this.code };
+        }
+      }
+      function dd(a10) {
+        return "object" == typeof a10 && null !== a10 && "__isAuthError" in a10;
+      }
+      class de extends dc {
+        constructor(a10, b10, c10) {
+          super(a10, b10, c10), this.name = "AuthApiError", this.status = b10, this.code = c10;
+        }
+      }
+      class df extends dc {
+        constructor(a10, b10) {
+          super(a10), this.name = "AuthUnknownError", this.originalError = b10;
+        }
+      }
+      class dg extends dc {
+        constructor(a10, b10, c10, d10) {
+          super(a10, c10, d10), this.name = b10, this.status = c10;
+        }
+      }
+      class dh extends dg {
+        constructor() {
+          super("Auth session missing!", "AuthSessionMissingError", 400, void 0);
+        }
+      }
+      function di(a10) {
+        return dd(a10) && "AuthSessionMissingError" === a10.name;
+      }
+      class dj extends dg {
+        constructor() {
+          super("Auth session or user missing", "AuthInvalidTokenResponseError", 500, void 0);
+        }
+      }
+      class dk extends dg {
+        constructor(a10) {
+          super(a10, "AuthInvalidCredentialsError", 400, void 0);
+        }
+      }
+      class dl extends dg {
+        constructor(a10, b10 = null) {
+          super(a10, "AuthImplicitGrantRedirectError", 500, void 0), this.details = null, this.details = b10;
+        }
+        toJSON() {
+          return Object.assign(Object.assign({}, super.toJSON()), { details: this.details });
+        }
+      }
+      class dm extends dg {
+        constructor(a10, b10 = null) {
+          super(a10, "AuthPKCEGrantCodeExchangeError", 500, void 0), this.details = null, this.details = b10;
+        }
+        toJSON() {
+          return Object.assign(Object.assign({}, super.toJSON()), { details: this.details });
+        }
+      }
+      class dn extends dg {
+        constructor() {
+          super("PKCE code verifier not found in storage. This can happen if the auth flow was initiated in a different browser or device, or if the storage was cleared. For SSR frameworks (Next.js, SvelteKit, etc.), use @supabase/ssr on both the server and client to store the code verifier in cookies.", "AuthPKCECodeVerifierMissingError", 400, "pkce_code_verifier_not_found");
+        }
+      }
+      class dp extends dg {
+        constructor(a10, b10) {
+          super(a10, "AuthRetryableFetchError", b10, void 0);
+        }
+      }
+      function dq(a10) {
+        return dd(a10) && "AuthRetryableFetchError" === a10.name;
+      }
+      class dr extends dg {
+        constructor(a10, b10, c10) {
+          super(a10, "AuthWeakPasswordError", b10, "weak_password"), this.reasons = c10;
+        }
+        toJSON() {
+          return Object.assign(Object.assign({}, super.toJSON()), { reasons: this.reasons });
+        }
+      }
+      class ds extends dg {
+        constructor(a10) {
+          super(a10, "AuthInvalidJwtError", 400, "invalid_jwt");
+        }
+      }
+      let dt = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split(""), du = " 	\n\r=".split(""), dv = (() => {
+        let a10 = Array(128);
+        for (let b10 = 0; b10 < a10.length; b10 += 1) a10[b10] = -1;
+        for (let b10 = 0; b10 < du.length; b10 += 1) a10[du[b10].charCodeAt(0)] = -2;
+        for (let b10 = 0; b10 < dt.length; b10 += 1) a10[dt[b10].charCodeAt(0)] = b10;
+        return a10;
+      })();
+      function dw(a10, b10, c10) {
+        if (null !== a10) for (b10.queue = b10.queue << 8 | a10, b10.queuedBits += 8; b10.queuedBits >= 6; ) c10(dt[b10.queue >> b10.queuedBits - 6 & 63]), b10.queuedBits -= 6;
+        else if (b10.queuedBits > 0) for (b10.queue = b10.queue << 6 - b10.queuedBits, b10.queuedBits = 6; b10.queuedBits >= 6; ) c10(dt[b10.queue >> b10.queuedBits - 6 & 63]), b10.queuedBits -= 6;
+      }
+      function dx(a10, b10, c10) {
+        let d10 = dv[a10];
+        if (d10 > -1) for (b10.queue = b10.queue << 6 | d10, b10.queuedBits += 6; b10.queuedBits >= 8; ) c10(b10.queue >> b10.queuedBits - 8 & 255), b10.queuedBits -= 8;
+        else if (-2 === d10) return;
+        else throw Error(`Invalid Base64-URL character "${String.fromCharCode(a10)}"`);
+      }
+      function dy(a10) {
+        let b10 = [], c10 = (a11) => {
+          b10.push(String.fromCodePoint(a11));
+        }, d10 = { utf8seq: 0, codepoint: 0 }, e4 = { queue: 0, queuedBits: 0 }, f2 = (a11) => {
+          !function(a12, b11, c11) {
+            if (0 === b11.utf8seq) {
+              if (a12 <= 127) return c11(a12);
+              for (let c12 = 1; c12 < 6; c12 += 1) if ((a12 >> 7 - c12 & 1) == 0) {
+                b11.utf8seq = c12;
+                break;
+              }
+              if (2 === b11.utf8seq) b11.codepoint = 31 & a12;
+              else if (3 === b11.utf8seq) b11.codepoint = 15 & a12;
+              else if (4 === b11.utf8seq) b11.codepoint = 7 & a12;
+              else throw Error("Invalid UTF-8 sequence");
+              b11.utf8seq -= 1;
+            } else if (b11.utf8seq > 0) {
+              if (a12 <= 127) throw Error("Invalid UTF-8 sequence");
+              b11.codepoint = b11.codepoint << 6 | 63 & a12, b11.utf8seq -= 1, 0 === b11.utf8seq && c11(b11.codepoint);
+            }
+          }(a11, d10, c10);
+        };
+        for (let b11 = 0; b11 < a10.length; b11 += 1) dx(a10.charCodeAt(b11), e4, f2);
+        return b10.join("");
+      }
+      function dz(a10) {
+        let b10 = [], c10 = { queue: 0, queuedBits: 0 }, d10 = (a11) => {
+          b10.push(a11);
+        };
+        for (let b11 = 0; b11 < a10.length; b11 += 1) dx(a10.charCodeAt(b11), c10, d10);
+        return new Uint8Array(b10);
+      }
+      function dA(a10) {
+        let b10 = [], c10 = { queue: 0, queuedBits: 0 }, d10 = (a11) => {
+          b10.push(a11);
+        };
+        return a10.forEach((a11) => dw(a11, c10, d10)), dw(null, c10, d10), b10.join("");
+      }
+      let dB = () => "undefined" != typeof window && "undefined" != typeof document, dC = { tested: false, writable: false }, dD = () => {
+        if (!dB()) return false;
+        try {
+          if ("object" != typeof globalThis.localStorage) return false;
+        } catch (a11) {
+          return false;
+        }
+        if (dC.tested) return dC.writable;
+        let a10 = `lswt-${Math.random()}${Math.random()}`;
+        try {
+          globalThis.localStorage.setItem(a10, a10), globalThis.localStorage.removeItem(a10), dC.tested = true, dC.writable = true;
+        } catch (a11) {
+          dC.tested = true, dC.writable = false;
+        }
+        return dC.writable;
+      }, dE = (a10) => a10 ? (...b10) => a10(...b10) : (...a11) => fetch(...a11), dF = async (a10, b10, c10) => {
+        await a10.setItem(b10, JSON.stringify(c10));
+      }, dG = async (a10, b10) => {
+        let c10 = await a10.getItem(b10);
+        if (!c10) return null;
+        try {
+          return JSON.parse(c10);
+        } catch (a11) {
+          return null;
+        }
+      }, dH = async (a10, b10) => {
+        await a10.removeItem(b10);
+      };
+      class dI {
+        constructor() {
+          this.promise = new dI.promiseConstructor((a10, b10) => {
+            this.resolve = a10, this.reject = b10;
+          });
+        }
+      }
+      function dJ(a10) {
+        let b10 = a10.split(".");
+        if (3 !== b10.length) throw new ds("Invalid JWT structure");
+        for (let a11 = 0; a11 < b10.length; a11++) if (!db.test(b10[a11])) throw new ds("JWT not in base64url format");
+        return { header: JSON.parse(dy(b10[0])), payload: JSON.parse(dy(b10[1])), signature: dz(b10[2]), raw: { header: b10[0], payload: b10[1] } };
+      }
+      async function dK(a10) {
+        return await new Promise((b10) => {
+          setTimeout(() => b10(null), a10);
+        });
+      }
+      function dL(a10) {
+        return ("0" + a10.toString(16)).substr(-2);
+      }
+      async function dM(a10) {
+        let b10 = new TextEncoder().encode(a10);
+        return Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", b10))).map((a11) => String.fromCharCode(a11)).join("");
+      }
+      async function dN(a10) {
+        return "undefined" == typeof crypto || void 0 === crypto.subtle || "undefined" == typeof TextEncoder ? (console.warn("WebCrypto API is not supported. Code challenge method will default to use plain instead of sha256."), a10) : btoa(await dM(a10)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      }
+      async function dO(a10, b10, c10 = false) {
+        let d10 = function() {
+          let a11 = new Uint32Array(56);
+          if ("undefined" == typeof crypto) {
+            let a12 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~", b11 = a12.length, c11 = "";
+            for (let d11 = 0; d11 < 56; d11++) c11 += a12.charAt(Math.floor(Math.random() * b11));
+            return c11;
+          }
+          return crypto.getRandomValues(a11), Array.from(a11, dL).join("");
+        }(), e4 = d10;
+        c10 && (e4 += "/recovery"), await dF(a10, `${b10}-code-verifier`, e4);
+        let f2 = await dN(d10), g2 = d10 === f2 ? "plain" : "s256";
+        return [f2, g2];
+      }
+      dI.promiseConstructor = Promise;
+      let dP = /^2[0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/i, dQ = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+      function dR(a10) {
+        if (!dQ.test(a10)) throw Error("@supabase/auth-js: Expected parameter to be UUID but is not");
+      }
+      function dS(a10) {
+        if (!a10.passkey) throw Error("@supabase/auth-js: the passkey API is experimental and disabled by default. Enable it by passing `auth: { experimental: { passkey: true } }` to createClient (or to the GoTrueClient constructor).");
+      }
+      function dT() {
+        return new Proxy({}, { get: (a10, b10) => {
+          if ("__isUserNotAvailableProxy" === b10) return true;
+          if ("symbol" == typeof b10) {
+            let a11 = b10.toString();
+            if ("Symbol(Symbol.toPrimitive)" === a11 || "Symbol(Symbol.toStringTag)" === a11 || "Symbol(util.inspect.custom)" === a11) return;
+          }
+          throw Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Accessing the "${b10}" property of the session object is not supported. Please use getUser() instead.`);
+        }, set: (a10, b10) => {
+          throw Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Setting the "${b10}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
+        }, deleteProperty: (a10, b10) => {
+          throw Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Deleting the "${b10}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
+        } });
+      }
+      function dU(a10) {
+        return JSON.parse(JSON.stringify(a10));
+      }
+      let dV = (a10) => {
+        if ("object" == typeof a10 && null !== a10) {
+          if ("string" == typeof a10.msg) return a10.msg;
+          if ("string" == typeof a10.message) return a10.message;
+          if ("string" == typeof a10.error_description) return a10.error_description;
+          if ("string" == typeof a10.error) return a10.error;
+        }
+        return JSON.stringify(a10);
+      }, dW = [502, 503, 504, 520, 521, 522, 523, 524, 530];
+      async function dX(a10) {
+        var b10;
+        let c10, d10;
+        if (!("object" == typeof a10 && null !== a10 && "status" in a10 && "ok" in a10 && "json" in a10 && "function" == typeof a10.json)) throw new dp(dV(a10), 0);
+        if (dW.includes(a10.status)) throw new dp(dV(a10), a10.status);
+        try {
+          c10 = await a10.json();
+        } catch (a11) {
+          throw new df(dV(a11), a11);
+        }
+        let e4 = function(a11) {
+          let b11 = a11.headers.get(c9);
+          if (!b11 || !b11.match(dP)) return null;
+          try {
+            return /* @__PURE__ */ new Date(`${b11}T00:00:00.0Z`);
+          } catch (a12) {
+            return null;
+          }
+        }(a10);
+        if (e4 && e4.getTime() >= da["2024-01-01"].timestamp && "object" == typeof c10 && c10 && "string" == typeof c10.code ? d10 = c10.code : "object" == typeof c10 && c10 && "string" == typeof c10.error_code && (d10 = c10.error_code), d10) {
+          if ("weak_password" === d10) throw new dr(dV(c10), a10.status, (null == (b10 = c10.weak_password) ? void 0 : b10.reasons) || []);
+          else if ("session_not_found" === d10) throw new dh();
+        } else if ("object" == typeof c10 && c10 && "object" == typeof c10.weak_password && c10.weak_password && Array.isArray(c10.weak_password.reasons) && c10.weak_password.reasons.length && c10.weak_password.reasons.reduce((a11, b11) => a11 && "string" == typeof b11, true)) throw new dr(dV(c10), a10.status, c10.weak_password.reasons);
+        throw new de(dV(c10), a10.status || 500, d10);
+      }
+      async function dY(a10, b10, c10, d10) {
+        var e4;
+        let f2 = Object.assign({}, null == d10 ? void 0 : d10.headers);
+        f2[c9] || (f2[c9] = da["2024-01-01"].name), (null == d10 ? void 0 : d10.jwt) && (f2.Authorization = `Bearer ${d10.jwt}`);
+        let g2 = null != (e4 = null == d10 ? void 0 : d10.query) ? e4 : {};
+        (null == d10 ? void 0 : d10.redirectTo) && (g2.redirect_to = d10.redirectTo);
+        let h2 = Object.keys(g2).length ? "?" + new URLSearchParams(g2).toString() : "", i2 = await dZ(a10, b10, c10 + h2, { headers: f2, noResolveJson: null == d10 ? void 0 : d10.noResolveJson }, {}, null == d10 ? void 0 : d10.body);
+        return (null == d10 ? void 0 : d10.xform) ? null == d10 ? void 0 : d10.xform(i2) : { data: Object.assign({}, i2), error: null };
+      }
+      async function dZ(a10, b10, c10, d10, e4, f2) {
+        let g2, h2 = ((a11, b11, c11, d11) => {
+          let e5 = { method: a11, headers: (null == b11 ? void 0 : b11.headers) || {} };
+          return "GET" === a11 ? e5 : (e5.headers = Object.assign({ "Content-Type": "application/json;charset=UTF-8" }, null == b11 ? void 0 : b11.headers), e5.body = JSON.stringify(d11), Object.assign(Object.assign({}, e5), c11));
+        })(b10, d10, e4, f2);
+        try {
+          g2 = await a10(c10, Object.assign({}, h2));
+        } catch (a11) {
+          throw console.error(a11), new dp(dV(a11), 0);
+        }
+        if (g2.ok || await dX(g2), null == d10 ? void 0 : d10.noResolveJson) return g2;
+        try {
+          return await g2.json();
+        } catch (a11) {
+          await dX(a11);
+        }
+      }
+      function d$(a10) {
+        var b10, c10, d10;
+        let e4 = null;
+        (d10 = a10).access_token && d10.refresh_token && d10.expires_in && (e4 = Object.assign({}, a10), a10.expires_at || (e4.expires_at = (c10 = a10.expires_in, Math.round(Date.now() / 1e3) + c10)));
+        return { data: { session: e4, user: null != (b10 = a10.user) ? b10 : null }, error: null };
+      }
+      function d_(a10) {
+        let b10 = d$(a10);
+        return !b10.error && a10.weak_password && "object" == typeof a10.weak_password && Array.isArray(a10.weak_password.reasons) && a10.weak_password.reasons.length && a10.weak_password.message && "string" == typeof a10.weak_password.message && a10.weak_password.reasons.reduce((a11, b11) => a11 && "string" == typeof b11, true) && (b10.data.weak_password = a10.weak_password), b10;
+      }
+      function d0(a10) {
+        var b10;
+        return { data: { user: null != (b10 = a10.user) ? b10 : a10 }, error: null };
+      }
+      function d1(a10) {
+        return { data: a10, error: null };
+      }
+      function d2(a10) {
+        let { action_link: b10, email_otp: c10, hashed_token: d10, redirect_to: e4, verification_type: f2 } = a10;
+        return { data: { properties: { action_link: b10, email_otp: c10, hashed_token: d10, redirect_to: e4, verification_type: f2 }, user: Object.assign({}, bs(a10, ["action_link", "email_otp", "hashed_token", "redirect_to", "verification_type"])) }, error: null };
+      }
+      function d3(a10) {
+        return a10;
+      }
+      let d4 = ["global", "local", "others"];
+      class d5 {
+        _encodePathSegment(a10) {
+          if ("." === a10 || ".." === a10) throw new dc("Invalid path segment");
+          return encodeURIComponent(a10);
+        }
+        constructor({ url: a10 = "", headers: b10 = {}, fetch: c10, experimental: d10 }) {
+          this.url = a10, this.headers = b10, this.fetch = dE(c10), this.experimental = null != d10 ? d10 : {}, this.mfa = { listFactors: this._listFactors.bind(this), deleteFactor: this._deleteFactor.bind(this) }, this.oauth = { listClients: this._listOAuthClients.bind(this), createClient: this._createOAuthClient.bind(this), getClient: this._getOAuthClient.bind(this), updateClient: this._updateOAuthClient.bind(this), deleteClient: this._deleteOAuthClient.bind(this), regenerateClientSecret: this._regenerateOAuthClientSecret.bind(this) }, this.customProviders = { listProviders: this._listCustomProviders.bind(this), createProvider: this._createCustomProvider.bind(this), getProvider: this._getCustomProvider.bind(this), updateProvider: this._updateCustomProvider.bind(this), deleteProvider: this._deleteCustomProvider.bind(this) }, this.passkey = { listPasskeys: this._adminListPasskeys.bind(this), deletePasskey: this._adminDeletePasskey.bind(this) };
+        }
+        async signOut(a10, b10 = d4[0]) {
+          if (0 > d4.indexOf(b10)) throw Error(`@supabase/auth-js: Parameter scope must be one of ${d4.join(", ")}`);
+          try {
+            return await dY(this.fetch, "POST", `${this.url}/logout?scope=${b10}`, { headers: this.headers, jwt: a10, noResolveJson: true }), { data: null, error: null };
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async inviteUserByEmail(a10, b10 = {}) {
+          try {
+            return await dY(this.fetch, "POST", `${this.url}/invite`, { body: { email: a10, data: b10.data }, headers: this.headers, redirectTo: b10.redirectTo, xform: d0 });
+          } catch (a11) {
+            if (dd(a11)) return { data: { user: null }, error: a11 };
+            throw a11;
+          }
+        }
+        async generateLink(a10) {
+          try {
+            let { options: b10 } = a10, c10 = bs(a10, ["options"]), d10 = Object.assign(Object.assign({}, c10), b10);
+            return "newEmail" in c10 && (d10.new_email = null == c10 ? void 0 : c10.newEmail, delete d10.newEmail), await dY(this.fetch, "POST", `${this.url}/admin/generate_link`, { body: d10, headers: this.headers, xform: d2, redirectTo: null == b10 ? void 0 : b10.redirectTo });
+          } catch (a11) {
+            if (dd(a11)) return { data: { properties: null, user: null }, error: a11 };
+            throw a11;
+          }
+        }
+        async createUser(a10) {
+          try {
+            return await dY(this.fetch, "POST", `${this.url}/admin/users`, { body: a10, headers: this.headers, xform: d0 });
+          } catch (a11) {
+            if (dd(a11)) return { data: { user: null }, error: a11 };
+            throw a11;
+          }
+        }
+        async listUsers(a10) {
+          var b10, c10, d10, e4, f2, g2, h2;
+          try {
+            let i2 = { nextPage: null, lastPage: 0, total: 0 }, j2 = await dY(this.fetch, "GET", `${this.url}/admin/users`, { headers: this.headers, noResolveJson: true, query: { page: null != (c10 = null == (b10 = null == a10 ? void 0 : a10.page) ? void 0 : b10.toString()) ? c10 : "", per_page: null != (e4 = null == (d10 = null == a10 ? void 0 : a10.perPage) ? void 0 : d10.toString()) ? e4 : "" }, xform: d3 });
+            if (j2.error) throw j2.error;
+            let k2 = await j2.json(), l2 = null != (f2 = j2.headers.get("x-total-count")) ? f2 : 0, m2 = null != (h2 = null == (g2 = j2.headers.get("link")) ? void 0 : g2.split(",")) ? h2 : [];
+            return m2.length > 0 && (m2.forEach((a11) => {
+              let b11 = parseInt(a11.split(";")[0].split("=")[1].substring(0, 1)), c11 = JSON.parse(a11.split(";")[1].split("=")[1]);
+              i2[`${c11}Page`] = b11;
+            }), i2.total = parseInt(l2)), { data: Object.assign(Object.assign({}, k2), i2), error: null };
+          } catch (a11) {
+            if (dd(a11)) return { data: { users: [] }, error: a11 };
+            throw a11;
+          }
+        }
+        async getUserById(a10) {
+          dR(a10);
+          try {
+            return await dY(this.fetch, "GET", `${this.url}/admin/users/${a10}`, { headers: this.headers, xform: d0 });
+          } catch (a11) {
+            if (dd(a11)) return { data: { user: null }, error: a11 };
+            throw a11;
+          }
+        }
+        async updateUserById(a10, b10) {
+          dR(a10);
+          try {
+            return await dY(this.fetch, "PUT", `${this.url}/admin/users/${a10}`, { body: b10, headers: this.headers, xform: d0 });
+          } catch (a11) {
+            if (dd(a11)) return { data: { user: null }, error: a11 };
+            throw a11;
+          }
+        }
+        async deleteUser(a10, b10 = false) {
+          dR(a10);
+          try {
+            return await dY(this.fetch, "DELETE", `${this.url}/admin/users/${a10}`, { headers: this.headers, body: { should_soft_delete: b10 }, xform: d0 });
+          } catch (a11) {
+            if (dd(a11)) return { data: { user: null }, error: a11 };
+            throw a11;
+          }
+        }
+        async _listFactors(a10) {
+          dR(a10.userId);
+          try {
+            let { data: b10, error: c10 } = await dY(this.fetch, "GET", `${this.url}/admin/users/${a10.userId}/factors`, { headers: this.headers, xform: (a11) => ({ data: { factors: a11 }, error: null }) });
+            return { data: b10, error: c10 };
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _deleteFactor(a10) {
+          dR(a10.userId), dR(a10.id);
+          try {
+            return { data: await dY(this.fetch, "DELETE", `${this.url}/admin/users/${a10.userId}/factors/${a10.id}`, { headers: this.headers }), error: null };
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _listOAuthClients(a10) {
+          var b10, c10, d10, e4, f2, g2, h2;
+          try {
+            let i2 = { nextPage: null, lastPage: 0, total: 0 }, j2 = await dY(this.fetch, "GET", `${this.url}/admin/oauth/clients`, { headers: this.headers, noResolveJson: true, query: { page: null != (c10 = null == (b10 = null == a10 ? void 0 : a10.page) ? void 0 : b10.toString()) ? c10 : "", per_page: null != (e4 = null == (d10 = null == a10 ? void 0 : a10.perPage) ? void 0 : d10.toString()) ? e4 : "" }, xform: d3 });
+            if (j2.error) throw j2.error;
+            let k2 = await j2.json(), l2 = null != (f2 = j2.headers.get("x-total-count")) ? f2 : 0, m2 = null != (h2 = null == (g2 = j2.headers.get("link")) ? void 0 : g2.split(",")) ? h2 : [];
+            return m2.length > 0 && (m2.forEach((a11) => {
+              let b11 = parseInt(a11.split(";")[0].split("=")[1].substring(0, 1)), c11 = JSON.parse(a11.split(";")[1].split("=")[1]);
+              i2[`${c11}Page`] = b11;
+            }), i2.total = parseInt(l2)), { data: Object.assign(Object.assign({}, k2), i2), error: null };
+          } catch (a11) {
+            if (dd(a11)) return { data: { clients: [] }, error: a11 };
+            throw a11;
+          }
+        }
+        async _createOAuthClient(a10) {
+          try {
+            return await dY(this.fetch, "POST", `${this.url}/admin/oauth/clients`, { body: a10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _getOAuthClient(a10) {
+          try {
+            let b10 = this._encodePathSegment(a10);
+            return await dY(this.fetch, "GET", `${this.url}/admin/oauth/clients/${b10}`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _updateOAuthClient(a10, b10) {
+          try {
+            let c10 = this._encodePathSegment(a10);
+            return await dY(this.fetch, "PUT", `${this.url}/admin/oauth/clients/${c10}`, { body: b10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _deleteOAuthClient(a10) {
+          try {
+            let b10 = this._encodePathSegment(a10);
+            return await dY(this.fetch, "DELETE", `${this.url}/admin/oauth/clients/${b10}`, { headers: this.headers, noResolveJson: true }), { data: null, error: null };
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _regenerateOAuthClientSecret(a10) {
+          try {
+            let b10 = this._encodePathSegment(a10);
+            return await dY(this.fetch, "POST", `${this.url}/admin/oauth/clients/${b10}/regenerate_secret`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _listCustomProviders(a10) {
+          try {
+            let b10 = {};
+            return (null == a10 ? void 0 : a10.type) && (b10.type = a10.type), await dY(this.fetch, "GET", `${this.url}/admin/custom-providers`, { headers: this.headers, query: b10, xform: (a11) => {
+              var b11;
+              return { data: { providers: null != (b11 = null == a11 ? void 0 : a11.providers) ? b11 : [] }, error: null };
+            } });
+          } catch (a11) {
+            if (dd(a11)) return { data: { providers: [] }, error: a11 };
+            throw a11;
+          }
+        }
+        async _createCustomProvider(a10) {
+          try {
+            return await dY(this.fetch, "POST", `${this.url}/admin/custom-providers`, { body: a10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _getCustomProvider(a10) {
+          try {
+            let b10 = this._encodePathSegment(a10);
+            return await dY(this.fetch, "GET", `${this.url}/admin/custom-providers/${b10}`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _updateCustomProvider(a10, b10) {
+          try {
+            let c10 = this._encodePathSegment(a10);
+            return await dY(this.fetch, "PUT", `${this.url}/admin/custom-providers/${c10}`, { body: b10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _deleteCustomProvider(a10) {
+          try {
+            let b10 = this._encodePathSegment(a10);
+            return await dY(this.fetch, "DELETE", `${this.url}/admin/custom-providers/${b10}`, { headers: this.headers, noResolveJson: true }), { data: null, error: null };
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _adminListPasskeys(a10) {
+          dS(this.experimental), dR(a10.userId);
+          try {
+            return await dY(this.fetch, "GET", `${this.url}/admin/users/${a10.userId}/passkeys`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+        async _adminDeletePasskey(a10) {
+          dS(this.experimental), dR(a10.userId), dR(a10.passkeyId);
+          try {
+            return await dY(this.fetch, "DELETE", `${this.url}/admin/users/${a10.userId}/passkeys/${a10.passkeyId}`, { headers: this.headers, noResolveJson: true }), { data: null, error: null };
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            throw a11;
+          }
+        }
+      }
+      function d6(a10 = {}) {
+        return { getItem: (b10) => a10[b10] || null, setItem: (b10, c10) => {
+          a10[b10] = c10;
+        }, removeItem: (b10) => {
+          delete a10[b10];
+        } };
+      }
+      let d7 = { debug: !!(globalThis && dD() && globalThis.localStorage && "true" === globalThis.localStorage.getItem("supabase.gotrue-js.locks.debug")) };
+      class d8 extends Error {
+        constructor(a10) {
+          super(a10), this.isAcquireTimeout = true;
+        }
+      }
+      class d9 extends d8 {
+      }
+      async function ea(a10, b10, c10) {
+        let d10;
+        d7.debug && console.log("@supabase/gotrue-js: navigatorLock: acquire lock", a10, b10);
+        let e4 = new globalThis.AbortController();
+        b10 > 0 && (d10 = setTimeout(() => {
+          e4.abort(), d7.debug && console.log("@supabase/gotrue-js: navigatorLock acquire timed out", a10);
+        }, b10)), await Promise.resolve();
+        try {
+          return await globalThis.navigator.locks.request(a10, 0 === b10 ? { mode: "exclusive", ifAvailable: true } : { mode: "exclusive", signal: e4.signal }, async (e5) => {
+            if (e5) {
+              clearTimeout(d10), d7.debug && console.log("@supabase/gotrue-js: navigatorLock: acquired", a10, e5.name);
+              try {
+                return await c10();
+              } finally {
+                d7.debug && console.log("@supabase/gotrue-js: navigatorLock: released", a10, e5.name);
+              }
+            }
+            if (0 === b10) throw d7.debug && console.log("@supabase/gotrue-js: navigatorLock: not immediately available", a10), new d9(`Acquiring an exclusive Navigator LockManager lock "${a10}" immediately failed`);
+            if (d7.debug) try {
+              let a11 = await globalThis.navigator.locks.query();
+              console.log("@supabase/gotrue-js: Navigator LockManager state", JSON.stringify(a11, null, "  "));
+            } catch (a11) {
+              console.warn("@supabase/gotrue-js: Error when querying Navigator LockManager state", a11);
+            }
+            return console.warn("@supabase/gotrue-js: Navigator LockManager returned a null lock when using #request without ifAvailable set to true, it appears this browser is not following the LockManager spec https://developer.mozilla.org/en-US/docs/Web/API/LockManager/request"), clearTimeout(d10), await c10();
+          });
+        } catch (f2) {
+          if (b10 > 0 && clearTimeout(d10), null !== f2 && "object" == typeof f2 && "name" in f2 && "AbortError" === f2.name && b10 > 0) if (e4.signal.aborted) return d7.debug && console.log("@supabase/gotrue-js: navigatorLock: acquire timeout, recovering by stealing lock", a10), console.warn(`@supabase/gotrue-js: Lock "${a10}" was not released within ${b10}ms. This may indicate an orphaned lock from a component unmount (e.g., React Strict Mode). Forcefully acquiring the lock to recover.`), await Promise.resolve().then(() => globalThis.navigator.locks.request(a10, { mode: "exclusive", steal: true }, async (b11) => {
+            if (!b11) return console.warn("@supabase/gotrue-js: Navigator LockManager returned null lock even with steal: true"), await c10();
+            d7.debug && console.log("@supabase/gotrue-js: navigatorLock: recovered (stolen)", a10, b11.name);
+            try {
+              return await c10();
+            } finally {
+              d7.debug && console.log("@supabase/gotrue-js: navigatorLock: released (stolen)", a10, b11.name);
+            }
+          }));
+          else throw d7.debug && console.log("@supabase/gotrue-js: navigatorLock: lock was stolen by another request", a10), new d9(`Lock "${a10}" was released because another request stole it`);
+          throw f2;
+        }
+      }
+      function eb(a10) {
+        if (!/^0x[a-fA-F0-9]{40}$/.test(a10)) throw Error(`@supabase/auth-js: Address "${a10}" is invalid.`);
+        return a10.toLowerCase();
+      }
+      class ec extends Error {
+        constructor({ message: a10, code: b10, cause: c10, name: d10 }) {
+          var e4;
+          super(a10, { cause: c10 }), this.__isWebAuthnError = true, this.name = null != (e4 = null != d10 ? d10 : c10 instanceof Error ? c10.name : void 0) ? e4 : "Unknown Error", this.code = b10;
+        }
+        toJSON() {
+          return { name: this.name, message: this.message, code: this.code };
+        }
+      }
+      class ed extends ec {
+        constructor(a10, b10) {
+          super({ code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: b10, message: a10 }), this.name = "WebAuthnUnknownError", this.originalError = b10;
+        }
+      }
+      class ee {
+        createNewAbortSignal() {
+          if (this.controller) {
+            let a11 = Error("Cancelling existing WebAuthn API call for new one");
+            a11.name = "AbortError", this.controller.abort(a11);
+          }
+          let a10 = new AbortController();
+          return this.controller = a10, a10.signal;
+        }
+        cancelCeremony() {
+          if (this.controller) {
+            let a10 = Error("Manually cancelling existing WebAuthn API call");
+            a10.name = "AbortError", this.controller.abort(a10), this.controller = void 0;
+          }
+        }
+      }
+      let ef = new ee();
+      function eg(a10) {
+        if (!a10) throw Error("Credential creation options are required");
+        if ("undefined" != typeof PublicKeyCredential && "parseCreationOptionsFromJSON" in PublicKeyCredential && "function" == typeof PublicKeyCredential.parseCreationOptionsFromJSON) return PublicKeyCredential.parseCreationOptionsFromJSON(a10);
+        let { challenge: b10, user: c10, excludeCredentials: d10 } = a10, e4 = bs(a10, ["challenge", "user", "excludeCredentials"]), f2 = dz(b10).buffer, g2 = Object.assign(Object.assign({}, c10), { id: dz(c10.id).buffer }), h2 = Object.assign(Object.assign({}, e4), { challenge: f2, user: g2 });
+        if (d10 && d10.length > 0) {
+          h2.excludeCredentials = Array(d10.length);
+          for (let a11 = 0; a11 < d10.length; a11++) {
+            let b11 = d10[a11];
+            h2.excludeCredentials[a11] = Object.assign(Object.assign({}, b11), { id: dz(b11.id).buffer, type: b11.type || "public-key", transports: b11.transports });
+          }
+        }
+        return h2;
+      }
+      function eh(a10) {
+        if (!a10) throw Error("Credential request options are required");
+        if ("undefined" != typeof PublicKeyCredential && "parseRequestOptionsFromJSON" in PublicKeyCredential && "function" == typeof PublicKeyCredential.parseRequestOptionsFromJSON) return PublicKeyCredential.parseRequestOptionsFromJSON(a10);
+        let { challenge: b10, allowCredentials: c10 } = a10, d10 = bs(a10, ["challenge", "allowCredentials"]), e4 = dz(b10).buffer, f2 = Object.assign(Object.assign({}, d10), { challenge: e4 });
+        if (c10 && c10.length > 0) {
+          f2.allowCredentials = Array(c10.length);
+          for (let a11 = 0; a11 < c10.length; a11++) {
+            let b11 = c10[a11];
+            f2.allowCredentials[a11] = Object.assign(Object.assign({}, b11), { id: dz(b11.id).buffer, type: b11.type || "public-key", transports: b11.transports });
+          }
+        }
+        return f2;
+      }
+      function ei(a10) {
+        var b10;
+        return "toJSON" in a10 && "function" == typeof a10.toJSON ? a10.toJSON() : { id: a10.id, rawId: a10.id, response: { attestationObject: dA(new Uint8Array(a10.response.attestationObject)), clientDataJSON: dA(new Uint8Array(a10.response.clientDataJSON)) }, type: "public-key", clientExtensionResults: a10.getClientExtensionResults(), authenticatorAttachment: null != (b10 = a10.authenticatorAttachment) ? b10 : void 0 };
+      }
+      function ej(a10) {
+        var b10;
+        if ("toJSON" in a10 && "function" == typeof a10.toJSON) return a10.toJSON();
+        let c10 = a10.getClientExtensionResults(), d10 = a10.response;
+        return { id: a10.id, rawId: a10.id, response: { authenticatorData: dA(new Uint8Array(d10.authenticatorData)), clientDataJSON: dA(new Uint8Array(d10.clientDataJSON)), signature: dA(new Uint8Array(d10.signature)), userHandle: d10.userHandle ? dA(new Uint8Array(d10.userHandle)) : void 0 }, type: "public-key", clientExtensionResults: c10, authenticatorAttachment: null != (b10 = a10.authenticatorAttachment) ? b10 : void 0 };
+      }
+      function ek(a10) {
+        return "localhost" === a10 || /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(a10);
+      }
+      function el() {
+        var a10, b10;
+        return !!(dB() && "PublicKeyCredential" in window && window.PublicKeyCredential && "credentials" in navigator && "function" == typeof (null == (a10 = null == navigator ? void 0 : navigator.credentials) ? void 0 : a10.create) && "function" == typeof (null == (b10 = null == navigator ? void 0 : navigator.credentials) ? void 0 : b10.get));
+      }
+      async function em(a10) {
+        try {
+          let b10 = await navigator.credentials.create(a10);
+          if (!b10) return { data: null, error: new ed("Empty credential response", b10) };
+          if (!(b10 instanceof PublicKeyCredential)) return { data: null, error: new ed("Browser returned unexpected credential type", b10) };
+          return { data: b10, error: null };
+        } catch (b10) {
+          return { data: null, error: function({ error: a11, options: b11 }) {
+            var c10, d10, e4;
+            let { publicKey: f2 } = b11;
+            if (!f2) throw Error("options was missing required publicKey property");
+            if ("AbortError" === a11.name) {
+              if (b11.signal instanceof AbortSignal) return new ec({ message: "Registration ceremony was sent an abort signal", code: "ERROR_CEREMONY_ABORTED", cause: a11 });
+            } else if ("ConstraintError" === a11.name) {
+              if ((null == (c10 = f2.authenticatorSelection) ? void 0 : c10.requireResidentKey) === true) return new ec({ message: "Discoverable credentials were required but no available authenticator supported it", code: "ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT", cause: a11 });
+              else if ("conditional" === b11.mediation && (null == (d10 = f2.authenticatorSelection) ? void 0 : d10.userVerification) === "required") return new ec({ message: "User verification was required during automatic registration but it could not be performed", code: "ERROR_AUTO_REGISTER_USER_VERIFICATION_FAILURE", cause: a11 });
+              else if ((null == (e4 = f2.authenticatorSelection) ? void 0 : e4.userVerification) === "required") return new ec({ message: "User verification was required but no available authenticator supported it", code: "ERROR_AUTHENTICATOR_MISSING_USER_VERIFICATION_SUPPORT", cause: a11 });
+            } else if ("InvalidStateError" === a11.name) return new ec({ message: "The authenticator was previously registered", code: "ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED", cause: a11 });
+            else if ("NotAllowedError" === a11.name) return new ec({ message: a11.message, code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
+            else if ("NotSupportedError" === a11.name) return new ec(0 === f2.pubKeyCredParams.filter((a12) => "public-key" === a12.type).length ? { message: 'No entry in pubKeyCredParams was of type "public-key"', code: "ERROR_MALFORMED_PUBKEYCREDPARAMS", cause: a11 } : { message: "No available authenticator supported any of the specified pubKeyCredParams algorithms", code: "ERROR_AUTHENTICATOR_NO_SUPPORTED_PUBKEYCREDPARAMS_ALG", cause: a11 });
+            else if ("SecurityError" === a11.name) {
+              let b12 = window.location.hostname;
+              if (!ek(b12)) return new ec({ message: `${window.location.hostname} is an invalid domain`, code: "ERROR_INVALID_DOMAIN", cause: a11 });
+              if (f2.rp.id !== b12) return new ec({ message: `The RP ID "${f2.rp.id}" is invalid for this domain`, code: "ERROR_INVALID_RP_ID", cause: a11 });
+            } else if ("TypeError" === a11.name) {
+              if (f2.user.id.byteLength < 1 || f2.user.id.byteLength > 64) return new ec({ message: "User ID was not between 1 and 64 characters", code: "ERROR_INVALID_USER_ID_LENGTH", cause: a11 });
+            } else if ("UnknownError" === a11.name) return new ec({ message: "The authenticator was unable to process the specified options, or could not create a new credential", code: "ERROR_AUTHENTICATOR_GENERAL_ERROR", cause: a11 });
+            return new ec({ message: "a Non-Webauthn related error has occurred", code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
+          }({ error: b10, options: a10 }) };
+        }
+      }
+      async function en(a10) {
+        try {
+          let b10 = await navigator.credentials.get(a10);
+          if (!b10) return { data: null, error: new ed("Empty credential response", b10) };
+          if (!(b10 instanceof PublicKeyCredential)) return { data: null, error: new ed("Browser returned unexpected credential type", b10) };
+          return { data: b10, error: null };
+        } catch (b10) {
+          return { data: null, error: function({ error: a11, options: b11 }) {
+            let { publicKey: c10 } = b11;
+            if (!c10) throw Error("options was missing required publicKey property");
+            if ("AbortError" === a11.name) {
+              if (b11.signal instanceof AbortSignal) return new ec({ message: "Authentication ceremony was sent an abort signal", code: "ERROR_CEREMONY_ABORTED", cause: a11 });
+            } else if ("NotAllowedError" === a11.name) return new ec({ message: a11.message, code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
+            else if ("SecurityError" === a11.name) {
+              let b12 = window.location.hostname;
+              if (!ek(b12)) return new ec({ message: `${window.location.hostname} is an invalid domain`, code: "ERROR_INVALID_DOMAIN", cause: a11 });
+              if (c10.rpId !== b12) return new ec({ message: `The RP ID "${c10.rpId}" is invalid for this domain`, code: "ERROR_INVALID_RP_ID", cause: a11 });
+            } else if ("UnknownError" === a11.name) return new ec({ message: "The authenticator was unable to process the specified options, or could not create a new assertion signature", code: "ERROR_AUTHENTICATOR_GENERAL_ERROR", cause: a11 });
+            return new ec({ message: "a Non-Webauthn related error has occurred", code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
+          }({ error: b10, options: a10 }) };
+        }
+      }
+      let eo = { hints: ["security-key"], authenticatorSelection: { authenticatorAttachment: "cross-platform", requireResidentKey: false, userVerification: "preferred", residentKey: "discouraged" }, attestation: "direct" }, ep = { userVerification: "preferred", hints: ["security-key"], attestation: "direct" };
+      function eq(...a10) {
+        let b10 = (a11) => null !== a11 && "object" == typeof a11 && !Array.isArray(a11), c10 = (a11) => a11 instanceof ArrayBuffer || ArrayBuffer.isView(a11), d10 = {};
+        for (let e4 of a10) if (e4) for (let a11 in e4) {
+          let f2 = e4[a11];
+          if (void 0 !== f2) if (Array.isArray(f2)) d10[a11] = f2;
+          else if (c10(f2)) d10[a11] = f2;
+          else if (b10(f2)) {
+            let c11 = d10[a11];
+            b10(c11) ? d10[a11] = eq(c11, f2) : d10[a11] = eq(f2);
+          } else d10[a11] = f2;
+        }
+        return d10;
+      }
+      class er {
+        constructor(a10) {
+          this.client = a10, this.enroll = this._enroll.bind(this), this.challenge = this._challenge.bind(this), this.verify = this._verify.bind(this), this.authenticate = this._authenticate.bind(this), this.register = this._register.bind(this);
+        }
+        async _enroll(a10) {
+          return this.client.mfa.enroll(Object.assign(Object.assign({}, a10), { factorType: "webauthn" }));
+        }
+        async _challenge({ factorId: a10, webauthn: b10, friendlyName: c10, signal: d10 }, e4) {
+          var f2, g2, h2, i2, j2;
+          try {
+            let { data: k2, error: l2 } = await this.client.mfa.challenge({ factorId: a10, webauthn: b10 });
+            if (!k2) return { data: null, error: l2 };
+            let m2 = null != d10 ? d10 : ef.createNewAbortSignal();
+            if ("create" === k2.webauthn.type) {
+              let { user: a11 } = k2.webauthn.credential_options.publicKey;
+              if (!a11.name) if (c10) a11.name = `${a11.id}:${c10}`;
+              else {
+                let b11 = (await this.client.getUser()).data.user, c11 = (null == (f2 = null == b11 ? void 0 : b11.user_metadata) ? void 0 : f2.name) || (null == b11 ? void 0 : b11.email) || (null == b11 ? void 0 : b11.id) || "User";
+                a11.name = `${a11.id}:${c11}`;
+              }
+              a11.displayName || (a11.displayName = a11.name);
+            }
+            switch (k2.webauthn.type) {
+              case "create": {
+                let b11 = (g2 = k2.webauthn.credential_options.publicKey, h2 = null == e4 ? void 0 : e4.create, eq(eo, g2, h2 || {})), { data: c11, error: d11 } = await em({ publicKey: b11, signal: m2 });
+                if (c11) return { data: { factorId: a10, challengeId: k2.id, webauthn: { type: k2.webauthn.type, credential_response: c11 } }, error: null };
+                return { data: null, error: d11 };
+              }
+              case "request": {
+                let b11 = (i2 = k2.webauthn.credential_options.publicKey, j2 = null == e4 ? void 0 : e4.request, eq(ep, i2, j2 || {})), { data: c11, error: d11 } = await en(Object.assign(Object.assign({}, k2.webauthn.credential_options), { publicKey: b11, signal: m2 }));
+                if (c11) return { data: { factorId: a10, challengeId: k2.id, webauthn: { type: k2.webauthn.type, credential_response: c11 } }, error: null };
+                return { data: null, error: d11 };
+              }
+            }
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            return { data: null, error: new df("Unexpected error in challenge", a11) };
+          }
+        }
+        async _verify({ challengeId: a10, factorId: b10, webauthn: c10 }) {
+          return this.client.mfa.verify({ factorId: b10, challengeId: a10, webauthn: c10 });
+        }
+        async _authenticate({ factorId: a10, webauthn: { rpId: b10 = "undefined" != typeof window ? window.location.hostname : void 0, rpOrigins: c10 = "undefined" != typeof window ? [window.location.origin] : void 0, signal: d10 } = {} }, e4) {
+          if (!b10) return { data: null, error: new dc("rpId is required for WebAuthn authentication") };
+          try {
+            if (!el()) return { data: null, error: new df("Browser does not support WebAuthn", null) };
+            let { data: f2, error: g2 } = await this.challenge({ factorId: a10, webauthn: { rpId: b10, rpOrigins: c10 }, signal: d10 }, { request: e4 });
+            if (!f2) return { data: null, error: g2 };
+            let { webauthn: h2 } = f2;
+            return this._verify({ factorId: a10, challengeId: f2.challengeId, webauthn: { type: h2.type, rpId: b10, rpOrigins: c10, credential_response: h2.credential_response } });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            return { data: null, error: new df("Unexpected error in authenticate", a11) };
+          }
+        }
+        async _register({ friendlyName: a10, webauthn: { rpId: b10 = "undefined" != typeof window ? window.location.hostname : void 0, rpOrigins: c10 = "undefined" != typeof window ? [window.location.origin] : void 0, signal: d10 } = {} }, e4) {
+          if (!b10) return { data: null, error: new dc("rpId is required for WebAuthn registration") };
+          try {
+            if (!el()) return { data: null, error: new df("Browser does not support WebAuthn", null) };
+            let { data: f2, error: g2 } = await this._enroll({ friendlyName: a10 });
+            if (!f2) return await this.client.mfa.listFactors().then((b11) => {
+              var c11;
+              return null == (c11 = b11.data) ? void 0 : c11.all.find((b12) => "webauthn" === b12.factor_type && b12.friendly_name === a10 && "unverified" !== b12.status);
+            }).then((a11) => a11 ? this.client.mfa.unenroll({ factorId: null == a11 ? void 0 : a11.id }) : void 0), { data: null, error: g2 };
+            let { data: h2, error: i2 } = await this._challenge({ factorId: f2.id, friendlyName: f2.friendly_name, webauthn: { rpId: b10, rpOrigins: c10 }, signal: d10 }, { create: e4 });
+            if (!h2) return { data: null, error: i2 };
+            return this._verify({ factorId: f2.id, challengeId: h2.challengeId, webauthn: { rpId: b10, rpOrigins: c10, type: h2.webauthn.type, credential_response: h2.webauthn.credential_response } });
+          } catch (a11) {
+            if (dd(a11)) return { data: null, error: a11 };
+            return { data: null, error: new df("Unexpected error in register", a11) };
+          }
+        }
+      }
+      if ("object" != typeof globalThis) try {
+        Object.defineProperty(Object.prototype, "__magic__", { get: function() {
+          return this;
+        }, configurable: true }), __magic__.globalThis = __magic__, delete Object.prototype.__magic__;
+      } catch (a10) {
+        "undefined" != typeof self && (self.globalThis = self);
+      }
+      let es = { url: "http://localhost:9999", storageKey: "supabase.auth.token", autoRefreshToken: true, persistSession: true, detectSessionInUrl: true, headers: c8, flowType: "implicit", debug: false, hasCustomAuthorizationHeader: false, throwOnError: false, lockAcquireTimeout: 5e3, skipAutoInitialize: false, experimental: {} };
+      async function et(a10, b10, c10) {
+        return await c10();
+      }
+      let eu = {};
+      class ev {
+        get jwks() {
+          var a10, b10;
+          return null != (b10 = null == (a10 = eu[this.storageKey]) ? void 0 : a10.jwks) ? b10 : { keys: [] };
+        }
+        set jwks(a10) {
+          eu[this.storageKey] = Object.assign(Object.assign({}, eu[this.storageKey]), { jwks: a10 });
+        }
+        get jwks_cached_at() {
+          var a10, b10;
+          return null != (b10 = null == (a10 = eu[this.storageKey]) ? void 0 : a10.cachedAt) ? b10 : Number.MIN_SAFE_INTEGER;
+        }
+        set jwks_cached_at(a10) {
+          eu[this.storageKey] = Object.assign(Object.assign({}, eu[this.storageKey]), { cachedAt: a10 });
+        }
+        constructor(a10) {
+          var b10, c10, d10, e4;
+          this.userStorage = null, this.memoryStorage = null, this.stateChangeEmitters = /* @__PURE__ */ new Map(), this.autoRefreshTicker = null, this.autoRefreshTickTimeout = null, this.visibilityChangedCallback = null, this.refreshingDeferred = null, this.initializePromise = null, this.detectSessionInUrl = true, this.hasCustomAuthorizationHeader = false, this.suppressGetSessionWarning = false, this.lockAcquired = false, this.pendingInLock = [], this.broadcastChannel = null, this.logger = console.log;
+          let f2 = Object.assign(Object.assign({}, es), a10);
+          if (this.storageKey = f2.storageKey, this.instanceID = null != (b10 = ev.nextInstanceID[this.storageKey]) ? b10 : 0, ev.nextInstanceID[this.storageKey] = this.instanceID + 1, this.logDebugMessages = !!f2.debug, "function" == typeof f2.debug && (this.logger = f2.debug), this.instanceID > 0 && dB()) {
+            let a11 = `${this._logPrefix()} Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.`;
+            console.warn(a11), this.logDebugMessages && console.trace(a11);
+          }
+          if (this.persistSession = f2.persistSession, this.autoRefreshToken = f2.autoRefreshToken, this.experimental = null != (c10 = f2.experimental) ? c10 : {}, this.admin = new d5({ url: f2.url, headers: f2.headers, fetch: f2.fetch, experimental: this.experimental }), this.url = f2.url, this.headers = f2.headers, this.fetch = dE(f2.fetch), this.lock = f2.lock || et, this.detectSessionInUrl = f2.detectSessionInUrl, this.flowType = f2.flowType, this.hasCustomAuthorizationHeader = f2.hasCustomAuthorizationHeader, this.throwOnError = f2.throwOnError, this.lockAcquireTimeout = f2.lockAcquireTimeout, f2.lock ? this.lock = f2.lock : this.persistSession && dB() && (null == (d10 = null == globalThis ? void 0 : globalThis.navigator) ? void 0 : d10.locks) ? this.lock = ea : this.lock = et, this.jwks || (this.jwks = { keys: [] }, this.jwks_cached_at = Number.MIN_SAFE_INTEGER), this.mfa = { verify: this._verify.bind(this), enroll: this._enroll.bind(this), unenroll: this._unenroll.bind(this), challenge: this._challenge.bind(this), listFactors: this._listFactors.bind(this), challengeAndVerify: this._challengeAndVerify.bind(this), getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this), webauthn: new er(this) }, this.oauth = { getAuthorizationDetails: this._getAuthorizationDetails.bind(this), approveAuthorization: this._approveAuthorization.bind(this), denyAuthorization: this._denyAuthorization.bind(this), listGrants: this._listOAuthGrants.bind(this), revokeGrant: this._revokeOAuthGrant.bind(this) }, this.passkey = { startRegistration: this._startPasskeyRegistration.bind(this), verifyRegistration: this._verifyPasskeyRegistration.bind(this), startAuthentication: this._startPasskeyAuthentication.bind(this), verifyAuthentication: this._verifyPasskeyAuthentication.bind(this), list: this._listPasskeys.bind(this), update: this._updatePasskey.bind(this), delete: this._deletePasskey.bind(this) }, this.persistSession ? (f2.storage ? this.storage = f2.storage : dD() ? this.storage = globalThis.localStorage : (this.memoryStorage = {}, this.storage = d6(this.memoryStorage)), f2.userStorage && (this.userStorage = f2.userStorage)) : (this.memoryStorage = {}, this.storage = d6(this.memoryStorage)), dB() && globalThis.BroadcastChannel && this.persistSession && this.storageKey) {
+            try {
+              this.broadcastChannel = new globalThis.BroadcastChannel(this.storageKey);
+            } catch (a11) {
+              console.error("Failed to create a new BroadcastChannel, multi-tab state changes will not be available", a11);
+            }
+            null == (e4 = this.broadcastChannel) || e4.addEventListener("message", async (a11) => {
+              this._debug("received broadcast notification from other tab or client", a11);
+              try {
+                await this._notifyAllSubscribers(a11.data.event, a11.data.session, false);
+              } catch (a12) {
+                this._debug("#broadcastChannel", "error", a12);
+              }
+            });
+          }
+          f2.skipAutoInitialize || this.initialize().catch((a11) => {
+            this._debug("#initialize()", "error", a11);
+          });
+        }
+        isThrowOnErrorEnabled() {
+          return this.throwOnError;
+        }
+        _returnResult(a10) {
+          if (this.throwOnError && a10 && a10.error) throw a10.error;
+          return a10;
+        }
+        _logPrefix() {
+          return `GoTrueClient@${this.storageKey}:${this.instanceID} (${c7}) ${(/* @__PURE__ */ new Date()).toISOString()}`;
+        }
+        _debug(...a10) {
+          return this.logDebugMessages && this.logger(this._logPrefix(), ...a10), this;
+        }
+        async initialize() {
+          return this.initializePromise || (this.initializePromise = (async () => await this._acquireLock(this.lockAcquireTimeout, async () => await this._initialize()))()), await this.initializePromise;
+        }
+        async _initialize() {
+          var a10;
+          try {
+            let b10 = {}, c10 = "none";
+            if (dB() && (b10 = function(a11) {
+              let b11 = {}, c11 = new URL(a11);
+              if (c11.hash && "#" === c11.hash[0]) try {
+                new URLSearchParams(c11.hash.substring(1)).forEach((a12, c12) => {
+                  b11[c12] = a12;
+                });
+              } catch (a12) {
+              }
+              return c11.searchParams.forEach((a12, c12) => {
+                b11[c12] = a12;
+              }), b11;
+            }(window.location.href), this._isImplicitGrantCallback(b10) ? c10 = "implicit" : await this._isPKCECallback(b10) && (c10 = "pkce")), dB() && this.detectSessionInUrl && "none" !== c10) {
+              let { data: d10, error: e4 } = await this._getSessionFromURL(b10, c10);
+              if (e4) {
+                (this._debug("#_initialize()", "error detecting session from URL", e4), dd(e4) && "AuthImplicitGrantRedirectError" === e4.name) && (null == (a10 = e4.details) || a10.code);
+                return { error: e4 };
+              }
+              let { session: f2, redirectType: g2 } = d10;
+              return this._debug("#_initialize()", "detected session in URL", f2, "redirect type", g2), await this._saveSession(f2), setTimeout(async () => {
+                "recovery" === g2 ? await this._notifyAllSubscribers("PASSWORD_RECOVERY", f2) : await this._notifyAllSubscribers("SIGNED_IN", f2);
+              }, 0), { error: null };
+            }
+            return await this._recoverAndRefresh(), { error: null };
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ error: a11 });
+            return this._returnResult({ error: new df("Unexpected error during initialization", a11) });
+          } finally {
+            await this._handleVisibilityChange(), this._debug("#_initialize()", "end");
+          }
+        }
+        async signInAnonymously(a10) {
+          var b10, c10, d10;
+          try {
+            let { data: e4, error: f2 } = await dY(this.fetch, "POST", `${this.url}/signup`, { headers: this.headers, body: { data: null != (c10 = null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.data) ? c10 : {}, gotrue_meta_security: { captcha_token: null == (d10 = null == a10 ? void 0 : a10.options) ? void 0 : d10.captchaToken } }, xform: d$ });
+            if (f2 || !e4) return this._returnResult({ data: { user: null, session: null }, error: f2 });
+            let g2 = e4.session, h2 = e4.user;
+            return e4.session && (await this._saveSession(e4.session), await this._notifyAllSubscribers("SIGNED_IN", g2)), this._returnResult({ data: { user: h2, session: g2 }, error: null });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async signUp(a10) {
+          var b10, c10, d10;
+          try {
+            let e4;
+            if ("email" in a10) {
+              let { email: c11, password: d11, options: f3 } = a10, g3 = null, h3 = null;
+              "pkce" === this.flowType && ([g3, h3] = await dO(this.storage, this.storageKey)), e4 = await dY(this.fetch, "POST", `${this.url}/signup`, { headers: this.headers, redirectTo: null == f3 ? void 0 : f3.emailRedirectTo, body: { email: c11, password: d11, data: null != (b10 = null == f3 ? void 0 : f3.data) ? b10 : {}, gotrue_meta_security: { captcha_token: null == f3 ? void 0 : f3.captchaToken }, code_challenge: g3, code_challenge_method: h3 }, xform: d$ });
+            } else if ("phone" in a10) {
+              let { phone: b11, password: f3, options: g3 } = a10;
+              e4 = await dY(this.fetch, "POST", `${this.url}/signup`, { headers: this.headers, body: { phone: b11, password: f3, data: null != (c10 = null == g3 ? void 0 : g3.data) ? c10 : {}, channel: null != (d10 = null == g3 ? void 0 : g3.channel) ? d10 : "sms", gotrue_meta_security: { captcha_token: null == g3 ? void 0 : g3.captchaToken } }, xform: d$ });
+            } else throw new dk("You must provide either an email or phone number and a password");
+            let { data: f2, error: g2 } = e4;
+            if (g2 || !f2) return await dH(this.storage, `${this.storageKey}-code-verifier`), this._returnResult({ data: { user: null, session: null }, error: g2 });
+            let h2 = f2.session, i2 = f2.user;
+            return f2.session && (await this._saveSession(f2.session), await this._notifyAllSubscribers("SIGNED_IN", h2)), this._returnResult({ data: { user: i2, session: h2 }, error: null });
+          } catch (a11) {
+            if (await dH(this.storage, `${this.storageKey}-code-verifier`), dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async signInWithPassword(a10) {
+          try {
+            let b10;
+            if ("email" in a10) {
+              let { email: c11, password: d11, options: e4 } = a10;
+              b10 = await dY(this.fetch, "POST", `${this.url}/token?grant_type=password`, { headers: this.headers, body: { email: c11, password: d11, gotrue_meta_security: { captcha_token: null == e4 ? void 0 : e4.captchaToken } }, xform: d_ });
+            } else if ("phone" in a10) {
+              let { phone: c11, password: d11, options: e4 } = a10;
+              b10 = await dY(this.fetch, "POST", `${this.url}/token?grant_type=password`, { headers: this.headers, body: { phone: c11, password: d11, gotrue_meta_security: { captcha_token: null == e4 ? void 0 : e4.captchaToken } }, xform: d_ });
+            } else throw new dk("You must provide either an email or phone number and a password");
+            let { data: c10, error: d10 } = b10;
+            if (d10) return this._returnResult({ data: { user: null, session: null }, error: d10 });
+            if (!c10 || !c10.session || !c10.user) {
+              let a11 = new dj();
+              return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            }
+            return c10.session && (await this._saveSession(c10.session), await this._notifyAllSubscribers("SIGNED_IN", c10.session)), this._returnResult({ data: Object.assign({ user: c10.user, session: c10.session }, c10.weak_password ? { weakPassword: c10.weak_password } : null), error: d10 });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async signInWithOAuth(a10) {
+          var b10, c10, d10, e4;
+          return await this._handleProviderSignIn(a10.provider, { redirectTo: null == (b10 = a10.options) ? void 0 : b10.redirectTo, scopes: null == (c10 = a10.options) ? void 0 : c10.scopes, queryParams: null == (d10 = a10.options) ? void 0 : d10.queryParams, skipBrowserRedirect: null == (e4 = a10.options) ? void 0 : e4.skipBrowserRedirect });
+        }
+        async exchangeCodeForSession(a10) {
+          return await this.initializePromise, this._acquireLock(this.lockAcquireTimeout, async () => this._exchangeCodeForSession(a10));
+        }
+        async signInWithWeb3(a10) {
+          let { chain: b10 } = a10;
+          switch (b10) {
+            case "ethereum":
+              return await this.signInWithEthereum(a10);
+            case "solana":
+              return await this.signInWithSolana(a10);
+            default:
+              throw Error(`@supabase/auth-js: Unsupported chain "${b10}"`);
+          }
+        }
+        async signInWithEthereum(a10) {
+          var b10, c10, d10, e4, f2, g2, h2, i2, j2, k2, l2, m2;
+          let n2, o2;
+          if ("message" in a10) n2 = a10.message, o2 = a10.signature;
+          else {
+            let k3, { chain: l3, wallet: p2, statement: q2, options: r2 } = a10;
+            if (dB()) if ("object" == typeof p2) k3 = p2;
+            else {
+              let a11 = window;
+              if ("ethereum" in a11 && "object" == typeof a11.ethereum && "request" in a11.ethereum && "function" == typeof a11.ethereum.request) k3 = a11.ethereum;
+              else throw Error("@supabase/auth-js: No compatible Ethereum wallet interface on the window object (window.ethereum) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'ethereum', wallet: resolvedUserWallet }) instead.");
+            }
+            else {
+              if ("object" != typeof p2 || !(null == r2 ? void 0 : r2.url)) throw Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
+              k3 = p2;
+            }
+            let s2 = new URL(null != (b10 = null == r2 ? void 0 : r2.url) ? b10 : window.location.href), t2 = await k3.request({ method: "eth_requestAccounts" }).then((a11) => a11).catch(() => {
+              throw Error("@supabase/auth-js: Wallet method eth_requestAccounts is missing or invalid");
+            });
+            if (!t2 || 0 === t2.length) throw Error("@supabase/auth-js: No accounts available. Please ensure the wallet is connected.");
+            let u2 = eb(t2[0]), v2 = null == (c10 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : c10.chainId;
+            v2 || (v2 = parseInt(await k3.request({ method: "eth_chainId" }), 16)), n2 = function(a11) {
+              var b11;
+              let { chainId: c11, domain: d11, expirationTime: e5, issuedAt: f3 = /* @__PURE__ */ new Date(), nonce: g3, notBefore: h3, requestId: i3, resources: j3, scheme: k4, uri: l4, version: m3 } = a11;
+              if (!Number.isInteger(c11)) throw Error(`@supabase/auth-js: Invalid SIWE message field "chainId". Chain ID must be a EIP-155 chain ID. Provided value: ${c11}`);
+              if (!d11) throw Error('@supabase/auth-js: Invalid SIWE message field "domain". Domain must be provided.');
+              if (g3 && g3.length < 8) throw Error(`@supabase/auth-js: Invalid SIWE message field "nonce". Nonce must be at least 8 characters. Provided value: ${g3}`);
+              if (!l4) throw Error('@supabase/auth-js: Invalid SIWE message field "uri". URI must be provided.');
+              if ("1" !== m3) throw Error(`@supabase/auth-js: Invalid SIWE message field "version". Version must be '1'. Provided value: ${m3}`);
+              if (null == (b11 = a11.statement) ? void 0 : b11.includes("\n")) throw Error(`@supabase/auth-js: Invalid SIWE message field "statement". Statement must not include '\\n'. Provided value: ${a11.statement}`);
+              let n3 = eb(a11.address), o3 = k4 ? `${k4}://${d11}` : d11, p3 = a11.statement ? `${a11.statement}
+` : "", q3 = `${o3} wants you to sign in with your Ethereum account:
+${n3}
+
+${p3}`, r3 = `URI: ${l4}
+Version: ${m3}
+Chain ID: ${c11}${g3 ? `
+Nonce: ${g3}` : ""}
+Issued At: ${f3.toISOString()}`;
+              if (e5 && (r3 += `
+Expiration Time: ${e5.toISOString()}`), h3 && (r3 += `
+Not Before: ${h3.toISOString()}`), i3 && (r3 += `
+Request ID: ${i3}`), j3) {
+                let a12 = "\nResources:";
+                for (let b12 of j3) {
+                  if (!b12 || "string" != typeof b12) throw Error(`@supabase/auth-js: Invalid SIWE message field "resources". Every resource must be a valid string. Provided value: ${b12}`);
+                  a12 += `
+- ${b12}`;
+                }
+                r3 += a12;
+              }
+              return `${q3}
+${r3}`;
+            }({ domain: s2.host, address: u2, statement: q2, uri: s2.href, version: "1", chainId: v2, nonce: null == (d10 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : d10.nonce, issuedAt: null != (f2 = null == (e4 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : e4.issuedAt) ? f2 : /* @__PURE__ */ new Date(), expirationTime: null == (g2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : g2.expirationTime, notBefore: null == (h2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : h2.notBefore, requestId: null == (i2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : i2.requestId, resources: null == (j2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : j2.resources }), o2 = await k3.request({ method: "personal_sign", params: [(m2 = n2, "0x" + Array.from(new TextEncoder().encode(m2), (a11) => a11.toString(16).padStart(2, "0")).join("")), u2] });
+          }
+          try {
+            let { data: b11, error: c11 } = await dY(this.fetch, "POST", `${this.url}/token?grant_type=web3`, { headers: this.headers, body: Object.assign({ chain: "ethereum", message: n2, signature: o2 }, (null == (k2 = a10.options) ? void 0 : k2.captchaToken) ? { gotrue_meta_security: { captcha_token: null == (l2 = a10.options) ? void 0 : l2.captchaToken } } : null), xform: d$ });
+            if (c11) throw c11;
+            if (!b11 || !b11.session || !b11.user) {
+              let a11 = new dj();
+              return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            }
+            return b11.session && (await this._saveSession(b11.session), await this._notifyAllSubscribers("SIGNED_IN", b11.session)), this._returnResult({ data: Object.assign({}, b11), error: c11 });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async signInWithSolana(a10) {
+          var b10, c10, d10, e4, f2, g2, h2, i2, j2, k2, l2, m2;
+          let n2, o2;
+          if ("message" in a10) n2 = a10.message, o2 = a10.signature;
+          else {
+            let l3, { chain: m3, wallet: p2, statement: q2, options: r2 } = a10;
+            if (dB()) if ("object" == typeof p2) l3 = p2;
+            else {
+              let a11 = window;
+              if ("solana" in a11 && "object" == typeof a11.solana && ("signIn" in a11.solana && "function" == typeof a11.solana.signIn || "signMessage" in a11.solana && "function" == typeof a11.solana.signMessage)) l3 = a11.solana;
+              else throw Error("@supabase/auth-js: No compatible Solana wallet interface on the window object (window.solana) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'solana', wallet: resolvedUserWallet }) instead.");
+            }
+            else {
+              if ("object" != typeof p2 || !(null == r2 ? void 0 : r2.url)) throw Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
+              l3 = p2;
+            }
+            let s2 = new URL(null != (b10 = null == r2 ? void 0 : r2.url) ? b10 : window.location.href);
+            if ("signIn" in l3 && l3.signIn) {
+              let a11, b11 = await l3.signIn(Object.assign(Object.assign(Object.assign({ issuedAt: (/* @__PURE__ */ new Date()).toISOString() }, null == r2 ? void 0 : r2.signInWithSolana), { version: "1", domain: s2.host, uri: s2.href }), q2 ? { statement: q2 } : null));
+              if (Array.isArray(b11) && b11[0] && "object" == typeof b11[0]) a11 = b11[0];
+              else if (b11 && "object" == typeof b11 && "signedMessage" in b11 && "signature" in b11) a11 = b11;
+              else throw Error("@supabase/auth-js: Wallet method signIn() returned unrecognized value");
+              if ("signedMessage" in a11 && "signature" in a11 && ("string" == typeof a11.signedMessage || a11.signedMessage instanceof Uint8Array) && a11.signature instanceof Uint8Array) n2 = "string" == typeof a11.signedMessage ? a11.signedMessage : new TextDecoder().decode(a11.signedMessage), o2 = a11.signature;
+              else throw Error("@supabase/auth-js: Wallet method signIn() API returned object without signedMessage and signature fields");
+            } else {
+              if (!("signMessage" in l3) || "function" != typeof l3.signMessage || !("publicKey" in l3) || "object" != typeof l3 || !l3.publicKey || !("toBase58" in l3.publicKey) || "function" != typeof l3.publicKey.toBase58) throw Error("@supabase/auth-js: Wallet does not have a compatible signMessage() and publicKey.toBase58() API");
+              n2 = [`${s2.host} wants you to sign in with your Solana account:`, l3.publicKey.toBase58(), ...q2 ? ["", q2, ""] : [""], "Version: 1", `URI: ${s2.href}`, `Issued At: ${null != (d10 = null == (c10 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : c10.issuedAt) ? d10 : (/* @__PURE__ */ new Date()).toISOString()}`, ...(null == (e4 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : e4.notBefore) ? [`Not Before: ${r2.signInWithSolana.notBefore}`] : [], ...(null == (f2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : f2.expirationTime) ? [`Expiration Time: ${r2.signInWithSolana.expirationTime}`] : [], ...(null == (g2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : g2.chainId) ? [`Chain ID: ${r2.signInWithSolana.chainId}`] : [], ...(null == (h2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : h2.nonce) ? [`Nonce: ${r2.signInWithSolana.nonce}`] : [], ...(null == (i2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : i2.requestId) ? [`Request ID: ${r2.signInWithSolana.requestId}`] : [], ...(null == (k2 = null == (j2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : j2.resources) ? void 0 : k2.length) ? ["Resources", ...r2.signInWithSolana.resources.map((a12) => `- ${a12}`)] : []].join("\n");
+              let a11 = await l3.signMessage(new TextEncoder().encode(n2), "utf8");
+              if (!a11 || !(a11 instanceof Uint8Array)) throw Error("@supabase/auth-js: Wallet signMessage() API returned an recognized value");
+              o2 = a11;
+            }
+          }
+          try {
+            let { data: b11, error: c11 } = await dY(this.fetch, "POST", `${this.url}/token?grant_type=web3`, { headers: this.headers, body: Object.assign({ chain: "solana", message: n2, signature: dA(o2) }, (null == (l2 = a10.options) ? void 0 : l2.captchaToken) ? { gotrue_meta_security: { captcha_token: null == (m2 = a10.options) ? void 0 : m2.captchaToken } } : null), xform: d$ });
+            if (c11) throw c11;
+            if (!b11 || !b11.session || !b11.user) {
+              let a11 = new dj();
+              return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            }
+            return b11.session && (await this._saveSession(b11.session), await this._notifyAllSubscribers("SIGNED_IN", b11.session)), this._returnResult({ data: Object.assign({}, b11), error: c11 });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async _exchangeCodeForSession(a10) {
+          let b10 = await dG(this.storage, `${this.storageKey}-code-verifier`), [c10, d10] = (null != b10 ? b10 : "").split("/");
+          try {
+            if (!c10 && "pkce" === this.flowType) throw new dn();
+            let { data: b11, error: e4 } = await dY(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, { headers: this.headers, body: { auth_code: a10, code_verifier: c10 }, xform: d$ });
+            if (await dH(this.storage, `${this.storageKey}-code-verifier`), e4) throw e4;
+            if (!b11 || !b11.session || !b11.user) {
+              let a11 = new dj();
+              return this._returnResult({ data: { user: null, session: null, redirectType: null }, error: a11 });
+            }
+            return b11.session && (await this._saveSession(b11.session), await this._notifyAllSubscribers("recovery" === d10 ? "PASSWORD_RECOVERY" : "SIGNED_IN", b11.session)), this._returnResult({ data: Object.assign(Object.assign({}, b11), { redirectType: null != d10 ? d10 : null }), error: e4 });
+          } catch (a11) {
+            if (await dH(this.storage, `${this.storageKey}-code-verifier`), dd(a11)) return this._returnResult({ data: { user: null, session: null, redirectType: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async signInWithIdToken(a10) {
+          try {
+            let { options: b10, provider: c10, token: d10, access_token: e4, nonce: f2 } = a10, { data: g2, error: h2 } = await dY(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, { headers: this.headers, body: { provider: c10, id_token: d10, access_token: e4, nonce: f2, gotrue_meta_security: { captcha_token: null == b10 ? void 0 : b10.captchaToken } }, xform: d$ });
+            if (h2) return this._returnResult({ data: { user: null, session: null }, error: h2 });
+            if (!g2 || !g2.session || !g2.user) {
+              let a11 = new dj();
+              return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            }
+            return g2.session && (await this._saveSession(g2.session), await this._notifyAllSubscribers("SIGNED_IN", g2.session)), this._returnResult({ data: g2, error: h2 });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async signInWithOtp(a10) {
+          var b10, c10, d10, e4, f2;
+          try {
+            if ("email" in a10) {
+              let { email: d11, options: e5 } = a10, f3 = null, g2 = null;
+              "pkce" === this.flowType && ([f3, g2] = await dO(this.storage, this.storageKey));
+              let { error: h2 } = await dY(this.fetch, "POST", `${this.url}/otp`, { headers: this.headers, body: { email: d11, data: null != (b10 = null == e5 ? void 0 : e5.data) ? b10 : {}, create_user: null == (c10 = null == e5 ? void 0 : e5.shouldCreateUser) || c10, gotrue_meta_security: { captcha_token: null == e5 ? void 0 : e5.captchaToken }, code_challenge: f3, code_challenge_method: g2 }, redirectTo: null == e5 ? void 0 : e5.emailRedirectTo });
+              return this._returnResult({ data: { user: null, session: null }, error: h2 });
+            }
+            if ("phone" in a10) {
+              let { phone: b11, options: c11 } = a10, { data: g2, error: h2 } = await dY(this.fetch, "POST", `${this.url}/otp`, { headers: this.headers, body: { phone: b11, data: null != (d10 = null == c11 ? void 0 : c11.data) ? d10 : {}, create_user: null == (e4 = null == c11 ? void 0 : c11.shouldCreateUser) || e4, gotrue_meta_security: { captcha_token: null == c11 ? void 0 : c11.captchaToken }, channel: null != (f2 = null == c11 ? void 0 : c11.channel) ? f2 : "sms" } });
+              return this._returnResult({ data: { user: null, session: null, messageId: null == g2 ? void 0 : g2.message_id }, error: h2 });
+            }
+            throw new dk("You must provide either an email or phone number.");
+          } catch (a11) {
+            if (await dH(this.storage, `${this.storageKey}-code-verifier`), dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async verifyOtp(a10) {
+          var b10, c10;
+          try {
+            let d10, e4;
+            "options" in a10 && (d10 = null == (b10 = a10.options) ? void 0 : b10.redirectTo, e4 = null == (c10 = a10.options) ? void 0 : c10.captchaToken);
+            let { data: f2, error: g2 } = await dY(this.fetch, "POST", `${this.url}/verify`, { headers: this.headers, body: Object.assign(Object.assign({}, a10), { gotrue_meta_security: { captcha_token: e4 } }), redirectTo: d10, xform: d$ });
+            if (g2) throw g2;
+            if (!f2) throw Error("An error occurred on token verification.");
+            let h2 = f2.session, i2 = f2.user;
+            return (null == h2 ? void 0 : h2.access_token) && (await this._saveSession(h2), await this._notifyAllSubscribers("recovery" == a10.type ? "PASSWORD_RECOVERY" : "SIGNED_IN", h2)), this._returnResult({ data: { user: i2, session: h2 }, error: null });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async signInWithSSO(a10) {
+          var b10, c10, d10, e4, f2;
+          try {
+            let g2 = null, h2 = null;
+            "pkce" === this.flowType && ([g2, h2] = await dO(this.storage, this.storageKey));
+            let i2 = await dY(this.fetch, "POST", `${this.url}/sso`, { body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in a10 ? { provider_id: a10.providerId } : null), "domain" in a10 ? { domain: a10.domain } : null), { redirect_to: null != (c10 = null == (b10 = a10.options) ? void 0 : b10.redirectTo) ? c10 : void 0 }), (null == (d10 = null == a10 ? void 0 : a10.options) ? void 0 : d10.captchaToken) ? { gotrue_meta_security: { captcha_token: a10.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: g2, code_challenge_method: h2 }), headers: this.headers, xform: d1 });
+            return (null == (e4 = i2.data) ? void 0 : e4.url) && dB() && !(null == (f2 = a10.options) ? void 0 : f2.skipBrowserRedirect) && window.location.assign(i2.data.url), this._returnResult(i2);
+          } catch (a11) {
+            if (await dH(this.storage, `${this.storageKey}-code-verifier`), dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async reauthenticate() {
+          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._reauthenticate());
+        }
+        async _reauthenticate() {
+          try {
+            return await this._useSession(async (a10) => {
+              let { data: { session: b10 }, error: c10 } = a10;
+              if (c10) throw c10;
+              if (!b10) throw new dh();
+              let { error: d10 } = await dY(this.fetch, "GET", `${this.url}/reauthenticate`, { headers: this.headers, jwt: b10.access_token });
+              return this._returnResult({ data: { user: null, session: null }, error: d10 });
+            });
+          } catch (a10) {
+            if (dd(a10)) return this._returnResult({ data: { user: null, session: null }, error: a10 });
+            throw a10;
+          }
+        }
+        async resend(a10) {
+          try {
+            let b10 = `${this.url}/resend`;
+            if ("email" in a10) {
+              let { email: c10, type: d10, options: e4 } = a10, { error: f2 } = await dY(this.fetch, "POST", b10, { headers: this.headers, body: { email: c10, type: d10, gotrue_meta_security: { captcha_token: null == e4 ? void 0 : e4.captchaToken } }, redirectTo: null == e4 ? void 0 : e4.emailRedirectTo });
+              return this._returnResult({ data: { user: null, session: null }, error: f2 });
+            }
+            if ("phone" in a10) {
+              let { phone: c10, type: d10, options: e4 } = a10, { data: f2, error: g2 } = await dY(this.fetch, "POST", b10, { headers: this.headers, body: { phone: c10, type: d10, gotrue_meta_security: { captcha_token: null == e4 ? void 0 : e4.captchaToken } } });
+              return this._returnResult({ data: { user: null, session: null, messageId: null == f2 ? void 0 : f2.message_id }, error: g2 });
+            }
+            throw new dk("You must provide either an email or phone number and a type");
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async getSession() {
+          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => this._useSession(async (a10) => a10));
+        }
+        async _acquireLock(a10, b10) {
+          this._debug("#_acquireLock", "begin", a10);
+          try {
+            if (this.lockAcquired) {
+              let a11 = this.pendingInLock.length ? this.pendingInLock[this.pendingInLock.length - 1] : Promise.resolve(), c10 = (async () => (await a11, await b10()))();
+              return this.pendingInLock.push((async () => {
+                try {
+                  await c10;
+                } catch (a12) {
+                }
+              })()), c10;
+            }
+            return await this.lock(`lock:${this.storageKey}`, a10, async () => {
+              this._debug("#_acquireLock", "lock acquired for storage key", this.storageKey);
+              try {
+                this.lockAcquired = true;
+                let a11 = b10();
+                for (this.pendingInLock.push((async () => {
+                  try {
+                    await a11;
+                  } catch (a12) {
+                  }
+                })()), await a11; this.pendingInLock.length; ) {
+                  let a12 = [...this.pendingInLock];
+                  await Promise.all(a12), this.pendingInLock.splice(0, a12.length);
+                }
+                return await a11;
+              } finally {
+                this._debug("#_acquireLock", "lock released for storage key", this.storageKey), this.lockAcquired = false;
+              }
+            });
+          } finally {
+            this._debug("#_acquireLock", "end");
+          }
+        }
+        async _useSession(a10) {
+          this._debug("#_useSession", "begin");
+          try {
+            let b10 = await this.__loadSession();
+            return await a10(b10);
+          } finally {
+            this._debug("#_useSession", "end");
+          }
+        }
+        async __loadSession() {
+          this._debug("#__loadSession()", "begin"), this.lockAcquired || this._debug("#__loadSession()", "used outside of an acquired lock!", Error().stack);
+          try {
+            let b10 = null, c10 = await dG(this.storage, this.storageKey);
+            if (this._debug("#getSession()", "session from storage", c10), null !== c10 && (this._isValidSession(c10) ? b10 = c10 : (this._debug("#getSession()", "session from storage is not valid"), await this._removeSession())), !b10) return { data: { session: null }, error: null };
+            let d10 = !!b10.expires_at && 1e3 * b10.expires_at - Date.now() < 9e4;
+            if (this._debug("#__loadSession()", `session has${d10 ? "" : " not"} expired`, "expires_at", b10.expires_at), !d10) {
+              if (this.userStorage) {
+                let a11 = await dG(this.userStorage, this.storageKey + "-user");
+                (null == a11 ? void 0 : a11.user) ? b10.user = a11.user : b10.user = dT();
+              }
+              if (this.storage.isServer && b10.user && !b10.user.__isUserNotAvailableProxy) {
+                var a10;
+                let c11 = { value: this.suppressGetSessionWarning };
+                b10.user = (a10 = b10.user, new Proxy(a10, { get: (a11, b11, d11) => {
+                  if ("__isInsecureUserWarningProxy" === b11) return true;
+                  if ("symbol" == typeof b11) {
+                    let c12 = b11.toString();
+                    if ("Symbol(Symbol.toPrimitive)" === c12 || "Symbol(Symbol.toStringTag)" === c12 || "Symbol(util.inspect.custom)" === c12 || "Symbol(nodejs.util.inspect.custom)" === c12) return Reflect.get(a11, b11, d11);
+                  }
+                  return c11.value || "string" != typeof b11 || (console.warn("Using the user object as returned from supabase.auth.getSession() or from some supabase.auth.onAuthStateChange() events could be insecure! This value comes directly from the storage medium (usually cookies on the server) and may not be authentic. Use supabase.auth.getUser() instead which authenticates the data by contacting the Supabase Auth server."), c11.value = true), Reflect.get(a11, b11, d11);
+                } })), c11.value && (this.suppressGetSessionWarning = true);
+              }
+              return { data: { session: b10 }, error: null };
+            }
+            let { data: e4, error: f2 } = await this._callRefreshToken(b10.refresh_token);
+            if (f2) return this._returnResult({ data: { session: null }, error: f2 });
+            return this._returnResult({ data: { session: e4 }, error: null });
+          } finally {
+            this._debug("#__loadSession()", "end");
+          }
+        }
+        async getUser(a10) {
+          if (a10) return await this._getUser(a10);
+          await this.initializePromise;
+          let b10 = await this._acquireLock(this.lockAcquireTimeout, async () => await this._getUser());
+          return b10.data.user && (this.suppressGetSessionWarning = true), b10;
+        }
+        async _getUser(a10) {
+          try {
+            if (a10) return await dY(this.fetch, "GET", `${this.url}/user`, { headers: this.headers, jwt: a10, xform: d0 });
+            return await this._useSession(async (a11) => {
+              var b10, c10, d10;
+              let { data: e4, error: f2 } = a11;
+              if (f2) throw f2;
+              return (null == (b10 = e4.session) ? void 0 : b10.access_token) || this.hasCustomAuthorizationHeader ? await dY(this.fetch, "GET", `${this.url}/user`, { headers: this.headers, jwt: null != (d10 = null == (c10 = e4.session) ? void 0 : c10.access_token) ? d10 : void 0, xform: d0 }) : { data: { user: null }, error: new dh() };
+            });
+          } catch (a11) {
+            if (dd(a11)) return di(a11) && (await this._removeSession(), await dH(this.storage, `${this.storageKey}-code-verifier`)), this._returnResult({ data: { user: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async updateUser(a10, b10 = {}) {
+          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._updateUser(a10, b10));
+        }
+        async _updateUser(a10, b10 = {}) {
+          try {
+            return await this._useSession(async (c10) => {
+              let { data: d10, error: e4 } = c10;
+              if (e4) throw e4;
+              if (!d10.session) throw new dh();
+              let f2 = d10.session, g2 = null, h2 = null;
+              "pkce" === this.flowType && null != a10.email && ([g2, h2] = await dO(this.storage, this.storageKey));
+              let { data: i2, error: j2 } = await dY(this.fetch, "PUT", `${this.url}/user`, { headers: this.headers, redirectTo: null == b10 ? void 0 : b10.emailRedirectTo, body: Object.assign(Object.assign({}, a10), { code_challenge: g2, code_challenge_method: h2 }), jwt: f2.access_token, xform: d0 });
+              if (j2) throw j2;
+              return f2.user = i2.user, await this._saveSession(f2), await this._notifyAllSubscribers("USER_UPDATED", f2), this._returnResult({ data: { user: f2.user }, error: null });
+            });
+          } catch (a11) {
+            if (await dH(this.storage, `${this.storageKey}-code-verifier`), dd(a11)) return this._returnResult({ data: { user: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async setSession(a10) {
+          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._setSession(a10));
+        }
+        async _setSession(a10) {
+          try {
+            if (!a10.access_token || !a10.refresh_token) throw new dh();
+            let b10 = Date.now() / 1e3, c10 = b10, d10 = true, e4 = null, { payload: f2 } = dJ(a10.access_token);
+            if (f2.exp && (d10 = (c10 = f2.exp) <= b10), d10) {
+              let { data: b11, error: c11 } = await this._callRefreshToken(a10.refresh_token);
+              if (c11) return this._returnResult({ data: { user: null, session: null }, error: c11 });
+              if (!b11) return { data: { user: null, session: null }, error: null };
+              e4 = b11;
+            } else {
+              let { data: d11, error: f3 } = await this._getUser(a10.access_token);
+              if (f3) return this._returnResult({ data: { user: null, session: null }, error: f3 });
+              e4 = { access_token: a10.access_token, refresh_token: a10.refresh_token, user: d11.user, token_type: "bearer", expires_in: c10 - b10, expires_at: c10 }, await this._saveSession(e4), await this._notifyAllSubscribers("SIGNED_IN", e4);
+            }
+            return this._returnResult({ data: { user: e4.user, session: e4 }, error: null });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { session: null, user: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async refreshSession(a10) {
+          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._refreshSession(a10));
+        }
+        async _refreshSession(a10) {
+          try {
+            return await this._useSession(async (b10) => {
+              var c10;
+              if (!a10) {
+                let { data: d11, error: e5 } = b10;
+                if (e5) throw e5;
+                a10 = null != (c10 = d11.session) ? c10 : void 0;
+              }
+              if (!(null == a10 ? void 0 : a10.refresh_token)) throw new dh();
+              let { data: d10, error: e4 } = await this._callRefreshToken(a10.refresh_token);
+              return e4 ? this._returnResult({ data: { user: null, session: null }, error: e4 }) : d10 ? this._returnResult({ data: { user: d10.user, session: d10 }, error: null }) : this._returnResult({ data: { user: null, session: null }, error: null });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+            throw a11;
+          }
+        }
+        async _getSessionFromURL(a10, b10) {
+          var c10;
+          try {
+            if (!dB()) throw new dl("No browser detected.");
+            if (a10.error || a10.error_description || a10.error_code) throw new dl(a10.error_description || "Error in URL with unspecified error_description", { error: a10.error || "unspecified_error", code: a10.error_code || "unspecified_code" });
+            switch (b10) {
+              case "implicit":
+                if ("pkce" === this.flowType) throw new dm("Not a valid PKCE flow url.");
+                break;
+              case "pkce":
+                if ("implicit" === this.flowType) throw new dl("Not a valid implicit grant flow url.");
+            }
+            if ("pkce" === b10) {
+              if (this._debug("#_initialize()", "begin", "is PKCE flow", true), !a10.code) throw new dm("No code detected.");
+              let { data: b11, error: d11 } = await this._exchangeCodeForSession(a10.code);
+              if (d11) throw d11;
+              let e5 = new URL(window.location.href);
+              return e5.searchParams.delete("code"), window.history.replaceState(window.history.state, "", e5.toString()), { data: { session: b11.session, redirectType: null != (c10 = b11.redirectType) ? c10 : null }, error: null };
+            }
+            let { provider_token: d10, provider_refresh_token: e4, access_token: f2, refresh_token: g2, expires_in: h2, expires_at: i2, token_type: j2 } = a10;
+            if (!f2 || !h2 || !g2 || !j2) throw new dl("No session defined in URL");
+            let k2 = Math.round(Date.now() / 1e3), l2 = parseInt(h2), m2 = k2 + l2;
+            i2 && (m2 = parseInt(i2));
+            let n2 = m2 - k2;
+            1e3 * n2 <= 3e4 && console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${n2}s, should have been closer to ${l2}s`);
+            let o2 = m2 - l2;
+            k2 - o2 >= 120 ? console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", o2, m2, k2) : k2 - o2 < 0 && console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clock for skew", o2, m2, k2);
+            let { data: p2, error: q2 } = await this._getUser(f2);
+            if (q2) throw q2;
+            let r2 = { provider_token: d10, provider_refresh_token: e4, access_token: f2, expires_in: l2, expires_at: m2, refresh_token: g2, token_type: j2, user: p2.user };
+            return window.location.hash = "", this._debug("#_getSessionFromURL()", "clearing window.location.hash"), this._returnResult({ data: { session: r2, redirectType: a10.type }, error: null });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: { session: null, redirectType: null }, error: a11 });
+            throw a11;
+          }
+        }
+        _isImplicitGrantCallback(a10) {
+          return "function" == typeof this.detectSessionInUrl ? this.detectSessionInUrl(new URL(window.location.href), a10) : !!(a10.access_token || a10.error_description);
+        }
+        async _isPKCECallback(a10) {
+          let b10 = await dG(this.storage, `${this.storageKey}-code-verifier`);
+          return !!(a10.code && b10);
+        }
+        async signOut(a10 = { scope: "global" }) {
+          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._signOut(a10));
+        }
+        async _signOut({ scope: a10 } = { scope: "global" }) {
+          return await this._useSession(async (b10) => {
+            var c10;
+            let { data: d10, error: e4 } = b10;
+            if (e4 && !di(e4)) return this._returnResult({ error: e4 });
+            let f2 = null == (c10 = d10.session) ? void 0 : c10.access_token;
+            if (f2) {
+              let { error: b11 } = await this.admin.signOut(f2, a10);
+              if (b11 && !(dd(b11) && "AuthApiError" === b11.name && (404 === b11.status || 401 === b11.status || 403 === b11.status) || di(b11))) return this._returnResult({ error: b11 });
+            }
+            return "others" !== a10 && (await this._removeSession(), await dH(this.storage, `${this.storageKey}-code-verifier`)), this._returnResult({ error: null });
+          });
+        }
+        onAuthStateChange(a10) {
+          let b10 = Symbol("auth-callback"), c10 = { id: b10, callback: a10, unsubscribe: () => {
+            this._debug("#unsubscribe()", "state change callback with id removed", b10), this.stateChangeEmitters.delete(b10);
+          } };
+          return this._debug("#onAuthStateChange()", "registered callback with id", b10), this.stateChangeEmitters.set(b10, c10), (async () => {
+            await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => {
+              this._emitInitialSession(b10);
+            });
+          })(), { data: { subscription: c10 } };
+        }
+        async _emitInitialSession(a10) {
+          return await this._useSession(async (b10) => {
+            var c10, d10;
+            try {
+              let { data: { session: d11 }, error: e4 } = b10;
+              if (e4) throw e4;
+              await (null == (c10 = this.stateChangeEmitters.get(a10)) ? void 0 : c10.callback("INITIAL_SESSION", d11)), this._debug("INITIAL_SESSION", "callback id", a10, "session", d11);
+            } catch (b11) {
+              await (null == (d10 = this.stateChangeEmitters.get(a10)) ? void 0 : d10.callback("INITIAL_SESSION", null)), this._debug("INITIAL_SESSION", "callback id", a10, "error", b11), di(b11) ? console.warn(b11) : console.error(b11);
+            }
+          });
+        }
+        async resetPasswordForEmail(a10, b10 = {}) {
+          let c10 = null, d10 = null;
+          "pkce" === this.flowType && ([c10, d10] = await dO(this.storage, this.storageKey, true));
+          try {
+            return await dY(this.fetch, "POST", `${this.url}/recover`, { body: { email: a10, code_challenge: c10, code_challenge_method: d10, gotrue_meta_security: { captcha_token: b10.captchaToken } }, headers: this.headers, redirectTo: b10.redirectTo });
+          } catch (a11) {
+            if (await dH(this.storage, `${this.storageKey}-code-verifier`), dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async getUserIdentities() {
+          var a10;
+          try {
+            let { data: b10, error: c10 } = await this.getUser();
+            if (c10) throw c10;
+            return this._returnResult({ data: { identities: null != (a10 = b10.user.identities) ? a10 : [] }, error: null });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async linkIdentity(a10) {
+          return "token" in a10 ? this.linkIdentityIdToken(a10) : this.linkIdentityOAuth(a10);
+        }
+        async linkIdentityOAuth(a10) {
+          var b10;
+          try {
+            let { data: c10, error: d10 } = await this._useSession(async (b11) => {
+              var c11, d11, e4, f2, g2;
+              let { data: h2, error: i2 } = b11;
+              if (i2) throw i2;
+              let j2 = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, a10.provider, { redirectTo: null == (c11 = a10.options) ? void 0 : c11.redirectTo, scopes: null == (d11 = a10.options) ? void 0 : d11.scopes, queryParams: null == (e4 = a10.options) ? void 0 : e4.queryParams, skipBrowserRedirect: true });
+              return await dY(this.fetch, "GET", j2, { headers: this.headers, jwt: null != (g2 = null == (f2 = h2.session) ? void 0 : f2.access_token) ? g2 : void 0 });
+            });
+            if (d10) throw d10;
+            return !dB() || (null == (b10 = a10.options) ? void 0 : b10.skipBrowserRedirect) || window.location.assign(null == c10 ? void 0 : c10.url), this._returnResult({ data: { provider: a10.provider, url: null == c10 ? void 0 : c10.url }, error: null });
+          } catch (b11) {
+            if (dd(b11)) return this._returnResult({ data: { provider: a10.provider, url: null }, error: b11 });
+            throw b11;
+          }
+        }
+        async linkIdentityIdToken(a10) {
+          return await this._useSession(async (b10) => {
+            var c10;
+            try {
+              let { error: d10, data: { session: e4 } } = b10;
+              if (d10) throw d10;
+              let { options: f2, provider: g2, token: h2, access_token: i2, nonce: j2 } = a10, { data: k2, error: l2 } = await dY(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, { headers: this.headers, jwt: null != (c10 = null == e4 ? void 0 : e4.access_token) ? c10 : void 0, body: { provider: g2, id_token: h2, access_token: i2, nonce: j2, link_identity: true, gotrue_meta_security: { captcha_token: null == f2 ? void 0 : f2.captchaToken } }, xform: d$ });
+              if (l2) return this._returnResult({ data: { user: null, session: null }, error: l2 });
+              if (!k2 || !k2.session || !k2.user) return this._returnResult({ data: { user: null, session: null }, error: new dj() });
+              return k2.session && (await this._saveSession(k2.session), await this._notifyAllSubscribers("USER_UPDATED", k2.session)), this._returnResult({ data: k2, error: l2 });
+            } catch (a11) {
+              if (await dH(this.storage, `${this.storageKey}-code-verifier`), dd(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
+              throw a11;
+            }
+          });
+        }
+        async unlinkIdentity(a10) {
+          try {
+            return await this._useSession(async (b10) => {
+              var c10, d10;
+              let { data: e4, error: f2 } = b10;
+              if (f2) throw f2;
+              return await dY(this.fetch, "DELETE", `${this.url}/user/identities/${a10.identity_id}`, { headers: this.headers, jwt: null != (d10 = null == (c10 = e4.session) ? void 0 : c10.access_token) ? d10 : void 0 });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _refreshAccessToken(a10) {
+          let b10 = `#_refreshAccessToken(${a10.substring(0, 5)}...)`;
+          this._debug(b10, "begin");
+          try {
+            var c10, d10;
+            let e4 = Date.now();
+            return await (c10 = async (c11) => (c11 > 0 && await dK(200 * Math.pow(2, c11 - 1)), this._debug(b10, "refreshing attempt", c11), await dY(this.fetch, "POST", `${this.url}/token?grant_type=refresh_token`, { body: { refresh_token: a10 }, headers: this.headers, xform: d$ })), d10 = (a11, b11) => {
+              let c11 = 200 * Math.pow(2, a11);
+              return b11 && dq(b11) && Date.now() + c11 - e4 < 3e4;
+            }, new Promise((a11, b11) => {
+              (async () => {
+                for (let e5 = 0; e5 < 1 / 0; e5++) try {
+                  let b12 = await c10(e5);
+                  if (!d10(e5, null, b12)) return void a11(b12);
+                } catch (a12) {
+                  if (!d10(e5, a12)) return void b11(a12);
+                }
+              })();
+            }));
+          } catch (a11) {
+            if (this._debug(b10, "error", a11), dd(a11)) return this._returnResult({ data: { session: null, user: null }, error: a11 });
+            throw a11;
+          } finally {
+            this._debug(b10, "end");
+          }
+        }
+        _isValidSession(a10) {
+          return "object" == typeof a10 && null !== a10 && "access_token" in a10 && "refresh_token" in a10 && "expires_at" in a10;
+        }
+        async _handleProviderSignIn(a10, b10) {
+          let c10 = await this._getUrlForProvider(`${this.url}/authorize`, a10, { redirectTo: b10.redirectTo, scopes: b10.scopes, queryParams: b10.queryParams });
+          return this._debug("#_handleProviderSignIn()", "provider", a10, "options", b10, "url", c10), dB() && !b10.skipBrowserRedirect && window.location.assign(c10), { data: { provider: a10, url: c10 }, error: null };
+        }
+        async _recoverAndRefresh() {
+          var a10, b10;
+          let c10 = "#_recoverAndRefresh()";
+          this._debug(c10, "begin");
+          try {
+            let d10 = await dG(this.storage, this.storageKey);
+            if (d10 && this.userStorage) {
+              let b11 = await dG(this.userStorage, this.storageKey + "-user");
+              !this.storage.isServer && Object.is(this.storage, this.userStorage) && !b11 && (b11 = { user: d10.user }, await dF(this.userStorage, this.storageKey + "-user", b11)), d10.user = null != (a10 = null == b11 ? void 0 : b11.user) ? a10 : dT();
+            } else if (d10 && !d10.user && !d10.user) {
+              let a11 = await dG(this.storage, this.storageKey + "-user");
+              a11 && (null == a11 ? void 0 : a11.user) ? (d10.user = a11.user, await dH(this.storage, this.storageKey + "-user"), await dF(this.storage, this.storageKey, d10)) : d10.user = dT();
+            }
+            if (this._debug(c10, "session from storage", d10), !this._isValidSession(d10)) {
+              this._debug(c10, "session is not valid"), null !== d10 && await this._removeSession();
+              return;
+            }
+            let e4 = (null != (b10 = d10.expires_at) ? b10 : 1 / 0) * 1e3 - Date.now() < 9e4;
+            if (this._debug(c10, `session has${e4 ? "" : " not"} expired with margin of 90000s`), e4) {
+              if (this.autoRefreshToken && d10.refresh_token) {
+                let { error: a11 } = await this._callRefreshToken(d10.refresh_token);
+                a11 && (console.error(a11), dq(a11) || (this._debug(c10, "refresh failed with a non-retryable error, removing the session", a11), await this._removeSession()));
+              }
+            } else if (d10.user && true === d10.user.__isUserNotAvailableProxy) try {
+              let { data: a11, error: b11 } = await this._getUser(d10.access_token);
+              !b11 && (null == a11 ? void 0 : a11.user) ? (d10.user = a11.user, await this._saveSession(d10), await this._notifyAllSubscribers("SIGNED_IN", d10)) : this._debug(c10, "could not get user data, skipping SIGNED_IN notification");
+            } catch (a11) {
+              console.error("Error getting user data:", a11), this._debug(c10, "error getting user data, skipping SIGNED_IN notification", a11);
+            }
+            else await this._notifyAllSubscribers("SIGNED_IN", d10);
+          } catch (a11) {
+            this._debug(c10, "error", a11), console.error(a11);
+            return;
+          } finally {
+            this._debug(c10, "end");
+          }
+        }
+        async _callRefreshToken(a10) {
+          var b10, c10;
+          if (!a10) throw new dh();
+          if (this.refreshingDeferred) return this.refreshingDeferred.promise;
+          let d10 = `#_callRefreshToken(${a10.substring(0, 5)}...)`;
+          this._debug(d10, "begin");
+          try {
+            this.refreshingDeferred = new dI();
+            let { data: b11, error: c11 } = await this._refreshAccessToken(a10);
+            if (c11) throw c11;
+            if (!b11.session) throw new dh();
+            await this._saveSession(b11.session), await this._notifyAllSubscribers("TOKEN_REFRESHED", b11.session);
+            let d11 = { data: b11.session, error: null };
+            return this.refreshingDeferred.resolve(d11), d11;
+          } catch (a11) {
+            if (this._debug(d10, "error", a11), dd(a11)) {
+              let c11 = { data: null, error: a11 };
+              return dq(a11) || await this._removeSession(), null == (b10 = this.refreshingDeferred) || b10.resolve(c11), c11;
+            }
+            throw null == (c10 = this.refreshingDeferred) || c10.reject(a11), a11;
+          } finally {
+            this.refreshingDeferred = null, this._debug(d10, "end");
+          }
+        }
+        async _notifyAllSubscribers(a10, b10, c10 = true) {
+          let d10 = `#_notifyAllSubscribers(${a10})`;
+          this._debug(d10, "begin", b10, `broadcast = ${c10}`);
+          try {
+            this.broadcastChannel && c10 && this.broadcastChannel.postMessage({ event: a10, session: b10 });
+            let d11 = [], e4 = Array.from(this.stateChangeEmitters.values()).map(async (c11) => {
+              try {
+                await c11.callback(a10, b10);
+              } catch (a11) {
+                d11.push(a11);
+              }
+            });
+            if (await Promise.all(e4), d11.length > 0) {
+              for (let a11 = 0; a11 < d11.length; a11 += 1) console.error(d11[a11]);
+              throw d11[0];
+            }
+          } finally {
+            this._debug(d10, "end");
+          }
+        }
+        async _saveSession(a10) {
+          this._debug("#_saveSession()", a10), this.suppressGetSessionWarning = true, await dH(this.storage, `${this.storageKey}-code-verifier`);
+          let b10 = Object.assign({}, a10), c10 = b10.user && true === b10.user.__isUserNotAvailableProxy;
+          if (this.userStorage) {
+            !c10 && b10.user && await dF(this.userStorage, this.storageKey + "-user", { user: b10.user });
+            let a11 = Object.assign({}, b10);
+            delete a11.user;
+            let d10 = dU(a11);
+            await dF(this.storage, this.storageKey, d10);
+          } else {
+            let a11 = dU(b10);
+            await dF(this.storage, this.storageKey, a11);
+          }
+        }
+        async _removeSession() {
+          this._debug("#_removeSession()"), this.suppressGetSessionWarning = false, await dH(this.storage, this.storageKey), await dH(this.storage, this.storageKey + "-code-verifier"), await dH(this.storage, this.storageKey + "-user"), this.userStorage && await dH(this.userStorage, this.storageKey + "-user"), await this._notifyAllSubscribers("SIGNED_OUT", null);
+        }
+        _removeVisibilityChangedCallback() {
+          this._debug("#_removeVisibilityChangedCallback()");
+          let a10 = this.visibilityChangedCallback;
+          this.visibilityChangedCallback = null;
+          try {
+            a10 && dB() && (null == window ? void 0 : window.removeEventListener) && window.removeEventListener("visibilitychange", a10);
+          } catch (a11) {
+            console.error("removing visibilitychange callback failed", a11);
+          }
+        }
+        async _startAutoRefresh() {
+          await this._stopAutoRefresh(), this._debug("#_startAutoRefresh()");
+          let a10 = setInterval(() => this._autoRefreshTokenTick(), 3e4);
+          this.autoRefreshTicker = a10, a10 && "object" == typeof a10 && "function" == typeof a10.unref ? a10.unref() : "undefined" != typeof Deno && "function" == typeof Deno.unrefTimer && Deno.unrefTimer(a10);
+          let b10 = setTimeout(async () => {
+            await this.initializePromise, await this._autoRefreshTokenTick();
+          }, 0);
+          this.autoRefreshTickTimeout = b10, b10 && "object" == typeof b10 && "function" == typeof b10.unref ? b10.unref() : "undefined" != typeof Deno && "function" == typeof Deno.unrefTimer && Deno.unrefTimer(b10);
+        }
+        async _stopAutoRefresh() {
+          this._debug("#_stopAutoRefresh()");
+          let a10 = this.autoRefreshTicker;
+          this.autoRefreshTicker = null, a10 && clearInterval(a10);
+          let b10 = this.autoRefreshTickTimeout;
+          this.autoRefreshTickTimeout = null, b10 && clearTimeout(b10);
+        }
+        async startAutoRefresh() {
+          this._removeVisibilityChangedCallback(), await this._startAutoRefresh();
+        }
+        async stopAutoRefresh() {
+          this._removeVisibilityChangedCallback(), await this._stopAutoRefresh();
+        }
+        async _autoRefreshTokenTick() {
+          this._debug("#_autoRefreshTokenTick()", "begin");
+          try {
+            await this._acquireLock(0, async () => {
+              try {
+                let a10 = Date.now();
+                try {
+                  return await this._useSession(async (b10) => {
+                    let { data: { session: c10 } } = b10;
+                    if (!c10 || !c10.refresh_token || !c10.expires_at) return void this._debug("#_autoRefreshTokenTick()", "no session");
+                    let d10 = Math.floor((1e3 * c10.expires_at - a10) / 3e4);
+                    this._debug("#_autoRefreshTokenTick()", `access token expires in ${d10} ticks, a tick lasts 30000ms, refresh threshold is 3 ticks`), d10 <= 3 && await this._callRefreshToken(c10.refresh_token);
+                  });
+                } catch (a11) {
+                  console.error("Auto refresh tick failed with error. This is likely a transient error.", a11);
+                }
+              } finally {
+                this._debug("#_autoRefreshTokenTick()", "end");
+              }
+            });
+          } catch (a10) {
+            if (a10 instanceof d8) this._debug("auto refresh token tick lock not available");
+            else throw a10;
+          }
+        }
+        async _handleVisibilityChange() {
+          if (this._debug("#_handleVisibilityChange()"), !dB() || !(null == window ? void 0 : window.addEventListener)) return this.autoRefreshToken && this.startAutoRefresh(), false;
+          try {
+            this.visibilityChangedCallback = async () => {
+              try {
+                await this._onVisibilityChanged(false);
+              } catch (a10) {
+                this._debug("#visibilityChangedCallback", "error", a10);
+              }
+            }, null == window || window.addEventListener("visibilitychange", this.visibilityChangedCallback), await this._onVisibilityChanged(true);
+          } catch (a10) {
+            console.error("_handleVisibilityChange", a10);
+          }
+        }
+        async _onVisibilityChanged(a10) {
+          let b10 = `#_onVisibilityChanged(${a10})`;
+          this._debug(b10, "visibilityState", document.visibilityState), "visible" === document.visibilityState ? (this.autoRefreshToken && this._startAutoRefresh(), a10 || (await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => {
+            if ("visible" !== document.visibilityState) return void this._debug(b10, "acquired the lock to recover the session, but the browser visibilityState is no longer visible, aborting");
+            await this._recoverAndRefresh();
+          }))) : "hidden" === document.visibilityState && this.autoRefreshToken && this._stopAutoRefresh();
+        }
+        async _getUrlForProvider(a10, b10, c10) {
+          let d10 = [`provider=${encodeURIComponent(b10)}`];
+          if ((null == c10 ? void 0 : c10.redirectTo) && d10.push(`redirect_to=${encodeURIComponent(c10.redirectTo)}`), (null == c10 ? void 0 : c10.scopes) && d10.push(`scopes=${encodeURIComponent(c10.scopes)}`), "pkce" === this.flowType) {
+            let [a11, b11] = await dO(this.storage, this.storageKey), c11 = new URLSearchParams({ code_challenge: `${encodeURIComponent(a11)}`, code_challenge_method: `${encodeURIComponent(b11)}` });
+            d10.push(c11.toString());
+          }
+          if (null == c10 ? void 0 : c10.queryParams) {
+            let a11 = new URLSearchParams(c10.queryParams);
+            d10.push(a11.toString());
+          }
+          return (null == c10 ? void 0 : c10.skipBrowserRedirect) && d10.push(`skip_http_redirect=${c10.skipBrowserRedirect}`), `${a10}?${d10.join("&")}`;
+        }
+        async _unenroll(a10) {
+          try {
+            return await this._useSession(async (b10) => {
+              var c10;
+              let { data: d10, error: e4 } = b10;
+              return e4 ? this._returnResult({ data: null, error: e4 }) : await dY(this.fetch, "DELETE", `${this.url}/factors/${a10.factorId}`, { headers: this.headers, jwt: null == (c10 = null == d10 ? void 0 : d10.session) ? void 0 : c10.access_token });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _enroll(a10) {
+          try {
+            return await this._useSession(async (b10) => {
+              var c10, d10;
+              let { data: e4, error: f2 } = b10;
+              if (f2) return this._returnResult({ data: null, error: f2 });
+              let g2 = Object.assign({ friendly_name: a10.friendlyName, factor_type: a10.factorType }, "phone" === a10.factorType ? { phone: a10.phone } : "totp" === a10.factorType ? { issuer: a10.issuer } : {}), { data: h2, error: i2 } = await dY(this.fetch, "POST", `${this.url}/factors`, { body: g2, headers: this.headers, jwt: null == (c10 = null == e4 ? void 0 : e4.session) ? void 0 : c10.access_token });
+              return i2 ? this._returnResult({ data: null, error: i2 }) : ("totp" === a10.factorType && "totp" === h2.type && (null == (d10 = null == h2 ? void 0 : h2.totp) ? void 0 : d10.qr_code) && (h2.totp.qr_code = `data:image/svg+xml;utf-8,${h2.totp.qr_code}`), this._returnResult({ data: h2, error: null }));
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _verify(a10) {
+          return this._acquireLock(this.lockAcquireTimeout, async () => {
+            try {
+              return await this._useSession(async (b10) => {
+                var c10;
+                let { data: d10, error: e4 } = b10;
+                if (e4) return this._returnResult({ data: null, error: e4 });
+                let f2 = Object.assign({ challenge_id: a10.challengeId }, "webauthn" in a10 ? { webauthn: Object.assign(Object.assign({}, a10.webauthn), { credential_response: "create" === a10.webauthn.type ? ei(a10.webauthn.credential_response) : ej(a10.webauthn.credential_response) }) } : { code: a10.code }), { data: g2, error: h2 } = await dY(this.fetch, "POST", `${this.url}/factors/${a10.factorId}/verify`, { body: f2, headers: this.headers, jwt: null == (c10 = null == d10 ? void 0 : d10.session) ? void 0 : c10.access_token });
+                return h2 ? this._returnResult({ data: null, error: h2 }) : (await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + g2.expires_in }, g2)), await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", g2), this._returnResult({ data: g2, error: h2 }));
+              });
+            } catch (a11) {
+              if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+              throw a11;
+            }
+          });
+        }
+        async _challenge(a10) {
+          return this._acquireLock(this.lockAcquireTimeout, async () => {
+            try {
+              return await this._useSession(async (b10) => {
+                var c10;
+                let { data: d10, error: e4 } = b10;
+                if (e4) return this._returnResult({ data: null, error: e4 });
+                let f2 = await dY(this.fetch, "POST", `${this.url}/factors/${a10.factorId}/challenge`, { body: a10, headers: this.headers, jwt: null == (c10 = null == d10 ? void 0 : d10.session) ? void 0 : c10.access_token });
+                if (f2.error) return f2;
+                let { data: g2 } = f2;
+                if ("webauthn" !== g2.type) return { data: g2, error: null };
+                switch (g2.webauthn.type) {
+                  case "create":
+                    return { data: Object.assign(Object.assign({}, g2), { webauthn: Object.assign(Object.assign({}, g2.webauthn), { credential_options: Object.assign(Object.assign({}, g2.webauthn.credential_options), { publicKey: eg(g2.webauthn.credential_options.publicKey) }) }) }), error: null };
+                  case "request":
+                    return { data: Object.assign(Object.assign({}, g2), { webauthn: Object.assign(Object.assign({}, g2.webauthn), { credential_options: Object.assign(Object.assign({}, g2.webauthn.credential_options), { publicKey: eh(g2.webauthn.credential_options.publicKey) }) }) }), error: null };
+                }
+              });
+            } catch (a11) {
+              if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+              throw a11;
+            }
+          });
+        }
+        async _challengeAndVerify(a10) {
+          let { data: b10, error: c10 } = await this._challenge({ factorId: a10.factorId });
+          return c10 ? this._returnResult({ data: null, error: c10 }) : await this._verify({ factorId: a10.factorId, challengeId: b10.id, code: a10.code });
+        }
+        async _listFactors() {
+          var a10;
+          let { data: { user: b10 }, error: c10 } = await this.getUser();
+          if (c10) return { data: null, error: c10 };
+          let d10 = { all: [], phone: [], totp: [], webauthn: [] };
+          for (let c11 of null != (a10 = null == b10 ? void 0 : b10.factors) ? a10 : []) d10.all.push(c11), "verified" === c11.status && d10[c11.factor_type].push(c11);
+          return { data: d10, error: null };
+        }
+        async _getAuthenticatorAssuranceLevel(a10) {
+          var b10, c10, d10, e4;
+          if (a10) try {
+            let { payload: d11 } = dJ(a10), e5 = null;
+            d11.aal && (e5 = d11.aal);
+            let f3 = e5, { data: { user: g3 }, error: h3 } = await this.getUser(a10);
+            if (h3) return this._returnResult({ data: null, error: h3 });
+            (null != (c10 = null == (b10 = null == g3 ? void 0 : g3.factors) ? void 0 : b10.filter((a11) => "verified" === a11.status)) ? c10 : []).length > 0 && (f3 = "aal2");
+            let i3 = d11.amr || [];
+            return { data: { currentLevel: e5, nextLevel: f3, currentAuthenticationMethods: i3 }, error: null };
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+          let { data: { session: f2 }, error: g2 } = await this.getSession();
+          if (g2) return this._returnResult({ data: null, error: g2 });
+          if (!f2) return { data: { currentLevel: null, nextLevel: null, currentAuthenticationMethods: [] }, error: null };
+          let { payload: h2 } = dJ(f2.access_token), i2 = null;
+          h2.aal && (i2 = h2.aal);
+          let j2 = i2;
+          return (null != (e4 = null == (d10 = f2.user.factors) ? void 0 : d10.filter((a11) => "verified" === a11.status)) ? e4 : []).length > 0 && (j2 = "aal2"), { data: { currentLevel: i2, nextLevel: j2, currentAuthenticationMethods: h2.amr || [] }, error: null };
+        }
+        async _getAuthorizationDetails(a10) {
+          try {
+            return await this._useSession(async (b10) => {
+              let { data: { session: c10 }, error: d10 } = b10;
+              return d10 ? this._returnResult({ data: null, error: d10 }) : c10 ? await dY(this.fetch, "GET", `${this.url}/oauth/authorizations/${a10}`, { headers: this.headers, jwt: c10.access_token, xform: (a11) => ({ data: a11, error: null }) }) : this._returnResult({ data: null, error: new dh() });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _approveAuthorization(a10, b10) {
+          try {
+            return await this._useSession(async (c10) => {
+              let { data: { session: d10 }, error: e4 } = c10;
+              if (e4) return this._returnResult({ data: null, error: e4 });
+              if (!d10) return this._returnResult({ data: null, error: new dh() });
+              let f2 = await dY(this.fetch, "POST", `${this.url}/oauth/authorizations/${a10}/consent`, { headers: this.headers, jwt: d10.access_token, body: { action: "approve" }, xform: (a11) => ({ data: a11, error: null }) });
+              return f2.data && f2.data.redirect_url && dB() && !(null == b10 ? void 0 : b10.skipBrowserRedirect) && window.location.assign(f2.data.redirect_url), f2;
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _denyAuthorization(a10, b10) {
+          try {
+            return await this._useSession(async (c10) => {
+              let { data: { session: d10 }, error: e4 } = c10;
+              if (e4) return this._returnResult({ data: null, error: e4 });
+              if (!d10) return this._returnResult({ data: null, error: new dh() });
+              let f2 = await dY(this.fetch, "POST", `${this.url}/oauth/authorizations/${a10}/consent`, { headers: this.headers, jwt: d10.access_token, body: { action: "deny" }, xform: (a11) => ({ data: a11, error: null }) });
+              return f2.data && f2.data.redirect_url && dB() && !(null == b10 ? void 0 : b10.skipBrowserRedirect) && window.location.assign(f2.data.redirect_url), f2;
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _listOAuthGrants() {
+          try {
+            return await this._useSession(async (a10) => {
+              let { data: { session: b10 }, error: c10 } = a10;
+              return c10 ? this._returnResult({ data: null, error: c10 }) : b10 ? await dY(this.fetch, "GET", `${this.url}/user/oauth/grants`, { headers: this.headers, jwt: b10.access_token, xform: (a11) => ({ data: a11, error: null }) }) : this._returnResult({ data: null, error: new dh() });
+            });
+          } catch (a10) {
+            if (dd(a10)) return this._returnResult({ data: null, error: a10 });
+            throw a10;
+          }
+        }
+        async _revokeOAuthGrant(a10) {
+          try {
+            return await this._useSession(async (b10) => {
+              let { data: { session: c10 }, error: d10 } = b10;
+              return d10 ? this._returnResult({ data: null, error: d10 }) : c10 ? (await dY(this.fetch, "DELETE", `${this.url}/user/oauth/grants`, { headers: this.headers, jwt: c10.access_token, query: { client_id: a10.clientId }, noResolveJson: true }), { data: {}, error: null }) : this._returnResult({ data: null, error: new dh() });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async fetchJwk(a10, b10 = { keys: [] }) {
+          let c10 = b10.keys.find((b11) => b11.kid === a10);
+          if (c10) return c10;
+          let d10 = Date.now();
+          if ((c10 = this.jwks.keys.find((b11) => b11.kid === a10)) && this.jwks_cached_at + 6e5 > d10) return c10;
+          let { data: e4, error: f2 } = await dY(this.fetch, "GET", `${this.url}/.well-known/jwks.json`, { headers: this.headers });
+          if (f2) throw f2;
+          return e4.keys && 0 !== e4.keys.length && (this.jwks = e4, this.jwks_cached_at = d10, c10 = e4.keys.find((b11) => b11.kid === a10)) ? c10 : null;
+        }
+        async getClaims(a10, b10 = {}) {
+          try {
+            let c10 = a10;
+            if (!c10) {
+              let { data: a11, error: b11 } = await this.getSession();
+              if (b11 || !a11.session) return this._returnResult({ data: null, error: b11 });
+              c10 = a11.session.access_token;
+            }
+            let { header: d10, payload: e4, signature: f2, raw: { header: g2, payload: h2 } } = dJ(c10);
+            (null == b10 ? void 0 : b10.allowExpired) || function(a11) {
+              if (!a11) throw Error("Missing exp claim");
+              if (a11 <= Math.floor(Date.now() / 1e3)) throw Error("JWT has expired");
+            }(e4.exp);
+            let i2 = !d10.alg || d10.alg.startsWith("HS") || !d10.kid || !("crypto" in globalThis && "subtle" in globalThis.crypto) ? null : await this.fetchJwk(d10.kid, (null == b10 ? void 0 : b10.keys) ? { keys: b10.keys } : null == b10 ? void 0 : b10.jwks);
+            if (!i2) {
+              let { error: a11 } = await this.getUser(c10);
+              if (a11) throw a11;
+              return { data: { claims: e4, header: d10, signature: f2 }, error: null };
+            }
+            let j2 = function(a11) {
+              switch (a11) {
+                case "RS256":
+                  return { name: "RSASSA-PKCS1-v1_5", hash: { name: "SHA-256" } };
+                case "ES256":
+                  return { name: "ECDSA", namedCurve: "P-256", hash: { name: "SHA-256" } };
+                default:
+                  throw Error("Invalid alg claim");
+              }
+            }(d10.alg), k2 = await crypto.subtle.importKey("jwk", i2, j2, true, ["verify"]);
+            if (!await crypto.subtle.verify(j2, k2, f2, function(a11) {
+              let b11 = [];
+              return !function(a12, b12) {
+                for (let c11 = 0; c11 < a12.length; c11 += 1) {
+                  let d11 = a12.charCodeAt(c11);
+                  if (d11 > 55295 && d11 <= 56319) {
+                    let b13 = (d11 - 55296) * 1024 & 65535;
+                    d11 = (a12.charCodeAt(c11 + 1) - 56320 & 65535 | b13) + 65536, c11 += 1;
+                  }
+                  !function(a13, b13) {
+                    if (a13 <= 127) return b13(a13);
+                    if (a13 <= 2047) {
+                      b13(192 | a13 >> 6), b13(128 | 63 & a13);
+                      return;
+                    }
+                    if (a13 <= 65535) {
+                      b13(224 | a13 >> 12), b13(128 | a13 >> 6 & 63), b13(128 | 63 & a13);
+                      return;
+                    }
+                    if (a13 <= 1114111) {
+                      b13(240 | a13 >> 18), b13(128 | a13 >> 12 & 63), b13(128 | a13 >> 6 & 63), b13(128 | 63 & a13);
+                      return;
+                    }
+                    throw Error(`Unrecognized Unicode codepoint: ${a13.toString(16)}`);
+                  }(d11, b12);
+                }
+              }(a11, (a12) => b11.push(a12)), new Uint8Array(b11);
+            }(`${g2}.${h2}`))) throw new ds("Invalid JWT signature");
+            return { data: { claims: e4, header: d10, signature: f2 }, error: null };
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async signInWithPasskey(a10) {
+          var b10, c10, d10;
+          dS(this.experimental);
+          try {
+            if (!el()) return this._returnResult({ data: null, error: new df("Browser does not support WebAuthn", null) });
+            let { data: e4, error: f2 } = await this._startPasskeyAuthentication({ options: { captchaToken: null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.captchaToken } });
+            if (f2 || !e4) return this._returnResult({ data: null, error: f2 });
+            let g2 = eh(e4.options), h2 = null != (d10 = null == (c10 = null == a10 ? void 0 : a10.options) ? void 0 : c10.signal) ? d10 : ef.createNewAbortSignal(), { data: i2, error: j2 } = await en({ publicKey: g2, signal: h2 });
+            if (j2 || !i2) return this._returnResult({ data: null, error: null != j2 ? j2 : new df("WebAuthn ceremony failed", null) });
+            let k2 = ej(i2);
+            return this._verifyPasskeyAuthentication({ challengeId: e4.challenge_id, credential: k2 });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async registerPasskey(a10) {
+          var b10, c10;
+          dS(this.experimental);
+          try {
+            if (!el()) return this._returnResult({ data: null, error: new df("Browser does not support WebAuthn", null) });
+            let { data: d10, error: e4 } = await this._startPasskeyRegistration();
+            if (e4 || !d10) return this._returnResult({ data: null, error: e4 });
+            let f2 = eg(d10.options), g2 = null != (c10 = null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.signal) ? c10 : ef.createNewAbortSignal(), { data: h2, error: i2 } = await em({ publicKey: f2, signal: g2 });
+            if (i2 || !h2) return this._returnResult({ data: null, error: null != i2 ? i2 : new df("WebAuthn ceremony failed", null) });
+            let j2 = ei(h2);
+            return this._verifyPasskeyRegistration({ challengeId: d10.challenge_id, credential: j2 });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _startPasskeyRegistration() {
+          dS(this.experimental);
+          try {
+            return await this._useSession(async (a10) => {
+              let { data: { session: b10 }, error: c10 } = a10;
+              if (c10) return this._returnResult({ data: null, error: c10 });
+              if (!b10) return this._returnResult({ data: null, error: new dh() });
+              let { data: d10, error: e4 } = await dY(this.fetch, "POST", `${this.url}/passkeys/registration/options`, { headers: this.headers, jwt: b10.access_token, body: {} });
+              return e4 ? this._returnResult({ data: null, error: e4 }) : this._returnResult({ data: d10, error: null });
+            });
+          } catch (a10) {
+            if (dd(a10)) return this._returnResult({ data: null, error: a10 });
+            throw a10;
+          }
+        }
+        async _verifyPasskeyRegistration(a10) {
+          dS(this.experimental);
+          try {
+            return await this._useSession(async (b10) => {
+              let { data: { session: c10 }, error: d10 } = b10;
+              if (d10) return this._returnResult({ data: null, error: d10 });
+              if (!c10) return this._returnResult({ data: null, error: new dh() });
+              let { data: e4, error: f2 } = await dY(this.fetch, "POST", `${this.url}/passkeys/registration/verify`, { headers: this.headers, jwt: c10.access_token, body: { challenge_id: a10.challengeId, credential: a10.credential } });
+              return f2 ? this._returnResult({ data: null, error: f2 }) : this._returnResult({ data: e4, error: null });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _startPasskeyAuthentication(a10) {
+          var b10;
+          dS(this.experimental);
+          try {
+            let { data: c10, error: d10 } = await dY(this.fetch, "POST", `${this.url}/passkeys/authentication/options`, { headers: this.headers, body: { gotrue_meta_security: { captcha_token: null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.captchaToken } } });
+            if (d10) return this._returnResult({ data: null, error: d10 });
+            return this._returnResult({ data: c10, error: null });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _verifyPasskeyAuthentication(a10) {
+          dS(this.experimental);
+          try {
+            let { data: b10, error: c10 } = await dY(this.fetch, "POST", `${this.url}/passkeys/authentication/verify`, { headers: this.headers, body: { challenge_id: a10.challengeId, credential: a10.credential }, xform: d$ });
+            if (c10) return this._returnResult({ data: null, error: c10 });
+            return b10.session && (await this._saveSession(b10.session), await this._notifyAllSubscribers("SIGNED_IN", b10.session)), this._returnResult({ data: b10, error: null });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _listPasskeys() {
+          dS(this.experimental);
+          try {
+            return await this._useSession(async (a10) => {
+              let { data: { session: b10 }, error: c10 } = a10;
+              if (c10) return this._returnResult({ data: null, error: c10 });
+              if (!b10) return this._returnResult({ data: null, error: new dh() });
+              let { data: d10, error: e4 } = await dY(this.fetch, "GET", `${this.url}/passkeys`, { headers: this.headers, jwt: b10.access_token, xform: (a11) => ({ data: a11, error: null }) });
+              return e4 ? this._returnResult({ data: null, error: e4 }) : this._returnResult({ data: d10, error: null });
+            });
+          } catch (a10) {
+            if (dd(a10)) return this._returnResult({ data: null, error: a10 });
+            throw a10;
+          }
+        }
+        async _updatePasskey(a10) {
+          dS(this.experimental);
+          try {
+            return await this._useSession(async (b10) => {
+              let { data: { session: c10 }, error: d10 } = b10;
+              if (d10) return this._returnResult({ data: null, error: d10 });
+              if (!c10) return this._returnResult({ data: null, error: new dh() });
+              let { data: e4, error: f2 } = await dY(this.fetch, "PATCH", `${this.url}/passkeys/${a10.passkeyId}`, { headers: this.headers, jwt: c10.access_token, body: { friendly_name: a10.friendlyName } });
+              return f2 ? this._returnResult({ data: null, error: f2 }) : this._returnResult({ data: e4, error: null });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+        async _deletePasskey(a10) {
+          dS(this.experimental);
+          try {
+            return await this._useSession(async (b10) => {
+              let { data: { session: c10 }, error: d10 } = b10;
+              if (d10) return this._returnResult({ data: null, error: d10 });
+              if (!c10) return this._returnResult({ data: null, error: new dh() });
+              let { error: e4 } = await dY(this.fetch, "DELETE", `${this.url}/passkeys/${a10.passkeyId}`, { headers: this.headers, jwt: c10.access_token, noResolveJson: true });
+              return e4 ? this._returnResult({ data: null, error: e4 }) : this._returnResult({ data: null, error: null });
+            });
+          } catch (a11) {
+            if (dd(a11)) return this._returnResult({ data: null, error: a11 });
+            throw a11;
+          }
+        }
+      }
+      ev.nextInstanceID = {};
+      let ew = ev, ex = "";
+      ex = "undefined" != typeof Deno ? "deno" : "undefined" != typeof document ? "web" : "undefined" != typeof navigator && "ReactNative" === navigator.product ? "react-native" : "node";
+      let ey = { headers: { "X-Client-Info": `supabase-js-${ex}/2.106.1` } }, ez = { schema: "public" }, eA = { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true, flowType: "implicit" }, eB = {}, eC = { enabled: false, respectSamplingDecision: true }, eD = null;
+      function eE(a10) {
+        return (eE = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(a11) {
+          return typeof a11;
+        } : function(a11) {
+          return a11 && "function" == typeof Symbol && a11.constructor === Symbol && a11 !== Symbol.prototype ? "symbol" : typeof a11;
+        })(a10);
+      }
+      function eF(a10, b10) {
+        var c10 = Object.keys(a10);
+        if (Object.getOwnPropertySymbols) {
+          var d10 = Object.getOwnPropertySymbols(a10);
+          b10 && (d10 = d10.filter(function(b11) {
+            return Object.getOwnPropertyDescriptor(a10, b11).enumerable;
+          })), c10.push.apply(c10, d10);
+        }
+        return c10;
+      }
+      function eG(a10) {
+        for (var b10 = 1; b10 < arguments.length; b10++) {
+          var c10 = null != arguments[b10] ? arguments[b10] : {};
+          b10 % 2 ? eF(Object(c10), true).forEach(function(b11) {
+            !function(a11, b12, c11) {
+              var d10;
+              (d10 = function(a12, b13) {
+                if ("object" != eE(a12) || !a12) return a12;
+                var c12 = a12[Symbol.toPrimitive];
+                if (void 0 !== c12) {
+                  var d11 = c12.call(a12, b13 || "default");
+                  if ("object" != eE(d11)) return d11;
+                  throw TypeError("@@toPrimitive must return a primitive value.");
+                }
+                return ("string" === b13 ? String : Number)(a12);
+              }(b12, "string"), (b12 = "symbol" == eE(d10) ? d10 : d10 + "") in a11) ? Object.defineProperty(a11, b12, { value: c11, enumerable: true, configurable: true, writable: true }) : a11[b12] = c11;
+            }(a10, b11, c10[b11]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(a10, Object.getOwnPropertyDescriptors(c10)) : eF(Object(c10)).forEach(function(b11) {
+            Object.defineProperty(a10, b11, Object.getOwnPropertyDescriptor(c10, b11));
+          });
+        }
+        return a10;
+      }
+      async function eH(a10, b10, c10) {
+        if (!function(a11, b11) {
+          let c11;
+          if (!a11 || !b11 || 0 === b11.length) return false;
+          if (a11 instanceof URL) c11 = a11;
+          else try {
+            c11 = new URL(a11);
+          } catch (a12) {
+            return false;
+          }
+          for (let a12 of b11) try {
+            if ("string" == typeof a12) {
+              if (function(a13, b12) {
+                if (b12 === a13) return true;
+                if (b12.startsWith("*.")) {
+                  let c12 = b12.slice(2);
+                  if (a13.endsWith(c12) && (a13 === c12 || a13.endsWith("." + c12))) return true;
+                }
+                return false;
+              }(c11.hostname, a12)) return true;
+            } else if (a12 instanceof RegExp) {
+              if (a12.test(c11.hostname)) return true;
+            } else if ("function" == typeof a12 && a12(c11)) return true;
+          } catch (a13) {
+            continue;
+          }
+          return false;
+        }("string" == typeof a10 || a10 instanceof URL ? a10 : a10.url, b10)) return null;
+        let d10 = await function() {
+          var a11, b11, c11, d11;
+          return a11 = this, b11 = void 0, c11 = void 0, d11 = function* () {
+            try {
+              let a12 = yield (null === eD && (eD = import("@opentelemetry/api").catch(() => null)), eD);
+              if (!a12 || !a12.propagation || !a12.context) return null;
+              let b12 = {};
+              a12.propagation.inject(a12.context.active(), b12);
+              let c12 = b12.traceparent;
+              if (!c12) return null;
+              return { traceparent: c12, tracestate: b12.tracestate, baggage: b12.baggage };
+            } catch (a12) {
+              return null;
+            }
+          }, new (c11 || (c11 = Promise))(function(e4, f2) {
+            function g2(a12) {
+              try {
+                i2(d11.next(a12));
+              } catch (a13) {
+                f2(a13);
+              }
+            }
+            function h2(a12) {
+              try {
+                i2(d11.throw(a12));
+              } catch (a13) {
+                f2(a13);
+              }
+            }
+            function i2(a12) {
+              var b12;
+              a12.done ? e4(a12.value) : ((b12 = a12.value) instanceof c11 ? b12 : new c11(function(a13) {
+                a13(b12);
+              })).then(g2, h2);
+            }
+            i2((d11 = d11.apply(a11, b11 || [])).next());
+          });
+        }();
+        if (!d10 || !d10.traceparent) return null;
+        if (c10) {
+          let a11 = function(a12) {
+            if (!a12 || "string" != typeof a12) return null;
+            let b11 = a12.split("-");
+            if (4 !== b11.length) return null;
+            let [c11, d11, e4, f2] = b11;
+            if (2 !== c11.length || 32 !== d11.length || 16 !== e4.length || 2 !== f2.length) return null;
+            let g2 = /^[0-9a-f]+$/i;
+            return g2.test(c11) && g2.test(d11) && g2.test(e4) && g2.test(f2) && "00000000000000000000000000000000" !== d11 && "0000000000000000" !== e4 ? { version: c11, traceId: d11, parentId: e4, traceFlags: f2, isSampled: (1 & parseInt(f2, 16)) == 1 } : null;
+          }(d10.traceparent);
+          if (a11 && !a11.isSampled) return null;
+        }
+        return d10;
+      }
+      function eI(a10) {
+        return "boolean" == typeof a10 ? { enabled: a10 } : a10;
+      }
+      var eJ = class extends ew {
+        constructor(a10) {
+          super(a10);
+        }
+      }, eK = class {
+        constructor(a10, b10, c10) {
+          var d10, e4, f2;
+          this.supabaseUrl = a10, this.supabaseKey = b10;
+          let g2 = function(a11) {
+            let b11 = null == a11 ? void 0 : a11.trim();
+            if (!b11) throw Error("supabaseUrl is required.");
+            if (!b11.match(/^https?:\/\//i)) throw Error("Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.");
+            try {
+              return new URL(b11.endsWith("/") ? b11 : b11 + "/");
+            } catch (a12) {
+              throw Error("Invalid supabaseUrl: Provided URL is malformed.");
+            }
+          }(a10);
+          if (!b10) throw Error("supabaseKey is required.");
+          this.realtimeUrl = new URL("realtime/v1", g2), this.realtimeUrl.protocol = this.realtimeUrl.protocol.replace("http", "ws"), this.authUrl = new URL("auth/v1", g2), this.storageUrl = new URL("storage/v1", g2), this.functionsUrl = new URL("functions/v1", g2);
+          let h2 = `sb-${g2.hostname.split(".")[0]}-auth-token`, i2 = function(a11, b11) {
+            var c11, d11, e5, f3, g3, h3;
+            let { db: i3, auth: j2, realtime: k2, global: l2 } = a11, { db: m2, auth: n2, realtime: o2, global: p2 } = b11, q2 = eI(a11.tracePropagation), r2 = eI(b11.tracePropagation), s2 = { db: eG(eG({}, m2), i3), auth: eG(eG({}, n2), j2), realtime: eG(eG({}, o2), k2), storage: {}, global: eG(eG(eG({}, p2), l2), {}, { headers: eG(eG({}, null != (c11 = null == p2 ? void 0 : p2.headers) ? c11 : {}), null != (d11 = null == l2 ? void 0 : l2.headers) ? d11 : {}) }), tracePropagation: { enabled: null != (e5 = null != (f3 = null == q2 ? void 0 : q2.enabled) ? f3 : null == r2 ? void 0 : r2.enabled) && e5, respectSamplingDecision: null == (g3 = null != (h3 = null == q2 ? void 0 : q2.respectSamplingDecision) ? h3 : null == r2 ? void 0 : r2.respectSamplingDecision) || g3 }, accessToken: async () => "" };
+            return a11.accessToken ? s2.accessToken = a11.accessToken : delete s2.accessToken, s2;
+          }(null != c10 ? c10 : {}, { db: ez, realtime: eB, auth: eG(eG({}, eA), {}, { storageKey: h2 }), global: ey, tracePropagation: eC });
+          this.settings = i2, this.storageKey = null != (d10 = i2.auth.storageKey) ? d10 : "", this.headers = null != (e4 = i2.global.headers) ? e4 : {}, i2.accessToken ? (this.accessToken = i2.accessToken, this.auth = new Proxy({}, { get: (a11, b11) => {
+            throw Error(`@supabase/supabase-js: Supabase Client is configured with the accessToken option, accessing supabase.auth.${String(b11)} is not possible`);
+          } })) : this.auth = this._initSupabaseAuthClient(null != (f2 = i2.auth) ? f2 : {}, this.headers, i2.global.fetch), this.fetch = ((a11, b11, c11, d11, e5) => {
+            let f3 = /* @__PURE__ */ ((a12) => a12 ? (...b12) => a12(...b12) : (...a13) => fetch(...a13))(d11), g3 = Headers, h3 = (null == e5 ? void 0 : e5.enabled) === true, i3 = (null == e5 ? void 0 : e5.respectSamplingDecision) !== false, j2 = h3 ? function(a12) {
+              let b12 = [];
+              try {
+                let c12 = new URL(a12);
+                b12.push(c12.hostname);
+              } catch (a13) {
+              }
+              return b12.push("*.supabase.co", "*.supabase.in"), b12.push("localhost", "127.0.0.1", "[::1]"), b12;
+            }(b11) : null;
+            return async (b12, d12) => {
+              var e6;
+              let h4 = null != (e6 = await c11()) ? e6 : a11, k2 = new g3(null == d12 ? void 0 : d12.headers);
+              if (k2.has("apikey") || k2.set("apikey", a11), k2.has("Authorization") || k2.set("Authorization", `Bearer ${h4}`), j2) {
+                let a12 = await eH(b12, j2, i3);
+                a12 && (a12.traceparent && !k2.has("traceparent") && k2.set("traceparent", a12.traceparent), a12.tracestate && !k2.has("tracestate") && k2.set("tracestate", a12.tracestate), a12.baggage && !k2.has("baggage") && k2.set("baggage", a12.baggage));
+              }
+              return f3(b12, eG(eG({}, d12), {}, { headers: k2 }));
+            };
+          })(b10, a10, this._getAccessToken.bind(this), i2.global.fetch, i2.tracePropagation), this.realtime = this._initRealtimeClient(eG({ headers: this.headers, accessToken: this._getAccessToken.bind(this), fetch: this.fetch }, i2.realtime)), this.accessToken && Promise.resolve(this.accessToken()).then((a11) => this.realtime.setAuth(a11)).catch((a11) => console.warn("Failed to set initial Realtime auth token:", a11)), this.rest = new bL(new URL("rest/v1", g2).href, { headers: this.headers, schema: i2.db.schema, fetch: this.fetch, timeout: i2.db.timeout, urlLengthLimit: i2.db.urlLengthLimit }), this.storage = new c6(this.storageUrl.href, this.headers, this.fetch, null == c10 ? void 0 : c10.storage), i2.accessToken || this._listenForAuthEvents();
+        }
+        get functions() {
+          return new bx(this.functionsUrl.href, { headers: this.headers, customFetch: this.fetch });
+        }
+        from(a10) {
+          return this.rest.from(a10);
+        }
+        schema(a10) {
+          return this.rest.schema(a10);
+        }
+        rpc(a10, b10 = {}, c10 = { head: false, get: false, count: void 0 }) {
+          return this.rest.rpc(a10, b10, c10);
+        }
+        channel(a10, b10 = { config: {} }) {
+          return this.realtime.channel(a10, b10);
+        }
+        getChannels() {
+          return this.realtime.getChannels();
+        }
+        removeChannel(a10) {
+          return this.realtime.removeChannel(a10);
+        }
+        removeAllChannels() {
+          return this.realtime.removeAllChannels();
+        }
+        async _getAccessToken() {
+          var a10, b10;
+          if (this.accessToken) return await this.accessToken();
+          let { data: c10 } = await this.auth.getSession();
+          return null != (a10 = null == (b10 = c10.session) ? void 0 : b10.access_token) ? a10 : this.supabaseKey;
+        }
+        _initSupabaseAuthClient({ autoRefreshToken: a10, persistSession: b10, detectSessionInUrl: c10, storage: d10, userStorage: e4, storageKey: f2, flowType: g2, lock: h2, debug: i2, throwOnError: j2, experimental: k2, lockAcquireTimeout: l2, skipAutoInitialize: m2 }, n2, o2) {
+          let p2 = { Authorization: `Bearer ${this.supabaseKey}`, apikey: `${this.supabaseKey}` };
+          return new eJ({ url: this.authUrl.href, headers: eG(eG({}, p2), n2), storageKey: f2, autoRefreshToken: a10, persistSession: b10, detectSessionInUrl: c10, storage: d10, userStorage: e4, flowType: g2, lock: h2, debug: i2, throwOnError: j2, experimental: k2, fetch: o2, lockAcquireTimeout: l2, skipAutoInitialize: m2, hasCustomAuthorizationHeader: Object.keys(this.headers).some((a11) => "authorization" === a11.toLowerCase()) });
+        }
+        _initRealtimeClient(a10) {
+          return new cr(this.realtimeUrl.href, eG(eG({}, a10), {}, { params: eG(eG({}, { apikey: this.supabaseKey }), null == a10 ? void 0 : a10.params) }));
+        }
+        _listenForAuthEvents() {
+          return this.auth.onAuthStateChange((a10, b10) => {
+            this._handleTokenChanged(a10, "CLIENT", null == b10 ? void 0 : b10.access_token);
+          });
+        }
+        _handleTokenChanged(a10, b10, c10) {
+          ("TOKEN_REFRESHED" === a10 || "SIGNED_IN" === a10) && this.changedAccessToken !== c10 ? (this.changedAccessToken = c10, this.realtime.setAuth(c10)) : "SIGNED_OUT" === a10 && (this.realtime.setAuth(), "STORAGE" == b10 && this.auth.signOut(), this.changedAccessToken = void 0);
+        }
+      };
+      (function() {
+        if ("undefined" != typeof window) return false;
+        let a10 = globalThis.process;
+        if (!a10) return false;
+        let b10 = a10.version;
+        if (null == b10) return false;
+        let c10 = b10.match(/^v(\d+)\./);
+        return !!c10 && 18 >= parseInt(c10[1], 10);
+      })() && console.warn("\u26A0\uFE0F  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217"), c(449), "undefined" == typeof URLPattern || URLPattern, c(322), c(979), c(770), c(823), (0, c(58).xl)();
+      let { env: eL, stdout: eM } = (null == (m = globalThis) ? void 0 : m.process) ?? {}, eN = eL && !eL.NO_COLOR && (eL.FORCE_COLOR || (null == eM ? void 0 : eM.isTTY) && !eL.CI && "dumb" !== eL.TERM), eO = (a10, b10, c10, d10) => {
+        let e4 = a10.substring(0, d10) + c10, f2 = a10.substring(d10 + b10.length), g2 = f2.indexOf(b10);
+        return ~g2 ? e4 + eO(f2, b10, c10, g2) : e4 + f2;
+      }, eP = (a10, b10, c10 = a10) => eN ? (d10) => {
+        let e4 = "" + d10, f2 = e4.indexOf(b10, a10.length);
+        return ~f2 ? a10 + eO(e4, b10, c10, f2) + b10 : a10 + e4 + b10;
+      } : String, eQ = eP("\x1B[1m", "\x1B[22m", "\x1B[22m\x1B[1m");
+      eP("\x1B[2m", "\x1B[22m", "\x1B[22m\x1B[2m"), eP("\x1B[3m", "\x1B[23m"), eP("\x1B[4m", "\x1B[24m"), eP("\x1B[7m", "\x1B[27m"), eP("\x1B[8m", "\x1B[28m"), eP("\x1B[9m", "\x1B[29m"), eP("\x1B[30m", "\x1B[39m");
+      let eR = eP("\x1B[31m", "\x1B[39m"), eS = eP("\x1B[32m", "\x1B[39m"), eT = eP("\x1B[33m", "\x1B[39m");
+      eP("\x1B[34m", "\x1B[39m");
+      let eU = eP("\x1B[35m", "\x1B[39m");
+      eP("\x1B[38;2;173;127;168m", "\x1B[39m"), eP("\x1B[36m", "\x1B[39m");
+      let eV = eP("\x1B[37m", "\x1B[39m");
+      function eW() {
+        return "https://mvnllmfidxslxfqexkxs.supabase.co";
+      }
+      function eX() {
+        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12bmxsbWZpZHhzbHhmcWV4a3hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTAyNjUsImV4cCI6MjA5NjA2NjI2NX0.HV3uijehR434gxzAx0JTuDrQ78B7B0y8KGEymIYpErY";
+      }
+      async function eY(a10, b10) {
+        try {
+          let { data: c10, error: d10 } = await a10.rpc("is_admin");
+          if (!d10 && true === c10) return true;
+          let { data: e4 } = await a10.from("admins").select("role").eq("user_id", b10).maybeSingle();
+          return !!e4?.role;
+        } catch {
+          return false;
+        }
+      }
+      async function eZ(a10) {
+        let b10 = $.next({ request: a10 });
+        if (!function() {
+          let a11 = eW(), b11 = eX();
+          return !!(a11 && b11 && !a11.includes("YOUR-PROJECT"));
+        }()) return b10;
+        let c10 = function(a11, b11, c11) {
+          if (!a11 || !b11) throw Error(`Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api`);
+          let { storage: d11, getAll: e5, setAll: f3, setItems: g3, removedItems: h2 } = function(a12, b12) {
+            let c12, d12, e6 = a12.cookies ?? null, f4 = a12.cookieEncoding, g4 = {}, h3 = {};
+            if (e6) if ("get" in e6) {
+              let a13 = async (a14) => {
+                let b13 = a14.flatMap((a15) => [a15, ...Array.from({ length: 5 }).map((b14, c14) => `${a15}.${c14}`)]), c13 = [];
+                for (let a15 = 0; a15 < b13.length; a15 += 1) {
+                  let d13 = await e6.get(b13[a15]);
+                  (d13 || "string" == typeof d13) && c13.push({ name: b13[a15], value: d13 });
+                }
+                return c13;
+              };
+              if (c12 = async (b13) => await a13(b13), "set" in e6 && "remove" in e6) d12 = async (a14) => {
+                for (let b13 = 0; b13 < a14.length; b13 += 1) {
+                  let { name: c13, value: d13, options: f5 } = a14[b13];
+                  d13 ? await e6.set(c13, d13, f5) : await e6.remove(c13, f5);
+                }
+              };
+              else if (b12) d12 = async () => {
+                console.warn("@supabase/ssr: createServerClient was configured without set and remove cookie methods, but the client needs to set cookies. This can lead to issues such as random logouts, early session termination or increased token refresh requests. If in NextJS, check your middleware.ts file, route handlers and server actions for correctness. Consider switching to the getAll and setAll cookie methods instead of get, set and remove which are deprecated and can be difficult to use correctly.");
+              };
+              else throw Error("@supabase/ssr: createBrowserClient requires configuring a getAll and setAll cookie method (deprecated: alternatively both get, set and remove can be used)");
+            } else if ("getAll" in e6) if (c12 = async () => await e6.getAll(), "setAll" in e6) d12 = e6.setAll;
+            else if (b12) d12 = async () => {
+              console.warn("@supabase/ssr: createServerClient was configured without the setAll cookie method, but the client needs to set cookies. This can lead to issues such as random logouts, early session termination or increased token refresh requests. If in NextJS, check your middleware.ts file, route handlers and server actions for correctness.");
+            };
+            else throw Error("@supabase/ssr: createBrowserClient requires configuring both getAll and setAll cookie methods (deprecated: alternatively both get, set and remove can be used)");
+            else throw Error(`@supabase/ssr: ${b12 ? "createServerClient" : "createBrowserClient"} requires configuring getAll and setAll cookie methods (deprecated: alternatively use get, set and remove).${bf() ? " As this is called in a browser runtime, consider removing the cookies option object to use the document.cookie API automatically." : ""}`);
+            else if (!b12 && bf()) c12 = () => (() => {
+              let a13 = (0, be.q)(document.cookie);
+              return Object.keys(a13).map((b13) => ({ name: b13, value: a13[b13] }));
+            })(), d12 = (a13) => {
+              a13.forEach(({ name: a14, value: b13, options: c13 }) => {
+                document.cookie = (0, be.l)(a14, b13, c13);
+              });
+            };
+            else if (b12) throw Error("@supabase/ssr: createServerClient must be initialized with cookie options that specify getAll and setAll functions (deprecated, not recommended: alternatively use get, set and remove)");
+            else c12 = () => [], d12 = () => {
+              throw Error("@supabase/ssr: createBrowserClient in non-browser runtimes (including Next.js pre-rendering mode) was not initialized cookie options that specify getAll and setAll functions (deprecated: alternatively use get, set and remove), but they were needed");
+            };
+            return b12 ? { getAll: c12, setAll: d12, setItems: g4, removedItems: h3, storage: { isServer: true, getItem: async (a13) => {
+              if ("string" == typeof g4[a13]) return g4[a13];
+              if (h3[a13]) return null;
+              let b13 = await c12([a13]), d13 = await bk(a13, async (a14) => {
+                let c13 = b13?.find(({ name: b14 }) => b14 === a14) || null;
+                return c13 ? c13.value : null;
+              });
+              if (!d13) return null;
+              let e7 = d13;
+              return "string" == typeof d13 && d13.startsWith(bq) && (e7 = bp(d13.substring(bq.length))), e7;
+            }, setItem: async (b13, e7) => {
+              b13.endsWith("-code-verifier") && await br({ getAll: c12, setAll: d12, setItems: { [b13]: e7 }, removedItems: {} }, { cookieOptions: a12?.cookieOptions ?? null, cookieEncoding: f4 }), g4[b13] = e7, delete h3[b13];
+            }, removeItem: async (a13) => {
+              delete g4[a13], h3[a13] = true;
+            } } } : { getAll: c12, setAll: d12, setItems: g4, removedItems: h3, storage: { isServer: false, getItem: async (a13) => {
+              let b13 = await c12([a13]), d13 = await bk(a13, async (a14) => {
+                let c13 = b13?.find(({ name: b14 }) => b14 === a14) || null;
+                return c13 ? c13.value : null;
+              });
+              if (!d13) return null;
+              let e7 = d13;
+              return d13.startsWith(bq) && (e7 = bp(d13.substring(bq.length))), e7;
+            }, setItem: async (b13, e7) => {
+              let g5 = await c12([b13]), h4 = new Set((g5?.map(({ name: a13 }) => a13) || []).filter((a13) => bi(a13, b13))), i3 = e7;
+              "base64url" === f4 && (i3 = bq + bo(e7));
+              let j2 = bj(b13, i3);
+              j2.forEach(({ name: a13 }) => {
+                h4.delete(a13);
+              });
+              let k2 = { ...bg, ...a12?.cookieOptions, maxAge: 0 }, l2 = { ...bg, ...a12?.cookieOptions, maxAge: bg.maxAge };
+              delete k2.name, delete l2.name;
+              let m2 = [...[...h4].map((a13) => ({ name: a13, value: "", options: k2 })), ...j2.map(({ name: a13, value: b14 }) => ({ name: a13, value: b14, options: l2 }))];
+              m2.length > 0 && await d12(m2);
+            }, removeItem: async (b13) => {
+              let e7 = await c12([b13]), f5 = (e7?.map(({ name: a13 }) => a13) || []).filter((a13) => bi(a13, b13)), g5 = { ...bg, ...a12?.cookieOptions, maxAge: 0 };
+              delete g5.name, f5.length > 0 && await d12(f5.map((a13) => ({ name: a13, value: "", options: g5 })));
+            } } };
+          }({ ...c11, cookieEncoding: c11?.cookieEncoding ?? "base64url" }, true), i2 = new eK(a11, b11, { ...c11, global: { ...c11?.global, headers: { ...c11?.global?.headers, "X-Client-Info": "supabase-ssr/0.5.2" } }, auth: { ...c11?.cookieOptions?.name ? { storageKey: c11.cookieOptions.name } : null, ...c11?.auth, flowType: "pkce", autoRefreshToken: false, detectSessionInUrl: false, persistSession: true, storage: d11 } });
+          return i2.auth.onAuthStateChange(async (a12) => {
+            (Object.keys(g3).length > 0 || Object.keys(h2).length > 0) && ("SIGNED_IN" === a12 || "TOKEN_REFRESHED" === a12 || "USER_UPDATED" === a12 || "PASSWORD_RECOVERY" === a12 || "SIGNED_OUT" === a12 || "MFA_CHALLENGE_VERIFIED" === a12) && await br({ getAll: e5, setAll: f3, setItems: g3, removedItems: h2 }, { cookieOptions: c11?.cookieOptions ?? null, cookieEncoding: c11?.cookieEncoding ?? "base64url" });
+          }), i2;
+        }(eW(), eX(), { cookies: { getAll: () => a10.cookies.getAll(), setAll(c11) {
+          c11.forEach(({ name: b11, value: c12 }) => a10.cookies.set(b11, c12)), b10 = $.next({ request: a10 }), c11.forEach(({ name: a11, value: c12, options: d11 }) => b10.cookies.set(a11, c12, d11));
+        } } }), { data: { user: d10 } } = await c10.auth.getUser(), e4 = a10.nextUrl.pathname, f2 = e4.startsWith("/admin"), g2 = "/admin/login" === e4;
+        if (f2 && !g2 && !d10) {
+          let b11 = a10.nextUrl.clone();
+          return b11.pathname = "/admin/login", b11.searchParams.set("next", e4), $.redirect(b11);
+        }
+        if (f2 && !g2 && d10 && !await eY(c10, d10.id)) return new $("Forbidden \u2014 admin access required.", { status: 403 });
+        if (g2 && d10 && await eY(c10, d10.id)) {
+          let b11 = a10.nextUrl.clone();
+          return b11.pathname = "/admin", $.redirect(b11);
+        }
+        return b10;
+      }
+      async function e$(a10) {
+        let b10 = await eZ(a10), c10 = a10.nextUrl.pathname;
+        if (!c10.startsWith("/admin") && !c10.startsWith("/api")) {
+          let a11 = function(a12 = "/") {
+            return "/hi" === a12 || a12.startsWith("/hi/") ? "hi" : "en";
+          }(c10);
+          b10.headers.set("x-locale", a11);
+        }
+        return b10;
+      }
+      eP("\x1B[90m", "\x1B[39m"), eP("\x1B[40m", "\x1B[49m"), eP("\x1B[41m", "\x1B[49m"), eP("\x1B[42m", "\x1B[49m"), eP("\x1B[43m", "\x1B[49m"), eP("\x1B[44m", "\x1B[49m"), eP("\x1B[45m", "\x1B[49m"), eP("\x1B[46m", "\x1B[49m"), eP("\x1B[47m", "\x1B[49m"), eV(eQ("\u25CB")), eR(eQ("\u2A2F")), eT(eQ("\u26A0")), eV(eQ(" ")), eS(eQ("\u2713")), eU(eQ("\xBB")), new aT(1e4, (a10) => a10.length), /* @__PURE__ */ new WeakMap();
+      let e_ = { matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif)$).*)"] };
+      Object.values({ NOT_FOUND: 404, FORBIDDEN: 403, UNAUTHORIZED: 401 });
+      let e0 = { ...n }, e1 = e0.middleware || e0.default, e2 = "/src/middleware";
+      if ("function" != typeof e1) throw Object.defineProperty(Error(`The Middleware "${e2}" must export a \`middleware\` or a \`default\` function`), "__NEXT_ERROR_CODE", { value: "E120", enumerable: false, configurable: true });
+      function e3(a10) {
+        return bd({ ...a10, page: e2, handler: async (...a11) => {
+          try {
+            return await e1(...a11);
+          } catch (e4) {
+            let b10 = a11[0], c10 = new URL(b10.url), d10 = c10.pathname + c10.search;
+            throw await r(e4, { path: d10, method: b10.method, headers: Object.fromEntries(b10.headers.entries()) }, { routerKind: "Pages Router", routePath: "/middleware", routeType: "middleware", revalidateReason: void 0 }), e4;
+          }
+        } });
       }
     }, 213: (a) => {
       (() => {
@@ -1261,9 +7640,133 @@ var require_middleware = __commonJS({
           e.default = h;
         })(), a.exports = e;
       })();
+    }, 261: (a, b, c) => {
+      "use strict";
+      c.d(b, { Ck: () => h, EJ: () => k, K8: () => j });
+      var d = c(28), e = c(115), f = c(379);
+      class g extends Error {
+        constructor() {
+          super("Cookies can only be modified in a Server Action or Route Handler. Read more: https://nextjs.org/docs/app/api-reference/functions/cookies#options");
+        }
+        static callable() {
+          throw new g();
+        }
+      }
+      class h {
+        static seal(a2) {
+          return new Proxy(a2, { get(a3, b2, c2) {
+            switch (b2) {
+              case "clear":
+              case "delete":
+              case "set":
+                return g.callable;
+              default:
+                return e.l.get(a3, b2, c2);
+            }
+          } });
+        }
+      }
+      let i = Symbol.for("next.mutated.cookies");
+      class j {
+        static wrap(a2, b2) {
+          let c2 = new d.VO(new Headers());
+          for (let b3 of a2.getAll()) c2.set(b3);
+          let g2 = [], h2 = /* @__PURE__ */ new Set(), j2 = () => {
+            let a3 = f.J.getStore();
+            if (a3 && (a3.pathWasRevalidated = true), g2 = c2.getAll().filter((a4) => h2.has(a4.name)), b2) {
+              let a4 = [];
+              for (let b3 of g2) {
+                let c3 = new d.VO(new Headers());
+                c3.set(b3), a4.push(c3.toString());
+              }
+              b2(a4);
+            }
+          }, k2 = new Proxy(c2, { get(a3, b3, c3) {
+            switch (b3) {
+              case i:
+                return g2;
+              case "delete":
+                return function(...b4) {
+                  h2.add("string" == typeof b4[0] ? b4[0] : b4[0].name);
+                  try {
+                    return a3.delete(...b4), k2;
+                  } finally {
+                    j2();
+                  }
+                };
+              case "set":
+                return function(...b4) {
+                  h2.add("string" == typeof b4[0] ? b4[0] : b4[0].name);
+                  try {
+                    return a3.set(...b4), k2;
+                  } finally {
+                    j2();
+                  }
+                };
+              default:
+                return e.l.get(a3, b3, c3);
+            }
+          } });
+          return k2;
+        }
+      }
+      function k(a2) {
+        let b2 = new Proxy(a2.mutableCookies, { get(c2, d2, f2) {
+          switch (d2) {
+            case "delete":
+              return function(...d3) {
+                return l(a2, "cookies().delete"), c2.delete(...d3), b2;
+              };
+            case "set":
+              return function(...d3) {
+                return l(a2, "cookies().set"), c2.set(...d3), b2;
+              };
+            default:
+              return e.l.get(c2, d2, f2);
+          }
+        } });
+        return b2;
+      }
+      function l(a2, b2) {
+        if ("action" !== a2.phase) throw new g();
+      }
+    }, 322: (a, b, c) => {
+      "use strict";
+      c.d(b, { Ui: () => i, xI: () => g, Pk: () => h });
+      var d = c(814), e = c(159);
+      c(979), c(128), c(379), c(770), c(809);
+      let f = "function" == typeof d.unstable_postpone;
+      function g(a2, b2, c2) {
+        let d2 = Object.defineProperty(new e.F(`Route ${b2.route} couldn't be rendered statically because it used \`${a2}\`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error`), "__NEXT_ERROR_CODE", { value: "E558", enumerable: false, configurable: true });
+        throw c2.revalidate = 0, b2.dynamicUsageDescription = a2, b2.dynamicUsageStack = d2.stack, d2;
+      }
+      function h(a2) {
+        switch (a2.type) {
+          case "cache":
+          case "unstable-cache":
+          case "private-cache":
+            return;
+        }
+      }
+      function i(a2, b2, c2) {
+        (function() {
+          if (!f) throw Object.defineProperty(Error("Invariant: React.unstable_postpone is not defined. This suggests the wrong version of React was loaded. This is a bug in Next.js"), "__NEXT_ERROR_CODE", { value: "E224", enumerable: false, configurable: true });
+        })(), c2 && c2.dynamicAccesses.push({ stack: c2.isDebugDynamicAccesses ? Error().stack : void 0, expression: b2 }), d.unstable_postpone(j(a2, b2));
+      }
+      function j(a2, b2) {
+        return `Route ${a2} needs to bail out of prerendering at this point because it used ${b2}. React throws this special object to indicate where. It should not be caught by your own try/catch. Learn more: https://nextjs.org/docs/messages/ppr-caught-error`;
+      }
+      if (false === function(a2) {
+        return a2.includes("needs to bail out of prerendering at this point because it used") && a2.includes("Learn more: https://nextjs.org/docs/messages/ppr-caught-error");
+      }(j("%%%", "^^^"))) throw Object.defineProperty(Error("Invariant: isDynamicPostpone misidentified a postpone reason. This is a bug in Next.js"), "__NEXT_ERROR_CODE", { value: "E296", enumerable: false, configurable: true });
+      RegExp(`\\n\\s+at Suspense \\(<anonymous>\\)(?:(?!\\n\\s+at (?:body|div|main|section|article|aside|header|footer|nav|form|p|span|h1|h2|h3|h4|h5|h6) \\(<anonymous>\\))[\\s\\S])*?\\n\\s+at __next_root_layout_boundary__ \\([^\\n]*\\)`), RegExp(`\\n\\s+at __next_metadata_boundary__[\\n\\s]`), RegExp(`\\n\\s+at __next_viewport_boundary__[\\n\\s]`), RegExp(`\\n\\s+at __next_outlet_boundary__[\\n\\s]`);
     }, 356: (a) => {
       "use strict";
       a.exports = (init_node_buffer(), __toCommonJS(node_buffer_exports));
+    }, 379: (a, b, c) => {
+      "use strict";
+      c.d(b, { J: () => d });
+      let d = (0, c(58).xl)();
     }, 392: (a, b, c) => {
       "use strict";
       Object.defineProperty(b, "__esModule", { value: true }), !function(a2, b2) {
@@ -1290,8 +7793,193 @@ var require_middleware = __commonJS({
       }
     }, 440: (a, b) => {
       "use strict";
-      Symbol.for("react.transitional.element"), Symbol.for("react.portal"), Symbol.for("react.fragment"), Symbol.for("react.strict_mode"), Symbol.for("react.profiler"), Symbol.for("react.forward_ref"), Symbol.for("react.suspense"), Symbol.for("react.memo"), Symbol.for("react.lazy"), Symbol.iterator;
-      Object.prototype.hasOwnProperty, Object.assign;
+      var c = { H: null, A: null };
+      function d(a2) {
+        var b2 = "https://react.dev/errors/" + a2;
+        if (1 < arguments.length) {
+          b2 += "?args[]=" + encodeURIComponent(arguments[1]);
+          for (var c2 = 2; c2 < arguments.length; c2++) b2 += "&args[]=" + encodeURIComponent(arguments[c2]);
+        }
+        return "Minified React error #" + a2 + "; visit " + b2 + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
+      }
+      var e = Array.isArray;
+      function f() {
+      }
+      var g = Symbol.for("react.transitional.element"), h = Symbol.for("react.portal"), i = Symbol.for("react.fragment"), j = Symbol.for("react.strict_mode"), k = Symbol.for("react.profiler"), l = Symbol.for("react.forward_ref"), m = Symbol.for("react.suspense"), n = Symbol.for("react.memo"), o = Symbol.for("react.lazy"), p = Symbol.iterator, q = Object.prototype.hasOwnProperty, r = Object.assign;
+      function s(a2, b2, c2) {
+        var d2 = c2.ref;
+        return { $$typeof: g, type: a2, key: b2, ref: void 0 !== d2 ? d2 : null, props: c2 };
+      }
+      function t(a2) {
+        return "object" == typeof a2 && null !== a2 && a2.$$typeof === g;
+      }
+      var u = /\/+/g;
+      function v(a2, b2) {
+        var c2, d2;
+        return "object" == typeof a2 && null !== a2 && null != a2.key ? (c2 = "" + a2.key, d2 = { "=": "=0", ":": "=2" }, "$" + c2.replace(/[=:]/g, function(a3) {
+          return d2[a3];
+        })) : b2.toString(36);
+      }
+      function w(a2, b2, c2) {
+        if (null == a2) return a2;
+        var i2 = [], j2 = 0;
+        return !function a3(b3, c3, i3, j3, k2) {
+          var l2, m2, n2, q2 = typeof b3;
+          ("undefined" === q2 || "boolean" === q2) && (b3 = null);
+          var r2 = false;
+          if (null === b3) r2 = true;
+          else switch (q2) {
+            case "bigint":
+            case "string":
+            case "number":
+              r2 = true;
+              break;
+            case "object":
+              switch (b3.$$typeof) {
+                case g:
+                case h:
+                  r2 = true;
+                  break;
+                case o:
+                  return a3((r2 = b3._init)(b3._payload), c3, i3, j3, k2);
+              }
+          }
+          if (r2) return k2 = k2(b3), r2 = "" === j3 ? "." + v(b3, 0) : j3, e(k2) ? (i3 = "", null != r2 && (i3 = r2.replace(u, "$&/") + "/"), a3(k2, c3, i3, "", function(a4) {
+            return a4;
+          })) : null != k2 && (t(k2) && (l2 = k2, m2 = i3 + (null == k2.key || b3 && b3.key === k2.key ? "" : ("" + k2.key).replace(u, "$&/") + "/") + r2, k2 = s(l2.type, m2, l2.props)), c3.push(k2)), 1;
+          r2 = 0;
+          var w2 = "" === j3 ? "." : j3 + ":";
+          if (e(b3)) for (var x2 = 0; x2 < b3.length; x2++) q2 = w2 + v(j3 = b3[x2], x2), r2 += a3(j3, c3, i3, q2, k2);
+          else if ("function" == typeof (x2 = null === (n2 = b3) || "object" != typeof n2 ? null : "function" == typeof (n2 = p && n2[p] || n2["@@iterator"]) ? n2 : null)) for (b3 = x2.call(b3), x2 = 0; !(j3 = b3.next()).done; ) q2 = w2 + v(j3 = j3.value, x2++), r2 += a3(j3, c3, i3, q2, k2);
+          else if ("object" === q2) {
+            if ("function" == typeof b3.then) return a3(function(a4) {
+              switch (a4.status) {
+                case "fulfilled":
+                  return a4.value;
+                case "rejected":
+                  throw a4.reason;
+                default:
+                  switch ("string" == typeof a4.status ? a4.then(f, f) : (a4.status = "pending", a4.then(function(b4) {
+                    "pending" === a4.status && (a4.status = "fulfilled", a4.value = b4);
+                  }, function(b4) {
+                    "pending" === a4.status && (a4.status = "rejected", a4.reason = b4);
+                  })), a4.status) {
+                    case "fulfilled":
+                      return a4.value;
+                    case "rejected":
+                      throw a4.reason;
+                  }
+              }
+              throw a4;
+            }(b3), c3, i3, j3, k2);
+            throw Error(d(31, "[object Object]" === (c3 = String(b3)) ? "object with keys {" + Object.keys(b3).join(", ") + "}" : c3));
+          }
+          return r2;
+        }(a2, i2, "", "", function(a3) {
+          return b2.call(c2, a3, j2++);
+        }), i2;
+      }
+      function x(a2) {
+        if (-1 === a2._status) {
+          var b2 = a2._result;
+          (b2 = b2()).then(function(b3) {
+            (0 === a2._status || -1 === a2._status) && (a2._status = 1, a2._result = b3);
+          }, function(b3) {
+            (0 === a2._status || -1 === a2._status) && (a2._status = 2, a2._result = b3);
+          }), -1 === a2._status && (a2._status = 0, a2._result = b2);
+        }
+        if (1 === a2._status) return a2._result.default;
+        throw a2._result;
+      }
+      function y() {
+        return /* @__PURE__ */ new WeakMap();
+      }
+      function z() {
+        return { s: 0, v: void 0, o: null, p: null };
+      }
+      b.Children = { map: w, forEach: function(a2, b2, c2) {
+        w(a2, function() {
+          b2.apply(this, arguments);
+        }, c2);
+      }, count: function(a2) {
+        var b2 = 0;
+        return w(a2, function() {
+          b2++;
+        }), b2;
+      }, toArray: function(a2) {
+        return w(a2, function(a3) {
+          return a3;
+        }) || [];
+      }, only: function(a2) {
+        if (!t(a2)) throw Error(d(143));
+        return a2;
+      } }, b.Fragment = i, b.Profiler = k, b.StrictMode = j, b.Suspense = m, b.__SERVER_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = c, b.cache = function(a2) {
+        return function() {
+          var b2 = c.A;
+          if (!b2) return a2.apply(null, arguments);
+          var d2 = b2.getCacheForType(y);
+          void 0 === (b2 = d2.get(a2)) && (b2 = z(), d2.set(a2, b2)), d2 = 0;
+          for (var e2 = arguments.length; d2 < e2; d2++) {
+            var f2 = arguments[d2];
+            if ("function" == typeof f2 || "object" == typeof f2 && null !== f2) {
+              var g2 = b2.o;
+              null === g2 && (b2.o = g2 = /* @__PURE__ */ new WeakMap()), void 0 === (b2 = g2.get(f2)) && (b2 = z(), g2.set(f2, b2));
+            } else null === (g2 = b2.p) && (b2.p = g2 = /* @__PURE__ */ new Map()), void 0 === (b2 = g2.get(f2)) && (b2 = z(), g2.set(f2, b2));
+          }
+          if (1 === b2.s) return b2.v;
+          if (2 === b2.s) throw b2.v;
+          try {
+            var h2 = a2.apply(null, arguments);
+            return (d2 = b2).s = 1, d2.v = h2;
+          } catch (a3) {
+            throw (h2 = b2).s = 2, h2.v = a3, a3;
+          }
+        };
+      }, b.cacheSignal = function() {
+        var a2 = c.A;
+        return a2 ? a2.cacheSignal() : null;
+      }, b.captureOwnerStack = function() {
+        return null;
+      }, b.cloneElement = function(a2, b2, c2) {
+        if (null == a2) throw Error(d(267, a2));
+        var e2 = r({}, a2.props), f2 = a2.key;
+        if (null != b2) for (g2 in void 0 !== b2.key && (f2 = "" + b2.key), b2) q.call(b2, g2) && "key" !== g2 && "__self" !== g2 && "__source" !== g2 && ("ref" !== g2 || void 0 !== b2.ref) && (e2[g2] = b2[g2]);
+        var g2 = arguments.length - 2;
+        if (1 === g2) e2.children = c2;
+        else if (1 < g2) {
+          for (var h2 = Array(g2), i2 = 0; i2 < g2; i2++) h2[i2] = arguments[i2 + 2];
+          e2.children = h2;
+        }
+        return s(a2.type, f2, e2);
+      }, b.createElement = function(a2, b2, c2) {
+        var d2, e2 = {}, f2 = null;
+        if (null != b2) for (d2 in void 0 !== b2.key && (f2 = "" + b2.key), b2) q.call(b2, d2) && "key" !== d2 && "__self" !== d2 && "__source" !== d2 && (e2[d2] = b2[d2]);
+        var g2 = arguments.length - 2;
+        if (1 === g2) e2.children = c2;
+        else if (1 < g2) {
+          for (var h2 = Array(g2), i2 = 0; i2 < g2; i2++) h2[i2] = arguments[i2 + 2];
+          e2.children = h2;
+        }
+        if (a2 && a2.defaultProps) for (d2 in g2 = a2.defaultProps) void 0 === e2[d2] && (e2[d2] = g2[d2]);
+        return s(a2, f2, e2);
+      }, b.createRef = function() {
+        return { current: null };
+      }, b.forwardRef = function(a2) {
+        return { $$typeof: l, render: a2 };
+      }, b.isValidElement = t, b.lazy = function(a2) {
+        return { $$typeof: o, _payload: { _status: -1, _result: a2 }, _init: x };
+      }, b.memo = function(a2, b2) {
+        return { $$typeof: n, type: a2, compare: void 0 === b2 ? null : b2 };
+      }, b.use = function(a2) {
+        return c.H.use(a2);
+      }, b.useCallback = function(a2, b2) {
+        return c.H.useCallback(a2, b2);
+      }, b.useDebugValue = function() {
+      }, b.useId = function() {
+        return c.H.useId();
+      }, b.useMemo = function(a2, b2) {
+        return c.H.useMemo(a2, b2);
+      }, b.version = "19.2.0-canary-0bdb9206-20250818";
     }, 443: (a) => {
       "use strict";
       var b = Object.defineProperty, c = Object.getOwnPropertyDescriptor, d = Object.getOwnPropertyNames, e = Object.prototype.hasOwnProperty, f = {};
@@ -1522,6543 +8210,105 @@ var require_middleware = __commonJS({
         }
         g.ab = "//", a.exports = g(226);
       })();
-    }, 521: (a) => {
+    }, 458: (a, b, c) => {
       "use strict";
-      a.exports = (init_node_async_hooks(), __toCommonJS(node_async_hooks_exports));
-    }, 587: (a, b, c) => {
-      "use strict";
-      let d, e, f;
-      c.r(b), c.d(b, { default: () => fc });
-      var g, h, i, j, k, l, m, n = {};
-      async function o() {
-        return "_ENTRIES" in globalThis && _ENTRIES.middleware_instrumentation && await _ENTRIES.middleware_instrumentation;
-      }
-      c.r(n), c.d(n, { config: () => e8, middleware: () => e7 });
-      let p = null;
-      async function q() {
-        if ("phase-production-build" === process.env.NEXT_PHASE) return;
-        p || (p = o());
-        let a10 = await p;
-        if (null == a10 ? void 0 : a10.register) try {
-          await a10.register();
-        } catch (a11) {
-          throw a11.message = `An error occurred while loading instrumentation hook: ${a11.message}`, a11;
-        }
-      }
-      async function r(...a10) {
-        let b10 = await o();
-        try {
-          var c10;
-          await (null == b10 || null == (c10 = b10.onRequestError) ? void 0 : c10.call(b10, ...a10));
-        } catch (a11) {
-          console.error("Error in instrumentation.onRequestError:", a11);
-        }
-      }
-      let s = null;
-      function t() {
-        return s || (s = q()), s;
-      }
-      function u(a10) {
-        return `The edge runtime does not support Node.js '${a10}' module.
-Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime`;
-      }
-      process !== c.g.process && (process.env = c.g.process.env, c.g.process = process);
-      try {
-        Object.defineProperty(globalThis, "__import_unsupported", { value: function(a10) {
-          let b10 = new Proxy(function() {
-          }, { get(b11, c10) {
-            if ("then" === c10) return {};
-            throw Object.defineProperty(Error(u(a10)), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-          }, construct() {
-            throw Object.defineProperty(Error(u(a10)), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-          }, apply(c10, d10, e10) {
-            if ("function" == typeof e10[0]) return e10[0](b10);
-            throw Object.defineProperty(Error(u(a10)), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-          } });
-          return new Proxy({}, { get: () => b10 });
-        }, enumerable: false, configurable: false });
-      } catch {
-      }
-      t();
-      class v extends Error {
-        constructor({ page: a10 }) {
-          super(`The middleware "${a10}" accepts an async API directly with the form:
-  
-  export function middleware(request, event) {
-    return NextResponse.redirect('/new-location')
-  }
-  
-  Read more: https://nextjs.org/docs/messages/middleware-new-signature
-  `);
-        }
-      }
-      class w extends Error {
-        constructor() {
-          super(`The request.page has been deprecated in favour of \`URLPattern\`.
-  Read more: https://nextjs.org/docs/messages/middleware-request-page
-  `);
-        }
-      }
-      class x extends Error {
-        constructor() {
-          super(`The request.ua has been removed in favour of \`userAgent\` function.
-  Read more: https://nextjs.org/docs/messages/middleware-parse-user-agent
-  `);
-        }
-      }
-      let y = "_N_T_", z = { shared: "shared", reactServerComponents: "rsc", serverSideRendering: "ssr", actionBrowser: "action-browser", apiNode: "api-node", apiEdge: "api-edge", middleware: "middleware", instrument: "instrument", edgeAsset: "edge-asset", appPagesBrowser: "app-pages-browser", pagesDirBrowser: "pages-dir-browser", pagesDirEdge: "pages-dir-edge", pagesDirNode: "pages-dir-node" };
-      function A(a10) {
-        var b10, c10, d10, e10, f2, g2 = [], h2 = 0;
-        function i2() {
-          for (; h2 < a10.length && /\s/.test(a10.charAt(h2)); ) h2 += 1;
-          return h2 < a10.length;
-        }
-        for (; h2 < a10.length; ) {
-          for (b10 = h2, f2 = false; i2(); ) if ("," === (c10 = a10.charAt(h2))) {
-            for (d10 = h2, h2 += 1, i2(), e10 = h2; h2 < a10.length && "=" !== (c10 = a10.charAt(h2)) && ";" !== c10 && "," !== c10; ) h2 += 1;
-            h2 < a10.length && "=" === a10.charAt(h2) ? (f2 = true, h2 = e10, g2.push(a10.substring(b10, d10)), b10 = h2) : h2 = d10 + 1;
-          } else h2 += 1;
-          (!f2 || h2 >= a10.length) && g2.push(a10.substring(b10, a10.length));
-        }
-        return g2;
-      }
-      function B(a10) {
-        let b10 = {}, c10 = [];
-        if (a10) for (let [d10, e10] of a10.entries()) "set-cookie" === d10.toLowerCase() ? (c10.push(...A(e10)), b10[d10] = 1 === c10.length ? c10[0] : c10) : b10[d10] = e10;
-        return b10;
-      }
-      function C(a10) {
-        try {
-          return String(new URL(String(a10)));
-        } catch (b10) {
-          throw Object.defineProperty(Error(`URL is malformed "${String(a10)}". Please use only absolute URLs - https://nextjs.org/docs/messages/middleware-relative-urls`, { cause: b10 }), "__NEXT_ERROR_CODE", { value: "E61", enumerable: false, configurable: true });
-        }
-      }
-      ({ ...z, GROUP: { builtinReact: [z.reactServerComponents, z.actionBrowser], serverOnly: [z.reactServerComponents, z.actionBrowser, z.instrument, z.middleware], neutralTarget: [z.apiNode, z.apiEdge], clientOnly: [z.serverSideRendering, z.appPagesBrowser], bundled: [z.reactServerComponents, z.actionBrowser, z.serverSideRendering, z.appPagesBrowser, z.shared, z.instrument, z.middleware], appPages: [z.reactServerComponents, z.serverSideRendering, z.appPagesBrowser, z.actionBrowser] } });
-      let D = Symbol("response"), E = Symbol("passThrough"), F = Symbol("waitUntil");
-      class G {
-        constructor(a10, b10) {
-          this[E] = false, this[F] = b10 ? { kind: "external", function: b10 } : { kind: "internal", promises: [] };
-        }
-        respondWith(a10) {
-          this[D] || (this[D] = Promise.resolve(a10));
-        }
-        passThroughOnException() {
-          this[E] = true;
-        }
-        waitUntil(a10) {
-          if ("external" === this[F].kind) return (0, this[F].function)(a10);
-          this[F].promises.push(a10);
-        }
-      }
-      class H extends G {
-        constructor(a10) {
-          var b10;
-          super(a10.request, null == (b10 = a10.context) ? void 0 : b10.waitUntil), this.sourcePage = a10.page;
-        }
-        get request() {
-          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-        }
-        respondWith() {
-          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-        }
-      }
-      function I(a10) {
-        return a10.replace(/\/$/, "") || "/";
-      }
-      function J(a10) {
-        let b10 = a10.indexOf("#"), c10 = a10.indexOf("?"), d10 = c10 > -1 && (b10 < 0 || c10 < b10);
-        return d10 || b10 > -1 ? { pathname: a10.substring(0, d10 ? c10 : b10), query: d10 ? a10.substring(c10, b10 > -1 ? b10 : void 0) : "", hash: b10 > -1 ? a10.slice(b10) : "" } : { pathname: a10, query: "", hash: "" };
-      }
-      function K(a10, b10) {
-        if (!a10.startsWith("/") || !b10) return a10;
-        let { pathname: c10, query: d10, hash: e10 } = J(a10);
-        return "" + b10 + c10 + d10 + e10;
-      }
-      function L(a10, b10) {
-        if (!a10.startsWith("/") || !b10) return a10;
-        let { pathname: c10, query: d10, hash: e10 } = J(a10);
-        return "" + c10 + b10 + d10 + e10;
-      }
-      function M(a10, b10) {
-        if ("string" != typeof a10) return false;
-        let { pathname: c10 } = J(a10);
-        return c10 === b10 || c10.startsWith(b10 + "/");
-      }
-      let N = /* @__PURE__ */ new WeakMap();
-      function O(a10, b10) {
-        let c10;
-        if (!b10) return { pathname: a10 };
-        let d10 = N.get(b10);
-        d10 || (d10 = b10.map((a11) => a11.toLowerCase()), N.set(b10, d10));
-        let e10 = a10.split("/", 2);
-        if (!e10[1]) return { pathname: a10 };
-        let f2 = e10[1].toLowerCase(), g2 = d10.indexOf(f2);
-        return g2 < 0 ? { pathname: a10 } : (c10 = b10[g2], { pathname: a10 = a10.slice(c10.length + 1) || "/", detectedLocale: c10 });
-      }
-      let P = /(?!^https?:\/\/)(127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}|\[::1\]|localhost)/;
-      function Q(a10, b10) {
-        return new URL(String(a10).replace(P, "localhost"), b10 && String(b10).replace(P, "localhost"));
-      }
-      let R = Symbol("NextURLInternal");
-      class S {
-        constructor(a10, b10, c10) {
-          let d10, e10;
-          "object" == typeof b10 && "pathname" in b10 || "string" == typeof b10 ? (d10 = b10, e10 = c10 || {}) : e10 = c10 || b10 || {}, this[R] = { url: Q(a10, d10 ?? e10.base), options: e10, basePath: "" }, this.analyze();
-        }
-        analyze() {
-          var a10, b10, c10, d10, e10;
-          let f2 = function(a11, b11) {
-            var c11, d11;
-            let { basePath: e11, i18n: f3, trailingSlash: g3 } = null != (c11 = b11.nextConfig) ? c11 : {}, h3 = { pathname: a11, trailingSlash: "/" !== a11 ? a11.endsWith("/") : g3 };
-            e11 && M(h3.pathname, e11) && (h3.pathname = function(a12, b12) {
-              if (!M(a12, b12)) return a12;
-              let c12 = a12.slice(b12.length);
-              return c12.startsWith("/") ? c12 : "/" + c12;
-            }(h3.pathname, e11), h3.basePath = e11);
-            let i2 = h3.pathname;
-            if (h3.pathname.startsWith("/_next/data/") && h3.pathname.endsWith(".json")) {
-              let a12 = h3.pathname.replace(/^\/_next\/data\//, "").replace(/\.json$/, "").split("/");
-              h3.buildId = a12[0], i2 = "index" !== a12[1] ? "/" + a12.slice(1).join("/") : "/", true === b11.parseData && (h3.pathname = i2);
-            }
-            if (f3) {
-              let a12 = b11.i18nProvider ? b11.i18nProvider.analyze(h3.pathname) : O(h3.pathname, f3.locales);
-              h3.locale = a12.detectedLocale, h3.pathname = null != (d11 = a12.pathname) ? d11 : h3.pathname, !a12.detectedLocale && h3.buildId && (a12 = b11.i18nProvider ? b11.i18nProvider.analyze(i2) : O(i2, f3.locales)).detectedLocale && (h3.locale = a12.detectedLocale);
-            }
-            return h3;
-          }(this[R].url.pathname, { nextConfig: this[R].options.nextConfig, parseData: true, i18nProvider: this[R].options.i18nProvider }), g2 = function(a11, b11) {
-            let c11;
-            if ((null == b11 ? void 0 : b11.host) && !Array.isArray(b11.host)) c11 = b11.host.toString().split(":", 1)[0];
-            else {
-              if (!a11.hostname) return;
-              c11 = a11.hostname;
-            }
-            return c11.toLowerCase();
-          }(this[R].url, this[R].options.headers);
-          this[R].domainLocale = this[R].options.i18nProvider ? this[R].options.i18nProvider.detectDomainLocale(g2) : function(a11, b11, c11) {
-            if (a11) for (let f3 of (c11 && (c11 = c11.toLowerCase()), a11)) {
-              var d11, e11;
-              if (b11 === (null == (d11 = f3.domain) ? void 0 : d11.split(":", 1)[0].toLowerCase()) || c11 === f3.defaultLocale.toLowerCase() || (null == (e11 = f3.locales) ? void 0 : e11.some((a12) => a12.toLowerCase() === c11))) return f3;
-            }
-          }(null == (b10 = this[R].options.nextConfig) || null == (a10 = b10.i18n) ? void 0 : a10.domains, g2);
-          let h2 = (null == (c10 = this[R].domainLocale) ? void 0 : c10.defaultLocale) || (null == (e10 = this[R].options.nextConfig) || null == (d10 = e10.i18n) ? void 0 : d10.defaultLocale);
-          this[R].url.pathname = f2.pathname, this[R].defaultLocale = h2, this[R].basePath = f2.basePath ?? "", this[R].buildId = f2.buildId, this[R].locale = f2.locale ?? h2, this[R].trailingSlash = f2.trailingSlash;
-        }
-        formatPathname() {
-          var a10;
-          let b10;
-          return b10 = function(a11, b11, c10, d10) {
-            if (!b11 || b11 === c10) return a11;
-            let e10 = a11.toLowerCase();
-            return !d10 && (M(e10, "/api") || M(e10, "/" + b11.toLowerCase())) ? a11 : K(a11, "/" + b11);
-          }((a10 = { basePath: this[R].basePath, buildId: this[R].buildId, defaultLocale: this[R].options.forceLocale ? void 0 : this[R].defaultLocale, locale: this[R].locale, pathname: this[R].url.pathname, trailingSlash: this[R].trailingSlash }).pathname, a10.locale, a10.buildId ? void 0 : a10.defaultLocale, a10.ignorePrefix), (a10.buildId || !a10.trailingSlash) && (b10 = I(b10)), a10.buildId && (b10 = L(K(b10, "/_next/data/" + a10.buildId), "/" === a10.pathname ? "index.json" : ".json")), b10 = K(b10, a10.basePath), !a10.buildId && a10.trailingSlash ? b10.endsWith("/") ? b10 : L(b10, "/") : I(b10);
-        }
-        formatSearch() {
-          return this[R].url.search;
-        }
-        get buildId() {
-          return this[R].buildId;
-        }
-        set buildId(a10) {
-          this[R].buildId = a10;
-        }
-        get locale() {
-          return this[R].locale ?? "";
-        }
-        set locale(a10) {
-          var b10, c10;
-          if (!this[R].locale || !(null == (c10 = this[R].options.nextConfig) || null == (b10 = c10.i18n) ? void 0 : b10.locales.includes(a10))) throw Object.defineProperty(TypeError(`The NextURL configuration includes no locale "${a10}"`), "__NEXT_ERROR_CODE", { value: "E597", enumerable: false, configurable: true });
-          this[R].locale = a10;
-        }
-        get defaultLocale() {
-          return this[R].defaultLocale;
-        }
-        get domainLocale() {
-          return this[R].domainLocale;
-        }
-        get searchParams() {
-          return this[R].url.searchParams;
-        }
-        get host() {
-          return this[R].url.host;
-        }
-        set host(a10) {
-          this[R].url.host = a10;
-        }
-        get hostname() {
-          return this[R].url.hostname;
-        }
-        set hostname(a10) {
-          this[R].url.hostname = a10;
-        }
-        get port() {
-          return this[R].url.port;
-        }
-        set port(a10) {
-          this[R].url.port = a10;
-        }
-        get protocol() {
-          return this[R].url.protocol;
-        }
-        set protocol(a10) {
-          this[R].url.protocol = a10;
-        }
-        get href() {
-          let a10 = this.formatPathname(), b10 = this.formatSearch();
-          return `${this.protocol}//${this.host}${a10}${b10}${this.hash}`;
-        }
-        set href(a10) {
-          this[R].url = Q(a10), this.analyze();
-        }
-        get origin() {
-          return this[R].url.origin;
-        }
-        get pathname() {
-          return this[R].url.pathname;
-        }
-        set pathname(a10) {
-          this[R].url.pathname = a10;
-        }
-        get hash() {
-          return this[R].url.hash;
-        }
-        set hash(a10) {
-          this[R].url.hash = a10;
-        }
-        get search() {
-          return this[R].url.search;
-        }
-        set search(a10) {
-          this[R].url.search = a10;
-        }
-        get password() {
-          return this[R].url.password;
-        }
-        set password(a10) {
-          this[R].url.password = a10;
-        }
-        get username() {
-          return this[R].url.username;
-        }
-        set username(a10) {
-          this[R].url.username = a10;
-        }
-        get basePath() {
-          return this[R].basePath;
-        }
-        set basePath(a10) {
-          this[R].basePath = a10.startsWith("/") ? a10 : `/${a10}`;
-        }
-        toString() {
-          return this.href;
-        }
-        toJSON() {
-          return this.href;
-        }
-        [Symbol.for("edge-runtime.inspect.custom")]() {
-          return { href: this.href, origin: this.origin, protocol: this.protocol, username: this.username, password: this.password, host: this.host, hostname: this.hostname, port: this.port, pathname: this.pathname, search: this.search, searchParams: this.searchParams, hash: this.hash };
-        }
-        clone() {
-          return new S(String(this), this[R].options);
-        }
-      }
-      var T = c(443);
-      let U = Symbol("internal request");
-      class V extends Request {
-        constructor(a10, b10 = {}) {
-          let c10 = "string" != typeof a10 && "url" in a10 ? a10.url : String(a10);
-          C(c10), a10 instanceof Request ? super(a10, b10) : super(c10, b10);
-          let d10 = new S(c10, { headers: B(this.headers), nextConfig: b10.nextConfig });
-          this[U] = { cookies: new T.RequestCookies(this.headers), nextUrl: d10, url: d10.toString() };
-        }
-        [Symbol.for("edge-runtime.inspect.custom")]() {
-          return { cookies: this.cookies, nextUrl: this.nextUrl, url: this.url, bodyUsed: this.bodyUsed, cache: this.cache, credentials: this.credentials, destination: this.destination, headers: Object.fromEntries(this.headers), integrity: this.integrity, keepalive: this.keepalive, method: this.method, mode: this.mode, redirect: this.redirect, referrer: this.referrer, referrerPolicy: this.referrerPolicy, signal: this.signal };
-        }
-        get cookies() {
-          return this[U].cookies;
-        }
-        get nextUrl() {
-          return this[U].nextUrl;
-        }
-        get page() {
-          throw new w();
-        }
-        get ua() {
-          throw new x();
-        }
-        get url() {
-          return this[U].url;
-        }
-      }
-      class W {
-        static get(a10, b10, c10) {
-          let d10 = Reflect.get(a10, b10, c10);
-          return "function" == typeof d10 ? d10.bind(a10) : d10;
-        }
-        static set(a10, b10, c10, d10) {
-          return Reflect.set(a10, b10, c10, d10);
-        }
-        static has(a10, b10) {
-          return Reflect.has(a10, b10);
-        }
-        static deleteProperty(a10, b10) {
-          return Reflect.deleteProperty(a10, b10);
-        }
-      }
-      let X = Symbol("internal response"), Y = /* @__PURE__ */ new Set([301, 302, 303, 307, 308]);
-      function Z(a10, b10) {
-        var c10;
-        if (null == a10 || null == (c10 = a10.request) ? void 0 : c10.headers) {
-          if (!(a10.request.headers instanceof Headers)) throw Object.defineProperty(Error("request.headers must be an instance of Headers"), "__NEXT_ERROR_CODE", { value: "E119", enumerable: false, configurable: true });
-          let c11 = [];
-          for (let [d10, e10] of a10.request.headers) b10.set("x-middleware-request-" + d10, e10), c11.push(d10);
-          b10.set("x-middleware-override-headers", c11.join(","));
-        }
-      }
-      class $ extends Response {
-        constructor(a10, b10 = {}) {
-          super(a10, b10);
-          let c10 = this.headers, d10 = new Proxy(new T.ResponseCookies(c10), { get(a11, d11, e10) {
-            switch (d11) {
-              case "delete":
-              case "set":
-                return (...e11) => {
-                  let f2 = Reflect.apply(a11[d11], a11, e11), g2 = new Headers(c10);
-                  return f2 instanceof T.ResponseCookies && c10.set("x-middleware-set-cookie", f2.getAll().map((a12) => (0, T.stringifyCookie)(a12)).join(",")), Z(b10, g2), f2;
-                };
-              default:
-                return W.get(a11, d11, e10);
-            }
-          } });
-          this[X] = { cookies: d10, url: b10.url ? new S(b10.url, { headers: B(c10), nextConfig: b10.nextConfig }) : void 0 };
-        }
-        [Symbol.for("edge-runtime.inspect.custom")]() {
-          return { cookies: this.cookies, url: this.url, body: this.body, bodyUsed: this.bodyUsed, headers: Object.fromEntries(this.headers), ok: this.ok, redirected: this.redirected, status: this.status, statusText: this.statusText, type: this.type };
-        }
-        get cookies() {
-          return this[X].cookies;
-        }
-        static json(a10, b10) {
-          let c10 = Response.json(a10, b10);
-          return new $(c10.body, c10);
-        }
-        static redirect(a10, b10) {
-          let c10 = "number" == typeof b10 ? b10 : (null == b10 ? void 0 : b10.status) ?? 307;
-          if (!Y.has(c10)) throw Object.defineProperty(RangeError('Failed to execute "redirect" on "response": Invalid status code'), "__NEXT_ERROR_CODE", { value: "E529", enumerable: false, configurable: true });
-          let d10 = "object" == typeof b10 ? b10 : {}, e10 = new Headers(null == d10 ? void 0 : d10.headers);
-          return e10.set("Location", C(a10)), new $(null, { ...d10, headers: e10, status: c10 });
-        }
-        static rewrite(a10, b10) {
-          let c10 = new Headers(null == b10 ? void 0 : b10.headers);
-          return c10.set("x-middleware-rewrite", C(a10)), Z(b10, c10), new $(null, { ...b10, headers: c10 });
-        }
-        static next(a10) {
-          let b10 = new Headers(null == a10 ? void 0 : a10.headers);
-          return b10.set("x-middleware-next", "1"), Z(a10, b10), new $(null, { ...a10, headers: b10 });
-        }
-      }
-      function _(a10, b10) {
-        let c10 = "string" == typeof b10 ? new URL(b10) : b10, d10 = new URL(a10, b10), e10 = d10.origin === c10.origin;
-        return { url: e10 ? d10.toString().slice(c10.origin.length) : d10.toString(), isRelative: e10 };
-      }
-      let aa = "next-router-prefetch", ab = ["rsc", "next-router-state-tree", aa, "next-hmr-refresh", "next-router-segment-prefetch"], ac = "_rsc";
-      class ad extends Error {
+      c.d(b, { o: () => f });
+      var d = c(115);
+      class e extends Error {
         constructor() {
           super("Headers cannot be modified. Read more: https://nextjs.org/docs/app/api-reference/functions/headers");
         }
         static callable() {
-          throw new ad();
+          throw new e();
         }
       }
-      class ae extends Headers {
-        constructor(a10) {
-          super(), this.headers = new Proxy(a10, { get(b10, c10, d10) {
-            if ("symbol" == typeof c10) return W.get(b10, c10, d10);
-            let e10 = c10.toLowerCase(), f2 = Object.keys(a10).find((a11) => a11.toLowerCase() === e10);
-            if (void 0 !== f2) return W.get(b10, f2, d10);
-          }, set(b10, c10, d10, e10) {
-            if ("symbol" == typeof c10) return W.set(b10, c10, d10, e10);
-            let f2 = c10.toLowerCase(), g2 = Object.keys(a10).find((a11) => a11.toLowerCase() === f2);
-            return W.set(b10, g2 ?? c10, d10, e10);
-          }, has(b10, c10) {
-            if ("symbol" == typeof c10) return W.has(b10, c10);
-            let d10 = c10.toLowerCase(), e10 = Object.keys(a10).find((a11) => a11.toLowerCase() === d10);
-            return void 0 !== e10 && W.has(b10, e10);
-          }, deleteProperty(b10, c10) {
-            if ("symbol" == typeof c10) return W.deleteProperty(b10, c10);
-            let d10 = c10.toLowerCase(), e10 = Object.keys(a10).find((a11) => a11.toLowerCase() === d10);
-            return void 0 === e10 || W.deleteProperty(b10, e10);
+      class f extends Headers {
+        constructor(a2) {
+          super(), this.headers = new Proxy(a2, { get(b2, c2, e2) {
+            if ("symbol" == typeof c2) return d.l.get(b2, c2, e2);
+            let f2 = c2.toLowerCase(), g = Object.keys(a2).find((a3) => a3.toLowerCase() === f2);
+            if (void 0 !== g) return d.l.get(b2, g, e2);
+          }, set(b2, c2, e2, f2) {
+            if ("symbol" == typeof c2) return d.l.set(b2, c2, e2, f2);
+            let g = c2.toLowerCase(), h = Object.keys(a2).find((a3) => a3.toLowerCase() === g);
+            return d.l.set(b2, h ?? c2, e2, f2);
+          }, has(b2, c2) {
+            if ("symbol" == typeof c2) return d.l.has(b2, c2);
+            let e2 = c2.toLowerCase(), f2 = Object.keys(a2).find((a3) => a3.toLowerCase() === e2);
+            return void 0 !== f2 && d.l.has(b2, f2);
+          }, deleteProperty(b2, c2) {
+            if ("symbol" == typeof c2) return d.l.deleteProperty(b2, c2);
+            let e2 = c2.toLowerCase(), f2 = Object.keys(a2).find((a3) => a3.toLowerCase() === e2);
+            return void 0 === f2 || d.l.deleteProperty(b2, f2);
           } });
         }
-        static seal(a10) {
-          return new Proxy(a10, { get(a11, b10, c10) {
-            switch (b10) {
+        static seal(a2) {
+          return new Proxy(a2, { get(a3, b2, c2) {
+            switch (b2) {
               case "append":
               case "delete":
               case "set":
-                return ad.callable;
+                return e.callable;
               default:
-                return W.get(a11, b10, c10);
+                return d.l.get(a3, b2, c2);
             }
           } });
         }
-        merge(a10) {
-          return Array.isArray(a10) ? a10.join(", ") : a10;
+        merge(a2) {
+          return Array.isArray(a2) ? a2.join(", ") : a2;
         }
-        static from(a10) {
-          return a10 instanceof Headers ? a10 : new ae(a10);
+        static from(a2) {
+          return a2 instanceof Headers ? a2 : new f(a2);
         }
-        append(a10, b10) {
-          let c10 = this.headers[a10];
-          "string" == typeof c10 ? this.headers[a10] = [c10, b10] : Array.isArray(c10) ? c10.push(b10) : this.headers[a10] = b10;
+        append(a2, b2) {
+          let c2 = this.headers[a2];
+          "string" == typeof c2 ? this.headers[a2] = [c2, b2] : Array.isArray(c2) ? c2.push(b2) : this.headers[a2] = b2;
         }
-        delete(a10) {
-          delete this.headers[a10];
+        delete(a2) {
+          delete this.headers[a2];
         }
-        get(a10) {
-          let b10 = this.headers[a10];
-          return void 0 !== b10 ? this.merge(b10) : null;
+        get(a2) {
+          let b2 = this.headers[a2];
+          return void 0 !== b2 ? this.merge(b2) : null;
         }
-        has(a10) {
-          return void 0 !== this.headers[a10];
+        has(a2) {
+          return void 0 !== this.headers[a2];
         }
-        set(a10, b10) {
-          this.headers[a10] = b10;
+        set(a2, b2) {
+          this.headers[a2] = b2;
         }
-        forEach(a10, b10) {
-          for (let [c10, d10] of this.entries()) a10.call(b10, d10, c10, this);
+        forEach(a2, b2) {
+          for (let [c2, d2] of this.entries()) a2.call(b2, d2, c2, this);
         }
         *entries() {
-          for (let a10 of Object.keys(this.headers)) {
-            let b10 = a10.toLowerCase(), c10 = this.get(b10);
-            yield [b10, c10];
+          for (let a2 of Object.keys(this.headers)) {
+            let b2 = a2.toLowerCase(), c2 = this.get(b2);
+            yield [b2, c2];
           }
         }
         *keys() {
-          for (let a10 of Object.keys(this.headers)) {
-            let b10 = a10.toLowerCase();
-            yield b10;
+          for (let a2 of Object.keys(this.headers)) {
+            let b2 = a2.toLowerCase();
+            yield b2;
           }
         }
         *values() {
-          for (let a10 of Object.keys(this.headers)) {
-            let b10 = this.get(a10);
-            yield b10;
+          for (let a2 of Object.keys(this.headers)) {
+            let b2 = this.get(a2);
+            yield b2;
           }
         }
         [Symbol.iterator]() {
           return this.entries();
         }
       }
-      let af = Object.defineProperty(Error("Invariant: AsyncLocalStorage accessed in runtime where it is not available"), "__NEXT_ERROR_CODE", { value: "E504", enumerable: false, configurable: true });
-      class ag {
-        disable() {
-          throw af;
-        }
-        getStore() {
-        }
-        run() {
-          throw af;
-        }
-        exit() {
-          throw af;
-        }
-        enterWith() {
-          throw af;
-        }
-        static bind(a10) {
-          return a10;
-        }
-      }
-      let ah = "undefined" != typeof globalThis && globalThis.AsyncLocalStorage;
-      function ai() {
-        return ah ? new ah() : new ag();
-      }
-      let aj = ai();
-      class ak extends Error {
-        constructor() {
-          super("Cookies can only be modified in a Server Action or Route Handler. Read more: https://nextjs.org/docs/app/api-reference/functions/cookies#options");
-        }
-        static callable() {
-          throw new ak();
-        }
-      }
-      class al {
-        static seal(a10) {
-          return new Proxy(a10, { get(a11, b10, c10) {
-            switch (b10) {
-              case "clear":
-              case "delete":
-              case "set":
-                return ak.callable;
-              default:
-                return W.get(a11, b10, c10);
-            }
-          } });
-        }
-      }
-      let am = Symbol.for("next.mutated.cookies");
-      class an {
-        static wrap(a10, b10) {
-          let c10 = new T.ResponseCookies(new Headers());
-          for (let b11 of a10.getAll()) c10.set(b11);
-          let d10 = [], e10 = /* @__PURE__ */ new Set(), f2 = () => {
-            let a11 = aj.getStore();
-            if (a11 && (a11.pathWasRevalidated = true), d10 = c10.getAll().filter((a12) => e10.has(a12.name)), b10) {
-              let a12 = [];
-              for (let b11 of d10) {
-                let c11 = new T.ResponseCookies(new Headers());
-                c11.set(b11), a12.push(c11.toString());
-              }
-              b10(a12);
-            }
-          }, g2 = new Proxy(c10, { get(a11, b11, c11) {
-            switch (b11) {
-              case am:
-                return d10;
-              case "delete":
-                return function(...b12) {
-                  e10.add("string" == typeof b12[0] ? b12[0] : b12[0].name);
-                  try {
-                    return a11.delete(...b12), g2;
-                  } finally {
-                    f2();
-                  }
-                };
-              case "set":
-                return function(...b12) {
-                  e10.add("string" == typeof b12[0] ? b12[0] : b12[0].name);
-                  try {
-                    return a11.set(...b12), g2;
-                  } finally {
-                    f2();
-                  }
-                };
-              default:
-                return W.get(a11, b11, c11);
-            }
-          } });
-          return g2;
-        }
-      }
-      function ao(a10, b10) {
-        if ("action" !== a10.phase) throw new ak();
-      }
-      var ap = function(a10) {
-        return a10.handleRequest = "BaseServer.handleRequest", a10.run = "BaseServer.run", a10.pipe = "BaseServer.pipe", a10.getStaticHTML = "BaseServer.getStaticHTML", a10.render = "BaseServer.render", a10.renderToResponseWithComponents = "BaseServer.renderToResponseWithComponents", a10.renderToResponse = "BaseServer.renderToResponse", a10.renderToHTML = "BaseServer.renderToHTML", a10.renderError = "BaseServer.renderError", a10.renderErrorToResponse = "BaseServer.renderErrorToResponse", a10.renderErrorToHTML = "BaseServer.renderErrorToHTML", a10.render404 = "BaseServer.render404", a10;
-      }(ap || {}), aq = function(a10) {
-        return a10.loadDefaultErrorComponents = "LoadComponents.loadDefaultErrorComponents", a10.loadComponents = "LoadComponents.loadComponents", a10;
-      }(aq || {}), ar = function(a10) {
-        return a10.getRequestHandler = "NextServer.getRequestHandler", a10.getServer = "NextServer.getServer", a10.getServerRequestHandler = "NextServer.getServerRequestHandler", a10.createServer = "createServer.createServer", a10;
-      }(ar || {}), as = function(a10) {
-        return a10.compression = "NextNodeServer.compression", a10.getBuildId = "NextNodeServer.getBuildId", a10.createComponentTree = "NextNodeServer.createComponentTree", a10.clientComponentLoading = "NextNodeServer.clientComponentLoading", a10.getLayoutOrPageModule = "NextNodeServer.getLayoutOrPageModule", a10.generateStaticRoutes = "NextNodeServer.generateStaticRoutes", a10.generateFsStaticRoutes = "NextNodeServer.generateFsStaticRoutes", a10.generatePublicRoutes = "NextNodeServer.generatePublicRoutes", a10.generateImageRoutes = "NextNodeServer.generateImageRoutes.route", a10.sendRenderResult = "NextNodeServer.sendRenderResult", a10.proxyRequest = "NextNodeServer.proxyRequest", a10.runApi = "NextNodeServer.runApi", a10.render = "NextNodeServer.render", a10.renderHTML = "NextNodeServer.renderHTML", a10.imageOptimizer = "NextNodeServer.imageOptimizer", a10.getPagePath = "NextNodeServer.getPagePath", a10.getRoutesManifest = "NextNodeServer.getRoutesManifest", a10.findPageComponents = "NextNodeServer.findPageComponents", a10.getFontManifest = "NextNodeServer.getFontManifest", a10.getServerComponentManifest = "NextNodeServer.getServerComponentManifest", a10.getRequestHandler = "NextNodeServer.getRequestHandler", a10.renderToHTML = "NextNodeServer.renderToHTML", a10.renderError = "NextNodeServer.renderError", a10.renderErrorToHTML = "NextNodeServer.renderErrorToHTML", a10.render404 = "NextNodeServer.render404", a10.startResponse = "NextNodeServer.startResponse", a10.route = "route", a10.onProxyReq = "onProxyReq", a10.apiResolver = "apiResolver", a10.internalFetch = "internalFetch", a10;
-      }(as || {}), at = function(a10) {
-        return a10.startServer = "startServer.startServer", a10;
-      }(at || {}), au = function(a10) {
-        return a10.getServerSideProps = "Render.getServerSideProps", a10.getStaticProps = "Render.getStaticProps", a10.renderToString = "Render.renderToString", a10.renderDocument = "Render.renderDocument", a10.createBodyResult = "Render.createBodyResult", a10;
-      }(au || {}), av = function(a10) {
-        return a10.renderToString = "AppRender.renderToString", a10.renderToReadableStream = "AppRender.renderToReadableStream", a10.getBodyResult = "AppRender.getBodyResult", a10.fetch = "AppRender.fetch", a10;
-      }(av || {}), aw = function(a10) {
-        return a10.executeRoute = "Router.executeRoute", a10;
-      }(aw || {}), ax = function(a10) {
-        return a10.runHandler = "Node.runHandler", a10;
-      }(ax || {}), ay = function(a10) {
-        return a10.runHandler = "AppRouteRouteHandlers.runHandler", a10;
-      }(ay || {}), az = function(a10) {
-        return a10.generateMetadata = "ResolveMetadata.generateMetadata", a10.generateViewport = "ResolveMetadata.generateViewport", a10;
-      }(az || {}), aA = function(a10) {
-        return a10.execute = "Middleware.execute", a10;
-      }(aA || {});
-      let aB = /* @__PURE__ */ new Set(["Middleware.execute", "BaseServer.handleRequest", "Render.getServerSideProps", "Render.getStaticProps", "AppRender.fetch", "AppRender.getBodyResult", "Render.renderDocument", "Node.runHandler", "AppRouteRouteHandlers.runHandler", "ResolveMetadata.generateMetadata", "ResolveMetadata.generateViewport", "NextNodeServer.createComponentTree", "NextNodeServer.findPageComponents", "NextNodeServer.getLayoutOrPageModule", "NextNodeServer.startResponse", "NextNodeServer.clientComponentLoading"]), aC = /* @__PURE__ */ new Set(["NextNodeServer.findPageComponents", "NextNodeServer.createComponentTree", "NextNodeServer.clientComponentLoading"]);
-      function aD(a10) {
-        return null !== a10 && "object" == typeof a10 && "then" in a10 && "function" == typeof a10.then;
-      }
-      let aE = process.env.NEXT_OTEL_PERFORMANCE_PREFIX, { context: aF, propagation: aG, trace: aH, SpanStatusCode: aI, SpanKind: aJ, ROOT_CONTEXT: aK } = d = c(817);
-      class aL extends Error {
-        constructor(a10, b10) {
-          super(), this.bubble = a10, this.result = b10;
-        }
-      }
-      let aM = (a10, b10) => {
-        (function(a11) {
-          return "object" == typeof a11 && null !== a11 && a11 instanceof aL;
-        })(b10) && b10.bubble ? a10.setAttribute("next.bubble", true) : (b10 && (a10.recordException(b10), a10.setAttribute("error.type", b10.name)), a10.setStatus({ code: aI.ERROR, message: null == b10 ? void 0 : b10.message })), a10.end();
-      }, aN = /* @__PURE__ */ new Map(), aO = d.createContextKey("next.rootSpanId"), aP = 0, aQ = { set(a10, b10, c10) {
-        a10.push({ key: b10, value: c10 });
-      } };
-      class aR {
-        getTracerInstance() {
-          return aH.getTracer("next.js", "0.0.1");
-        }
-        getContext() {
-          return aF;
-        }
-        getTracePropagationData() {
-          let a10 = aF.active(), b10 = [];
-          return aG.inject(a10, b10, aQ), b10;
-        }
-        getActiveScopeSpan() {
-          return aH.getSpan(null == aF ? void 0 : aF.active());
-        }
-        withPropagatedContext(a10, b10, c10) {
-          let d10 = aF.active();
-          if (aH.getSpanContext(d10)) return b10();
-          let e10 = aG.extract(d10, a10, c10);
-          return aF.with(e10, b10);
-        }
-        trace(...a10) {
-          var b10;
-          let [c10, d10, e10] = a10, { fn: f2, options: g2 } = "function" == typeof d10 ? { fn: d10, options: {} } : { fn: e10, options: { ...d10 } }, h2 = g2.spanName ?? c10;
-          if (!aB.has(c10) && "1" !== process.env.NEXT_OTEL_VERBOSE || g2.hideSpan) return f2();
-          let i2 = this.getSpanContext((null == g2 ? void 0 : g2.parentSpan) ?? this.getActiveScopeSpan()), j2 = false;
-          i2 ? (null == (b10 = aH.getSpanContext(i2)) ? void 0 : b10.isRemote) && (j2 = true) : (i2 = (null == aF ? void 0 : aF.active()) ?? aK, j2 = true);
-          let k2 = aP++;
-          return g2.attributes = { "next.span_name": h2, "next.span_type": c10, ...g2.attributes }, aF.with(i2.setValue(aO, k2), () => this.getTracerInstance().startActiveSpan(h2, g2, (a11) => {
-            let b11;
-            aE && c10 && aC.has(c10) && (b11 = "performance" in globalThis && "measure" in performance ? globalThis.performance.now() : void 0);
-            let d11 = false, e11 = () => {
-              !d11 && (d11 = true, aN.delete(k2), b11 && performance.measure(`${aE}:next-${(c10.split(".").pop() || "").replace(/[A-Z]/g, (a12) => "-" + a12.toLowerCase())}`, { start: b11, end: performance.now() }));
-            };
-            if (j2 && aN.set(k2, new Map(Object.entries(g2.attributes ?? {}))), f2.length > 1) try {
-              return f2(a11, (b12) => aM(a11, b12));
-            } catch (b12) {
-              throw aM(a11, b12), b12;
-            } finally {
-              e11();
-            }
-            try {
-              let b12 = f2(a11);
-              if (aD(b12)) return b12.then((b13) => (a11.end(), b13)).catch((b13) => {
-                throw aM(a11, b13), b13;
-              }).finally(e11);
-              return a11.end(), e11(), b12;
-            } catch (b12) {
-              throw aM(a11, b12), e11(), b12;
-            }
-          }));
-        }
-        wrap(...a10) {
-          let b10 = this, [c10, d10, e10] = 3 === a10.length ? a10 : [a10[0], {}, a10[1]];
-          return aB.has(c10) || "1" === process.env.NEXT_OTEL_VERBOSE ? function() {
-            let a11 = d10;
-            "function" == typeof a11 && "function" == typeof e10 && (a11 = a11.apply(this, arguments));
-            let f2 = arguments.length - 1, g2 = arguments[f2];
-            if ("function" != typeof g2) return b10.trace(c10, a11, () => e10.apply(this, arguments));
-            {
-              let d11 = b10.getContext().bind(aF.active(), g2);
-              return b10.trace(c10, a11, (a12, b11) => (arguments[f2] = function(a13) {
-                return null == b11 || b11(a13), d11.apply(this, arguments);
-              }, e10.apply(this, arguments)));
-            }
-          } : e10;
-        }
-        startSpan(...a10) {
-          let [b10, c10] = a10, d10 = this.getSpanContext((null == c10 ? void 0 : c10.parentSpan) ?? this.getActiveScopeSpan());
-          return this.getTracerInstance().startSpan(b10, c10, d10);
-        }
-        getSpanContext(a10) {
-          return a10 ? aH.setSpan(aF.active(), a10) : void 0;
-        }
-        getRootSpanAttributes() {
-          let a10 = aF.active().getValue(aO);
-          return aN.get(a10);
-        }
-        setRootSpanAttribute(a10, b10) {
-          let c10 = aF.active().getValue(aO), d10 = aN.get(c10);
-          d10 && d10.set(a10, b10);
-        }
-      }
-      let aS = (() => {
-        let a10 = new aR();
-        return () => a10;
-      })(), aT = "__prerender_bypass";
-      Symbol("__next_preview_data"), Symbol(aT);
-      class aU {
-        constructor(a10, b10, c10, d10) {
-          var e10;
-          let f2 = a10 && function(a11, b11) {
-            let c11 = ae.from(a11.headers);
-            return { isOnDemandRevalidate: c11.get("x-prerender-revalidate") === b11.previewModeId, revalidateOnlyGenerated: c11.has("x-prerender-revalidate-if-generated") };
-          }(b10, a10).isOnDemandRevalidate, g2 = null == (e10 = c10.get(aT)) ? void 0 : e10.value;
-          this._isEnabled = !!(!f2 && g2 && a10 && g2 === a10.previewModeId), this._previewModeId = null == a10 ? void 0 : a10.previewModeId, this._mutableCookies = d10;
-        }
-        get isEnabled() {
-          return this._isEnabled;
-        }
-        enable() {
-          if (!this._previewModeId) throw Object.defineProperty(Error("Invariant: previewProps missing previewModeId this should never happen"), "__NEXT_ERROR_CODE", { value: "E93", enumerable: false, configurable: true });
-          this._mutableCookies.set({ name: aT, value: this._previewModeId, httpOnly: true, sameSite: "none", secure: true, path: "/" }), this._isEnabled = true;
-        }
-        disable() {
-          this._mutableCookies.set({ name: aT, value: "", httpOnly: true, sameSite: "none", secure: true, path: "/", expires: /* @__PURE__ */ new Date(0) }), this._isEnabled = false;
-        }
-      }
-      function aV(a10, b10) {
-        if ("x-middleware-set-cookie" in a10.headers && "string" == typeof a10.headers["x-middleware-set-cookie"]) {
-          let c10 = a10.headers["x-middleware-set-cookie"], d10 = new Headers();
-          for (let a11 of A(c10)) d10.append("set-cookie", a11);
-          for (let a11 of new T.ResponseCookies(d10).getAll()) b10.set(a11);
-        }
-      }
-      let aW = ai();
-      var aX = c(213), aY = c.n(aX);
-      class aZ extends Error {
-        constructor(a10, b10) {
-          super("Invariant: " + (a10.endsWith(".") ? a10 : a10 + ".") + " This is a bug in Next.js.", b10), this.name = "InvariantError";
-        }
-      }
-      class a$ {
-        constructor(a10, b10, c10) {
-          this.prev = null, this.next = null, this.key = a10, this.data = b10, this.size = c10;
-        }
-      }
-      class a_ {
-        constructor() {
-          this.prev = null, this.next = null;
-        }
-      }
-      class a0 {
-        constructor(a10, b10, c10) {
-          this.cache = /* @__PURE__ */ new Map(), this.totalSize = 0, this.maxSize = a10, this.calculateSize = b10, this.onEvict = c10, this.head = new a_(), this.tail = new a_(), this.head.next = this.tail, this.tail.prev = this.head;
-        }
-        addToHead(a10) {
-          a10.prev = this.head, a10.next = this.head.next, this.head.next.prev = a10, this.head.next = a10;
-        }
-        removeNode(a10) {
-          a10.prev.next = a10.next, a10.next.prev = a10.prev;
-        }
-        moveToHead(a10) {
-          this.removeNode(a10), this.addToHead(a10);
-        }
-        removeTail() {
-          let a10 = this.tail.prev;
-          return this.removeNode(a10), a10;
-        }
-        set(a10, b10) {
-          let c10 = (null == this.calculateSize ? void 0 : this.calculateSize.call(this, b10)) ?? 1;
-          if (c10 <= 0) throw Object.defineProperty(Error(`LRUCache: calculateSize returned ${c10}, but size must be > 0. Items with size 0 would never be evicted, causing unbounded cache growth.`), "__NEXT_ERROR_CODE", { value: "E789", enumerable: false, configurable: true });
-          if (c10 > this.maxSize) return console.warn("Single item size exceeds maxSize"), false;
-          let d10 = this.cache.get(a10);
-          if (d10) d10.data = b10, this.totalSize = this.totalSize - d10.size + c10, d10.size = c10, this.moveToHead(d10);
-          else {
-            let d11 = new a$(a10, b10, c10);
-            this.cache.set(a10, d11), this.addToHead(d11), this.totalSize += c10;
-          }
-          for (; this.totalSize > this.maxSize && this.cache.size > 0; ) {
-            let a11 = this.removeTail();
-            this.cache.delete(a11.key), this.totalSize -= a11.size, null == this.onEvict || this.onEvict.call(this, a11.key, a11.data);
-          }
-          return true;
-        }
-        has(a10) {
-          return this.cache.has(a10);
-        }
-        get(a10) {
-          let b10 = this.cache.get(a10);
-          if (b10) return this.moveToHead(b10), b10.data;
-        }
-        *[Symbol.iterator]() {
-          let a10 = this.head.next;
-          for (; a10 && a10 !== this.tail; ) {
-            let b10 = a10;
-            yield [b10.key, b10.data], a10 = a10.next;
-          }
-        }
-        remove(a10) {
-          let b10 = this.cache.get(a10);
-          b10 && (this.removeNode(b10), this.cache.delete(a10), this.totalSize -= b10.size);
-        }
-        get size() {
-          return this.cache.size;
-        }
-        get currentSize() {
-          return this.totalSize;
-        }
-      }
-      c(356).Buffer, new a0(52428800, (a10) => a10.size), process.env.NEXT_PRIVATE_DEBUG_CACHE && console.debug.bind(console, "DefaultCacheHandler:"), process.env.NEXT_PRIVATE_DEBUG_CACHE && ((a10, ...b10) => {
-        console.log(`use-cache: ${a10}`, ...b10);
-      }), Symbol.for("@next/cache-handlers");
-      let a1 = Symbol.for("@next/cache-handlers-map"), a2 = Symbol.for("@next/cache-handlers-set"), a3 = globalThis;
-      function a4() {
-        if (a3[a1]) return a3[a1].entries();
-      }
-      async function a5(a10, b10) {
-        if (!a10) return b10();
-        let c10 = a6(a10);
-        try {
-          return await b10();
-        } finally {
-          let b11 = function(a11, b12) {
-            let c11 = new Set(a11.pendingRevalidatedTags), d10 = new Set(a11.pendingRevalidateWrites);
-            return { pendingRevalidatedTags: b12.pendingRevalidatedTags.filter((a12) => !c11.has(a12)), pendingRevalidates: Object.fromEntries(Object.entries(b12.pendingRevalidates).filter(([b13]) => !(b13 in a11.pendingRevalidates))), pendingRevalidateWrites: b12.pendingRevalidateWrites.filter((a12) => !d10.has(a12)) };
-          }(c10, a6(a10));
-          await a8(a10, b11);
-        }
-      }
-      function a6(a10) {
-        return { pendingRevalidatedTags: a10.pendingRevalidatedTags ? [...a10.pendingRevalidatedTags] : [], pendingRevalidates: { ...a10.pendingRevalidates }, pendingRevalidateWrites: a10.pendingRevalidateWrites ? [...a10.pendingRevalidateWrites] : [] };
-      }
-      async function a7(a10, b10) {
-        if (0 === a10.length) return;
-        let c10 = [];
-        b10 && c10.push(b10.revalidateTag(a10));
-        let d10 = function() {
-          if (a3[a2]) return a3[a2].values();
-        }();
-        if (d10) for (let b11 of d10) c10.push(b11.expireTags(...a10));
-        await Promise.all(c10);
-      }
-      async function a8(a10, b10) {
-        let c10 = (null == b10 ? void 0 : b10.pendingRevalidatedTags) ?? a10.pendingRevalidatedTags ?? [], d10 = (null == b10 ? void 0 : b10.pendingRevalidates) ?? a10.pendingRevalidates ?? {}, e10 = (null == b10 ? void 0 : b10.pendingRevalidateWrites) ?? a10.pendingRevalidateWrites ?? [];
-        return Promise.all([a7(c10, a10.incrementalCache), ...Object.values(d10), ...e10]);
-      }
-      let a9 = Object.defineProperty(Error("Invariant: AsyncLocalStorage accessed in runtime where it is not available"), "__NEXT_ERROR_CODE", { value: "E504", enumerable: false, configurable: true });
-      class ba {
-        disable() {
-          throw a9;
-        }
-        getStore() {
-        }
-        run() {
-          throw a9;
-        }
-        exit() {
-          throw a9;
-        }
-        enterWith() {
-          throw a9;
-        }
-        static bind(a10) {
-          return a10;
-        }
-      }
-      let bb = "undefined" != typeof globalThis && globalThis.AsyncLocalStorage, bc = bb ? new bb() : new ba();
-      class bd {
-        constructor({ waitUntil: a10, onClose: b10, onTaskError: c10 }) {
-          this.workUnitStores = /* @__PURE__ */ new Set(), this.waitUntil = a10, this.onClose = b10, this.onTaskError = c10, this.callbackQueue = new (aY())(), this.callbackQueue.pause();
-        }
-        after(a10) {
-          if (aD(a10)) this.waitUntil || be(), this.waitUntil(a10.catch((a11) => this.reportTaskError("promise", a11)));
-          else if ("function" == typeof a10) this.addCallback(a10);
-          else throw Object.defineProperty(Error("`after()`: Argument must be a promise or a function"), "__NEXT_ERROR_CODE", { value: "E50", enumerable: false, configurable: true });
-        }
-        addCallback(a10) {
-          var b10;
-          this.waitUntil || be();
-          let c10 = aW.getStore();
-          c10 && this.workUnitStores.add(c10);
-          let d10 = bc.getStore(), e10 = d10 ? d10.rootTaskSpawnPhase : null == c10 ? void 0 : c10.phase;
-          this.runCallbacksOnClosePromise || (this.runCallbacksOnClosePromise = this.runCallbacksOnClose(), this.waitUntil(this.runCallbacksOnClosePromise));
-          let f2 = (b10 = async () => {
-            try {
-              await bc.run({ rootTaskSpawnPhase: e10 }, () => a10());
-            } catch (a11) {
-              this.reportTaskError("function", a11);
-            }
-          }, bb ? bb.bind(b10) : ba.bind(b10));
-          this.callbackQueue.add(f2);
-        }
-        async runCallbacksOnClose() {
-          return await new Promise((a10) => this.onClose(a10)), this.runCallbacks();
-        }
-        async runCallbacks() {
-          if (0 === this.callbackQueue.size) return;
-          for (let a11 of this.workUnitStores) a11.phase = "after";
-          let a10 = aj.getStore();
-          if (!a10) throw Object.defineProperty(new aZ("Missing workStore in AfterContext.runCallbacks"), "__NEXT_ERROR_CODE", { value: "E547", enumerable: false, configurable: true });
-          return a5(a10, () => (this.callbackQueue.start(), this.callbackQueue.onIdle()));
-        }
-        reportTaskError(a10, b10) {
-          if (console.error("promise" === a10 ? "A promise passed to `after()` rejected:" : "An error occurred in a function passed to `after()`:", b10), this.onTaskError) try {
-            null == this.onTaskError || this.onTaskError.call(this, b10);
-          } catch (a11) {
-            console.error(Object.defineProperty(new aZ("`onTaskError` threw while handling an error thrown from an `after` task", { cause: a11 }), "__NEXT_ERROR_CODE", { value: "E569", enumerable: false, configurable: true }));
-          }
-        }
-      }
-      function be() {
-        throw Object.defineProperty(Error("`after()` will not work correctly, because `waitUntil` is not available in the current environment."), "__NEXT_ERROR_CODE", { value: "E91", enumerable: false, configurable: true });
-      }
-      function bf(a10) {
-        let b10, c10 = { then: (d10, e10) => (b10 || (b10 = a10()), b10.then((a11) => {
-          c10.value = a11;
-        }).catch(() => {
-        }), b10.then(d10, e10)) };
-        return c10;
-      }
-      class bg {
-        onClose(a10) {
-          if (this.isClosed) throw Object.defineProperty(Error("Cannot subscribe to a closed CloseController"), "__NEXT_ERROR_CODE", { value: "E365", enumerable: false, configurable: true });
-          this.target.addEventListener("close", a10), this.listeners++;
-        }
-        dispatchClose() {
-          if (this.isClosed) throw Object.defineProperty(Error("Cannot close a CloseController multiple times"), "__NEXT_ERROR_CODE", { value: "E229", enumerable: false, configurable: true });
-          this.listeners > 0 && this.target.dispatchEvent(new Event("close")), this.isClosed = true;
-        }
-        constructor() {
-          this.target = new EventTarget(), this.listeners = 0, this.isClosed = false;
-        }
-      }
-      function bh() {
-        return { previewModeId: process.env.__NEXT_PREVIEW_MODE_ID || "", previewModeSigningKey: process.env.__NEXT_PREVIEW_MODE_SIGNING_KEY || "", previewModeEncryptionKey: process.env.__NEXT_PREVIEW_MODE_ENCRYPTION_KEY || "" };
-      }
-      let bi = Symbol.for("@next/request-context");
-      async function bj(a10, b10, c10) {
-        let d10 = [], e10 = c10 && c10.size > 0;
-        for (let b11 of ((a11) => {
-          let b12 = ["/layout"];
-          if (a11.startsWith("/")) {
-            let c11 = a11.split("/");
-            for (let a12 = 1; a12 < c11.length + 1; a12++) {
-              let d11 = c11.slice(0, a12).join("/");
-              d11 && (d11.endsWith("/page") || d11.endsWith("/route") || (d11 = `${d11}${!d11.endsWith("/") ? "/" : ""}layout`), b12.push(d11));
-            }
-          }
-          return b12;
-        })(a10)) b11 = `${y}${b11}`, d10.push(b11);
-        if (b10.pathname && !e10) {
-          let a11 = `${y}${b10.pathname}`;
-          d10.push(a11);
-        }
-        return { tags: d10, expirationsByCacheKind: function(a11) {
-          let b11 = /* @__PURE__ */ new Map(), c11 = a4();
-          if (c11) for (let [d11, e11] of c11) "getExpiration" in e11 && b11.set(d11, bf(async () => e11.getExpiration(...a11)));
-          return b11;
-        }(d10) };
-      }
-      class bk extends V {
-        constructor(a10) {
-          super(a10.input, a10.init), this.sourcePage = a10.page;
-        }
-        get request() {
-          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-        }
-        respondWith() {
-          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-        }
-        waitUntil() {
-          throw Object.defineProperty(new v({ page: this.sourcePage }), "__NEXT_ERROR_CODE", { value: "E394", enumerable: false, configurable: true });
-        }
-      }
-      let bl = { keys: (a10) => Array.from(a10.keys()), get: (a10, b10) => a10.get(b10) ?? void 0 }, bm = (a10, b10) => aS().withPropagatedContext(a10.headers, b10, bl), bn = false;
-      async function bo(a10) {
-        var b10;
-        let d10, e10;
-        if (!bn && (bn = true, "true" === process.env.NEXT_PRIVATE_TEST_PROXY)) {
-          let { interceptTestApis: a11, wrapRequestHandler: b11 } = c(720);
-          a11(), bm = b11(bm);
-        }
-        await t();
-        let f2 = void 0 !== globalThis.__BUILD_MANIFEST;
-        a10.request.url = a10.request.url.replace(/\.rsc($|\?)/, "$1");
-        let g2 = a10.bypassNextUrl ? new URL(a10.request.url) : new S(a10.request.url, { headers: a10.request.headers, nextConfig: a10.request.nextConfig });
-        for (let a11 of [...g2.searchParams.keys()]) {
-          let b11 = g2.searchParams.getAll(a11), c10 = function(a12) {
-            for (let b12 of ["nxtP", "nxtI"]) if (a12 !== b12 && a12.startsWith(b12)) return a12.substring(b12.length);
-            return null;
-          }(a11);
-          if (c10) {
-            for (let a12 of (g2.searchParams.delete(c10), b11)) g2.searchParams.append(c10, a12);
-            g2.searchParams.delete(a11);
-          }
-        }
-        let h2 = process.env.__NEXT_BUILD_ID || "";
-        "buildId" in g2 && (h2 = g2.buildId || "", g2.buildId = "");
-        let i2 = function(a11) {
-          let b11 = new Headers();
-          for (let [c10, d11] of Object.entries(a11)) for (let a12 of Array.isArray(d11) ? d11 : [d11]) void 0 !== a12 && ("number" == typeof a12 && (a12 = a12.toString()), b11.append(c10, a12));
-          return b11;
-        }(a10.request.headers), j2 = i2.has("x-nextjs-data"), k2 = "1" === i2.get("rsc");
-        j2 && "/index" === g2.pathname && (g2.pathname = "/");
-        let l2 = /* @__PURE__ */ new Map();
-        if (!f2) for (let a11 of ab) {
-          let b11 = i2.get(a11);
-          null !== b11 && (l2.set(a11, b11), i2.delete(a11));
-        }
-        let m2 = g2.searchParams.get(ac), n2 = new bk({ page: a10.page, input: function(a11) {
-          let b11 = "string" == typeof a11, c10 = b11 ? new URL(a11) : a11;
-          return c10.searchParams.delete(ac), b11 ? c10.toString() : c10;
-        }(g2).toString(), init: { body: a10.request.body, headers: i2, method: a10.request.method, nextConfig: a10.request.nextConfig, signal: a10.request.signal } });
-        j2 && Object.defineProperty(n2, "__isData", { enumerable: false, value: true }), !globalThis.__incrementalCacheShared && a10.IncrementalCache && (globalThis.__incrementalCache = new a10.IncrementalCache({ CurCacheHandler: a10.incrementalCacheHandler, minimalMode: true, fetchCacheKeyPrefix: "", dev: false, requestHeaders: a10.request.headers, getPrerenderManifest: () => ({ version: -1, routes: {}, dynamicRoutes: {}, notFoundRoutes: [], preview: bh() }) }));
-        let o2 = a10.request.waitUntil ?? (null == (b10 = function() {
-          let a11 = globalThis[bi];
-          return null == a11 ? void 0 : a11.get();
-        }()) ? void 0 : b10.waitUntil), p2 = new H({ request: n2, page: a10.page, context: o2 ? { waitUntil: o2 } : void 0 });
-        if ((d10 = await bm(n2, () => {
-          if ("/middleware" === a10.page || "/src/middleware" === a10.page) {
-            let b11 = p2.waitUntil.bind(p2), c10 = new bg();
-            return aS().trace(aA.execute, { spanName: `middleware ${n2.method} ${n2.nextUrl.pathname}`, attributes: { "http.target": n2.nextUrl.pathname, "http.method": n2.method } }, async () => {
-              try {
-                var d11, f3, g3, i3, j3, k3;
-                let l3 = bh(), m3 = await bj("/", n2.nextUrl, null), o3 = (j3 = n2.nextUrl, k3 = (a11) => {
-                  e10 = a11;
-                }, function(a11, b12, c11, d12, e11, f4, g4, h3, i4, j4, k4, l4) {
-                  function m4(a12) {
-                    c11 && c11.setHeader("Set-Cookie", a12);
-                  }
-                  let n3 = {};
-                  return { type: "request", phase: a11, implicitTags: f4, url: { pathname: d12.pathname, search: d12.search ?? "" }, rootParams: e11, get headers() {
-                    return n3.headers || (n3.headers = function(a12) {
-                      let b13 = ae.from(a12);
-                      for (let a13 of ab) b13.delete(a13);
-                      return ae.seal(b13);
-                    }(b12.headers)), n3.headers;
-                  }, get cookies() {
-                    if (!n3.cookies) {
-                      let a12 = new T.RequestCookies(ae.from(b12.headers));
-                      aV(b12, a12), n3.cookies = al.seal(a12);
-                    }
-                    return n3.cookies;
-                  }, set cookies(value) {
-                    n3.cookies = value;
-                  }, get mutableCookies() {
-                    if (!n3.mutableCookies) {
-                      let a12 = function(a13, b13) {
-                        let c12 = new T.RequestCookies(ae.from(a13));
-                        return an.wrap(c12, b13);
-                      }(b12.headers, g4 || (c11 ? m4 : void 0));
-                      aV(b12, a12), n3.mutableCookies = a12;
-                    }
-                    return n3.mutableCookies;
-                  }, get userspaceMutableCookies() {
-                    return n3.userspaceMutableCookies || (n3.userspaceMutableCookies = function(a12) {
-                      let b13 = new Proxy(a12.mutableCookies, { get(c12, d13, e12) {
-                        switch (d13) {
-                          case "delete":
-                            return function(...d14) {
-                              return ao(a12, "cookies().delete"), c12.delete(...d14), b13;
-                            };
-                          case "set":
-                            return function(...d14) {
-                              return ao(a12, "cookies().set"), c12.set(...d14), b13;
-                            };
-                          default:
-                            return W.get(c12, d13, e12);
-                        }
-                      } });
-                      return b13;
-                    }(this)), n3.userspaceMutableCookies;
-                  }, get draftMode() {
-                    return n3.draftMode || (n3.draftMode = new aU(i4, b12, this.cookies, this.mutableCookies)), n3.draftMode;
-                  }, renderResumeDataCache: h3 ?? null, isHmrRefresh: j4, serverComponentsHmrCache: k4 || globalThis.__serverComponentsHmrCache, devFallbackParams: null };
-                }("action", n2, void 0, j3, {}, m3, k3, void 0, l3, false, void 0, null)), q3 = function({ page: a11, renderOpts: b12, isPrefetchRequest: c11, buildId: d12, previouslyRevalidatedTags: e11 }) {
-                  var f4;
-                  let g4 = !b12.shouldWaitOnAllReady && !b12.supportsDynamicResponse && !b12.isDraftMode && !b12.isPossibleServerAction, h3 = b12.dev ?? false, i4 = h3 || g4 && (!!process.env.NEXT_DEBUG_BUILD || "1" === process.env.NEXT_SSG_FETCH_METRICS), j4 = { isStaticGeneration: g4, page: a11, route: (f4 = a11.split("/").reduce((a12, b13, c12, d13) => b13 ? "(" === b13[0] && b13.endsWith(")") || "@" === b13[0] || ("page" === b13 || "route" === b13) && c12 === d13.length - 1 ? a12 : a12 + "/" + b13 : a12, "")).startsWith("/") ? f4 : "/" + f4, incrementalCache: b12.incrementalCache || globalThis.__incrementalCache, cacheLifeProfiles: b12.cacheLifeProfiles, isRevalidate: b12.isRevalidate, isBuildTimePrerendering: b12.nextExport, hasReadableErrorStacks: b12.hasReadableErrorStacks, fetchCache: b12.fetchCache, isOnDemandRevalidate: b12.isOnDemandRevalidate, isDraftMode: b12.isDraftMode, isPrefetchRequest: c11, buildId: d12, reactLoadableManifest: (null == b12 ? void 0 : b12.reactLoadableManifest) || {}, assetPrefix: (null == b12 ? void 0 : b12.assetPrefix) || "", afterContext: function(a12) {
-                    let { waitUntil: b13, onClose: c12, onAfterTaskError: d13 } = a12;
-                    return new bd({ waitUntil: b13, onClose: c12, onTaskError: d13 });
-                  }(b12), cacheComponentsEnabled: b12.experimental.cacheComponents, dev: h3, previouslyRevalidatedTags: e11, refreshTagsByCacheKind: function() {
-                    let a12 = /* @__PURE__ */ new Map(), b13 = a4();
-                    if (b13) for (let [c12, d13] of b13) "refreshTags" in d13 && a12.set(c12, bf(async () => d13.refreshTags()));
-                    return a12;
-                  }(), runInCleanSnapshot: bb ? bb.snapshot() : function(a12, ...b13) {
-                    return a12(...b13);
-                  }, shouldTrackFetchMetrics: i4 };
-                  return b12.store = j4, j4;
-                }({ page: "/", renderOpts: { cacheLifeProfiles: null == (f3 = a10.request.nextConfig) || null == (d11 = f3.experimental) ? void 0 : d11.cacheLife, experimental: { isRoutePPREnabled: false, cacheComponents: false, authInterrupts: !!(null == (i3 = a10.request.nextConfig) || null == (g3 = i3.experimental) ? void 0 : g3.authInterrupts) }, supportsDynamicResponse: true, waitUntil: b11, onClose: c10.onClose.bind(c10), onAfterTaskError: void 0 }, isPrefetchRequest: "1" === n2.headers.get(aa), buildId: h2 ?? "", previouslyRevalidatedTags: [] });
-                return await aj.run(q3, () => aW.run(o3, a10.handler, n2, p2));
-              } finally {
-                setTimeout(() => {
-                  c10.dispatchClose();
-                }, 0);
-              }
-            });
-          }
-          return a10.handler(n2, p2);
-        })) && !(d10 instanceof Response)) throw Object.defineProperty(TypeError("Expected an instance of Response to be returned"), "__NEXT_ERROR_CODE", { value: "E567", enumerable: false, configurable: true });
-        d10 && e10 && d10.headers.set("set-cookie", e10);
-        let q2 = null == d10 ? void 0 : d10.headers.get("x-middleware-rewrite");
-        if (d10 && q2 && (k2 || !f2)) {
-          let b11 = new S(q2, { forceLocale: true, headers: a10.request.headers, nextConfig: a10.request.nextConfig });
-          f2 || b11.host !== n2.nextUrl.host || (b11.buildId = h2 || b11.buildId, d10.headers.set("x-middleware-rewrite", String(b11)));
-          let { url: c10, isRelative: e11 } = _(b11.toString(), g2.toString());
-          !f2 && j2 && d10.headers.set("x-nextjs-rewrite", c10), k2 && e11 && (g2.pathname !== b11.pathname && d10.headers.set("x-nextjs-rewritten-path", b11.pathname), g2.search !== b11.search && d10.headers.set("x-nextjs-rewritten-query", b11.search.slice(1)));
-        }
-        if (d10 && q2 && k2 && m2) {
-          let a11 = new URL(q2);
-          a11.searchParams.has(ac) || (a11.searchParams.set(ac, m2), d10.headers.set("x-middleware-rewrite", a11.toString()));
-        }
-        let r2 = null == d10 ? void 0 : d10.headers.get("Location");
-        if (d10 && r2 && !f2) {
-          let b11 = new S(r2, { forceLocale: false, headers: a10.request.headers, nextConfig: a10.request.nextConfig });
-          d10 = new Response(d10.body, d10), b11.host === g2.host && (b11.buildId = h2 || b11.buildId, d10.headers.set("Location", b11.toString())), j2 && (d10.headers.delete("Location"), d10.headers.set("x-nextjs-redirect", _(b11.toString(), g2.toString()).url));
-        }
-        let s2 = d10 || $.next(), u2 = s2.headers.get("x-middleware-override-headers"), v2 = [];
-        if (u2) {
-          for (let [a11, b11] of l2) s2.headers.set(`x-middleware-request-${a11}`, b11), v2.push(a11);
-          v2.length > 0 && s2.headers.set("x-middleware-override-headers", u2 + "," + v2.join(","));
-        }
-        return { response: s2, waitUntil: ("internal" === p2[F].kind ? Promise.all(p2[F].promises).then(() => {
-        }) : void 0) ?? Promise.resolve(), fetchMetrics: n2.fetchMetrics };
-      }
-      var bp = c(88);
-      function bq() {
-        return "undefined" != typeof window && void 0 !== window.document;
-      }
-      let br = { path: "/", sameSite: "lax", httpOnly: false, maxAge: 3456e4 }, bs = /^(.*)[.](0|[1-9][0-9]*)$/;
-      function bt(a10, b10) {
-        if (a10 === b10) return true;
-        let c10 = a10.match(bs);
-        return !!c10 && c10[1] === b10;
-      }
-      function bu(a10, b10, c10) {
-        let d10 = c10 ?? 3180, e10 = encodeURIComponent(b10);
-        if (e10.length <= d10) return [{ name: a10, value: b10 }];
-        let f2 = [];
-        for (; e10.length > 0; ) {
-          let a11 = e10.slice(0, d10), b11 = a11.lastIndexOf("%");
-          b11 > d10 - 3 && (a11 = a11.slice(0, b11));
-          let c11 = "";
-          for (; a11.length > 0; ) try {
-            c11 = decodeURIComponent(a11);
-            break;
-          } catch (b12) {
-            if (b12 instanceof URIError && "%" === a11.at(-3) && a11.length > 3) a11 = a11.slice(0, a11.length - 3);
-            else throw b12;
-          }
-          f2.push(c11), e10 = e10.slice(a11.length);
-        }
-        return f2.map((b11, c11) => ({ name: `${a10}.${c11}`, value: b11 }));
-      }
-      async function bv(a10, b10) {
-        let c10 = await b10(a10);
-        if (c10) return c10;
-        let d10 = [];
-        for (let c11 = 0; ; c11++) {
-          let e10 = `${a10}.${c11}`, f2 = await b10(e10);
-          if (!f2) break;
-          d10.push(f2);
-        }
-        return d10.length > 0 ? d10.join("") : null;
-      }
-      let bw = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split(""), bx = " 	\n\r=".split(""), by = (() => {
-        let a10 = Array(128);
-        for (let b10 = 0; b10 < a10.length; b10 += 1) a10[b10] = -1;
-        for (let b10 = 0; b10 < bx.length; b10 += 1) a10[bx[b10].charCodeAt(0)] = -2;
-        for (let b10 = 0; b10 < bw.length; b10 += 1) a10[bw[b10].charCodeAt(0)] = b10;
-        return a10;
-      })();
-      function bz(a10) {
-        let b10 = [], c10 = 0, d10 = 0;
-        if (function(a11, b11) {
-          for (let c11 = 0; c11 < a11.length; c11 += 1) {
-            let d11 = a11.charCodeAt(c11);
-            if (d11 > 55295 && d11 <= 56319) {
-              let b12 = (d11 - 55296) * 1024 & 65535;
-              d11 = (a11.charCodeAt(c11 + 1) - 56320 & 65535 | b12) + 65536, c11 += 1;
-            }
-            !function(a12, b12) {
-              if (a12 <= 127) return b12(a12);
-              if (a12 <= 2047) {
-                b12(192 | a12 >> 6), b12(128 | 63 & a12);
-                return;
-              }
-              if (a12 <= 65535) {
-                b12(224 | a12 >> 12), b12(128 | a12 >> 6 & 63), b12(128 | 63 & a12);
-                return;
-              }
-              if (a12 <= 1114111) {
-                b12(240 | a12 >> 18), b12(128 | a12 >> 12 & 63), b12(128 | a12 >> 6 & 63), b12(128 | 63 & a12);
-                return;
-              }
-              throw Error(`Unrecognized Unicode codepoint: ${a12.toString(16)}`);
-            }(d11, b11);
-          }
-        }(a10, (a11) => {
-          for (c10 = c10 << 8 | a11, d10 += 8; d10 >= 6; ) {
-            let a12 = c10 >> d10 - 6 & 63;
-            b10.push(bw[a12]), d10 -= 6;
-          }
-        }), d10 > 0) for (c10 <<= 6 - d10, d10 = 6; d10 >= 6; ) {
-          let a11 = c10 >> d10 - 6 & 63;
-          b10.push(bw[a11]), d10 -= 6;
-        }
-        return b10.join("");
-      }
-      function bA(a10) {
-        let b10 = [], c10 = (a11) => {
-          b10.push(String.fromCodePoint(a11));
-        }, d10 = { utf8seq: 0, codepoint: 0 }, e10 = 0, f2 = 0;
-        for (let b11 = 0; b11 < a10.length; b11 += 1) {
-          let g2 = by[a10.charCodeAt(b11)];
-          if (g2 > -1) for (e10 = e10 << 6 | g2, f2 += 6; f2 >= 8; ) (function(a11, b12, c11) {
-            if (0 === b12.utf8seq) {
-              if (a11 <= 127) return c11(a11);
-              for (let c12 = 1; c12 < 6; c12 += 1) if ((a11 >> 7 - c12 & 1) == 0) {
-                b12.utf8seq = c12;
-                break;
-              }
-              if (2 === b12.utf8seq) b12.codepoint = 31 & a11;
-              else if (3 === b12.utf8seq) b12.codepoint = 15 & a11;
-              else if (4 === b12.utf8seq) b12.codepoint = 7 & a11;
-              else throw Error("Invalid UTF-8 sequence");
-              b12.utf8seq -= 1;
-            } else if (b12.utf8seq > 0) {
-              if (a11 <= 127) throw Error("Invalid UTF-8 sequence");
-              b12.codepoint = b12.codepoint << 6 | 63 & a11, b12.utf8seq -= 1, 0 === b12.utf8seq && c11(b12.codepoint);
-            }
-          })(e10 >> f2 - 8 & 255, d10, c10), f2 -= 8;
-          else if (-2 === g2) continue;
-          else throw Error(`Invalid Base64-URL character "${a10.at(b11)}" at position ${b11}`);
-        }
-        return b10.join("");
-      }
-      let bB = "base64-";
-      async function bC({ getAll: a10, setAll: b10, setItems: c10, removedItems: d10 }, e10) {
-        let f2 = e10.cookieEncoding, g2 = e10.cookieOptions ?? null, h2 = await a10([...c10 ? Object.keys(c10) : [], ...d10 ? Object.keys(d10) : []]), i2 = h2?.map(({ name: a11 }) => a11) || [], j2 = Object.keys(d10).flatMap((a11) => i2.filter((b11) => bt(b11, a11))), k2 = Object.keys(c10).flatMap((a11) => {
-          let b11 = new Set(i2.filter((b12) => bt(b12, a11))), d11 = c10[a11];
-          "base64url" === f2 && (d11 = bB + bz(d11));
-          let e11 = bu(a11, d11);
-          return e11.forEach((a12) => {
-            b11.delete(a12.name);
-          }), j2.push(...b11), e11;
-        }), l2 = { ...br, ...g2, maxAge: 0 }, m2 = { ...br, ...g2, maxAge: br.maxAge };
-        delete l2.name, delete m2.name, await b10([...j2.map((a11) => ({ name: a11, value: "", options: l2 })), ...k2.map(({ name: a11, value: b11 }) => ({ name: a11, value: b11, options: m2 }))]);
-      }
-      function bD(a10, b10) {
-        var c10 = {};
-        for (var d10 in a10) Object.prototype.hasOwnProperty.call(a10, d10) && 0 > b10.indexOf(d10) && (c10[d10] = a10[d10]);
-        if (null != a10 && "function" == typeof Object.getOwnPropertySymbols) for (var e10 = 0, d10 = Object.getOwnPropertySymbols(a10); e10 < d10.length; e10++) 0 > b10.indexOf(d10[e10]) && Object.prototype.propertyIsEnumerable.call(a10, d10[e10]) && (c10[d10[e10]] = a10[d10[e10]]);
-        return c10;
-      }
-      Object.create;
-      Object.create, "function" == typeof SuppressedError && SuppressedError;
-      class bE extends Error {
-        constructor(a10, b10 = "FunctionsError", c10) {
-          super(a10), this.name = b10, this.context = c10;
-        }
-        toJSON() {
-          return { name: this.name, message: this.message, context: this.context };
-        }
-      }
-      class bF extends bE {
-        constructor(a10) {
-          super("Failed to send a request to the Edge Function", "FunctionsFetchError", a10);
-        }
-      }
-      class bG extends bE {
-        constructor(a10) {
-          super("Relay Error invoking the Edge Function", "FunctionsRelayError", a10);
-        }
-      }
-      class bH extends bE {
-        constructor(a10) {
-          super("Edge Function returned a non-2xx status code", "FunctionsHttpError", a10);
-        }
-      }
-      !function(a10) {
-        a10.Any = "any", a10.ApNortheast1 = "ap-northeast-1", a10.ApNortheast2 = "ap-northeast-2", a10.ApSouth1 = "ap-south-1", a10.ApSoutheast1 = "ap-southeast-1", a10.ApSoutheast2 = "ap-southeast-2", a10.CaCentral1 = "ca-central-1", a10.EuCentral1 = "eu-central-1", a10.EuWest1 = "eu-west-1", a10.EuWest2 = "eu-west-2", a10.EuWest3 = "eu-west-3", a10.SaEast1 = "sa-east-1", a10.UsEast1 = "us-east-1", a10.UsWest1 = "us-west-1", a10.UsWest2 = "us-west-2";
-      }(g || (g = {}));
-      class bI {
-        constructor(a10, { headers: b10 = {}, customFetch: c10, region: d10 = g.Any } = {}) {
-          this.url = a10, this.headers = b10, this.region = d10, this.fetch = /* @__PURE__ */ ((a11) => a11 ? (...b11) => a11(...b11) : (...a12) => fetch(...a12))(c10);
-        }
-        setAuth(a10) {
-          this.headers.Authorization = `Bearer ${a10}`;
-        }
-        invoke(a10) {
-          var b10, c10, d10, e10;
-          return b10 = this, c10 = arguments, d10 = void 0, e10 = function* (a11, b11 = {}) {
-            var c11;
-            let d11, e11;
-            try {
-              let f2, { headers: g2, method: h2, body: i2, signal: j2, timeout: k2 } = b11, l2 = {}, { region: m2 } = b11;
-              m2 || (m2 = this.region);
-              let n2 = new URL(`${this.url}/${a11}`);
-              m2 && "any" !== m2 && (l2["x-region"] = m2, n2.searchParams.set("forceFunctionRegion", m2)), i2 && (g2 && !Object.prototype.hasOwnProperty.call(g2, "Content-Type") || !g2) ? "undefined" != typeof Blob && i2 instanceof Blob || i2 instanceof ArrayBuffer ? (l2["Content-Type"] = "application/octet-stream", f2 = i2) : "string" == typeof i2 ? (l2["Content-Type"] = "text/plain", f2 = i2) : "undefined" != typeof FormData && i2 instanceof FormData ? f2 = i2 : (l2["Content-Type"] = "application/json", f2 = JSON.stringify(i2)) : f2 = !i2 || "string" == typeof i2 || "undefined" != typeof Blob && i2 instanceof Blob || i2 instanceof ArrayBuffer || "undefined" != typeof FormData && i2 instanceof FormData ? i2 : JSON.stringify(i2);
-              let o2 = j2;
-              k2 && (e11 = new AbortController(), d11 = setTimeout(() => e11.abort(), k2), j2 ? (o2 = e11.signal, j2.addEventListener("abort", () => e11.abort())) : o2 = e11.signal);
-              let p2 = yield this.fetch(n2.toString(), { method: h2 || "POST", headers: Object.assign(Object.assign(Object.assign({}, l2), this.headers), g2), body: f2, signal: o2 }).catch((a12) => {
-                throw new bF(a12);
-              }), q2 = p2.headers.get("x-relay-error");
-              if (q2 && "true" === q2) throw new bG(p2);
-              if (!p2.ok) throw new bH(p2);
-              let r2 = (null != (c11 = p2.headers.get("Content-Type")) ? c11 : "text/plain").split(";")[0].trim();
-              return { data: "application/json" === r2 ? yield p2.json() : "application/octet-stream" === r2 || "application/pdf" === r2 ? yield p2.blob() : "text/event-stream" === r2 ? p2 : "multipart/form-data" === r2 ? yield p2.formData() : yield p2.text(), error: null, response: p2 };
-            } catch (a12) {
-              return { data: null, error: a12, response: a12 instanceof bH || a12 instanceof bG ? a12.context : void 0 };
-            } finally {
-              d11 && clearTimeout(d11);
-            }
-          }, new (d10 || (d10 = Promise))(function(a11, f2) {
-            function g2(a12) {
-              try {
-                i2(e10.next(a12));
-              } catch (a13) {
-                f2(a13);
-              }
-            }
-            function h2(a12) {
-              try {
-                i2(e10.throw(a12));
-              } catch (a13) {
-                f2(a13);
-              }
-            }
-            function i2(b11) {
-              var c11;
-              b11.done ? a11(b11.value) : ((c11 = b11.value) instanceof d10 ? c11 : new d10(function(a12) {
-                a12(c11);
-              })).then(g2, h2);
-            }
-            i2((e10 = e10.apply(b10, c10 || [])).next());
-          });
-        }
-      }
-      let bJ = (a10) => Math.min(1e3 * 2 ** a10, 3e4), bK = [520, 503], bL = ["GET", "HEAD", "OPTIONS"];
-      var bM = class extends Error {
-        constructor(a10) {
-          super(a10.message), this.name = "PostgrestError", this.details = a10.details, this.hint = a10.hint, this.code = a10.code;
-        }
-        toJSON() {
-          return { name: this.name, message: this.message, details: this.details, hint: this.hint, code: this.code };
-        }
-      };
-      function bN(a10, b10) {
-        return new Promise((c10) => {
-          if (null == b10 ? void 0 : b10.aborted) return void c10();
-          let d10 = setTimeout(() => {
-            null == b10 || b10.removeEventListener("abort", e10), c10();
-          }, a10);
-          function e10() {
-            clearTimeout(d10), c10();
-          }
-          null == b10 || b10.addEventListener("abort", e10);
-        });
-      }
-      var bO = class {
-        constructor(a10) {
-          var b10, c10, d10, e10, f2;
-          this.shouldThrowOnError = false, this.retryEnabled = true, this.method = a10.method, this.url = a10.url, this.headers = new Headers(a10.headers), this.schema = a10.schema, this.body = a10.body, this.shouldThrowOnError = null != (b10 = a10.shouldThrowOnError) && b10, this.signal = a10.signal, this.isMaybeSingle = null != (c10 = a10.isMaybeSingle) && c10, this.shouldStripNulls = null != (d10 = a10.shouldStripNulls) && d10, this.urlLengthLimit = null != (e10 = a10.urlLengthLimit) ? e10 : 8e3, this.retryEnabled = null == (f2 = a10.retry) || f2, a10.fetch ? this.fetch = a10.fetch : this.fetch = fetch;
-        }
-        throwOnError() {
-          return this.shouldThrowOnError = true, this;
-        }
-        stripNulls() {
-          if ("text/csv" === this.headers.get("Accept")) throw Error("stripNulls() cannot be used with csv()");
-          return this.shouldStripNulls = true, this;
-        }
-        setHeader(a10, b10) {
-          return this.headers = new Headers(this.headers), this.headers.set(a10, b10), this;
-        }
-        retry(a10) {
-          return this.retryEnabled = a10, this;
-        }
-        then(a10, b10) {
-          var c10 = this;
-          if (void 0 === this.schema || (["GET", "HEAD"].includes(this.method) ? this.headers.set("Accept-Profile", this.schema) : this.headers.set("Content-Profile", this.schema)), "GET" !== this.method && "HEAD" !== this.method && this.headers.set("Content-Type", "application/json"), this.shouldStripNulls) {
-            let a11 = this.headers.get("Accept");
-            "application/vnd.pgrst.object+json" === a11 ? this.headers.set("Accept", "application/vnd.pgrst.object+json;nulls=stripped") : a11 && "application/json" !== a11 || this.headers.set("Accept", "application/vnd.pgrst.array+json;nulls=stripped");
-          }
-          let d10 = this.fetch, e10 = (async () => {
-            let a11 = 0;
-            for (; ; ) {
-              var b11, e11, f2, g2, h2;
-              let i2, j2 = new Headers(c10.headers);
-              a11 > 0 && j2.set("X-Retry-Count", String(a11));
-              try {
-                i2 = await d10(c10.url.toString(), { method: c10.method, headers: j2, body: JSON.stringify(c10.body, (a12, b12) => "bigint" == typeof b12 ? b12.toString() : b12), signal: c10.signal });
-              } catch (b12) {
-                if ((null == b12 ? void 0 : b12.name) === "AbortError" || (null == b12 ? void 0 : b12.code) === "ABORT_ERR" || !bL.includes(c10.method)) throw b12;
-                if (c10.retryEnabled && a11 < 3) {
-                  let b13 = bJ(a11);
-                  a11++, await bN(b13, c10.signal);
-                  continue;
-                }
-                throw b12;
-              }
-              if (b11 = c10.method, e11 = i2.status, f2 = a11, c10.retryEnabled && !(f2 >= 3) && bL.includes(b11) && bK.includes(e11) && 1) {
-                let b12 = null != (g2 = null == (h2 = i2.headers) ? void 0 : h2.get("Retry-After")) ? g2 : null, d11 = null !== b12 ? 1e3 * Math.max(0, parseInt(b12, 10) || 0) : bJ(a11);
-                await i2.text(), a11++, await bN(d11, c10.signal);
-                continue;
-              }
-              return await c10.processResponse(i2);
-            }
-          })();
-          return this.shouldThrowOnError || (e10 = e10.catch((a11) => {
-            var b11, c11, d11, e11, f2, g2;
-            let h2 = "", i2 = "", j2 = "", k2 = null == a11 ? void 0 : a11.cause;
-            if (k2) {
-              let b12 = null != (c11 = null == k2 ? void 0 : k2.message) ? c11 : "", g3 = null != (d11 = null == k2 ? void 0 : k2.code) ? d11 : "";
-              h2 = `${null != (e11 = null == a11 ? void 0 : a11.name) ? e11 : "FetchError"}: ${null == a11 ? void 0 : a11.message}
-
-Caused by: ${null != (f2 = null == k2 ? void 0 : k2.name) ? f2 : "Error"}: ${b12}`, g3 && (h2 += ` (${g3})`), (null == k2 ? void 0 : k2.stack) && (h2 += `
-${k2.stack}`);
-            } else h2 = null != (g2 = null == a11 ? void 0 : a11.stack) ? g2 : "";
-            let l2 = this.url.toString().length;
-            return (null == a11 ? void 0 : a11.name) === "AbortError" || (null == a11 ? void 0 : a11.code) === "ABORT_ERR" ? (j2 = "", i2 = "Request was aborted (timeout or manual cancellation)", l2 > this.urlLengthLimit && (i2 += `. Note: Your request URL is ${l2} characters, which may exceed server limits. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [many IDs])), consider using an RPC function to pass values server-side.`)) : ((null == k2 ? void 0 : k2.name) === "HeadersOverflowError" || (null == k2 ? void 0 : k2.code) === "UND_ERR_HEADERS_OVERFLOW") && (j2 = "", i2 = "HTTP headers exceeded server limits (typically 16KB)", l2 > this.urlLengthLimit && (i2 += `. Your request URL is ${l2} characters. If selecting many fields, consider using views. If filtering with large arrays (e.g., .in('id', [200+ IDs])), consider using an RPC function instead.`)), { success: false, error: { message: `${null != (b11 = null == a11 ? void 0 : a11.name) ? b11 : "FetchError"}: ${null == a11 ? void 0 : a11.message}`, details: h2, hint: i2, code: j2 }, data: null, count: null, status: 0, statusText: "" };
-          })), e10.then(a10, b10);
-        }
-        async processResponse(a10) {
-          var b10, c10, d10;
-          let e10 = null, f2 = null, g2 = null, h2 = a10.status, i2 = a10.statusText;
-          if (a10.ok) {
-            if ("HEAD" !== this.method) {
-              let b11 = await a10.text();
-              "" === b11 || (f2 = "text/csv" === this.headers.get("Accept") || this.headers.get("Accept") && (null == (d10 = this.headers.get("Accept")) ? void 0 : d10.includes("application/vnd.pgrst.plan+text")) ? b11 : JSON.parse(b11));
-            }
-            let j2 = null == (b10 = this.headers.get("Prefer")) ? void 0 : b10.match(/count=(exact|planned|estimated)/), k2 = null == (c10 = a10.headers.get("content-range")) ? void 0 : c10.split("/");
-            j2 && k2 && k2.length > 1 && (g2 = parseInt(k2[1])), this.isMaybeSingle && Array.isArray(f2) && (f2.length > 1 ? (e10 = { code: "PGRST116", details: `Results contain ${f2.length} rows, application/vnd.pgrst.object+json requires 1 row`, hint: null, message: "JSON object requested, multiple (or no) rows returned" }, f2 = null, g2 = null, h2 = 406, i2 = "Not Acceptable") : f2 = 1 === f2.length ? f2[0] : null);
-          } else {
-            let b11 = await a10.text();
-            try {
-              e10 = JSON.parse(b11), Array.isArray(e10) && 404 === a10.status && (f2 = [], e10 = null, h2 = 200, i2 = "OK");
-            } catch (c11) {
-              404 === a10.status && "" === b11 ? (h2 = 204, i2 = "No Content") : e10 = { message: b11 };
-            }
-            if (e10 && this.shouldThrowOnError) throw new bM(e10);
-          }
-          return { success: null === e10, error: e10, data: f2, count: g2, status: h2, statusText: i2 };
-        }
-        returns() {
-          return this;
-        }
-        overrideTypes() {
-          return this;
-        }
-      }, bP = class extends bO {
-        select(a10) {
-          let b10 = false, c10 = (null != a10 ? a10 : "*").split("").map((a11) => /\s/.test(a11) && !b10 ? "" : ('"' === a11 && (b10 = !b10), a11)).join("");
-          return this.url.searchParams.set("select", c10), this.headers.append("Prefer", "return=representation"), this;
-        }
-        order(a10, { ascending: b10 = true, nullsFirst: c10, foreignTable: d10, referencedTable: e10 = d10 } = {}) {
-          let f2 = e10 ? `${e10}.order` : "order", g2 = this.url.searchParams.get(f2);
-          return this.url.searchParams.set(f2, `${g2 ? `${g2},` : ""}${a10}.${b10 ? "asc" : "desc"}${void 0 === c10 ? "" : c10 ? ".nullsfirst" : ".nullslast"}`), this;
-        }
-        limit(a10, { foreignTable: b10, referencedTable: c10 = b10 } = {}) {
-          let d10 = void 0 === c10 ? "limit" : `${c10}.limit`;
-          return this.url.searchParams.set(d10, `${a10}`), this;
-        }
-        range(a10, b10, { foreignTable: c10, referencedTable: d10 = c10 } = {}) {
-          let e10 = void 0 === d10 ? "offset" : `${d10}.offset`, f2 = void 0 === d10 ? "limit" : `${d10}.limit`;
-          return this.url.searchParams.set(e10, `${a10}`), this.url.searchParams.set(f2, `${b10 - a10 + 1}`), this;
-        }
-        abortSignal(a10) {
-          return this.signal = a10, this;
-        }
-        single() {
-          return this.headers.set("Accept", "application/vnd.pgrst.object+json"), this;
-        }
-        maybeSingle() {
-          return this.isMaybeSingle = true, this;
-        }
-        csv() {
-          return this.headers.set("Accept", "text/csv"), this;
-        }
-        geojson() {
-          return this.headers.set("Accept", "application/geo+json"), this;
-        }
-        explain({ analyze: a10 = false, verbose: b10 = false, settings: c10 = false, buffers: d10 = false, wal: e10 = false, format: f2 = "text" } = {}) {
-          var g2;
-          let h2 = [a10 ? "analyze" : null, b10 ? "verbose" : null, c10 ? "settings" : null, d10 ? "buffers" : null, e10 ? "wal" : null].filter(Boolean).join("|"), i2 = null != (g2 = this.headers.get("Accept")) ? g2 : "application/json";
-          return this.headers.set("Accept", `application/vnd.pgrst.plan+${f2}; for="${i2}"; options=${h2};`), this;
-        }
-        rollback() {
-          return this.headers.append("Prefer", "tx=rollback"), this;
-        }
-        returns() {
-          return this;
-        }
-        maxAffected(a10) {
-          return this.headers.append("Prefer", "handling=strict"), this.headers.append("Prefer", `max-affected=${a10}`), this;
-        }
-      };
-      let bQ = RegExp("[,()]");
-      var bR = class extends bP {
-        eq(a10, b10) {
-          return this.url.searchParams.append(a10, `eq.${b10}`), this;
-        }
-        neq(a10, b10) {
-          return this.url.searchParams.append(a10, `neq.${b10}`), this;
-        }
-        gt(a10, b10) {
-          return this.url.searchParams.append(a10, `gt.${b10}`), this;
-        }
-        gte(a10, b10) {
-          return this.url.searchParams.append(a10, `gte.${b10}`), this;
-        }
-        lt(a10, b10) {
-          return this.url.searchParams.append(a10, `lt.${b10}`), this;
-        }
-        lte(a10, b10) {
-          return this.url.searchParams.append(a10, `lte.${b10}`), this;
-        }
-        like(a10, b10) {
-          return this.url.searchParams.append(a10, `like.${b10}`), this;
-        }
-        likeAllOf(a10, b10) {
-          return this.url.searchParams.append(a10, `like(all).{${b10.join(",")}}`), this;
-        }
-        likeAnyOf(a10, b10) {
-          return this.url.searchParams.append(a10, `like(any).{${b10.join(",")}}`), this;
-        }
-        ilike(a10, b10) {
-          return this.url.searchParams.append(a10, `ilike.${b10}`), this;
-        }
-        ilikeAllOf(a10, b10) {
-          return this.url.searchParams.append(a10, `ilike(all).{${b10.join(",")}}`), this;
-        }
-        ilikeAnyOf(a10, b10) {
-          return this.url.searchParams.append(a10, `ilike(any).{${b10.join(",")}}`), this;
-        }
-        regexMatch(a10, b10) {
-          return this.url.searchParams.append(a10, `match.${b10}`), this;
-        }
-        regexIMatch(a10, b10) {
-          return this.url.searchParams.append(a10, `imatch.${b10}`), this;
-        }
-        is(a10, b10) {
-          return this.url.searchParams.append(a10, `is.${b10}`), this;
-        }
-        isDistinct(a10, b10) {
-          return this.url.searchParams.append(a10, `isdistinct.${b10}`), this;
-        }
-        in(a10, b10) {
-          let c10 = Array.from(new Set(b10)).map((a11) => "string" == typeof a11 && bQ.test(a11) ? `"${a11}"` : `${a11}`).join(",");
-          return this.url.searchParams.append(a10, `in.(${c10})`), this;
-        }
-        notIn(a10, b10) {
-          let c10 = Array.from(new Set(b10)).map((a11) => "string" == typeof a11 && bQ.test(a11) ? `"${a11}"` : `${a11}`).join(",");
-          return this.url.searchParams.append(a10, `not.in.(${c10})`), this;
-        }
-        contains(a10, b10) {
-          return "string" == typeof b10 ? this.url.searchParams.append(a10, `cs.${b10}`) : Array.isArray(b10) ? this.url.searchParams.append(a10, `cs.{${b10.join(",")}}`) : this.url.searchParams.append(a10, `cs.${JSON.stringify(b10)}`), this;
-        }
-        containedBy(a10, b10) {
-          return "string" == typeof b10 ? this.url.searchParams.append(a10, `cd.${b10}`) : Array.isArray(b10) ? this.url.searchParams.append(a10, `cd.{${b10.join(",")}}`) : this.url.searchParams.append(a10, `cd.${JSON.stringify(b10)}`), this;
-        }
-        rangeGt(a10, b10) {
-          return this.url.searchParams.append(a10, `sr.${b10}`), this;
-        }
-        rangeGte(a10, b10) {
-          return this.url.searchParams.append(a10, `nxl.${b10}`), this;
-        }
-        rangeLt(a10, b10) {
-          return this.url.searchParams.append(a10, `sl.${b10}`), this;
-        }
-        rangeLte(a10, b10) {
-          return this.url.searchParams.append(a10, `nxr.${b10}`), this;
-        }
-        rangeAdjacent(a10, b10) {
-          return this.url.searchParams.append(a10, `adj.${b10}`), this;
-        }
-        overlaps(a10, b10) {
-          return "string" == typeof b10 ? this.url.searchParams.append(a10, `ov.${b10}`) : this.url.searchParams.append(a10, `ov.{${b10.join(",")}}`), this;
-        }
-        textSearch(a10, b10, { config: c10, type: d10 } = {}) {
-          let e10 = "";
-          "plain" === d10 ? e10 = "pl" : "phrase" === d10 ? e10 = "ph" : "websearch" === d10 && (e10 = "w");
-          let f2 = void 0 === c10 ? "" : `(${c10})`;
-          return this.url.searchParams.append(a10, `${e10}fts${f2}.${b10}`), this;
-        }
-        match(a10) {
-          return Object.entries(a10).filter(([a11, b10]) => void 0 !== b10).forEach(([a11, b10]) => {
-            this.url.searchParams.append(a11, `eq.${b10}`);
-          }), this;
-        }
-        not(a10, b10, c10) {
-          return this.url.searchParams.append(a10, `not.${b10}.${c10}`), this;
-        }
-        or(a10, { foreignTable: b10, referencedTable: c10 = b10 } = {}) {
-          let d10 = c10 ? `${c10}.or` : "or";
-          return this.url.searchParams.append(d10, `(${a10})`), this;
-        }
-        filter(a10, b10, c10) {
-          return this.url.searchParams.append(a10, `${b10}.${c10}`), this;
-        }
-      }, bS = class {
-        constructor(a10, { headers: b10 = {}, schema: c10, fetch: d10, urlLengthLimit: e10 = 8e3, retry: f2 }) {
-          this.url = a10, this.headers = new Headers(b10), this.schema = c10, this.fetch = d10, this.urlLengthLimit = e10, this.retry = f2;
-        }
-        cloneRequestState() {
-          return { url: new URL(this.url.toString()), headers: new Headers(this.headers) };
-        }
-        select(a10, b10) {
-          let { head: c10 = false, count: d10 } = null != b10 ? b10 : {}, e10 = false, f2 = (null != a10 ? a10 : "*").split("").map((a11) => /\s/.test(a11) && !e10 ? "" : ('"' === a11 && (e10 = !e10), a11)).join(""), { url: g2, headers: h2 } = this.cloneRequestState();
-          return g2.searchParams.set("select", f2), d10 && h2.append("Prefer", `count=${d10}`), new bR({ method: c10 ? "HEAD" : "GET", url: g2, headers: h2, schema: this.schema, fetch: this.fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-        insert(a10, { count: b10, defaultToNull: c10 = true } = {}) {
-          var d10;
-          let { url: e10, headers: f2 } = this.cloneRequestState();
-          if (b10 && f2.append("Prefer", `count=${b10}`), c10 || f2.append("Prefer", "missing=default"), Array.isArray(a10)) {
-            let b11 = a10.reduce((a11, b12) => a11.concat(Object.keys(b12)), []);
-            if (b11.length > 0) {
-              let a11 = [...new Set(b11)].map((a12) => `"${a12}"`);
-              e10.searchParams.set("columns", a11.join(","));
-            }
-          }
-          return new bR({ method: "POST", url: e10, headers: f2, schema: this.schema, body: a10, fetch: null != (d10 = this.fetch) ? d10 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-        upsert(a10, { onConflict: b10, ignoreDuplicates: c10 = false, count: d10, defaultToNull: e10 = true } = {}) {
-          var f2;
-          let { url: g2, headers: h2 } = this.cloneRequestState();
-          if (h2.append("Prefer", `resolution=${c10 ? "ignore" : "merge"}-duplicates`), void 0 !== b10 && g2.searchParams.set("on_conflict", b10), d10 && h2.append("Prefer", `count=${d10}`), e10 || h2.append("Prefer", "missing=default"), Array.isArray(a10)) {
-            let b11 = a10.reduce((a11, b12) => a11.concat(Object.keys(b12)), []);
-            if (b11.length > 0) {
-              let a11 = [...new Set(b11)].map((a12) => `"${a12}"`);
-              g2.searchParams.set("columns", a11.join(","));
-            }
-          }
-          return new bR({ method: "POST", url: g2, headers: h2, schema: this.schema, body: a10, fetch: null != (f2 = this.fetch) ? f2 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-        update(a10, { count: b10 } = {}) {
-          var c10;
-          let { url: d10, headers: e10 } = this.cloneRequestState();
-          return b10 && e10.append("Prefer", `count=${b10}`), new bR({ method: "PATCH", url: d10, headers: e10, schema: this.schema, body: a10, fetch: null != (c10 = this.fetch) ? c10 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-        delete({ count: a10 } = {}) {
-          var b10;
-          let { url: c10, headers: d10 } = this.cloneRequestState();
-          return a10 && d10.append("Prefer", `count=${a10}`), new bR({ method: "DELETE", url: c10, headers: d10, schema: this.schema, fetch: null != (b10 = this.fetch) ? b10 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-      };
-      function bT(a10) {
-        return (bT = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(a11) {
-          return typeof a11;
-        } : function(a11) {
-          return a11 && "function" == typeof Symbol && a11.constructor === Symbol && a11 !== Symbol.prototype ? "symbol" : typeof a11;
-        })(a10);
-      }
-      function bU(a10, b10) {
-        var c10 = Object.keys(a10);
-        if (Object.getOwnPropertySymbols) {
-          var d10 = Object.getOwnPropertySymbols(a10);
-          b10 && (d10 = d10.filter(function(b11) {
-            return Object.getOwnPropertyDescriptor(a10, b11).enumerable;
-          })), c10.push.apply(c10, d10);
-        }
-        return c10;
-      }
-      function bV(a10) {
-        for (var b10 = 1; b10 < arguments.length; b10++) {
-          var c10 = null != arguments[b10] ? arguments[b10] : {};
-          b10 % 2 ? bU(Object(c10), true).forEach(function(b11) {
-            !function(a11, b12, c11) {
-              var d10;
-              (d10 = function(a12, b13) {
-                if ("object" != bT(a12) || !a12) return a12;
-                var c12 = a12[Symbol.toPrimitive];
-                if (void 0 !== c12) {
-                  var d11 = c12.call(a12, b13 || "default");
-                  if ("object" != bT(d11)) return d11;
-                  throw TypeError("@@toPrimitive must return a primitive value.");
-                }
-                return ("string" === b13 ? String : Number)(a12);
-              }(b12, "string"), (b12 = "symbol" == bT(d10) ? d10 : d10 + "") in a11) ? Object.defineProperty(a11, b12, { value: c11, enumerable: true, configurable: true, writable: true }) : a11[b12] = c11;
-            }(a10, b11, c10[b11]);
-          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(a10, Object.getOwnPropertyDescriptors(c10)) : bU(Object(c10)).forEach(function(b11) {
-            Object.defineProperty(a10, b11, Object.getOwnPropertyDescriptor(c10, b11));
-          });
-        }
-        return a10;
-      }
-      var bW = class a10 {
-        constructor(a11, { headers: b10 = {}, schema: c10, fetch: d10, timeout: e10, urlLengthLimit: f2 = 8e3, retry: g2 } = {}) {
-          this.url = a11, this.headers = new Headers(b10), this.schemaName = c10, this.urlLengthLimit = f2;
-          let h2 = null != d10 ? d10 : globalThis.fetch;
-          void 0 !== e10 && e10 > 0 ? this.fetch = (a12, b11) => {
-            let c11 = new AbortController(), d11 = setTimeout(() => c11.abort(), e10), f3 = null == b11 ? void 0 : b11.signal;
-            if (f3) {
-              if (f3.aborted) return clearTimeout(d11), h2(a12, b11);
-              let e11 = () => {
-                clearTimeout(d11), c11.abort();
-              };
-              return f3.addEventListener("abort", e11, { once: true }), h2(a12, bV(bV({}, b11), {}, { signal: c11.signal })).finally(() => {
-                clearTimeout(d11), f3.removeEventListener("abort", e11);
-              });
-            }
-            return h2(a12, bV(bV({}, b11), {}, { signal: c11.signal })).finally(() => clearTimeout(d11));
-          } : this.fetch = h2, this.retry = g2;
-        }
-        from(a11) {
-          if (!a11 || "string" != typeof a11 || "" === a11.trim()) throw Error("Invalid relation name: relation must be a non-empty string.");
-          return new bS(new URL(`${this.url}/${a11}`), { headers: new Headers(this.headers), schema: this.schemaName, fetch: this.fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-        schema(b10) {
-          return new a10(this.url, { headers: this.headers, schema: b10, fetch: this.fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-        rpc(a11, b10 = {}, { head: c10 = false, get: d10 = false, count: e10 } = {}) {
-          var f2;
-          let g2, h2, i2 = new URL(`${this.url}/rpc/${a11}`), j2 = (a12) => null !== a12 && "object" == typeof a12 && (!Array.isArray(a12) || a12.some(j2)), k2 = c10 && Object.values(b10).some(j2);
-          k2 ? (g2 = "POST", h2 = b10) : c10 || d10 ? (g2 = c10 ? "HEAD" : "GET", Object.entries(b10).filter(([a12, b11]) => void 0 !== b11).map(([a12, b11]) => [a12, Array.isArray(b11) ? `{${b11.join(",")}}` : `${b11}`]).forEach(([a12, b11]) => {
-            i2.searchParams.append(a12, b11);
-          })) : (g2 = "POST", h2 = b10);
-          let l2 = new Headers(this.headers);
-          return k2 ? l2.set("Prefer", e10 ? `count=${e10},return=minimal` : "return=minimal") : e10 && l2.set("Prefer", `count=${e10}`), new bR({ method: g2, url: i2, headers: l2, schema: this.schemaName, body: h2, fetch: null != (f2 = this.fetch) ? f2 : fetch, urlLengthLimit: this.urlLengthLimit, retry: this.retry });
-        }
-      };
-      class bX {
-        constructor() {
-        }
-        static detectEnvironment() {
-          var a10;
-          if ("undefined" != typeof WebSocket) return { type: "native", wsConstructor: WebSocket };
-          let b10 = globalThis;
-          if ("undefined" != typeof globalThis && void 0 !== b10.WebSocket) return { type: "native", wsConstructor: b10.WebSocket };
-          let d10 = void 0 !== c.g ? c.g : void 0;
-          if (d10 && void 0 !== d10.WebSocket) return { type: "native", wsConstructor: d10.WebSocket };
-          if ("undefined" != typeof globalThis && void 0 !== b10.WebSocketPair && void 0 === globalThis.WebSocket) return { type: "cloudflare", error: "Cloudflare Workers detected. WebSocket clients are not supported in Cloudflare Workers.", workaround: "Use Cloudflare Workers WebSocket API for server-side WebSocket handling, or deploy to a different runtime." };
-          if ("undefined" != typeof globalThis && b10.EdgeRuntime || "undefined" != typeof navigator && (null == (a10 = navigator.userAgent) ? void 0 : a10.includes("Vercel-Edge"))) return { type: "unsupported", error: "Edge runtime detected (Vercel Edge/Netlify Edge). WebSockets are not supported in edge functions.", workaround: "Use serverless functions or a different deployment target for WebSocket functionality." };
-          let e10 = globalThis.process;
-          if (e10) {
-            let a11 = e10.versions;
-            if (a11 && a11.node) {
-              let b11 = parseInt(a11.node.replace(/^v/, "").split(".")[0]);
-              return b11 >= 22 ? void 0 !== globalThis.WebSocket ? { type: "native", wsConstructor: globalThis.WebSocket } : { type: "unsupported", error: `Node.js ${b11} detected but native WebSocket not found.`, workaround: "Provide a WebSocket implementation via the transport option." } : { type: "unsupported", error: `Node.js ${b11} detected without native WebSocket support.`, workaround: 'For Node.js < 22, install "ws" package and provide it via the transport option:\nimport ws from "ws"\nnew RealtimeClient(url, { transport: ws })' };
-            }
-          }
-          return { type: "unsupported", error: "Unknown JavaScript runtime without WebSocket support.", workaround: "Ensure you're running in a supported environment (browser, Node.js, Deno) or provide a custom WebSocket implementation." };
-        }
-        static getWebSocketConstructor() {
-          let a10 = this.detectEnvironment();
-          if (a10.wsConstructor) return a10.wsConstructor;
-          let b10 = a10.error || "WebSocket not supported in this environment.";
-          throw a10.workaround && (b10 += `
-
-Suggested solution: ${a10.workaround}`), Error(b10);
-        }
-        static isWebSocketSupported() {
-          try {
-            let a10 = this.detectEnvironment();
-            return "native" === a10.type || "ws" === a10.type;
-          } catch (a10) {
-            return false;
-          }
-        }
-      }
-      let bY = "2.0.0", bZ = { closed: "closed", errored: "errored", joined: "joined", joining: "joining", leaving: "leaving" }, b$ = { close: "phx_close", error: "phx_error", join: "phx_join", reply: "phx_reply", leave: "phx_leave", access_token: "access_token" }, b_ = { connecting: "connecting", closing: "closing", closed: "closed" };
-      class b0 {
-        constructor(a10) {
-          this.HEADER_LENGTH = 1, this.USER_BROADCAST_PUSH_META_LENGTH = 6, this.KINDS = { userBroadcastPush: 3, userBroadcast: 4 }, this.BINARY_ENCODING = 0, this.JSON_ENCODING = 1, this.BROADCAST_EVENT = "broadcast", this.allowedMetadataKeys = [], this.allowedMetadataKeys = null != a10 ? a10 : [];
-        }
-        encode(a10, b10) {
-          return a10.event !== this.BROADCAST_EVENT || a10.payload instanceof ArrayBuffer || "string" != typeof a10.payload.event ? b10(JSON.stringify([a10.join_ref, a10.ref, a10.topic, a10.event, a10.payload])) : b10(this._binaryEncodeUserBroadcastPush(a10));
-        }
-        _binaryEncodeUserBroadcastPush(a10) {
-          var b10;
-          return this._isArrayBuffer(null == (b10 = a10.payload) ? void 0 : b10.payload) ? this._encodeBinaryUserBroadcastPush(a10) : this._encodeJsonUserBroadcastPush(a10);
-        }
-        _encodeBinaryUserBroadcastPush(a10) {
-          var b10, c10;
-          let d10 = null != (c10 = null == (b10 = a10.payload) ? void 0 : b10.payload) ? c10 : new ArrayBuffer(0);
-          return this._encodeUserBroadcastPush(a10, this.BINARY_ENCODING, d10);
-        }
-        _encodeJsonUserBroadcastPush(a10) {
-          var b10, c10;
-          let d10 = null != (c10 = null == (b10 = a10.payload) ? void 0 : b10.payload) ? c10 : {}, e10 = new TextEncoder().encode(JSON.stringify(d10)).buffer;
-          return this._encodeUserBroadcastPush(a10, this.JSON_ENCODING, e10);
-        }
-        _encodeUserBroadcastPush(a10, b10, c10) {
-          let d10 = a10.topic, e10 = null != (n2 = a10.ref) ? n2 : "", f2 = null != (o2 = a10.join_ref) ? o2 : "", g2 = a10.payload.event, h2 = this.allowedMetadataKeys ? this._pick(a10.payload, this.allowedMetadataKeys) : {}, i2 = 0 === Object.keys(h2).length ? "" : JSON.stringify(h2);
-          if (f2.length > 255) throw Error(`joinRef length ${f2.length} exceeds maximum of 255`);
-          if (e10.length > 255) throw Error(`ref length ${e10.length} exceeds maximum of 255`);
-          if (d10.length > 255) throw Error(`topic length ${d10.length} exceeds maximum of 255`);
-          if (g2.length > 255) throw Error(`userEvent length ${g2.length} exceeds maximum of 255`);
-          if (i2.length > 255) throw Error(`metadata length ${i2.length} exceeds maximum of 255`);
-          let j2 = this.USER_BROADCAST_PUSH_META_LENGTH + f2.length + e10.length + d10.length + g2.length + i2.length, k2 = new ArrayBuffer(this.HEADER_LENGTH + j2), l2 = new DataView(k2), m2 = 0;
-          l2.setUint8(m2++, this.KINDS.userBroadcastPush), l2.setUint8(m2++, f2.length), l2.setUint8(m2++, e10.length), l2.setUint8(m2++, d10.length), l2.setUint8(m2++, g2.length), l2.setUint8(m2++, i2.length), l2.setUint8(m2++, b10), Array.from(f2, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(e10, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(d10, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(g2, (a11) => l2.setUint8(m2++, a11.charCodeAt(0))), Array.from(i2, (a11) => l2.setUint8(m2++, a11.charCodeAt(0)));
-          var n2, o2, p2 = new Uint8Array(k2.byteLength + c10.byteLength);
-          return p2.set(new Uint8Array(k2), 0), p2.set(new Uint8Array(c10), k2.byteLength), p2.buffer;
-        }
-        decode(a10, b10) {
-          if (this._isArrayBuffer(a10)) return b10(this._binaryDecode(a10));
-          if ("string" == typeof a10) {
-            let [c10, d10, e10, f2, g2] = JSON.parse(a10);
-            return b10({ join_ref: c10, ref: d10, topic: e10, event: f2, payload: g2 });
-          }
-          return b10({});
-        }
-        _binaryDecode(a10) {
-          let b10 = new DataView(a10), c10 = b10.getUint8(0), d10 = new TextDecoder();
-          if (c10 === this.KINDS.userBroadcast) return this._decodeUserBroadcast(a10, b10, d10);
-        }
-        _decodeUserBroadcast(a10, b10, c10) {
-          let d10 = b10.getUint8(1), e10 = b10.getUint8(2), f2 = b10.getUint8(3), g2 = b10.getUint8(4), h2 = this.HEADER_LENGTH + 4, i2 = c10.decode(a10.slice(h2, h2 + d10));
-          h2 += d10;
-          let j2 = c10.decode(a10.slice(h2, h2 + e10));
-          h2 += e10;
-          let k2 = c10.decode(a10.slice(h2, h2 + f2));
-          h2 += f2;
-          let l2 = a10.slice(h2, a10.byteLength), m2 = g2 === this.JSON_ENCODING ? JSON.parse(c10.decode(l2)) : l2, n2 = { type: this.BROADCAST_EVENT, event: j2, payload: m2 };
-          return f2 > 0 && (n2.meta = JSON.parse(k2)), { join_ref: null, ref: null, topic: i2, event: this.BROADCAST_EVENT, payload: n2 };
-        }
-        _isArrayBuffer(a10) {
-          var b10;
-          return a10 instanceof ArrayBuffer || (null == (b10 = null == a10 ? void 0 : a10.constructor) ? void 0 : b10.name) === "ArrayBuffer";
-        }
-        _pick(a10, b10) {
-          return a10 && "object" == typeof a10 ? Object.fromEntries(Object.entries(a10).filter(([a11]) => b10.includes(a11))) : {};
-        }
-      }
-      !function(a10) {
-        a10.abstime = "abstime", a10.bool = "bool", a10.date = "date", a10.daterange = "daterange", a10.float4 = "float4", a10.float8 = "float8", a10.int2 = "int2", a10.int4 = "int4", a10.int4range = "int4range", a10.int8 = "int8", a10.int8range = "int8range", a10.json = "json", a10.jsonb = "jsonb", a10.money = "money", a10.numeric = "numeric", a10.oid = "oid", a10.reltime = "reltime", a10.text = "text", a10.time = "time", a10.timestamp = "timestamp", a10.timestamptz = "timestamptz", a10.timetz = "timetz", a10.tsrange = "tsrange", a10.tstzrange = "tstzrange";
-      }(h || (h = {}));
-      let b1 = (a10, b10, c10 = {}) => {
-        var d10;
-        let e10 = null != (d10 = c10.skipTypes) ? d10 : [];
-        return b10 ? Object.keys(b10).reduce((c11, d11) => (c11[d11] = b2(d11, a10, b10, e10), c11), {}) : {};
-      }, b2 = (a10, b10, c10, d10) => {
-        let e10 = b10.find((b11) => b11.name === a10), f2 = null == e10 ? void 0 : e10.type, g2 = c10[a10];
-        return f2 && !d10.includes(f2) ? b3(f2, g2) : b4(g2);
-      }, b3 = (a10, b10) => {
-        if ("_" === a10.charAt(0)) return b8(b10, a10.slice(1, a10.length));
-        switch (a10) {
-          case h.bool:
-            return b5(b10);
-          case h.float4:
-          case h.float8:
-          case h.int2:
-          case h.int4:
-          case h.int8:
-          case h.numeric:
-          case h.oid:
-            return b6(b10);
-          case h.json:
-          case h.jsonb:
-            return b7(b10);
-          case h.timestamp:
-            return b9(b10);
-          case h.abstime:
-          case h.date:
-          case h.daterange:
-          case h.int4range:
-          case h.int8range:
-          case h.money:
-          case h.reltime:
-          case h.text:
-          case h.time:
-          case h.timestamptz:
-          case h.timetz:
-          case h.tsrange:
-          case h.tstzrange:
-          default:
-            return b4(b10);
-        }
-      }, b4 = (a10) => a10, b5 = (a10) => {
-        switch (a10) {
-          case "t":
-            return true;
-          case "f":
-            return false;
-          default:
-            return a10;
-        }
-      }, b6 = (a10) => {
-        if ("string" == typeof a10) {
-          let b10 = parseFloat(a10);
-          if (!Number.isNaN(b10)) return b10;
-        }
-        return a10;
-      }, b7 = (a10) => {
-        if ("string" == typeof a10) try {
-          return JSON.parse(a10);
-        } catch (a11) {
-        }
-        return a10;
-      }, b8 = (a10, b10) => {
-        if ("string" != typeof a10) return a10;
-        let c10 = a10.length - 1, d10 = a10[c10];
-        if ("{" === a10[0] && "}" === d10) {
-          let d11, e10 = a10.slice(1, c10);
-          try {
-            d11 = JSON.parse("[" + e10 + "]");
-          } catch (a11) {
-            d11 = e10 ? e10.split(",") : [];
-          }
-          return d11.map((a11) => b3(b10, a11));
-        }
-        return a10;
-      }, b9 = (a10) => "string" == typeof a10 ? a10.replace(" ", "T") : a10, ca = (a10) => {
-        let b10 = new URL(a10);
-        return b10.protocol = b10.protocol.replace(/^ws/i, "http"), b10.pathname = b10.pathname.replace(/\/+$/, "").replace(/\/socket\/websocket$/i, "").replace(/\/socket$/i, "").replace(/\/websocket$/i, ""), "" === b10.pathname || "/" === b10.pathname ? b10.pathname = "/api/broadcast" : b10.pathname = b10.pathname + "/api/broadcast", b10.href;
-      };
-      var cb = (a10) => "function" == typeof a10 ? a10 : function() {
-        return a10;
-      }, cc = "undefined" != typeof window ? window : null, cd = ("undefined" != typeof self ? self : null) || cc || globalThis, ce = { connecting: 0, open: 1, closing: 2, closed: 3 }, cf = { closed: "closed", errored: "errored", joined: "joined", joining: "joining", leaving: "leaving" }, cg = { close: "phx_close", error: "phx_error", join: "phx_join", reply: "phx_reply", leave: "phx_leave" }, ch = { longpoll: "longpoll", websocket: "websocket" }, ci = { complete: 4 }, cj = "base64url.bearer.phx.", ck = class {
-        constructor(a10, b10, c10, d10) {
-          this.channel = a10, this.event = b10, this.payload = c10 || function() {
-            return {};
-          }, this.receivedResp = null, this.timeout = d10, this.timeoutTimer = null, this.recHooks = [], this.sent = false, this.ref = void 0;
-        }
-        resend(a10) {
-          this.timeout = a10, this.reset(), this.send();
-        }
-        send() {
-          this.hasReceived("timeout") || (this.startTimeout(), this.sent = true, this.channel.socket.push({ topic: this.channel.topic, event: this.event, payload: this.payload(), ref: this.ref, join_ref: this.channel.joinRef() }));
-        }
-        receive(a10, b10) {
-          return this.hasReceived(a10) && b10(this.receivedResp.response), this.recHooks.push({ status: a10, callback: b10 }), this;
-        }
-        reset() {
-          this.cancelRefEvent(), this.ref = null, this.refEvent = null, this.receivedResp = null, this.sent = false;
-        }
-        destroy() {
-          this.cancelRefEvent(), this.cancelTimeout();
-        }
-        matchReceive({ status: a10, response: b10, _ref: c10 }) {
-          this.recHooks.filter((b11) => b11.status === a10).forEach((a11) => a11.callback(b10));
-        }
-        cancelRefEvent() {
-          this.refEvent && this.channel.off(this.refEvent);
-        }
-        cancelTimeout() {
-          clearTimeout(this.timeoutTimer), this.timeoutTimer = null;
-        }
-        startTimeout() {
-          this.timeoutTimer && this.cancelTimeout(), this.ref = this.channel.socket.makeRef(), this.refEvent = this.channel.replyEventName(this.ref), this.channel.on(this.refEvent, (a10) => {
-            this.cancelRefEvent(), this.cancelTimeout(), this.receivedResp = a10, this.matchReceive(a10);
-          }), this.timeoutTimer = setTimeout(() => {
-            this.trigger("timeout", {});
-          }, this.timeout);
-        }
-        hasReceived(a10) {
-          return this.receivedResp && this.receivedResp.status === a10;
-        }
-        trigger(a10, b10) {
-          this.channel.trigger(this.refEvent, { status: a10, response: b10 });
-        }
-      }, cl = class {
-        constructor(a10, b10) {
-          this.callback = a10, this.timerCalc = b10, this.timer = void 0, this.tries = 0;
-        }
-        reset() {
-          this.tries = 0, clearTimeout(this.timer);
-        }
-        scheduleTimeout() {
-          clearTimeout(this.timer), this.timer = setTimeout(() => {
-            this.tries = this.tries + 1, this.callback();
-          }, this.timerCalc(this.tries + 1));
-        }
-      }, cm = class {
-        constructor(a10, b10, c10) {
-          this.state = cf.closed, this.topic = a10, this.params = cb(b10 || {}), this.socket = c10, this.bindings = [], this.bindingRef = 0, this.timeout = this.socket.timeout, this.joinedOnce = false, this.joinPush = new ck(this, cg.join, this.params, this.timeout), this.pushBuffer = [], this.stateChangeRefs = [], this.rejoinTimer = new cl(() => {
-            this.socket.isConnected() && this.rejoin();
-          }, this.socket.rejoinAfterMs), this.stateChangeRefs.push(this.socket.onError(() => this.rejoinTimer.reset())), this.stateChangeRefs.push(this.socket.onOpen(() => {
-            this.rejoinTimer.reset(), this.isErrored() && this.rejoin();
-          })), this.joinPush.receive("ok", () => {
-            this.state = cf.joined, this.rejoinTimer.reset(), this.pushBuffer.forEach((a11) => a11.send()), this.pushBuffer = [];
-          }), this.joinPush.receive("error", (a11) => {
-            this.state = cf.errored, this.socket.hasLogger() && this.socket.log("channel", `error ${this.topic}`, a11), this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
-          }), this.onClose(() => {
-            this.rejoinTimer.reset(), this.socket.hasLogger() && this.socket.log("channel", `close ${this.topic}`), this.state = cf.closed, this.socket.remove(this);
-          }), this.onError((a11) => {
-            this.socket.hasLogger() && this.socket.log("channel", `error ${this.topic}`, a11), this.isJoining() && this.joinPush.reset(), this.state = cf.errored, this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
-          }), this.joinPush.receive("timeout", () => {
-            this.socket.hasLogger() && this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout), new ck(this, cg.leave, cb({}), this.timeout).send(), this.state = cf.errored, this.joinPush.reset(), this.socket.isConnected() && this.rejoinTimer.scheduleTimeout();
-          }), this.on(cg.reply, (a11, b11) => {
-            this.trigger(this.replyEventName(b11), a11);
-          });
-        }
-        join(a10 = this.timeout) {
-          if (!this.joinedOnce) return this.timeout = a10, this.joinedOnce = true, this.rejoin(), this.joinPush;
-          throw Error("tried to join multiple times. 'join' can only be called a single time per channel instance");
-        }
-        teardown() {
-          this.pushBuffer.forEach((a10) => a10.destroy()), this.pushBuffer = [], this.rejoinTimer.reset(), this.joinPush.destroy(), this.state = cf.closed, this.bindings = [];
-        }
-        onClose(a10) {
-          this.on(cg.close, a10);
-        }
-        onError(a10) {
-          return this.on(cg.error, (b10) => a10(b10));
-        }
-        on(a10, b10) {
-          let c10 = this.bindingRef++;
-          return this.bindings.push({ event: a10, ref: c10, callback: b10 }), c10;
-        }
-        off(a10, b10) {
-          this.bindings = this.bindings.filter((c10) => c10.event !== a10 || void 0 !== b10 && b10 !== c10.ref);
-        }
-        canPush() {
-          return this.socket.isConnected() && this.isJoined();
-        }
-        push(a10, b10, c10 = this.timeout) {
-          if (b10 = b10 || {}, !this.joinedOnce) throw Error(`tried to push '${a10}' to '${this.topic}' before joining. Use channel.join() before pushing events`);
-          let d10 = new ck(this, a10, function() {
-            return b10;
-          }, c10);
-          return this.canPush() ? d10.send() : (d10.startTimeout(), this.pushBuffer.push(d10)), d10;
-        }
-        leave(a10 = this.timeout) {
-          this.rejoinTimer.reset(), this.joinPush.cancelTimeout(), this.state = cf.leaving;
-          let b10 = () => {
-            this.socket.hasLogger() && this.socket.log("channel", `leave ${this.topic}`), this.trigger(cg.close, "leave");
-          }, c10 = new ck(this, cg.leave, cb({}), a10);
-          return c10.receive("ok", () => b10()).receive("timeout", () => b10()), c10.send(), this.canPush() || c10.trigger("ok", {}), c10;
-        }
-        onMessage(a10, b10, c10) {
-          return b10;
-        }
-        filterBindings(a10, b10, c10) {
-          return true;
-        }
-        isMember(a10, b10, c10, d10) {
-          return this.topic === a10 && (!d10 || d10 === this.joinRef() || (this.socket.hasLogger() && this.socket.log("channel", "dropping outdated message", { topic: a10, event: b10, payload: c10, joinRef: d10 }), false));
-        }
-        joinRef() {
-          return this.joinPush.ref;
-        }
-        rejoin(a10 = this.timeout) {
-          this.isLeaving() || (this.socket.leaveOpenTopic(this.topic), this.state = cf.joining, this.joinPush.resend(a10));
-        }
-        trigger(a10, b10, c10, d10) {
-          let e10 = this.onMessage(a10, b10, c10, d10);
-          if (b10 && !e10) throw Error("channel onMessage callbacks must return the payload, modified or unmodified");
-          let f2 = this.bindings.filter((d11) => d11.event === a10 && this.filterBindings(d11, b10, c10));
-          for (let a11 = 0; a11 < f2.length; a11++) f2[a11].callback(e10, c10, d10 || this.joinRef());
-        }
-        replyEventName(a10) {
-          return `chan_reply_${a10}`;
-        }
-        isClosed() {
-          return this.state === cf.closed;
-        }
-        isErrored() {
-          return this.state === cf.errored;
-        }
-        isJoined() {
-          return this.state === cf.joined;
-        }
-        isJoining() {
-          return this.state === cf.joining;
-        }
-        isLeaving() {
-          return this.state === cf.leaving;
-        }
-      }, cn = class {
-        static request(a10, b10, c10, d10, e10, f2, g2) {
-          if (cd.XDomainRequest) {
-            let c11 = new cd.XDomainRequest();
-            return this.xdomainRequest(c11, a10, b10, d10, e10, f2, g2);
-          }
-          if (cd.XMLHttpRequest) {
-            let h2 = new cd.XMLHttpRequest();
-            return this.xhrRequest(h2, a10, b10, c10, d10, e10, f2, g2);
-          }
-          if (cd.fetch && cd.AbortController) return this.fetchRequest(a10, b10, c10, d10, e10, f2, g2);
-          throw Error("No suitable XMLHttpRequest implementation found");
-        }
-        static fetchRequest(a10, b10, c10, d10, e10, f2, g2) {
-          let h2 = { method: a10, headers: c10, body: d10 }, i2 = null;
-          return e10 && (i2 = new AbortController(), setTimeout(() => i2.abort(), e10), h2.signal = i2.signal), cd.fetch(b10, h2).then((a11) => a11.text()).then((a11) => this.parseJSON(a11)).then((a11) => g2 && g2(a11)).catch((a11) => {
-            "AbortError" === a11.name && f2 ? f2() : g2 && g2(null);
-          }), i2;
-        }
-        static xdomainRequest(a10, b10, c10, d10, e10, f2, g2) {
-          return a10.timeout = e10, a10.open(b10, c10), a10.onload = () => {
-            let b11 = this.parseJSON(a10.responseText);
-            g2 && g2(b11);
-          }, f2 && (a10.ontimeout = f2), a10.onprogress = () => {
-          }, a10.send(d10), a10;
-        }
-        static xhrRequest(a10, b10, c10, d10, e10, f2, g2, h2) {
-          for (let [e11, g3] of (a10.open(b10, c10, true), a10.timeout = f2, Object.entries(d10))) a10.setRequestHeader(e11, g3);
-          return a10.onerror = () => h2 && h2(null), a10.onreadystatechange = () => {
-            a10.readyState === ci.complete && h2 && h2(this.parseJSON(a10.responseText));
-          }, g2 && (a10.ontimeout = g2), a10.send(e10), a10;
-        }
-        static parseJSON(a10) {
-          if (!a10 || "" === a10) return null;
-          try {
-            return JSON.parse(a10);
-          } catch {
-            return console && console.log("failed to parse JSON response", a10), null;
-          }
-        }
-        static serialize(a10, b10) {
-          let c10 = [];
-          for (var d10 in a10) {
-            if (!Object.prototype.hasOwnProperty.call(a10, d10)) continue;
-            let e10 = b10 ? `${b10}[${d10}]` : d10, f2 = a10[d10];
-            "object" == typeof f2 ? c10.push(this.serialize(f2, e10)) : c10.push(encodeURIComponent(e10) + "=" + encodeURIComponent(f2));
-          }
-          return c10.join("&");
-        }
-        static appendParams(a10, b10) {
-          if (0 === Object.keys(b10).length) return a10;
-          let c10 = a10.match(/\?/) ? "&" : "?";
-          return `${a10}${c10}${this.serialize(b10)}`;
-        }
-      }, co = class {
-        constructor(a10, b10) {
-          b10 && 2 === b10.length && b10[1].startsWith(cj) && (this.authToken = atob(b10[1].slice(cj.length))), this.endPoint = null, this.token = null, this.skipHeartbeat = true, this.reqs = /* @__PURE__ */ new Set(), this.awaitingBatchAck = false, this.currentBatch = null, this.currentBatchTimer = null, this.batchBuffer = [], this.onopen = function() {
-          }, this.onerror = function() {
-          }, this.onmessage = function() {
-          }, this.onclose = function() {
-          }, this.pollEndpoint = this.normalizeEndpoint(a10), this.readyState = ce.connecting, setTimeout(() => this.poll(), 0);
-        }
-        normalizeEndpoint(a10) {
-          return a10.replace("ws://", "http://").replace("wss://", "https://").replace(RegExp("(.*)/" + ch.websocket), "$1/" + ch.longpoll);
-        }
-        endpointURL() {
-          return cn.appendParams(this.pollEndpoint, { token: this.token });
-        }
-        closeAndRetry(a10, b10, c10) {
-          this.close(a10, b10, c10), this.readyState = ce.connecting;
-        }
-        ontimeout() {
-          this.onerror("timeout"), this.closeAndRetry(1005, "timeout", false);
-        }
-        isActive() {
-          return this.readyState === ce.open || this.readyState === ce.connecting;
-        }
-        poll() {
-          let a10 = { Accept: "application/json" };
-          this.authToken && (a10["X-Phoenix-AuthToken"] = this.authToken), this.ajax("GET", a10, null, () => this.ontimeout(), (a11) => {
-            if (a11) {
-              var { status: b10, token: c10, messages: d10 } = a11;
-              if (410 === b10 && null !== this.token) {
-                this.onerror(410), this.closeAndRetry(3410, "session_gone", false);
-                return;
-              }
-              this.token = c10;
-            } else b10 = 0;
-            switch (b10) {
-              case 200:
-                d10.forEach((a12) => {
-                  setTimeout(() => this.onmessage({ data: a12 }), 0);
-                }), this.poll();
-                break;
-              case 204:
-                this.poll();
-                break;
-              case 410:
-                this.readyState = ce.open, this.onopen({}), this.poll();
-                break;
-              case 403:
-                this.onerror(403), this.close(1008, "forbidden", false);
-                break;
-              case 0:
-              case 500:
-                this.onerror(500), this.closeAndRetry(1011, "internal server error", 500);
-                break;
-              default:
-                throw Error(`unhandled poll status ${b10}`);
-            }
-          });
-        }
-        send(a10) {
-          "string" != typeof a10 && (a10 = ((a11) => {
-            let b10 = "", c10 = new Uint8Array(a11), d10 = c10.byteLength;
-            for (let a12 = 0; a12 < d10; a12++) b10 += String.fromCharCode(c10[a12]);
-            return btoa(b10);
-          })(a10)), this.currentBatch ? this.currentBatch.push(a10) : this.awaitingBatchAck ? this.batchBuffer.push(a10) : (this.currentBatch = [a10], this.currentBatchTimer = setTimeout(() => {
-            this.batchSend(this.currentBatch), this.currentBatch = null;
-          }, 0));
-        }
-        batchSend(a10) {
-          this.awaitingBatchAck = true, this.ajax("POST", { "Content-Type": "application/x-ndjson" }, a10.join("\n"), () => this.onerror("timeout"), (a11) => {
-            this.awaitingBatchAck = false, a11 && 200 === a11.status ? this.batchBuffer.length > 0 && (this.batchSend(this.batchBuffer), this.batchBuffer = []) : (this.onerror(a11 && a11.status), this.closeAndRetry(1011, "internal server error", false));
-          });
-        }
-        close(a10, b10, c10) {
-          for (let a11 of this.reqs) a11.abort();
-          this.readyState = ce.closed;
-          let d10 = Object.assign({ code: 1e3, reason: void 0, wasClean: true }, { code: a10, reason: b10, wasClean: c10 });
-          this.batchBuffer = [], clearTimeout(this.currentBatchTimer), this.currentBatchTimer = null, "undefined" != typeof CloseEvent ? this.onclose(new CloseEvent("close", d10)) : this.onclose(d10);
-        }
-        ajax(a10, b10, c10, d10, e10) {
-          let f2, g2 = () => {
-            this.reqs.delete(f2), d10();
-          };
-          f2 = cn.request(a10, this.endpointURL(), b10, c10, this.timeout, g2, (a11) => {
-            this.reqs.delete(f2), this.isActive() && e10(a11);
-          }), this.reqs.add(f2);
-        }
-      }, cp = class a10 {
-        constructor(b10, c10 = {}) {
-          let d10 = c10.events || { state: "presence_state", diff: "presence_diff" };
-          this.state = {}, this.pendingDiffs = [], this.channel = b10, this.joinRef = null, this.caller = { onJoin: function() {
-          }, onLeave: function() {
-          }, onSync: function() {
-          } }, this.channel.on(d10.state, (b11) => {
-            let { onJoin: c11, onLeave: d11, onSync: e10 } = this.caller;
-            this.joinRef = this.channel.joinRef(), this.state = a10.syncState(this.state, b11, c11, d11), this.pendingDiffs.forEach((b12) => {
-              this.state = a10.syncDiff(this.state, b12, c11, d11);
-            }), this.pendingDiffs = [], e10();
-          }), this.channel.on(d10.diff, (b11) => {
-            let { onJoin: c11, onLeave: d11, onSync: e10 } = this.caller;
-            this.inPendingSyncState() ? this.pendingDiffs.push(b11) : (this.state = a10.syncDiff(this.state, b11, c11, d11), e10());
-          });
-        }
-        onJoin(a11) {
-          this.caller.onJoin = a11;
-        }
-        onLeave(a11) {
-          this.caller.onLeave = a11;
-        }
-        onSync(a11) {
-          this.caller.onSync = a11;
-        }
-        list(b10) {
-          return a10.list(this.state, b10);
-        }
-        inPendingSyncState() {
-          return !this.joinRef || this.joinRef !== this.channel.joinRef();
-        }
-        static syncState(a11, b10, c10, d10) {
-          let e10 = this.clone(a11), f2 = {}, g2 = {};
-          return this.map(e10, (a12, c11) => {
-            b10[a12] || (g2[a12] = c11);
-          }), this.map(b10, (a12, b11) => {
-            let c11 = e10[a12];
-            if (c11) {
-              let d11 = b11.metas.map((a13) => a13.phx_ref), e11 = c11.metas.map((a13) => a13.phx_ref), h2 = b11.metas.filter((a13) => 0 > e11.indexOf(a13.phx_ref)), i2 = c11.metas.filter((a13) => 0 > d11.indexOf(a13.phx_ref));
-              h2.length > 0 && (f2[a12] = b11, f2[a12].metas = h2), i2.length > 0 && (g2[a12] = this.clone(c11), g2[a12].metas = i2);
-            } else f2[a12] = b11;
-          }), this.syncDiff(e10, { joins: f2, leaves: g2 }, c10, d10);
-        }
-        static syncDiff(a11, b10, c10, d10) {
-          let { joins: e10, leaves: f2 } = this.clone(b10);
-          return c10 || (c10 = function() {
-          }), d10 || (d10 = function() {
-          }), this.map(e10, (b11, d11) => {
-            let e11 = a11[b11];
-            if (a11[b11] = this.clone(d11), e11) {
-              let c11 = a11[b11].metas.map((a12) => a12.phx_ref), d12 = e11.metas.filter((a12) => 0 > c11.indexOf(a12.phx_ref));
-              a11[b11].metas.unshift(...d12);
-            }
-            c10(b11, e11, d11);
-          }), this.map(f2, (b11, c11) => {
-            let e11 = a11[b11];
-            if (!e11) return;
-            let f3 = c11.metas.map((a12) => a12.phx_ref);
-            e11.metas = e11.metas.filter((a12) => 0 > f3.indexOf(a12.phx_ref)), d10(b11, e11, c11), 0 === e11.metas.length && delete a11[b11];
-          }), a11;
-        }
-        static list(a11, b10) {
-          return b10 || (b10 = function(a12, b11) {
-            return b11;
-          }), this.map(a11, (a12, c10) => b10(a12, c10));
-        }
-        static map(a11, b10) {
-          return Object.getOwnPropertyNames(a11).map((c10) => b10(c10, a11[c10]));
-        }
-        static clone(a11) {
-          return JSON.parse(JSON.stringify(a11));
-        }
-      }, cq = { HEADER_LENGTH: 1, META_LENGTH: 4, KINDS: { push: 0, reply: 1, broadcast: 2 }, encode(a10, b10) {
-        return a10.payload.constructor === ArrayBuffer ? b10(this.binaryEncode(a10)) : b10(JSON.stringify([a10.join_ref, a10.ref, a10.topic, a10.event, a10.payload]));
-      }, decode(a10, b10) {
-        if (a10.constructor === ArrayBuffer) return b10(this.binaryDecode(a10));
-        {
-          let [c10, d10, e10, f2, g2] = JSON.parse(a10);
-          return b10({ join_ref: c10, ref: d10, topic: e10, event: f2, payload: g2 });
-        }
-      }, binaryEncode(a10) {
-        let { join_ref: b10, ref: c10, event: d10, topic: e10, payload: f2 } = a10, g2 = this.META_LENGTH + b10.length + c10.length + e10.length + d10.length, h2 = new ArrayBuffer(this.HEADER_LENGTH + g2), i2 = new DataView(h2), j2 = 0;
-        i2.setUint8(j2++, this.KINDS.push), i2.setUint8(j2++, b10.length), i2.setUint8(j2++, c10.length), i2.setUint8(j2++, e10.length), i2.setUint8(j2++, d10.length), Array.from(b10, (a11) => i2.setUint8(j2++, a11.charCodeAt(0))), Array.from(c10, (a11) => i2.setUint8(j2++, a11.charCodeAt(0))), Array.from(e10, (a11) => i2.setUint8(j2++, a11.charCodeAt(0))), Array.from(d10, (a11) => i2.setUint8(j2++, a11.charCodeAt(0)));
-        var k2 = new Uint8Array(h2.byteLength + f2.byteLength);
-        return k2.set(new Uint8Array(h2), 0), k2.set(new Uint8Array(f2), h2.byteLength), k2.buffer;
-      }, binaryDecode(a10) {
-        let b10 = new DataView(a10), c10 = b10.getUint8(0), d10 = new TextDecoder();
-        switch (c10) {
-          case this.KINDS.push:
-            return this.decodePush(a10, b10, d10);
-          case this.KINDS.reply:
-            return this.decodeReply(a10, b10, d10);
-          case this.KINDS.broadcast:
-            return this.decodeBroadcast(a10, b10, d10);
-        }
-      }, decodePush(a10, b10, c10) {
-        let d10 = b10.getUint8(1), e10 = b10.getUint8(2), f2 = b10.getUint8(3), g2 = this.HEADER_LENGTH + this.META_LENGTH - 1, h2 = c10.decode(a10.slice(g2, g2 + d10));
-        g2 += d10;
-        let i2 = c10.decode(a10.slice(g2, g2 + e10));
-        g2 += e10;
-        let j2 = c10.decode(a10.slice(g2, g2 + f2));
-        return g2 += f2, { join_ref: h2, ref: null, topic: i2, event: j2, payload: a10.slice(g2, a10.byteLength) };
-      }, decodeReply(a10, b10, c10) {
-        let d10 = b10.getUint8(1), e10 = b10.getUint8(2), f2 = b10.getUint8(3), g2 = b10.getUint8(4), h2 = this.HEADER_LENGTH + this.META_LENGTH, i2 = c10.decode(a10.slice(h2, h2 + d10));
-        h2 += d10;
-        let j2 = c10.decode(a10.slice(h2, h2 + e10));
-        h2 += e10;
-        let k2 = c10.decode(a10.slice(h2, h2 + f2));
-        h2 += f2;
-        let l2 = c10.decode(a10.slice(h2, h2 + g2));
-        h2 += g2;
-        let m2 = a10.slice(h2, a10.byteLength);
-        return { join_ref: i2, ref: j2, topic: k2, event: cg.reply, payload: { status: l2, response: m2 } };
-      }, decodeBroadcast(a10, b10, c10) {
-        let d10 = b10.getUint8(1), e10 = b10.getUint8(2), f2 = this.HEADER_LENGTH + 2, g2 = c10.decode(a10.slice(f2, f2 + d10));
-        f2 += d10;
-        let h2 = c10.decode(a10.slice(f2, f2 + e10));
-        return f2 += e10, { join_ref: null, ref: null, topic: g2, event: h2, payload: a10.slice(f2, a10.byteLength) };
-      } }, cr = class {
-        constructor(a10, b10 = {}) {
-          this.stateChangeCallbacks = { open: [], close: [], error: [], message: [] }, this.channels = [], this.sendBuffer = [], this.ref = 0, this.fallbackRef = null, this.timeout = b10.timeout || 1e4, this.transport = b10.transport || cd.WebSocket || co, this.conn = void 0, this.primaryPassedHealthCheck = false, this.longPollFallbackMs = b10.longPollFallbackMs, this.fallbackTimer = null;
-          let c10 = null;
-          try {
-            c10 = cd && cd.sessionStorage;
-          } catch {
-          }
-          this.sessionStore = b10.sessionStorage || c10, this.establishedConnections = 0, this.defaultEncoder = cq.encode.bind(cq), this.defaultDecoder = cq.decode.bind(cq), this.closeWasClean = true, this.disconnecting = false, this.binaryType = b10.binaryType || "arraybuffer", this.connectClock = 1, this.pageHidden = false, this.encode = void 0, this.decode = void 0, this.transport !== co ? (this.encode = b10.encode || this.defaultEncoder, this.decode = b10.decode || this.defaultDecoder) : (this.encode = this.defaultEncoder, this.decode = this.defaultDecoder);
-          let d10 = null;
-          cc && cc.addEventListener && (cc.addEventListener("pagehide", (a11) => {
-            this.conn && (this.disconnect(), d10 = this.connectClock);
-          }), cc.addEventListener("pageshow", (a11) => {
-            d10 === this.connectClock && (d10 = null, this.connect());
-          }), cc.addEventListener("visibilitychange", () => {
-            "hidden" === document.visibilityState ? this.pageHidden = true : (this.pageHidden = false, this.isConnected() || this.closeWasClean || this.teardown(() => this.connect()));
-          })), this.heartbeatIntervalMs = b10.heartbeatIntervalMs || 3e4, this.autoSendHeartbeat = b10.autoSendHeartbeat ?? true, this.heartbeatCallback = b10.heartbeatCallback ?? (() => {
-          }), this.rejoinAfterMs = (a11) => b10.rejoinAfterMs ? b10.rejoinAfterMs(a11) : [1e3, 2e3, 5e3][a11 - 1] || 1e4, this.reconnectAfterMs = (a11) => b10.reconnectAfterMs ? b10.reconnectAfterMs(a11) : [10, 50, 100, 150, 200, 250, 500, 1e3, 2e3][a11 - 1] || 5e3, this.logger = b10.logger || null, !this.logger && b10.debug && (this.logger = (a11, b11, c11) => {
-            console.log(`${a11}: ${b11}`, c11);
-          }), this.longpollerTimeout = b10.longpollerTimeout || 2e4, this.params = cb(b10.params || {}), this.endPoint = `${a10}/${ch.websocket}`, this.vsn = b10.vsn || "2.0.0", this.heartbeatTimeoutTimer = null, this.heartbeatTimer = null, this.heartbeatSentAt = null, this.pendingHeartbeatRef = null, this.reconnectTimer = new cl(() => {
-            if (this.pageHidden) {
-              this.log("Not reconnecting as page is hidden!"), this.teardown();
-              return;
-            }
-            this.teardown(async () => {
-              b10.beforeReconnect && await b10.beforeReconnect(), this.connect();
-            });
-          }, this.reconnectAfterMs), this.authToken = b10.authToken;
-        }
-        getLongPollTransport() {
-          return co;
-        }
-        replaceTransport(a10) {
-          this.connectClock++, this.closeWasClean = true, clearTimeout(this.fallbackTimer), this.reconnectTimer.reset(), this.conn && (this.conn.close(), this.conn = null), this.transport = a10;
-        }
-        protocol() {
-          return location.protocol.match(/^https/) ? "wss" : "ws";
-        }
-        endPointURL() {
-          let a10 = cn.appendParams(cn.appendParams(this.endPoint, this.params()), { vsn: this.vsn });
-          return "/" !== a10.charAt(0) ? a10 : "/" === a10.charAt(1) ? `${this.protocol()}:${a10}` : `${this.protocol()}://${location.host}${a10}`;
-        }
-        disconnect(a10, b10, c10) {
-          this.connectClock++, this.disconnecting = true, this.closeWasClean = true, clearTimeout(this.fallbackTimer), this.reconnectTimer.reset(), this.teardown(() => {
-            this.disconnecting = false, a10 && a10();
-          }, b10, c10);
-        }
-        connect(a10) {
-          a10 && (console && console.log("passing params to connect is deprecated. Instead pass :params to the Socket constructor"), this.params = cb(a10)), (!this.conn || this.disconnecting) && (this.longPollFallbackMs && this.transport !== co ? this.connectWithFallback(co, this.longPollFallbackMs) : this.transportConnect());
-        }
-        log(a10, b10, c10) {
-          this.logger && this.logger(a10, b10, c10);
-        }
-        hasLogger() {
-          return null !== this.logger;
-        }
-        onOpen(a10) {
-          let b10 = this.makeRef();
-          return this.stateChangeCallbacks.open.push([b10, a10]), b10;
-        }
-        onClose(a10) {
-          let b10 = this.makeRef();
-          return this.stateChangeCallbacks.close.push([b10, a10]), b10;
-        }
-        onError(a10) {
-          let b10 = this.makeRef();
-          return this.stateChangeCallbacks.error.push([b10, a10]), b10;
-        }
-        onMessage(a10) {
-          let b10 = this.makeRef();
-          return this.stateChangeCallbacks.message.push([b10, a10]), b10;
-        }
-        onHeartbeat(a10) {
-          this.heartbeatCallback = a10;
-        }
-        ping(a10) {
-          if (!this.isConnected()) return false;
-          let b10 = this.makeRef(), c10 = Date.now();
-          this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref: b10 });
-          let d10 = this.onMessage((e10) => {
-            e10.ref === b10 && (this.off([d10]), a10(Date.now() - c10));
-          });
-          return true;
-        }
-        transportName(a10) {
-          return a10 === co ? "LongPoll" : a10.name;
-        }
-        transportConnect() {
-          let a10;
-          this.connectClock++, this.closeWasClean = false, this.authToken && (a10 = ["phoenix", `${cj}${btoa(this.authToken).replace(/=/g, "")}`]), this.conn = new this.transport(this.endPointURL(), a10), this.conn.binaryType = this.binaryType, this.conn.timeout = this.longpollerTimeout, this.conn.onopen = () => this.onConnOpen(), this.conn.onerror = (a11) => this.onConnError(a11), this.conn.onmessage = (a11) => this.onConnMessage(a11), this.conn.onclose = (a11) => this.onConnClose(a11);
-        }
-        getSession(a10) {
-          return this.sessionStore && this.sessionStore.getItem(a10);
-        }
-        storeSession(a10, b10) {
-          this.sessionStore && this.sessionStore.setItem(a10, b10);
-        }
-        connectWithFallback(a10, b10 = 2500) {
-          let c10, d10;
-          clearTimeout(this.fallbackTimer);
-          let e10 = false, f2 = true, g2 = this.transportName(a10), h2 = (b11) => {
-            this.log("transport", `falling back to ${g2}...`, b11), this.off([c10, d10]), f2 = false, this.replaceTransport(a10), this.transportConnect();
-          };
-          if (this.getSession(`phx:fallback:${g2}`)) return h2("memorized");
-          this.fallbackTimer = setTimeout(h2, b10), d10 = this.onError((a11) => {
-            this.log("transport", "error", a11), f2 && !e10 && (clearTimeout(this.fallbackTimer), h2(a11));
-          }), this.fallbackRef && this.off([this.fallbackRef]), this.fallbackRef = this.onOpen(() => {
-            if (e10 = true, !f2) {
-              let b11 = this.transportName(a10);
-              return this.primaryPassedHealthCheck || this.storeSession(`phx:fallback:${b11}`, "true"), this.log("transport", `established ${b11} fallback`);
-            }
-            clearTimeout(this.fallbackTimer), this.fallbackTimer = setTimeout(h2, b10), this.ping((a11) => {
-              this.log("transport", "connected to primary after", a11), this.primaryPassedHealthCheck = true, clearTimeout(this.fallbackTimer);
-            });
-          }), this.transportConnect();
-        }
-        clearHeartbeats() {
-          clearTimeout(this.heartbeatTimer), clearTimeout(this.heartbeatTimeoutTimer);
-        }
-        onConnOpen() {
-          this.hasLogger() && this.log("transport", `connected to ${this.endPointURL()}`), this.closeWasClean = false, this.disconnecting = false, this.establishedConnections++, this.flushSendBuffer(), this.reconnectTimer.reset(), this.autoSendHeartbeat && this.resetHeartbeat(), this.triggerStateCallbacks("open");
-        }
-        heartbeatTimeout() {
-          if (this.pendingHeartbeatRef) {
-            this.pendingHeartbeatRef = null, this.heartbeatSentAt = null, this.hasLogger() && this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
-            try {
-              this.heartbeatCallback("timeout");
-            } catch (a10) {
-              this.log("error", "error in heartbeat callback", a10);
-            }
-            this.triggerChanError(Error("heartbeat timeout")), this.closeWasClean = false, this.teardown(() => this.reconnectTimer.scheduleTimeout(), 1e3, "heartbeat timeout");
-          }
-        }
-        resetHeartbeat() {
-          this.conn && this.conn.skipHeartbeat || (this.pendingHeartbeatRef = null, this.clearHeartbeats(), this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs));
-        }
-        teardown(a10, b10, c10) {
-          if (!this.conn) return a10 && a10();
-          let d10 = this.conn;
-          this.waitForBufferDone(d10, () => {
-            b10 ? d10.close(b10, c10 || "") : d10.close(), this.waitForSocketClosed(d10, () => {
-              this.conn === d10 && (this.conn.onopen = function() {
-              }, this.conn.onerror = function() {
-              }, this.conn.onmessage = function() {
-              }, this.conn.onclose = function() {
-              }, this.conn = null), a10 && a10();
-            });
-          });
-        }
-        waitForBufferDone(a10, b10, c10 = 1) {
-          if (5 === c10 || !a10.bufferedAmount) return void b10();
-          setTimeout(() => {
-            this.waitForBufferDone(a10, b10, c10 + 1);
-          }, 150 * c10);
-        }
-        waitForSocketClosed(a10, b10, c10 = 1) {
-          if (5 === c10 || a10.readyState === ce.closed) return void b10();
-          setTimeout(() => {
-            this.waitForSocketClosed(a10, b10, c10 + 1);
-          }, 150 * c10);
-        }
-        onConnClose(a10) {
-          this.conn && (this.conn.onclose = () => {
-          }), this.hasLogger() && this.log("transport", "close", a10), this.triggerChanError(a10), this.clearHeartbeats(), this.closeWasClean || this.reconnectTimer.scheduleTimeout(), this.triggerStateCallbacks("close", a10);
-        }
-        onConnError(a10) {
-          this.hasLogger() && this.log("transport", "error", a10);
-          let b10 = this.transport, c10 = this.establishedConnections;
-          this.triggerStateCallbacks("error", a10, b10, c10), (b10 === this.transport || c10 > 0) && this.triggerChanError(a10);
-        }
-        triggerChanError(a10) {
-          this.channels.forEach((b10) => {
-            b10.isErrored() || b10.isLeaving() || b10.isClosed() || b10.trigger(cg.error, a10);
-          });
-        }
-        connectionState() {
-          switch (this.conn && this.conn.readyState) {
-            case ce.connecting:
-              return "connecting";
-            case ce.open:
-              return "open";
-            case ce.closing:
-              return "closing";
-            default:
-              return "closed";
-          }
-        }
-        isConnected() {
-          return "open" === this.connectionState();
-        }
-        remove(a10) {
-          this.off(a10.stateChangeRefs), this.channels = this.channels.filter((b10) => b10 !== a10);
-        }
-        off(a10) {
-          for (let b10 in this.stateChangeCallbacks) this.stateChangeCallbacks[b10] = this.stateChangeCallbacks[b10].filter(([b11]) => -1 === a10.indexOf(b11));
-        }
-        channel(a10, b10 = {}) {
-          let c10 = new cm(a10, b10, this);
-          return this.channels.push(c10), c10;
-        }
-        push(a10) {
-          if (this.hasLogger()) {
-            let { topic: b10, event: c10, payload: d10, ref: e10, join_ref: f2 } = a10;
-            this.log("push", `${b10} ${c10} (${f2}, ${e10})`, d10);
-          }
-          this.isConnected() ? this.encode(a10, (a11) => this.conn.send(a11)) : this.sendBuffer.push(() => this.encode(a10, (a11) => this.conn.send(a11)));
-        }
-        makeRef() {
-          let a10 = this.ref + 1;
-          return a10 === this.ref ? this.ref = 0 : this.ref = a10, this.ref.toString();
-        }
-        sendHeartbeat() {
-          if (!this.isConnected()) {
-            try {
-              this.heartbeatCallback("disconnected");
-            } catch (a10) {
-              this.log("error", "error in heartbeat callback", a10);
-            }
-            return;
-          }
-          if (this.pendingHeartbeatRef) return void this.heartbeatTimeout();
-          this.pendingHeartbeatRef = this.makeRef(), this.heartbeatSentAt = Date.now(), this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref: this.pendingHeartbeatRef });
-          try {
-            this.heartbeatCallback("sent");
-          } catch (a10) {
-            this.log("error", "error in heartbeat callback", a10);
-          }
-          this.heartbeatTimeoutTimer = setTimeout(() => this.heartbeatTimeout(), this.heartbeatIntervalMs);
-        }
-        flushSendBuffer() {
-          this.isConnected() && this.sendBuffer.length > 0 && (this.sendBuffer.forEach((a10) => a10()), this.sendBuffer = []);
-        }
-        onConnMessage(a10) {
-          this.decode(a10.data, (a11) => {
-            let { topic: b10, event: c10, payload: d10, ref: e10, join_ref: f2 } = a11;
-            if (e10 && e10 === this.pendingHeartbeatRef) {
-              let a12 = this.heartbeatSentAt ? Date.now() - this.heartbeatSentAt : void 0;
-              this.clearHeartbeats();
-              try {
-                this.heartbeatCallback("ok" === d10.status ? "ok" : "error", a12);
-              } catch (a13) {
-                this.log("error", "error in heartbeat callback", a13);
-              }
-              this.pendingHeartbeatRef = null, this.heartbeatSentAt = null, this.autoSendHeartbeat && (this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs));
-            }
-            this.hasLogger() && this.log("receive", `${d10.status || ""} ${b10} ${c10} ${e10 && "(" + e10 + ")" || ""}`.trim(), d10);
-            for (let a12 = 0; a12 < this.channels.length; a12++) {
-              let g2 = this.channels[a12];
-              g2.isMember(b10, c10, d10, f2) && g2.trigger(c10, d10, e10, f2);
-            }
-            this.triggerStateCallbacks("message", a11);
-          });
-        }
-        triggerStateCallbacks(a10, ...b10) {
-          try {
-            this.stateChangeCallbacks[a10].forEach(([c10, d10]) => {
-              try {
-                d10(...b10);
-              } catch (b11) {
-                this.log("error", `error in ${a10} callback`, b11);
-              }
-            });
-          } catch (b11) {
-            this.log("error", `error triggering ${a10} callbacks`, b11);
-          }
-        }
-        leaveOpenTopic(a10) {
-          let b10 = this.channels.find((b11) => b11.topic === a10 && (b11.isJoined() || b11.isJoining()));
-          b10 && (this.hasLogger() && this.log("transport", `leaving duplicate topic "${a10}"`), b10.leave());
-        }
-      };
-      class cs {
-        constructor(a10, b10) {
-          let c10 = function(a11) {
-            return (null == a11 ? void 0 : a11.events) && { events: a11.events };
-          }(b10);
-          this.presence = new cp(a10.getChannel(), c10), this.presence.onJoin((b11, c11, d10) => {
-            let e10 = cs.onJoinPayload(b11, c11, d10);
-            a10.getChannel().trigger("presence", e10);
-          }), this.presence.onLeave((b11, c11, d10) => {
-            let e10 = cs.onLeavePayload(b11, c11, d10);
-            a10.getChannel().trigger("presence", e10);
-          }), this.presence.onSync(() => {
-            a10.getChannel().trigger("presence", { event: "sync" });
-          });
-        }
-        get state() {
-          return cs.transformState(this.presence.state);
-        }
-        static transformState(a10) {
-          return Object.getOwnPropertyNames(a10 = JSON.parse(JSON.stringify(a10))).reduce((b10, c10) => {
-            let d10 = a10[c10];
-            return b10[c10] = ct(d10), b10;
-          }, {});
-        }
-        static onJoinPayload(a10, b10, c10) {
-          return { event: "join", key: a10, currentPresences: cu(b10), newPresences: ct(c10) };
-        }
-        static onLeavePayload(a10, b10, c10) {
-          return { event: "leave", key: a10, currentPresences: cu(b10), leftPresences: ct(c10) };
-        }
-      }
-      function ct(a10) {
-        return a10.metas.map((a11) => (a11.presence_ref = a11.phx_ref, delete a11.phx_ref, delete a11.phx_ref_prev, a11));
-      }
-      function cu(a10) {
-        return (null == a10 ? void 0 : a10.metas) ? ct(a10) : [];
-      }
-      !function(a10) {
-        a10.SYNC = "sync", a10.JOIN = "join", a10.LEAVE = "leave";
-      }(i || (i = {}));
-      class cv {
-        get state() {
-          return this.presenceAdapter.state;
-        }
-        constructor(a10, b10) {
-          this.channel = a10, this.presenceAdapter = new cs(this.channel.channelAdapter, b10);
-        }
-      }
-      class cw {
-        constructor(a10, b10, c10) {
-          let d10 = { config: Object.assign({ broadcast: { ack: false, self: false }, presence: { key: "", enabled: false }, private: false }, c10.config) };
-          this.channel = a10.getSocket().channel(b10, d10), this.socket = a10;
-        }
-        get state() {
-          return this.channel.state;
-        }
-        set state(a10) {
-          this.channel.state = a10;
-        }
-        get joinedOnce() {
-          return this.channel.joinedOnce;
-        }
-        get joinPush() {
-          return this.channel.joinPush;
-        }
-        get rejoinTimer() {
-          return this.channel.rejoinTimer;
-        }
-        on(a10, b10) {
-          return this.channel.on(a10, b10);
-        }
-        off(a10, b10) {
-          this.channel.off(a10, b10);
-        }
-        subscribe(a10) {
-          return this.channel.join(a10);
-        }
-        unsubscribe(a10) {
-          return this.channel.leave(a10);
-        }
-        teardown() {
-          this.channel.teardown();
-        }
-        onClose(a10) {
-          this.channel.onClose(a10);
-        }
-        onError(a10) {
-          return this.channel.onError(a10);
-        }
-        push(a10, b10, c10) {
-          let d10;
-          try {
-            d10 = this.channel.push(a10, b10, c10);
-          } catch (b11) {
-            throw Error(`tried to push '${a10}' to '${this.channel.topic}' before joining. Use channel.subscribe() before pushing events`);
-          }
-          if (this.channel.pushBuffer.length > 100) {
-            let a11 = this.channel.pushBuffer.shift();
-            a11.cancelTimeout(), this.socket.log("channel", `discarded push due to buffer overflow: ${a11.event}`, a11.payload());
-          }
-          return d10;
-        }
-        updateJoinPayload(a10) {
-          let b10 = this.channel.joinPush.payload();
-          this.channel.joinPush.payload = () => Object.assign(Object.assign({}, b10), a10);
-        }
-        canPush() {
-          return this.socket.isConnected() && this.state === bZ.joined;
-        }
-        isJoined() {
-          return this.state === bZ.joined;
-        }
-        isJoining() {
-          return this.state === bZ.joining;
-        }
-        isClosed() {
-          return this.state === bZ.closed;
-        }
-        isLeaving() {
-          return this.state === bZ.leaving;
-        }
-        updateFilterBindings(a10) {
-          this.channel.filterBindings = a10;
-        }
-        updatePayloadTransform(a10) {
-          this.channel.onMessage = a10;
-        }
-        getChannel() {
-          return this.channel;
-        }
-      }
-      !function(a10) {
-        a10.ALL = "*", a10.INSERT = "INSERT", a10.UPDATE = "UPDATE", a10.DELETE = "DELETE";
-      }(j || (j = {})), function(a10) {
-        a10.BROADCAST = "broadcast", a10.PRESENCE = "presence", a10.POSTGRES_CHANGES = "postgres_changes", a10.SYSTEM = "system";
-      }(k || (k = {})), function(a10) {
-        a10.SUBSCRIBED = "SUBSCRIBED", a10.TIMED_OUT = "TIMED_OUT", a10.CLOSED = "CLOSED", a10.CHANNEL_ERROR = "CHANNEL_ERROR";
-      }(l || (l = {}));
-      class cx {
-        get state() {
-          return this.channelAdapter.state;
-        }
-        set state(a10) {
-          this.channelAdapter.state = a10;
-        }
-        get joinedOnce() {
-          return this.channelAdapter.joinedOnce;
-        }
-        get timeout() {
-          return this.socket.timeout;
-        }
-        get joinPush() {
-          return this.channelAdapter.joinPush;
-        }
-        get rejoinTimer() {
-          return this.channelAdapter.rejoinTimer;
-        }
-        constructor(a10, b10 = { config: {} }, c10) {
-          var d10, e10;
-          if (this.topic = a10, this.params = b10, this.socket = c10, this.bindings = {}, this.subTopic = a10.replace(/^realtime:/i, ""), this.params.config = Object.assign({ broadcast: { ack: false, self: false }, presence: { key: "", enabled: false }, private: false }, b10.config), this.channelAdapter = new cw(this.socket.socketAdapter, a10, this.params), this.presence = new cv(this), this._onClose(() => {
-            this.socket._remove(this);
-          }), this._updateFilterTransform(), this.broadcastEndpointURL = ca(this.socket.socketAdapter.endPointURL()), this.private = this.params.config.private || false, !this.private && (null == (e10 = null == (d10 = this.params.config) ? void 0 : d10.broadcast) ? void 0 : e10.replay)) throw Error(`tried to use replay on public channel '${this.topic}'. It must be a private channel.`);
-        }
-        subscribe(a10, b10 = this.timeout) {
-          var c10, d10, e10;
-          if (this.socket.isConnected() || this.socket.connect(), this.channelAdapter.isClosed()) {
-            let { config: { broadcast: f2, presence: g2, private: h2 } } = this.params, i2 = null != (d10 = null == (c10 = this.bindings.postgres_changes) ? void 0 : c10.map((a11) => a11.filter)) ? d10 : [], j2 = !!this.bindings[k.PRESENCE] && this.bindings[k.PRESENCE].length > 0 || (null == (e10 = this.params.config.presence) ? void 0 : e10.enabled) === true, m2 = {}, n2 = { broadcast: f2, presence: Object.assign(Object.assign({}, g2), { enabled: j2 }), postgres_changes: i2, private: h2 };
-            this.socket.accessTokenValue && (m2.access_token = this.socket.accessTokenValue), this._onError((b11) => {
-              null == a10 || a10(l.CHANNEL_ERROR, function(a11) {
-                if (a11 instanceof Error) return a11;
-                if ("string" == typeof a11) return Error(a11);
-                if (a11 && "object" == typeof a11) {
-                  if ("number" == typeof a11.code) {
-                    let b12 = "string" == typeof a11.reason && a11.reason ? ` (${a11.reason})` : "";
-                    return Error(`socket closed: ${a11.code}${b12}`, { cause: a11 });
-                  }
-                  return Error("channel error: transport failure", { cause: a11 });
-                }
-                return Error("channel error: connection lost");
-              }(b11));
-            }), this._onClose(() => null == a10 ? void 0 : a10(l.CLOSED)), this.updateJoinPayload(Object.assign({ config: n2 }, m2)), this._updateFilterMessage(), this.channelAdapter.subscribe(b10).receive("ok", async ({ postgres_changes: b11 }) => {
-              if (this.socket._isManualToken() || this.socket.setAuth(), void 0 === b11) {
-                null == a10 || a10(l.SUBSCRIBED);
-                return;
-              }
-              this._updatePostgresBindings(b11, a10);
-            }).receive("error", (b11) => {
-              this.state = bZ.errored;
-              let c11 = Object.values(b11).join(", ") || "error";
-              null == a10 || a10(l.CHANNEL_ERROR, Error(c11, { cause: b11 }));
-            }).receive("timeout", () => {
-              null == a10 || a10(l.TIMED_OUT);
-            });
-          }
-          return this;
-        }
-        _updatePostgresBindings(a10, b10) {
-          var c10;
-          let d10 = this.bindings.postgres_changes, e10 = null != (c10 = null == d10 ? void 0 : d10.length) ? c10 : 0, f2 = [];
-          for (let c11 = 0; c11 < e10; c11++) {
-            let e11 = d10[c11], { filter: { event: g2, schema: h2, table: i2, filter: j2 } } = e11, k2 = a10 && a10[c11];
-            if (k2 && k2.event === g2 && cx.isFilterValueEqual(k2.schema, h2) && cx.isFilterValueEqual(k2.table, i2) && cx.isFilterValueEqual(k2.filter, j2)) f2.push(Object.assign(Object.assign({}, e11), { id: k2.id }));
-            else {
-              this.unsubscribe(), this.state = bZ.errored, null == b10 || b10(l.CHANNEL_ERROR, Error("mismatch between server and client bindings for postgres changes"));
-              return;
-            }
-          }
-          this.bindings.postgres_changes = f2, this.state != bZ.errored && b10 && b10(l.SUBSCRIBED);
-        }
-        presenceState() {
-          return this.presence.state;
-        }
-        async track(a10, b10 = {}) {
-          return await this.send({ type: "presence", event: "track", payload: a10 }, b10.timeout || this.timeout);
-        }
-        async untrack(a10 = {}) {
-          return await this.send({ type: "presence", event: "untrack" }, a10);
-        }
-        on(a10, b10, c10) {
-          let d10 = this.channelAdapter.isJoined() || this.channelAdapter.isJoining(), e10 = a10 === k.PRESENCE || a10 === k.POSTGRES_CHANGES;
-          if (d10 && e10) throw this.socket.log("channel", `cannot add \`${a10}\` callbacks for ${this.topic} after \`subscribe()\`.`), Error(`cannot add \`${a10}\` callbacks for ${this.topic} after \`subscribe()\`.`);
-          return this._on(a10, b10, c10);
-        }
-        async httpSend(a10, b10, c10 = {}) {
-          var d10;
-          if (null == b10) return Promise.reject(Error("Payload is required for httpSend()"));
-          let e10 = { apikey: this.socket.apiKey ? this.socket.apiKey : "", "Content-Type": "application/json" };
-          this.socket.accessTokenValue && (e10.Authorization = `Bearer ${this.socket.accessTokenValue}`);
-          let f2 = { method: "POST", headers: e10, body: JSON.stringify({ messages: [{ topic: this.subTopic, event: a10, payload: b10, private: this.private }] }) }, g2 = await this._fetchWithTimeout(this.broadcastEndpointURL, f2, null != (d10 = c10.timeout) ? d10 : this.timeout);
-          if (202 === g2.status) return { success: true };
-          let h2 = g2.statusText;
-          try {
-            let a11 = await g2.json();
-            h2 = a11.error || a11.message || h2;
-          } catch (a11) {
-          }
-          return Promise.reject(Error(h2));
-        }
-        async send(a10, b10 = {}) {
-          var c10, d10;
-          if (this.channelAdapter.canPush() || "broadcast" !== a10.type) return new Promise((c11) => {
-            var d11, e10, f2;
-            let g2 = this.channelAdapter.push(a10.type, a10, b10.timeout || this.timeout);
-            "broadcast" !== a10.type || (null == (f2 = null == (e10 = null == (d11 = this.params) ? void 0 : d11.config) ? void 0 : e10.broadcast) ? void 0 : f2.ack) || c11("ok"), g2.receive("ok", () => c11("ok")), g2.receive("error", () => c11("error")), g2.receive("timeout", () => c11("timed out"));
-          });
-          {
-            console.warn("Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.");
-            let { event: e10, payload: f2 } = a10, g2 = { apikey: this.socket.apiKey ? this.socket.apiKey : "", "Content-Type": "application/json" };
-            this.socket.accessTokenValue && (g2.Authorization = `Bearer ${this.socket.accessTokenValue}`);
-            let h2 = { method: "POST", headers: g2, body: JSON.stringify({ messages: [{ topic: this.subTopic, event: e10, payload: f2, private: this.private }] }) };
-            try {
-              let a11 = await this._fetchWithTimeout(this.broadcastEndpointURL, h2, null != (c10 = b10.timeout) ? c10 : this.timeout);
-              return await (null == (d10 = a11.body) ? void 0 : d10.cancel()), a11.ok ? "ok" : "error";
-            } catch (a11) {
-              if (a11 instanceof Error && "AbortError" === a11.name) return "timed out";
-              return "error";
-            }
-          }
-        }
-        updateJoinPayload(a10) {
-          this.channelAdapter.updateJoinPayload(a10);
-        }
-        async unsubscribe(a10 = this.timeout) {
-          return new Promise((b10) => {
-            this.channelAdapter.unsubscribe(a10).receive("ok", () => b10("ok")).receive("timeout", () => b10("timed out")).receive("error", () => b10("error"));
-          });
-        }
-        teardown() {
-          this.channelAdapter.teardown();
-        }
-        async _fetchWithTimeout(a10, b10, c10) {
-          let d10 = new AbortController(), e10 = setTimeout(() => d10.abort(), c10), f2 = await this.socket.fetch(a10, Object.assign(Object.assign({}, b10), { signal: d10.signal }));
-          return clearTimeout(e10), f2;
-        }
-        _on(a10, b10, c10) {
-          let d10 = a10.toLocaleLowerCase(), e10 = this.channelAdapter.on(a10, c10), f2 = { type: d10, filter: b10, callback: c10, ref: e10 };
-          return this.bindings[d10] ? this.bindings[d10].push(f2) : this.bindings[d10] = [f2], this._updateFilterMessage(), this;
-        }
-        _onClose(a10) {
-          this.channelAdapter.onClose(a10);
-        }
-        _onError(a10) {
-          this.channelAdapter.onError(a10);
-        }
-        _updateFilterMessage() {
-          this.channelAdapter.updateFilterBindings((a10, b10, c10) => {
-            var d10, e10, f2, g2, h2, i2, j2;
-            let k2 = a10.event.toLocaleLowerCase();
-            if (this._notThisChannelEvent(k2, c10)) return false;
-            let l2 = null == (d10 = this.bindings[k2]) ? void 0 : d10.find((b11) => b11.ref === a10.ref);
-            if (!l2) return true;
-            if (!["broadcast", "presence", "postgres_changes"].includes(k2)) return l2.type.toLocaleLowerCase() === k2;
-            if ("id" in l2) {
-              let a11 = l2.id, c11 = null == (e10 = l2.filter) ? void 0 : e10.event;
-              return a11 && (null == (f2 = b10.ids) ? void 0 : f2.includes(a11)) && ("*" === c11 || (null == c11 ? void 0 : c11.toLocaleLowerCase()) === (null == (g2 = b10.data) ? void 0 : g2.type.toLocaleLowerCase()));
-            }
-            {
-              let a11 = null == (i2 = null == (h2 = null == l2 ? void 0 : l2.filter) ? void 0 : h2.event) ? void 0 : i2.toLocaleLowerCase();
-              return "*" === a11 || a11 === (null == (j2 = null == b10 ? void 0 : b10.event) ? void 0 : j2.toLocaleLowerCase());
-            }
-          });
-        }
-        _notThisChannelEvent(a10, b10) {
-          let { close: c10, error: d10, leave: e10, join: f2 } = b$;
-          return b10 && [c10, d10, e10, f2].includes(a10) && b10 !== this.joinPush.ref;
-        }
-        _updateFilterTransform() {
-          this.channelAdapter.updatePayloadTransform((a10, b10, c10) => {
-            if ("object" == typeof b10 && "ids" in b10) {
-              let a11 = b10.data, { schema: c11, table: d10, commit_timestamp: e10, type: f2, errors: g2 } = a11;
-              return Object.assign(Object.assign({}, { schema: c11, table: d10, commit_timestamp: e10, eventType: f2, new: {}, old: {}, errors: g2 }), this._getPayloadRecords(a11));
-            }
-            return b10;
-          });
-        }
-        copyBindings(a10) {
-          if (this.joinedOnce) throw Error("cannot copy bindings into joined channel");
-          for (let b10 in a10.bindings) for (let c10 of a10.bindings[b10]) this._on(c10.type, c10.filter, c10.callback);
-        }
-        static isFilterValueEqual(a10, b10) {
-          return (null != a10 ? a10 : void 0) === (null != b10 ? b10 : void 0);
-        }
-        _getPayloadRecords(a10) {
-          let b10 = { new: {}, old: {} };
-          return ("INSERT" === a10.type || "UPDATE" === a10.type) && (b10.new = b1(a10.columns, a10.record)), ("UPDATE" === a10.type || "DELETE" === a10.type) && (b10.old = b1(a10.columns, a10.old_record)), b10;
-        }
-      }
-      class cy {
-        constructor(a10, b10) {
-          this.socket = new cr(a10, b10);
-        }
-        get timeout() {
-          return this.socket.timeout;
-        }
-        get endPoint() {
-          return this.socket.endPoint;
-        }
-        get transport() {
-          return this.socket.transport;
-        }
-        get heartbeatIntervalMs() {
-          return this.socket.heartbeatIntervalMs;
-        }
-        get heartbeatCallback() {
-          return this.socket.heartbeatCallback;
-        }
-        set heartbeatCallback(a10) {
-          this.socket.heartbeatCallback = a10;
-        }
-        get heartbeatTimer() {
-          return this.socket.heartbeatTimer;
-        }
-        get pendingHeartbeatRef() {
-          return this.socket.pendingHeartbeatRef;
-        }
-        get reconnectTimer() {
-          return this.socket.reconnectTimer;
-        }
-        get vsn() {
-          return this.socket.vsn;
-        }
-        get encode() {
-          return this.socket.encode;
-        }
-        get decode() {
-          return this.socket.decode;
-        }
-        get reconnectAfterMs() {
-          return this.socket.reconnectAfterMs;
-        }
-        get sendBuffer() {
-          return this.socket.sendBuffer;
-        }
-        get stateChangeCallbacks() {
-          return this.socket.stateChangeCallbacks;
-        }
-        connect() {
-          this.socket.connect();
-        }
-        disconnect(a10, b10, c10, d10 = 1e4) {
-          return new Promise((e10) => {
-            setTimeout(() => e10("timeout"), d10), this.socket.disconnect(() => {
-              a10(), e10("ok");
-            }, b10, c10);
-          });
-        }
-        push(a10) {
-          this.socket.push(a10);
-        }
-        log(a10, b10, c10) {
-          this.socket.log(a10, b10, c10);
-        }
-        makeRef() {
-          return this.socket.makeRef();
-        }
-        onOpen(a10) {
-          this.socket.onOpen(a10);
-        }
-        onClose(a10) {
-          this.socket.onClose(a10);
-        }
-        onError(a10) {
-          this.socket.onError(a10);
-        }
-        onMessage(a10) {
-          this.socket.onMessage(a10);
-        }
-        isConnected() {
-          return this.socket.isConnected();
-        }
-        isConnecting() {
-          return this.socket.connectionState() == b_.connecting;
-        }
-        isDisconnecting() {
-          return this.socket.connectionState() == b_.closing;
-        }
-        connectionState() {
-          return this.socket.connectionState();
-        }
-        endPointURL() {
-          return this.socket.endPointURL();
-        }
-        sendHeartbeat() {
-          this.socket.sendHeartbeat();
-        }
-        getSocket() {
-          return this.socket;
-        }
-      }
-      let cz = { HEARTBEAT_INTERVAL: 25e3 }, cA = [1e3, 2e3, 5e3, 1e4], cB = `
-  addEventListener("message", (e) => {
-    if (e.data.event === "start") {
-      setInterval(() => postMessage({ event: "keepAlive" }), e.data.interval);
-    }
-  });`;
-      class cC {
-        get endPoint() {
-          return this.socketAdapter.endPoint;
-        }
-        get timeout() {
-          return this.socketAdapter.timeout;
-        }
-        get transport() {
-          return this.socketAdapter.transport;
-        }
-        get heartbeatCallback() {
-          return this.socketAdapter.heartbeatCallback;
-        }
-        get heartbeatIntervalMs() {
-          return this.socketAdapter.heartbeatIntervalMs;
-        }
-        get heartbeatTimer() {
-          return this.worker ? this._workerHeartbeatTimer : this.socketAdapter.heartbeatTimer;
-        }
-        get pendingHeartbeatRef() {
-          return this.worker ? this._pendingWorkerHeartbeatRef : this.socketAdapter.pendingHeartbeatRef;
-        }
-        get reconnectTimer() {
-          return this.socketAdapter.reconnectTimer;
-        }
-        get vsn() {
-          return this.socketAdapter.vsn;
-        }
-        get encode() {
-          return this.socketAdapter.encode;
-        }
-        get decode() {
-          return this.socketAdapter.decode;
-        }
-        get reconnectAfterMs() {
-          return this.socketAdapter.reconnectAfterMs;
-        }
-        get sendBuffer() {
-          return this.socketAdapter.sendBuffer;
-        }
-        get stateChangeCallbacks() {
-          return this.socketAdapter.stateChangeCallbacks;
-        }
-        constructor(a10, b10) {
-          var c10;
-          if (this.channels = [], this.accessTokenValue = null, this.accessToken = null, this.apiKey = null, this.httpEndpoint = "", this.headers = {}, this.params = {}, this.ref = 0, this.serializer = new b0(), this._manuallySetToken = false, this._authPromise = null, this._workerHeartbeatTimer = void 0, this._pendingWorkerHeartbeatRef = null, this._pendingDisconnectTimer = null, this._disconnectOnEmptyChannelsAfterMs = 0, this._resolveFetch = (a11) => a11 ? (...b11) => a11(...b11) : (...a12) => fetch(...a12), !(null == (c10 = null == b10 ? void 0 : b10.params) ? void 0 : c10.apikey)) throw Error("API key is required to connect to Realtime");
-          this.apiKey = b10.params.apikey;
-          let d10 = this._initializeOptions(b10);
-          this.socketAdapter = new cy(a10, d10), this.httpEndpoint = ca(a10), this.fetch = this._resolveFetch(null == b10 ? void 0 : b10.fetch);
-        }
-        connect() {
-          if (!(this.isConnecting() || this.isDisconnecting() || this.isConnected())) {
-            this.accessToken && !this._authPromise && this._setAuthSafely("connect"), this._setupConnectionHandlers();
-            try {
-              this.socketAdapter.connect();
-            } catch (b10) {
-              let a10 = b10.message;
-              if (a10.includes("Node.js")) throw Error(`${a10}
-
-To use Realtime in Node.js, you need to provide a WebSocket implementation:
-
-Option 1: Use Node.js 22+ which has native WebSocket support
-Option 2: Install and provide the "ws" package:
-
-  npm install ws
-
-  import ws from "ws"
-  const client = new RealtimeClient(url, {
-    ...options,
-    transport: ws
-  })`);
-              throw Error(`WebSocket not available: ${a10}`);
-            }
-            this._handleNodeJsRaceCondition();
-          }
-        }
-        endpointURL() {
-          return this.socketAdapter.endPointURL();
-        }
-        async disconnect(a10, b10) {
-          return (this._cancelPendingDisconnect(), this.isDisconnecting()) ? "ok" : await this.socketAdapter.disconnect(() => {
-            clearInterval(this._workerHeartbeatTimer), this._terminateWorker();
-          }, a10, b10);
-        }
-        getChannels() {
-          return this.channels;
-        }
-        async removeChannel(a10) {
-          let b10 = await a10.unsubscribe();
-          return "ok" === b10 && a10.teardown(), b10;
-        }
-        async removeAllChannels() {
-          let a10 = this.channels.map(async (a11) => {
-            let b11 = await a11.unsubscribe();
-            return a11.teardown(), b11;
-          }), b10 = await Promise.all(a10);
-          return await this.disconnect(), b10;
-        }
-        log(a10, b10, c10) {
-          this.socketAdapter.log(a10, b10, c10);
-        }
-        connectionState() {
-          return this.socketAdapter.connectionState() || b_.closed;
-        }
-        isConnected() {
-          return this.socketAdapter.isConnected();
-        }
-        isConnecting() {
-          return this.socketAdapter.isConnecting();
-        }
-        isDisconnecting() {
-          return this.socketAdapter.isDisconnecting();
-        }
-        channel(a10, b10 = { config: {} }) {
-          let c10 = `realtime:${a10}`, d10 = this.getChannels().find((a11) => a11.topic === c10);
-          if (d10) return d10;
-          {
-            let c11 = new cx(`realtime:${a10}`, b10, this);
-            return this._cancelPendingDisconnect(), this.channels.push(c11), c11;
-          }
-        }
-        push(a10) {
-          this.socketAdapter.push(a10);
-        }
-        async setAuth(a10 = null) {
-          this._authPromise = this._performAuth(a10);
-          try {
-            await this._authPromise;
-          } finally {
-            this._authPromise = null;
-          }
-        }
-        _isManualToken() {
-          return this._manuallySetToken;
-        }
-        async sendHeartbeat() {
-          this.socketAdapter.sendHeartbeat();
-        }
-        onHeartbeat(a10) {
-          this.socketAdapter.heartbeatCallback = this._wrapHeartbeatCallback(a10);
-        }
-        _makeRef() {
-          return this.socketAdapter.makeRef();
-        }
-        _remove(a10) {
-          this.channels = this.channels.filter((b10) => b10.topic !== a10.topic), 0 === this.channels.length && (this.log("transport", "no channels remaining, scheduling disconnect"), this._schedulePendingDisconnect());
-        }
-        _schedulePendingDisconnect() {
-          if (this._cancelPendingDisconnect(), 0 === this._disconnectOnEmptyChannelsAfterMs) {
-            this.log("transport", "disconnecting immediately - no channels"), this.disconnect();
-            return;
-          }
-          this._pendingDisconnectTimer = setTimeout(() => {
-            this._pendingDisconnectTimer = null, 0 === this.channels.length && (this.log("transport", "deferred disconnect fired - no channels, disconnecting"), this.disconnect());
-          }, this._disconnectOnEmptyChannelsAfterMs), this.log("transport", `deferred disconnect scheduled in ${this._disconnectOnEmptyChannelsAfterMs}ms`);
-        }
-        _cancelPendingDisconnect() {
-          null !== this._pendingDisconnectTimer && (this.log("transport", "pending disconnect cancelled - channel activity detected"), clearTimeout(this._pendingDisconnectTimer), this._pendingDisconnectTimer = null);
-        }
-        async _performAuth(a10 = null) {
-          let b10, c10 = false;
-          if (a10) b10 = a10, c10 = true;
-          else if (this.accessToken) try {
-            b10 = await this.accessToken();
-          } catch (a11) {
-            this.log("error", "Error fetching access token from callback", a11), b10 = this.accessTokenValue;
-          }
-          else b10 = this.accessTokenValue;
-          c10 ? this._manuallySetToken = true : this.accessToken && (this._manuallySetToken = false), this.accessTokenValue != b10 && (this.accessTokenValue = b10, this.channels.forEach((a11) => {
-            let c11 = { access_token: b10, version: "realtime-js/2.106.1" };
-            b10 && a11.updateJoinPayload(c11), a11.joinedOnce && a11.channelAdapter.isJoined() && a11.channelAdapter.push(b$.access_token, { access_token: b10 });
-          }));
-        }
-        async _waitForAuthIfNeeded() {
-          this._authPromise && await this._authPromise;
-        }
-        _setAuthSafely(a10 = "general") {
-          this._isManualToken() || this.setAuth().catch((b10) => {
-            this.log("error", `Error setting auth in ${a10}`, b10);
-          });
-        }
-        _setupConnectionHandlers() {
-          this.socketAdapter.onOpen(() => {
-            (this._authPromise || (this.accessToken && !this.accessTokenValue ? this.setAuth() : Promise.resolve())).catch((a10) => {
-              this.log("error", "error waiting for auth on connect", a10);
-            }), this.worker && !this.workerRef && this._startWorkerHeartbeat();
-          }), this.socketAdapter.onClose(() => {
-            this.worker && this.workerRef && this._terminateWorker();
-          }), this.socketAdapter.onMessage((a10) => {
-            a10.ref && a10.ref === this._pendingWorkerHeartbeatRef && (this._pendingWorkerHeartbeatRef = null);
-          });
-        }
-        _handleNodeJsRaceCondition() {
-          this.socketAdapter.isConnected() && this.socketAdapter.getSocket().onConnOpen();
-        }
-        _wrapHeartbeatCallback(a10) {
-          return (b10, c10) => {
-            "sent" == b10 && this._setAuthSafely(), a10 && a10(b10, c10);
-          };
-        }
-        _startWorkerHeartbeat() {
-          this.workerUrl ? this.log("worker", `starting worker for from ${this.workerUrl}`) : this.log("worker", "starting default worker");
-          let a10 = this._workerObjectUrl(this.workerUrl);
-          this.workerRef = new Worker(a10), this.workerRef.onerror = (a11) => {
-            this.log("worker", "worker error", a11.message), this._terminateWorker(), this.disconnect();
-          }, this.workerRef.onmessage = (a11) => {
-            "keepAlive" === a11.data.event && this.sendHeartbeat();
-          }, this.workerRef.postMessage({ event: "start", interval: this.heartbeatIntervalMs });
-        }
-        _terminateWorker() {
-          this.workerRef && (this.log("worker", "terminating worker"), this.workerRef.terminate(), this.workerRef = void 0);
-        }
-        _workerObjectUrl(a10) {
-          let b10;
-          if (a10) b10 = a10;
-          else {
-            let a11 = new Blob([cB], { type: "application/javascript" });
-            b10 = URL.createObjectURL(a11);
-          }
-          return b10;
-        }
-        _initializeOptions(a10) {
-          var b10, c10, d10, e10, f2, g2, h2, i2, j2, k2, l2, m2;
-          let n2, o2;
-          this.worker = null != (b10 = null == a10 ? void 0 : a10.worker) && b10, this.accessToken = null != (c10 = null == a10 ? void 0 : a10.accessToken) ? c10 : null;
-          let p2 = {};
-          p2.timeout = null != (d10 = null == a10 ? void 0 : a10.timeout) ? d10 : 1e4, p2.heartbeatIntervalMs = null != (e10 = null == a10 ? void 0 : a10.heartbeatIntervalMs) ? e10 : cz.HEARTBEAT_INTERVAL, this._disconnectOnEmptyChannelsAfterMs = null != (f2 = null == a10 ? void 0 : a10.disconnectOnEmptyChannelsAfterMs) ? f2 : 2 * (null != (g2 = null == a10 ? void 0 : a10.heartbeatIntervalMs) ? g2 : cz.HEARTBEAT_INTERVAL), p2.transport = null != (h2 = null == a10 ? void 0 : a10.transport) ? h2 : bX.getWebSocketConstructor(), p2.params = null == a10 ? void 0 : a10.params, p2.logger = null == a10 ? void 0 : a10.logger, p2.heartbeatCallback = this._wrapHeartbeatCallback(null == a10 ? void 0 : a10.heartbeatCallback), p2.sessionStorage = null != (i2 = null == a10 ? void 0 : a10.sessionStorage) ? i2 : function() {
-            try {
-              if ("undefined" != typeof globalThis && globalThis.sessionStorage) return globalThis.sessionStorage;
-            } catch (a12) {
-            }
-            let a11 = /* @__PURE__ */ new Map();
-            return { get length() {
-              return a11.size;
-            }, clear() {
-              a11.clear();
-            }, getItem: (b11) => a11.has(b11) ? a11.get(b11) : null, key(b11) {
-              var c11;
-              return null != (c11 = Array.from(a11.keys())[b11]) ? c11 : null;
-            }, removeItem(b11) {
-              a11.delete(b11);
-            }, setItem(b11, c11) {
-              a11.set(b11, String(c11));
-            } };
-          }(), p2.reconnectAfterMs = null != (j2 = null == a10 ? void 0 : a10.reconnectAfterMs) ? j2 : (a11) => cA[a11 - 1] || 1e4;
-          let q2 = null != (k2 = null == a10 ? void 0 : a10.vsn) ? k2 : bY;
-          switch (q2) {
-            case "1.0.0":
-              n2 = (a11, b11) => b11(JSON.stringify(a11)), o2 = (a11, b11) => b11(JSON.parse(a11));
-              break;
-            case bY:
-              n2 = this.serializer.encode.bind(this.serializer), o2 = this.serializer.decode.bind(this.serializer);
-              break;
-            default:
-              throw Error(`Unsupported serializer version: ${p2.vsn}`);
-          }
-          if (p2.vsn = q2, p2.encode = null != (l2 = null == a10 ? void 0 : a10.encode) ? l2 : n2, p2.decode = null != (m2 = null == a10 ? void 0 : a10.decode) ? m2 : o2, p2.beforeReconnect = this._reconnectAuth.bind(this), ((null == a10 ? void 0 : a10.logLevel) || (null == a10 ? void 0 : a10.log_level)) && (this.logLevel = a10.logLevel || a10.log_level, p2.params = Object.assign(Object.assign({}, p2.params), { log_level: this.logLevel })), this.worker) {
-            if ("undefined" != typeof window && !window.Worker) throw Error("Web Worker is not supported");
-            this.workerUrl = null == a10 ? void 0 : a10.workerUrl, p2.autoSendHeartbeat = !this.worker;
-          }
-          return p2;
-        }
-        async _reconnectAuth() {
-          await this._waitForAuthIfNeeded(), this.isConnected() || this.connect();
-        }
-      }
-      var cD = class extends Error {
-        constructor(a10, b10) {
-          super(a10), this.name = "IcebergError", this.status = b10.status, this.icebergType = b10.icebergType, this.icebergCode = b10.icebergCode, this.details = b10.details, this.isCommitStateUnknown = "CommitStateUnknownException" === b10.icebergType || [500, 502, 504].includes(b10.status) && b10.icebergType?.includes("CommitState") === true;
-        }
-        isNotFound() {
-          return 404 === this.status;
-        }
-        isConflict() {
-          return 409 === this.status;
-        }
-        isAuthenticationTimeout() {
-          return 419 === this.status;
-        }
-      };
-      async function cE(a10) {
-        return a10 && "none" !== a10.type ? "bearer" === a10.type ? { Authorization: `Bearer ${a10.token}` } : "header" === a10.type ? { [a10.name]: a10.value } : "custom" === a10.type ? await a10.getHeaders() : {} : {};
-      }
-      function cF(a10) {
-        return a10.join("");
-      }
-      var cG = class {
-        constructor(a10, b10 = "") {
-          this.client = a10, this.prefix = b10;
-        }
-        async listNamespaces(a10) {
-          let b10 = a10 ? { parent: cF(a10.namespace) } : void 0;
-          return (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces`, query: b10 })).data.namespaces.map((a11) => ({ namespace: a11 }));
-        }
-        async createNamespace(a10, b10) {
-          let c10 = { namespace: a10.namespace, properties: b10?.properties };
-          return (await this.client.request({ method: "POST", path: `${this.prefix}/namespaces`, body: c10 })).data;
-        }
-        async dropNamespace(a10) {
-          await this.client.request({ method: "DELETE", path: `${this.prefix}/namespaces/${cF(a10.namespace)}` });
-        }
-        async loadNamespaceMetadata(a10) {
-          return { properties: (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces/${cF(a10.namespace)}` })).data.properties };
-        }
-        async namespaceExists(a10) {
-          try {
-            return await this.client.request({ method: "HEAD", path: `${this.prefix}/namespaces/${cF(a10.namespace)}` }), true;
-          } catch (a11) {
-            if (a11 instanceof cD && 404 === a11.status) return false;
-            throw a11;
-          }
-        }
-        async createNamespaceIfNotExists(a10, b10) {
-          try {
-            return await this.createNamespace(a10, b10);
-          } catch (a11) {
-            if (a11 instanceof cD && 409 === a11.status) return;
-            throw a11;
-          }
-        }
-      };
-      function cH(a10) {
-        return a10.join("");
-      }
-      var cI = class {
-        constructor(a10, b10 = "", c10) {
-          this.client = a10, this.prefix = b10, this.accessDelegation = c10;
-        }
-        async listTables(a10) {
-          return (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces/${cH(a10.namespace)}/tables` })).data.identifiers;
-        }
-        async createTable(a10, b10) {
-          let c10 = {};
-          return this.accessDelegation && (c10["X-Iceberg-Access-Delegation"] = this.accessDelegation), (await this.client.request({ method: "POST", path: `${this.prefix}/namespaces/${cH(a10.namespace)}/tables`, body: b10, headers: c10 })).data.metadata;
-        }
-        async updateTable(a10, b10) {
-          let c10 = await this.client.request({ method: "POST", path: `${this.prefix}/namespaces/${cH(a10.namespace)}/tables/${a10.name}`, body: b10 });
-          return { "metadata-location": c10.data["metadata-location"], metadata: c10.data.metadata };
-        }
-        async dropTable(a10, b10) {
-          await this.client.request({ method: "DELETE", path: `${this.prefix}/namespaces/${cH(a10.namespace)}/tables/${a10.name}`, query: { purgeRequested: String(b10?.purge ?? false) } });
-        }
-        async loadTable(a10) {
-          let b10 = {};
-          return this.accessDelegation && (b10["X-Iceberg-Access-Delegation"] = this.accessDelegation), (await this.client.request({ method: "GET", path: `${this.prefix}/namespaces/${cH(a10.namespace)}/tables/${a10.name}`, headers: b10 })).data.metadata;
-        }
-        async tableExists(a10) {
-          let b10 = {};
-          this.accessDelegation && (b10["X-Iceberg-Access-Delegation"] = this.accessDelegation);
-          try {
-            return await this.client.request({ method: "HEAD", path: `${this.prefix}/namespaces/${cH(a10.namespace)}/tables/${a10.name}`, headers: b10 }), true;
-          } catch (a11) {
-            if (a11 instanceof cD && 404 === a11.status) return false;
-            throw a11;
-          }
-        }
-        async createTableIfNotExists(a10, b10) {
-          try {
-            return await this.createTable(a10, b10);
-          } catch (c10) {
-            if (c10 instanceof cD && 409 === c10.status) return await this.loadTable({ namespace: a10.namespace, name: b10.name });
-            throw c10;
-          }
-        }
-      }, cJ = class {
-        constructor(a10) {
-          let b10 = "v1";
-          a10.catalogName && (b10 += `/${a10.catalogName}`);
-          let c10 = a10.baseUrl.endsWith("/") ? a10.baseUrl : `${a10.baseUrl}/`;
-          this.client = function(a11) {
-            let b11 = a11.fetchImpl ?? globalThis.fetch;
-            return { async request({ method: c11, path: d10, query: e10, body: f2, headers: g2 }) {
-              let h2 = function(a12, b12, c12) {
-                let d11 = new URL(b12, a12);
-                if (c12) for (let [a13, b13] of Object.entries(c12)) void 0 !== b13 && d11.searchParams.set(a13, b13);
-                return d11.toString();
-              }(a11.baseUrl, d10, e10), i2 = await cE(a11.auth), j2 = await b11(h2, { method: c11, headers: { ...f2 ? { "Content-Type": "application/json" } : {}, ...i2, ...g2 }, body: f2 ? JSON.stringify(f2) : void 0 }), k2 = await j2.text(), l2 = (j2.headers.get("content-type") || "").includes("application/json"), m2 = l2 && k2 ? JSON.parse(k2) : k2;
-              if (!j2.ok) {
-                let a12 = l2 ? m2 : void 0, b12 = a12?.error;
-                throw new cD(b12?.message ?? `Request failed with status ${j2.status}`, { status: j2.status, icebergType: b12?.type, icebergCode: b12?.code, details: a12 });
-              }
-              return { status: j2.status, headers: j2.headers, data: m2 };
-            } };
-          }({ baseUrl: c10, auth: a10.auth, fetchImpl: a10.fetch }), this.accessDelegation = a10.accessDelegation?.join(","), this.namespaceOps = new cG(this.client, b10), this.tableOps = new cI(this.client, b10, this.accessDelegation);
-        }
-        async listNamespaces(a10) {
-          return this.namespaceOps.listNamespaces(a10);
-        }
-        async createNamespace(a10, b10) {
-          return this.namespaceOps.createNamespace(a10, b10);
-        }
-        async dropNamespace(a10) {
-          await this.namespaceOps.dropNamespace(a10);
-        }
-        async loadNamespaceMetadata(a10) {
-          return this.namespaceOps.loadNamespaceMetadata(a10);
-        }
-        async listTables(a10) {
-          return this.tableOps.listTables(a10);
-        }
-        async createTable(a10, b10) {
-          return this.tableOps.createTable(a10, b10);
-        }
-        async updateTable(a10, b10) {
-          return this.tableOps.updateTable(a10, b10);
-        }
-        async dropTable(a10, b10) {
-          await this.tableOps.dropTable(a10, b10);
-        }
-        async loadTable(a10) {
-          return this.tableOps.loadTable(a10);
-        }
-        async namespaceExists(a10) {
-          return this.namespaceOps.namespaceExists(a10);
-        }
-        async tableExists(a10) {
-          return this.tableOps.tableExists(a10);
-        }
-        async createNamespaceIfNotExists(a10, b10) {
-          return this.namespaceOps.createNamespaceIfNotExists(a10, b10);
-        }
-        async createTableIfNotExists(a10, b10) {
-          return this.tableOps.createTableIfNotExists(a10, b10);
-        }
-      }, cK = c(356).Buffer;
-      function cL(a10) {
-        return (cL = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(a11) {
-          return typeof a11;
-        } : function(a11) {
-          return a11 && "function" == typeof Symbol && a11.constructor === Symbol && a11 !== Symbol.prototype ? "symbol" : typeof a11;
-        })(a10);
-      }
-      function cM(a10, b10) {
-        var c10 = Object.keys(a10);
-        if (Object.getOwnPropertySymbols) {
-          var d10 = Object.getOwnPropertySymbols(a10);
-          b10 && (d10 = d10.filter(function(b11) {
-            return Object.getOwnPropertyDescriptor(a10, b11).enumerable;
-          })), c10.push.apply(c10, d10);
-        }
-        return c10;
-      }
-      function cN(a10) {
-        for (var b10 = 1; b10 < arguments.length; b10++) {
-          var c10 = null != arguments[b10] ? arguments[b10] : {};
-          b10 % 2 ? cM(Object(c10), true).forEach(function(b11) {
-            !function(a11, b12, c11) {
-              var d10;
-              (d10 = function(a12, b13) {
-                if ("object" != cL(a12) || !a12) return a12;
-                var c12 = a12[Symbol.toPrimitive];
-                if (void 0 !== c12) {
-                  var d11 = c12.call(a12, b13 || "default");
-                  if ("object" != cL(d11)) return d11;
-                  throw TypeError("@@toPrimitive must return a primitive value.");
-                }
-                return ("string" === b13 ? String : Number)(a12);
-              }(b12, "string"), (b12 = "symbol" == cL(d10) ? d10 : d10 + "") in a11) ? Object.defineProperty(a11, b12, { value: c11, enumerable: true, configurable: true, writable: true }) : a11[b12] = c11;
-            }(a10, b11, c10[b11]);
-          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(a10, Object.getOwnPropertyDescriptors(c10)) : cM(Object(c10)).forEach(function(b11) {
-            Object.defineProperty(a10, b11, Object.getOwnPropertyDescriptor(c10, b11));
-          });
-        }
-        return a10;
-      }
-      var cO = class extends Error {
-        constructor(a10, b10 = "storage", c10, d10) {
-          super(a10), this.__isStorageError = true, this.namespace = b10, this.name = "vectors" === b10 ? "StorageVectorsError" : "StorageError", this.status = c10, this.statusCode = d10;
-        }
-        toJSON() {
-          return { name: this.name, message: this.message, status: this.status, statusCode: this.statusCode };
-        }
-      };
-      function cP(a10) {
-        return "object" == typeof a10 && null !== a10 && "__isStorageError" in a10;
-      }
-      var cQ = class extends cO {
-        constructor(a10, b10, c10, d10 = "storage") {
-          super(a10, d10, b10, c10), this.name = "vectors" === d10 ? "StorageVectorsApiError" : "StorageApiError", this.status = b10, this.statusCode = c10;
-        }
-        toJSON() {
-          return cN({}, super.toJSON());
-        }
-      }, cR = class extends cO {
-        constructor(a10, b10, c10 = "storage") {
-          super(a10, c10), this.name = "vectors" === c10 ? "StorageVectorsUnknownError" : "StorageUnknownError", this.originalError = b10;
-        }
-      };
-      function cS(a10, b10, c10) {
-        let d10 = cN({}, a10), e10 = b10.toLowerCase();
-        for (let a11 of Object.keys(d10)) a11.toLowerCase() === e10 && delete d10[a11];
-        return d10[e10] = c10, d10;
-      }
-      let cT = (a10) => {
-        if (Array.isArray(a10)) return a10.map((a11) => cT(a11));
-        if ("function" == typeof a10 || a10 !== Object(a10)) return a10;
-        let b10 = {};
-        return Object.entries(a10).forEach(([a11, c10]) => {
-          b10[a11.replace(/([-_][a-z])/gi, (a12) => a12.toUpperCase().replace(/[-_]/g, ""))] = cT(c10);
-        }), b10;
-      }, cU = (a10) => {
-        if ("object" == typeof a10 && null !== a10) {
-          if ("string" == typeof a10.msg) return a10.msg;
-          if ("string" == typeof a10.message) return a10.message;
-          if ("string" == typeof a10.error_description) return a10.error_description;
-          if ("string" == typeof a10.error) return a10.error;
-          if ("object" == typeof a10.error && null !== a10.error) {
-            let b10 = a10.error;
-            if ("string" == typeof b10.message) return b10.message;
-          }
-        }
-        return JSON.stringify(a10);
-      }, cV = async (a10, b10, c10, d10) => {
-        if (null !== a10 && "object" == typeof a10 && "json" in a10 && "function" == typeof a10.json) {
-          let c11 = parseInt(String(a10.status), 10);
-          Number.isFinite(c11) || (c11 = 500), a10.json().then((a11) => {
-            let e10 = (null == a11 ? void 0 : a11.statusCode) || (null == a11 ? void 0 : a11.code) || c11 + "";
-            b10(new cQ(cU(a11), c11, e10, d10));
-          }).catch(() => {
-            let e10 = c11 + "";
-            b10(new cQ(a10.statusText || `HTTP ${c11} error`, c11, e10, d10));
-          });
-        } else b10(new cR(cU(a10), a10, d10));
-      };
-      async function cW(a10, b10, c10, d10, e10, f2, g2) {
-        return new Promise((h2, i2) => {
-          a10(c10, ((a11, b11, c11, d11) => {
-            let e11 = { method: a11, headers: (null == b11 ? void 0 : b11.headers) || {} };
-            if ("GET" === a11 || "HEAD" === a11 || !d11) return cN(cN({}, e11), c11);
-            if (((a12) => {
-              if ("object" != typeof a12 || null === a12) return false;
-              let b12 = Object.getPrototypeOf(a12);
-              return (null === b12 || b12 === Object.prototype || null === Object.getPrototypeOf(b12)) && !(Symbol.toStringTag in a12) && !(Symbol.iterator in a12);
-            })(d11)) {
-              var f3;
-              let a12, c12 = (null == b11 ? void 0 : b11.headers) || {};
-              for (let [b12, d12] of Object.entries(c12)) "content-type" === b12.toLowerCase() && (a12 = d12);
-              e11.headers = cS(c12, "Content-Type", null != (f3 = a12) ? f3 : "application/json"), e11.body = JSON.stringify(d11);
-            } else e11.body = d11;
-            return (null == b11 ? void 0 : b11.duplex) && (e11.duplex = b11.duplex), cN(cN({}, e11), c11);
-          })(b10, d10, e10, f2)).then((a11) => {
-            if (!a11.ok) throw a11;
-            if (null == d10 ? void 0 : d10.noResolveJson) return a11;
-            if ("vectors" === g2) {
-              let b11 = a11.headers.get("content-type");
-              if ("0" === a11.headers.get("content-length") || 204 === a11.status || !b11 || !b11.includes("application/json")) return {};
-            }
-            return a11.json();
-          }).then((a11) => h2(a11)).catch((a11) => cV(a11, i2, d10, g2));
-        });
-      }
-      function cX(a10 = "storage") {
-        return { get: async (b10, c10, d10, e10) => cW(b10, "GET", c10, d10, e10, void 0, a10), post: async (b10, c10, d10, e10, f2) => cW(b10, "POST", c10, e10, f2, d10, a10), put: async (b10, c10, d10, e10, f2) => cW(b10, "PUT", c10, e10, f2, d10, a10), head: async (b10, c10, d10, e10) => cW(b10, "HEAD", c10, cN(cN({}, d10), {}, { noResolveJson: true }), e10, void 0, a10), remove: async (b10, c10, d10, e10, f2) => cW(b10, "DELETE", c10, e10, f2, d10, a10) };
-      }
-      let { get: cY, post: cZ, put: c$, head: c_, remove: c0 } = cX("storage"), c1 = cX("vectors");
-      var c2 = class {
-        constructor(a10, b10 = {}, c10, d10 = "storage") {
-          this.shouldThrowOnError = false, this.url = a10, this.headers = function(a11) {
-            let b11 = {};
-            for (let [c11, d11] of Object.entries(a11)) b11[c11.toLowerCase()] = d11;
-            return b11;
-          }(b10), this.fetch = /* @__PURE__ */ ((a11) => a11 ? (...b11) => a11(...b11) : (...a12) => fetch(...a12))(c10), this.namespace = d10;
-        }
-        throwOnError() {
-          return this.shouldThrowOnError = true, this;
-        }
-        setHeader(a10, b10) {
-          return this.headers = cS(this.headers, a10, b10), this;
-        }
-        async handleOperation(a10) {
-          try {
-            return { data: await a10(), error: null };
-          } catch (a11) {
-            if (this.shouldThrowOnError) throw a11;
-            if (cP(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-      };
-      e = Symbol.toStringTag;
-      var c3 = class {
-        constructor(a10, b10) {
-          this.downloadFn = a10, this.shouldThrowOnError = b10, this[e] = "StreamDownloadBuilder", this.promise = null;
-        }
-        then(a10, b10) {
-          return this.getPromise().then(a10, b10);
-        }
-        catch(a10) {
-          return this.getPromise().catch(a10);
-        }
-        finally(a10) {
-          return this.getPromise().finally(a10);
-        }
-        getPromise() {
-          return this.promise || (this.promise = this.execute()), this.promise;
-        }
-        async execute() {
-          try {
-            return { data: (await this.downloadFn()).body, error: null };
-          } catch (a10) {
-            if (this.shouldThrowOnError) throw a10;
-            if (cP(a10)) return { data: null, error: a10 };
-            throw a10;
-          }
-        }
-      };
-      f = Symbol.toStringTag;
-      var c4 = class {
-        constructor(a10, b10) {
-          this.downloadFn = a10, this.shouldThrowOnError = b10, this[f] = "BlobDownloadBuilder", this.promise = null;
-        }
-        asStream() {
-          return new c3(this.downloadFn, this.shouldThrowOnError);
-        }
-        then(a10, b10) {
-          return this.getPromise().then(a10, b10);
-        }
-        catch(a10) {
-          return this.getPromise().catch(a10);
-        }
-        finally(a10) {
-          return this.getPromise().finally(a10);
-        }
-        getPromise() {
-          return this.promise || (this.promise = this.execute()), this.promise;
-        }
-        async execute() {
-          try {
-            return { data: await (await this.downloadFn()).blob(), error: null };
-          } catch (a10) {
-            if (this.shouldThrowOnError) throw a10;
-            if (cP(a10)) return { data: null, error: a10 };
-            throw a10;
-          }
-        }
-      };
-      let c5 = { limit: 100, offset: 0, sortBy: { column: "name", order: "asc" } }, c6 = { cacheControl: "3600", contentType: "text/plain;charset=UTF-8", upsert: false };
-      var c7 = class extends c2 {
-        constructor(a10, b10 = {}, c10, d10) {
-          super(a10, b10, d10, "storage"), this.bucketId = c10;
-        }
-        async uploadOrUpdate(a10, b10, c10, d10) {
-          var e10 = this;
-          return e10.handleOperation(async () => {
-            let f2, g2 = cN(cN({}, c6), d10), h2 = cN(cN({}, e10.headers), "POST" === a10 && { "x-upsert": String(g2.upsert) }), i2 = g2.metadata;
-            if ("undefined" != typeof Blob && c10 instanceof Blob ? ((f2 = new FormData()).append("cacheControl", g2.cacheControl), i2 && f2.append("metadata", e10.encodeMetadata(i2)), f2.append("", c10)) : "undefined" != typeof FormData && c10 instanceof FormData ? ((f2 = c10).has("cacheControl") || f2.append("cacheControl", g2.cacheControl), i2 && !f2.has("metadata") && f2.append("metadata", e10.encodeMetadata(i2))) : (f2 = c10, h2["cache-control"] = `max-age=${g2.cacheControl}`, h2["content-type"] = g2.contentType, i2 && (h2["x-metadata"] = e10.toBase64(e10.encodeMetadata(i2))), ("undefined" != typeof ReadableStream && f2 instanceof ReadableStream || f2 && "object" == typeof f2 && "pipe" in f2 && "function" == typeof f2.pipe) && !g2.duplex && (g2.duplex = "half")), null == d10 ? void 0 : d10.headers) for (let [a11, b11] of Object.entries(d10.headers)) h2 = cS(h2, a11, b11);
-            let j2 = e10._removeEmptyFolders(b10), k2 = e10._getFinalPath(j2), l2 = await ("PUT" == a10 ? c$ : cZ)(e10.fetch, `${e10.url}/object/${k2}`, f2, cN({ headers: h2 }, (null == g2 ? void 0 : g2.duplex) ? { duplex: g2.duplex } : {}));
-            return { path: j2, id: l2.Id, fullPath: l2.Key };
-          });
-        }
-        async upload(a10, b10, c10) {
-          return this.uploadOrUpdate("POST", a10, b10, c10);
-        }
-        async uploadToSignedUrl(a10, b10, c10, d10) {
-          var e10 = this;
-          let f2 = e10._removeEmptyFolders(a10), g2 = e10._getFinalPath(f2), h2 = new URL(e10.url + `/object/upload/sign/${g2}`);
-          return h2.searchParams.set("token", b10), e10.handleOperation(async () => {
-            let a11, b11 = cN(cN({}, c6), d10), g3 = cN(cN({}, e10.headers), { "x-upsert": String(b11.upsert) }), i2 = b11.metadata;
-            if ("undefined" != typeof Blob && c10 instanceof Blob ? ((a11 = new FormData()).append("cacheControl", b11.cacheControl), i2 && a11.append("metadata", e10.encodeMetadata(i2)), a11.append("", c10)) : "undefined" != typeof FormData && c10 instanceof FormData ? ((a11 = c10).has("cacheControl") || a11.append("cacheControl", b11.cacheControl), i2 && !a11.has("metadata") && a11.append("metadata", e10.encodeMetadata(i2))) : (a11 = c10, g3["cache-control"] = `max-age=${b11.cacheControl}`, g3["content-type"] = b11.contentType, i2 && (g3["x-metadata"] = e10.toBase64(e10.encodeMetadata(i2))), ("undefined" != typeof ReadableStream && a11 instanceof ReadableStream || a11 && "object" == typeof a11 && "pipe" in a11 && "function" == typeof a11.pipe) && !b11.duplex && (b11.duplex = "half")), null == d10 ? void 0 : d10.headers) for (let [a12, b12] of Object.entries(d10.headers)) g3 = cS(g3, a12, b12);
-            return { path: f2, fullPath: (await c$(e10.fetch, h2.toString(), a11, cN({ headers: g3 }, (null == b11 ? void 0 : b11.duplex) ? { duplex: b11.duplex } : {}))).Key };
-          });
-        }
-        async createSignedUploadUrl(a10, b10) {
-          var c10 = this;
-          return c10.handleOperation(async () => {
-            let d10 = c10._getFinalPath(a10), e10 = cN({}, c10.headers);
-            (null == b10 ? void 0 : b10.upsert) && (e10["x-upsert"] = "true");
-            let f2 = await cZ(c10.fetch, `${c10.url}/object/upload/sign/${d10}`, {}, { headers: e10 }), g2 = new URL(c10.url + f2.url), h2 = g2.searchParams.get("token");
-            if (!h2) throw new cO("No token returned by API");
-            return { signedUrl: g2.toString(), path: a10, token: h2 };
-          });
-        }
-        async update(a10, b10, c10) {
-          return this.uploadOrUpdate("PUT", a10, b10, c10);
-        }
-        async move(a10, b10, c10) {
-          var d10 = this;
-          return d10.handleOperation(async () => await cZ(d10.fetch, `${d10.url}/object/move`, { bucketId: d10.bucketId, sourceKey: a10, destinationKey: b10, destinationBucket: null == c10 ? void 0 : c10.destinationBucket }, { headers: d10.headers }));
-        }
-        async copy(a10, b10, c10) {
-          var d10 = this;
-          return d10.handleOperation(async () => ({ path: (await cZ(d10.fetch, `${d10.url}/object/copy`, { bucketId: d10.bucketId, sourceKey: a10, destinationKey: b10, destinationBucket: null == c10 ? void 0 : c10.destinationBucket }, { headers: d10.headers })).Key }));
-        }
-        async createSignedUrl(a10, b10, c10) {
-          var d10 = this;
-          return d10.handleOperation(async () => {
-            let e10 = d10._getFinalPath(a10), f2 = "object" == typeof (null == c10 ? void 0 : c10.transform) && null !== c10.transform && Object.keys(c10.transform).length > 0, g2 = await cZ(d10.fetch, `${d10.url}/object/sign/${e10}`, cN({ expiresIn: b10 }, f2 ? { transform: c10.transform } : {}), { headers: d10.headers }), h2 = new URLSearchParams();
-            (null == c10 ? void 0 : c10.download) && h2.set("download", true === c10.download ? "" : c10.download), (null == c10 ? void 0 : c10.cacheNonce) != null && h2.set("cacheNonce", String(c10.cacheNonce));
-            let i2 = h2.toString();
-            return { signedUrl: encodeURI(`${d10.url}${g2.signedURL}${i2 ? `&${i2}` : ""}`) };
-          });
-        }
-        async createSignedUrls(a10, b10, c10) {
-          var d10 = this;
-          return d10.handleOperation(async () => {
-            let e10 = await cZ(d10.fetch, `${d10.url}/object/sign/${d10.bucketId}`, { expiresIn: b10, paths: a10 }, { headers: d10.headers }), f2 = new URLSearchParams();
-            (null == c10 ? void 0 : c10.download) && f2.set("download", true === c10.download ? "" : c10.download), (null == c10 ? void 0 : c10.cacheNonce) != null && f2.set("cacheNonce", String(c10.cacheNonce));
-            let g2 = f2.toString();
-            return e10.map((a11) => cN(cN({}, a11), {}, { signedUrl: a11.signedURL ? encodeURI(`${d10.url}${a11.signedURL}${g2 ? `&${g2}` : ""}`) : null }));
-          });
-        }
-        download(a10, b10, c10) {
-          let d10 = "object" == typeof (null == b10 ? void 0 : b10.transform) && null !== b10.transform && Object.keys(b10.transform).length > 0 ? "render/image/authenticated" : "object", e10 = new URLSearchParams();
-          (null == b10 ? void 0 : b10.transform) && this.applyTransformOptsToQuery(e10, b10.transform), (null == b10 ? void 0 : b10.cacheNonce) != null && e10.set("cacheNonce", String(b10.cacheNonce));
-          let f2 = e10.toString(), g2 = this._getFinalPath(a10);
-          return new c4(() => cY(this.fetch, `${this.url}/${d10}/${g2}${f2 ? `?${f2}` : ""}`, { headers: this.headers, noResolveJson: true }, c10), this.shouldThrowOnError);
-        }
-        async info(a10) {
-          var b10 = this;
-          let c10 = b10._getFinalPath(a10);
-          return b10.handleOperation(async () => cT(await cY(b10.fetch, `${b10.url}/object/info/${c10}`, { headers: b10.headers })));
-        }
-        async exists(a10) {
-          var b10;
-          let c10 = this._getFinalPath(a10);
-          try {
-            return await c_(this.fetch, `${this.url}/object/${c10}`, { headers: this.headers }), { data: true, error: null };
-          } catch (a11) {
-            if (this.shouldThrowOnError) throw a11;
-            if (cP(a11)) {
-              let c11 = a11 instanceof cQ ? a11.status : a11 instanceof cR ? null == (b10 = a11.originalError) ? void 0 : b10.status : void 0;
-              if (void 0 !== c11 && [400, 404].includes(c11)) return { data: false, error: a11 };
-            }
-            throw a11;
-          }
-        }
-        getPublicUrl(a10, b10) {
-          let c10 = this._getFinalPath(a10), d10 = new URLSearchParams();
-          (null == b10 ? void 0 : b10.download) && d10.set("download", true === b10.download ? "" : b10.download), (null == b10 ? void 0 : b10.transform) && this.applyTransformOptsToQuery(d10, b10.transform), (null == b10 ? void 0 : b10.cacheNonce) != null && d10.set("cacheNonce", String(b10.cacheNonce));
-          let e10 = d10.toString(), f2 = "object" == typeof (null == b10 ? void 0 : b10.transform) && null !== b10.transform && Object.keys(b10.transform).length > 0 ? "render/image" : "object";
-          return { data: { publicUrl: encodeURI(`${this.url}/${f2}/public/${c10}`) + (e10 ? `?${e10}` : "") } };
-        }
-        async remove(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c0(b10.fetch, `${b10.url}/object/${b10.bucketId}`, { prefixes: a10 }, { headers: b10.headers }));
-        }
-        async list(a10, b10, c10) {
-          var d10 = this;
-          return d10.handleOperation(async () => {
-            let e10 = cN(cN(cN({}, c5), b10), {}, { prefix: a10 || "" });
-            return await cZ(d10.fetch, `${d10.url}/object/list/${d10.bucketId}`, e10, { headers: d10.headers }, c10);
-          });
-        }
-        async listV2(a10, b10) {
-          var c10 = this;
-          return c10.handleOperation(async () => {
-            let d10 = cN({}, a10);
-            return await cZ(c10.fetch, `${c10.url}/object/list-v2/${c10.bucketId}`, d10, { headers: c10.headers }, b10);
-          });
-        }
-        encodeMetadata(a10) {
-          return JSON.stringify(a10);
-        }
-        toBase64(a10) {
-          return void 0 !== cK ? cK.from(a10).toString("base64") : btoa(a10);
-        }
-        _getFinalPath(a10) {
-          return `${this.bucketId}/${a10.replace(/^\/+/, "")}`;
-        }
-        _removeEmptyFolders(a10) {
-          return a10.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
-        }
-        applyTransformOptsToQuery(a10, b10) {
-          return b10.width && a10.set("width", b10.width.toString()), b10.height && a10.set("height", b10.height.toString()), b10.resize && a10.set("resize", b10.resize), b10.format && a10.set("format", b10.format), b10.quality && a10.set("quality", b10.quality.toString()), a10;
-        }
-      };
-      let c8 = { "X-Client-Info": "storage-js/2.106.1" };
-      var c9 = class extends c2 {
-        constructor(a10, b10 = {}, c10, d10) {
-          let e10 = new URL(a10);
-          (null == d10 ? void 0 : d10.useNewHostname) && /supabase\.(co|in|red)$/.test(e10.hostname) && !e10.hostname.includes("storage.supabase.") && (e10.hostname = e10.hostname.replace("supabase.", "storage.supabase.")), super(e10.href.replace(/\/$/, ""), cN(cN({}, c8), b10), c10, "storage");
-        }
-        async listBuckets(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => {
-            let c10 = b10.listBucketOptionsToQueryString(a10);
-            return await cY(b10.fetch, `${b10.url}/bucket${c10}`, { headers: b10.headers });
-          });
-        }
-        async getBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await cY(b10.fetch, `${b10.url}/bucket/${a10}`, { headers: b10.headers }));
-        }
-        async createBucket(a10, b10 = { public: false }) {
-          var c10 = this;
-          return c10.handleOperation(async () => await cZ(c10.fetch, `${c10.url}/bucket`, { id: a10, name: a10, type: b10.type, public: b10.public, file_size_limit: b10.fileSizeLimit, allowed_mime_types: b10.allowedMimeTypes }, { headers: c10.headers }));
-        }
-        async updateBucket(a10, b10) {
-          var c10 = this;
-          return c10.handleOperation(async () => await c$(c10.fetch, `${c10.url}/bucket/${a10}`, { id: a10, name: a10, public: b10.public, file_size_limit: b10.fileSizeLimit, allowed_mime_types: b10.allowedMimeTypes }, { headers: c10.headers }));
-        }
-        async emptyBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await cZ(b10.fetch, `${b10.url}/bucket/${a10}/empty`, {}, { headers: b10.headers }));
-        }
-        async deleteBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c0(b10.fetch, `${b10.url}/bucket/${a10}`, {}, { headers: b10.headers }));
-        }
-        listBucketOptionsToQueryString(a10) {
-          let b10 = {};
-          return a10 && ("limit" in a10 && (b10.limit = String(a10.limit)), "offset" in a10 && (b10.offset = String(a10.offset)), a10.search && (b10.search = a10.search), a10.sortColumn && (b10.sortColumn = a10.sortColumn), a10.sortOrder && (b10.sortOrder = a10.sortOrder)), Object.keys(b10).length > 0 ? "?" + new URLSearchParams(b10).toString() : "";
-        }
-      }, da = class extends c2 {
-        constructor(a10, b10 = {}, c10) {
-          super(a10.replace(/\/$/, ""), cN(cN({}, c8), b10), c10, "storage");
-        }
-        async createBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await cZ(b10.fetch, `${b10.url}/bucket`, { name: a10 }, { headers: b10.headers }));
-        }
-        async listBuckets(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => {
-            let c10 = new URLSearchParams();
-            (null == a10 ? void 0 : a10.limit) !== void 0 && c10.set("limit", a10.limit.toString()), (null == a10 ? void 0 : a10.offset) !== void 0 && c10.set("offset", a10.offset.toString()), (null == a10 ? void 0 : a10.sortColumn) && c10.set("sortColumn", a10.sortColumn), (null == a10 ? void 0 : a10.sortOrder) && c10.set("sortOrder", a10.sortOrder), (null == a10 ? void 0 : a10.search) && c10.set("search", a10.search);
-            let d10 = c10.toString(), e10 = d10 ? `${b10.url}/bucket?${d10}` : `${b10.url}/bucket`;
-            return await cY(b10.fetch, e10, { headers: b10.headers });
-          });
-        }
-        async deleteBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c0(b10.fetch, `${b10.url}/bucket/${a10}`, {}, { headers: b10.headers }));
-        }
-        from(a10) {
-          var b10 = this;
-          if (!(!(!a10 || "string" != typeof a10 || 0 === a10.length || a10.length > 100 || a10.trim() !== a10 || a10.includes("/") || a10.includes("\\")) && /^[\w!.\*'() &$@=;:+,?-]+$/.test(a10))) throw new cO("Invalid bucket name: File, folder, and bucket names must follow AWS object key naming guidelines and should avoid the use of any other characters.");
-          let c10 = new cJ({ baseUrl: this.url, catalogName: a10, auth: { type: "custom", getHeaders: async () => b10.headers }, fetch: this.fetch }), d10 = this.shouldThrowOnError;
-          return new Proxy(c10, { get(a11, b11) {
-            let c11 = a11[b11];
-            return "function" != typeof c11 ? c11 : async (...b12) => {
-              try {
-                return { data: await c11.apply(a11, b12), error: null };
-              } catch (a12) {
-                if (d10) throw a12;
-                return { data: null, error: a12 };
-              }
-            };
-          } });
-        }
-      }, db = class extends c2 {
-        constructor(a10, b10 = {}, c10) {
-          super(a10.replace(/\/$/, ""), cN(cN({}, c8), {}, { "Content-Type": "application/json" }, b10), c10, "vectors");
-        }
-        async createIndex(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/CreateIndex`, a10, { headers: b10.headers }) || {});
-        }
-        async getIndex(a10, b10) {
-          var c10 = this;
-          return c10.handleOperation(async () => await c1.post(c10.fetch, `${c10.url}/GetIndex`, { vectorBucketName: a10, indexName: b10 }, { headers: c10.headers }));
-        }
-        async listIndexes(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/ListIndexes`, a10, { headers: b10.headers }));
-        }
-        async deleteIndex(a10, b10) {
-          var c10 = this;
-          return c10.handleOperation(async () => await c1.post(c10.fetch, `${c10.url}/DeleteIndex`, { vectorBucketName: a10, indexName: b10 }, { headers: c10.headers }) || {});
-        }
-      }, dc = class extends c2 {
-        constructor(a10, b10 = {}, c10) {
-          super(a10.replace(/\/$/, ""), cN(cN({}, c8), {}, { "Content-Type": "application/json" }, b10), c10, "vectors");
-        }
-        async putVectors(a10) {
-          var b10 = this;
-          if (a10.vectors.length < 1 || a10.vectors.length > 500) throw Error("Vector batch size must be between 1 and 500 items");
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/PutVectors`, a10, { headers: b10.headers }) || {});
-        }
-        async getVectors(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/GetVectors`, a10, { headers: b10.headers }));
-        }
-        async listVectors(a10) {
-          var b10 = this;
-          if (void 0 !== a10.segmentCount) {
-            if (a10.segmentCount < 1 || a10.segmentCount > 16) throw Error("segmentCount must be between 1 and 16");
-            if (void 0 !== a10.segmentIndex && (a10.segmentIndex < 0 || a10.segmentIndex >= a10.segmentCount)) throw Error(`segmentIndex must be between 0 and ${a10.segmentCount - 1}`);
-          }
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/ListVectors`, a10, { headers: b10.headers }));
-        }
-        async queryVectors(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/QueryVectors`, a10, { headers: b10.headers }));
-        }
-        async deleteVectors(a10) {
-          var b10 = this;
-          if (a10.keys.length < 1 || a10.keys.length > 500) throw Error("Keys batch size must be between 1 and 500 items");
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/DeleteVectors`, a10, { headers: b10.headers }) || {});
-        }
-      }, dd = class extends c2 {
-        constructor(a10, b10 = {}, c10) {
-          super(a10.replace(/\/$/, ""), cN(cN({}, c8), {}, { "Content-Type": "application/json" }, b10), c10, "vectors");
-        }
-        async createBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/CreateVectorBucket`, { vectorBucketName: a10 }, { headers: b10.headers }) || {});
-        }
-        async getBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/GetVectorBucket`, { vectorBucketName: a10 }, { headers: b10.headers }));
-        }
-        async listBuckets(a10 = {}) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/ListVectorBuckets`, a10, { headers: b10.headers }));
-        }
-        async deleteBucket(a10) {
-          var b10 = this;
-          return b10.handleOperation(async () => await c1.post(b10.fetch, `${b10.url}/DeleteVectorBucket`, { vectorBucketName: a10 }, { headers: b10.headers }) || {});
-        }
-      }, de = class extends dd {
-        constructor(a10, b10 = {}) {
-          super(a10, b10.headers || {}, b10.fetch);
-        }
-        from(a10) {
-          return new df(this.url, this.headers, a10, this.fetch);
-        }
-        async createBucket(a10) {
-          return super.createBucket.call(this, a10);
-        }
-        async getBucket(a10) {
-          return super.getBucket.call(this, a10);
-        }
-        async listBuckets(a10 = {}) {
-          return super.listBuckets.call(this, a10);
-        }
-        async deleteBucket(a10) {
-          return super.deleteBucket.call(this, a10);
-        }
-      }, df = class extends db {
-        constructor(a10, b10, c10, d10) {
-          super(a10, b10, d10), this.vectorBucketName = c10;
-        }
-        async createIndex(a10) {
-          return super.createIndex.call(this, cN(cN({}, a10), {}, { vectorBucketName: this.vectorBucketName }));
-        }
-        async listIndexes(a10 = {}) {
-          return super.listIndexes.call(this, cN(cN({}, a10), {}, { vectorBucketName: this.vectorBucketName }));
-        }
-        async getIndex(a10) {
-          return super.getIndex.call(this, this.vectorBucketName, a10);
-        }
-        async deleteIndex(a10) {
-          return super.deleteIndex.call(this, this.vectorBucketName, a10);
-        }
-        index(a10) {
-          return new dg(this.url, this.headers, this.vectorBucketName, a10, this.fetch);
-        }
-      }, dg = class extends dc {
-        constructor(a10, b10, c10, d10, e10) {
-          super(a10, b10, e10), this.vectorBucketName = c10, this.indexName = d10;
-        }
-        async putVectors(a10) {
-          return super.putVectors.call(this, cN(cN({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
-        }
-        async getVectors(a10) {
-          return super.getVectors.call(this, cN(cN({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
-        }
-        async listVectors(a10 = {}) {
-          return super.listVectors.call(this, cN(cN({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
-        }
-        async queryVectors(a10) {
-          return super.queryVectors.call(this, cN(cN({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
-        }
-        async deleteVectors(a10) {
-          return super.deleteVectors.call(this, cN(cN({}, a10), {}, { vectorBucketName: this.vectorBucketName, indexName: this.indexName }));
-        }
-      }, dh = class extends c9 {
-        constructor(a10, b10 = {}, c10, d10) {
-          super(a10, b10, c10, d10);
-        }
-        from(a10) {
-          return new c7(this.url, this.headers, a10, this.fetch);
-        }
-        get vectors() {
-          return new de(this.url + "/vector", { headers: this.headers, fetch: this.fetch });
-        }
-        get analytics() {
-          return new da(this.url + "/iceberg", this.headers, this.fetch);
-        }
-      };
-      let di = "2.106.1", dj = { "X-Client-Info": `gotrue-js/${di}` }, dk = "X-Supabase-Api-Version", dl = { "2024-01-01": { timestamp: Date.parse("2024-01-01T00:00:00.0Z"), name: "2024-01-01" } }, dm = /^([a-z0-9_-]{4})*($|[a-z0-9_-]{3}$|[a-z0-9_-]{2}$)$/i;
-      class dn extends Error {
-        constructor(a10, b10, c10) {
-          super(a10), this.__isAuthError = true, this.name = "AuthError", this.status = b10, this.code = c10;
-        }
-        toJSON() {
-          return { name: this.name, message: this.message, status: this.status, code: this.code };
-        }
-      }
-      function dp(a10) {
-        return "object" == typeof a10 && null !== a10 && "__isAuthError" in a10;
-      }
-      class dq extends dn {
-        constructor(a10, b10, c10) {
-          super(a10, b10, c10), this.name = "AuthApiError", this.status = b10, this.code = c10;
-        }
-      }
-      class dr extends dn {
-        constructor(a10, b10) {
-          super(a10), this.name = "AuthUnknownError", this.originalError = b10;
-        }
-      }
-      class ds extends dn {
-        constructor(a10, b10, c10, d10) {
-          super(a10, c10, d10), this.name = b10, this.status = c10;
-        }
-      }
-      class dt extends ds {
-        constructor() {
-          super("Auth session missing!", "AuthSessionMissingError", 400, void 0);
-        }
-      }
-      function du(a10) {
-        return dp(a10) && "AuthSessionMissingError" === a10.name;
-      }
-      class dv extends ds {
-        constructor() {
-          super("Auth session or user missing", "AuthInvalidTokenResponseError", 500, void 0);
-        }
-      }
-      class dw extends ds {
-        constructor(a10) {
-          super(a10, "AuthInvalidCredentialsError", 400, void 0);
-        }
-      }
-      class dx extends ds {
-        constructor(a10, b10 = null) {
-          super(a10, "AuthImplicitGrantRedirectError", 500, void 0), this.details = null, this.details = b10;
-        }
-        toJSON() {
-          return Object.assign(Object.assign({}, super.toJSON()), { details: this.details });
-        }
-      }
-      class dy extends ds {
-        constructor(a10, b10 = null) {
-          super(a10, "AuthPKCEGrantCodeExchangeError", 500, void 0), this.details = null, this.details = b10;
-        }
-        toJSON() {
-          return Object.assign(Object.assign({}, super.toJSON()), { details: this.details });
-        }
-      }
-      class dz extends ds {
-        constructor() {
-          super("PKCE code verifier not found in storage. This can happen if the auth flow was initiated in a different browser or device, or if the storage was cleared. For SSR frameworks (Next.js, SvelteKit, etc.), use @supabase/ssr on both the server and client to store the code verifier in cookies.", "AuthPKCECodeVerifierMissingError", 400, "pkce_code_verifier_not_found");
-        }
-      }
-      class dA extends ds {
-        constructor(a10, b10) {
-          super(a10, "AuthRetryableFetchError", b10, void 0);
-        }
-      }
-      function dB(a10) {
-        return dp(a10) && "AuthRetryableFetchError" === a10.name;
-      }
-      class dC extends ds {
-        constructor(a10, b10, c10) {
-          super(a10, "AuthWeakPasswordError", b10, "weak_password"), this.reasons = c10;
-        }
-        toJSON() {
-          return Object.assign(Object.assign({}, super.toJSON()), { reasons: this.reasons });
-        }
-      }
-      class dD extends ds {
-        constructor(a10) {
-          super(a10, "AuthInvalidJwtError", 400, "invalid_jwt");
-        }
-      }
-      let dE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split(""), dF = " 	\n\r=".split(""), dG = (() => {
-        let a10 = Array(128);
-        for (let b10 = 0; b10 < a10.length; b10 += 1) a10[b10] = -1;
-        for (let b10 = 0; b10 < dF.length; b10 += 1) a10[dF[b10].charCodeAt(0)] = -2;
-        for (let b10 = 0; b10 < dE.length; b10 += 1) a10[dE[b10].charCodeAt(0)] = b10;
-        return a10;
-      })();
-      function dH(a10, b10, c10) {
-        if (null !== a10) for (b10.queue = b10.queue << 8 | a10, b10.queuedBits += 8; b10.queuedBits >= 6; ) c10(dE[b10.queue >> b10.queuedBits - 6 & 63]), b10.queuedBits -= 6;
-        else if (b10.queuedBits > 0) for (b10.queue = b10.queue << 6 - b10.queuedBits, b10.queuedBits = 6; b10.queuedBits >= 6; ) c10(dE[b10.queue >> b10.queuedBits - 6 & 63]), b10.queuedBits -= 6;
-      }
-      function dI(a10, b10, c10) {
-        let d10 = dG[a10];
-        if (d10 > -1) for (b10.queue = b10.queue << 6 | d10, b10.queuedBits += 6; b10.queuedBits >= 8; ) c10(b10.queue >> b10.queuedBits - 8 & 255), b10.queuedBits -= 8;
-        else if (-2 === d10) return;
-        else throw Error(`Invalid Base64-URL character "${String.fromCharCode(a10)}"`);
-      }
-      function dJ(a10) {
-        let b10 = [], c10 = (a11) => {
-          b10.push(String.fromCodePoint(a11));
-        }, d10 = { utf8seq: 0, codepoint: 0 }, e10 = { queue: 0, queuedBits: 0 }, f2 = (a11) => {
-          !function(a12, b11, c11) {
-            if (0 === b11.utf8seq) {
-              if (a12 <= 127) return c11(a12);
-              for (let c12 = 1; c12 < 6; c12 += 1) if ((a12 >> 7 - c12 & 1) == 0) {
-                b11.utf8seq = c12;
-                break;
-              }
-              if (2 === b11.utf8seq) b11.codepoint = 31 & a12;
-              else if (3 === b11.utf8seq) b11.codepoint = 15 & a12;
-              else if (4 === b11.utf8seq) b11.codepoint = 7 & a12;
-              else throw Error("Invalid UTF-8 sequence");
-              b11.utf8seq -= 1;
-            } else if (b11.utf8seq > 0) {
-              if (a12 <= 127) throw Error("Invalid UTF-8 sequence");
-              b11.codepoint = b11.codepoint << 6 | 63 & a12, b11.utf8seq -= 1, 0 === b11.utf8seq && c11(b11.codepoint);
-            }
-          }(a11, d10, c10);
-        };
-        for (let b11 = 0; b11 < a10.length; b11 += 1) dI(a10.charCodeAt(b11), e10, f2);
-        return b10.join("");
-      }
-      function dK(a10) {
-        let b10 = [], c10 = { queue: 0, queuedBits: 0 }, d10 = (a11) => {
-          b10.push(a11);
-        };
-        for (let b11 = 0; b11 < a10.length; b11 += 1) dI(a10.charCodeAt(b11), c10, d10);
-        return new Uint8Array(b10);
-      }
-      function dL(a10) {
-        let b10 = [], c10 = { queue: 0, queuedBits: 0 }, d10 = (a11) => {
-          b10.push(a11);
-        };
-        return a10.forEach((a11) => dH(a11, c10, d10)), dH(null, c10, d10), b10.join("");
-      }
-      let dM = () => "undefined" != typeof window && "undefined" != typeof document, dN = { tested: false, writable: false }, dO = () => {
-        if (!dM()) return false;
-        try {
-          if ("object" != typeof globalThis.localStorage) return false;
-        } catch (a11) {
-          return false;
-        }
-        if (dN.tested) return dN.writable;
-        let a10 = `lswt-${Math.random()}${Math.random()}`;
-        try {
-          globalThis.localStorage.setItem(a10, a10), globalThis.localStorage.removeItem(a10), dN.tested = true, dN.writable = true;
-        } catch (a11) {
-          dN.tested = true, dN.writable = false;
-        }
-        return dN.writable;
-      }, dP = (a10) => a10 ? (...b10) => a10(...b10) : (...a11) => fetch(...a11), dQ = async (a10, b10, c10) => {
-        await a10.setItem(b10, JSON.stringify(c10));
-      }, dR = async (a10, b10) => {
-        let c10 = await a10.getItem(b10);
-        if (!c10) return null;
-        try {
-          return JSON.parse(c10);
-        } catch (a11) {
-          return null;
-        }
-      }, dS = async (a10, b10) => {
-        await a10.removeItem(b10);
-      };
-      class dT {
-        constructor() {
-          this.promise = new dT.promiseConstructor((a10, b10) => {
-            this.resolve = a10, this.reject = b10;
-          });
-        }
-      }
-      function dU(a10) {
-        let b10 = a10.split(".");
-        if (3 !== b10.length) throw new dD("Invalid JWT structure");
-        for (let a11 = 0; a11 < b10.length; a11++) if (!dm.test(b10[a11])) throw new dD("JWT not in base64url format");
-        return { header: JSON.parse(dJ(b10[0])), payload: JSON.parse(dJ(b10[1])), signature: dK(b10[2]), raw: { header: b10[0], payload: b10[1] } };
-      }
-      async function dV(a10) {
-        return await new Promise((b10) => {
-          setTimeout(() => b10(null), a10);
-        });
-      }
-      function dW(a10) {
-        return ("0" + a10.toString(16)).substr(-2);
-      }
-      async function dX(a10) {
-        let b10 = new TextEncoder().encode(a10);
-        return Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", b10))).map((a11) => String.fromCharCode(a11)).join("");
-      }
-      async function dY(a10) {
-        return "undefined" == typeof crypto || void 0 === crypto.subtle || "undefined" == typeof TextEncoder ? (console.warn("WebCrypto API is not supported. Code challenge method will default to use plain instead of sha256."), a10) : btoa(await dX(a10)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-      }
-      async function dZ(a10, b10, c10 = false) {
-        let d10 = function() {
-          let a11 = new Uint32Array(56);
-          if ("undefined" == typeof crypto) {
-            let a12 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~", b11 = a12.length, c11 = "";
-            for (let d11 = 0; d11 < 56; d11++) c11 += a12.charAt(Math.floor(Math.random() * b11));
-            return c11;
-          }
-          return crypto.getRandomValues(a11), Array.from(a11, dW).join("");
-        }(), e10 = d10;
-        c10 && (e10 += "/recovery"), await dQ(a10, `${b10}-code-verifier`, e10);
-        let f2 = await dY(d10), g2 = d10 === f2 ? "plain" : "s256";
-        return [f2, g2];
-      }
-      dT.promiseConstructor = Promise;
-      let d$ = /^2[0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[0-1])$/i, d_ = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
-      function d0(a10) {
-        if (!d_.test(a10)) throw Error("@supabase/auth-js: Expected parameter to be UUID but is not");
-      }
-      function d1(a10) {
-        if (!a10.passkey) throw Error("@supabase/auth-js: the passkey API is experimental and disabled by default. Enable it by passing `auth: { experimental: { passkey: true } }` to createClient (or to the GoTrueClient constructor).");
-      }
-      function d2() {
-        return new Proxy({}, { get: (a10, b10) => {
-          if ("__isUserNotAvailableProxy" === b10) return true;
-          if ("symbol" == typeof b10) {
-            let a11 = b10.toString();
-            if ("Symbol(Symbol.toPrimitive)" === a11 || "Symbol(Symbol.toStringTag)" === a11 || "Symbol(util.inspect.custom)" === a11) return;
-          }
-          throw Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Accessing the "${b10}" property of the session object is not supported. Please use getUser() instead.`);
-        }, set: (a10, b10) => {
-          throw Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Setting the "${b10}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
-        }, deleteProperty: (a10, b10) => {
-          throw Error(`@supabase/auth-js: client was created with userStorage option and there was no user stored in the user storage. Deleting the "${b10}" property of the session object is not supported. Please use getUser() to fetch a user object you can manipulate.`);
-        } });
-      }
-      function d3(a10) {
-        return JSON.parse(JSON.stringify(a10));
-      }
-      let d4 = (a10) => {
-        if ("object" == typeof a10 && null !== a10) {
-          if ("string" == typeof a10.msg) return a10.msg;
-          if ("string" == typeof a10.message) return a10.message;
-          if ("string" == typeof a10.error_description) return a10.error_description;
-          if ("string" == typeof a10.error) return a10.error;
-        }
-        return JSON.stringify(a10);
-      }, d5 = [502, 503, 504, 520, 521, 522, 523, 524, 530];
-      async function d6(a10) {
-        var b10;
-        let c10, d10;
-        if (!("object" == typeof a10 && null !== a10 && "status" in a10 && "ok" in a10 && "json" in a10 && "function" == typeof a10.json)) throw new dA(d4(a10), 0);
-        if (d5.includes(a10.status)) throw new dA(d4(a10), a10.status);
-        try {
-          c10 = await a10.json();
-        } catch (a11) {
-          throw new dr(d4(a11), a11);
-        }
-        let e10 = function(a11) {
-          let b11 = a11.headers.get(dk);
-          if (!b11 || !b11.match(d$)) return null;
-          try {
-            return /* @__PURE__ */ new Date(`${b11}T00:00:00.0Z`);
-          } catch (a12) {
-            return null;
-          }
-        }(a10);
-        if (e10 && e10.getTime() >= dl["2024-01-01"].timestamp && "object" == typeof c10 && c10 && "string" == typeof c10.code ? d10 = c10.code : "object" == typeof c10 && c10 && "string" == typeof c10.error_code && (d10 = c10.error_code), d10) {
-          if ("weak_password" === d10) throw new dC(d4(c10), a10.status, (null == (b10 = c10.weak_password) ? void 0 : b10.reasons) || []);
-          else if ("session_not_found" === d10) throw new dt();
-        } else if ("object" == typeof c10 && c10 && "object" == typeof c10.weak_password && c10.weak_password && Array.isArray(c10.weak_password.reasons) && c10.weak_password.reasons.length && c10.weak_password.reasons.reduce((a11, b11) => a11 && "string" == typeof b11, true)) throw new dC(d4(c10), a10.status, c10.weak_password.reasons);
-        throw new dq(d4(c10), a10.status || 500, d10);
-      }
-      async function d7(a10, b10, c10, d10) {
-        var e10;
-        let f2 = Object.assign({}, null == d10 ? void 0 : d10.headers);
-        f2[dk] || (f2[dk] = dl["2024-01-01"].name), (null == d10 ? void 0 : d10.jwt) && (f2.Authorization = `Bearer ${d10.jwt}`);
-        let g2 = null != (e10 = null == d10 ? void 0 : d10.query) ? e10 : {};
-        (null == d10 ? void 0 : d10.redirectTo) && (g2.redirect_to = d10.redirectTo);
-        let h2 = Object.keys(g2).length ? "?" + new URLSearchParams(g2).toString() : "", i2 = await d8(a10, b10, c10 + h2, { headers: f2, noResolveJson: null == d10 ? void 0 : d10.noResolveJson }, {}, null == d10 ? void 0 : d10.body);
-        return (null == d10 ? void 0 : d10.xform) ? null == d10 ? void 0 : d10.xform(i2) : { data: Object.assign({}, i2), error: null };
-      }
-      async function d8(a10, b10, c10, d10, e10, f2) {
-        let g2, h2 = ((a11, b11, c11, d11) => {
-          let e11 = { method: a11, headers: (null == b11 ? void 0 : b11.headers) || {} };
-          return "GET" === a11 ? e11 : (e11.headers = Object.assign({ "Content-Type": "application/json;charset=UTF-8" }, null == b11 ? void 0 : b11.headers), e11.body = JSON.stringify(d11), Object.assign(Object.assign({}, e11), c11));
-        })(b10, d10, e10, f2);
-        try {
-          g2 = await a10(c10, Object.assign({}, h2));
-        } catch (a11) {
-          throw console.error(a11), new dA(d4(a11), 0);
-        }
-        if (g2.ok || await d6(g2), null == d10 ? void 0 : d10.noResolveJson) return g2;
-        try {
-          return await g2.json();
-        } catch (a11) {
-          await d6(a11);
-        }
-      }
-      function d9(a10) {
-        var b10, c10, d10;
-        let e10 = null;
-        (d10 = a10).access_token && d10.refresh_token && d10.expires_in && (e10 = Object.assign({}, a10), a10.expires_at || (e10.expires_at = (c10 = a10.expires_in, Math.round(Date.now() / 1e3) + c10)));
-        return { data: { session: e10, user: null != (b10 = a10.user) ? b10 : null }, error: null };
-      }
-      function ea(a10) {
-        let b10 = d9(a10);
-        return !b10.error && a10.weak_password && "object" == typeof a10.weak_password && Array.isArray(a10.weak_password.reasons) && a10.weak_password.reasons.length && a10.weak_password.message && "string" == typeof a10.weak_password.message && a10.weak_password.reasons.reduce((a11, b11) => a11 && "string" == typeof b11, true) && (b10.data.weak_password = a10.weak_password), b10;
-      }
-      function eb(a10) {
-        var b10;
-        return { data: { user: null != (b10 = a10.user) ? b10 : a10 }, error: null };
-      }
-      function ec(a10) {
-        return { data: a10, error: null };
-      }
-      function ed(a10) {
-        let { action_link: b10, email_otp: c10, hashed_token: d10, redirect_to: e10, verification_type: f2 } = a10;
-        return { data: { properties: { action_link: b10, email_otp: c10, hashed_token: d10, redirect_to: e10, verification_type: f2 }, user: Object.assign({}, bD(a10, ["action_link", "email_otp", "hashed_token", "redirect_to", "verification_type"])) }, error: null };
-      }
-      function ee(a10) {
-        return a10;
-      }
-      let ef = ["global", "local", "others"];
-      class eg {
-        _encodePathSegment(a10) {
-          if ("." === a10 || ".." === a10) throw new dn("Invalid path segment");
-          return encodeURIComponent(a10);
-        }
-        constructor({ url: a10 = "", headers: b10 = {}, fetch: c10, experimental: d10 }) {
-          this.url = a10, this.headers = b10, this.fetch = dP(c10), this.experimental = null != d10 ? d10 : {}, this.mfa = { listFactors: this._listFactors.bind(this), deleteFactor: this._deleteFactor.bind(this) }, this.oauth = { listClients: this._listOAuthClients.bind(this), createClient: this._createOAuthClient.bind(this), getClient: this._getOAuthClient.bind(this), updateClient: this._updateOAuthClient.bind(this), deleteClient: this._deleteOAuthClient.bind(this), regenerateClientSecret: this._regenerateOAuthClientSecret.bind(this) }, this.customProviders = { listProviders: this._listCustomProviders.bind(this), createProvider: this._createCustomProvider.bind(this), getProvider: this._getCustomProvider.bind(this), updateProvider: this._updateCustomProvider.bind(this), deleteProvider: this._deleteCustomProvider.bind(this) }, this.passkey = { listPasskeys: this._adminListPasskeys.bind(this), deletePasskey: this._adminDeletePasskey.bind(this) };
-        }
-        async signOut(a10, b10 = ef[0]) {
-          if (0 > ef.indexOf(b10)) throw Error(`@supabase/auth-js: Parameter scope must be one of ${ef.join(", ")}`);
-          try {
-            return await d7(this.fetch, "POST", `${this.url}/logout?scope=${b10}`, { headers: this.headers, jwt: a10, noResolveJson: true }), { data: null, error: null };
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async inviteUserByEmail(a10, b10 = {}) {
-          try {
-            return await d7(this.fetch, "POST", `${this.url}/invite`, { body: { email: a10, data: b10.data }, headers: this.headers, redirectTo: b10.redirectTo, xform: eb });
-          } catch (a11) {
-            if (dp(a11)) return { data: { user: null }, error: a11 };
-            throw a11;
-          }
-        }
-        async generateLink(a10) {
-          try {
-            let { options: b10 } = a10, c10 = bD(a10, ["options"]), d10 = Object.assign(Object.assign({}, c10), b10);
-            return "newEmail" in c10 && (d10.new_email = null == c10 ? void 0 : c10.newEmail, delete d10.newEmail), await d7(this.fetch, "POST", `${this.url}/admin/generate_link`, { body: d10, headers: this.headers, xform: ed, redirectTo: null == b10 ? void 0 : b10.redirectTo });
-          } catch (a11) {
-            if (dp(a11)) return { data: { properties: null, user: null }, error: a11 };
-            throw a11;
-          }
-        }
-        async createUser(a10) {
-          try {
-            return await d7(this.fetch, "POST", `${this.url}/admin/users`, { body: a10, headers: this.headers, xform: eb });
-          } catch (a11) {
-            if (dp(a11)) return { data: { user: null }, error: a11 };
-            throw a11;
-          }
-        }
-        async listUsers(a10) {
-          var b10, c10, d10, e10, f2, g2, h2;
-          try {
-            let i2 = { nextPage: null, lastPage: 0, total: 0 }, j2 = await d7(this.fetch, "GET", `${this.url}/admin/users`, { headers: this.headers, noResolveJson: true, query: { page: null != (c10 = null == (b10 = null == a10 ? void 0 : a10.page) ? void 0 : b10.toString()) ? c10 : "", per_page: null != (e10 = null == (d10 = null == a10 ? void 0 : a10.perPage) ? void 0 : d10.toString()) ? e10 : "" }, xform: ee });
-            if (j2.error) throw j2.error;
-            let k2 = await j2.json(), l2 = null != (f2 = j2.headers.get("x-total-count")) ? f2 : 0, m2 = null != (h2 = null == (g2 = j2.headers.get("link")) ? void 0 : g2.split(",")) ? h2 : [];
-            return m2.length > 0 && (m2.forEach((a11) => {
-              let b11 = parseInt(a11.split(";")[0].split("=")[1].substring(0, 1)), c11 = JSON.parse(a11.split(";")[1].split("=")[1]);
-              i2[`${c11}Page`] = b11;
-            }), i2.total = parseInt(l2)), { data: Object.assign(Object.assign({}, k2), i2), error: null };
-          } catch (a11) {
-            if (dp(a11)) return { data: { users: [] }, error: a11 };
-            throw a11;
-          }
-        }
-        async getUserById(a10) {
-          d0(a10);
-          try {
-            return await d7(this.fetch, "GET", `${this.url}/admin/users/${a10}`, { headers: this.headers, xform: eb });
-          } catch (a11) {
-            if (dp(a11)) return { data: { user: null }, error: a11 };
-            throw a11;
-          }
-        }
-        async updateUserById(a10, b10) {
-          d0(a10);
-          try {
-            return await d7(this.fetch, "PUT", `${this.url}/admin/users/${a10}`, { body: b10, headers: this.headers, xform: eb });
-          } catch (a11) {
-            if (dp(a11)) return { data: { user: null }, error: a11 };
-            throw a11;
-          }
-        }
-        async deleteUser(a10, b10 = false) {
-          d0(a10);
-          try {
-            return await d7(this.fetch, "DELETE", `${this.url}/admin/users/${a10}`, { headers: this.headers, body: { should_soft_delete: b10 }, xform: eb });
-          } catch (a11) {
-            if (dp(a11)) return { data: { user: null }, error: a11 };
-            throw a11;
-          }
-        }
-        async _listFactors(a10) {
-          d0(a10.userId);
-          try {
-            let { data: b10, error: c10 } = await d7(this.fetch, "GET", `${this.url}/admin/users/${a10.userId}/factors`, { headers: this.headers, xform: (a11) => ({ data: { factors: a11 }, error: null }) });
-            return { data: b10, error: c10 };
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _deleteFactor(a10) {
-          d0(a10.userId), d0(a10.id);
-          try {
-            return { data: await d7(this.fetch, "DELETE", `${this.url}/admin/users/${a10.userId}/factors/${a10.id}`, { headers: this.headers }), error: null };
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _listOAuthClients(a10) {
-          var b10, c10, d10, e10, f2, g2, h2;
-          try {
-            let i2 = { nextPage: null, lastPage: 0, total: 0 }, j2 = await d7(this.fetch, "GET", `${this.url}/admin/oauth/clients`, { headers: this.headers, noResolveJson: true, query: { page: null != (c10 = null == (b10 = null == a10 ? void 0 : a10.page) ? void 0 : b10.toString()) ? c10 : "", per_page: null != (e10 = null == (d10 = null == a10 ? void 0 : a10.perPage) ? void 0 : d10.toString()) ? e10 : "" }, xform: ee });
-            if (j2.error) throw j2.error;
-            let k2 = await j2.json(), l2 = null != (f2 = j2.headers.get("x-total-count")) ? f2 : 0, m2 = null != (h2 = null == (g2 = j2.headers.get("link")) ? void 0 : g2.split(",")) ? h2 : [];
-            return m2.length > 0 && (m2.forEach((a11) => {
-              let b11 = parseInt(a11.split(";")[0].split("=")[1].substring(0, 1)), c11 = JSON.parse(a11.split(";")[1].split("=")[1]);
-              i2[`${c11}Page`] = b11;
-            }), i2.total = parseInt(l2)), { data: Object.assign(Object.assign({}, k2), i2), error: null };
-          } catch (a11) {
-            if (dp(a11)) return { data: { clients: [] }, error: a11 };
-            throw a11;
-          }
-        }
-        async _createOAuthClient(a10) {
-          try {
-            return await d7(this.fetch, "POST", `${this.url}/admin/oauth/clients`, { body: a10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _getOAuthClient(a10) {
-          try {
-            let b10 = this._encodePathSegment(a10);
-            return await d7(this.fetch, "GET", `${this.url}/admin/oauth/clients/${b10}`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _updateOAuthClient(a10, b10) {
-          try {
-            let c10 = this._encodePathSegment(a10);
-            return await d7(this.fetch, "PUT", `${this.url}/admin/oauth/clients/${c10}`, { body: b10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _deleteOAuthClient(a10) {
-          try {
-            let b10 = this._encodePathSegment(a10);
-            return await d7(this.fetch, "DELETE", `${this.url}/admin/oauth/clients/${b10}`, { headers: this.headers, noResolveJson: true }), { data: null, error: null };
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _regenerateOAuthClientSecret(a10) {
-          try {
-            let b10 = this._encodePathSegment(a10);
-            return await d7(this.fetch, "POST", `${this.url}/admin/oauth/clients/${b10}/regenerate_secret`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _listCustomProviders(a10) {
-          try {
-            let b10 = {};
-            return (null == a10 ? void 0 : a10.type) && (b10.type = a10.type), await d7(this.fetch, "GET", `${this.url}/admin/custom-providers`, { headers: this.headers, query: b10, xform: (a11) => {
-              var b11;
-              return { data: { providers: null != (b11 = null == a11 ? void 0 : a11.providers) ? b11 : [] }, error: null };
-            } });
-          } catch (a11) {
-            if (dp(a11)) return { data: { providers: [] }, error: a11 };
-            throw a11;
-          }
-        }
-        async _createCustomProvider(a10) {
-          try {
-            return await d7(this.fetch, "POST", `${this.url}/admin/custom-providers`, { body: a10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _getCustomProvider(a10) {
-          try {
-            let b10 = this._encodePathSegment(a10);
-            return await d7(this.fetch, "GET", `${this.url}/admin/custom-providers/${b10}`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _updateCustomProvider(a10, b10) {
-          try {
-            let c10 = this._encodePathSegment(a10);
-            return await d7(this.fetch, "PUT", `${this.url}/admin/custom-providers/${c10}`, { body: b10, headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _deleteCustomProvider(a10) {
-          try {
-            let b10 = this._encodePathSegment(a10);
-            return await d7(this.fetch, "DELETE", `${this.url}/admin/custom-providers/${b10}`, { headers: this.headers, noResolveJson: true }), { data: null, error: null };
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _adminListPasskeys(a10) {
-          d1(this.experimental), d0(a10.userId);
-          try {
-            return await d7(this.fetch, "GET", `${this.url}/admin/users/${a10.userId}/passkeys`, { headers: this.headers, xform: (a11) => ({ data: a11, error: null }) });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-        async _adminDeletePasskey(a10) {
-          d1(this.experimental), d0(a10.userId), d0(a10.passkeyId);
-          try {
-            return await d7(this.fetch, "DELETE", `${this.url}/admin/users/${a10.userId}/passkeys/${a10.passkeyId}`, { headers: this.headers, noResolveJson: true }), { data: null, error: null };
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            throw a11;
-          }
-        }
-      }
-      function eh(a10 = {}) {
-        return { getItem: (b10) => a10[b10] || null, setItem: (b10, c10) => {
-          a10[b10] = c10;
-        }, removeItem: (b10) => {
-          delete a10[b10];
-        } };
-      }
-      let ei = { debug: !!(globalThis && dO() && globalThis.localStorage && "true" === globalThis.localStorage.getItem("supabase.gotrue-js.locks.debug")) };
-      class ej extends Error {
-        constructor(a10) {
-          super(a10), this.isAcquireTimeout = true;
-        }
-      }
-      class ek extends ej {
-      }
-      async function el(a10, b10, c10) {
-        let d10;
-        ei.debug && console.log("@supabase/gotrue-js: navigatorLock: acquire lock", a10, b10);
-        let e10 = new globalThis.AbortController();
-        b10 > 0 && (d10 = setTimeout(() => {
-          e10.abort(), ei.debug && console.log("@supabase/gotrue-js: navigatorLock acquire timed out", a10);
-        }, b10)), await Promise.resolve();
-        try {
-          return await globalThis.navigator.locks.request(a10, 0 === b10 ? { mode: "exclusive", ifAvailable: true } : { mode: "exclusive", signal: e10.signal }, async (e11) => {
-            if (e11) {
-              clearTimeout(d10), ei.debug && console.log("@supabase/gotrue-js: navigatorLock: acquired", a10, e11.name);
-              try {
-                return await c10();
-              } finally {
-                ei.debug && console.log("@supabase/gotrue-js: navigatorLock: released", a10, e11.name);
-              }
-            }
-            if (0 === b10) throw ei.debug && console.log("@supabase/gotrue-js: navigatorLock: not immediately available", a10), new ek(`Acquiring an exclusive Navigator LockManager lock "${a10}" immediately failed`);
-            if (ei.debug) try {
-              let a11 = await globalThis.navigator.locks.query();
-              console.log("@supabase/gotrue-js: Navigator LockManager state", JSON.stringify(a11, null, "  "));
-            } catch (a11) {
-              console.warn("@supabase/gotrue-js: Error when querying Navigator LockManager state", a11);
-            }
-            return console.warn("@supabase/gotrue-js: Navigator LockManager returned a null lock when using #request without ifAvailable set to true, it appears this browser is not following the LockManager spec https://developer.mozilla.org/en-US/docs/Web/API/LockManager/request"), clearTimeout(d10), await c10();
-          });
-        } catch (f2) {
-          if (b10 > 0 && clearTimeout(d10), null !== f2 && "object" == typeof f2 && "name" in f2 && "AbortError" === f2.name && b10 > 0) if (e10.signal.aborted) return ei.debug && console.log("@supabase/gotrue-js: navigatorLock: acquire timeout, recovering by stealing lock", a10), console.warn(`@supabase/gotrue-js: Lock "${a10}" was not released within ${b10}ms. This may indicate an orphaned lock from a component unmount (e.g., React Strict Mode). Forcefully acquiring the lock to recover.`), await Promise.resolve().then(() => globalThis.navigator.locks.request(a10, { mode: "exclusive", steal: true }, async (b11) => {
-            if (!b11) return console.warn("@supabase/gotrue-js: Navigator LockManager returned null lock even with steal: true"), await c10();
-            ei.debug && console.log("@supabase/gotrue-js: navigatorLock: recovered (stolen)", a10, b11.name);
-            try {
-              return await c10();
-            } finally {
-              ei.debug && console.log("@supabase/gotrue-js: navigatorLock: released (stolen)", a10, b11.name);
-            }
-          }));
-          else throw ei.debug && console.log("@supabase/gotrue-js: navigatorLock: lock was stolen by another request", a10), new ek(`Lock "${a10}" was released because another request stole it`);
-          throw f2;
-        }
-      }
-      function em(a10) {
-        if (!/^0x[a-fA-F0-9]{40}$/.test(a10)) throw Error(`@supabase/auth-js: Address "${a10}" is invalid.`);
-        return a10.toLowerCase();
-      }
-      class en extends Error {
-        constructor({ message: a10, code: b10, cause: c10, name: d10 }) {
-          var e10;
-          super(a10, { cause: c10 }), this.__isWebAuthnError = true, this.name = null != (e10 = null != d10 ? d10 : c10 instanceof Error ? c10.name : void 0) ? e10 : "Unknown Error", this.code = b10;
-        }
-        toJSON() {
-          return { name: this.name, message: this.message, code: this.code };
-        }
-      }
-      class eo extends en {
-        constructor(a10, b10) {
-          super({ code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: b10, message: a10 }), this.name = "WebAuthnUnknownError", this.originalError = b10;
-        }
-      }
-      class ep {
-        createNewAbortSignal() {
-          if (this.controller) {
-            let a11 = Error("Cancelling existing WebAuthn API call for new one");
-            a11.name = "AbortError", this.controller.abort(a11);
-          }
-          let a10 = new AbortController();
-          return this.controller = a10, a10.signal;
-        }
-        cancelCeremony() {
-          if (this.controller) {
-            let a10 = Error("Manually cancelling existing WebAuthn API call");
-            a10.name = "AbortError", this.controller.abort(a10), this.controller = void 0;
-          }
-        }
-      }
-      let eq = new ep();
-      function er(a10) {
-        if (!a10) throw Error("Credential creation options are required");
-        if ("undefined" != typeof PublicKeyCredential && "parseCreationOptionsFromJSON" in PublicKeyCredential && "function" == typeof PublicKeyCredential.parseCreationOptionsFromJSON) return PublicKeyCredential.parseCreationOptionsFromJSON(a10);
-        let { challenge: b10, user: c10, excludeCredentials: d10 } = a10, e10 = bD(a10, ["challenge", "user", "excludeCredentials"]), f2 = dK(b10).buffer, g2 = Object.assign(Object.assign({}, c10), { id: dK(c10.id).buffer }), h2 = Object.assign(Object.assign({}, e10), { challenge: f2, user: g2 });
-        if (d10 && d10.length > 0) {
-          h2.excludeCredentials = Array(d10.length);
-          for (let a11 = 0; a11 < d10.length; a11++) {
-            let b11 = d10[a11];
-            h2.excludeCredentials[a11] = Object.assign(Object.assign({}, b11), { id: dK(b11.id).buffer, type: b11.type || "public-key", transports: b11.transports });
-          }
-        }
-        return h2;
-      }
-      function es(a10) {
-        if (!a10) throw Error("Credential request options are required");
-        if ("undefined" != typeof PublicKeyCredential && "parseRequestOptionsFromJSON" in PublicKeyCredential && "function" == typeof PublicKeyCredential.parseRequestOptionsFromJSON) return PublicKeyCredential.parseRequestOptionsFromJSON(a10);
-        let { challenge: b10, allowCredentials: c10 } = a10, d10 = bD(a10, ["challenge", "allowCredentials"]), e10 = dK(b10).buffer, f2 = Object.assign(Object.assign({}, d10), { challenge: e10 });
-        if (c10 && c10.length > 0) {
-          f2.allowCredentials = Array(c10.length);
-          for (let a11 = 0; a11 < c10.length; a11++) {
-            let b11 = c10[a11];
-            f2.allowCredentials[a11] = Object.assign(Object.assign({}, b11), { id: dK(b11.id).buffer, type: b11.type || "public-key", transports: b11.transports });
-          }
-        }
-        return f2;
-      }
-      function et(a10) {
-        var b10;
-        return "toJSON" in a10 && "function" == typeof a10.toJSON ? a10.toJSON() : { id: a10.id, rawId: a10.id, response: { attestationObject: dL(new Uint8Array(a10.response.attestationObject)), clientDataJSON: dL(new Uint8Array(a10.response.clientDataJSON)) }, type: "public-key", clientExtensionResults: a10.getClientExtensionResults(), authenticatorAttachment: null != (b10 = a10.authenticatorAttachment) ? b10 : void 0 };
-      }
-      function eu(a10) {
-        var b10;
-        if ("toJSON" in a10 && "function" == typeof a10.toJSON) return a10.toJSON();
-        let c10 = a10.getClientExtensionResults(), d10 = a10.response;
-        return { id: a10.id, rawId: a10.id, response: { authenticatorData: dL(new Uint8Array(d10.authenticatorData)), clientDataJSON: dL(new Uint8Array(d10.clientDataJSON)), signature: dL(new Uint8Array(d10.signature)), userHandle: d10.userHandle ? dL(new Uint8Array(d10.userHandle)) : void 0 }, type: "public-key", clientExtensionResults: c10, authenticatorAttachment: null != (b10 = a10.authenticatorAttachment) ? b10 : void 0 };
-      }
-      function ev(a10) {
-        return "localhost" === a10 || /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(a10);
-      }
-      function ew() {
-        var a10, b10;
-        return !!(dM() && "PublicKeyCredential" in window && window.PublicKeyCredential && "credentials" in navigator && "function" == typeof (null == (a10 = null == navigator ? void 0 : navigator.credentials) ? void 0 : a10.create) && "function" == typeof (null == (b10 = null == navigator ? void 0 : navigator.credentials) ? void 0 : b10.get));
-      }
-      async function ex(a10) {
-        try {
-          let b10 = await navigator.credentials.create(a10);
-          if (!b10) return { data: null, error: new eo("Empty credential response", b10) };
-          if (!(b10 instanceof PublicKeyCredential)) return { data: null, error: new eo("Browser returned unexpected credential type", b10) };
-          return { data: b10, error: null };
-        } catch (b10) {
-          return { data: null, error: function({ error: a11, options: b11 }) {
-            var c10, d10, e10;
-            let { publicKey: f2 } = b11;
-            if (!f2) throw Error("options was missing required publicKey property");
-            if ("AbortError" === a11.name) {
-              if (b11.signal instanceof AbortSignal) return new en({ message: "Registration ceremony was sent an abort signal", code: "ERROR_CEREMONY_ABORTED", cause: a11 });
-            } else if ("ConstraintError" === a11.name) {
-              if ((null == (c10 = f2.authenticatorSelection) ? void 0 : c10.requireResidentKey) === true) return new en({ message: "Discoverable credentials were required but no available authenticator supported it", code: "ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT", cause: a11 });
-              else if ("conditional" === b11.mediation && (null == (d10 = f2.authenticatorSelection) ? void 0 : d10.userVerification) === "required") return new en({ message: "User verification was required during automatic registration but it could not be performed", code: "ERROR_AUTO_REGISTER_USER_VERIFICATION_FAILURE", cause: a11 });
-              else if ((null == (e10 = f2.authenticatorSelection) ? void 0 : e10.userVerification) === "required") return new en({ message: "User verification was required but no available authenticator supported it", code: "ERROR_AUTHENTICATOR_MISSING_USER_VERIFICATION_SUPPORT", cause: a11 });
-            } else if ("InvalidStateError" === a11.name) return new en({ message: "The authenticator was previously registered", code: "ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED", cause: a11 });
-            else if ("NotAllowedError" === a11.name) return new en({ message: a11.message, code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
-            else if ("NotSupportedError" === a11.name) return new en(0 === f2.pubKeyCredParams.filter((a12) => "public-key" === a12.type).length ? { message: 'No entry in pubKeyCredParams was of type "public-key"', code: "ERROR_MALFORMED_PUBKEYCREDPARAMS", cause: a11 } : { message: "No available authenticator supported any of the specified pubKeyCredParams algorithms", code: "ERROR_AUTHENTICATOR_NO_SUPPORTED_PUBKEYCREDPARAMS_ALG", cause: a11 });
-            else if ("SecurityError" === a11.name) {
-              let b12 = window.location.hostname;
-              if (!ev(b12)) return new en({ message: `${window.location.hostname} is an invalid domain`, code: "ERROR_INVALID_DOMAIN", cause: a11 });
-              if (f2.rp.id !== b12) return new en({ message: `The RP ID "${f2.rp.id}" is invalid for this domain`, code: "ERROR_INVALID_RP_ID", cause: a11 });
-            } else if ("TypeError" === a11.name) {
-              if (f2.user.id.byteLength < 1 || f2.user.id.byteLength > 64) return new en({ message: "User ID was not between 1 and 64 characters", code: "ERROR_INVALID_USER_ID_LENGTH", cause: a11 });
-            } else if ("UnknownError" === a11.name) return new en({ message: "The authenticator was unable to process the specified options, or could not create a new credential", code: "ERROR_AUTHENTICATOR_GENERAL_ERROR", cause: a11 });
-            return new en({ message: "a Non-Webauthn related error has occurred", code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
-          }({ error: b10, options: a10 }) };
-        }
-      }
-      async function ey(a10) {
-        try {
-          let b10 = await navigator.credentials.get(a10);
-          if (!b10) return { data: null, error: new eo("Empty credential response", b10) };
-          if (!(b10 instanceof PublicKeyCredential)) return { data: null, error: new eo("Browser returned unexpected credential type", b10) };
-          return { data: b10, error: null };
-        } catch (b10) {
-          return { data: null, error: function({ error: a11, options: b11 }) {
-            let { publicKey: c10 } = b11;
-            if (!c10) throw Error("options was missing required publicKey property");
-            if ("AbortError" === a11.name) {
-              if (b11.signal instanceof AbortSignal) return new en({ message: "Authentication ceremony was sent an abort signal", code: "ERROR_CEREMONY_ABORTED", cause: a11 });
-            } else if ("NotAllowedError" === a11.name) return new en({ message: a11.message, code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
-            else if ("SecurityError" === a11.name) {
-              let b12 = window.location.hostname;
-              if (!ev(b12)) return new en({ message: `${window.location.hostname} is an invalid domain`, code: "ERROR_INVALID_DOMAIN", cause: a11 });
-              if (c10.rpId !== b12) return new en({ message: `The RP ID "${c10.rpId}" is invalid for this domain`, code: "ERROR_INVALID_RP_ID", cause: a11 });
-            } else if ("UnknownError" === a11.name) return new en({ message: "The authenticator was unable to process the specified options, or could not create a new assertion signature", code: "ERROR_AUTHENTICATOR_GENERAL_ERROR", cause: a11 });
-            return new en({ message: "a Non-Webauthn related error has occurred", code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: a11 });
-          }({ error: b10, options: a10 }) };
-        }
-      }
-      let ez = { hints: ["security-key"], authenticatorSelection: { authenticatorAttachment: "cross-platform", requireResidentKey: false, userVerification: "preferred", residentKey: "discouraged" }, attestation: "direct" }, eA = { userVerification: "preferred", hints: ["security-key"], attestation: "direct" };
-      function eB(...a10) {
-        let b10 = (a11) => null !== a11 && "object" == typeof a11 && !Array.isArray(a11), c10 = (a11) => a11 instanceof ArrayBuffer || ArrayBuffer.isView(a11), d10 = {};
-        for (let e10 of a10) if (e10) for (let a11 in e10) {
-          let f2 = e10[a11];
-          if (void 0 !== f2) if (Array.isArray(f2)) d10[a11] = f2;
-          else if (c10(f2)) d10[a11] = f2;
-          else if (b10(f2)) {
-            let c11 = d10[a11];
-            b10(c11) ? d10[a11] = eB(c11, f2) : d10[a11] = eB(f2);
-          } else d10[a11] = f2;
-        }
-        return d10;
-      }
-      class eC {
-        constructor(a10) {
-          this.client = a10, this.enroll = this._enroll.bind(this), this.challenge = this._challenge.bind(this), this.verify = this._verify.bind(this), this.authenticate = this._authenticate.bind(this), this.register = this._register.bind(this);
-        }
-        async _enroll(a10) {
-          return this.client.mfa.enroll(Object.assign(Object.assign({}, a10), { factorType: "webauthn" }));
-        }
-        async _challenge({ factorId: a10, webauthn: b10, friendlyName: c10, signal: d10 }, e10) {
-          var f2, g2, h2, i2, j2;
-          try {
-            let { data: k2, error: l2 } = await this.client.mfa.challenge({ factorId: a10, webauthn: b10 });
-            if (!k2) return { data: null, error: l2 };
-            let m2 = null != d10 ? d10 : eq.createNewAbortSignal();
-            if ("create" === k2.webauthn.type) {
-              let { user: a11 } = k2.webauthn.credential_options.publicKey;
-              if (!a11.name) if (c10) a11.name = `${a11.id}:${c10}`;
-              else {
-                let b11 = (await this.client.getUser()).data.user, c11 = (null == (f2 = null == b11 ? void 0 : b11.user_metadata) ? void 0 : f2.name) || (null == b11 ? void 0 : b11.email) || (null == b11 ? void 0 : b11.id) || "User";
-                a11.name = `${a11.id}:${c11}`;
-              }
-              a11.displayName || (a11.displayName = a11.name);
-            }
-            switch (k2.webauthn.type) {
-              case "create": {
-                let b11 = (g2 = k2.webauthn.credential_options.publicKey, h2 = null == e10 ? void 0 : e10.create, eB(ez, g2, h2 || {})), { data: c11, error: d11 } = await ex({ publicKey: b11, signal: m2 });
-                if (c11) return { data: { factorId: a10, challengeId: k2.id, webauthn: { type: k2.webauthn.type, credential_response: c11 } }, error: null };
-                return { data: null, error: d11 };
-              }
-              case "request": {
-                let b11 = (i2 = k2.webauthn.credential_options.publicKey, j2 = null == e10 ? void 0 : e10.request, eB(eA, i2, j2 || {})), { data: c11, error: d11 } = await ey(Object.assign(Object.assign({}, k2.webauthn.credential_options), { publicKey: b11, signal: m2 }));
-                if (c11) return { data: { factorId: a10, challengeId: k2.id, webauthn: { type: k2.webauthn.type, credential_response: c11 } }, error: null };
-                return { data: null, error: d11 };
-              }
-            }
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            return { data: null, error: new dr("Unexpected error in challenge", a11) };
-          }
-        }
-        async _verify({ challengeId: a10, factorId: b10, webauthn: c10 }) {
-          return this.client.mfa.verify({ factorId: b10, challengeId: a10, webauthn: c10 });
-        }
-        async _authenticate({ factorId: a10, webauthn: { rpId: b10 = "undefined" != typeof window ? window.location.hostname : void 0, rpOrigins: c10 = "undefined" != typeof window ? [window.location.origin] : void 0, signal: d10 } = {} }, e10) {
-          if (!b10) return { data: null, error: new dn("rpId is required for WebAuthn authentication") };
-          try {
-            if (!ew()) return { data: null, error: new dr("Browser does not support WebAuthn", null) };
-            let { data: f2, error: g2 } = await this.challenge({ factorId: a10, webauthn: { rpId: b10, rpOrigins: c10 }, signal: d10 }, { request: e10 });
-            if (!f2) return { data: null, error: g2 };
-            let { webauthn: h2 } = f2;
-            return this._verify({ factorId: a10, challengeId: f2.challengeId, webauthn: { type: h2.type, rpId: b10, rpOrigins: c10, credential_response: h2.credential_response } });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            return { data: null, error: new dr("Unexpected error in authenticate", a11) };
-          }
-        }
-        async _register({ friendlyName: a10, webauthn: { rpId: b10 = "undefined" != typeof window ? window.location.hostname : void 0, rpOrigins: c10 = "undefined" != typeof window ? [window.location.origin] : void 0, signal: d10 } = {} }, e10) {
-          if (!b10) return { data: null, error: new dn("rpId is required for WebAuthn registration") };
-          try {
-            if (!ew()) return { data: null, error: new dr("Browser does not support WebAuthn", null) };
-            let { data: f2, error: g2 } = await this._enroll({ friendlyName: a10 });
-            if (!f2) return await this.client.mfa.listFactors().then((b11) => {
-              var c11;
-              return null == (c11 = b11.data) ? void 0 : c11.all.find((b12) => "webauthn" === b12.factor_type && b12.friendly_name === a10 && "unverified" !== b12.status);
-            }).then((a11) => a11 ? this.client.mfa.unenroll({ factorId: null == a11 ? void 0 : a11.id }) : void 0), { data: null, error: g2 };
-            let { data: h2, error: i2 } = await this._challenge({ factorId: f2.id, friendlyName: f2.friendly_name, webauthn: { rpId: b10, rpOrigins: c10 }, signal: d10 }, { create: e10 });
-            if (!h2) return { data: null, error: i2 };
-            return this._verify({ factorId: f2.id, challengeId: h2.challengeId, webauthn: { rpId: b10, rpOrigins: c10, type: h2.webauthn.type, credential_response: h2.webauthn.credential_response } });
-          } catch (a11) {
-            if (dp(a11)) return { data: null, error: a11 };
-            return { data: null, error: new dr("Unexpected error in register", a11) };
-          }
-        }
-      }
-      if ("object" != typeof globalThis) try {
-        Object.defineProperty(Object.prototype, "__magic__", { get: function() {
-          return this;
-        }, configurable: true }), __magic__.globalThis = __magic__, delete Object.prototype.__magic__;
-      } catch (a10) {
-        "undefined" != typeof self && (self.globalThis = self);
-      }
-      let eD = { url: "http://localhost:9999", storageKey: "supabase.auth.token", autoRefreshToken: true, persistSession: true, detectSessionInUrl: true, headers: dj, flowType: "implicit", debug: false, hasCustomAuthorizationHeader: false, throwOnError: false, lockAcquireTimeout: 5e3, skipAutoInitialize: false, experimental: {} };
-      async function eE(a10, b10, c10) {
-        return await c10();
-      }
-      let eF = {};
-      class eG {
-        get jwks() {
-          var a10, b10;
-          return null != (b10 = null == (a10 = eF[this.storageKey]) ? void 0 : a10.jwks) ? b10 : { keys: [] };
-        }
-        set jwks(a10) {
-          eF[this.storageKey] = Object.assign(Object.assign({}, eF[this.storageKey]), { jwks: a10 });
-        }
-        get jwks_cached_at() {
-          var a10, b10;
-          return null != (b10 = null == (a10 = eF[this.storageKey]) ? void 0 : a10.cachedAt) ? b10 : Number.MIN_SAFE_INTEGER;
-        }
-        set jwks_cached_at(a10) {
-          eF[this.storageKey] = Object.assign(Object.assign({}, eF[this.storageKey]), { cachedAt: a10 });
-        }
-        constructor(a10) {
-          var b10, c10, d10, e10;
-          this.userStorage = null, this.memoryStorage = null, this.stateChangeEmitters = /* @__PURE__ */ new Map(), this.autoRefreshTicker = null, this.autoRefreshTickTimeout = null, this.visibilityChangedCallback = null, this.refreshingDeferred = null, this.initializePromise = null, this.detectSessionInUrl = true, this.hasCustomAuthorizationHeader = false, this.suppressGetSessionWarning = false, this.lockAcquired = false, this.pendingInLock = [], this.broadcastChannel = null, this.logger = console.log;
-          let f2 = Object.assign(Object.assign({}, eD), a10);
-          if (this.storageKey = f2.storageKey, this.instanceID = null != (b10 = eG.nextInstanceID[this.storageKey]) ? b10 : 0, eG.nextInstanceID[this.storageKey] = this.instanceID + 1, this.logDebugMessages = !!f2.debug, "function" == typeof f2.debug && (this.logger = f2.debug), this.instanceID > 0 && dM()) {
-            let a11 = `${this._logPrefix()} Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.`;
-            console.warn(a11), this.logDebugMessages && console.trace(a11);
-          }
-          if (this.persistSession = f2.persistSession, this.autoRefreshToken = f2.autoRefreshToken, this.experimental = null != (c10 = f2.experimental) ? c10 : {}, this.admin = new eg({ url: f2.url, headers: f2.headers, fetch: f2.fetch, experimental: this.experimental }), this.url = f2.url, this.headers = f2.headers, this.fetch = dP(f2.fetch), this.lock = f2.lock || eE, this.detectSessionInUrl = f2.detectSessionInUrl, this.flowType = f2.flowType, this.hasCustomAuthorizationHeader = f2.hasCustomAuthorizationHeader, this.throwOnError = f2.throwOnError, this.lockAcquireTimeout = f2.lockAcquireTimeout, f2.lock ? this.lock = f2.lock : this.persistSession && dM() && (null == (d10 = null == globalThis ? void 0 : globalThis.navigator) ? void 0 : d10.locks) ? this.lock = el : this.lock = eE, this.jwks || (this.jwks = { keys: [] }, this.jwks_cached_at = Number.MIN_SAFE_INTEGER), this.mfa = { verify: this._verify.bind(this), enroll: this._enroll.bind(this), unenroll: this._unenroll.bind(this), challenge: this._challenge.bind(this), listFactors: this._listFactors.bind(this), challengeAndVerify: this._challengeAndVerify.bind(this), getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this), webauthn: new eC(this) }, this.oauth = { getAuthorizationDetails: this._getAuthorizationDetails.bind(this), approveAuthorization: this._approveAuthorization.bind(this), denyAuthorization: this._denyAuthorization.bind(this), listGrants: this._listOAuthGrants.bind(this), revokeGrant: this._revokeOAuthGrant.bind(this) }, this.passkey = { startRegistration: this._startPasskeyRegistration.bind(this), verifyRegistration: this._verifyPasskeyRegistration.bind(this), startAuthentication: this._startPasskeyAuthentication.bind(this), verifyAuthentication: this._verifyPasskeyAuthentication.bind(this), list: this._listPasskeys.bind(this), update: this._updatePasskey.bind(this), delete: this._deletePasskey.bind(this) }, this.persistSession ? (f2.storage ? this.storage = f2.storage : dO() ? this.storage = globalThis.localStorage : (this.memoryStorage = {}, this.storage = eh(this.memoryStorage)), f2.userStorage && (this.userStorage = f2.userStorage)) : (this.memoryStorage = {}, this.storage = eh(this.memoryStorage)), dM() && globalThis.BroadcastChannel && this.persistSession && this.storageKey) {
-            try {
-              this.broadcastChannel = new globalThis.BroadcastChannel(this.storageKey);
-            } catch (a11) {
-              console.error("Failed to create a new BroadcastChannel, multi-tab state changes will not be available", a11);
-            }
-            null == (e10 = this.broadcastChannel) || e10.addEventListener("message", async (a11) => {
-              this._debug("received broadcast notification from other tab or client", a11);
-              try {
-                await this._notifyAllSubscribers(a11.data.event, a11.data.session, false);
-              } catch (a12) {
-                this._debug("#broadcastChannel", "error", a12);
-              }
-            });
-          }
-          f2.skipAutoInitialize || this.initialize().catch((a11) => {
-            this._debug("#initialize()", "error", a11);
-          });
-        }
-        isThrowOnErrorEnabled() {
-          return this.throwOnError;
-        }
-        _returnResult(a10) {
-          if (this.throwOnError && a10 && a10.error) throw a10.error;
-          return a10;
-        }
-        _logPrefix() {
-          return `GoTrueClient@${this.storageKey}:${this.instanceID} (${di}) ${(/* @__PURE__ */ new Date()).toISOString()}`;
-        }
-        _debug(...a10) {
-          return this.logDebugMessages && this.logger(this._logPrefix(), ...a10), this;
-        }
-        async initialize() {
-          return this.initializePromise || (this.initializePromise = (async () => await this._acquireLock(this.lockAcquireTimeout, async () => await this._initialize()))()), await this.initializePromise;
-        }
-        async _initialize() {
-          var a10;
-          try {
-            let b10 = {}, c10 = "none";
-            if (dM() && (b10 = function(a11) {
-              let b11 = {}, c11 = new URL(a11);
-              if (c11.hash && "#" === c11.hash[0]) try {
-                new URLSearchParams(c11.hash.substring(1)).forEach((a12, c12) => {
-                  b11[c12] = a12;
-                });
-              } catch (a12) {
-              }
-              return c11.searchParams.forEach((a12, c12) => {
-                b11[c12] = a12;
-              }), b11;
-            }(window.location.href), this._isImplicitGrantCallback(b10) ? c10 = "implicit" : await this._isPKCECallback(b10) && (c10 = "pkce")), dM() && this.detectSessionInUrl && "none" !== c10) {
-              let { data: d10, error: e10 } = await this._getSessionFromURL(b10, c10);
-              if (e10) {
-                (this._debug("#_initialize()", "error detecting session from URL", e10), dp(e10) && "AuthImplicitGrantRedirectError" === e10.name) && (null == (a10 = e10.details) || a10.code);
-                return { error: e10 };
-              }
-              let { session: f2, redirectType: g2 } = d10;
-              return this._debug("#_initialize()", "detected session in URL", f2, "redirect type", g2), await this._saveSession(f2), setTimeout(async () => {
-                "recovery" === g2 ? await this._notifyAllSubscribers("PASSWORD_RECOVERY", f2) : await this._notifyAllSubscribers("SIGNED_IN", f2);
-              }, 0), { error: null };
-            }
-            return await this._recoverAndRefresh(), { error: null };
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ error: a11 });
-            return this._returnResult({ error: new dr("Unexpected error during initialization", a11) });
-          } finally {
-            await this._handleVisibilityChange(), this._debug("#_initialize()", "end");
-          }
-        }
-        async signInAnonymously(a10) {
-          var b10, c10, d10;
-          try {
-            let { data: e10, error: f2 } = await d7(this.fetch, "POST", `${this.url}/signup`, { headers: this.headers, body: { data: null != (c10 = null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.data) ? c10 : {}, gotrue_meta_security: { captcha_token: null == (d10 = null == a10 ? void 0 : a10.options) ? void 0 : d10.captchaToken } }, xform: d9 });
-            if (f2 || !e10) return this._returnResult({ data: { user: null, session: null }, error: f2 });
-            let g2 = e10.session, h2 = e10.user;
-            return e10.session && (await this._saveSession(e10.session), await this._notifyAllSubscribers("SIGNED_IN", g2)), this._returnResult({ data: { user: h2, session: g2 }, error: null });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async signUp(a10) {
-          var b10, c10, d10;
-          try {
-            let e10;
-            if ("email" in a10) {
-              let { email: c11, password: d11, options: f3 } = a10, g3 = null, h3 = null;
-              "pkce" === this.flowType && ([g3, h3] = await dZ(this.storage, this.storageKey)), e10 = await d7(this.fetch, "POST", `${this.url}/signup`, { headers: this.headers, redirectTo: null == f3 ? void 0 : f3.emailRedirectTo, body: { email: c11, password: d11, data: null != (b10 = null == f3 ? void 0 : f3.data) ? b10 : {}, gotrue_meta_security: { captcha_token: null == f3 ? void 0 : f3.captchaToken }, code_challenge: g3, code_challenge_method: h3 }, xform: d9 });
-            } else if ("phone" in a10) {
-              let { phone: b11, password: f3, options: g3 } = a10;
-              e10 = await d7(this.fetch, "POST", `${this.url}/signup`, { headers: this.headers, body: { phone: b11, password: f3, data: null != (c10 = null == g3 ? void 0 : g3.data) ? c10 : {}, channel: null != (d10 = null == g3 ? void 0 : g3.channel) ? d10 : "sms", gotrue_meta_security: { captcha_token: null == g3 ? void 0 : g3.captchaToken } }, xform: d9 });
-            } else throw new dw("You must provide either an email or phone number and a password");
-            let { data: f2, error: g2 } = e10;
-            if (g2 || !f2) return await dS(this.storage, `${this.storageKey}-code-verifier`), this._returnResult({ data: { user: null, session: null }, error: g2 });
-            let h2 = f2.session, i2 = f2.user;
-            return f2.session && (await this._saveSession(f2.session), await this._notifyAllSubscribers("SIGNED_IN", h2)), this._returnResult({ data: { user: i2, session: h2 }, error: null });
-          } catch (a11) {
-            if (await dS(this.storage, `${this.storageKey}-code-verifier`), dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async signInWithPassword(a10) {
-          try {
-            let b10;
-            if ("email" in a10) {
-              let { email: c11, password: d11, options: e10 } = a10;
-              b10 = await d7(this.fetch, "POST", `${this.url}/token?grant_type=password`, { headers: this.headers, body: { email: c11, password: d11, gotrue_meta_security: { captcha_token: null == e10 ? void 0 : e10.captchaToken } }, xform: ea });
-            } else if ("phone" in a10) {
-              let { phone: c11, password: d11, options: e10 } = a10;
-              b10 = await d7(this.fetch, "POST", `${this.url}/token?grant_type=password`, { headers: this.headers, body: { phone: c11, password: d11, gotrue_meta_security: { captcha_token: null == e10 ? void 0 : e10.captchaToken } }, xform: ea });
-            } else throw new dw("You must provide either an email or phone number and a password");
-            let { data: c10, error: d10 } = b10;
-            if (d10) return this._returnResult({ data: { user: null, session: null }, error: d10 });
-            if (!c10 || !c10.session || !c10.user) {
-              let a11 = new dv();
-              return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            }
-            return c10.session && (await this._saveSession(c10.session), await this._notifyAllSubscribers("SIGNED_IN", c10.session)), this._returnResult({ data: Object.assign({ user: c10.user, session: c10.session }, c10.weak_password ? { weakPassword: c10.weak_password } : null), error: d10 });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async signInWithOAuth(a10) {
-          var b10, c10, d10, e10;
-          return await this._handleProviderSignIn(a10.provider, { redirectTo: null == (b10 = a10.options) ? void 0 : b10.redirectTo, scopes: null == (c10 = a10.options) ? void 0 : c10.scopes, queryParams: null == (d10 = a10.options) ? void 0 : d10.queryParams, skipBrowserRedirect: null == (e10 = a10.options) ? void 0 : e10.skipBrowserRedirect });
-        }
-        async exchangeCodeForSession(a10) {
-          return await this.initializePromise, this._acquireLock(this.lockAcquireTimeout, async () => this._exchangeCodeForSession(a10));
-        }
-        async signInWithWeb3(a10) {
-          let { chain: b10 } = a10;
-          switch (b10) {
-            case "ethereum":
-              return await this.signInWithEthereum(a10);
-            case "solana":
-              return await this.signInWithSolana(a10);
-            default:
-              throw Error(`@supabase/auth-js: Unsupported chain "${b10}"`);
-          }
-        }
-        async signInWithEthereum(a10) {
-          var b10, c10, d10, e10, f2, g2, h2, i2, j2, k2, l2, m2;
-          let n2, o2;
-          if ("message" in a10) n2 = a10.message, o2 = a10.signature;
-          else {
-            let k3, { chain: l3, wallet: p2, statement: q2, options: r2 } = a10;
-            if (dM()) if ("object" == typeof p2) k3 = p2;
-            else {
-              let a11 = window;
-              if ("ethereum" in a11 && "object" == typeof a11.ethereum && "request" in a11.ethereum && "function" == typeof a11.ethereum.request) k3 = a11.ethereum;
-              else throw Error("@supabase/auth-js: No compatible Ethereum wallet interface on the window object (window.ethereum) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'ethereum', wallet: resolvedUserWallet }) instead.");
-            }
-            else {
-              if ("object" != typeof p2 || !(null == r2 ? void 0 : r2.url)) throw Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
-              k3 = p2;
-            }
-            let s2 = new URL(null != (b10 = null == r2 ? void 0 : r2.url) ? b10 : window.location.href), t2 = await k3.request({ method: "eth_requestAccounts" }).then((a11) => a11).catch(() => {
-              throw Error("@supabase/auth-js: Wallet method eth_requestAccounts is missing or invalid");
-            });
-            if (!t2 || 0 === t2.length) throw Error("@supabase/auth-js: No accounts available. Please ensure the wallet is connected.");
-            let u2 = em(t2[0]), v2 = null == (c10 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : c10.chainId;
-            v2 || (v2 = parseInt(await k3.request({ method: "eth_chainId" }), 16)), n2 = function(a11) {
-              var b11;
-              let { chainId: c11, domain: d11, expirationTime: e11, issuedAt: f3 = /* @__PURE__ */ new Date(), nonce: g3, notBefore: h3, requestId: i3, resources: j3, scheme: k4, uri: l4, version: m3 } = a11;
-              if (!Number.isInteger(c11)) throw Error(`@supabase/auth-js: Invalid SIWE message field "chainId". Chain ID must be a EIP-155 chain ID. Provided value: ${c11}`);
-              if (!d11) throw Error('@supabase/auth-js: Invalid SIWE message field "domain". Domain must be provided.');
-              if (g3 && g3.length < 8) throw Error(`@supabase/auth-js: Invalid SIWE message field "nonce". Nonce must be at least 8 characters. Provided value: ${g3}`);
-              if (!l4) throw Error('@supabase/auth-js: Invalid SIWE message field "uri". URI must be provided.');
-              if ("1" !== m3) throw Error(`@supabase/auth-js: Invalid SIWE message field "version". Version must be '1'. Provided value: ${m3}`);
-              if (null == (b11 = a11.statement) ? void 0 : b11.includes("\n")) throw Error(`@supabase/auth-js: Invalid SIWE message field "statement". Statement must not include '\\n'. Provided value: ${a11.statement}`);
-              let n3 = em(a11.address), o3 = k4 ? `${k4}://${d11}` : d11, p3 = a11.statement ? `${a11.statement}
-` : "", q3 = `${o3} wants you to sign in with your Ethereum account:
-${n3}
-
-${p3}`, r3 = `URI: ${l4}
-Version: ${m3}
-Chain ID: ${c11}${g3 ? `
-Nonce: ${g3}` : ""}
-Issued At: ${f3.toISOString()}`;
-              if (e11 && (r3 += `
-Expiration Time: ${e11.toISOString()}`), h3 && (r3 += `
-Not Before: ${h3.toISOString()}`), i3 && (r3 += `
-Request ID: ${i3}`), j3) {
-                let a12 = "\nResources:";
-                for (let b12 of j3) {
-                  if (!b12 || "string" != typeof b12) throw Error(`@supabase/auth-js: Invalid SIWE message field "resources". Every resource must be a valid string. Provided value: ${b12}`);
-                  a12 += `
-- ${b12}`;
-                }
-                r3 += a12;
-              }
-              return `${q3}
-${r3}`;
-            }({ domain: s2.host, address: u2, statement: q2, uri: s2.href, version: "1", chainId: v2, nonce: null == (d10 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : d10.nonce, issuedAt: null != (f2 = null == (e10 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : e10.issuedAt) ? f2 : /* @__PURE__ */ new Date(), expirationTime: null == (g2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : g2.expirationTime, notBefore: null == (h2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : h2.notBefore, requestId: null == (i2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : i2.requestId, resources: null == (j2 = null == r2 ? void 0 : r2.signInWithEthereum) ? void 0 : j2.resources }), o2 = await k3.request({ method: "personal_sign", params: [(m2 = n2, "0x" + Array.from(new TextEncoder().encode(m2), (a11) => a11.toString(16).padStart(2, "0")).join("")), u2] });
-          }
-          try {
-            let { data: b11, error: c11 } = await d7(this.fetch, "POST", `${this.url}/token?grant_type=web3`, { headers: this.headers, body: Object.assign({ chain: "ethereum", message: n2, signature: o2 }, (null == (k2 = a10.options) ? void 0 : k2.captchaToken) ? { gotrue_meta_security: { captcha_token: null == (l2 = a10.options) ? void 0 : l2.captchaToken } } : null), xform: d9 });
-            if (c11) throw c11;
-            if (!b11 || !b11.session || !b11.user) {
-              let a11 = new dv();
-              return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            }
-            return b11.session && (await this._saveSession(b11.session), await this._notifyAllSubscribers("SIGNED_IN", b11.session)), this._returnResult({ data: Object.assign({}, b11), error: c11 });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async signInWithSolana(a10) {
-          var b10, c10, d10, e10, f2, g2, h2, i2, j2, k2, l2, m2;
-          let n2, o2;
-          if ("message" in a10) n2 = a10.message, o2 = a10.signature;
-          else {
-            let l3, { chain: m3, wallet: p2, statement: q2, options: r2 } = a10;
-            if (dM()) if ("object" == typeof p2) l3 = p2;
-            else {
-              let a11 = window;
-              if ("solana" in a11 && "object" == typeof a11.solana && ("signIn" in a11.solana && "function" == typeof a11.solana.signIn || "signMessage" in a11.solana && "function" == typeof a11.solana.signMessage)) l3 = a11.solana;
-              else throw Error("@supabase/auth-js: No compatible Solana wallet interface on the window object (window.solana) detected. Make sure the user already has a wallet installed and connected for this app. Prefer passing the wallet interface object directly to signInWithWeb3({ chain: 'solana', wallet: resolvedUserWallet }) instead.");
-            }
-            else {
-              if ("object" != typeof p2 || !(null == r2 ? void 0 : r2.url)) throw Error("@supabase/auth-js: Both wallet and url must be specified in non-browser environments.");
-              l3 = p2;
-            }
-            let s2 = new URL(null != (b10 = null == r2 ? void 0 : r2.url) ? b10 : window.location.href);
-            if ("signIn" in l3 && l3.signIn) {
-              let a11, b11 = await l3.signIn(Object.assign(Object.assign(Object.assign({ issuedAt: (/* @__PURE__ */ new Date()).toISOString() }, null == r2 ? void 0 : r2.signInWithSolana), { version: "1", domain: s2.host, uri: s2.href }), q2 ? { statement: q2 } : null));
-              if (Array.isArray(b11) && b11[0] && "object" == typeof b11[0]) a11 = b11[0];
-              else if (b11 && "object" == typeof b11 && "signedMessage" in b11 && "signature" in b11) a11 = b11;
-              else throw Error("@supabase/auth-js: Wallet method signIn() returned unrecognized value");
-              if ("signedMessage" in a11 && "signature" in a11 && ("string" == typeof a11.signedMessage || a11.signedMessage instanceof Uint8Array) && a11.signature instanceof Uint8Array) n2 = "string" == typeof a11.signedMessage ? a11.signedMessage : new TextDecoder().decode(a11.signedMessage), o2 = a11.signature;
-              else throw Error("@supabase/auth-js: Wallet method signIn() API returned object without signedMessage and signature fields");
-            } else {
-              if (!("signMessage" in l3) || "function" != typeof l3.signMessage || !("publicKey" in l3) || "object" != typeof l3 || !l3.publicKey || !("toBase58" in l3.publicKey) || "function" != typeof l3.publicKey.toBase58) throw Error("@supabase/auth-js: Wallet does not have a compatible signMessage() and publicKey.toBase58() API");
-              n2 = [`${s2.host} wants you to sign in with your Solana account:`, l3.publicKey.toBase58(), ...q2 ? ["", q2, ""] : [""], "Version: 1", `URI: ${s2.href}`, `Issued At: ${null != (d10 = null == (c10 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : c10.issuedAt) ? d10 : (/* @__PURE__ */ new Date()).toISOString()}`, ...(null == (e10 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : e10.notBefore) ? [`Not Before: ${r2.signInWithSolana.notBefore}`] : [], ...(null == (f2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : f2.expirationTime) ? [`Expiration Time: ${r2.signInWithSolana.expirationTime}`] : [], ...(null == (g2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : g2.chainId) ? [`Chain ID: ${r2.signInWithSolana.chainId}`] : [], ...(null == (h2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : h2.nonce) ? [`Nonce: ${r2.signInWithSolana.nonce}`] : [], ...(null == (i2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : i2.requestId) ? [`Request ID: ${r2.signInWithSolana.requestId}`] : [], ...(null == (k2 = null == (j2 = null == r2 ? void 0 : r2.signInWithSolana) ? void 0 : j2.resources) ? void 0 : k2.length) ? ["Resources", ...r2.signInWithSolana.resources.map((a12) => `- ${a12}`)] : []].join("\n");
-              let a11 = await l3.signMessage(new TextEncoder().encode(n2), "utf8");
-              if (!a11 || !(a11 instanceof Uint8Array)) throw Error("@supabase/auth-js: Wallet signMessage() API returned an recognized value");
-              o2 = a11;
-            }
-          }
-          try {
-            let { data: b11, error: c11 } = await d7(this.fetch, "POST", `${this.url}/token?grant_type=web3`, { headers: this.headers, body: Object.assign({ chain: "solana", message: n2, signature: dL(o2) }, (null == (l2 = a10.options) ? void 0 : l2.captchaToken) ? { gotrue_meta_security: { captcha_token: null == (m2 = a10.options) ? void 0 : m2.captchaToken } } : null), xform: d9 });
-            if (c11) throw c11;
-            if (!b11 || !b11.session || !b11.user) {
-              let a11 = new dv();
-              return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            }
-            return b11.session && (await this._saveSession(b11.session), await this._notifyAllSubscribers("SIGNED_IN", b11.session)), this._returnResult({ data: Object.assign({}, b11), error: c11 });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async _exchangeCodeForSession(a10) {
-          let b10 = await dR(this.storage, `${this.storageKey}-code-verifier`), [c10, d10] = (null != b10 ? b10 : "").split("/");
-          try {
-            if (!c10 && "pkce" === this.flowType) throw new dz();
-            let { data: b11, error: e10 } = await d7(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, { headers: this.headers, body: { auth_code: a10, code_verifier: c10 }, xform: d9 });
-            if (await dS(this.storage, `${this.storageKey}-code-verifier`), e10) throw e10;
-            if (!b11 || !b11.session || !b11.user) {
-              let a11 = new dv();
-              return this._returnResult({ data: { user: null, session: null, redirectType: null }, error: a11 });
-            }
-            return b11.session && (await this._saveSession(b11.session), await this._notifyAllSubscribers("recovery" === d10 ? "PASSWORD_RECOVERY" : "SIGNED_IN", b11.session)), this._returnResult({ data: Object.assign(Object.assign({}, b11), { redirectType: null != d10 ? d10 : null }), error: e10 });
-          } catch (a11) {
-            if (await dS(this.storage, `${this.storageKey}-code-verifier`), dp(a11)) return this._returnResult({ data: { user: null, session: null, redirectType: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async signInWithIdToken(a10) {
-          try {
-            let { options: b10, provider: c10, token: d10, access_token: e10, nonce: f2 } = a10, { data: g2, error: h2 } = await d7(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, { headers: this.headers, body: { provider: c10, id_token: d10, access_token: e10, nonce: f2, gotrue_meta_security: { captcha_token: null == b10 ? void 0 : b10.captchaToken } }, xform: d9 });
-            if (h2) return this._returnResult({ data: { user: null, session: null }, error: h2 });
-            if (!g2 || !g2.session || !g2.user) {
-              let a11 = new dv();
-              return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            }
-            return g2.session && (await this._saveSession(g2.session), await this._notifyAllSubscribers("SIGNED_IN", g2.session)), this._returnResult({ data: g2, error: h2 });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async signInWithOtp(a10) {
-          var b10, c10, d10, e10, f2;
-          try {
-            if ("email" in a10) {
-              let { email: d11, options: e11 } = a10, f3 = null, g2 = null;
-              "pkce" === this.flowType && ([f3, g2] = await dZ(this.storage, this.storageKey));
-              let { error: h2 } = await d7(this.fetch, "POST", `${this.url}/otp`, { headers: this.headers, body: { email: d11, data: null != (b10 = null == e11 ? void 0 : e11.data) ? b10 : {}, create_user: null == (c10 = null == e11 ? void 0 : e11.shouldCreateUser) || c10, gotrue_meta_security: { captcha_token: null == e11 ? void 0 : e11.captchaToken }, code_challenge: f3, code_challenge_method: g2 }, redirectTo: null == e11 ? void 0 : e11.emailRedirectTo });
-              return this._returnResult({ data: { user: null, session: null }, error: h2 });
-            }
-            if ("phone" in a10) {
-              let { phone: b11, options: c11 } = a10, { data: g2, error: h2 } = await d7(this.fetch, "POST", `${this.url}/otp`, { headers: this.headers, body: { phone: b11, data: null != (d10 = null == c11 ? void 0 : c11.data) ? d10 : {}, create_user: null == (e10 = null == c11 ? void 0 : c11.shouldCreateUser) || e10, gotrue_meta_security: { captcha_token: null == c11 ? void 0 : c11.captchaToken }, channel: null != (f2 = null == c11 ? void 0 : c11.channel) ? f2 : "sms" } });
-              return this._returnResult({ data: { user: null, session: null, messageId: null == g2 ? void 0 : g2.message_id }, error: h2 });
-            }
-            throw new dw("You must provide either an email or phone number.");
-          } catch (a11) {
-            if (await dS(this.storage, `${this.storageKey}-code-verifier`), dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async verifyOtp(a10) {
-          var b10, c10;
-          try {
-            let d10, e10;
-            "options" in a10 && (d10 = null == (b10 = a10.options) ? void 0 : b10.redirectTo, e10 = null == (c10 = a10.options) ? void 0 : c10.captchaToken);
-            let { data: f2, error: g2 } = await d7(this.fetch, "POST", `${this.url}/verify`, { headers: this.headers, body: Object.assign(Object.assign({}, a10), { gotrue_meta_security: { captcha_token: e10 } }), redirectTo: d10, xform: d9 });
-            if (g2) throw g2;
-            if (!f2) throw Error("An error occurred on token verification.");
-            let h2 = f2.session, i2 = f2.user;
-            return (null == h2 ? void 0 : h2.access_token) && (await this._saveSession(h2), await this._notifyAllSubscribers("recovery" == a10.type ? "PASSWORD_RECOVERY" : "SIGNED_IN", h2)), this._returnResult({ data: { user: i2, session: h2 }, error: null });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async signInWithSSO(a10) {
-          var b10, c10, d10, e10, f2;
-          try {
-            let g2 = null, h2 = null;
-            "pkce" === this.flowType && ([g2, h2] = await dZ(this.storage, this.storageKey));
-            let i2 = await d7(this.fetch, "POST", `${this.url}/sso`, { body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in a10 ? { provider_id: a10.providerId } : null), "domain" in a10 ? { domain: a10.domain } : null), { redirect_to: null != (c10 = null == (b10 = a10.options) ? void 0 : b10.redirectTo) ? c10 : void 0 }), (null == (d10 = null == a10 ? void 0 : a10.options) ? void 0 : d10.captchaToken) ? { gotrue_meta_security: { captcha_token: a10.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: g2, code_challenge_method: h2 }), headers: this.headers, xform: ec });
-            return (null == (e10 = i2.data) ? void 0 : e10.url) && dM() && !(null == (f2 = a10.options) ? void 0 : f2.skipBrowserRedirect) && window.location.assign(i2.data.url), this._returnResult(i2);
-          } catch (a11) {
-            if (await dS(this.storage, `${this.storageKey}-code-verifier`), dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async reauthenticate() {
-          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._reauthenticate());
-        }
-        async _reauthenticate() {
-          try {
-            return await this._useSession(async (a10) => {
-              let { data: { session: b10 }, error: c10 } = a10;
-              if (c10) throw c10;
-              if (!b10) throw new dt();
-              let { error: d10 } = await d7(this.fetch, "GET", `${this.url}/reauthenticate`, { headers: this.headers, jwt: b10.access_token });
-              return this._returnResult({ data: { user: null, session: null }, error: d10 });
-            });
-          } catch (a10) {
-            if (dp(a10)) return this._returnResult({ data: { user: null, session: null }, error: a10 });
-            throw a10;
-          }
-        }
-        async resend(a10) {
-          try {
-            let b10 = `${this.url}/resend`;
-            if ("email" in a10) {
-              let { email: c10, type: d10, options: e10 } = a10, { error: f2 } = await d7(this.fetch, "POST", b10, { headers: this.headers, body: { email: c10, type: d10, gotrue_meta_security: { captcha_token: null == e10 ? void 0 : e10.captchaToken } }, redirectTo: null == e10 ? void 0 : e10.emailRedirectTo });
-              return this._returnResult({ data: { user: null, session: null }, error: f2 });
-            }
-            if ("phone" in a10) {
-              let { phone: c10, type: d10, options: e10 } = a10, { data: f2, error: g2 } = await d7(this.fetch, "POST", b10, { headers: this.headers, body: { phone: c10, type: d10, gotrue_meta_security: { captcha_token: null == e10 ? void 0 : e10.captchaToken } } });
-              return this._returnResult({ data: { user: null, session: null, messageId: null == f2 ? void 0 : f2.message_id }, error: g2 });
-            }
-            throw new dw("You must provide either an email or phone number and a type");
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async getSession() {
-          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => this._useSession(async (a10) => a10));
-        }
-        async _acquireLock(a10, b10) {
-          this._debug("#_acquireLock", "begin", a10);
-          try {
-            if (this.lockAcquired) {
-              let a11 = this.pendingInLock.length ? this.pendingInLock[this.pendingInLock.length - 1] : Promise.resolve(), c10 = (async () => (await a11, await b10()))();
-              return this.pendingInLock.push((async () => {
-                try {
-                  await c10;
-                } catch (a12) {
-                }
-              })()), c10;
-            }
-            return await this.lock(`lock:${this.storageKey}`, a10, async () => {
-              this._debug("#_acquireLock", "lock acquired for storage key", this.storageKey);
-              try {
-                this.lockAcquired = true;
-                let a11 = b10();
-                for (this.pendingInLock.push((async () => {
-                  try {
-                    await a11;
-                  } catch (a12) {
-                  }
-                })()), await a11; this.pendingInLock.length; ) {
-                  let a12 = [...this.pendingInLock];
-                  await Promise.all(a12), this.pendingInLock.splice(0, a12.length);
-                }
-                return await a11;
-              } finally {
-                this._debug("#_acquireLock", "lock released for storage key", this.storageKey), this.lockAcquired = false;
-              }
-            });
-          } finally {
-            this._debug("#_acquireLock", "end");
-          }
-        }
-        async _useSession(a10) {
-          this._debug("#_useSession", "begin");
-          try {
-            let b10 = await this.__loadSession();
-            return await a10(b10);
-          } finally {
-            this._debug("#_useSession", "end");
-          }
-        }
-        async __loadSession() {
-          this._debug("#__loadSession()", "begin"), this.lockAcquired || this._debug("#__loadSession()", "used outside of an acquired lock!", Error().stack);
-          try {
-            let b10 = null, c10 = await dR(this.storage, this.storageKey);
-            if (this._debug("#getSession()", "session from storage", c10), null !== c10 && (this._isValidSession(c10) ? b10 = c10 : (this._debug("#getSession()", "session from storage is not valid"), await this._removeSession())), !b10) return { data: { session: null }, error: null };
-            let d10 = !!b10.expires_at && 1e3 * b10.expires_at - Date.now() < 9e4;
-            if (this._debug("#__loadSession()", `session has${d10 ? "" : " not"} expired`, "expires_at", b10.expires_at), !d10) {
-              if (this.userStorage) {
-                let a11 = await dR(this.userStorage, this.storageKey + "-user");
-                (null == a11 ? void 0 : a11.user) ? b10.user = a11.user : b10.user = d2();
-              }
-              if (this.storage.isServer && b10.user && !b10.user.__isUserNotAvailableProxy) {
-                var a10;
-                let c11 = { value: this.suppressGetSessionWarning };
-                b10.user = (a10 = b10.user, new Proxy(a10, { get: (a11, b11, d11) => {
-                  if ("__isInsecureUserWarningProxy" === b11) return true;
-                  if ("symbol" == typeof b11) {
-                    let c12 = b11.toString();
-                    if ("Symbol(Symbol.toPrimitive)" === c12 || "Symbol(Symbol.toStringTag)" === c12 || "Symbol(util.inspect.custom)" === c12 || "Symbol(nodejs.util.inspect.custom)" === c12) return Reflect.get(a11, b11, d11);
-                  }
-                  return c11.value || "string" != typeof b11 || (console.warn("Using the user object as returned from supabase.auth.getSession() or from some supabase.auth.onAuthStateChange() events could be insecure! This value comes directly from the storage medium (usually cookies on the server) and may not be authentic. Use supabase.auth.getUser() instead which authenticates the data by contacting the Supabase Auth server."), c11.value = true), Reflect.get(a11, b11, d11);
-                } })), c11.value && (this.suppressGetSessionWarning = true);
-              }
-              return { data: { session: b10 }, error: null };
-            }
-            let { data: e10, error: f2 } = await this._callRefreshToken(b10.refresh_token);
-            if (f2) return this._returnResult({ data: { session: null }, error: f2 });
-            return this._returnResult({ data: { session: e10 }, error: null });
-          } finally {
-            this._debug("#__loadSession()", "end");
-          }
-        }
-        async getUser(a10) {
-          if (a10) return await this._getUser(a10);
-          await this.initializePromise;
-          let b10 = await this._acquireLock(this.lockAcquireTimeout, async () => await this._getUser());
-          return b10.data.user && (this.suppressGetSessionWarning = true), b10;
-        }
-        async _getUser(a10) {
-          try {
-            if (a10) return await d7(this.fetch, "GET", `${this.url}/user`, { headers: this.headers, jwt: a10, xform: eb });
-            return await this._useSession(async (a11) => {
-              var b10, c10, d10;
-              let { data: e10, error: f2 } = a11;
-              if (f2) throw f2;
-              return (null == (b10 = e10.session) ? void 0 : b10.access_token) || this.hasCustomAuthorizationHeader ? await d7(this.fetch, "GET", `${this.url}/user`, { headers: this.headers, jwt: null != (d10 = null == (c10 = e10.session) ? void 0 : c10.access_token) ? d10 : void 0, xform: eb }) : { data: { user: null }, error: new dt() };
-            });
-          } catch (a11) {
-            if (dp(a11)) return du(a11) && (await this._removeSession(), await dS(this.storage, `${this.storageKey}-code-verifier`)), this._returnResult({ data: { user: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async updateUser(a10, b10 = {}) {
-          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._updateUser(a10, b10));
-        }
-        async _updateUser(a10, b10 = {}) {
-          try {
-            return await this._useSession(async (c10) => {
-              let { data: d10, error: e10 } = c10;
-              if (e10) throw e10;
-              if (!d10.session) throw new dt();
-              let f2 = d10.session, g2 = null, h2 = null;
-              "pkce" === this.flowType && null != a10.email && ([g2, h2] = await dZ(this.storage, this.storageKey));
-              let { data: i2, error: j2 } = await d7(this.fetch, "PUT", `${this.url}/user`, { headers: this.headers, redirectTo: null == b10 ? void 0 : b10.emailRedirectTo, body: Object.assign(Object.assign({}, a10), { code_challenge: g2, code_challenge_method: h2 }), jwt: f2.access_token, xform: eb });
-              if (j2) throw j2;
-              return f2.user = i2.user, await this._saveSession(f2), await this._notifyAllSubscribers("USER_UPDATED", f2), this._returnResult({ data: { user: f2.user }, error: null });
-            });
-          } catch (a11) {
-            if (await dS(this.storage, `${this.storageKey}-code-verifier`), dp(a11)) return this._returnResult({ data: { user: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async setSession(a10) {
-          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._setSession(a10));
-        }
-        async _setSession(a10) {
-          try {
-            if (!a10.access_token || !a10.refresh_token) throw new dt();
-            let b10 = Date.now() / 1e3, c10 = b10, d10 = true, e10 = null, { payload: f2 } = dU(a10.access_token);
-            if (f2.exp && (d10 = (c10 = f2.exp) <= b10), d10) {
-              let { data: b11, error: c11 } = await this._callRefreshToken(a10.refresh_token);
-              if (c11) return this._returnResult({ data: { user: null, session: null }, error: c11 });
-              if (!b11) return { data: { user: null, session: null }, error: null };
-              e10 = b11;
-            } else {
-              let { data: d11, error: f3 } = await this._getUser(a10.access_token);
-              if (f3) return this._returnResult({ data: { user: null, session: null }, error: f3 });
-              e10 = { access_token: a10.access_token, refresh_token: a10.refresh_token, user: d11.user, token_type: "bearer", expires_in: c10 - b10, expires_at: c10 }, await this._saveSession(e10), await this._notifyAllSubscribers("SIGNED_IN", e10);
-            }
-            return this._returnResult({ data: { user: e10.user, session: e10 }, error: null });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { session: null, user: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async refreshSession(a10) {
-          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._refreshSession(a10));
-        }
-        async _refreshSession(a10) {
-          try {
-            return await this._useSession(async (b10) => {
-              var c10;
-              if (!a10) {
-                let { data: d11, error: e11 } = b10;
-                if (e11) throw e11;
-                a10 = null != (c10 = d11.session) ? c10 : void 0;
-              }
-              if (!(null == a10 ? void 0 : a10.refresh_token)) throw new dt();
-              let { data: d10, error: e10 } = await this._callRefreshToken(a10.refresh_token);
-              return e10 ? this._returnResult({ data: { user: null, session: null }, error: e10 }) : d10 ? this._returnResult({ data: { user: d10.user, session: d10 }, error: null }) : this._returnResult({ data: { user: null, session: null }, error: null });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-            throw a11;
-          }
-        }
-        async _getSessionFromURL(a10, b10) {
-          var c10;
-          try {
-            if (!dM()) throw new dx("No browser detected.");
-            if (a10.error || a10.error_description || a10.error_code) throw new dx(a10.error_description || "Error in URL with unspecified error_description", { error: a10.error || "unspecified_error", code: a10.error_code || "unspecified_code" });
-            switch (b10) {
-              case "implicit":
-                if ("pkce" === this.flowType) throw new dy("Not a valid PKCE flow url.");
-                break;
-              case "pkce":
-                if ("implicit" === this.flowType) throw new dx("Not a valid implicit grant flow url.");
-            }
-            if ("pkce" === b10) {
-              if (this._debug("#_initialize()", "begin", "is PKCE flow", true), !a10.code) throw new dy("No code detected.");
-              let { data: b11, error: d11 } = await this._exchangeCodeForSession(a10.code);
-              if (d11) throw d11;
-              let e11 = new URL(window.location.href);
-              return e11.searchParams.delete("code"), window.history.replaceState(window.history.state, "", e11.toString()), { data: { session: b11.session, redirectType: null != (c10 = b11.redirectType) ? c10 : null }, error: null };
-            }
-            let { provider_token: d10, provider_refresh_token: e10, access_token: f2, refresh_token: g2, expires_in: h2, expires_at: i2, token_type: j2 } = a10;
-            if (!f2 || !h2 || !g2 || !j2) throw new dx("No session defined in URL");
-            let k2 = Math.round(Date.now() / 1e3), l2 = parseInt(h2), m2 = k2 + l2;
-            i2 && (m2 = parseInt(i2));
-            let n2 = m2 - k2;
-            1e3 * n2 <= 3e4 && console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${n2}s, should have been closer to ${l2}s`);
-            let o2 = m2 - l2;
-            k2 - o2 >= 120 ? console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", o2, m2, k2) : k2 - o2 < 0 && console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clock for skew", o2, m2, k2);
-            let { data: p2, error: q2 } = await this._getUser(f2);
-            if (q2) throw q2;
-            let r2 = { provider_token: d10, provider_refresh_token: e10, access_token: f2, expires_in: l2, expires_at: m2, refresh_token: g2, token_type: j2, user: p2.user };
-            return window.location.hash = "", this._debug("#_getSessionFromURL()", "clearing window.location.hash"), this._returnResult({ data: { session: r2, redirectType: a10.type }, error: null });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: { session: null, redirectType: null }, error: a11 });
-            throw a11;
-          }
-        }
-        _isImplicitGrantCallback(a10) {
-          return "function" == typeof this.detectSessionInUrl ? this.detectSessionInUrl(new URL(window.location.href), a10) : !!(a10.access_token || a10.error_description);
-        }
-        async _isPKCECallback(a10) {
-          let b10 = await dR(this.storage, `${this.storageKey}-code-verifier`);
-          return !!(a10.code && b10);
-        }
-        async signOut(a10 = { scope: "global" }) {
-          return await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => await this._signOut(a10));
-        }
-        async _signOut({ scope: a10 } = { scope: "global" }) {
-          return await this._useSession(async (b10) => {
-            var c10;
-            let { data: d10, error: e10 } = b10;
-            if (e10 && !du(e10)) return this._returnResult({ error: e10 });
-            let f2 = null == (c10 = d10.session) ? void 0 : c10.access_token;
-            if (f2) {
-              let { error: b11 } = await this.admin.signOut(f2, a10);
-              if (b11 && !(dp(b11) && "AuthApiError" === b11.name && (404 === b11.status || 401 === b11.status || 403 === b11.status) || du(b11))) return this._returnResult({ error: b11 });
-            }
-            return "others" !== a10 && (await this._removeSession(), await dS(this.storage, `${this.storageKey}-code-verifier`)), this._returnResult({ error: null });
-          });
-        }
-        onAuthStateChange(a10) {
-          let b10 = Symbol("auth-callback"), c10 = { id: b10, callback: a10, unsubscribe: () => {
-            this._debug("#unsubscribe()", "state change callback with id removed", b10), this.stateChangeEmitters.delete(b10);
-          } };
-          return this._debug("#onAuthStateChange()", "registered callback with id", b10), this.stateChangeEmitters.set(b10, c10), (async () => {
-            await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => {
-              this._emitInitialSession(b10);
-            });
-          })(), { data: { subscription: c10 } };
-        }
-        async _emitInitialSession(a10) {
-          return await this._useSession(async (b10) => {
-            var c10, d10;
-            try {
-              let { data: { session: d11 }, error: e10 } = b10;
-              if (e10) throw e10;
-              await (null == (c10 = this.stateChangeEmitters.get(a10)) ? void 0 : c10.callback("INITIAL_SESSION", d11)), this._debug("INITIAL_SESSION", "callback id", a10, "session", d11);
-            } catch (b11) {
-              await (null == (d10 = this.stateChangeEmitters.get(a10)) ? void 0 : d10.callback("INITIAL_SESSION", null)), this._debug("INITIAL_SESSION", "callback id", a10, "error", b11), du(b11) ? console.warn(b11) : console.error(b11);
-            }
-          });
-        }
-        async resetPasswordForEmail(a10, b10 = {}) {
-          let c10 = null, d10 = null;
-          "pkce" === this.flowType && ([c10, d10] = await dZ(this.storage, this.storageKey, true));
-          try {
-            return await d7(this.fetch, "POST", `${this.url}/recover`, { body: { email: a10, code_challenge: c10, code_challenge_method: d10, gotrue_meta_security: { captcha_token: b10.captchaToken } }, headers: this.headers, redirectTo: b10.redirectTo });
-          } catch (a11) {
-            if (await dS(this.storage, `${this.storageKey}-code-verifier`), dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async getUserIdentities() {
-          var a10;
-          try {
-            let { data: b10, error: c10 } = await this.getUser();
-            if (c10) throw c10;
-            return this._returnResult({ data: { identities: null != (a10 = b10.user.identities) ? a10 : [] }, error: null });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async linkIdentity(a10) {
-          return "token" in a10 ? this.linkIdentityIdToken(a10) : this.linkIdentityOAuth(a10);
-        }
-        async linkIdentityOAuth(a10) {
-          var b10;
-          try {
-            let { data: c10, error: d10 } = await this._useSession(async (b11) => {
-              var c11, d11, e10, f2, g2;
-              let { data: h2, error: i2 } = b11;
-              if (i2) throw i2;
-              let j2 = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, a10.provider, { redirectTo: null == (c11 = a10.options) ? void 0 : c11.redirectTo, scopes: null == (d11 = a10.options) ? void 0 : d11.scopes, queryParams: null == (e10 = a10.options) ? void 0 : e10.queryParams, skipBrowserRedirect: true });
-              return await d7(this.fetch, "GET", j2, { headers: this.headers, jwt: null != (g2 = null == (f2 = h2.session) ? void 0 : f2.access_token) ? g2 : void 0 });
-            });
-            if (d10) throw d10;
-            return !dM() || (null == (b10 = a10.options) ? void 0 : b10.skipBrowserRedirect) || window.location.assign(null == c10 ? void 0 : c10.url), this._returnResult({ data: { provider: a10.provider, url: null == c10 ? void 0 : c10.url }, error: null });
-          } catch (b11) {
-            if (dp(b11)) return this._returnResult({ data: { provider: a10.provider, url: null }, error: b11 });
-            throw b11;
-          }
-        }
-        async linkIdentityIdToken(a10) {
-          return await this._useSession(async (b10) => {
-            var c10;
-            try {
-              let { error: d10, data: { session: e10 } } = b10;
-              if (d10) throw d10;
-              let { options: f2, provider: g2, token: h2, access_token: i2, nonce: j2 } = a10, { data: k2, error: l2 } = await d7(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, { headers: this.headers, jwt: null != (c10 = null == e10 ? void 0 : e10.access_token) ? c10 : void 0, body: { provider: g2, id_token: h2, access_token: i2, nonce: j2, link_identity: true, gotrue_meta_security: { captcha_token: null == f2 ? void 0 : f2.captchaToken } }, xform: d9 });
-              if (l2) return this._returnResult({ data: { user: null, session: null }, error: l2 });
-              if (!k2 || !k2.session || !k2.user) return this._returnResult({ data: { user: null, session: null }, error: new dv() });
-              return k2.session && (await this._saveSession(k2.session), await this._notifyAllSubscribers("USER_UPDATED", k2.session)), this._returnResult({ data: k2, error: l2 });
-            } catch (a11) {
-              if (await dS(this.storage, `${this.storageKey}-code-verifier`), dp(a11)) return this._returnResult({ data: { user: null, session: null }, error: a11 });
-              throw a11;
-            }
-          });
-        }
-        async unlinkIdentity(a10) {
-          try {
-            return await this._useSession(async (b10) => {
-              var c10, d10;
-              let { data: e10, error: f2 } = b10;
-              if (f2) throw f2;
-              return await d7(this.fetch, "DELETE", `${this.url}/user/identities/${a10.identity_id}`, { headers: this.headers, jwt: null != (d10 = null == (c10 = e10.session) ? void 0 : c10.access_token) ? d10 : void 0 });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _refreshAccessToken(a10) {
-          let b10 = `#_refreshAccessToken(${a10.substring(0, 5)}...)`;
-          this._debug(b10, "begin");
-          try {
-            var c10, d10;
-            let e10 = Date.now();
-            return await (c10 = async (c11) => (c11 > 0 && await dV(200 * Math.pow(2, c11 - 1)), this._debug(b10, "refreshing attempt", c11), await d7(this.fetch, "POST", `${this.url}/token?grant_type=refresh_token`, { body: { refresh_token: a10 }, headers: this.headers, xform: d9 })), d10 = (a11, b11) => {
-              let c11 = 200 * Math.pow(2, a11);
-              return b11 && dB(b11) && Date.now() + c11 - e10 < 3e4;
-            }, new Promise((a11, b11) => {
-              (async () => {
-                for (let e11 = 0; e11 < 1 / 0; e11++) try {
-                  let b12 = await c10(e11);
-                  if (!d10(e11, null, b12)) return void a11(b12);
-                } catch (a12) {
-                  if (!d10(e11, a12)) return void b11(a12);
-                }
-              })();
-            }));
-          } catch (a11) {
-            if (this._debug(b10, "error", a11), dp(a11)) return this._returnResult({ data: { session: null, user: null }, error: a11 });
-            throw a11;
-          } finally {
-            this._debug(b10, "end");
-          }
-        }
-        _isValidSession(a10) {
-          return "object" == typeof a10 && null !== a10 && "access_token" in a10 && "refresh_token" in a10 && "expires_at" in a10;
-        }
-        async _handleProviderSignIn(a10, b10) {
-          let c10 = await this._getUrlForProvider(`${this.url}/authorize`, a10, { redirectTo: b10.redirectTo, scopes: b10.scopes, queryParams: b10.queryParams });
-          return this._debug("#_handleProviderSignIn()", "provider", a10, "options", b10, "url", c10), dM() && !b10.skipBrowserRedirect && window.location.assign(c10), { data: { provider: a10, url: c10 }, error: null };
-        }
-        async _recoverAndRefresh() {
-          var a10, b10;
-          let c10 = "#_recoverAndRefresh()";
-          this._debug(c10, "begin");
-          try {
-            let d10 = await dR(this.storage, this.storageKey);
-            if (d10 && this.userStorage) {
-              let b11 = await dR(this.userStorage, this.storageKey + "-user");
-              !this.storage.isServer && Object.is(this.storage, this.userStorage) && !b11 && (b11 = { user: d10.user }, await dQ(this.userStorage, this.storageKey + "-user", b11)), d10.user = null != (a10 = null == b11 ? void 0 : b11.user) ? a10 : d2();
-            } else if (d10 && !d10.user && !d10.user) {
-              let a11 = await dR(this.storage, this.storageKey + "-user");
-              a11 && (null == a11 ? void 0 : a11.user) ? (d10.user = a11.user, await dS(this.storage, this.storageKey + "-user"), await dQ(this.storage, this.storageKey, d10)) : d10.user = d2();
-            }
-            if (this._debug(c10, "session from storage", d10), !this._isValidSession(d10)) {
-              this._debug(c10, "session is not valid"), null !== d10 && await this._removeSession();
-              return;
-            }
-            let e10 = (null != (b10 = d10.expires_at) ? b10 : 1 / 0) * 1e3 - Date.now() < 9e4;
-            if (this._debug(c10, `session has${e10 ? "" : " not"} expired with margin of 90000s`), e10) {
-              if (this.autoRefreshToken && d10.refresh_token) {
-                let { error: a11 } = await this._callRefreshToken(d10.refresh_token);
-                a11 && (console.error(a11), dB(a11) || (this._debug(c10, "refresh failed with a non-retryable error, removing the session", a11), await this._removeSession()));
-              }
-            } else if (d10.user && true === d10.user.__isUserNotAvailableProxy) try {
-              let { data: a11, error: b11 } = await this._getUser(d10.access_token);
-              !b11 && (null == a11 ? void 0 : a11.user) ? (d10.user = a11.user, await this._saveSession(d10), await this._notifyAllSubscribers("SIGNED_IN", d10)) : this._debug(c10, "could not get user data, skipping SIGNED_IN notification");
-            } catch (a11) {
-              console.error("Error getting user data:", a11), this._debug(c10, "error getting user data, skipping SIGNED_IN notification", a11);
-            }
-            else await this._notifyAllSubscribers("SIGNED_IN", d10);
-          } catch (a11) {
-            this._debug(c10, "error", a11), console.error(a11);
-            return;
-          } finally {
-            this._debug(c10, "end");
-          }
-        }
-        async _callRefreshToken(a10) {
-          var b10, c10;
-          if (!a10) throw new dt();
-          if (this.refreshingDeferred) return this.refreshingDeferred.promise;
-          let d10 = `#_callRefreshToken(${a10.substring(0, 5)}...)`;
-          this._debug(d10, "begin");
-          try {
-            this.refreshingDeferred = new dT();
-            let { data: b11, error: c11 } = await this._refreshAccessToken(a10);
-            if (c11) throw c11;
-            if (!b11.session) throw new dt();
-            await this._saveSession(b11.session), await this._notifyAllSubscribers("TOKEN_REFRESHED", b11.session);
-            let d11 = { data: b11.session, error: null };
-            return this.refreshingDeferred.resolve(d11), d11;
-          } catch (a11) {
-            if (this._debug(d10, "error", a11), dp(a11)) {
-              let c11 = { data: null, error: a11 };
-              return dB(a11) || await this._removeSession(), null == (b10 = this.refreshingDeferred) || b10.resolve(c11), c11;
-            }
-            throw null == (c10 = this.refreshingDeferred) || c10.reject(a11), a11;
-          } finally {
-            this.refreshingDeferred = null, this._debug(d10, "end");
-          }
-        }
-        async _notifyAllSubscribers(a10, b10, c10 = true) {
-          let d10 = `#_notifyAllSubscribers(${a10})`;
-          this._debug(d10, "begin", b10, `broadcast = ${c10}`);
-          try {
-            this.broadcastChannel && c10 && this.broadcastChannel.postMessage({ event: a10, session: b10 });
-            let d11 = [], e10 = Array.from(this.stateChangeEmitters.values()).map(async (c11) => {
-              try {
-                await c11.callback(a10, b10);
-              } catch (a11) {
-                d11.push(a11);
-              }
-            });
-            if (await Promise.all(e10), d11.length > 0) {
-              for (let a11 = 0; a11 < d11.length; a11 += 1) console.error(d11[a11]);
-              throw d11[0];
-            }
-          } finally {
-            this._debug(d10, "end");
-          }
-        }
-        async _saveSession(a10) {
-          this._debug("#_saveSession()", a10), this.suppressGetSessionWarning = true, await dS(this.storage, `${this.storageKey}-code-verifier`);
-          let b10 = Object.assign({}, a10), c10 = b10.user && true === b10.user.__isUserNotAvailableProxy;
-          if (this.userStorage) {
-            !c10 && b10.user && await dQ(this.userStorage, this.storageKey + "-user", { user: b10.user });
-            let a11 = Object.assign({}, b10);
-            delete a11.user;
-            let d10 = d3(a11);
-            await dQ(this.storage, this.storageKey, d10);
-          } else {
-            let a11 = d3(b10);
-            await dQ(this.storage, this.storageKey, a11);
-          }
-        }
-        async _removeSession() {
-          this._debug("#_removeSession()"), this.suppressGetSessionWarning = false, await dS(this.storage, this.storageKey), await dS(this.storage, this.storageKey + "-code-verifier"), await dS(this.storage, this.storageKey + "-user"), this.userStorage && await dS(this.userStorage, this.storageKey + "-user"), await this._notifyAllSubscribers("SIGNED_OUT", null);
-        }
-        _removeVisibilityChangedCallback() {
-          this._debug("#_removeVisibilityChangedCallback()");
-          let a10 = this.visibilityChangedCallback;
-          this.visibilityChangedCallback = null;
-          try {
-            a10 && dM() && (null == window ? void 0 : window.removeEventListener) && window.removeEventListener("visibilitychange", a10);
-          } catch (a11) {
-            console.error("removing visibilitychange callback failed", a11);
-          }
-        }
-        async _startAutoRefresh() {
-          await this._stopAutoRefresh(), this._debug("#_startAutoRefresh()");
-          let a10 = setInterval(() => this._autoRefreshTokenTick(), 3e4);
-          this.autoRefreshTicker = a10, a10 && "object" == typeof a10 && "function" == typeof a10.unref ? a10.unref() : "undefined" != typeof Deno && "function" == typeof Deno.unrefTimer && Deno.unrefTimer(a10);
-          let b10 = setTimeout(async () => {
-            await this.initializePromise, await this._autoRefreshTokenTick();
-          }, 0);
-          this.autoRefreshTickTimeout = b10, b10 && "object" == typeof b10 && "function" == typeof b10.unref ? b10.unref() : "undefined" != typeof Deno && "function" == typeof Deno.unrefTimer && Deno.unrefTimer(b10);
-        }
-        async _stopAutoRefresh() {
-          this._debug("#_stopAutoRefresh()");
-          let a10 = this.autoRefreshTicker;
-          this.autoRefreshTicker = null, a10 && clearInterval(a10);
-          let b10 = this.autoRefreshTickTimeout;
-          this.autoRefreshTickTimeout = null, b10 && clearTimeout(b10);
-        }
-        async startAutoRefresh() {
-          this._removeVisibilityChangedCallback(), await this._startAutoRefresh();
-        }
-        async stopAutoRefresh() {
-          this._removeVisibilityChangedCallback(), await this._stopAutoRefresh();
-        }
-        async _autoRefreshTokenTick() {
-          this._debug("#_autoRefreshTokenTick()", "begin");
-          try {
-            await this._acquireLock(0, async () => {
-              try {
-                let a10 = Date.now();
-                try {
-                  return await this._useSession(async (b10) => {
-                    let { data: { session: c10 } } = b10;
-                    if (!c10 || !c10.refresh_token || !c10.expires_at) return void this._debug("#_autoRefreshTokenTick()", "no session");
-                    let d10 = Math.floor((1e3 * c10.expires_at - a10) / 3e4);
-                    this._debug("#_autoRefreshTokenTick()", `access token expires in ${d10} ticks, a tick lasts 30000ms, refresh threshold is 3 ticks`), d10 <= 3 && await this._callRefreshToken(c10.refresh_token);
-                  });
-                } catch (a11) {
-                  console.error("Auto refresh tick failed with error. This is likely a transient error.", a11);
-                }
-              } finally {
-                this._debug("#_autoRefreshTokenTick()", "end");
-              }
-            });
-          } catch (a10) {
-            if (a10 instanceof ej) this._debug("auto refresh token tick lock not available");
-            else throw a10;
-          }
-        }
-        async _handleVisibilityChange() {
-          if (this._debug("#_handleVisibilityChange()"), !dM() || !(null == window ? void 0 : window.addEventListener)) return this.autoRefreshToken && this.startAutoRefresh(), false;
-          try {
-            this.visibilityChangedCallback = async () => {
-              try {
-                await this._onVisibilityChanged(false);
-              } catch (a10) {
-                this._debug("#visibilityChangedCallback", "error", a10);
-              }
-            }, null == window || window.addEventListener("visibilitychange", this.visibilityChangedCallback), await this._onVisibilityChanged(true);
-          } catch (a10) {
-            console.error("_handleVisibilityChange", a10);
-          }
-        }
-        async _onVisibilityChanged(a10) {
-          let b10 = `#_onVisibilityChanged(${a10})`;
-          this._debug(b10, "visibilityState", document.visibilityState), "visible" === document.visibilityState ? (this.autoRefreshToken && this._startAutoRefresh(), a10 || (await this.initializePromise, await this._acquireLock(this.lockAcquireTimeout, async () => {
-            if ("visible" !== document.visibilityState) return void this._debug(b10, "acquired the lock to recover the session, but the browser visibilityState is no longer visible, aborting");
-            await this._recoverAndRefresh();
-          }))) : "hidden" === document.visibilityState && this.autoRefreshToken && this._stopAutoRefresh();
-        }
-        async _getUrlForProvider(a10, b10, c10) {
-          let d10 = [`provider=${encodeURIComponent(b10)}`];
-          if ((null == c10 ? void 0 : c10.redirectTo) && d10.push(`redirect_to=${encodeURIComponent(c10.redirectTo)}`), (null == c10 ? void 0 : c10.scopes) && d10.push(`scopes=${encodeURIComponent(c10.scopes)}`), "pkce" === this.flowType) {
-            let [a11, b11] = await dZ(this.storage, this.storageKey), c11 = new URLSearchParams({ code_challenge: `${encodeURIComponent(a11)}`, code_challenge_method: `${encodeURIComponent(b11)}` });
-            d10.push(c11.toString());
-          }
-          if (null == c10 ? void 0 : c10.queryParams) {
-            let a11 = new URLSearchParams(c10.queryParams);
-            d10.push(a11.toString());
-          }
-          return (null == c10 ? void 0 : c10.skipBrowserRedirect) && d10.push(`skip_http_redirect=${c10.skipBrowserRedirect}`), `${a10}?${d10.join("&")}`;
-        }
-        async _unenroll(a10) {
-          try {
-            return await this._useSession(async (b10) => {
-              var c10;
-              let { data: d10, error: e10 } = b10;
-              return e10 ? this._returnResult({ data: null, error: e10 }) : await d7(this.fetch, "DELETE", `${this.url}/factors/${a10.factorId}`, { headers: this.headers, jwt: null == (c10 = null == d10 ? void 0 : d10.session) ? void 0 : c10.access_token });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _enroll(a10) {
-          try {
-            return await this._useSession(async (b10) => {
-              var c10, d10;
-              let { data: e10, error: f2 } = b10;
-              if (f2) return this._returnResult({ data: null, error: f2 });
-              let g2 = Object.assign({ friendly_name: a10.friendlyName, factor_type: a10.factorType }, "phone" === a10.factorType ? { phone: a10.phone } : "totp" === a10.factorType ? { issuer: a10.issuer } : {}), { data: h2, error: i2 } = await d7(this.fetch, "POST", `${this.url}/factors`, { body: g2, headers: this.headers, jwt: null == (c10 = null == e10 ? void 0 : e10.session) ? void 0 : c10.access_token });
-              return i2 ? this._returnResult({ data: null, error: i2 }) : ("totp" === a10.factorType && "totp" === h2.type && (null == (d10 = null == h2 ? void 0 : h2.totp) ? void 0 : d10.qr_code) && (h2.totp.qr_code = `data:image/svg+xml;utf-8,${h2.totp.qr_code}`), this._returnResult({ data: h2, error: null }));
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _verify(a10) {
-          return this._acquireLock(this.lockAcquireTimeout, async () => {
-            try {
-              return await this._useSession(async (b10) => {
-                var c10;
-                let { data: d10, error: e10 } = b10;
-                if (e10) return this._returnResult({ data: null, error: e10 });
-                let f2 = Object.assign({ challenge_id: a10.challengeId }, "webauthn" in a10 ? { webauthn: Object.assign(Object.assign({}, a10.webauthn), { credential_response: "create" === a10.webauthn.type ? et(a10.webauthn.credential_response) : eu(a10.webauthn.credential_response) }) } : { code: a10.code }), { data: g2, error: h2 } = await d7(this.fetch, "POST", `${this.url}/factors/${a10.factorId}/verify`, { body: f2, headers: this.headers, jwt: null == (c10 = null == d10 ? void 0 : d10.session) ? void 0 : c10.access_token });
-                return h2 ? this._returnResult({ data: null, error: h2 }) : (await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + g2.expires_in }, g2)), await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", g2), this._returnResult({ data: g2, error: h2 }));
-              });
-            } catch (a11) {
-              if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-              throw a11;
-            }
-          });
-        }
-        async _challenge(a10) {
-          return this._acquireLock(this.lockAcquireTimeout, async () => {
-            try {
-              return await this._useSession(async (b10) => {
-                var c10;
-                let { data: d10, error: e10 } = b10;
-                if (e10) return this._returnResult({ data: null, error: e10 });
-                let f2 = await d7(this.fetch, "POST", `${this.url}/factors/${a10.factorId}/challenge`, { body: a10, headers: this.headers, jwt: null == (c10 = null == d10 ? void 0 : d10.session) ? void 0 : c10.access_token });
-                if (f2.error) return f2;
-                let { data: g2 } = f2;
-                if ("webauthn" !== g2.type) return { data: g2, error: null };
-                switch (g2.webauthn.type) {
-                  case "create":
-                    return { data: Object.assign(Object.assign({}, g2), { webauthn: Object.assign(Object.assign({}, g2.webauthn), { credential_options: Object.assign(Object.assign({}, g2.webauthn.credential_options), { publicKey: er(g2.webauthn.credential_options.publicKey) }) }) }), error: null };
-                  case "request":
-                    return { data: Object.assign(Object.assign({}, g2), { webauthn: Object.assign(Object.assign({}, g2.webauthn), { credential_options: Object.assign(Object.assign({}, g2.webauthn.credential_options), { publicKey: es(g2.webauthn.credential_options.publicKey) }) }) }), error: null };
-                }
-              });
-            } catch (a11) {
-              if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-              throw a11;
-            }
-          });
-        }
-        async _challengeAndVerify(a10) {
-          let { data: b10, error: c10 } = await this._challenge({ factorId: a10.factorId });
-          return c10 ? this._returnResult({ data: null, error: c10 }) : await this._verify({ factorId: a10.factorId, challengeId: b10.id, code: a10.code });
-        }
-        async _listFactors() {
-          var a10;
-          let { data: { user: b10 }, error: c10 } = await this.getUser();
-          if (c10) return { data: null, error: c10 };
-          let d10 = { all: [], phone: [], totp: [], webauthn: [] };
-          for (let c11 of null != (a10 = null == b10 ? void 0 : b10.factors) ? a10 : []) d10.all.push(c11), "verified" === c11.status && d10[c11.factor_type].push(c11);
-          return { data: d10, error: null };
-        }
-        async _getAuthenticatorAssuranceLevel(a10) {
-          var b10, c10, d10, e10;
-          if (a10) try {
-            let { payload: d11 } = dU(a10), e11 = null;
-            d11.aal && (e11 = d11.aal);
-            let f3 = e11, { data: { user: g3 }, error: h3 } = await this.getUser(a10);
-            if (h3) return this._returnResult({ data: null, error: h3 });
-            (null != (c10 = null == (b10 = null == g3 ? void 0 : g3.factors) ? void 0 : b10.filter((a11) => "verified" === a11.status)) ? c10 : []).length > 0 && (f3 = "aal2");
-            let i3 = d11.amr || [];
-            return { data: { currentLevel: e11, nextLevel: f3, currentAuthenticationMethods: i3 }, error: null };
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-          let { data: { session: f2 }, error: g2 } = await this.getSession();
-          if (g2) return this._returnResult({ data: null, error: g2 });
-          if (!f2) return { data: { currentLevel: null, nextLevel: null, currentAuthenticationMethods: [] }, error: null };
-          let { payload: h2 } = dU(f2.access_token), i2 = null;
-          h2.aal && (i2 = h2.aal);
-          let j2 = i2;
-          return (null != (e10 = null == (d10 = f2.user.factors) ? void 0 : d10.filter((a11) => "verified" === a11.status)) ? e10 : []).length > 0 && (j2 = "aal2"), { data: { currentLevel: i2, nextLevel: j2, currentAuthenticationMethods: h2.amr || [] }, error: null };
-        }
-        async _getAuthorizationDetails(a10) {
-          try {
-            return await this._useSession(async (b10) => {
-              let { data: { session: c10 }, error: d10 } = b10;
-              return d10 ? this._returnResult({ data: null, error: d10 }) : c10 ? await d7(this.fetch, "GET", `${this.url}/oauth/authorizations/${a10}`, { headers: this.headers, jwt: c10.access_token, xform: (a11) => ({ data: a11, error: null }) }) : this._returnResult({ data: null, error: new dt() });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _approveAuthorization(a10, b10) {
-          try {
-            return await this._useSession(async (c10) => {
-              let { data: { session: d10 }, error: e10 } = c10;
-              if (e10) return this._returnResult({ data: null, error: e10 });
-              if (!d10) return this._returnResult({ data: null, error: new dt() });
-              let f2 = await d7(this.fetch, "POST", `${this.url}/oauth/authorizations/${a10}/consent`, { headers: this.headers, jwt: d10.access_token, body: { action: "approve" }, xform: (a11) => ({ data: a11, error: null }) });
-              return f2.data && f2.data.redirect_url && dM() && !(null == b10 ? void 0 : b10.skipBrowserRedirect) && window.location.assign(f2.data.redirect_url), f2;
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _denyAuthorization(a10, b10) {
-          try {
-            return await this._useSession(async (c10) => {
-              let { data: { session: d10 }, error: e10 } = c10;
-              if (e10) return this._returnResult({ data: null, error: e10 });
-              if (!d10) return this._returnResult({ data: null, error: new dt() });
-              let f2 = await d7(this.fetch, "POST", `${this.url}/oauth/authorizations/${a10}/consent`, { headers: this.headers, jwt: d10.access_token, body: { action: "deny" }, xform: (a11) => ({ data: a11, error: null }) });
-              return f2.data && f2.data.redirect_url && dM() && !(null == b10 ? void 0 : b10.skipBrowserRedirect) && window.location.assign(f2.data.redirect_url), f2;
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _listOAuthGrants() {
-          try {
-            return await this._useSession(async (a10) => {
-              let { data: { session: b10 }, error: c10 } = a10;
-              return c10 ? this._returnResult({ data: null, error: c10 }) : b10 ? await d7(this.fetch, "GET", `${this.url}/user/oauth/grants`, { headers: this.headers, jwt: b10.access_token, xform: (a11) => ({ data: a11, error: null }) }) : this._returnResult({ data: null, error: new dt() });
-            });
-          } catch (a10) {
-            if (dp(a10)) return this._returnResult({ data: null, error: a10 });
-            throw a10;
-          }
-        }
-        async _revokeOAuthGrant(a10) {
-          try {
-            return await this._useSession(async (b10) => {
-              let { data: { session: c10 }, error: d10 } = b10;
-              return d10 ? this._returnResult({ data: null, error: d10 }) : c10 ? (await d7(this.fetch, "DELETE", `${this.url}/user/oauth/grants`, { headers: this.headers, jwt: c10.access_token, query: { client_id: a10.clientId }, noResolveJson: true }), { data: {}, error: null }) : this._returnResult({ data: null, error: new dt() });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async fetchJwk(a10, b10 = { keys: [] }) {
-          let c10 = b10.keys.find((b11) => b11.kid === a10);
-          if (c10) return c10;
-          let d10 = Date.now();
-          if ((c10 = this.jwks.keys.find((b11) => b11.kid === a10)) && this.jwks_cached_at + 6e5 > d10) return c10;
-          let { data: e10, error: f2 } = await d7(this.fetch, "GET", `${this.url}/.well-known/jwks.json`, { headers: this.headers });
-          if (f2) throw f2;
-          return e10.keys && 0 !== e10.keys.length && (this.jwks = e10, this.jwks_cached_at = d10, c10 = e10.keys.find((b11) => b11.kid === a10)) ? c10 : null;
-        }
-        async getClaims(a10, b10 = {}) {
-          try {
-            let c10 = a10;
-            if (!c10) {
-              let { data: a11, error: b11 } = await this.getSession();
-              if (b11 || !a11.session) return this._returnResult({ data: null, error: b11 });
-              c10 = a11.session.access_token;
-            }
-            let { header: d10, payload: e10, signature: f2, raw: { header: g2, payload: h2 } } = dU(c10);
-            (null == b10 ? void 0 : b10.allowExpired) || function(a11) {
-              if (!a11) throw Error("Missing exp claim");
-              if (a11 <= Math.floor(Date.now() / 1e3)) throw Error("JWT has expired");
-            }(e10.exp);
-            let i2 = !d10.alg || d10.alg.startsWith("HS") || !d10.kid || !("crypto" in globalThis && "subtle" in globalThis.crypto) ? null : await this.fetchJwk(d10.kid, (null == b10 ? void 0 : b10.keys) ? { keys: b10.keys } : null == b10 ? void 0 : b10.jwks);
-            if (!i2) {
-              let { error: a11 } = await this.getUser(c10);
-              if (a11) throw a11;
-              return { data: { claims: e10, header: d10, signature: f2 }, error: null };
-            }
-            let j2 = function(a11) {
-              switch (a11) {
-                case "RS256":
-                  return { name: "RSASSA-PKCS1-v1_5", hash: { name: "SHA-256" } };
-                case "ES256":
-                  return { name: "ECDSA", namedCurve: "P-256", hash: { name: "SHA-256" } };
-                default:
-                  throw Error("Invalid alg claim");
-              }
-            }(d10.alg), k2 = await crypto.subtle.importKey("jwk", i2, j2, true, ["verify"]);
-            if (!await crypto.subtle.verify(j2, k2, f2, function(a11) {
-              let b11 = [];
-              return !function(a12, b12) {
-                for (let c11 = 0; c11 < a12.length; c11 += 1) {
-                  let d11 = a12.charCodeAt(c11);
-                  if (d11 > 55295 && d11 <= 56319) {
-                    let b13 = (d11 - 55296) * 1024 & 65535;
-                    d11 = (a12.charCodeAt(c11 + 1) - 56320 & 65535 | b13) + 65536, c11 += 1;
-                  }
-                  !function(a13, b13) {
-                    if (a13 <= 127) return b13(a13);
-                    if (a13 <= 2047) {
-                      b13(192 | a13 >> 6), b13(128 | 63 & a13);
-                      return;
-                    }
-                    if (a13 <= 65535) {
-                      b13(224 | a13 >> 12), b13(128 | a13 >> 6 & 63), b13(128 | 63 & a13);
-                      return;
-                    }
-                    if (a13 <= 1114111) {
-                      b13(240 | a13 >> 18), b13(128 | a13 >> 12 & 63), b13(128 | a13 >> 6 & 63), b13(128 | 63 & a13);
-                      return;
-                    }
-                    throw Error(`Unrecognized Unicode codepoint: ${a13.toString(16)}`);
-                  }(d11, b12);
-                }
-              }(a11, (a12) => b11.push(a12)), new Uint8Array(b11);
-            }(`${g2}.${h2}`))) throw new dD("Invalid JWT signature");
-            return { data: { claims: e10, header: d10, signature: f2 }, error: null };
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async signInWithPasskey(a10) {
-          var b10, c10, d10;
-          d1(this.experimental);
-          try {
-            if (!ew()) return this._returnResult({ data: null, error: new dr("Browser does not support WebAuthn", null) });
-            let { data: e10, error: f2 } = await this._startPasskeyAuthentication({ options: { captchaToken: null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.captchaToken } });
-            if (f2 || !e10) return this._returnResult({ data: null, error: f2 });
-            let g2 = es(e10.options), h2 = null != (d10 = null == (c10 = null == a10 ? void 0 : a10.options) ? void 0 : c10.signal) ? d10 : eq.createNewAbortSignal(), { data: i2, error: j2 } = await ey({ publicKey: g2, signal: h2 });
-            if (j2 || !i2) return this._returnResult({ data: null, error: null != j2 ? j2 : new dr("WebAuthn ceremony failed", null) });
-            let k2 = eu(i2);
-            return this._verifyPasskeyAuthentication({ challengeId: e10.challenge_id, credential: k2 });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async registerPasskey(a10) {
-          var b10, c10;
-          d1(this.experimental);
-          try {
-            if (!ew()) return this._returnResult({ data: null, error: new dr("Browser does not support WebAuthn", null) });
-            let { data: d10, error: e10 } = await this._startPasskeyRegistration();
-            if (e10 || !d10) return this._returnResult({ data: null, error: e10 });
-            let f2 = er(d10.options), g2 = null != (c10 = null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.signal) ? c10 : eq.createNewAbortSignal(), { data: h2, error: i2 } = await ex({ publicKey: f2, signal: g2 });
-            if (i2 || !h2) return this._returnResult({ data: null, error: null != i2 ? i2 : new dr("WebAuthn ceremony failed", null) });
-            let j2 = et(h2);
-            return this._verifyPasskeyRegistration({ challengeId: d10.challenge_id, credential: j2 });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _startPasskeyRegistration() {
-          d1(this.experimental);
-          try {
-            return await this._useSession(async (a10) => {
-              let { data: { session: b10 }, error: c10 } = a10;
-              if (c10) return this._returnResult({ data: null, error: c10 });
-              if (!b10) return this._returnResult({ data: null, error: new dt() });
-              let { data: d10, error: e10 } = await d7(this.fetch, "POST", `${this.url}/passkeys/registration/options`, { headers: this.headers, jwt: b10.access_token, body: {} });
-              return e10 ? this._returnResult({ data: null, error: e10 }) : this._returnResult({ data: d10, error: null });
-            });
-          } catch (a10) {
-            if (dp(a10)) return this._returnResult({ data: null, error: a10 });
-            throw a10;
-          }
-        }
-        async _verifyPasskeyRegistration(a10) {
-          d1(this.experimental);
-          try {
-            return await this._useSession(async (b10) => {
-              let { data: { session: c10 }, error: d10 } = b10;
-              if (d10) return this._returnResult({ data: null, error: d10 });
-              if (!c10) return this._returnResult({ data: null, error: new dt() });
-              let { data: e10, error: f2 } = await d7(this.fetch, "POST", `${this.url}/passkeys/registration/verify`, { headers: this.headers, jwt: c10.access_token, body: { challenge_id: a10.challengeId, credential: a10.credential } });
-              return f2 ? this._returnResult({ data: null, error: f2 }) : this._returnResult({ data: e10, error: null });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _startPasskeyAuthentication(a10) {
-          var b10;
-          d1(this.experimental);
-          try {
-            let { data: c10, error: d10 } = await d7(this.fetch, "POST", `${this.url}/passkeys/authentication/options`, { headers: this.headers, body: { gotrue_meta_security: { captcha_token: null == (b10 = null == a10 ? void 0 : a10.options) ? void 0 : b10.captchaToken } } });
-            if (d10) return this._returnResult({ data: null, error: d10 });
-            return this._returnResult({ data: c10, error: null });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _verifyPasskeyAuthentication(a10) {
-          d1(this.experimental);
-          try {
-            let { data: b10, error: c10 } = await d7(this.fetch, "POST", `${this.url}/passkeys/authentication/verify`, { headers: this.headers, body: { challenge_id: a10.challengeId, credential: a10.credential }, xform: d9 });
-            if (c10) return this._returnResult({ data: null, error: c10 });
-            return b10.session && (await this._saveSession(b10.session), await this._notifyAllSubscribers("SIGNED_IN", b10.session)), this._returnResult({ data: b10, error: null });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _listPasskeys() {
-          d1(this.experimental);
-          try {
-            return await this._useSession(async (a10) => {
-              let { data: { session: b10 }, error: c10 } = a10;
-              if (c10) return this._returnResult({ data: null, error: c10 });
-              if (!b10) return this._returnResult({ data: null, error: new dt() });
-              let { data: d10, error: e10 } = await d7(this.fetch, "GET", `${this.url}/passkeys`, { headers: this.headers, jwt: b10.access_token, xform: (a11) => ({ data: a11, error: null }) });
-              return e10 ? this._returnResult({ data: null, error: e10 }) : this._returnResult({ data: d10, error: null });
-            });
-          } catch (a10) {
-            if (dp(a10)) return this._returnResult({ data: null, error: a10 });
-            throw a10;
-          }
-        }
-        async _updatePasskey(a10) {
-          d1(this.experimental);
-          try {
-            return await this._useSession(async (b10) => {
-              let { data: { session: c10 }, error: d10 } = b10;
-              if (d10) return this._returnResult({ data: null, error: d10 });
-              if (!c10) return this._returnResult({ data: null, error: new dt() });
-              let { data: e10, error: f2 } = await d7(this.fetch, "PATCH", `${this.url}/passkeys/${a10.passkeyId}`, { headers: this.headers, jwt: c10.access_token, body: { friendly_name: a10.friendlyName } });
-              return f2 ? this._returnResult({ data: null, error: f2 }) : this._returnResult({ data: e10, error: null });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-        async _deletePasskey(a10) {
-          d1(this.experimental);
-          try {
-            return await this._useSession(async (b10) => {
-              let { data: { session: c10 }, error: d10 } = b10;
-              if (d10) return this._returnResult({ data: null, error: d10 });
-              if (!c10) return this._returnResult({ data: null, error: new dt() });
-              let { error: e10 } = await d7(this.fetch, "DELETE", `${this.url}/passkeys/${a10.passkeyId}`, { headers: this.headers, jwt: c10.access_token, noResolveJson: true });
-              return e10 ? this._returnResult({ data: null, error: e10 }) : this._returnResult({ data: null, error: null });
-            });
-          } catch (a11) {
-            if (dp(a11)) return this._returnResult({ data: null, error: a11 });
-            throw a11;
-          }
-        }
-      }
-      eG.nextInstanceID = {};
-      let eH = eG, eI = "";
-      eI = "undefined" != typeof Deno ? "deno" : "undefined" != typeof document ? "web" : "undefined" != typeof navigator && "ReactNative" === navigator.product ? "react-native" : "node";
-      let eJ = { headers: { "X-Client-Info": `supabase-js-${eI}/2.106.1` } }, eK = { schema: "public" }, eL = { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true, flowType: "implicit" }, eM = {}, eN = { enabled: false, respectSamplingDecision: true }, eO = null;
-      function eP(a10) {
-        return (eP = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(a11) {
-          return typeof a11;
-        } : function(a11) {
-          return a11 && "function" == typeof Symbol && a11.constructor === Symbol && a11 !== Symbol.prototype ? "symbol" : typeof a11;
-        })(a10);
-      }
-      function eQ(a10, b10) {
-        var c10 = Object.keys(a10);
-        if (Object.getOwnPropertySymbols) {
-          var d10 = Object.getOwnPropertySymbols(a10);
-          b10 && (d10 = d10.filter(function(b11) {
-            return Object.getOwnPropertyDescriptor(a10, b11).enumerable;
-          })), c10.push.apply(c10, d10);
-        }
-        return c10;
-      }
-      function eR(a10) {
-        for (var b10 = 1; b10 < arguments.length; b10++) {
-          var c10 = null != arguments[b10] ? arguments[b10] : {};
-          b10 % 2 ? eQ(Object(c10), true).forEach(function(b11) {
-            !function(a11, b12, c11) {
-              var d10;
-              (d10 = function(a12, b13) {
-                if ("object" != eP(a12) || !a12) return a12;
-                var c12 = a12[Symbol.toPrimitive];
-                if (void 0 !== c12) {
-                  var d11 = c12.call(a12, b13 || "default");
-                  if ("object" != eP(d11)) return d11;
-                  throw TypeError("@@toPrimitive must return a primitive value.");
-                }
-                return ("string" === b13 ? String : Number)(a12);
-              }(b12, "string"), (b12 = "symbol" == eP(d10) ? d10 : d10 + "") in a11) ? Object.defineProperty(a11, b12, { value: c11, enumerable: true, configurable: true, writable: true }) : a11[b12] = c11;
-            }(a10, b11, c10[b11]);
-          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(a10, Object.getOwnPropertyDescriptors(c10)) : eQ(Object(c10)).forEach(function(b11) {
-            Object.defineProperty(a10, b11, Object.getOwnPropertyDescriptor(c10, b11));
-          });
-        }
-        return a10;
-      }
-      async function eS(a10, b10, c10) {
-        if (!function(a11, b11) {
-          let c11;
-          if (!a11 || !b11 || 0 === b11.length) return false;
-          if (a11 instanceof URL) c11 = a11;
-          else try {
-            c11 = new URL(a11);
-          } catch (a12) {
-            return false;
-          }
-          for (let a12 of b11) try {
-            if ("string" == typeof a12) {
-              if (function(a13, b12) {
-                if (b12 === a13) return true;
-                if (b12.startsWith("*.")) {
-                  let c12 = b12.slice(2);
-                  if (a13.endsWith(c12) && (a13 === c12 || a13.endsWith("." + c12))) return true;
-                }
-                return false;
-              }(c11.hostname, a12)) return true;
-            } else if (a12 instanceof RegExp) {
-              if (a12.test(c11.hostname)) return true;
-            } else if ("function" == typeof a12 && a12(c11)) return true;
-          } catch (a13) {
-            continue;
-          }
-          return false;
-        }("string" == typeof a10 || a10 instanceof URL ? a10 : a10.url, b10)) return null;
-        let d10 = await function() {
-          var a11, b11, c11, d11;
-          return a11 = this, b11 = void 0, c11 = void 0, d11 = function* () {
-            try {
-              let a12 = yield (null === eO && (eO = import("@opentelemetry/api").catch(() => null)), eO);
-              if (!a12 || !a12.propagation || !a12.context) return null;
-              let b12 = {};
-              a12.propagation.inject(a12.context.active(), b12);
-              let c12 = b12.traceparent;
-              if (!c12) return null;
-              return { traceparent: c12, tracestate: b12.tracestate, baggage: b12.baggage };
-            } catch (a12) {
-              return null;
-            }
-          }, new (c11 || (c11 = Promise))(function(e10, f2) {
-            function g2(a12) {
-              try {
-                i2(d11.next(a12));
-              } catch (a13) {
-                f2(a13);
-              }
-            }
-            function h2(a12) {
-              try {
-                i2(d11.throw(a12));
-              } catch (a13) {
-                f2(a13);
-              }
-            }
-            function i2(a12) {
-              var b12;
-              a12.done ? e10(a12.value) : ((b12 = a12.value) instanceof c11 ? b12 : new c11(function(a13) {
-                a13(b12);
-              })).then(g2, h2);
-            }
-            i2((d11 = d11.apply(a11, b11 || [])).next());
-          });
-        }();
-        if (!d10 || !d10.traceparent) return null;
-        if (c10) {
-          let a11 = function(a12) {
-            if (!a12 || "string" != typeof a12) return null;
-            let b11 = a12.split("-");
-            if (4 !== b11.length) return null;
-            let [c11, d11, e10, f2] = b11;
-            if (2 !== c11.length || 32 !== d11.length || 16 !== e10.length || 2 !== f2.length) return null;
-            let g2 = /^[0-9a-f]+$/i;
-            return g2.test(c11) && g2.test(d11) && g2.test(e10) && g2.test(f2) && "00000000000000000000000000000000" !== d11 && "0000000000000000" !== e10 ? { version: c11, traceId: d11, parentId: e10, traceFlags: f2, isSampled: (1 & parseInt(f2, 16)) == 1 } : null;
-          }(d10.traceparent);
-          if (a11 && !a11.isSampled) return null;
-        }
-        return d10;
-      }
-      function eT(a10) {
-        return "boolean" == typeof a10 ? { enabled: a10 } : a10;
-      }
-      var eU = class extends eH {
-        constructor(a10) {
-          super(a10);
-        }
-      }, eV = class {
-        constructor(a10, b10, c10) {
-          var d10, e10, f2;
-          this.supabaseUrl = a10, this.supabaseKey = b10;
-          let g2 = function(a11) {
-            let b11 = null == a11 ? void 0 : a11.trim();
-            if (!b11) throw Error("supabaseUrl is required.");
-            if (!b11.match(/^https?:\/\//i)) throw Error("Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.");
-            try {
-              return new URL(b11.endsWith("/") ? b11 : b11 + "/");
-            } catch (a12) {
-              throw Error("Invalid supabaseUrl: Provided URL is malformed.");
-            }
-          }(a10);
-          if (!b10) throw Error("supabaseKey is required.");
-          this.realtimeUrl = new URL("realtime/v1", g2), this.realtimeUrl.protocol = this.realtimeUrl.protocol.replace("http", "ws"), this.authUrl = new URL("auth/v1", g2), this.storageUrl = new URL("storage/v1", g2), this.functionsUrl = new URL("functions/v1", g2);
-          let h2 = `sb-${g2.hostname.split(".")[0]}-auth-token`, i2 = function(a11, b11) {
-            var c11, d11, e11, f3, g3, h3;
-            let { db: i3, auth: j2, realtime: k2, global: l2 } = a11, { db: m2, auth: n2, realtime: o2, global: p2 } = b11, q2 = eT(a11.tracePropagation), r2 = eT(b11.tracePropagation), s2 = { db: eR(eR({}, m2), i3), auth: eR(eR({}, n2), j2), realtime: eR(eR({}, o2), k2), storage: {}, global: eR(eR(eR({}, p2), l2), {}, { headers: eR(eR({}, null != (c11 = null == p2 ? void 0 : p2.headers) ? c11 : {}), null != (d11 = null == l2 ? void 0 : l2.headers) ? d11 : {}) }), tracePropagation: { enabled: null != (e11 = null != (f3 = null == q2 ? void 0 : q2.enabled) ? f3 : null == r2 ? void 0 : r2.enabled) && e11, respectSamplingDecision: null == (g3 = null != (h3 = null == q2 ? void 0 : q2.respectSamplingDecision) ? h3 : null == r2 ? void 0 : r2.respectSamplingDecision) || g3 }, accessToken: async () => "" };
-            return a11.accessToken ? s2.accessToken = a11.accessToken : delete s2.accessToken, s2;
-          }(null != c10 ? c10 : {}, { db: eK, realtime: eM, auth: eR(eR({}, eL), {}, { storageKey: h2 }), global: eJ, tracePropagation: eN });
-          this.settings = i2, this.storageKey = null != (d10 = i2.auth.storageKey) ? d10 : "", this.headers = null != (e10 = i2.global.headers) ? e10 : {}, i2.accessToken ? (this.accessToken = i2.accessToken, this.auth = new Proxy({}, { get: (a11, b11) => {
-            throw Error(`@supabase/supabase-js: Supabase Client is configured with the accessToken option, accessing supabase.auth.${String(b11)} is not possible`);
-          } })) : this.auth = this._initSupabaseAuthClient(null != (f2 = i2.auth) ? f2 : {}, this.headers, i2.global.fetch), this.fetch = ((a11, b11, c11, d11, e11) => {
-            let f3 = /* @__PURE__ */ ((a12) => a12 ? (...b12) => a12(...b12) : (...a13) => fetch(...a13))(d11), g3 = Headers, h3 = (null == e11 ? void 0 : e11.enabled) === true, i3 = (null == e11 ? void 0 : e11.respectSamplingDecision) !== false, j2 = h3 ? function(a12) {
-              let b12 = [];
-              try {
-                let c12 = new URL(a12);
-                b12.push(c12.hostname);
-              } catch (a13) {
-              }
-              return b12.push("*.supabase.co", "*.supabase.in"), b12.push("localhost", "127.0.0.1", "[::1]"), b12;
-            }(b11) : null;
-            return async (b12, d12) => {
-              var e12;
-              let h4 = null != (e12 = await c11()) ? e12 : a11, k2 = new g3(null == d12 ? void 0 : d12.headers);
-              if (k2.has("apikey") || k2.set("apikey", a11), k2.has("Authorization") || k2.set("Authorization", `Bearer ${h4}`), j2) {
-                let a12 = await eS(b12, j2, i3);
-                a12 && (a12.traceparent && !k2.has("traceparent") && k2.set("traceparent", a12.traceparent), a12.tracestate && !k2.has("tracestate") && k2.set("tracestate", a12.tracestate), a12.baggage && !k2.has("baggage") && k2.set("baggage", a12.baggage));
-              }
-              return f3(b12, eR(eR({}, d12), {}, { headers: k2 }));
-            };
-          })(b10, a10, this._getAccessToken.bind(this), i2.global.fetch, i2.tracePropagation), this.realtime = this._initRealtimeClient(eR({ headers: this.headers, accessToken: this._getAccessToken.bind(this), fetch: this.fetch }, i2.realtime)), this.accessToken && Promise.resolve(this.accessToken()).then((a11) => this.realtime.setAuth(a11)).catch((a11) => console.warn("Failed to set initial Realtime auth token:", a11)), this.rest = new bW(new URL("rest/v1", g2).href, { headers: this.headers, schema: i2.db.schema, fetch: this.fetch, timeout: i2.db.timeout, urlLengthLimit: i2.db.urlLengthLimit }), this.storage = new dh(this.storageUrl.href, this.headers, this.fetch, null == c10 ? void 0 : c10.storage), i2.accessToken || this._listenForAuthEvents();
-        }
-        get functions() {
-          return new bI(this.functionsUrl.href, { headers: this.headers, customFetch: this.fetch });
-        }
-        from(a10) {
-          return this.rest.from(a10);
-        }
-        schema(a10) {
-          return this.rest.schema(a10);
-        }
-        rpc(a10, b10 = {}, c10 = { head: false, get: false, count: void 0 }) {
-          return this.rest.rpc(a10, b10, c10);
-        }
-        channel(a10, b10 = { config: {} }) {
-          return this.realtime.channel(a10, b10);
-        }
-        getChannels() {
-          return this.realtime.getChannels();
-        }
-        removeChannel(a10) {
-          return this.realtime.removeChannel(a10);
-        }
-        removeAllChannels() {
-          return this.realtime.removeAllChannels();
-        }
-        async _getAccessToken() {
-          var a10, b10;
-          if (this.accessToken) return await this.accessToken();
-          let { data: c10 } = await this.auth.getSession();
-          return null != (a10 = null == (b10 = c10.session) ? void 0 : b10.access_token) ? a10 : this.supabaseKey;
-        }
-        _initSupabaseAuthClient({ autoRefreshToken: a10, persistSession: b10, detectSessionInUrl: c10, storage: d10, userStorage: e10, storageKey: f2, flowType: g2, lock: h2, debug: i2, throwOnError: j2, experimental: k2, lockAcquireTimeout: l2, skipAutoInitialize: m2 }, n2, o2) {
-          let p2 = { Authorization: `Bearer ${this.supabaseKey}`, apikey: `${this.supabaseKey}` };
-          return new eU({ url: this.authUrl.href, headers: eR(eR({}, p2), n2), storageKey: f2, autoRefreshToken: a10, persistSession: b10, detectSessionInUrl: c10, storage: d10, userStorage: e10, flowType: g2, lock: h2, debug: i2, throwOnError: j2, experimental: k2, fetch: o2, lockAcquireTimeout: l2, skipAutoInitialize: m2, hasCustomAuthorizationHeader: Object.keys(this.headers).some((a11) => "authorization" === a11.toLowerCase()) });
-        }
-        _initRealtimeClient(a10) {
-          return new cC(this.realtimeUrl.href, eR(eR({}, a10), {}, { params: eR(eR({}, { apikey: this.supabaseKey }), null == a10 ? void 0 : a10.params) }));
-        }
-        _listenForAuthEvents() {
-          return this.auth.onAuthStateChange((a10, b10) => {
-            this._handleTokenChanged(a10, "CLIENT", null == b10 ? void 0 : b10.access_token);
-          });
-        }
-        _handleTokenChanged(a10, b10, c10) {
-          ("TOKEN_REFRESHED" === a10 || "SIGNED_IN" === a10) && this.changedAccessToken !== c10 ? (this.changedAccessToken = c10, this.realtime.setAuth(c10)) : "SIGNED_OUT" === a10 && (this.realtime.setAuth(), "STORAGE" == b10 && this.auth.signOut(), this.changedAccessToken = void 0);
-        }
-      };
-      (function() {
-        if ("undefined" != typeof window) return false;
-        let a10 = globalThis.process;
-        if (!a10) return false;
-        let b10 = a10.version;
-        if (null == b10) return false;
-        let c10 = b10.match(/^v(\d+)\./);
-        return !!c10 && 18 >= parseInt(c10[1], 10);
-      })() && console.warn("\u26A0\uFE0F  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217"), c(449), "undefined" == typeof URLPattern || URLPattern;
-      var eW = c(814);
-      if (/* @__PURE__ */ new WeakMap(), eW.unstable_postpone, false === function(a10) {
-        return a10.includes("needs to bail out of prerendering at this point because it used") && a10.includes("Learn more: https://nextjs.org/docs/messages/ppr-caught-error");
-      }("Route %%% needs to bail out of prerendering at this point because it used ^^^. React throws this special object to indicate where. It should not be caught by your own try/catch. Learn more: https://nextjs.org/docs/messages/ppr-caught-error")) throw Object.defineProperty(Error("Invariant: isDynamicPostpone misidentified a postpone reason. This is a bug in Next.js"), "__NEXT_ERROR_CODE", { value: "E296", enumerable: false, configurable: true });
-      RegExp(`\\n\\s+at Suspense \\(<anonymous>\\)(?:(?!\\n\\s+at (?:body|div|main|section|article|aside|header|footer|nav|form|p|span|h1|h2|h3|h4|h5|h6) \\(<anonymous>\\))[\\s\\S])*?\\n\\s+at __next_root_layout_boundary__ \\([^\\n]*\\)`), RegExp(`\\n\\s+at __next_metadata_boundary__[\\n\\s]`), RegExp(`\\n\\s+at __next_viewport_boundary__[\\n\\s]`), RegExp(`\\n\\s+at __next_outlet_boundary__[\\n\\s]`), ai();
-      let { env: eX, stdout: eY } = (null == (m = globalThis) ? void 0 : m.process) ?? {}, eZ = eX && !eX.NO_COLOR && (eX.FORCE_COLOR || (null == eY ? void 0 : eY.isTTY) && !eX.CI && "dumb" !== eX.TERM), e$ = (a10, b10, c10, d10) => {
-        let e10 = a10.substring(0, d10) + c10, f2 = a10.substring(d10 + b10.length), g2 = f2.indexOf(b10);
-        return ~g2 ? e10 + e$(f2, b10, c10, g2) : e10 + f2;
-      }, e_ = (a10, b10, c10 = a10) => eZ ? (d10) => {
-        let e10 = "" + d10, f2 = e10.indexOf(b10, a10.length);
-        return ~f2 ? a10 + e$(e10, b10, c10, f2) + b10 : a10 + e10 + b10;
-      } : String, e0 = e_("\x1B[1m", "\x1B[22m", "\x1B[22m\x1B[1m");
-      e_("\x1B[2m", "\x1B[22m", "\x1B[22m\x1B[2m"), e_("\x1B[3m", "\x1B[23m"), e_("\x1B[4m", "\x1B[24m"), e_("\x1B[7m", "\x1B[27m"), e_("\x1B[8m", "\x1B[28m"), e_("\x1B[9m", "\x1B[29m"), e_("\x1B[30m", "\x1B[39m");
-      let e1 = e_("\x1B[31m", "\x1B[39m"), e2 = e_("\x1B[32m", "\x1B[39m"), e3 = e_("\x1B[33m", "\x1B[39m");
-      e_("\x1B[34m", "\x1B[39m");
-      let e4 = e_("\x1B[35m", "\x1B[39m");
-      e_("\x1B[38;2;173;127;168m", "\x1B[39m"), e_("\x1B[36m", "\x1B[39m");
-      let e5 = e_("\x1B[37m", "\x1B[39m");
-      async function e6(a10) {
-        let b10 = $.next({ request: a10 }), c10 = "https://mvnllmfidxslxfqexkxs.supabase.co", d10 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12bmxsbWZpZHhzbHhmcWV4a3hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTAyNjUsImV4cCI6MjA5NjA2NjI2NX0.HV3uijehR434gxzAx0JTuDrQ78B7B0y8KGEymIYpErY";
-        if (!(c10 && !c10.includes("YOUR-PROJECT") && d10)) return b10;
-        let e10 = function(a11, b11, c11) {
-          if (!a11 || !b11) throw Error(`Your project's URL and Key are required to create a Supabase client!
-
-Check your Supabase project's API settings to find these values
-
-https://supabase.com/dashboard/project/_/settings/api`);
-          let { storage: d11, getAll: e11, setAll: f3, setItems: g3, removedItems: h3 } = function(a12, b12) {
-            let c12, d12, e12 = a12.cookies ?? null, f4 = a12.cookieEncoding, g4 = {}, h4 = {};
-            if (e12) if ("get" in e12) {
-              let a13 = async (a14) => {
-                let b13 = a14.flatMap((a15) => [a15, ...Array.from({ length: 5 }).map((b14, c14) => `${a15}.${c14}`)]), c13 = [];
-                for (let a15 = 0; a15 < b13.length; a15 += 1) {
-                  let d13 = await e12.get(b13[a15]);
-                  (d13 || "string" == typeof d13) && c13.push({ name: b13[a15], value: d13 });
-                }
-                return c13;
-              };
-              if (c12 = async (b13) => await a13(b13), "set" in e12 && "remove" in e12) d12 = async (a14) => {
-                for (let b13 = 0; b13 < a14.length; b13 += 1) {
-                  let { name: c13, value: d13, options: f5 } = a14[b13];
-                  d13 ? await e12.set(c13, d13, f5) : await e12.remove(c13, f5);
-                }
-              };
-              else if (b12) d12 = async () => {
-                console.warn("@supabase/ssr: createServerClient was configured without set and remove cookie methods, but the client needs to set cookies. This can lead to issues such as random logouts, early session termination or increased token refresh requests. If in NextJS, check your middleware.ts file, route handlers and server actions for correctness. Consider switching to the getAll and setAll cookie methods instead of get, set and remove which are deprecated and can be difficult to use correctly.");
-              };
-              else throw Error("@supabase/ssr: createBrowserClient requires configuring a getAll and setAll cookie method (deprecated: alternatively both get, set and remove can be used)");
-            } else if ("getAll" in e12) if (c12 = async () => await e12.getAll(), "setAll" in e12) d12 = e12.setAll;
-            else if (b12) d12 = async () => {
-              console.warn("@supabase/ssr: createServerClient was configured without the setAll cookie method, but the client needs to set cookies. This can lead to issues such as random logouts, early session termination or increased token refresh requests. If in NextJS, check your middleware.ts file, route handlers and server actions for correctness.");
-            };
-            else throw Error("@supabase/ssr: createBrowserClient requires configuring both getAll and setAll cookie methods (deprecated: alternatively both get, set and remove can be used)");
-            else throw Error(`@supabase/ssr: ${b12 ? "createServerClient" : "createBrowserClient"} requires configuring getAll and setAll cookie methods (deprecated: alternatively use get, set and remove).${bq() ? " As this is called in a browser runtime, consider removing the cookies option object to use the document.cookie API automatically." : ""}`);
-            else if (!b12 && bq()) c12 = () => (() => {
-              let a13 = (0, bp.q)(document.cookie);
-              return Object.keys(a13).map((b13) => ({ name: b13, value: a13[b13] }));
-            })(), d12 = (a13) => {
-              a13.forEach(({ name: a14, value: b13, options: c13 }) => {
-                document.cookie = (0, bp.l)(a14, b13, c13);
-              });
-            };
-            else if (b12) throw Error("@supabase/ssr: createServerClient must be initialized with cookie options that specify getAll and setAll functions (deprecated, not recommended: alternatively use get, set and remove)");
-            else c12 = () => [], d12 = () => {
-              throw Error("@supabase/ssr: createBrowserClient in non-browser runtimes (including Next.js pre-rendering mode) was not initialized cookie options that specify getAll and setAll functions (deprecated: alternatively use get, set and remove), but they were needed");
-            };
-            return b12 ? { getAll: c12, setAll: d12, setItems: g4, removedItems: h4, storage: { isServer: true, getItem: async (a13) => {
-              if ("string" == typeof g4[a13]) return g4[a13];
-              if (h4[a13]) return null;
-              let b13 = await c12([a13]), d13 = await bv(a13, async (a14) => {
-                let c13 = b13?.find(({ name: b14 }) => b14 === a14) || null;
-                return c13 ? c13.value : null;
-              });
-              if (!d13) return null;
-              let e13 = d13;
-              return "string" == typeof d13 && d13.startsWith(bB) && (e13 = bA(d13.substring(bB.length))), e13;
-            }, setItem: async (b13, e13) => {
-              b13.endsWith("-code-verifier") && await bC({ getAll: c12, setAll: d12, setItems: { [b13]: e13 }, removedItems: {} }, { cookieOptions: a12?.cookieOptions ?? null, cookieEncoding: f4 }), g4[b13] = e13, delete h4[b13];
-            }, removeItem: async (a13) => {
-              delete g4[a13], h4[a13] = true;
-            } } } : { getAll: c12, setAll: d12, setItems: g4, removedItems: h4, storage: { isServer: false, getItem: async (a13) => {
-              let b13 = await c12([a13]), d13 = await bv(a13, async (a14) => {
-                let c13 = b13?.find(({ name: b14 }) => b14 === a14) || null;
-                return c13 ? c13.value : null;
-              });
-              if (!d13) return null;
-              let e13 = d13;
-              return d13.startsWith(bB) && (e13 = bA(d13.substring(bB.length))), e13;
-            }, setItem: async (b13, e13) => {
-              let g5 = await c12([b13]), h5 = new Set((g5?.map(({ name: a13 }) => a13) || []).filter((a13) => bt(a13, b13))), i4 = e13;
-              "base64url" === f4 && (i4 = bB + bz(e13));
-              let j2 = bu(b13, i4);
-              j2.forEach(({ name: a13 }) => {
-                h5.delete(a13);
-              });
-              let k2 = { ...br, ...a12?.cookieOptions, maxAge: 0 }, l2 = { ...br, ...a12?.cookieOptions, maxAge: br.maxAge };
-              delete k2.name, delete l2.name;
-              let m2 = [...[...h5].map((a13) => ({ name: a13, value: "", options: k2 })), ...j2.map(({ name: a13, value: b14 }) => ({ name: a13, value: b14, options: l2 }))];
-              m2.length > 0 && await d12(m2);
-            }, removeItem: async (b13) => {
-              let e13 = await c12([b13]), f5 = (e13?.map(({ name: a13 }) => a13) || []).filter((a13) => bt(a13, b13)), g5 = { ...br, ...a12?.cookieOptions, maxAge: 0 };
-              delete g5.name, f5.length > 0 && await d12(f5.map((a13) => ({ name: a13, value: "", options: g5 })));
-            } } };
-          }({ ...c11, cookieEncoding: c11?.cookieEncoding ?? "base64url" }, true), i3 = new eV(a11, b11, { ...c11, global: { ...c11?.global, headers: { ...c11?.global?.headers, "X-Client-Info": "supabase-ssr/0.5.2" } }, auth: { ...c11?.cookieOptions?.name ? { storageKey: c11.cookieOptions.name } : null, ...c11?.auth, flowType: "pkce", autoRefreshToken: false, detectSessionInUrl: false, persistSession: true, storage: d11 } });
-          return i3.auth.onAuthStateChange(async (a12) => {
-            (Object.keys(g3).length > 0 || Object.keys(h3).length > 0) && ("SIGNED_IN" === a12 || "TOKEN_REFRESHED" === a12 || "USER_UPDATED" === a12 || "PASSWORD_RECOVERY" === a12 || "SIGNED_OUT" === a12 || "MFA_CHALLENGE_VERIFIED" === a12) && await bC({ getAll: e11, setAll: f3, setItems: g3, removedItems: h3 }, { cookieOptions: c11?.cookieOptions ?? null, cookieEncoding: c11?.cookieEncoding ?? "base64url" });
-          }), i3;
-        }(c10, d10, { cookies: { getAll: () => a10.cookies.getAll(), setAll(c11) {
-          c11.forEach(({ name: b11, value: c12 }) => a10.cookies.set(b11, c12)), b10 = $.next({ request: a10 }), c11.forEach(({ name: a11, value: c12, options: d11 }) => b10.cookies.set(a11, c12, d11));
-        } } }), { data: { user: f2 } } = await e10.auth.getUser(), g2 = a10.nextUrl.pathname, h2 = g2.startsWith("/admin"), i2 = "/admin/login" === g2;
-        if (h2 && !i2 && !f2) {
-          let b11 = a10.nextUrl.clone();
-          return b11.pathname = "/admin/login", $.redirect(b11);
-        }
-        if (i2 && f2) {
-          let b11 = a10.nextUrl.clone();
-          return b11.pathname = "/admin", $.redirect(b11);
-        }
-        return b10;
-      }
-      async function e7(a10) {
-        return await e6(a10);
-      }
-      e_("\x1B[90m", "\x1B[39m"), e_("\x1B[40m", "\x1B[49m"), e_("\x1B[41m", "\x1B[49m"), e_("\x1B[42m", "\x1B[49m"), e_("\x1B[43m", "\x1B[49m"), e_("\x1B[44m", "\x1B[49m"), e_("\x1B[45m", "\x1B[49m"), e_("\x1B[46m", "\x1B[49m"), e_("\x1B[47m", "\x1B[49m"), e5(e0("\u25CB")), e1(e0("\u2A2F")), e3(e0("\u26A0")), e5(e0(" ")), e2(e0("\u2713")), e4(e0("\xBB")), new a0(1e4, (a10) => a10.length), /* @__PURE__ */ new WeakMap();
-      let e8 = { matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"] };
-      Object.values({ NOT_FOUND: 404, FORBIDDEN: 403, UNAUTHORIZED: 401 });
-      let e9 = { ...n }, fa = e9.middleware || e9.default, fb = "/src/middleware";
-      if ("function" != typeof fa) throw Object.defineProperty(Error(`The Middleware "${fb}" must export a \`middleware\` or a \`default\` function`), "__NEXT_ERROR_CODE", { value: "E120", enumerable: false, configurable: true });
-      function fc(a10) {
-        return bo({ ...a10, page: fb, handler: async (...a11) => {
-          try {
-            return await fa(...a11);
-          } catch (e10) {
-            let b10 = a11[0], c10 = new URL(b10.url), d10 = c10.pathname + c10.search;
-            throw await r(e10, { path: d10, method: b10.method, headers: Object.fromEntries(b10.headers.entries()) }, { routerKind: "Pages Router", routePath: "/middleware", routeType: "middleware", revalidateReason: void 0 }), e10;
-          }
-        } });
-      }
+    }, 521: (a) => {
+      "use strict";
+      a.exports = (init_node_async_hooks(), __toCommonJS(node_async_hooks_exports));
+    }, 566: (a, b, c) => {
+      "use strict";
+      c.d(b, { Z: () => d });
+      let d = (0, c(669).xl)();
     }, 663: (a) => {
       (() => {
         "use strict";
@@ -8124,6 +8374,41 @@ https://supabase.com/dashboard/project/_/settings/api`);
           var a2 = decodeURIComponent, c = encodeURIComponent, d = /; */, e = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
         })(), a.exports = b;
       })();
+    }, 669: (a, b, c) => {
+      "use strict";
+      c.d(b, { $p: () => i, cg: () => h, xl: () => g });
+      let d = Object.defineProperty(Error("Invariant: AsyncLocalStorage accessed in runtime where it is not available"), "__NEXT_ERROR_CODE", { value: "E504", enumerable: false, configurable: true });
+      class e {
+        disable() {
+          throw d;
+        }
+        getStore() {
+        }
+        run() {
+          throw d;
+        }
+        exit() {
+          throw d;
+        }
+        enterWith() {
+          throw d;
+        }
+        static bind(a2) {
+          return a2;
+        }
+      }
+      let f = "undefined" != typeof globalThis && globalThis.AsyncLocalStorage;
+      function g() {
+        return f ? new f() : new e();
+      }
+      function h(a2) {
+        return f ? f.bind(a2) : e.bind(a2);
+      }
+      function i() {
+        return f ? f.snapshot() : function(a2, ...b2) {
+          return a2(...b2);
+        };
+      }
     }, 720: (a, b, c) => {
       "use strict";
       Object.defineProperty(b, "__esModule", { value: true }), !function(a2, b2) {
@@ -8139,6 +8424,41 @@ https://supabase.com/dashboard/project/_/settings/api`);
       }
       function g(a2) {
         return (b2, c2) => (0, d.withRequest)(b2, e.reader, () => a2(b2, c2));
+      }
+    }, 770: (a, b, c) => {
+      "use strict";
+      c.d(b, { W5: () => f });
+      class d extends Error {
+        constructor(a2, b2) {
+          super(`During prerendering, ${b2} rejects when the prerender is complete. Typically these errors are handled by React but if you move ${b2} to a different context by using \`setTimeout\`, \`after\`, or similar functions you may observe this error and you should handle it in that context. This occurred at route "${a2}".`), this.route = a2, this.expression = b2, this.digest = "HANGING_PROMISE_REJECTION";
+        }
+      }
+      let e = /* @__PURE__ */ new WeakMap();
+      function f(a2, b2, c2) {
+        if (a2.aborted) return Promise.reject(new d(b2, c2));
+        {
+          let f2 = new Promise((f3, g2) => {
+            let h = g2.bind(null, new d(b2, c2)), i = e.get(a2);
+            if (i) i.push(h);
+            else {
+              let b3 = [h];
+              e.set(a2, b3), a2.addEventListener("abort", () => {
+                for (let a3 = 0; a3 < b3.length; a3++) b3[a3]();
+              }, { once: true });
+            }
+          });
+          return f2.catch(g), f2;
+        }
+      }
+      function g() {
+      }
+    }, 809: (a, b, c) => {
+      "use strict";
+      c.d(b, { z: () => d });
+      class d extends Error {
+        constructor(a2, b2) {
+          super("Invariant: " + (a2.endsWith(".") ? a2 : a2 + ".") + " This is a bug in Next.js.", b2), this.name = "InvariantError";
+        }
       }
     }, 814: (a, b, c) => {
       "use strict";
@@ -8945,8 +9265,100 @@ https://supabase.com/dashboard/project/_/settings/api`);
           } }), f.default = { context: s.context, diag: t.diag, metrics: u.metrics, propagation: v.propagation, trace: w.trace };
         })(), a.exports = f;
       })();
+    }, 823: (a, b, c) => {
+      "use strict";
+      c.d(b, { iC: () => e }), c(979);
+      var d = c(566);
+      function e() {
+        let a2 = d.Z.getStore();
+        return (null == a2 ? void 0 : a2.rootTaskSpawnPhase) === "action";
+      }
+    }, 924: (a, b, c) => {
+      "use strict";
+      c.d(b, { headers: () => q }), c(261), c(28);
+      var d = c(379), e = c(128), f = c(322), g = c(979), h = c(770), i = c(814);
+      let j = { current: null }, k = "function" == typeof i.cache ? i.cache : (a2) => a2, l = console.warn;
+      function m(a2) {
+        return function(...b2) {
+          l(a2(...b2));
+        };
+      }
+      k((a2) => {
+        try {
+          l(j.current);
+        } finally {
+          j.current = null;
+        }
+      });
+      var n = c(823), o = c(809);
+      /* @__PURE__ */ new WeakMap(), m(function(a2, b2) {
+        let c2 = a2 ? `Route "${a2}" ` : "This route ";
+        return Object.defineProperty(Error(`${c2}used ${b2}. \`cookies()\` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`), "__NEXT_ERROR_CODE", { value: "E223", enumerable: false, configurable: true });
+      });
+      var p = c(458);
+      function q() {
+        let a2 = "headers", b2 = d.J.getStore(), c2 = e.FP.getStore();
+        if (b2) {
+          if (c2 && "after" === c2.phase && !(0, n.iC)()) throw Object.defineProperty(Error(`Route ${b2.route} used "headers" inside "after(...)". This is not supported. If you need this data inside an "after" callback, use "headers" outside of the callback. See more info here: https://nextjs.org/docs/canary/app/api-reference/functions/after`), "__NEXT_ERROR_CODE", { value: "E367", enumerable: false, configurable: true });
+          if (b2.forceStatic) return s(p.o.seal(new Headers({})));
+          if (c2) switch (c2.type) {
+            case "cache": {
+              let a3 = Object.defineProperty(Error(`Route ${b2.route} used "headers" inside "use cache". Accessing Dynamic data sources inside a cache scope is not supported. If you need this data inside a cached function use "headers" outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/messages/next-request-in-use-cache`), "__NEXT_ERROR_CODE", { value: "E304", enumerable: false, configurable: true });
+              throw Error.captureStackTrace(a3, q), b2.invalidDynamicUsageError ??= a3, a3;
+            }
+            case "private-cache": {
+              let a3 = Object.defineProperty(Error(`Route ${b2.route} used "headers" inside "use cache: private". Accessing "headers" inside a private cache scope is not supported. If you need this data inside a cached function use "headers" outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/messages/next-request-in-use-cache`), "__NEXT_ERROR_CODE", { value: "E742", enumerable: false, configurable: true });
+              throw Error.captureStackTrace(a3, q), b2.invalidDynamicUsageError ??= a3, a3;
+            }
+            case "unstable-cache":
+              throw Object.defineProperty(Error(`Route ${b2.route} used "headers" inside a function cached with "unstable_cache(...)". Accessing Dynamic data sources inside a cache scope is not supported. If you need this data inside a cached function use "headers" outside of the cached function and pass the required dynamic data in as an argument. See more info here: https://nextjs.org/docs/app/api-reference/functions/unstable_cache`), "__NEXT_ERROR_CODE", { value: "E127", enumerable: false, configurable: true });
+          }
+          if (b2.dynamicShouldError) throw Object.defineProperty(new g.f(`Route ${b2.route} with \`dynamic = "error"\` couldn't be rendered statically because it used \`headers\`. See more info here: https://nextjs.org/docs/app/building-your-application/rendering/static-and-dynamic#dynamic-rendering`), "__NEXT_ERROR_CODE", { value: "E525", enumerable: false, configurable: true });
+          if (c2) switch (c2.type) {
+            case "prerender":
+            case "prerender-runtime":
+              var i2 = b2, j2 = c2;
+              let d2 = r.get(j2);
+              if (d2) return d2;
+              let e2 = (0, h.W5)(j2.renderSignal, i2.route, "`headers()`");
+              return r.set(j2, e2), e2;
+            case "prerender-client":
+              let k2 = "`headers`";
+              throw Object.defineProperty(new o.z(`${k2} must not be used within a client component. Next.js should be preventing ${k2} from being included in client components statically, but did not in this case.`), "__NEXT_ERROR_CODE", { value: "E693", enumerable: false, configurable: true });
+            case "prerender-ppr":
+              return (0, f.Ui)(b2.route, a2, c2.dynamicTracking);
+            case "prerender-legacy":
+              return (0, f.xI)(a2, b2, c2);
+            case "request":
+              return (0, f.Pk)(c2), s(c2.headers);
+          }
+        }
+        (0, e.M1)(a2);
+      }
+      let r = /* @__PURE__ */ new WeakMap();
+      function s(a2) {
+        let b2 = r.get(a2);
+        if (b2) return b2;
+        let c2 = Promise.resolve(a2);
+        return r.set(a2, c2), Object.defineProperties(c2, { append: { value: a2.append.bind(a2) }, delete: { value: a2.delete.bind(a2) }, get: { value: a2.get.bind(a2) }, has: { value: a2.has.bind(a2) }, set: { value: a2.set.bind(a2) }, getSetCookie: { value: a2.getSetCookie.bind(a2) }, forEach: { value: a2.forEach.bind(a2) }, keys: { value: a2.keys.bind(a2) }, values: { value: a2.values.bind(a2) }, entries: { value: a2.entries.bind(a2) }, [Symbol.iterator]: { value: a2[Symbol.iterator].bind(a2) } }), c2;
+      }
+      m(function(a2, b2) {
+        let c2 = a2 ? `Route "${a2}" ` : "This route ";
+        return Object.defineProperty(Error(`${c2}used ${b2}. \`headers()\` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`), "__NEXT_ERROR_CODE", { value: "E277", enumerable: false, configurable: true });
+      }), c(159), /* @__PURE__ */ new WeakMap(), m(function(a2, b2) {
+        let c2 = a2 ? `Route "${a2}" ` : "This route ";
+        return Object.defineProperty(Error(`${c2}used ${b2}. \`draftMode()\` should be awaited before using its value. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis`), "__NEXT_ERROR_CODE", { value: "E377", enumerable: false, configurable: true });
+      });
+    }, 979: (a, b, c) => {
+      "use strict";
+      c.d(b, { f: () => d });
+      class d extends Error {
+        constructor(...a2) {
+          super(...a2), this.code = "NEXT_STATIC_GEN_BAILOUT";
+        }
+      }
     } }, (a) => {
-      var b = a(a.s = 587);
+      var b = a(a.s = 191);
       (_ENTRIES = "undefined" == typeof _ENTRIES ? {} : _ENTRIES)["middleware_src/middleware"] = b;
     }]);
   }
@@ -8982,7 +9394,7 @@ var init_edgeFunctionHandler = __esm({
   "node_modules/@opennextjs/aws/dist/core/edgeFunctionHandler.js"() {
     globalThis._ENTRIES = {};
     globalThis.self = globalThis;
-    globalThis._ROUTES = [{ "name": "src/middleware", "page": "/", "regex": ["^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next\\/static|_next\\/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*))(\\.json|\\.rsc|\\.segments\\/.+\\.segment\\.rsc)?[\\/#\\?]?$"] }];
+    globalThis._ROUTES = [{ "name": "src/middleware", "page": "/", "regex": ["^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next\\/static|_next\\/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif)$).*))(\\.json|\\.rsc|\\.segments\\/.+\\.segment\\.rsc)?[\\/#\\?]?$"] }];
     require_edge_runtime_webpack();
     require_middleware();
   }
@@ -9156,13 +9568,13 @@ globalThis.__dirname ??= "";
 var NEXT_DIR = path.join(__dirname, ".next");
 var OPEN_NEXT_DIR = path.join(__dirname, ".open-next");
 debug({ NEXT_DIR, OPEN_NEXT_DIR });
-var NextConfig = { "env": {}, "webpack": null, "eslint": { "ignoreDuringBuilds": false }, "typescript": { "ignoreBuildErrors": false, "tsconfigPath": "tsconfig.json" }, "typedRoutes": false, "distDir": ".next", "cleanDistDir": true, "assetPrefix": "", "cacheMaxMemorySize": 52428800, "configOrigin": "next.config.mjs", "useFileSystemPublicRoutes": true, "generateEtags": true, "pageExtensions": ["tsx", "ts", "jsx", "js"], "poweredByHeader": true, "compress": true, "images": { "deviceSizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840], "imageSizes": [16, 32, 48, 64, 96, 128, 256, 384], "path": "/_next/image", "loader": "default", "loaderFile": "", "domains": [], "disableStaticImages": false, "minimumCacheTTL": 60, "formats": ["image/webp"], "maximumResponseBody": 5e7, "dangerouslyAllowSVG": false, "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;", "contentDispositionType": "attachment", "remotePatterns": [{ "protocol": "https", "hostname": "*.supabase.co" }], "unoptimized": false }, "devIndicators": { "position": "bottom-left" }, "onDemandEntries": { "maxInactiveAge": 6e4, "pagesBufferLength": 5 }, "amp": { "canonicalBase": "" }, "basePath": "", "sassOptions": {}, "trailingSlash": false, "i18n": null, "productionBrowserSourceMaps": false, "excludeDefaultMomentLocales": true, "serverRuntimeConfig": {}, "publicRuntimeConfig": {}, "reactProductionProfiling": false, "reactStrictMode": true, "reactMaxHeadersLength": 6e3, "httpAgentOptions": { "keepAlive": true }, "logging": {}, "compiler": {}, "expireTime": 31536e3, "staticPageGenerationTimeout": 60, "output": "standalone", "modularizeImports": { "@mui/icons-material": { "transform": "@mui/icons-material/{{member}}" }, "lodash": { "transform": "lodash/{{member}}" } }, "outputFileTracingRoot": "D:\\shreya-creati", "experimental": { "useSkewCookie": false, "cacheLife": { "default": { "stale": 300, "revalidate": 900, "expire": 4294967294 }, "seconds": { "stale": 30, "revalidate": 1, "expire": 60 }, "minutes": { "stale": 300, "revalidate": 60, "expire": 3600 }, "hours": { "stale": 300, "revalidate": 3600, "expire": 86400 }, "days": { "stale": 300, "revalidate": 86400, "expire": 604800 }, "weeks": { "stale": 300, "revalidate": 604800, "expire": 2592e3 }, "max": { "stale": 300, "revalidate": 2592e3, "expire": 4294967294 } }, "cacheHandlers": {}, "cssChunking": true, "multiZoneDraftMode": false, "appNavFailHandling": false, "prerenderEarlyExit": true, "serverMinification": true, "serverSourceMaps": false, "linkNoTouchStart": false, "caseSensitiveRoutes": false, "clientSegmentCache": false, "clientParamParsing": false, "dynamicOnHover": false, "preloadEntriesOnStart": true, "clientRouterFilter": true, "clientRouterFilterRedirects": false, "fetchCacheKeyPrefix": "", "middlewarePrefetch": "flexible", "optimisticClientCache": true, "manualClientBasePath": false, "cpus": 11, "memoryBasedWorkersCount": false, "imgOptConcurrency": null, "imgOptTimeoutInSeconds": 7, "imgOptMaxInputPixels": 268402689, "imgOptSequentialRead": null, "imgOptSkipMetadata": null, "isrFlushToDisk": true, "workerThreads": false, "optimizeCss": false, "nextScriptWorkers": false, "scrollRestoration": false, "externalDir": false, "disableOptimizedLoading": false, "gzipSize": true, "craCompat": false, "esmExternals": true, "fullySpecified": false, "swcTraceProfiling": false, "forceSwcTransforms": false, "largePageDataBytes": 128e3, "typedEnv": false, "parallelServerCompiles": false, "parallelServerBuildTraces": false, "ppr": false, "authInterrupts": false, "webpackMemoryOptimizations": false, "optimizeServerReact": true, "viewTransition": false, "routerBFCache": false, "removeUncaughtErrorAndRejectionListeners": false, "validateRSCRequestHeaders": false, "staleTimes": { "dynamic": 0, "static": 300 }, "serverComponentsHmrCache": true, "staticGenerationMaxConcurrency": 8, "staticGenerationMinPagesPerWorker": 25, "cacheComponents": false, "inlineCss": false, "useCache": false, "globalNotFound": false, "devtoolSegmentExplorer": true, "browserDebugInfoInTerminal": false, "optimizeRouterScrolling": false, "middlewareClientMaxBodySize": 10485760, "optimizePackageImports": ["lucide-react", "date-fns", "lodash-es", "ramda", "antd", "react-bootstrap", "ahooks", "@ant-design/icons", "@headlessui/react", "@headlessui-float/react", "@heroicons/react/20/solid", "@heroicons/react/24/solid", "@heroicons/react/24/outline", "@visx/visx", "@tremor/react", "rxjs", "@mui/material", "@mui/icons-material", "recharts", "react-use", "effect", "@effect/schema", "@effect/platform", "@effect/platform-node", "@effect/platform-browser", "@effect/platform-bun", "@effect/sql", "@effect/sql-mssql", "@effect/sql-mysql2", "@effect/sql-pg", "@effect/sql-sqlite-node", "@effect/sql-sqlite-bun", "@effect/sql-sqlite-wasm", "@effect/sql-sqlite-react-native", "@effect/rpc", "@effect/rpc-http", "@effect/typeclass", "@effect/experimental", "@effect/opentelemetry", "@material-ui/core", "@material-ui/icons", "@tabler/icons-react", "mui-core", "react-icons/ai", "react-icons/bi", "react-icons/bs", "react-icons/cg", "react-icons/ci", "react-icons/di", "react-icons/fa", "react-icons/fa6", "react-icons/fc", "react-icons/fi", "react-icons/gi", "react-icons/go", "react-icons/gr", "react-icons/hi", "react-icons/hi2", "react-icons/im", "react-icons/io", "react-icons/io5", "react-icons/lia", "react-icons/lib", "react-icons/lu", "react-icons/md", "react-icons/pi", "react-icons/ri", "react-icons/rx", "react-icons/si", "react-icons/sl", "react-icons/tb", "react-icons/tfi", "react-icons/ti", "react-icons/vsc", "react-icons/wi"], "trustHostHeader": false, "isExperimentalCompile": false }, "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight", "bundlePagesRouterDependencies": false, "configFileName": "next.config.mjs", "transpilePackages": ["three", "react-pdf", "pdfjs-dist"], "turbopack": { "root": "D:\\shreya-creati" }, "_originalRedirects": [{ "source": "/lookbook", "destination": "/blog", "permanent": true }] };
-var BuildId = "VfmutEuHDqQ2YZbOSmP5c";
-var RoutesManifest = { "basePath": "", "rewrites": { "beforeFiles": [], "afterFiles": [], "fallback": [] }, "redirects": [{ "source": "/:path+/", "destination": "/:path+", "internal": true, "statusCode": 308, "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$" }, { "source": "/lookbook", "destination": "/blog", "statusCode": 308, "regex": "^(?!/_next)/lookbook(?:/)?$" }], "routes": { "static": [{ "page": "/", "regex": "^/(?:/)?$", "routeKeys": {}, "namedRegex": "^/(?:/)?$" }, { "page": "/_not-found", "regex": "^/_not\\-found(?:/)?$", "routeKeys": {}, "namedRegex": "^/_not\\-found(?:/)?$" }, { "page": "/about", "regex": "^/about(?:/)?$", "routeKeys": {}, "namedRegex": "^/about(?:/)?$" }, { "page": "/admin", "regex": "^/admin(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin(?:/)?$" }, { "page": "/admin/content", "regex": "^/admin/content(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/content(?:/)?$" }, { "page": "/admin/courses", "regex": "^/admin/courses(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/courses(?:/)?$" }, { "page": "/admin/faqs", "regex": "^/admin/faqs(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/faqs(?:/)?$" }, { "page": "/admin/inquiries", "regex": "^/admin/inquiries(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/inquiries(?:/)?$" }, { "page": "/admin/login", "regex": "^/admin/login(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/login(?:/)?$" }, { "page": "/admin/lookbook", "regex": "^/admin/lookbook(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/lookbook(?:/)?$" }, { "page": "/admin/pages", "regex": "^/admin/pages(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/pages(?:/)?$" }, { "page": "/admin/policies", "regex": "^/admin/policies(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/policies(?:/)?$" }, { "page": "/admin/portfolio", "regex": "^/admin/portfolio(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/portfolio(?:/)?$" }, { "page": "/admin/products", "regex": "^/admin/products(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/products(?:/)?$" }, { "page": "/admin/settings", "regex": "^/admin/settings(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/settings(?:/)?$" }, { "page": "/admin/testimonials", "regex": "^/admin/testimonials(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/testimonials(?:/)?$" }, { "page": "/admin/trust", "regex": "^/admin/trust(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/trust(?:/)?$" }, { "page": "/blog", "regex": "^/blog(?:/)?$", "routeKeys": {}, "namedRegex": "^/blog(?:/)?$" }, { "page": "/contact", "regex": "^/contact(?:/)?$", "routeKeys": {}, "namedRegex": "^/contact(?:/)?$" }, { "page": "/courses", "regex": "^/courses(?:/)?$", "routeKeys": {}, "namedRegex": "^/courses(?:/)?$" }, { "page": "/faq", "regex": "^/faq(?:/)?$", "routeKeys": {}, "namedRegex": "^/faq(?:/)?$" }, { "page": "/nri-clients", "regex": "^/nri\\-clients(?:/)?$", "routeKeys": {}, "namedRegex": "^/nri\\-clients(?:/)?$" }, { "page": "/portfolio", "regex": "^/portfolio(?:/)?$", "routeKeys": {}, "namedRegex": "^/portfolio(?:/)?$" }, { "page": "/robots.txt", "regex": "^/robots\\.txt(?:/)?$", "routeKeys": {}, "namedRegex": "^/robots\\.txt(?:/)?$" }, { "page": "/shop", "regex": "^/shop(?:/)?$", "routeKeys": {}, "namedRegex": "^/shop(?:/)?$" }, { "page": "/sitemap.xml", "regex": "^/sitemap\\.xml(?:/)?$", "routeKeys": {}, "namedRegex": "^/sitemap\\.xml(?:/)?$" }], "dynamic": [{ "page": "/blog/[slug]", "regex": "^/blog/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/blog/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/courses/[slug]", "regex": "^/courses/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/courses/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/policies/[slug]", "regex": "^/policies/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/policies/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/portfolio/[slug]", "regex": "^/portfolio/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/portfolio/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/shop/[slug]", "regex": "^/shop/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/shop/(?<nxtPslug>[^/]+?)(?:/)?$" }], "data": { "static": [], "dynamic": [] } }, "locales": [] };
+var NextConfig = { "env": {}, "webpack": null, "eslint": { "ignoreDuringBuilds": false }, "typescript": { "ignoreBuildErrors": false, "tsconfigPath": "tsconfig.json" }, "typedRoutes": false, "distDir": ".next", "cleanDistDir": true, "assetPrefix": "", "cacheMaxMemorySize": 52428800, "configOrigin": "next.config.mjs", "useFileSystemPublicRoutes": true, "generateEtags": true, "pageExtensions": ["tsx", "ts", "jsx", "js"], "poweredByHeader": true, "compress": true, "images": { "deviceSizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840], "imageSizes": [16, 32, 48, 64, 96, 128, 256, 384], "path": "/_next/image", "loader": "default", "loaderFile": "", "domains": [], "disableStaticImages": false, "minimumCacheTTL": 60, "formats": ["image/avif", "image/webp"], "maximumResponseBody": 5e7, "dangerouslyAllowSVG": false, "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;", "contentDispositionType": "attachment", "remotePatterns": [{ "protocol": "https", "hostname": "*.supabase.co" }], "unoptimized": false }, "devIndicators": { "position": "bottom-left" }, "onDemandEntries": { "maxInactiveAge": 6e4, "pagesBufferLength": 5 }, "amp": { "canonicalBase": "" }, "basePath": "", "sassOptions": {}, "trailingSlash": false, "i18n": null, "productionBrowserSourceMaps": false, "excludeDefaultMomentLocales": true, "serverRuntimeConfig": {}, "publicRuntimeConfig": {}, "reactProductionProfiling": false, "reactStrictMode": true, "reactMaxHeadersLength": 6e3, "httpAgentOptions": { "keepAlive": true }, "logging": {}, "compiler": {}, "expireTime": 31536e3, "staticPageGenerationTimeout": 60, "output": "standalone", "modularizeImports": { "@mui/icons-material": { "transform": "@mui/icons-material/{{member}}" }, "lodash": { "transform": "lodash/{{member}}" } }, "outputFileTracingRoot": "D:\\shreya-creati", "experimental": { "useSkewCookie": false, "cacheLife": { "default": { "stale": 300, "revalidate": 900, "expire": 4294967294 }, "seconds": { "stale": 30, "revalidate": 1, "expire": 60 }, "minutes": { "stale": 300, "revalidate": 60, "expire": 3600 }, "hours": { "stale": 300, "revalidate": 3600, "expire": 86400 }, "days": { "stale": 300, "revalidate": 86400, "expire": 604800 }, "weeks": { "stale": 300, "revalidate": 604800, "expire": 2592e3 }, "max": { "stale": 300, "revalidate": 2592e3, "expire": 4294967294 } }, "cacheHandlers": {}, "cssChunking": true, "multiZoneDraftMode": false, "appNavFailHandling": false, "prerenderEarlyExit": true, "serverMinification": true, "serverSourceMaps": false, "linkNoTouchStart": false, "caseSensitiveRoutes": false, "clientSegmentCache": false, "clientParamParsing": false, "dynamicOnHover": false, "preloadEntriesOnStart": true, "clientRouterFilter": true, "clientRouterFilterRedirects": false, "fetchCacheKeyPrefix": "", "middlewarePrefetch": "flexible", "optimisticClientCache": true, "manualClientBasePath": false, "cpus": 11, "memoryBasedWorkersCount": false, "imgOptConcurrency": null, "imgOptTimeoutInSeconds": 7, "imgOptMaxInputPixels": 268402689, "imgOptSequentialRead": null, "imgOptSkipMetadata": null, "isrFlushToDisk": true, "workerThreads": false, "optimizeCss": false, "nextScriptWorkers": false, "scrollRestoration": false, "externalDir": false, "disableOptimizedLoading": false, "gzipSize": true, "craCompat": false, "esmExternals": true, "fullySpecified": false, "swcTraceProfiling": false, "forceSwcTransforms": false, "largePageDataBytes": 128e3, "typedEnv": false, "parallelServerCompiles": false, "parallelServerBuildTraces": false, "ppr": false, "authInterrupts": false, "webpackMemoryOptimizations": false, "optimizeServerReact": true, "viewTransition": false, "routerBFCache": false, "removeUncaughtErrorAndRejectionListeners": false, "validateRSCRequestHeaders": false, "staleTimes": { "dynamic": 0, "static": 300 }, "serverComponentsHmrCache": true, "staticGenerationMaxConcurrency": 8, "staticGenerationMinPagesPerWorker": 25, "cacheComponents": false, "inlineCss": false, "useCache": false, "globalNotFound": false, "devtoolSegmentExplorer": true, "browserDebugInfoInTerminal": false, "optimizeRouterScrolling": false, "middlewareClientMaxBodySize": 10485760, "optimizePackageImports": ["lucide-react", "date-fns", "lodash-es", "ramda", "antd", "react-bootstrap", "ahooks", "@ant-design/icons", "@headlessui/react", "@headlessui-float/react", "@heroicons/react/20/solid", "@heroicons/react/24/solid", "@heroicons/react/24/outline", "@visx/visx", "@tremor/react", "rxjs", "@mui/material", "@mui/icons-material", "recharts", "react-use", "effect", "@effect/schema", "@effect/platform", "@effect/platform-node", "@effect/platform-browser", "@effect/platform-bun", "@effect/sql", "@effect/sql-mssql", "@effect/sql-mysql2", "@effect/sql-pg", "@effect/sql-sqlite-node", "@effect/sql-sqlite-bun", "@effect/sql-sqlite-wasm", "@effect/sql-sqlite-react-native", "@effect/rpc", "@effect/rpc-http", "@effect/typeclass", "@effect/experimental", "@effect/opentelemetry", "@material-ui/core", "@material-ui/icons", "@tabler/icons-react", "mui-core", "react-icons/ai", "react-icons/bi", "react-icons/bs", "react-icons/cg", "react-icons/ci", "react-icons/di", "react-icons/fa", "react-icons/fa6", "react-icons/fc", "react-icons/fi", "react-icons/gi", "react-icons/go", "react-icons/gr", "react-icons/hi", "react-icons/hi2", "react-icons/im", "react-icons/io", "react-icons/io5", "react-icons/lia", "react-icons/lib", "react-icons/lu", "react-icons/md", "react-icons/pi", "react-icons/ri", "react-icons/rx", "react-icons/si", "react-icons/sl", "react-icons/tb", "react-icons/tfi", "react-icons/ti", "react-icons/vsc", "react-icons/wi"], "trustHostHeader": false, "isExperimentalCompile": false }, "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight", "bundlePagesRouterDependencies": false, "configFileName": "next.config.mjs", "transpilePackages": ["three", "react-pdf", "pdfjs-dist"], "turbopack": { "root": "D:\\shreya-creati" }, "_originalRedirects": [{ "source": "/lookbook", "destination": "/blog", "permanent": true }] };
+var BuildId = "tjouZQm0jDOrYzC8uivo9";
+var RoutesManifest = { "basePath": "", "rewrites": { "beforeFiles": [], "afterFiles": [], "fallback": [] }, "redirects": [{ "source": "/:path+/", "destination": "/:path+", "internal": true, "statusCode": 308, "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$" }, { "source": "/lookbook", "destination": "/blog", "statusCode": 308, "regex": "^(?!/_next)/lookbook(?:/)?$" }], "routes": { "static": [{ "page": "/", "regex": "^/(?:/)?$", "routeKeys": {}, "namedRegex": "^/(?:/)?$" }, { "page": "/_not-found", "regex": "^/_not\\-found(?:/)?$", "routeKeys": {}, "namedRegex": "^/_not\\-found(?:/)?$" }, { "page": "/about", "regex": "^/about(?:/)?$", "routeKeys": {}, "namedRegex": "^/about(?:/)?$" }, { "page": "/admin", "regex": "^/admin(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin(?:/)?$" }, { "page": "/admin/content", "regex": "^/admin/content(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/content(?:/)?$" }, { "page": "/admin/courses", "regex": "^/admin/courses(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/courses(?:/)?$" }, { "page": "/admin/enquiries", "regex": "^/admin/enquiries(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/enquiries(?:/)?$" }, { "page": "/admin/faqs", "regex": "^/admin/faqs(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/faqs(?:/)?$" }, { "page": "/admin/inquiries", "regex": "^/admin/inquiries(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/inquiries(?:/)?$" }, { "page": "/admin/login", "regex": "^/admin/login(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/login(?:/)?$" }, { "page": "/admin/lookbook", "regex": "^/admin/lookbook(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/lookbook(?:/)?$" }, { "page": "/admin/media", "regex": "^/admin/media(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/media(?:/)?$" }, { "page": "/admin/pages", "regex": "^/admin/pages(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/pages(?:/)?$" }, { "page": "/admin/policies", "regex": "^/admin/policies(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/policies(?:/)?$" }, { "page": "/admin/portfolio", "regex": "^/admin/portfolio(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/portfolio(?:/)?$" }, { "page": "/admin/products", "regex": "^/admin/products(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/products(?:/)?$" }, { "page": "/admin/settings", "regex": "^/admin/settings(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/settings(?:/)?$" }, { "page": "/admin/testimonials", "regex": "^/admin/testimonials(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/testimonials(?:/)?$" }, { "page": "/admin/trust", "regex": "^/admin/trust(?:/)?$", "routeKeys": {}, "namedRegex": "^/admin/trust(?:/)?$" }, { "page": "/blog", "regex": "^/blog(?:/)?$", "routeKeys": {}, "namedRegex": "^/blog(?:/)?$" }, { "page": "/contact", "regex": "^/contact(?:/)?$", "routeKeys": {}, "namedRegex": "^/contact(?:/)?$" }, { "page": "/courses", "regex": "^/courses(?:/)?$", "routeKeys": {}, "namedRegex": "^/courses(?:/)?$" }, { "page": "/faq", "regex": "^/faq(?:/)?$", "routeKeys": {}, "namedRegex": "^/faq(?:/)?$" }, { "page": "/hi", "regex": "^/hi(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi(?:/)?$" }, { "page": "/hi/about", "regex": "^/hi/about(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/about(?:/)?$" }, { "page": "/hi/blog", "regex": "^/hi/blog(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/blog(?:/)?$" }, { "page": "/hi/contact", "regex": "^/hi/contact(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/contact(?:/)?$" }, { "page": "/hi/courses", "regex": "^/hi/courses(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/courses(?:/)?$" }, { "page": "/hi/faq", "regex": "^/hi/faq(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/faq(?:/)?$" }, { "page": "/hi/nri-clients", "regex": "^/hi/nri\\-clients(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/nri\\-clients(?:/)?$" }, { "page": "/hi/portfolio", "regex": "^/hi/portfolio(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/portfolio(?:/)?$" }, { "page": "/hi/shop", "regex": "^/hi/shop(?:/)?$", "routeKeys": {}, "namedRegex": "^/hi/shop(?:/)?$" }, { "page": "/nri-clients", "regex": "^/nri\\-clients(?:/)?$", "routeKeys": {}, "namedRegex": "^/nri\\-clients(?:/)?$" }, { "page": "/portfolio", "regex": "^/portfolio(?:/)?$", "routeKeys": {}, "namedRegex": "^/portfolio(?:/)?$" }, { "page": "/robots.txt", "regex": "^/robots\\.txt(?:/)?$", "routeKeys": {}, "namedRegex": "^/robots\\.txt(?:/)?$" }, { "page": "/shop", "regex": "^/shop(?:/)?$", "routeKeys": {}, "namedRegex": "^/shop(?:/)?$" }, { "page": "/sitemap.xml", "regex": "^/sitemap\\.xml(?:/)?$", "routeKeys": {}, "namedRegex": "^/sitemap\\.xml(?:/)?$" }], "dynamic": [{ "page": "/admin/courses/[id]/batches", "regex": "^/admin/courses/([^/]+?)/batches(?:/)?$", "routeKeys": { "nxtPid": "nxtPid" }, "namedRegex": "^/admin/courses/(?<nxtPid>[^/]+?)/batches(?:/)?$" }, { "page": "/blog/[slug]", "regex": "^/blog/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/blog/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/courses/[slug]", "regex": "^/courses/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/courses/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/hi/blog/[slug]", "regex": "^/hi/blog/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/hi/blog/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/hi/courses/[slug]", "regex": "^/hi/courses/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/hi/courses/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/hi/policies/[slug]", "regex": "^/hi/policies/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/hi/policies/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/hi/portfolio/[slug]", "regex": "^/hi/portfolio/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/hi/portfolio/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/hi/shop/[slug]", "regex": "^/hi/shop/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/hi/shop/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/policies/[slug]", "regex": "^/policies/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/policies/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/portfolio/[slug]", "regex": "^/portfolio/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/portfolio/(?<nxtPslug>[^/]+?)(?:/)?$" }, { "page": "/shop/[slug]", "regex": "^/shop/([^/]+?)(?:/)?$", "routeKeys": { "nxtPslug": "nxtPslug" }, "namedRegex": "^/shop/(?<nxtPslug>[^/]+?)(?:/)?$" }], "data": { "static": [], "dynamic": [] } }, "locales": [] };
 var ConfigHeaders = [];
 var PrerenderManifest = { "version": 4, "routes": { "/robots.txt": { "initialHeaders": { "cache-control": "public, max-age=0, must-revalidate", "content-type": "text/plain", "x-next-cache-tags": "_N_T_/layout,_N_T_/robots.txt/layout,_N_T_/robots.txt/route,_N_T_/robots.txt" }, "experimentalBypassFor": [{ "type": "header", "key": "next-action" }, { "type": "header", "key": "content-type", "value": "multipart/form-data;.*" }], "initialRevalidateSeconds": false, "srcRoute": "/robots.txt", "dataRoute": null, "allowHeader": ["host", "x-matched-path", "x-prerender-revalidate", "x-prerender-revalidate-if-generated", "x-next-revalidated-tags", "x-next-revalidate-tag-token"] } }, "dynamicRoutes": {}, "notFoundRoutes": [], "preview": { "previewModeId": "a37eadd8cc3556bb2ad55c28d4f80bbc", "previewModeSigningKey": "bd8b9dcfd277533868a9f7b35099c71c178fb23a9b95db138fb70fb1d5b2a91f", "previewModeEncryptionKey": "ee3154014070b345cbdbdde4aa1e4072dc1c8befa7f407b74609f384c1715edb" } };
-var MiddlewareManifest = { "version": 3, "middleware": { "/": { "files": ["server/edge-runtime-webpack.js", "server/src/middleware.js"], "name": "src/middleware", "page": "/", "matchers": [{ "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next\\/static|_next\\/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*))(\\.json|\\.rsc|\\.segments\\/.+\\.segment\\.rsc)?[\\/#\\?]?$", "originalSource": "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)" }], "wasm": [], "assets": [], "env": { "__NEXT_BUILD_ID": "VfmutEuHDqQ2YZbOSmP5c", "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "IRM1/m76hZ+pf0VqnXMEIPuDtmKxNoG8eao2KWoopvI=", "__NEXT_PREVIEW_MODE_ID": "a37eadd8cc3556bb2ad55c28d4f80bbc", "__NEXT_PREVIEW_MODE_SIGNING_KEY": "bd8b9dcfd277533868a9f7b35099c71c178fb23a9b95db138fb70fb1d5b2a91f", "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "ee3154014070b345cbdbdde4aa1e4072dc1c8befa7f407b74609f384c1715edb" } } }, "functions": {}, "sortedMiddleware": ["/"] };
-var AppPathRoutesManifest = { "/robots.txt/route": "/robots.txt", "/_not-found/page": "/_not-found", "/sitemap.xml/route": "/sitemap.xml", "/contact/page": "/contact", "/shop/[slug]/page": "/shop/[slug]", "/about/page": "/about", "/courses/[slug]/page": "/courses/[slug]", "/courses/page": "/courses", "/blog/page": "/blog", "/faq/page": "/faq", "/nri-clients/page": "/nri-clients", "/blog/[slug]/page": "/blog/[slug]", "/policies/[slug]/page": "/policies/[slug]", "/page": "/", "/portfolio/page": "/portfolio", "/portfolio/[slug]/page": "/portfolio/[slug]", "/shop/page": "/shop", "/admin/content/page": "/admin/content", "/admin/courses/page": "/admin/courses", "/admin/faqs/page": "/admin/faqs", "/admin/login/page": "/admin/login", "/admin/inquiries/page": "/admin/inquiries", "/admin/lookbook/page": "/admin/lookbook", "/admin/pages/page": "/admin/pages", "/admin/policies/page": "/admin/policies", "/admin/portfolio/page": "/admin/portfolio", "/admin/page": "/admin", "/admin/products/page": "/admin/products", "/admin/settings/page": "/admin/settings", "/admin/testimonials/page": "/admin/testimonials", "/admin/trust/page": "/admin/trust" };
+var MiddlewareManifest = { "version": 3, "middleware": { "/": { "files": ["server/edge-runtime-webpack.js", "server/src/middleware.js"], "name": "src/middleware", "page": "/", "matchers": [{ "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next\\/static|_next\\/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif)$).*))(\\.json|\\.rsc|\\.segments\\/.+\\.segment\\.rsc)?[\\/#\\?]?$", "originalSource": "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif)$).*)" }], "wasm": [], "assets": [], "env": { "__NEXT_BUILD_ID": "tjouZQm0jDOrYzC8uivo9", "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "IRM1/m76hZ+pf0VqnXMEIPuDtmKxNoG8eao2KWoopvI=", "__NEXT_PREVIEW_MODE_ID": "a37eadd8cc3556bb2ad55c28d4f80bbc", "__NEXT_PREVIEW_MODE_SIGNING_KEY": "bd8b9dcfd277533868a9f7b35099c71c178fb23a9b95db138fb70fb1d5b2a91f", "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "ee3154014070b345cbdbdde4aa1e4072dc1c8befa7f407b74609f384c1715edb" } } }, "functions": {}, "sortedMiddleware": ["/"] };
+var AppPathRoutesManifest = { "/_not-found/page": "/_not-found", "/api/admin/upload/route": "/api/admin/upload", "/api/enquiries/route": "/api/enquiries", "/api/admin/revalidate/route": "/api/admin/revalidate", "/api/lead/fee-structure/route": "/api/lead/fee-structure", "/api/razorpay/create-order/route": "/api/razorpay/create-order", "/robots.txt/route": "/robots.txt", "/sitemap.xml/route": "/sitemap.xml", "/contact/page": "/contact", "/shop/[slug]/page": "/shop/[slug]", "/about/page": "/about", "/blog/page": "/blog", "/courses/page": "/courses", "/faq/page": "/faq", "/blog/[slug]/page": "/blog/[slug]", "/nri-clients/page": "/nri-clients", "/courses/[slug]/page": "/courses/[slug]", "/policies/[slug]/page": "/policies/[slug]", "/portfolio/[slug]/page": "/portfolio/[slug]", "/shop/page": "/shop", "/page": "/", "/portfolio/page": "/portfolio", "/admin/courses/[id]/batches/page": "/admin/courses/[id]/batches", "/hi/shop/[slug]/page": "/hi/shop/[slug]", "/admin/inquiries/page": "/admin/inquiries", "/admin/enquiries/page": "/admin/enquiries", "/admin/login/page": "/admin/login", "/admin/page": "/admin", "/admin/faqs/page": "/admin/faqs", "/admin/lookbook/page": "/admin/lookbook", "/admin/media/page": "/admin/media", "/admin/products/page": "/admin/products", "/admin/courses/page": "/admin/courses", "/admin/settings/page": "/admin/settings", "/admin/pages/page": "/admin/pages", "/admin/content/page": "/admin/content", "/admin/trust/page": "/admin/trust", "/admin/policies/page": "/admin/policies", "/admin/testimonials/page": "/admin/testimonials", "/admin/portfolio/page": "/admin/portfolio", "/hi/blog/[slug]/page": "/hi/blog/[slug]", "/hi/blog/page": "/hi/blog", "/hi/about/page": "/hi/about", "/hi/courses/[slug]/page": "/hi/courses/[slug]", "/hi/contact/page": "/hi/contact", "/hi/courses/page": "/hi/courses", "/hi/faq/page": "/hi/faq", "/hi/portfolio/page": "/hi/portfolio", "/hi/page": "/hi", "/hi/shop/page": "/hi/shop", "/hi/portfolio/[slug]/page": "/hi/portfolio/[slug]", "/hi/policies/[slug]/page": "/hi/policies/[slug]", "/hi/nri-clients/page": "/hi/nri-clients" };
 var FunctionsConfigManifest = { "version": 1, "functions": {} };
 var PagesManifest = { "/_error": "pages/_error.js", "/_app": "pages/_app.js", "/_document": "pages/_document.js" };
 process.env.NEXT_BUILD_ID = BuildId;
