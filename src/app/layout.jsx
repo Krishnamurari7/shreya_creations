@@ -26,21 +26,23 @@ import "@fontsource/noto-sans-devanagari/500.css";
 import "@fontsource/noto-sans-devanagari/600.css";
 import "@fontsource/noto-sans-devanagari/700.css";
 import { BG_ATMOSPHERE } from "@/lib/ui";
+import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppAssistant from "@/components/WhatsAppAssistant";
+import MobileContactBar from "@/components/MobileContactBar";
 import ScrollReveal from "@/components/ScrollReveal";
 import SiteProtection from "@/components/SiteProtection";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ThemeScript from "@/components/ThemeScript";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import MetaPixel from "@/components/MetaPixel";
+import Analytics from "@/components/Analytics";
 import { getSiteSettings } from "@/lib/data";
 import { LOGO_SRC } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/siteUrl";
 import JsonLd from "@/components/JsonLd";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { headers } from "next/headers";
 
 const siteUrl = getSiteUrl();
 
@@ -101,6 +103,13 @@ export const metadata = {
     description: siteDescription,
     images: [DEFAULT_OG_IMAGE],
   },
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+        },
+      }
+    : {}),
 };
 
 export const viewport = {
@@ -115,20 +124,33 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   const site = await getSiteSettings();
+  const headersList = await headers();
+  const locale = headersList.get("x-locale") || "en";
+  const htmlLang = locale === "hi" ? "hi" : "en";
+
   return (
-    <html lang={site.defaultLanguage === "hi" ? "hi" : "en"} suppressHydrationWarning>
-      <body className={BG_ATMOSPHERE} suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.facebook.com" />
+      </head>
+      <body className={cn(BG_ATMOSPHERE, "has-mobile-contact-bar")} suppressHydrationWarning>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <JsonLd site={site} />
-        <GoogleAnalytics />
-        <MetaPixel />
+        <Analytics />
         <ThemeScript />
         <ThemeProvider>
           <LanguageProvider defaultLang={site.defaultLanguage}>
             <ScrollReveal />
             <SiteProtection />
             <Navbar site={site} />
-            <main className="relative z-0 flex-1 min-w-0 w-full overflow-x-hidden">{children}</main>
+            <main id="main-content" className="relative z-0 flex-1 min-w-0 w-full overflow-x-hidden">{children}</main>
             <Footer site={site} />
+            <MobileContactBar site={site} />
             <WhatsAppAssistant number={site.whatsapp} />
           </LanguageProvider>
         </ThemeProvider>

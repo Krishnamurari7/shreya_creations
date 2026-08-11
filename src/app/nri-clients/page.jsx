@@ -7,7 +7,8 @@ import PageSeoIntro from "@/components/PageSeoIntro";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
-import { buildMetadata, breadcrumbJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { getRequestLocale } from "@/lib/locale";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { nriClientMessage } from "@/lib/whatsapp";
 
 export const metadata = buildMetadata({
@@ -20,6 +21,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function NriClientsPage() {
+  const locale = await getRequestLocale();
   const site = await getSiteSettings();
   const nri = site.pages?.nri || {};
   const cta = pageCtaProps(nri);
@@ -27,10 +29,13 @@ export default async function NriClientsPage() {
   return (
     <PageShell>
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "NRI Clients", path: "/nri-clients" },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("nriClients", locale), path: "/nri-clients" },
+          ],
+          locale
+        )}
       />
       <LocalizedPageHeader
         eyebrow={nri.headerEyebrow || "NRI services"}
@@ -46,11 +51,12 @@ export default async function NriClientsPage() {
 
       <PageSeoIntro
         links={[
-          { href: "/shop", label: "custom stitching in Patna" },
-          { href: "/portfolio", label: "bridal portfolio" },
-          { href: "/blog", label: "style blog" },
-          { href: "/contact", label: "contact the studio" },
+          { href: "/shop", label: "custom stitching in Patna", labelHi: "पटना में कस्टम सिलाई" },
+          { href: "/portfolio", label: "bridal portfolio", labelHi: "ब्राइडल पोर्टफोलियो" },
+          { href: "/blog", label: "style blog", labelHi: "स्टाइल ब्लॉग" },
+          { href: "/contact", label: "contact the studio", labelHi: "स्टूडियो से संपर्क" },
         ]}
+        childrenHi="विदेश में रहते हैं और पटना से ब्राइडल या त्योहारी परिधान चाहिए? Shreya Creation NRI क्लाइंट्स को WhatsApp माप, बोरिंग रोड पर बुटीक सिलाई और कूरियर या परिवार पिकअप सपोर्ट देता है — शादी और उत्सव के लिए समय पर।"
       >
         Living abroad and need bridal or festive wear from Patna? Shreya Creation supports NRI
         clients with WhatsApp measurements, boutique stitching on Boring Road, and courier or family

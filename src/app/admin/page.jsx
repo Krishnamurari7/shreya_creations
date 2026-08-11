@@ -17,7 +17,7 @@ export default async function Dashboard() {
     { label: "Trust stats", value: counts.trust, href: "/admin/trust" },
     { label: "FAQs", value: counts.faqs, href: "/admin/faqs" },
     { label: "Blog", value: counts.lookbook, href: "/admin/lookbook" },
-    { label: "Inquiries", value: counts.inquiries, href: "/admin/inquiries" },
+    { label: "Enquiries", value: counts.inquiries, href: "/admin/enquiries", badge: counts.unreadEnquiries },
   ];
 
   const sitePages = [
@@ -52,7 +52,12 @@ export default async function Dashboard() {
       <div className="admin-stats-grid mb-8">
         {stats.map((s) => (
           <Link key={s.label} href={s.href} className={cn(GLASS, "admin-stat-card", "hover:border-gold/40", "transition-colors")}>
-            <div className={cn(TEXT_GOLD_GRADIENT, "admin-stat-card__value")}>{s.value}</div>
+            <div className={cn(TEXT_GOLD_GRADIENT, "admin-stat-card__value")}>
+              {s.value}
+              {s.badge > 0 && (
+                <span className="ml-2 text-xs text-orange align-middle">({s.badge} unread)</span>
+              )}
+            </div>
             <div className="admin-stat-card__label">{s.label}</div>
           </Link>
         ))}

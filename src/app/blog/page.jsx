@@ -10,10 +10,12 @@ import JsonLdScript from "@/components/JsonLdScript";
 import { getLookbookPosts, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
+import { getRequestLocale } from "@/lib/locale";
 import {
   blogListingMetaDescription,
   blogListingMetaTitle,
   breadcrumbJsonLd,
+  breadcrumbLabel,
   DEFAULT_OG_IMAGE,
   buildMetadata,
 } from "@/lib/seo";
@@ -39,6 +41,7 @@ export async function generateMetadata() {
 }
 
 export default async function BlogPage() {
+  const locale = await getRequestLocale();
   const [posts, site] = await Promise.all([getLookbookPosts(), getSiteSettings()]);
   const cms = site.pages?.lookbook || {};
   const cta = pageCtaProps(cms);
@@ -47,10 +50,13 @@ export default async function BlogPage() {
   return (
     <PageShell>
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Blog", path: "/blog" },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("blog", locale), path: "/blog" },
+          ],
+          locale
+        )}
       />
 
       <LocalizedPageHeader
@@ -67,10 +73,11 @@ export default async function BlogPage() {
 
       <PageSeoIntro
         links={[
-          { href: "/shop", label: "custom stitching in Patna" },
-          { href: "/courses", label: "boutique courses" },
-          { href: "/nri-clients", label: "NRI ordering help" },
+          { href: "/shop", label: "custom stitching in Patna", labelHi: "पटना में कस्टम सिलाई" },
+          { href: "/courses", label: "boutique courses", labelHi: "बुटीक कोर्स" },
+          { href: "/nri-clients", label: "NRI ordering help", labelHi: "NRI ऑर्डर सहायता" },
         ]}
+        childrenHi={cms.seoIntroHi || BLOG_DEFAULTS.seo_intro_hi}
       >
         {cms.seoIntro || BLOG_DEFAULTS.seo_intro}
       </PageSeoIntro>

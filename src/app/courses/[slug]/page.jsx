@@ -3,9 +3,11 @@ import { getCourseBySlug, getFaqs, getSiteSettings } from "@/lib/data";
 import { isCourseAvailable } from "@/lib/courses";
 import CourseDetailClient from "@/components/CourseDetailClient";
 import JsonLdScript from "@/components/JsonLdScript";
+import { getRequestLocale } from "@/lib/locale";
 import {
   buildMetadata,
   breadcrumbJsonLd,
+  breadcrumbLabel,
   courseJsonLd,
   courseMetaDescription,
   courseMetaTitle,
@@ -41,6 +43,7 @@ export async function generateMetadata({ params }) {
 
 export default async function CourseDetail({ params }) {
   const { slug } = await params;
+  const locale = await getRequestLocale();
   const [course, site, faqs] = await Promise.all([
     getCourseBySlug(slug),
     getSiteSettings(),
@@ -54,19 +57,26 @@ export default async function CourseDetail({ params }) {
       f.category === "course" ||
       f.category === course.category?.toLowerCase()
   );
-  const faqSlice = courseFaqs.length ? courseFaqs : faqs.slice(0, 6);
+  const faqSlice = (courseFaqs.length ? courseFaqs : faqs).slice(0, 6);
+  const courseTitle =
+    locale === "hi" && (course.title_hi || course.titleHi)
+      ? course.title_hi || course.titleHi
+      : course.title;
 
   return (
     <>
-      <JsonLdScript data={courseJsonLd(course, site)} />
+      <JsonLdScript data={courseJsonLd(course, site, locale)} />
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Courses", path: "/courses" },
-          { name: course.title, path: `/courses/${course.slug}` },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("courses", locale), path: "/courses" },
+            { name: courseTitle, path: `/courses/${course.slug}` },
+          ],
+          locale
+        )}
       />
-      <JsonLdScript data={faqJsonLd(faqSlice)} />
+      <JsonLdScript data={faqJsonLd(faqSlice, locale)} />
       <CourseDetailClient course={course} site={site} faqs={faqSlice} />
     </>
   );

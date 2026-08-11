@@ -5,7 +5,8 @@ import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getFaqs, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
-import { buildMetadata, faqJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { getRequestLocale } from "@/lib/locale";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, faqJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "FAQ | Boutique Courses & Custom Stitching Patna",
@@ -17,12 +18,22 @@ export const metadata = buildMetadata({
 });
 
 export default async function FaqPage() {
+  const locale = await getRequestLocale();
   const [faqs, site] = await Promise.all([getFaqs(), getSiteSettings()]);
   const faqPage = site.pages?.faq || {};
 
   return (
     <PageShell>
-      <JsonLdScript data={faqJsonLd(faqs)} />
+      <JsonLdScript data={faqJsonLd(faqs, locale)} />
+      <JsonLdScript
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("faq", locale), path: "/faq" },
+          ],
+          locale
+        )}
+      />
       <LocalizedPageHeader
         eyebrow={faqPage.headerEyebrow || "Help & FAQ"}
         eyebrowHi={faqPage.headerEyebrowHi}

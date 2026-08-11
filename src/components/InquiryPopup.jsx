@@ -4,11 +4,10 @@ import { BTN_PRIMARY, FIELD_SURFACE, GLASS, POPUP_PANEL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
 import { INQUIRY_OPEN_EVENT } from "@/lib/inquiryPopup";
 import { enquiryMessage, waLink } from "@/lib/whatsapp";
-import { trackContactConversion, trackWhatsAppClick } from "@/components/GoogleAnalytics";
+import { trackLead, trackWhatsAppClick } from "@/lib/analytics";
 
 const DISMISS_HOURS = 24;
 
@@ -85,6 +84,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
   const [preferredDate, setPreferredDate] = useState("");
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
+  const [formError, setFormError] = useState("");
   const [activeSource, setActiveSource] = useState(source);
   const userOpenedRef = useRef(false);
 
@@ -137,13 +137,14 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
   const submit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      alert(t.nameRequired);
+      setFormError(t.nameRequired);
       return;
     }
     if (!phone.trim()) {
-      alert(t.phoneRequired);
+      setFormError(t.phoneRequired);
       return;
     }
+    setFormError("");
     setSaving(true);
     const demo = isDemoSource(activeSource);
     const msgParts = [message.trim()];
@@ -151,19 +152,34 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
       msgParts.push(`Preferred demo date: ${preferredDate}`);
     }
     const fullMessage = msgParts.filter(Boolean).join("\n");
-    if (isSupabaseConfigured()) {
-      const supabase = createClient();
-      await supabase.from("contact_inquiries").insert({
-        name: name.trim(),
-        phone: phone.trim(),
-        message: fullMessage,
-        source: activeSource,
-        ...(preferredDate ? { preferred_date: preferredDate } : {}),
+    try {
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim(),
+          message: fullMessage,
+          source: activeSource,
+          source_page: window.location.pathname,
+          inquiry_type: demo ? "demo" : "contact",
+          locale: lang,
+          preferred_date: preferredDate || undefined,
+        }),
       });
+    } catch {
+      // best-effort
     }
     const href = waLink(whatsapp, enquiryMessage(name, fullMessage, phone));
-    trackContactConversion();
-    trackWhatsAppClick(href);
+    const leadType = demo ? "demo_booking" : "contact_form";
+    trackLead(leadType, {
+      cta_label: demo ? "demo_booking" : "inquiry_popup",
+      source_page: window.location.pathname,
+    });
+    trackWhatsAppClick(null, {
+      cta_label: demo ? "demo_booking" : "inquiry_popup",
+      source_page: window.location.pathname,
+    });
     window.open(href, "_blank", "noopener,noreferrer");
     setSaving(false);
     setDone(true);
@@ -240,42 +256,53 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
               {demoMode ? t.demoSubtitle : t.subtitle}
             </p>
 
-            <form onSubmit={submit} className="mt-5 sm:mt-6 space-y-3.5 sm:space-y-4">
+            <form onSubmit={submit} className="mt-5 sm:mt-6 space-y-3.5 sm:space-y-4" aria-describedby={formError ? "inquiry-form-error" : undefined} noValidate>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
+                <label htmlFor="inquiry-name" className="block text-[10px] uppercase tracking-[0.2em] text-orange-text font-semibold mb-2">
                   {t.name}
                 </label>
                 <input
+                  id="inquiry-name"
                   type="text"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (formError) setFormError("");
+                  }}
                   className={fieldClass}
                   placeholder={t.namePh}
                   autoComplete="name"
+                  required
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
+                <label htmlFor="inquiry-phone" className="block text-[10px] uppercase tracking-[0.2em] text-orange-text font-semibold mb-2">
                   {t.phone}
                 </label>
                 <input
+                  id="inquiry-phone"
                   type="tel"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    if (formError) setFormError("");
+                  }}
                   className={fieldClass}
                   placeholder={t.phonePh}
                   autoComplete="tel"
                   inputMode="tel"
+                  required
                 />
               </div>
 
               {demoMode ? (
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
+                  <label htmlFor="inquiry-date" className="block text-[10px] uppercase tracking-[0.2em] text-orange-text font-semibold mb-2">
                     {t.preferredDate}
                   </label>
                   <input
+                    id="inquiry-date"
                     type="date"
                     value={preferredDate}
                     onChange={(e) => setPreferredDate(e.target.value)}
@@ -284,10 +311,11 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
                 </div>
               ) : (
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] text-orange font-semibold mb-2">
+                  <label htmlFor="inquiry-message" className="block text-[10px] uppercase tracking-[0.2em] text-orange-text font-semibold mb-2">
                     {t.message}
                   </label>
                   <textarea
+                    id="inquiry-message"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     rows={3}
@@ -295,6 +323,12 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 4000, wh
                     placeholder={t.messagePh}
                   />
                 </div>
+              )}
+
+              {formError && (
+                <p id="inquiry-form-error" className="text-xs text-orange-text font-medium" role="alert">
+                  {formError}
+                </p>
               )}
 
               <button

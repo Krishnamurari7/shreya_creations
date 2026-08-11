@@ -16,24 +16,26 @@ import {
 } from "@/lib/cms/home-blocks";
 import {
   DEFAULT_FOUNDING_YEAR,
+  EXPRESS_DELIVERY_DISCLAIMER,
   SITE_FACTS,
 } from "@/lib/site-config";
-import SeoSubheadings from "@/components/SeoSubheadings";
+import OptimizedImage from "@/components/OptimizedImage";
+import { heroServiceImageAlt, MEDIA } from "@/lib/media";
 
 const HERO_STATS_EN = [
   { icon: "trust", highlight: "years", line1: "Years of Trust", line2: "Since 2012" },
   { icon: "clients", highlight: "students", line1: "Happy", line2: "Students" },
   { icon: "delivered", highlight: "outfits", line1: "Outfits", line2: "Delivered" },
-  { icon: "training", highlight: "100%", line1: "Practical", line2: "Training" },
-  { icon: "placement", highlight: "100%", line1: "Placement", line2: "Assistance" },
+  { icon: "training", highlight: "Practical", line1: "Hands-on", line2: "Training" },
+  { icon: "placement", highlight: "Placement", line1: "Career", line2: "Assistance" },
 ];
 
 const HERO_STATS_HI = [
   { icon: "trust", highlight: "years", line1: "वर्षों का भरोसा", line2: "2012 से" },
   { icon: "clients", highlight: "students", line1: "खुश", line2: "छात्र" },
   { icon: "delivered", highlight: "outfits", line1: "आउटफिट", line2: "डिलीवर" },
-  { icon: "training", highlight: "100%", line1: "प्रैक्टिकल", line2: "ट्रेनिंग" },
-  { icon: "placement", highlight: "100%", line1: "प्लेसमेंट", line2: "सहायता" },
+  { icon: "training", highlight: "प्रैक्टिकल", line1: "हाथों-हाथ", line2: "ट्रेनिंग" },
+  { icon: "placement", highlight: "प्लेसमेंट", line1: "करियर", line2: "सहायता" },
 ];
 
 function HeroStatIcon({ type }) {
@@ -137,14 +139,16 @@ function HeroVideoVolumeOffIcon() {
   );
 }
 
-function HeroAutoplayVideo({ src, alt, lang = "en" }) {
+function HeroFacadeVideo({ src, poster, alt, lang = "en" }) {
   const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [active, setActive] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
+    if (!active) return undefined;
     const video = videoRef.current;
-    if (!video) return;
+    if (!video) return undefined;
 
     const play = () => {
       video.play().catch(() => {});
@@ -156,11 +160,11 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
 
     video.addEventListener("loadeddata", play);
     return () => video.removeEventListener("loadeddata", play);
-  }, [src]);
+  }, [active, src]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return undefined;
+    if (!video || !active) return undefined;
 
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
@@ -171,7 +175,12 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
       video.removeEventListener("play", onPlay);
       video.removeEventListener("pause", onPause);
     };
-  }, [src]);
+  }, [active, src]);
+
+  const activate = useCallback((event) => {
+    event.stopPropagation();
+    setActive(true);
+  }, []);
 
   const togglePlay = useCallback((event) => {
     event.stopPropagation();
@@ -196,8 +205,35 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
     setIsMuted(nextMuted);
   }, []);
 
-  const playLabel = lang === "hi" ? (isPlaying ? "रोकें" : "चलाएं") : isPlaying ? "Pause" : "Play";
+  const playLabel =
+    lang === "hi" ? (active ? (isPlaying ? "रोकें" : "चलाएं") : "वीडियो चलाएं") : active ? (isPlaying ? "Pause" : "Play") : "Play video";
   const muteLabel = lang === "hi" ? (isMuted ? "आवाज़ चालू करें" : "आवाज़ बंद करें") : isMuted ? "Unmute" : "Mute";
+
+  if (!active) {
+    return (
+      <>
+        <OptimizedImage
+          src={poster}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 44vw, 220px"
+          className="home-hero__video-thumb object-cover"
+        />
+        <div className="home-hero__video-overlay" aria-hidden>
+          <button
+            type="button"
+            className="home-hero__video-play home-hero__video-play--btn"
+            onClick={activate}
+            aria-label={playLabel}
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -205,7 +241,7 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
         ref={videoRef}
         className="home-hero__video-media"
         src={src}
-        autoPlay
+        poster={poster}
         loop
         muted={isMuted}
         playsInline
@@ -469,11 +505,17 @@ function HeroVideoCard({
           {watchLabel}
         </span>
         {videoSrc ? (
-          <HeroAutoplayVideo src={videoSrc} alt={alt} lang={lang} />
+          <HeroFacadeVideo src={videoSrc} poster={thumb} alt={alt} lang={lang} />
         ) : (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={thumb} alt={alt} className="home-hero__video-thumb" loading="eager" />
+            <OptimizedImage
+              src={thumb}
+              alt={alt}
+              fill
+              sizes="(max-width: 768px) 44vw, 220px"
+              className="home-hero__video-thumb object-cover"
+              loading="lazy"
+            />
             <div className="home-hero__video-overlay" aria-hidden>
               <span className="home-hero__video-play">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -524,8 +566,8 @@ function HeroVideoCard({
 export default function HeroSection({ home = {}, lang = "en", phone: _phone = "", whatsapp: _whatsapp = "", site = {} }) {
   const defaultHeroBadge =
     lang === "hi"
-      ? "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट"
-      : "Bihar's No. 1 Boutique And Fashion Institute";
+      ? "पटना का भरोसेमंद फैशन बुटीक इंस्टिट्यूट"
+      : "Patna's Trusted Fashion Boutique Institute";
   const heroBadge =
     pickPage(home, lang, "heroBoutiqueBadge", "heroBoutiqueBadgeHi") ||
     pickPage(home, lang, "heroBadge", "heroBadgeHi") ||
@@ -533,10 +575,9 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
   const defaultHeroTitle =
     lang === "hi"
-      ? "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट"
-      : "Best Designer Boutique & Fashion Designing Institute";
-  const defaultHeroHighlight =
-    lang === "hi" ? "बोरिंग रोड, पटना, बिहार में" : "in Boring Road, Patna, Bihar";
+      ? "बोरिंग रोड, पटना में डिज़ाइनर बुटीक और फैशन इंस्टिट्यूट"
+      : "Designer Boutique & Fashion Institute on Boring Road, Patna";
+  const defaultHeroHighlight = "";
   const defaultHeroSubtitle =
     lang === "hi"
       ? "2012 से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।"
@@ -609,25 +650,20 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     }));
   }, [home.heroFeatureStrip, lang]);
 
-  const demoThumb = home.heroDemoThumb || "/slider1.png";
-  const bookThumb = home.heroBookThumb || "/slider2.png";
+  const demoThumb = home.heroDemoThumb || MEDIA.slider1;
+  const bookThumb = home.heroBookThumb || MEDIA.slider2;
   const heroLocalVideo = home.heroLocalVideo || "/video-1.mp4";
   const heroBookLocalVideo = home.heroBookLocalVideo || "/video-2.mp4";
 
   const demoMsg = demoClassMessage(lang);
   const premiumCourseMsg = premiumStitchingCourseMessage(lang);
-  const fashionCourseMsg =
-    lang === "hi"
-      ? "नमस्ते श्रेया क्रिएशन! 👋 मैं फैशन डिज़ाइनिंग कोर्स बुक करना चाहता/चाहती हूँ। कृपया विवरण भेजें।"
-      : "Hi Shreya Creation! 👋 I want to BOOK the FASHION DESIGNING COURSE. Please share the details.";
-  const boutiqueMasterMsg =
-    lang === "hi"
-      ? "नमस्ते श्रेया क्रिएशन! 👋 मैं बुटीक मास्टर कोर्स बुक करना चाहता/चाहती हूँ। कृपया विवरण भेजें।"
-      : "Hi Shreya Creation! 👋 I want to BOOK the BOUTIQUE MASTER COURSE. Please share the details.";
 
   const openHeroInquiryForm = (source, message) => {
     openInquiryPopup({ source, message });
   };
+
+  const shopHref = lang === "hi" ? "/hi/shop" : "/shop";
+  const coursesHref = lang === "hi" ? "/hi/courses" : "/courses";
 
   const serviceBookMessage = (card) => {
     if (lang === "hi") {
@@ -636,82 +672,19 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     return `Hi Shreya Creation! 👋 I want to BOOK *${card.title}*. Please share the details.`;
   };
 
-  const courseCtas =
-    lang === "hi"
-      ? [
-          {
-            key: "fashion",
-            variant: "filled",
-            icon: <GradCapIcon />,
-            line1: "फैशन डिज़ाइनिंग",
-            line2: "कोर्स बुक करें",
-            source: "hero_fashion_course",
-            message: fashionCourseMsg,
-          },
-          {
-            key: "boutique",
-            variant: "outline",
-            icon: <HeroCrownIcon />,
-            line1: "बुटीक मास्टर",
-            line2: "कोर्स बुक करें",
-            source: "hero_boutique_master",
-            message: boutiqueMasterMsg,
-          },
-          {
-            key: "premium",
-            variant: "outline",
-            icon: <SewingMachineIcon />,
-            line1: "प्रीमियम सिलाई",
-            line2: "कोर्स बुक करें",
-            source: "hero_premium_stitching",
-            message: premiumCourseMsg,
-          },
-        ]
-      : [
-          {
-            key: "fashion",
-            variant: "filled",
-            icon: <GradCapIcon />,
-            line1: "BOOK FASHION",
-            line2: "DESIGNING COURSE",
-            source: "hero_fashion_course",
-            message: fashionCourseMsg,
-          },
-          {
-            key: "boutique",
-            variant: "outline",
-            icon: <HeroCrownIcon />,
-            line1: "BOOK BOUTIQUE",
-            line2: "MASTER COURSE",
-            source: "hero_boutique_master",
-            message: boutiqueMasterMsg,
-          },
-          {
-            key: "premium",
-            variant: "outline",
-            icon: <SewingMachineIcon />,
-            line1: "BOOK PREMIUM",
-            line2: "STITCHING",
-            source: "hero_premium_stitching",
-            message: premiumCourseMsg,
-          },
-        ];
-
   return (
     <section
       className={`home-hero home-hero--boutique${lang === "hi" ? " home-hero--hi" : ""}`}
       aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
     >
       <div className="home-hero__ambient" aria-hidden>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/background.png"
+        <OptimizedImage
+          src={MEDIA.background}
           alt=""
-          className="home-hero__bg-image"
-          width={1920}
-          height={1080}
-          decoding="async"
-          fetchPriority="high"
+          fill
+          priority
+          sizes="100vw"
+          className="home-hero__bg-image object-cover"
         />
         <span className="home-hero__bg-overlay" />
       </div>
@@ -748,61 +721,90 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                   </p>
                 ) : null}
 
-                <div className={cn(ANIM_RISE, "home-hero__action-row", "anim-delay-3")}>
-                  {courseCtas.map((cta) => (
-                    <HeroCourseCta
-                      key={cta.key}
-                      variant={cta.variant}
-                      icon={cta.icon}
-                      line1={cta.line1}
-                      line2={cta.line2}
-                      onClick={() => openHeroInquiryForm(cta.source, cta.message)}
-                    />
-                  ))}
+                <div className={cn(ANIM_RISE, "home-hero__action-row", "home-hero__doors", "anim-delay-3")}>
+                  <Link href={shopHref} className="home-hero__door home-hero__door--boutique">
+                    <span className="home-hero__door-icon" aria-hidden>
+                      <SewingMachineIcon />
+                    </span>
+                    <span className="home-hero__door-label">
+                      <span className="home-hero__door-label-hi">कपड़े सिलवाएं</span>
+                      <span className="home-hero__door-label-en">Get an outfit stitched</span>
+                    </span>
+                  </Link>
+                  <Link href={coursesHref} className="home-hero__door home-hero__door--courses">
+                    <span className="home-hero__door-icon" aria-hidden>
+                      <GradCapIcon />
+                    </span>
+                    <span className="home-hero__door-label">
+                      <span className="home-hero__door-label-hi">फैशन डिज़ाइनिंग सीखें</span>
+                      <span className="home-hero__door-label-en">Learn fashion designing</span>
+                    </span>
+                  </Link>
                 </div>
+
+                <p className={cn(ANIM_RISE, "home-hero__demo-link-wrap", "anim-delay-3")}>
+                  <button
+                    type="button"
+                    className="home-hero__demo-link"
+                    onClick={() => openHeroInquiryForm("hero_demo_link", demoMsg)}
+                  >
+                    {lang === "hi" ? "मुफ़्त डेमो क्लास बुक करें" : "Book Free Demo Class"}
+                  </button>
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="home-hero__visual anim-hero-media">
-            <div className="home-hero__videos">
-              <HeroVideoCard
-                lang={lang}
-                watchLabel={lang === "hi" ? "वीडियो देखें" : "Watch Video"}
-                headerLabel={lang === "hi" ? "फ्री डेमो क्लास" : "FREE DEMO CLASS"}
-                footerTitle={lang === "hi" ? "फ्री डेमो क्लास बुक करें" : "BOOK FREE DEMO CLASS"}
-                footerSub={lang === "hi" ? "सीखें। प्रैक्टिस करें। कमाएँ।" : "Learn. Practice. Earn."}
-                footerIcon={<GradCapIcon />}
-                thumb={demoThumb}
-                alt={lang === "hi" ? "पटना में डेमो क्लास और फैशन ट्रेनिंग" : "fashion designing demo class in Patna"}
-                videoSrc={heroLocalVideo}
-                href="/contact"
-                onVideoClick={() => openHeroInquiryForm("hero_demo_video", demoMsg)}
-              />
-              <HeroVideoCard
-                lang={lang}
-                offset
-                watchLabel={lang === "hi" ? "वीडियो देखें" : "Watch Video"}
-                headerLabel={lang === "hi" ? "बुटीक सिलाई" : "BOUTIQUE STITCHING"}
-                footerTitle={
-                  lang === "hi"
-                    ? "पटना बिहार में बेस्ट डिज़ाइनर बुटीक"
-                    : "Best Designer Boutique in Patna Bihar"
-                }
-                footerSub={lang === "hi" ? "24 घंटे में डिलीवर" : "Delivered in 24 Hours"}
-                footerIcon={<SewingMachineIcon />}
-                thumb={bookThumb}
-                alt={lang === "hi" ? "पटना में ब्राइडल लहंगा सिलाई" : "bridal lehenga stitching in Patna"}
-                videoSrc={heroBookLocalVideo}
-                href="/contact"
-                onVideoClick={() => openHeroInquiryForm("hero_book_video", premiumCourseMsg)}
-              />
-            </div>
+          <div className="home-hero__visual anim-hero-media home-hero__visual--brand">
+            <OptimizedImage
+              src={bookThumb}
+              alt={lang === "hi" ? "पटना में डिज़ाइनर बुटीक और फैशन इंस्टिट्यूट" : "Designer boutique and fashion institute in Patna"}
+              width={480}
+              height={560}
+              sizes="(max-width: 768px) 70vw, 420px"
+              className="home-hero__brand-image"
+              priority
+            />
           </div>
         </div>
       </div>
 
       <div className="home-hero__lower">
+        <div className={cn(PAGE_CONTAINER, "home-hero__videos-row")}>
+          <div className="home-hero__videos">
+            <HeroVideoCard
+              lang={lang}
+              watchLabel={lang === "hi" ? "वीडियो देखें" : "Watch Video"}
+              headerLabel={lang === "hi" ? "फ्री डेमो क्लास" : "FREE DEMO CLASS"}
+              footerTitle={lang === "hi" ? "फ्री डेमो क्लास बुक करें" : "BOOK FREE DEMO CLASS"}
+              footerSub={lang === "hi" ? "सीखें। प्रैक्टिस करें। कमाएँ।" : "Learn. Practice. Earn."}
+              footerIcon={<GradCapIcon />}
+              thumb={demoThumb}
+              alt={lang === "hi" ? "पटना में डेमो क्लास और फैशन ट्रेनिंग" : "fashion designing demo class in Patna"}
+              videoSrc={heroLocalVideo}
+              href="/contact"
+              onVideoClick={() => openHeroInquiryForm("hero_demo_video", demoMsg)}
+            />
+            <HeroVideoCard
+              lang={lang}
+              offset
+              watchLabel={lang === "hi" ? "वीडियो देखें" : "Watch Video"}
+              headerLabel={lang === "hi" ? "बुटीक सिलाई" : "BOUTIQUE STITCHING"}
+              footerTitle={
+                lang === "hi"
+                  ? "पटना बिहार में बेस्ट डिज़ाइनर बुटीक"
+                  : "Best Designer Boutique in Patna Bihar"
+              }
+              footerSub={lang === "hi" ? "24 घंटे में डिलीवर*" : "Delivered in 24 Hours*"}
+              footerIcon={<SewingMachineIcon />}
+              thumb={bookThumb}
+              alt={lang === "hi" ? "पटना में ब्राइडल लहंगा सिलाई" : "bridal lehenga stitching in Patna"}
+              videoSrc={heroBookLocalVideo}
+              href="/contact"
+              onVideoClick={() => openHeroInquiryForm("hero_book_video", premiumCourseMsg)}
+            />
+          </div>
+        </div>
         <div className="home-hero__stats-bar" aria-label={lang === "hi" ? "मुख्य आंकड़े" : "Key highlights"}>
           <div className="home-hero__stats-inner">
             {stats.map((stat, i) => (
@@ -832,15 +834,25 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                     ? "पटना, बिहार में डिज़ाइनर बुटीक"
                     : "Designer Boutique in Patna, Bihar")}
               </h2>
-              <SeoSubheadings
-                className="home-hero__seo-h3"
-                linkHref="/shop"
-                items={
-                  lang === "hi"
-                    ? ["लेडीज़ बुटीक बोरिंग रोड पटना", "लेडीज़ टेलर बोरिंग कैनाल रोड"]
-                    : ["Ladies Boutique Boring Road Patna", "Ladies Tailors Boring Canal Road"]
-                }
-              />
+              <p className="home-hero__services-context">
+                {lang === "hi" ? (
+                  <>
+                    बोरिंग रोड पर हमारे{" "}
+                    <Link href="/shop" className="home-hero__context-link">
+                      डिज़ाइनर बुटीक
+                    </Link>{" "}
+                    में कस्टम सिलाई, ब्राइडल लहंगा और डिज़ाइनर ब्लाउज उपलब्ध हैं।
+                  </>
+                ) : (
+                  <>
+                    Our{" "}
+                    <Link href="/shop" className="home-hero__context-link">
+                      designer boutique on Boring Road
+                    </Link>{" "}
+                    offers custom stitching, bridal lehengas, and designer blouses.
+                  </>
+                )}
+              </p>
             </div>
 
             <div className="home-hero__services-track" role="list">
@@ -853,8 +865,14 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                     )}
                   >
                     {card.image ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={card.image} alt="" className="home-hero__service-img" loading="lazy" decoding="async" />
+                      <OptimizedImage
+                        src={card.image}
+                        alt={heroServiceImageAlt(card.key, lang)}
+                        fill
+                        sizes="(max-width: 640px) 40vw, 180px"
+                        loading="lazy"
+                        className="home-hero__service-img object-cover"
+                      />
                     ) : (
                       <div className="home-hero__service-clock" aria-hidden>
                         <span className="home-hero__service-clock-face">
@@ -882,6 +900,9 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                 </article>
               ))}
             </div>
+            <p className="home-hero__express-note text-subtle text-xs sm:text-sm mt-3 max-w-3xl mx-auto text-center px-2">
+              {EXPRESS_DELIVERY_DISCLAIMER[lang === "hi" ? "hi" : "en"]}
+            </p>
 
             <div className="home-hero__feature-strip" aria-label={lang === "hi" ? "मुख्य विशेषताएँ" : "Key features"}>
               {featureStrip.map((item) => (

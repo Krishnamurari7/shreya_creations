@@ -114,7 +114,7 @@ export default function PageCTA({
 
             <div className="page-cta__ornament" aria-hidden>
               <span />
-              <span className={cn(SPARKLE_PULSE, "page-cta__ornament-gem")}>✦</span>
+              <span className={cn(SPARKLE_PULSE, "page-cta__ornament-gem")} aria-hidden>✦</span>
               <span />
             </div>
 
@@ -139,6 +139,7 @@ export default function PageCTA({
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-cta="page_cta"
                 className="page-cta__btn page-cta__btn--primary"
               >
                 <span className="page-cta__btn-shine" aria-hidden />

@@ -2,11 +2,10 @@
 
 import { BTN_PRIMARY, INTERACTIVE_CARD, REVEAL } from "@/lib/ui";
 import { useState } from "react";
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { waLink, enquiryMessage } from "@/lib/whatsapp";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
-import { trackContactConversion, trackWhatsAppClick } from "@/components/GoogleAnalytics";
+import { trackLead, trackWhatsAppClick } from "@/lib/analytics";
 import { UI } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -69,18 +68,26 @@ export default function ContactForm({ number }) {
     }
     setError("");
     setSaving(true);
-    if (isSupabaseConfigured()) {
-      const supabase = createClient();
-      await supabase.from("contact_inquiries").insert({
-        name: name.trim(),
-        phone: phone.trim(),
-        message: msg.trim(),
-        source: "contact_form",
+    try {
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim(),
+          message: msg.trim(),
+          source: "contact_form",
+          source_page: typeof window !== "undefined" ? window.location.pathname : "/contact",
+          inquiry_type: "contact",
+          locale: lang,
+        }),
       });
+    } catch {
+      // WhatsApp still opens — DB insert is best-effort
     }
     const href = waLink(number, enquiryMessage(name, msg, phone));
-    trackContactConversion();
-    trackWhatsAppClick(href);
+    trackLead("contact_form", { cta_label: "contact_form", source_page: window.location.pathname });
+    trackWhatsAppClick(null, { cta_label: "contact_form", source_page: window.location.pathname });
     window.open(href, "_blank");
     setSaving(false);
   };
@@ -107,7 +114,7 @@ export default function ContactForm({ number }) {
           </span>
         </div>
 
-        <form onSubmit={send} className="space-y-4 sm:space-y-5" noValidate>
+        <form onSubmit={send} className="space-y-4 sm:space-y-5" noValidate aria-describedby={error ? "contact-form-error" : undefined}>
           <div>
             <label htmlFor="contact-name" className="contact-field-label">
               {t.name}
@@ -180,7 +187,7 @@ export default function ContactForm({ number }) {
           </div>
 
           {error && (
-            <p className="text-xs text-orange font-medium text-center sm:text-left" role="alert">
+            <p id="contact-form-error" className="text-xs text-orange-text font-medium text-center sm:text-left" role="alert">
               {error}
             </p>
           )}

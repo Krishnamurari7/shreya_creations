@@ -1,9 +1,11 @@
 import PageShell from "@/components/PageShell";
 import AboutClient from "@/components/AboutClient";
 import PageCTA from "@/components/PageCTA";
+import JsonLdScript from "@/components/JsonLdScript";
 import { getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
-import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { getRequestLocale } from "@/lib/locale";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "About Shreya Creation | Fashion Boutique Institute in Patna",
@@ -15,11 +17,21 @@ export const metadata = buildMetadata({
 });
 
 export default async function AboutPage() {
+  const locale = await getRequestLocale();
   const site = await getSiteSettings();
   const about = site.pages?.about || {};
 
   return (
     <PageShell>
+      <JsonLdScript
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("about", locale), path: "/about" },
+          ],
+          locale
+        )}
+      />
       <AboutClient site={site} aboutPage={about} />
       <PageCTA
         whatsapp={site.whatsapp}

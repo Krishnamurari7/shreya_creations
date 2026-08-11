@@ -51,30 +51,36 @@ export default function LoginPage() {
         </div>
       )}
 
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-4" noValidate aria-describedby={error ? "login-error" : undefined}>
         <div>
-          <label className="block text-xs uppercase tracking-wide text-gold/70 mb-1">Email</label>
+          <label htmlFor="login-email" className="block text-xs uppercase tracking-wide text-gold/70 mb-1">Email</label>
           <input
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full bg-ink/5 border border-gold/20 rounded-xl px-4 py-3 text-ink focus:border-gold/60 focus:outline-none"
-            placeholder="owner@shreyacreations.in"
+            className="w-full bg-ink/5 border border-gold/20 rounded-xl px-4 py-3 text-ink focus:border-gold/60 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-orange-text"
+            placeholder="owner@shreyacreation.com"
           />
         </div>
         <div>
-          <label className="block text-xs uppercase tracking-wide text-gold/70 mb-1">Password</label>
+          <label htmlFor="login-password" className="block text-xs uppercase tracking-wide text-gold/70 mb-1">Password</label>
           <input
+            id="login-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full bg-ink/5 border border-gold/20 rounded-xl px-4 py-3 text-ink focus:border-gold/60 focus:outline-none"
+            className="w-full bg-ink/5 border border-gold/20 rounded-xl px-4 py-3 text-ink focus:border-gold/60 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-orange-text"
             placeholder="••••••••"
           />
         </div>
-        {error && <p className="text-rose text-sm">{error}</p>}
+        {error && (
+          <p id="login-error" className="text-rose text-sm" role="alert">
+            {error}
+          </p>
+        )}
         <button disabled={loading} className={cn(BTN_PRIMARY, "w-full")}>
           {loading ? "Signing in…" : "Sign in"}
         </button>

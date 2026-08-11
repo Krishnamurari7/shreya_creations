@@ -8,11 +8,13 @@ import CategoryCards from "@/components/CategoryCards";
 import { Testimonials } from "@/components/Sections";
 import { DesignProcess } from "@/components/FashionSections";
 import { useLanguage } from "@/components/LanguageProvider";
+import { resolveFounderImage, MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
 import InquiryPopup from "@/components/InquiryPopup";
 import HeroSection from "@/components/HeroSection";
 import HomePortfolioPreview from "@/components/HomePortfolioPreview";
 import HomeCoursesPreview from "@/components/HomeCoursesPreview";
+import InstagramFeed from "@/components/InstagramFeed";
 
 function SectionHeader({
   home,
@@ -188,8 +190,8 @@ export default function HomepageClient({
   const { lang } = useLanguage();
   const home = site.pages?.home || {};
 
-  const founderImage = home.founderImage || "/133.png";
-  const mentorImage = home.mentorImage || "/hero_studio_banner.png";
+  const founderImage = resolveFounderImage(home.founderImage, MEDIA.founderSanjay);
+  const mentorImage = resolveFounderImage(home.mentorImage, MEDIA.founderShreya);
 
   const founderSlides = useMemo(
     () => [
@@ -239,6 +241,11 @@ export default function HomepageClient({
 
       {/* ===== PORTFOLIO PREVIEW ===== */}
       <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
+
+      {/* ===== INSTAGRAM FEED (lazy, below fold) ===== */}
+      <section className="home-instagram-band relative z-20 overflow-hidden">
+        <InstagramFeed handle={site.instagramHandle || "shreya.creationss"} lang={lang} />
+      </section>
 
       {/* ===== STUDENT SUCCESS ===== */}
       <section id="testimonials" className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "overflow-hidden", "min-w-0")}>

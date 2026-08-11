@@ -4,7 +4,8 @@ import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import { getPolicyPage } from "@/lib/data";
 import PolicyBody from "@/components/PolicyBody";
 import JsonLdScript from "@/components/JsonLdScript";
-import { buildMetadata, breadcrumbJsonLd, DEFAULT_OG_IMAGE, seoDescription } from "@/lib/seo";
+import { getRequestLocale } from "@/lib/locale";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE, seoDescription } from "@/lib/seo";
 
 const SLUGS = ["privacy", "shipping", "returns", "terms", "course-cancellation"];
 
@@ -32,16 +33,24 @@ export async function generateMetadata({ params }) {
 
 export default async function PolicyPage({ params }) {
   const { slug } = await params;
+  const locale = await getRequestLocale();
   const page = await getPolicyPage(slug);
   if (!page) notFound();
+
+  const pageTitle =
+    locale === "hi" && page.titleHi ? page.titleHi : page.title;
 
   return (
     <PageShell>
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: page.title, path: `/policies/${slug}` },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("policies", locale), path: "/policies/privacy" },
+            { name: pageTitle, path: `/policies/${slug}` },
+          ],
+          locale
+        )}
       />
       <LocalizedPageHeader
         eyebrow="Policies"

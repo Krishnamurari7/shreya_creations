@@ -14,7 +14,9 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import CourseCard from "@/components/CourseCard";
 import { pickPage } from "@/lib/cms";
-import { isAddonCourse, isCourseAvailable } from "@/lib/courses";
+import { isAddonCourse, isCourseAvailable, isFlagshipCourse, FLAGSHIP_COURSE_SLUGS } from "@/lib/courses";
+import FeeStructureLeadMagnet from "@/components/FeeStructureLeadMagnet";
+import NextBatchBanner from "@/components/NextBatchBanner";
 import { useLanguage } from "@/components/LanguageProvider";
 import { openInquiryPopup } from "@/lib/inquiryPopup";
 import { demoClassMessage } from "@/lib/whatsapp";
@@ -22,11 +24,11 @@ import { SITE_STATS } from "@/lib/seed";
 import {
   DEFAULT_EXPRESS_DELIVERY_HOURS,
   DEFAULT_STUDENTS_TAUGHT,
-  SITE_FACTS,
+  COURSE_COUNT,
 } from "@/lib/site-config";
-import SeoSubheadings from "@/components/SeoSubheadings";
 
-const HOME_COURSE_LIMIT = 4;
+const FLAGSHIP_LIMIT = 4;
+const ADDON_LIMIT = 4;
 
 const FILTER_TABS = [
   {
@@ -85,22 +87,16 @@ const FILTER_TABS = [
 const TRUST_BADGES = [
   { icon: "shield", key: "years" },
   { icon: "book", key: "courses" },
-  { icon: "scissors", en: "100% Practical Training", hi: "100% प्रैक्टिकल ट्रेनिंग" },
+  { icon: "scissors", en: "Hands-on Practical Training", hi: "हाथों-हाथ प्रैक्टिकल ट्रेनिंग" },
   { icon: "briefcase", en: "Internship & Placement Support", hi: "इंटर्नशिप व प्लेसमेंट सपोर्ट" },
 ];
 
 const FEATURE_STRIP = [
-  { icon: "scissors", en: "100% Practical Training", hi: "100% प्रैक्टिकल ट्रेनिंग" },
+  { icon: "scissors", en: "Hands-on Practical Training", hi: "हाथों-हाथ प्रैक्टिकल ट्रेनिंग" },
   { icon: "certificate", en: "Certificate After Completion", hi: "कोर्स पूरा करने पर सर्टिफिकेट" },
   { icon: "internship", en: "Internship Support", hi: "इंटर्नशिप सपोर्ट" },
   { icon: "placement", en: "Placement Support", hi: "प्लेसमेंट सपोर्ट" },
   { icon: "kit", en: "Free Kit For Practice", hi: "प्रैक्टिस के लिए फ्री किट" },
-];
-
-const POPULAR_KEYWORDS = [
-  { en: "Boutique Course in Boring Road", hi: "बोरिंग रोड में बुटीक कोर्स" },
-  { en: "Fashion Designing Course in Patna", hi: "पटना में फैशन डिज़ाइनिंग कोर्स" },
-  { en: "Silai Course Patna Bihar", hi: "सिलाई कोर्स पटना बिहार" },
 ];
 
 function TabIcon({ type }) {
@@ -317,6 +313,22 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
     [courses]
   );
 
+  const courseBySlug = useMemo(() => {
+    const map = new Map();
+    courses.forEach((c) => {
+      if (c?.slug) map.set(c.slug, c);
+    });
+    return map;
+  }, [courses]);
+
+  const flagshipCourses = useMemo(() => {
+    return FLAGSHIP_COURSE_SLUGS.map((slug) => courseBySlug.get(slug)).filter(Boolean).slice(0, FLAGSHIP_LIMIT);
+  }, [courseBySlug]);
+
+  const addonCourses = useMemo(() => {
+    return availableCourses.filter((c) => isAddonCourse(c)).slice(0, ADDON_LIMIT);
+  }, [availableCourses]);
+
   const visibleTabs = useMemo(() => {
     return FILTER_TABS.filter((tab) => {
       if (tab.id === "all") return true;
@@ -327,13 +339,19 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
   const [active, setActive] = useState("all");
 
   const filtered = useMemo(() => {
+    if (active === "short") {
+      return availableCourses.filter((c) => isAddonCourse(c)).slice(0, ADDON_LIMIT);
+    }
     const tab = FILTER_TABS.find((t) => t.id === active) || FILTER_TABS[0];
-    return availableCourses.filter((c) => tab.match(c)).slice(0, HOME_COURSE_LIMIT);
+    const matched = availableCourses.filter((c) => tab.match(c));
+    const flagships = matched.filter((c) => isFlagshipCourse(c));
+    const rest = matched.filter((c) => !isFlagshipCourse(c));
+    return [...flagships, ...rest].slice(0, FLAGSHIP_LIMIT);
   }, [availableCourses, active]);
 
-  if (!availableCourses.length) return null;
+  if (!courses.length) return null;
 
-  const courseCount = site.coursesCount || courses.filter((c) => !c.is_addon).length || courses.length || Number(SITE_FACTS.coursesCount);
+  const courseCount = site.coursesCount ? `${site.coursesCount}+` : COURSE_COUNT;
   const yearsExp = site.yearsExperience ?? Number(SITE_FACTS.yearsOfExperience.replace(/\+$/, ""));
   const students = site.studentsTaught || DEFAULT_STUDENTS_TAUGHT;
   const expressH = site.expressDeliveryHours || DEFAULT_EXPRESS_DELIVERY_HOURS;
@@ -349,7 +367,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
       return hi ? `${students}+ संतुष्ट छात्र` : `${students}+ Happy Students`;
     }
     if (item.key === "express") {
-      return hi ? `${expressH} घंटे सिलाई डिलीवरी` : `${expressH} Hours Stitching Delivery`;
+      return hi ? `${expressH} घंटे सिलाई डिलीवरी*` : `${expressH} Hours Stitching Delivery*`;
     }
     return hi ? item.hi : item.en;
   };
@@ -388,11 +406,14 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
   const demoNote =
     pickPage(home, lang, "coursesDemoNote", "coursesDemoNoteHi") ||
     (hi ? "सीमित सीटें — आज ही एनरोल करें!" : "Limited Seats – Enroll Today!");
-  const whyTitle =
-    pickPage(home, lang, "coursesWhyTitle", "coursesWhyTitleHi") ||
+  const addonTitle =
+    pickPage(home, lang, "coursesAddonTitle", "coursesAddonTitleHi") ||
+    (hi ? "शॉर्ट ऐड-ऑन मॉड्यूल" : "Short add-on modules");
+  const addonSubtitle =
+    pickPage(home, lang, "coursesAddonSubtitle", "coursesAddonSubtitleHi") ||
     (hi
-      ? "बुटीक मास्टर कोर्स और फैशन डिज़ाइनिंग कोर्स"
-      : "Boutique Master Course & Fashion Designing Course");
+      ? "मौजूदा छात्रों के लिए — नए एनरोलमेंट से पहले मुख्य कोर्स देखें।"
+      : "For existing students — explore flagship courses first if you are new.");
   const openDemo = () => {
     openInquiryPopup({
       source: "home_courses_demo",
@@ -418,6 +439,7 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
       <div className={cn(PAGE_CONTAINER, "min-w-0", "w-full")}>
         {/* Header */}
         <div className={cn(REVEAL, "home-courses-preview__intro", "in")}>
+          <NextBatchBanner site={site} lang={lang} />
           <span className="home-courses-preview__eyebrow">
             <span aria-hidden>+</span>
             {eyebrow}
@@ -481,11 +503,11 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
           </Link>
         </div>
 
-        {/* Course cards */}
+        {/* Flagship course cards */}
         <div className="home-courses-preview__grid">
-          {filtered.map((course, i) => (
+          {(active === "all" ? flagshipCourses : filtered).map((course, i) => (
             <div
-              key={course.id ?? course.slug ?? `course-${i}`}
+              key={course.id ?? course.slug ?? `flagship-${i}`}
               className={cn(REVEAL, REVEAL_ZOOM, "in", "min-w-0", "h-full")}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
@@ -499,13 +521,35 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
           ))}
         </div>
 
-        {!filtered.length && (
+        {!flagshipCourses.length && !filtered.length && (
           <p className="home-courses-preview__empty">
             {hi
               ? "इस श्रेणी में अभी कोई कोर्स उपलब्ध नहीं है।"
               : "No courses are currently open in this category."}
           </p>
         )}
+
+        {addonCourses.length > 0 && active !== "short" && (
+          <div className={cn(REVEAL, "home-courses-preview__addon-section", "in", "mt-10", "sm:mt-12")}>
+            <h3 className="home-courses-preview__addon-title">{addonTitle}</h3>
+            <p className="home-courses-preview__addon-sub text-sm text-muted mt-1 mb-4">{addonSubtitle}</p>
+            <div className="home-courses-preview__grid home-courses-preview__grid--addon">
+              {addonCourses.map((course, i) => (
+                <div
+                  key={course.id ?? course.slug ?? `addon-${i}`}
+                  className={cn(REVEAL, REVEAL_ZOOM, "in", "min-w-0", "h-full")}
+                  style={{ transitionDelay: `${i * 60}ms` }}
+                >
+                  <CourseCard course={course} variant="featured" featuredIndex={i} lang={lang} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className={cn(REVEAL, "mt-8", "sm:mt-10", "in")}>
+          <FeeStructureLeadMagnet lang={lang} />
+        </div>
 
         {/* Feature strip */}
         <ul className={cn(REVEAL, "home-courses-preview__features", "in")}>
@@ -556,12 +600,31 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
       {/* Course SEO H2 + H3 keywords */}
       <div className="home-courses-preview__keywords" aria-label={hi ? "कोर्स कीवर्ड" : "Course keywords"}>
         <div className={cn(PAGE_CONTAINER, "home-courses-preview__keywords-inner")}>
-          <h2 className="home-courses-preview__why-title">{whyTitle}</h2>
-          <SeoSubheadings
-            className="home-courses-preview__seo-h3"
-            linkHref="/courses"
-            items={POPULAR_KEYWORDS.map((kw) => (hi ? kw.hi : kw.en))}
-          />
+          <h2 className="home-courses-preview__why-title">
+            {pickPage(home, lang, "coursesWhyTitle", "coursesWhyTitleHi") ||
+              (hi
+                ? "बुटीक मास्टर कोर्स और फैशन डिज़ाइनिंग कोर्स"
+                : "Boutique Master Course & Fashion Designing Course")}
+          </h2>
+          <p className="home-courses-preview__context">
+            {hi ? (
+              <>
+                पटना में फैशन डिज़ाइनिंग और बुटीक प्रबंधन सीखें —{" "}
+                <Link href="/courses" className="home-courses-preview__context-link">
+                  सभी कोर्स देखें
+                </Link>
+                ।
+              </>
+            ) : (
+              <>
+                Learn fashion designing and boutique management in Patna —{" "}
+                <Link href="/courses" className="home-courses-preview__context-link">
+                  view all courses
+                </Link>
+                .
+              </>
+            )}
+          </p>
         </div>
       </div>
 

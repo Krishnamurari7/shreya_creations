@@ -27,11 +27,14 @@ import AmbientGlows from "@/components/AmbientGlows";
 import ShopBrowser from "@/components/ShopBrowser";
 import { Testimonials } from "@/components/Sections";
 import { useLanguage } from "@/components/LanguageProvider";
+import { resolveMediaSrc, MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
 import { waLink, stitchOrderMessage } from "@/lib/whatsapp";
-import { SITE_STATS } from "@/lib/seed";
 import {
   DEFAULT_OUTFITS_DELIVERED,
+  computeYearsExperience,
+  DEFAULT_FOUNDING_YEAR,
+  EXPRESS_DELIVERY_DISCLAIMER,
 } from "@/lib/site-config";
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -257,7 +260,7 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
   const imageY = useSpring(rawY, { stiffness: 90, damping: 24 });
   const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.05, 1, 1.05]);
 
-  const years = site.yearsExperience || Number(String(SITE_STATS.yearsEn).replace(/\D/g, "")) || 17;
+  const years = site.yearsExperience ?? computeYearsExperience(site.foundingYear ?? DEFAULT_FOUNDING_YEAR);
   const outfits = site.outfitsDelivered || DEFAULT_OUTFITS_DELIVERED;
   const hours = site.expressDeliveryHours || 24;
 
@@ -266,22 +269,22 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
   const heroLead =
     pickPage(shop, lang, "headerSubtitle", "headerSubtitleHi") ||
     (hi
-      ? "पटना में डिज़ाइनर ब्लाउज़, ब्राइडल लहंगा और कस्टम सिलाई — अक्सर 24 घंटे में तैयार।"
-      : "Designer blouses, bridal lehengas & custom stitching in Patna — often ready in 24 hours.");
+      ? "पटना में डिज़ाइनर ब्लाउज़, ब्राइडल लहंगा और कस्टम सिलाई — अक्सर 24 घंटे में तैयार*।"
+      : "Designer blouses, bridal lehengas & custom stitching in Patna — often ready in 24 hours*.");
 
-  const heroImage = shop.heroImage || home.heroImage || "/botique.png";
+  const heroImage = resolveMediaSrc(shop.heroImage || home.heroImage || MEDIA.boutique);
   const waHref = waLink(site.whatsapp, stitchOrderMessage(lang));
 
   const heroPerks = hi
     ? [
         { icon: "measure", text: "परफेक्ट माप और फिट" },
         { icon: "hand", text: "आरी / ज़रदोज़ी हैंडवर्क" },
-        { icon: "clock", text: `${hours} घंटे एक्सप्रेस सिलाई` },
+        { icon: "clock", text: `${hours} घंटे एक्सप्रेस सिलाई*` },
       ]
     : [
         { icon: "measure", text: "Perfect measurement & fit" },
         { icon: "hand", text: "Aari / Zardozi handwork" },
-        { icon: "clock", text: `${hours}-hour express stitching` },
+        { icon: "clock", text: `${hours}-hour express stitching*` },
       ];
 
   const trustRail = [
@@ -323,9 +326,9 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
 
   const gallery = [
     { src: "/atelier_details.png", alt: hi ? "कढ़ाई डिटेल" : "Embroidery detail" },
-    { src: "/slider1.png", alt: hi ? "डिज़ाइनर वियर" : "Designer wear" },
-    { src: "/slider2.png", alt: hi ? "ब्राइडल वर्क" : "Bridal work" },
-    { src: "/slider3.png", alt: hi ? "स्टूडियो क्रॉफ्ट" : "Studio craft" },
+    { src: "/slider1.webp", alt: hi ? "पटना में फैशन डिज़ाइनर स्टूडियो में डिज़ाइनर वियर" : "Designer wear at Shreya Creation fashion studio, Patna" },
+    { src: "/slider2.webp", alt: hi ? "पटना में श्रेया क्रिएशन पर ब्राइडल लहंगा और ब्लाउज़ सिलाई" : "Bridal lehenga and blouse stitching at Shreya Creation, Patna" },
+    { src: "/slider3.webp", alt: hi ? "पटना में श्रेया क्रिएशन स्टूडियो की हैंडवर्क और सिलाई" : "Handwork and studio craft at Shreya Creation, Patna" },
   ];
 
   const services = hi
@@ -460,6 +463,10 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
                 </li>
               ))}
             </motion.ul>
+
+            <p className="boutique-v2-express-note text-subtle text-xs mt-2">
+              {EXPRESS_DELIVERY_DISCLAIMER[hi ? "hi" : "en"]}
+            </p>
 
             <motion.div
               className="boutique-v2-hero-ctas"

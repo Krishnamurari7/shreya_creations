@@ -3,7 +3,7 @@
 import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { CardGlow, glassCardStyles } from "@/components/Glass3DCard";
-import { comingSoonLabel, isCourseAvailable, isAddonCourse, addonCourseLabel } from "@/lib/courses";
+import { comingSoonLabel, isCourseAvailable, isAddonCourse, addonCourseLabel, courseStartingPrice } from "@/lib/courses";
 import { cn } from "@/lib/utils";
 
 function courseTitle(course, lang) {
@@ -120,7 +120,8 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
 
   if (variant === "featured") {
     const comparePrice = course.compare_price ?? course.original_price;
-    const price = course.price ? Number(course.price) : null;
+    const priceInfo = courseStartingPrice(course, lang);
+    const price = priceInfo.kind === "price" ? priceInfo.amount : null;
     const showCompare = comparePrice && price && Number(comparePrice) > price;
     const discountPct =
       showCompare ? Math.round((1 - price / Number(comparePrice)) * 100) : null;
@@ -210,25 +211,25 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           )}
 
           <div className="featured-course-card__footer mt-auto min-w-0">
-            {price != null ? (
-              <div className="featured-course-card__pricing">
-                <span className="featured-course-card__price-label text-[10px] uppercase tracking-wide text-muted block mb-0.5">
-                  {hi ? "शुरुआत" : "Starting from"}
-                </span>
-                <span className="featured-course-card__price">
-                  ₹{price.toLocaleString("en-IN")}
-                </span>
-                {showCompare && (
-                  <span className="featured-course-card__compare">
-                    ₹{Number(comparePrice).toLocaleString("en-IN")}
+            <div className="featured-course-card__pricing">
+              {priceInfo.kind === "price" ? (
+                <>
+                  <span className="featured-course-card__price-label text-[10px] uppercase tracking-wide text-muted block mb-0.5">
+                    {hi ? "शुरुआत" : "Starting from"}
                   </span>
-                )}
-              </div>
-            ) : (
-              <span className="featured-course-card__price featured-course-card__price--ask">
-                {hi ? "WhatsApp पर फीस पूछें" : "Ask fee on WhatsApp"}
-              </span>
-            )}
+                  <span className="featured-course-card__price">{priceInfo.label}</span>
+                  {showCompare && (
+                    <span className="featured-course-card__compare">
+                      ₹{Number(comparePrice).toLocaleString("en-IN")}
+                    </span>
+                  )}
+                </>
+              ) : (
+                <span className="featured-course-card__price featured-course-card__price--todo owner-todo-marker">
+                  {priceInfo.label}
+                </span>
+              )}
+            </div>
 
             {available ? (
               <Link href={detailHref} className="featured-course-card__details">
@@ -277,11 +278,21 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           <span className="text-[10px] sm:text-xs uppercase tracking-wider text-ink">
             {course.duration} · {course.language}
           </span>
-          {course.price && (
-            <span className="font-medium text-base sm:text-lg text-orange">
-              ₹{Number(course.price).toLocaleString("en-IN")}
-            </span>
-          )}
+          {(() => {
+            const p = courseStartingPrice(course, lang);
+            if (p.kind === "price") {
+              return (
+                <span className="font-medium text-base sm:text-lg text-orange">
+                  {p.label}
+                </span>
+              );
+            }
+            return (
+              <span className="text-[10px] sm:text-xs text-muted owner-todo-marker">
+                {p.label}
+              </span>
+            );
+          })()}
         </div>
 
         <span className="featured-course-card__coming-soon mt-4 sm:mt-5" aria-disabled="true">
@@ -324,11 +335,21 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
         <span className="text-[10px] sm:text-xs uppercase tracking-wider text-ink">
           {course.duration} · {course.language}
         </span>
-        {course.price && (
-          <span className="font-medium text-base sm:text-lg text-orange">
-            ₹{Number(course.price).toLocaleString("en-IN")}
-          </span>
-        )}
+        {(() => {
+          const p = courseStartingPrice(course, lang);
+          if (p.kind === "price") {
+            return (
+              <span className="font-medium text-base sm:text-lg text-orange">
+                {p.label}
+              </span>
+            );
+          }
+          return (
+            <span className="text-[10px] sm:text-xs text-muted owner-todo-marker">
+              {p.label}
+            </span>
+          );
+        })()}
       </div>
     </Link>
   );

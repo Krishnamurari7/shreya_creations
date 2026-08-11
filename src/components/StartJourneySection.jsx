@@ -18,6 +18,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useMemo } from "react";
 import { normalizeJourneyCards, pickPage } from "@/lib/cms";
+import OptimizedImage from "@/components/OptimizedImage";
 
 const container = {
   hidden: {},
@@ -180,6 +181,26 @@ function FeatureIcon({ type }) {
   }
 }
 
+function journeyCardAlt(key, lang) {
+  const hi = lang === "hi";
+  if (key === "boutique") {
+    return hi
+      ? "पटना में श्रेया क्रिएशन बुटीक — कस्टम सिलाई और ब्राइडल वियर"
+      : "Shreya Creation boutique in Patna — custom stitching and bridal wear";
+  }
+  if (key === "institute") {
+    return hi
+      ? "पटना में श्रेया क्रिएशन फैशन डिज़ाइनिंग इंस्टिट्यूट"
+      : "Shreya Creation fashion designing institute in Patna";
+  }
+  if (key === "shakti") {
+    return hi
+      ? "शक्ति 50 — पटना में महिलाओं के लिए कौशल प्रशिक्षण"
+      : "Shakti 50 skill training for women at Shreya Creation, Patna";
+  }
+  return hi ? "श्रेया क्रिएशन" : "Shreya Creation";
+}
+
 function JourneyCard({ card, lang }) {
   const title = lang === "hi" && card.titleHi ? card.titleHi : card.title;
   const label = lang === "hi" && card.ctaHi ? card.ctaHi : card.cta;
@@ -187,9 +208,15 @@ function JourneyCard({ card, lang }) {
   return (
     <article className={cn("start-journey-card", `start-journey-card--${card.theme}`)}>
       <div className="start-journey-card__top">
-        <div className="start-journey-card__visual">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={card.image} alt="" className="start-journey-card__image" loading="lazy" />
+        <div className="start-journey-card__visual relative">
+          <OptimizedImage
+            src={card.image}
+            alt={journeyCardAlt(card.key, lang)}
+            fill
+            sizes="(max-width: 640px) 85vw, 320px"
+            loading="lazy"
+            className="start-journey-card__image object-cover"
+          />
         </div>
         <span className="start-journey-card__badge" aria-hidden>
           <CardBadgeIcon type={card.icon} />

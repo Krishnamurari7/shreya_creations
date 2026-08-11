@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { waLink, productMessage, stitchMessage, courseMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI } from "@/lib/i18n";
+import { isReadyMadeProduct } from "@/lib/products";
+import RazorpayPayButton from "@/components/RazorpayPayButton";
 
 function useUrl() {
   if (typeof window !== "undefined") return window.location.href;
@@ -17,16 +19,21 @@ export function ProductActions({ product, number }) {
   const url = useUrl();
   const order = waLink(number, productMessage(product, url));
   const stitch = waLink(number, stitchMessage(product, url));
+  const readyMade = isReadyMadeProduct(product);
+
   return (
-    <div className="flex flex-col sm:flex-row gap-3">
-      <a href={order} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY, "w-full", "sm:w-auto")}>
-        {t.orderWhatsApp}
-      </a>
-      {product.stitchable && (
-        <a href={stitch} target="_blank" rel="noopener noreferrer" className={cn(BTN_SECONDARY, "w-full", "sm:w-auto")}>
-          {t.stitchWhatsApp}
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <a href={order} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY, "w-full", "sm:w-auto")}>
+          {t.orderWhatsApp}
         </a>
-      )}
+        {product.stitchable && (
+          <a href={stitch} target="_blank" rel="noopener noreferrer" className={cn(BTN_SECONDARY, "w-full", "sm:w-auto")}>
+            {t.stitchWhatsApp}
+          </a>
+        )}
+      </div>
+      {readyMade && <RazorpayPayButton product={product} />}
     </div>
   );
 }

@@ -7,7 +7,7 @@ import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { pickPage } from "@/lib/cms";
 
-const MAX_ITEMS = 6;
+const MAX_ITEMS = 10;
 const FILTER_TABS = ["All", "Bridal", "Gowns", "Blouses"];
 
 /**

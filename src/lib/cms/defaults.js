@@ -24,10 +24,10 @@ const ATELIER_TITLE = `${_years}+ Years of tailoring dreams into reality.`;
 const ATELIER_TITLE_HI = `${_years}+ वर्ष — सिलाई की परंपरा।`;
 const STUDENTS_LABEL = SITE_FACTS.studentsTrained;
 const COURSES_LABEL = `${DEFAULT_COURSES_COUNT}+`;
-const HERO_TITLE = "Best Designer Boutique & Fashion Designing Institute";
-const HERO_TITLE_HI = "बेस्ट डिज़ाइनर बुटीक और फैशन डिज़ाइनिंग इंस्टिट्यूट";
-const HERO_TITLE_HIGHLIGHT = "in Boring Road, Patna, Bihar";
-const HERO_TITLE_HIGHLIGHT_HI = "बोरिंग रोड, पटना, बिहार में";
+const HERO_TITLE = "Designer Boutique & Fashion Institute on Boring Road, Patna";
+const HERO_TITLE_HI = "बोरिंग रोड, पटना में डिज़ाइनर बुटीक और फैशन इंस्टिट्यूट";
+const HERO_TITLE_HIGHLIGHT = "";
+const HERO_TITLE_HIGHLIGHT_HI = "";
 const HERO_SUBHEADING = `Practical boutique & fashion designing courses since ${DEFAULT_FOUNDING_YEAR} — plus bridal lehengas and designer blouses stitched in 24 hours on Boring Road.`;
 const HERO_SUBHEADING_HI = `${DEFAULT_FOUNDING_YEAR} से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।`;
 
@@ -115,7 +115,7 @@ export const PAGE_DEFAULTS = {
       { name: "Sanjay Kumar Mishra", name_hi: "संजय कुमार मिश्रा", role: "Founder", role_hi: "संस्थापक" },
       { name: "Sangi Shreya", name_hi: "संगी श्रेया", role: "Director & Lead Mentor", role_hi: "निदेशक और मुख्य मेंटर" },
     ],
-    hero_image: "/hero_studio_banner.png",
+    hero_image: "/hero_studio_banner.webp",
     pillars_title: "The Pillars of Our Craft",
     pillars_title_hi: "हमारी विशेषताएँ",
     trust_title: "Trusted by Thousands",
@@ -131,10 +131,10 @@ export const PAGE_DEFAULTS = {
     journey_steps: DEFAULT_ABOUT_JOURNEY.map((step) => ({ ...step })),
   },
   home: {
-    hero_badge: "Bihar's No. 1 Boutique And Fashion Institute",
-    hero_badge_hi: "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट",
-    hero_boutique_badge: "Bihar's No. 1 Boutique And Fashion Institute",
-    hero_boutique_badge_hi: "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट",
+    hero_badge: "Patna's Trusted Fashion Boutique Institute",
+    hero_badge_hi: "पटना का भरोसेमंद फैशन बुटीक इंस्टिट्यूट",
+    hero_boutique_badge: "Patna's Trusted Fashion Boutique Institute",
+    hero_boutique_badge_hi: "पटना का भरोसेमंद फैशन बुटीक इंस्टिट्यूट",
     hero_boutique_title: HERO_TITLE,
     hero_boutique_title_hi: HERO_TITLE_HI,
     hero_boutique_title_highlight: HERO_TITLE_HIGHLIGHT,
@@ -145,8 +145,8 @@ export const PAGE_DEFAULTS = {
     hero_boutique_keywords_hi: "कोर्स / बुटीक / इंस्टिट्यूट",
     hero_boutique_cta: "Your Career Starts Here",
     hero_boutique_cta_hi: "आपका करियर यहीं से शुरू हो",
-    hero_demo_thumb: "/slider1.png",
-    hero_book_thumb: "/slider2.png",
+    hero_demo_thumb: "/slider1.webp",
+    hero_book_thumb: "/slider2.webp",
     hero_local_video: "/video-1.mp4",
     hero_book_local_video: "/video-2.mp4",
     hero_service_cards: DEFAULT_HERO_SERVICE_CARDS.map((card) => ({ ...card })),
@@ -198,8 +198,8 @@ export const PAGE_DEFAULTS = {
     hero_tile4_title_hi: "24 घंटे",
     hero_tile4_sub: "Express stitching",
     hero_tile4_sub_hi: "एक्सप्रेस सिलाई",
-    hero_image: "/slider1.png",
-    hero_images: ["/slider1.png", "/slider2.png", "/slider3.png", "/slider4.png"],
+    hero_image: "/slider1.webp",
+    hero_images: ["/slider1.webp", "/slider2.webp", "/slider3.webp", "/slider4.png"],
     hero_floating_cards: [
       { icon: "🏪", title: "Boutique Courses", sub: "Basic, Advanced & Western — 3 to 12 months", title_hi: "बुटीक कोर्स", sub_hi: "बेसिक, एडवांस्ड और वेस्टर्न — 3 से 12 महीने" },
       { icon: "👚", title: "Blouse Making", sub: "Basic, Advanced & Western blouse modules", title_hi: "ब्लाउज मेकिंग", sub_hi: "बेसिक, एडवांस्ड और वेस्टर्न ब्लाउज" },
@@ -313,7 +313,7 @@ export const PAGE_DEFAULTS = {
     founder_name_hi: "संजय कुमार मिश्रा",
     founder_role: "Founder",
     founder_role_hi: "संस्थापक",
-    founder_image: "/atelier_details.png",
+    founder_image: "/founders/sanjay-kumar-mishra.webp",
     mentor_quote:
       "As Director and Lead Mentor, my joy is watching every student grow from their first stitch to their first paying client. At our Patna studio we don't just teach technique — we build confidence, creativity, and real careers in fashion.",
     mentor_quote_hi:
@@ -322,7 +322,7 @@ export const PAGE_DEFAULTS = {
     mentor_name_hi: "संगी श्रेया",
     mentor_role: "Director & Lead Mentor",
     mentor_role_hi: "निदेशक और मुख्य मेंटर",
-    mentor_image: "/hero_studio_banner.png",
+    mentor_image: "/founders/sangi-shreya.webp",
     success_eyebrow: "Student Success",
     success_eyebrow_hi: "छात्र सफलता",
     success_title: "Why Choose Shreya Creation Boutique & Institute",
@@ -351,7 +351,7 @@ export const PAGE_DEFAULTS = {
     collection_cta_label: "EXPLORE COLLECTION",
     collection_cta_label_hi: "कलेक्शन देखें",
     collection_cta_href: "/portfolio",
-    collection_image_left: "/hero_studio_banner.png",
+    collection_image_left: "/hero_studio_banner.webp",
     collection_image_right: "/atelier_details.png",
     academy_badge: "Academy Studio",
     academy_badge_hi: "अकादमी स्टूडियो",

@@ -6,6 +6,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
 import { telLink } from "@/lib/whatsapp";
 import { formatPhoneDisplay, telHref } from "@/lib/site-config";
+import MapFacade from "@/components/MapFacade";
 import { cn } from "@/lib/utils";
 
 const COPY = {
@@ -175,15 +176,11 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
           </div>
 
           {site.mapEmbedUrl && (
-            <div className="contact-map-frame mt-4 sm:mt-5">
-              <iframe
-                src={site.mapEmbedUrl}
-                title="Studio location map"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-            </div>
+            <MapFacade
+              embedUrl={site.mapEmbedUrl}
+              address={site.address}
+              className="mt-4 sm:mt-5"
+            />
           )}
 
           {directionsUrl && (

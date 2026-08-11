@@ -4,7 +4,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "fashion",
     icon: "fashion",
-    image: "/slider1.png",
+    image: "/slider1.webp",
     title: "FASHION DESIGNING COURSE",
     title_hi: "फैशन डिज़ाइनिंग कोर्स",
     desc: "Learn Fashion Design from Experts.",
@@ -16,7 +16,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "boutique",
     icon: "boutique",
-    image: "/botique.png",
+    image: "/boutique.webp",
     title: "BOUTIQUE COURSE",
     title_hi: "बुटीक कोर्स",
     desc: "Master Stitching & Boutique Skills.",
@@ -28,7 +28,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "blouse",
     icon: "blouse",
-    image: "/categories/bridal.png",
+    image: "/categories/bridal.webp",
     title: "BRIDAL BLOUSE BOOKING",
     title_hi: "ब्राइडल ब्लाउज़ बुकिंग",
     desc: "Designer & Bridal Blouse Stitching.",
@@ -40,7 +40,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "lehenga",
     icon: "lehenga",
-    image: "/slider3.png",
+    image: "/slider3.webp",
     title: "BRIDAL LEHENGA BOOKING",
     title_hi: "ब्राइडल लहंगा बुकिंग",
     desc: "Custom Bridal Lehenga Stitching.",
@@ -52,7 +52,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "suit",
     icon: "suit",
-    image: "/categories/ethnic-wear.png",
+    image: "/categories/ethnic-wear.webp",
     title: "SUIT STITCHING",
     title_hi: "सूट सिलाई",
     desc: "Designer Suits Perfectly Tailored.",
@@ -64,7 +64,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "handwork",
     icon: "handwork",
-    image: "/categories/stitching.png",
+    image: "/categories/stitching.webp",
     title: "HAND WORK & EMBROIDERY",
     title_hi: "हैंड वर्क और एम्ब्रॉयडरी",
     desc: "Exquisite Handwork for Every Occasion.",
@@ -79,8 +79,8 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
     image: "",
     title: "EXPRESS 24-HOUR STITCHING",
     title_hi: "एक्सप्रेस 24 घंटे सिलाई",
-    desc: "Get Your Outfit in Just 24 Hours.",
-    desc_hi: "सिर्फ 24 घंटे में अपना आउटफिट पाएँ।",
+    desc: "Get Your Outfit in Just 24 Hours*.",
+    desc_hi: "सिर्फ 24 घंटे में अपना आउटफिट पाएँ*।",
     cta: "BOOK NOW",
     cta_hi: "अभी बुक करें",
     source: "hero_service_express",
@@ -117,8 +117,8 @@ export const DEFAULT_HERO_FEATURE_STRIP = [
     icon: "certificate",
     title: "DIPLOMA & CERTIFICATE COURSES",
     title_hi: "डिप्लोमा और सर्टिफिकेट कोर्स",
-    subtitle: "Govt. Recognized Certification",
-    subtitle_hi: "सरकारी मान्यता प्राप्त प्रमाणपत्र",
+    subtitle: "Certificate on Completion", // TODO(owner): confirm certifying authority
+    subtitle_hi: "पूर्णता पर प्रमाणपत्र", // TODO(owner): confirm certifying authority
   },
   {
     key: "entrance",
@@ -162,7 +162,7 @@ export const DEFAULT_CATEGORY_CARDS = [
       { label: "Bridal Lehenga & Gowns", label_hi: "ब्राइडल लहंगा व गाउन" },
       { label: "Saree Pre-Stitching", label_hi: "साड़ी प्री-स्टिचिंग" },
       { label: "Alteration & Perfect Fitting", label_hi: "अल्टरेशन व परफेक्ट फिटिंग" },
-      { label: "24 Hour Express Delivery", label_hi: "24 घंटे एक्सप्रेस डिलीवरी" },
+      { label: "24 Hour Express Delivery*", label_hi: "24 घंटे एक्सप्रेस डिलीवरी*" },
     ],
     cta: "Book Stitching",
     cta_hi: "सिलाई बुक करें",

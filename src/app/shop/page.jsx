@@ -1,9 +1,11 @@
 import PageShell from "@/components/PageShell";
 import BoutiqueClient from "@/components/BoutiqueClient";
 import PageCTA from "@/components/PageCTA";
+import JsonLdScript from "@/components/JsonLdScript";
 import { getProducts, getSiteSettings, getTestimonials } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
-import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { getRequestLocale } from "@/lib/locale";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Designer Boutique in Patna | Blouses, Lehengas & 24hr Custom Stitching",
@@ -15,6 +17,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function ShopPage() {
+  const locale = await getRequestLocale();
   const [products, site, testimonials] = await Promise.all([
     getProducts(),
     getSiteSettings(),
@@ -24,6 +27,15 @@ export default async function ShopPage() {
 
   return (
     <PageShell>
+      <JsonLdScript
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("shop", locale), path: "/shop" },
+          ],
+          locale
+        )}
+      />
       <BoutiqueClient
         site={site}
         shopPage={shop}

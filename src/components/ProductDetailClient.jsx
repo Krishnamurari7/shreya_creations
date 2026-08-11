@@ -3,15 +3,26 @@
 import { HIGHLIGHT_SHIMMER, PAGE_CONTAINER, PAGE_HERO_TITLE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ProductActions } from "@/components/WhatsAppActions";
 import ProductGallery from "@/components/ProductGallery";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import AmbientGlows from "@/components/AmbientGlows";
 import { fadeUp } from "@/lib/motion";
+import { trackViewContent } from "@/lib/analytics";
 
 export default function ProductDetailClient({ product, site, images }) {
   const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const name = product?.title?.trim();
+    if (!name) return;
+    const price = product.price != null ? Number(product.price) : undefined;
+    trackViewContent("product", name, Number.isFinite(price) ? price : undefined, {
+      source_page: `/shop/${product.slug}`,
+    });
+  }, [product]);
 
   return (
     <div className="relative z-10 w-full min-w-0 overflow-x-hidden">

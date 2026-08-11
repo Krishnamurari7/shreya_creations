@@ -7,6 +7,7 @@ import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import TrustStats from "@/components/TrustStats";
 import { useLanguage } from "@/components/LanguageProvider";
 import { greetingMessage, waLink } from "@/lib/whatsapp";
+import { EXPRESS_DELIVERY_DISCLAIMER } from "@/lib/site-config";
 
 export function TrustWall({ items, localize = false }) {
   return <TrustStats items={items} localize={localize} />;
@@ -98,7 +99,7 @@ function TestimonialCard({ t, verifiedLabel }) {
           href={t.review_url}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="block focus-visible:outline-none"
+          className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-text"
         >
           {quote}
         </a>
@@ -196,7 +197,7 @@ const COPY = {
     studentsNote: "From basic to advanced",
     expressValue: (h) => `${h}h`,
     expressLabel: "Express Delivery",
-    expressNote: "No extra charge",
+    expressNote: "No extra charge*",
     boutiqueLabel: "Boutique Client Reviews",
     boutiqueNote: "From our happy stitching clients",
     instituteLabel: "Institute Student Reviews",
@@ -222,7 +223,7 @@ const COPY = {
     studentsNote: "बेसिक से एडवांस तक",
     expressValue: (h) => `${h} घंटे`,
     expressLabel: "एक्सप्रेस डिलीवरी",
-    expressNote: "कोई अतिरिक्त शुल्क नहीं",
+    expressNote: "कोई अतिरिक्त शुल्क नहीं*",
     boutiqueLabel: "बुटीक ग्राहकों की समीक्षा",
     boutiqueNote: "हमारे खुश सिलाई ग्राहकों से",
     instituteLabel: "संस्थान के छात्रों की समीक्षा",
@@ -444,6 +445,9 @@ export function Testimonials({ items = [], site = {} }) {
     <div className={cn(REVEAL, "relative", "min-w-0")}>
       <div className={PAGE_CONTAINER}>
         <TrustHighlights site={site} copy={copy} />
+        <p className="text-subtle text-xs mt-3 text-center max-w-2xl mx-auto">
+          {EXPRESS_DELIVERY_DISCLAIMER[lang === "hi" ? "hi" : "en"]}
+        </p>
       </div>
 
       <div className="mt-10 space-y-9 md:space-y-11">

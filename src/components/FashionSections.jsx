@@ -34,7 +34,7 @@ export function DesignProcess({ steps }) {
       />
       {steps.map((s, i) => (
         <div key={i} className={cn(REVEAL, "process-step", "relative", "text-center")} style={{ transitionDelay: `${i * 100}ms` }}>
-          <div className={cn(GLASS, "process-step__num", "mx-auto", "grid", "place-items-center", "h-12", "w-12", "sm:h-14", "sm:w-14", "rounded-full", "text-gold", "font-display", "text-xl", "sm:text-2xl", "relative", "z-10", "border", "border-gold/25")}>
+          <div className={cn(GLASS, "process-step__num", "mx-auto", "grid", "place-items-center", "h-12", "w-12", "sm:h-14", "sm:w-14", "rounded-full", "text-orange-text", "font-display", "text-xl", "sm:text-2xl", "relative", "z-10", "border", "border-gold/25")}>
             {i + 1}
           </div>
           <h3 className="font-display text-lg sm:text-xl md:text-2xl text-ink mt-3 sm:mt-4 text-balance">{s.step}</h3>

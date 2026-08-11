@@ -5,11 +5,13 @@ import CardImage from "@/components/CardImage";
 import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getLookbookPostBySlug, getSiteSettings } from "@/lib/data";
+import { getRequestLocale } from "@/lib/locale";
 import { PAGE_CONTAINER, PAGE_HERO_TITLE, SECTION_LEAD } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import {
   blogPostingJsonLd,
   breadcrumbJsonLd,
+  breadcrumbLabel,
   buildMetadata,
   itemImage,
   itemImageAlt,
@@ -49,10 +51,11 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPostPage({ params }) {
   const { slug } = await params;
+  const locale = await getRequestLocale();
   const [post, site] = await Promise.all([getLookbookPostBySlug(slug), getSiteSettings()]);
   if (!post) return notFound();
 
-  const title = post.title;
+  const title = locale === "hi" && (post.title_hi || post.titleHi) ? post.title_hi || post.titleHi : post.title;
   const excerpt = post.excerpt;
   const body = post.body || "";
   const paragraphs = splitParagraphs(body);
@@ -62,13 +65,16 @@ export default async function BlogPostPage({ params }) {
 
   return (
     <PageShell>
-      <JsonLdScript data={blogPostingJsonLd(post)} />
+      <JsonLdScript data={blogPostingJsonLd(post, locale)} />
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Blog", path: "/blog" },
-          { name: title, path: `/blog/${post.slug}` },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("blog", locale), path: "/blog" },
+            { name: title, path: `/blog/${post.slug}` },
+          ],
+          locale
+        )}
       />
 
       <article

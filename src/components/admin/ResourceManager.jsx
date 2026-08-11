@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState, useCallback } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { buildPayload, validatePayload, slugify } from "@/lib/admin/buildPayload";
+import { revalidateSiteContent } from "@/lib/admin/revalidate";
 import ImageUploader from "@/components/admin/ImageUploader";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminModal from "@/components/admin/AdminModal";
@@ -197,6 +198,14 @@ export default function ResourceManager({
     setEditing(null);
     setModalError("");
     await load();
+    const pathMap = {
+      courses: ["/courses", "/"],
+      products: ["/shop"],
+      portfolio: ["/portfolio", "/"],
+      lookbook_posts: ["/blog"],
+      testimonials: ["/"],
+    };
+    await revalidateSiteContent(pathMap[table] || []);
   };
 
   const remove = async (row) => {
@@ -209,7 +218,10 @@ export default function ResourceManager({
     const supabase = createClient();
     const { error: err } = await supabase.from(table).delete().eq("id", recordId);
     if (err) setError(friendlyError(err.message));
-    else load();
+    else {
+      await load();
+      await revalidateSiteContent([]);
+    }
   };
 
   if (!configured) {

@@ -3,8 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["three", "react-pdf", "pdfjs-dist"],
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
-      // Supabase Storage public URLs
+      // Supabase Storage public URLs (CMS uploads; founder photos are self-hosted)
       { protocol: "https", hostname: "*.supabase.co" },
     ],
   },

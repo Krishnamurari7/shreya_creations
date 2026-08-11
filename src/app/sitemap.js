@@ -1,5 +1,6 @@
 import { getSiteUrl } from "@/lib/siteUrl";
 import { getCourses, getLookbookPosts, getPortfolio, getProducts } from "@/lib/data";
+import { sitemapWithAlternates } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,15 +22,15 @@ const STATIC_PATHS = [
 ];
 
 export default async function sitemap() {
-  const base = getSiteUrl();
   const now = new Date();
 
-  const staticEntries = STATIC_PATHS.map(({ path, changeFrequency, priority }) => ({
-    url: `${base}${path === "/" ? "" : path}`,
-    lastModified: now,
-    changeFrequency,
-    priority,
-  }));
+  const staticEntries = STATIC_PATHS.map(({ path, changeFrequency, priority }) =>
+    sitemapWithAlternates(path, {
+      lastModified: now,
+      changeFrequency,
+      priority,
+    })
+  );
 
   let courseEntries = [];
   let productEntries = [];
@@ -45,40 +46,44 @@ export default async function sitemap() {
     ]);
     courseEntries = (courses || [])
       .filter((c) => c?.slug && c.published !== false)
-      .map((c) => ({
-        url: `${base}/courses/${c.slug}`,
-        lastModified: c.updated_at ? new Date(c.updated_at) : now,
-        changeFrequency: "weekly",
-        priority: 0.8,
-      }));
+      .map((c) =>
+        sitemapWithAlternates(`/courses/${c.slug}`, {
+          lastModified: c.updated_at ? new Date(c.updated_at) : now,
+          changeFrequency: "weekly",
+          priority: 0.8,
+        })
+      );
     productEntries = (products || [])
       .filter((p) => p?.slug && p.published !== false)
-      .map((p) => ({
-        url: `${base}/shop/${p.slug}`,
-        lastModified: p.updated_at ? new Date(p.updated_at) : now,
-        changeFrequency: "weekly",
-        priority: 0.7,
-      }));
+      .map((p) =>
+        sitemapWithAlternates(`/shop/${p.slug}`, {
+          lastModified: p.updated_at ? new Date(p.updated_at) : now,
+          changeFrequency: "weekly",
+          priority: 0.7,
+        })
+      );
     portfolioEntries = (portfolio || [])
       .filter((item) => item?.slug)
-      .map((item) => ({
-        url: `${base}/portfolio/${item.slug}`,
-        lastModified: item.updated_at ? new Date(item.updated_at) : now,
-        changeFrequency: "monthly",
-        priority: 0.6,
-      }));
+      .map((item) =>
+        sitemapWithAlternates(`/portfolio/${item.slug}`, {
+          lastModified: item.updated_at ? new Date(item.updated_at) : now,
+          changeFrequency: "monthly",
+          priority: 0.6,
+        })
+      );
     blogEntries = (posts || [])
       .filter((post) => post?.slug && post.published !== false)
-      .map((post) => ({
-        url: `${base}/blog/${post.slug}`,
-        lastModified: post.updated_at
-          ? new Date(post.updated_at)
-          : post.created_at
-            ? new Date(post.created_at)
-            : now,
-        changeFrequency: "monthly",
-        priority: 0.55,
-      }));
+      .map((post) =>
+        sitemapWithAlternates(`/blog/${post.slug}`, {
+          lastModified: post.updated_at
+            ? new Date(post.updated_at)
+            : post.created_at
+              ? new Date(post.created_at)
+              : now,
+          changeFrequency: "monthly",
+          priority: 0.55,
+        })
+      );
   } catch {
     // Seed-backed data helpers already fall back; keep static URLs if anything fails.
   }

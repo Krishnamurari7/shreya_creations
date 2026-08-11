@@ -9,7 +9,7 @@ Run `supabase/migrations/content_fixes.sql` in the Supabase SQL Editor first (ex
 3. **Founding year** — default **2012** (`yearsExperience` = current year − this). Confirm in Site Settings.
 4. **Studio hours** — default `Mon–Sat, 10 AM–8 PM`. Confirm (was also Mon–Sun 10–8 and 11 AM–8 Closed Tuesdays).
 5. **Closed days** — default `Sunday`. Confirm.
-6. **Email** — confirmed live: `hello@shreyacreations.in` (`.in` inbox; site host is `shreyacreation.com`).
+6. **Email** — confirmed live: `hello@shreyacreation.com` (site host is `shreyacreation.com`).
 7. **Phones** — primary `+919031105666`, secondary `+917903155125` (also WhatsApp on primary). Footer/contact use separate `tel:` links.
 7. **Course starting prices** — seed placeholders added for courses that had no price. Review every course in Admin → Courses and set real fees.
 8. **Product details** — enrich Admin → Shop: multiple images, long description, fabric, care, colours, estimated delivery.

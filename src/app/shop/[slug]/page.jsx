@@ -2,9 +2,11 @@ import { notFound } from "next/navigation";
 import { getProductBySlug, getSiteSettings } from "@/lib/data";
 import ProductDetailClient from "@/components/ProductDetailClient";
 import JsonLdScript from "@/components/JsonLdScript";
+import { getRequestLocale } from "@/lib/locale";
 import {
   buildMetadata,
   breadcrumbJsonLd,
+  breadcrumbLabel,
   itemImage,
   itemImageAlt,
   productJsonLd,
@@ -37,20 +39,28 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductDetail({ params }) {
   const { slug } = await params;
+  const locale = await getRequestLocale();
   const [product, site] = await Promise.all([getProductBySlug(slug), getSiteSettings()]);
   if (!product) return notFound();
 
   const images = product.images?.length ? product.images : product.image ? [product.image] : [];
+  const productTitle =
+    locale === "hi" && (product.title_hi || product.titleHi)
+      ? product.title_hi || product.titleHi
+      : product.title;
 
   return (
     <>
-      <JsonLdScript data={productJsonLd(product)} />
+      <JsonLdScript data={productJsonLd(product, locale)} />
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Shop", path: "/shop" },
-          { name: product.title, path: `/shop/${product.slug}` },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("shop", locale), path: "/shop" },
+            { name: productTitle, path: `/shop/${product.slug}` },
+          ],
+          locale
+        )}
       />
       <ProductDetailClient product={product} site={site} images={images} />
     </>

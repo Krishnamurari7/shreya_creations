@@ -74,13 +74,18 @@ function normalizeCourse(row) {
     course_pdf: row.course_pdf ?? row.coursePdf ?? row.pdf_url ?? row.pdfUrl,
     syllabus: normalizeSyllabus(row.syllabus),
     price: row.price != null ? Number(row.price) : row.price,
+    price_tbd: row.price_tbd ?? row.priceTbd ?? false,
+    price_confirmed: row.price_confirmed ?? row.priceConfirmed,
     published: row.published ?? true,
   });
 }
 
 function normalizeProduct(row) {
   if (!row) return null;
-  return withSeoFields(row);
+  return withSeoFields({
+    ...row,
+    ready_made: row.ready_made ?? row.readyMade ?? false,
+  });
 }
 
 function normalizePortfolioItem(row) {
@@ -154,6 +159,7 @@ async function query(supabase, table, options = {}) {
 export async function getSiteSettings() {
   const courses = await getCourses({ includeUnpublished: false });
   const coursesCount = courses.filter((c) => !c.is_addon).length || courses.length;
+  const nextBatch = await getNextBatch();
 
   if (!isSupabaseConfigured()) {
     const site = buildSITE(
@@ -176,6 +182,8 @@ export async function getSiteSettings() {
     const merged = {
       ...seed.SITE,
       ...normalized,
+      nextBatchDate: nextBatch?.start_date ?? normalized.next_batch_date ?? normalized.nextBatchDate,
+      nextBatchSeats: nextBatch?.seats_left ?? normalized.next_batch_seats ?? normalized.nextBatchSeats,
       socials: {
         ...seed.SITE.socials,
         ...(normalized.socials || {}),
@@ -394,6 +402,24 @@ export async function getLookbookPostBySlug(slug) {
   }
 }
 
+export async function getNextBatch() {
+  if (!isSupabaseConfigured()) return null;
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("batches")
+      .select("start_date, seats_left, seats_total, course_id")
+      .eq("is_active", true)
+      .gte("start_date", new Date().toISOString().slice(0, 10))
+      .order("start_date", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+    return data;
+  } catch {
+    return null;
+  }
+}
+
 export async function getAdminCounts() {
   if (!isSupabaseConfigured()) {
     return {
@@ -405,11 +431,13 @@ export async function getAdminCounts() {
       faqs: seed.FAQS.length,
       lookbook: seed.LOOKBOOK.length,
       inquiries: 0,
+      unreadEnquiries: 0,
     };
   }
   try {
     const supabase = await createClient();
-    const [products, courses, portfolio, testimonials, trust, faqs, lookbook, inquiries] = await Promise.all([
+    const [products, courses, portfolio, testimonials, trust, faqs, lookbook, inquiries, unread] =
+      await Promise.all([
       supabase.from("products").select("id", { count: "exact", head: true }),
       supabase.from("courses").select("id", { count: "exact", head: true }),
       supabase.from("portfolio").select("id", { count: "exact", head: true }),
@@ -418,6 +446,7 @@ export async function getAdminCounts() {
       supabase.from("faqs").select("id", { count: "exact", head: true }),
       supabase.from("lookbook_posts").select("id", { count: "exact", head: true }),
       supabase.from("contact_inquiries").select("id", { count: "exact", head: true }),
+      supabase.from("contact_inquiries").select("id", { count: "exact", head: true }).eq("is_read", false),
     ]);
     return {
       products: products.count ?? 0,
@@ -428,6 +457,7 @@ export async function getAdminCounts() {
       faqs: faqs.count ?? 0,
       lookbook: lookbook.count ?? 0,
       inquiries: inquiries.count ?? 0,
+      unreadEnquiries: unread.count ?? 0,
     };
   } catch {
     return {
@@ -439,6 +469,7 @@ export async function getAdminCounts() {
       faqs: seed.FAQS.length,
       lookbook: 0,
       inquiries: 0,
+      unreadEnquiries: 0,
     };
   }
 }

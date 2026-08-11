@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI } from "@/lib/i18n";
@@ -8,23 +7,20 @@ import { cn } from "@/lib/utils";
 
 export default function WhatsAppAssistant({ number }) {
   const { lang } = useLanguage();
-  const pathname = usePathname();
   const t = UI[lang];
   const href = waLink(number, greetingMessage(lang));
-  const aboveStickyBar =
-    Boolean(pathname?.startsWith("/courses/")) && pathname !== "/courses";
 
   return (
     <div
       className={cn(
-        "wa-assistant-root fixed z-50 flex flex-col items-end max-w-[calc(100dvw-2rem)]",
-        aboveStickyBar && "wa-assistant-root--above-sticky"
+        "wa-assistant-root fixed z-50 flex flex-col items-end max-w-[calc(100dvw-2rem)]"
       )}
     >
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        data-track-cta="whatsapp_fab"
         aria-label={t.chatWhatsApp}
         className="grid place-items-center h-14 w-14 rounded-full shadow-lift transition-all duration-300 hover:scale-110 hover:shadow-glow relative group"
         style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}

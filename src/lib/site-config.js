@@ -8,6 +8,8 @@ import { BRAND_NAME, normalizeBrandName } from "@/lib/brand";
 
 /** Brand founding year — years of experience = current year − this. */
 export const DEFAULT_FOUNDING_YEAR = 2012;
+/** @deprecated Prefer FOUNDED_YEAR — kept for existing imports. */
+export const FOUNDED_YEAR = DEFAULT_FOUNDING_YEAR;
 
 export const DEFAULT_STUDENTS_TAUGHT = 2000;
 export const DEFAULT_OUTFITS_DELIVERED = 5000;
@@ -19,8 +21,8 @@ export const DEFAULT_PHONE_PRIMARY = "+919031105666";
 export const DEFAULT_PHONE_SECONDARY = "+917903155125";
 export const DEFAULT_WHATSAPP = "919031105666";
 
-/** Confirmed live inbox (settings.email) — domain is shreyacreations.in, not the .com site host. */
-export const DEFAULT_EMAIL = "hello@shreyacreations.in";
+/** Confirmed business inbox — matches site host shreyacreation.com */
+export const DEFAULT_EMAIL = "hello@shreyacreation.com";
 
 export const DEFAULT_STUDIO_HOURS = "Mon–Sat, 10 AM–8 PM";
 export const DEFAULT_CLOSED_DAYS = "Sunday";
@@ -44,6 +46,25 @@ export function computeYearsExperience(foundingYear, nowYear = new Date().getFul
   return Math.max(0, nowYear - y);
 }
 
+/** Canonical display exports — single source of truth for UI copy. */
+export const YEARS_OF_TRUST = `${computeYearsExperience(DEFAULT_FOUNDING_YEAR)}+`;
+export const COURSE_COUNT = `${DEFAULT_COURSES_COUNT}+`;
+export const STUDENTS_TRAINED = `${DEFAULT_STUDENTS_TAUGHT}+`;
+export const OUTFITS_DELIVERED = `${DEFAULT_OUTFITS_DELIVERED}+`;
+export const PHONE_PRIMARY = DEFAULT_PHONE_PRIMARY;
+export const PHONE_SECONDARY = DEFAULT_PHONE_SECONDARY;
+export const WHATSAPP_NUMBER = DEFAULT_WHATSAPP;
+export const EMAIL = DEFAULT_EMAIL;
+export const ADDRESS = DEFAULT_ADDRESS_LINE;
+export const HOURS = DEFAULT_STUDIO_HOURS;
+export const SOCIAL_LINKS = { ...DEFAULT_SOCIALS };
+
+/** Visible footnote for every 24-hour / express-delivery asterisk claim. */
+export const EXPRESS_DELIVERY_DISCLAIMER = {
+  en: "*Depends on design complexity and fabric availability. Confirm timeline on WhatsApp.",
+  hi: "*डिज़ाइन की जटिलता और कपड़े की उपलब्धता पर निर्भर। WhatsApp पर समय कन्फर्म करें।",
+};
+
 /**
  * Display-ready business facts for UI copy. Prefer runtime site.* when available;
  * use these only as fallbacks so marketing numbers stay consistent.
@@ -52,7 +73,7 @@ export const SITE_FACTS = {
   yearsOfExperience: `${computeYearsExperience(DEFAULT_FOUNDING_YEAR)}+`,
   studentsTrained: `${DEFAULT_STUDENTS_TAUGHT}+`,
   outfitsDelivered: `${DEFAULT_OUTFITS_DELIVERED}+`,
-  coursesCount: String(DEFAULT_COURSES_COUNT),
+  coursesCount: COURSE_COUNT,
   phone1: DEFAULT_PHONE_PRIMARY,
   phone2: DEFAULT_PHONE_SECONDARY,
   email: DEFAULT_EMAIL,
@@ -122,8 +143,8 @@ export function formatSiteStats(facts) {
     yearsHi: `${years}+ वर्ष`,
     studentsEn: `${students}+ Students`,
     studentsHi: `${students}+ छात्र`,
-    coursesEn: `${courses} Courses`,
-    coursesHi: `${courses} कोर्स`,
+    coursesEn: `${courses}+ Courses`,
+    coursesHi: `${courses}+ कोर्स`,
     lineEn: `${years}+ Years · ${students}+ Students`,
     lineHi: `${years}+ वर्ष · ${students}+ छात्र`,
   };
@@ -148,10 +169,10 @@ export function buildTrustFromSite(site) {
       labelHi: "प्रशिक्षित छात्र",
     },
     {
-      value: `${site.coursesCount || DEFAULT_COURSES_COUNT}`,
-      valueHi: `${site.coursesCount || DEFAULT_COURSES_COUNT}`,
-      label: "Job-Oriented Courses",
-      labelHi: "जॉब ओरिएंटेड कोर्स",
+      value: `${site.coursesCount || DEFAULT_COURSES_COUNT}+`,
+      valueHi: `${site.coursesCount || DEFAULT_COURSES_COUNT}+`,
+      label: "Courses Offered",
+      labelHi: "कोर्स उपलब्ध",
     },
     {
       value: `${site.expressDeliveryHours} Hours`,
@@ -215,6 +236,11 @@ export function buildSITE(raw = {}, opts = {}) {
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || DEFAULT_WHATSAPP
   );
 
+  const nextBatchDate = raw.next_batch_date ?? raw.nextBatchDate ?? null;
+  const nextBatchSeats = raw.next_batch_seats ?? raw.nextBatchSeats ?? null;
+  const feeStructurePdf = raw.fee_structure_pdf ?? raw.feeStructurePdf ?? null;
+  const instagramHandle = raw.instagram_handle ?? raw.instagramHandle ?? "shreya.creationss";
+
   const addressLine = str(raw.address_line ?? raw.addressLine ?? raw.address, DEFAULT_ADDRESS_LINE);
   const city = str(raw.city, DEFAULT_CITY).replace(/,.*$/, "").trim() || DEFAULT_CITY;
   const pincode = str(raw.pincode, DEFAULT_PINCODE);
@@ -272,7 +298,7 @@ export function buildSITE(raw = {}, opts = {}) {
       ? raw.hero_marquee ?? raw.heroMarquee
       : [
           "Fashion Boutique Institute",
-          "बिहार का No. 1",
+          "पटना का भरोसेमंद फैशन बुटीक इंस्टिट्यूट",
           `${yearsExperience}+ वर्षों का अनुभव | Since ${foundingYear}`,
         ],
     founded: stats.yearsEn,
@@ -282,6 +308,10 @@ export function buildSITE(raw = {}, opts = {}) {
     services: raw.services,
     processSteps: raw.processSteps ?? raw.process_steps,
     instagramEmbed: raw.instagramEmbed ?? raw.instagram_embed,
+    instagramHandle,
+    nextBatchDate,
+    nextBatchSeats,
+    feeStructurePdf,
     defaultLanguage: raw.defaultLanguage ?? raw.default_language ?? "en",
   };
 }

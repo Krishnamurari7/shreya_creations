@@ -6,9 +6,11 @@ import Link from "next/link";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI, pickLocalized, pickBrandMessage } from "@/lib/i18n";
+import { localizedPath } from "@/lib/locale";
 import { LOGO_SRC, normalizeBrandName } from "@/lib/brand";
+import OptimizedImage from "@/components/OptimizedImage";
 import { PRODUCTION_URL, SITE_DOMAIN } from "@/lib/siteUrl";
-import { formatPhoneDisplay, telHref } from "@/lib/site-config";
+import { formatPhoneDisplay, telHref, EXPRESS_DELIVERY_DISCLAIMER, computeYearsExperience, DEFAULT_FOUNDING_YEAR, DEFAULT_STUDENTS_TAUGHT, DEFAULT_OUTFITS_DELIVERED, COURSE_COUNT } from "@/lib/site-config";
 
 const NAV_ROUTES = [
   { href: "/", key: "home" },
@@ -82,14 +84,16 @@ const COURSE_LINKS = [
 ];
 
 function whyChooseUs(site, lang) {
-  const years = site?.yearsExperience || 17;
-  const founded = site?.foundingYear || 2012;
+  const years = site?.yearsExperience ?? computeYearsExperience(site?.foundingYear ?? DEFAULT_FOUNDING_YEAR);
+  const yearsLabel = `${years}+`;
+  const founded = site?.foundingYear ?? DEFAULT_FOUNDING_YEAR;
   const hours = site?.expressDeliveryHours || 24;
+  const coursesLabel = site?.coursesCount ? `${site.coursesCount}+` : COURSE_COUNT;
   const hi = lang === "hi";
   return [
     {
       icon: "award",
-      title: hi ? `${years} वर्षों का भरोसा` : `${years} Years of Trust`,
+      title: hi ? `${yearsLabel} वर्षों का भरोसा` : `${yearsLabel} Years of Trust`,
       note: hi ? `${founded} से` : `Since ${founded}`,
     },
     {
@@ -111,11 +115,11 @@ function whyChooseUs(site, lang) {
     {
       icon: "cap",
       title: hi ? "फैशन डिज़ाइनिंग और बुटीक कोर्स" : "Fashion Designing & Boutique Courses",
-      note: hi ? "बुटीक मास्टर कोर्स भी उपलब्ध" : "Boutique Master Course also available",
+      note: hi ? `${coursesLabel} कोर्स उपलब्ध` : `${coursesLabel} courses offered`,
     },
     {
       icon: "check",
-      title: hi ? "100% प्रैक्टिकल ट्रेनिंग" : "100% Practical Training",
+      title: hi ? "100% प्रैक्टिकल ट्रेनिंग" : "Hands-on Practical Training",
       note: hi ? "प्लेसमेंट सहायता | ट्रायल सुविधा" : "Placement Assistance | Trial Facility",
     },
     {
@@ -262,9 +266,9 @@ function Icon({ name, className = "h-4 w-4" }) {
 
 function ColTitle({ children }) {
   return (
-    <h4 className="sf-col-title">
+    <h2 className="sf-col-title">
       <span>{children}</span>
-    </h4>
+    </h2>
   );
 }
 
@@ -286,18 +290,19 @@ export default function Footer({ site }) {
   const { lang } = useLanguage();
   const t = UI[lang];
   const hi = lang === "hi";
-  const navLinks = NAV_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
-  const policyLinks = POLICY_ROUTES.map((r) => ({ href: r.href, label: t[r.key] }));
+  const navLinks = NAV_ROUTES.map((r) => ({ href: localizedPath(r.href, lang), label: t[r.key] }));
+  const policyLinks = POLICY_ROUTES.map((r) => ({ href: localizedPath(r.href, lang), label: t[r.key] }));
   const wa = waLink(site?.whatsapp, greetingMessage(lang));
   const brandMessage = pickBrandMessage(site);
   const intro = pickLocalized(site, lang, "intro", "introHi");
   const brandName = normalizeBrandName(site?.brand);
 
-  const years = site?.yearsExperience || 17;
-  const foundingYear = site?.foundingYear || 2012;
+  const years = site?.yearsExperience ?? computeYearsExperience(site?.foundingYear ?? DEFAULT_FOUNDING_YEAR);
+  const yearsLabel = `${years}+`;
+  const foundingYear = site?.foundingYear ?? DEFAULT_FOUNDING_YEAR;
   const expressHours = site?.expressDeliveryHours || 24;
-  const students = site?.studentsTaught || 2000;
-  const outfits = site?.outfitsDelivered || 5000;
+  const students = site?.studentsTaught ?? DEFAULT_STUDENTS_TAUGHT;
+  const outfits = site?.outfitsDelivered ?? DEFAULT_OUTFITS_DELIVERED;
 
   const phoneHref = telHref(site?.phonePrimary);
   const directionsUrl = site?.address
@@ -309,8 +314,8 @@ export default function Footer({ site }) {
   const stats = [
     {
       icon: "award",
-      value: String(years),
-      label: hi ? "वर्षों का भरोसा" : "Of Trust",
+      value: yearsLabel,
+      label: hi ? "वर्षों का भरोसा" : "Years of Trust",
       note: hi ? `${foundingYear} से` : `Since ${foundingYear}`,
     },
     {
@@ -334,7 +339,7 @@ export default function Footer({ site }) {
     {
       icon: "check",
       value: null,
-      label: hi ? "100% प्रैक्टिकल" : "100% Practical",
+      label: hi ? "प्रैक्टिकल" : "Practical",
       note: hi ? "ट्रेनिंग" : "Training",
     },
     {
@@ -368,12 +373,11 @@ export default function Footer({ site }) {
                 <span>{hi ? `${foundingYear} से` : `Since ${foundingYear}`}</span>
               </p>
 
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={LOGO_SRC} alt={brandName} className="sf-logo" width="220" height="140" />
+              <OptimizedImage src={LOGO_SRC} alt={brandName} width={220} height={140} sizes="220px" loading="lazy" className="sf-logo" />
 
               <p className="sf-brand-sub">{hi ? "बुटीक और इंस्टिट्यूट" : "Boutique & Institute"}</p>
               <p className="sf-brand-ribbon">
-                {hi ? `${years} वर्षों का भरोसा` : `${years} Years of Trust`}
+                {hi ? `${yearsLabel} वर्षों का भरोसा` : `${yearsLabel} Years of Trust`}
               </p>
 
               <p className="sf-brand-copy">
@@ -399,7 +403,7 @@ export default function Footer({ site }) {
                   </svg>
                   <span>
                     <strong>WhatsApp</strong>
-                    <small>{formatPhoneDisplay(site?.phoneSecondary || site?.phonePrimary)}</small>
+                    <small>{formatPhoneDisplay(site?.phonePrimary)}</small>
                   </span>
                 </a>
                 {directionsUrl && (
@@ -455,7 +459,7 @@ export default function Footer({ site }) {
               <ul className="sf-courses">
                 {COURSE_LINKS.map((c) => (
                   <li key={c.href}>
-                    <Link href={c.href} className="sf-course">
+                    <Link href={localizedPath(c.href, lang)} className="sf-course">
                       <span className="sf-course__icon">
                         <Icon name={c.icon} className="h-[15px] w-[15px]" />
                       </span>
@@ -468,7 +472,7 @@ export default function Footer({ site }) {
                 ))}
               </ul>
 
-              <p className="sf-course-badge">{hi ? "100% प्रैक्टिकल ट्रेनिंग" : "100% Practical Training"}</p>
+              <p className="sf-course-badge">{hi ? "हाथों-हाथ प्रैक्टिकल ट्रेनिंग" : "Hands-on Practical Training"}</p>
               <p className="sf-course-ribbon">
                 {hi ? "प्लेसमेंट सहायता" : "Placement Assistance"}
               </p>
@@ -496,7 +500,11 @@ export default function Footer({ site }) {
                         <a href={telHref(site.phonePrimary)}>{formatPhoneDisplay(site.phonePrimary)}</a>
                       )}
                       {site.phoneSecondary && (
-                        <a href={telHref(site.phoneSecondary)}>{formatPhoneDisplay(site.phoneSecondary)}</a>
+                        <a href={telHref(site.phoneSecondary)}>
+                          {formatPhoneDisplay(site.phoneSecondary)}
+                          {!hi && " (Call only)"}
+                          {hi && " (केवल कॉल)"}
+                        </a>
                       )}
                     </span>
                   </li>
@@ -506,7 +514,9 @@ export default function Footer({ site }) {
                     <Icon name="web" />
                   </span>
                   <span className="sf-contact__text">
-                    <a href={PRODUCTION_URL}>{SITE_DOMAIN}</a>
+                    <a href={PRODUCTION_URL} aria-label={`Visit Shreya Creation website (${SITE_DOMAIN})`}>
+                      {SITE_DOMAIN}
+                    </a>
                   </span>
                 </li>
                 {site?.email && (
@@ -541,7 +551,7 @@ export default function Footer({ site }) {
               <p className="sf-follow-label">{hi ? "फ़ॉलो करें" : "Follow Us"}</p>
               <div className="sf-social-row">
                 {site?.socials?.instagram && (
-                  <SocialIcon href={site.socials.instagram} label="Instagram">
+                  <SocialIcon href={site.socials.instagram} label="Shreya Creation on Instagram">
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                       <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
@@ -550,26 +560,26 @@ export default function Footer({ site }) {
                   </SocialIcon>
                 )}
                 {site?.socials?.facebook && (
-                  <SocialIcon href={site.socials.facebook} label="Facebook">
+                  <SocialIcon href={site.socials.facebook} label="Shreya Creation on Facebook">
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                   </SocialIcon>
                 )}
                 {site?.socials?.youtube && (
-                  <SocialIcon href={site.socials.youtube} label="YouTube">
+                  <SocialIcon href={site.socials.youtube} label="Shreya Creation on YouTube">
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                     </svg>
                   </SocialIcon>
                 )}
-                <SocialIcon href={wa} label="WhatsApp">
+                <SocialIcon href={wa} label="Shreya Creation on WhatsApp">
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.436.002 9.861-4.417 9.864-9.858.002-2.636-1.02-5.115-2.879-6.978-1.859-1.862-4.331-2.887-6.974-2.889-5.439 0-9.864 4.417-9.868 9.86-.001 1.57.418 3.101 1.21 4.47l-.995 3.633 3.738-.979c1.378.75 2.766 1.139 4.239 1.14z" />
                   </svg>
                 </SocialIcon>
                 {site?.googleReviewsUrl && (
-                  <SocialIcon href={site.googleReviewsUrl} label="Google Reviews">
+                  <SocialIcon href={site.googleReviewsUrl} label="Shreya Creation on Google Reviews">
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.344-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z" />
                     </svg>
@@ -607,6 +617,9 @@ export default function Footer({ site }) {
                   <span>{hi ? `${expressHours} घंटे में*` : `In ${expressHours} Hours*`}</span>
                 </p>
                 <p className="sf-medal__strip">{hi ? "कोई अतिरिक्त शुल्क नहीं*" : "No Extra Charge*"}</p>
+                <p className="sf-medal__disclaimer text-subtle text-xs mt-2 px-2">
+                  {EXPRESS_DELIVERY_DISCLAIMER[hi ? "hi" : "en"]}
+                </p>
               </div>
 
               {stats.slice(3).map((s) => (
@@ -662,7 +675,7 @@ export default function Footer({ site }) {
               <span className="sf-bottom__sep" aria-hidden>
                 |
               </span>
-              {hi ? `${years} वर्षों का भरोसा` : `${years} Years of Trust`}
+              {hi ? `${yearsLabel} वर्षों का भरोसा` : `${yearsLabel} Years of Trust`}
             </p>
 
             <div className="sf-bottom__links">

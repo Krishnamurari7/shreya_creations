@@ -14,7 +14,7 @@ export const PAGE_SECTION = "page-section relative z-20 py-16 md:py-24";
 export const PAGE_SECTION_BORDERED = "page-section--bordered border-t border-orange/10";
 
 export const SECTION_EYEBROW =
-  "section-eyebrow inline-block max-w-full text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-orange";
+  "section-eyebrow inline-block max-w-full text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-orange-text";
 
 /** Canonical section heading scale. */
 export const SECTION_TITLE =
@@ -62,10 +62,10 @@ export const FILTER_PILL =
  * pill-sized padding, so filter bars must not borrow the button token.
  */
 export const FILTER_PILL_ACTIVE =
-  "filter-pill--active border border-orange bg-orange text-white shadow-[0_4px_16px_rgba(var(--orange-rgb),0.3)] transition-all duration-300 hover:bg-orange-dark";
+  "filter-pill--active border border-orange-dark bg-orange-dark text-white shadow-[0_4px_16px_rgba(var(--orange-text-rgb),0.3)] transition-all duration-300 hover:bg-orange-dark";
 
 export const FIELD_SURFACE =
-  "field-surface w-full border border-orange/[0.12] bg-orange/[0.04] text-ink transition-all duration-300 placeholder:text-subtle placeholder:opacity-100 hover:border-orange/35 focus:border-orange focus:bg-transparent focus:outline-none focus:ring-[3px] focus:ring-orange/15 dark:border-[var(--border)] dark:bg-[var(--input-bg)] dark:focus:bg-white/[0.06] dark:focus:ring-orange/[0.18]";
+  "field-surface w-full border border-orange/[0.12] bg-orange/[0.04] text-ink transition-all duration-300 placeholder:text-subtle placeholder:opacity-100 hover:border-orange/35 focus:border-orange focus:bg-transparent focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-orange-text focus:ring-[3px] focus:ring-orange-text/15 dark:border-[var(--border)] dark:bg-[var(--input-bg)] dark:focus:bg-white/[0.06] dark:focus:ring-orange-text/[0.18]";
 
 export const SURFACE_BADGE =
   "surface-badge border border-orange/25 bg-white/[0.72] shadow-[0_2px_12px_rgba(var(--orange-rgb),0.06)] backdrop-blur-xl dark:border-[var(--border-strong)] dark:bg-[var(--chip-bg)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.06)]";
@@ -81,13 +81,13 @@ const BTN_SHINE =
  * min-h-11 keeps every button at the 44px minimum tap target.
  */
 const BTN_BASE =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-7 py-3 text-center text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/60 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:pointer-events-none disabled:opacity-60 max-sm:px-6 max-sm:text-[0.6875rem] max-sm:tracking-[0.05em]";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-7 py-3 text-center text-[0.875rem] font-bold uppercase leading-none tracking-[0.08em] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-text disabled:pointer-events-none disabled:opacity-60 max-sm:px-6 max-sm:text-[0.8125rem] max-sm:tracking-[0.05em]";
 
 /** The one primary CTA: solid brand orange (#CC4F06). */
 export const BTN_PRIMARY = `btn-primary btn-shine ${BTN_SHINE} ${BTN_BASE} border-0 bg-orange text-white shadow-[0_4px_20px_rgba(var(--orange-rgb),0.32)] hover:-translate-y-[3px] hover:bg-orange-dark hover:shadow-[0_10px_32px_rgba(var(--orange-rgb),0.42)] active:translate-y-0 active:scale-[0.99]`;
 
 /** The one secondary CTA: outline in the same geometry as BTN_PRIMARY. */
-export const BTN_SECONDARY = `btn-secondary ${BTN_BASE} border-[1.5px] border-orange/40 bg-transparent text-orange hover:-translate-y-[3px] hover:border-orange hover:bg-orange/[0.08] hover:shadow-[0_8px_24px_rgba(var(--orange-rgb),0.14)] active:translate-y-0 dark:border-orange/40 dark:text-orange dark:hover:border-orange dark:hover:bg-orange/10`;
+export const BTN_SECONDARY = `btn-secondary ${BTN_BASE} border-[1.5px] border-orange/40 bg-transparent text-orange-text hover:-translate-y-[3px] hover:border-orange hover:bg-orange/[0.08] hover:shadow-[0_8px_24px_rgba(var(--orange-rgb),0.14)] active:translate-y-0 dark:border-orange/40 dark:text-orange-text dark:hover:border-orange dark:hover:bg-orange/10`;
 
 
 export const HIGHLIGHT_SHIMMER =

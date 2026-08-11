@@ -11,8 +11,8 @@ export function normalizeBrandName(value) {
   return /^shreya\s+creations?$/i.test(trimmed) ? BRAND_NAME : trimmed;
 }
 
-/** Canonical brand logo — always served from /public/logo.png */
-export const LOGO_SRC = "/3d.png";
+/** Canonical brand logo — always served from /public/3d.webp */
+export const LOGO_SRC = "/3d.webp";
 
-/** Navbar logo — transparent PNG */
-export const NAV_LOGO_SRC = "/logo-nav.png";
+/** Navbar logo — transparent WebP */
+export const NAV_LOGO_SRC = "/logo-nav.webp";

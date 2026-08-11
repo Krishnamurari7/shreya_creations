@@ -4,10 +4,12 @@ import { BTN_PRIMARY } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import OptimizedImage from "@/components/OptimizedImage";
 import { usePathname } from "next/navigation";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { UI } from "@/lib/i18n";
+import { alternateLanguagePath, localizedPath } from "@/lib/locale";
 import { NAV_LOGO_SRC, normalizeBrandName } from "@/lib/brand";
 import AnnouncementBar from "@/components/AnnouncementBar";
 
@@ -110,14 +112,14 @@ function BrandLogo({ brandName, variant = "header" }) {
   return (
     <span className={cn("nav-logo-3d", isDrawer && "nav-logo-3d--drawer")}>
       <span className="nav-logo-3d__body">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <OptimizedImage
           src={NAV_LOGO_SRC}
           alt={brandName}
-          className={cn("nav-logo-img", isDrawer && "nav-logo-img--drawer")}
           width={220}
           height={88}
-          decoding="async"
+          priority
+          sizes="220px"
+          className={cn("nav-logo-img", isDrawer && "nav-logo-img--drawer")}
         />
       </span>
     </span>
@@ -165,14 +167,16 @@ function WhatsAppIcon({ className = "h-4 w-4 shrink-0" }) {
 }
 
 export default function Navbar({ site }) {
-  const { lang, toggle } = useLanguage();
+  const { lang } = useLanguage();
   const t = UI[lang];
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const prevPath = useRef(pathname);
   const wa = waLink(site?.whatsapp, greetingMessage(lang));
-  const enquireHref = "/contact";
+  const enquireHref = localizedPath("/contact", lang);
+  const langToggleHref = alternateLanguagePath(pathname);
+  const langToggleLabel = lang === "en" ? UI.en.language : UI.hi.language;
   const brandName = normalizeBrandName(site?.brand);
 
   const closeMenu = useCallback(() => setOpen(false), []);
@@ -209,7 +213,7 @@ export default function Navbar({ site }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === "/hi";
 
   const headerClass = [
     "site-header",
@@ -222,9 +226,10 @@ export default function Navbar({ site }) {
     .join(" ");
 
   const isActiveLink = (href) => {
-    if (href === "/") return pathname === "/";
-    if (href.startsWith("/#")) return pathname === "/";
-    return pathname === href || pathname.startsWith(`${href}/`);
+    const localized = localizedPath(href, lang);
+    if (href === "/") return pathname === localized || pathname === "/hi";
+    if (href.startsWith("/#")) return pathname === "/" || pathname === "/hi";
+    return pathname === localized || pathname.startsWith(`${localized}/`);
   };
 
   return (
@@ -234,20 +239,19 @@ export default function Navbar({ site }) {
 
       <div className="site-header-inner">
         <div className="nav-mobile-bar lg:hidden">
-          <Link href="/" onClick={closeMenu} className="nav-brand nav-mobile-brand">
+          <Link href={localizedPath("/", lang)} onClick={closeMenu} className="nav-brand nav-mobile-brand">
             <BrandLogo brandName={brandName} />
           </Link>
 
           <div className="nav-mobile-actions">
-            <button
-              type="button"
-              onClick={toggle}
+            <Link
+              href={langToggleHref}
               className="nav-lang-btn nav-lang-btn--mobile"
-              aria-label={t.language}
+              aria-label={langToggleLabel}
             >
               <GlobeIcon />
-              <span>{t.language}</span>
-            </button>
+              <span>{langToggleLabel}</span>
+            </Link>
             <button
               type="button"
               className="nav-icon-btn nav-icon-btn--menu nav-icon-btn--luxury"
@@ -262,7 +266,7 @@ export default function Navbar({ site }) {
         </div>
 
         <nav className="nav-desktop-bar nav-desktop-bar--luxury hidden lg:grid" aria-label="Main navigation">
-          <Link href="/" className="nav-brand nav-desktop-brand">
+          <Link href={localizedPath("/", lang)} className="nav-brand nav-desktop-brand">
             <BrandLogo brandName={brandName} />
           </Link>
 
@@ -271,7 +275,7 @@ export default function Navbar({ site }) {
               {ROUTES.map((r) => (
                 <li key={r.href}>
                   <Link
-                    href={r.href}
+                    href={localizedPath(r.href, lang)}
                     className={isActiveLink(r.href) ? "is-active" : undefined}
                   >
                     <NavLinkIcon type={r.key} />
@@ -284,16 +288,17 @@ export default function Navbar({ site }) {
 
           <div className="nav-desktop-end">
             <div className="nav-desktop-actions nav-desktop-actions--luxury">
-              <button type="button" onClick={toggle} className="nav-lang-btn nav-lang-btn--luxury" aria-label={t.language}>
+              <Link href={langToggleHref} className="nav-lang-btn nav-lang-btn--luxury" aria-label={langToggleLabel}>
                 <GlobeIcon />
-                <span>{t.language}</span>
+                <span>{langToggleLabel}</span>
                 <ChevronDownIcon />
-              </button>
+              </Link>
               <a
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="nav-wa-circle"
+                className="nav-wa-circle navbar-wa-link"
+                data-track-cta="navbar"
                 aria-label={t.chatWhatsApp}
               >
                 <WhatsAppIcon className="nav-wa-circle__icon" />
@@ -342,7 +347,7 @@ export default function Navbar({ site }) {
           {ROUTES.map((r, i) => (
             <li key={r.href} style={{ "--nav-item-delay": `${i * 45}ms` }}>
               <Link
-                href={r.href}
+                href={localizedPath(r.href, lang)}
                 onClick={closeMenu}
                 className={isActiveLink(r.href) ? "is-active" : undefined}
                 tabIndex={open ? 0 : -1}
@@ -358,20 +363,21 @@ export default function Navbar({ site }) {
         </ul>
 
         <div className="nav-mobile-drawer-footer">
-          <button
-            type="button"
-            onClick={toggle}
+          <Link
+            href={langToggleHref}
             className="nav-mobile-drawer-action"
             tabIndex={open ? 0 : -1}
+            onClick={closeMenu}
           >
             <GlobeIcon className="nav-mobile-drawer-action__icon" />
-            {t.language}
-          </button>
+            {langToggleLabel}
+          </Link>
           <a
             href={wa}
             target="_blank"
             rel="noopener noreferrer"
             onClick={closeMenu}
+            data-track-cta="navbar"
             className={cn(BTN_PRIMARY, "nav-mobile-drawer-wa")}
             tabIndex={open ? 0 : -1}
           >

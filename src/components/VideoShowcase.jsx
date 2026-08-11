@@ -109,7 +109,7 @@ function VideoPlayer({ embedUrl, title }) {
         <div className="video-showcase-placeholder">
           {thumbUrl && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={thumbUrl} alt="" className="video-showcase-placeholder__thumb" />
+            <img src={thumbUrl} alt={title} className="video-showcase-placeholder__thumb" />
           )}
           <div className="video-showcase-placeholder__veil" aria-hidden />
           <div className="video-showcase-play" aria-hidden>

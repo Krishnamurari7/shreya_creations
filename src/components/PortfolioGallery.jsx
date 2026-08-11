@@ -94,7 +94,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
 
       {filtered.length === 0 ? (
         <Glass3DCard className="rounded-[2rem] border-ink/15 p-16 sm:p-20 text-center">
-          <span className="text-4xl">✨</span>
+          <span className="text-4xl" aria-hidden>✨</span>
           <p className="text-ink mt-4 font-normal">No pieces in this category yet. Check back soon!</p>
         </Glass3DCard>
       ) : (

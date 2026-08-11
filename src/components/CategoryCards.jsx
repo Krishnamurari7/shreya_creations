@@ -27,7 +27,6 @@ import {
 import { formatPhoneDisplay, telHref } from "@/lib/site-config";
 import { DEFAULT_CATEGORY_CARDS } from "@/lib/cms/home-blocks";
 import { pickPage } from "@/lib/cms";
-import SeoSubheadings from "@/components/SeoSubheadings";
 
 function localizeCategoryCard(card) {
   const rows = (card.items || []).length
@@ -382,22 +381,25 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp, home =
           {titleAfter}
         </h2>
         <p className="quick-explore__subtitle">{subtitle}</p>
-        <SeoSubheadings
-          className="quick-explore__seo-h3"
-          items={
-            lang === "hi"
-              ? [
-                  { label: "बुटीक नियर मी", href: "/shop" },
-                  { label: "बेस्ट बुटीक नियर मी", href: "/shop" },
-                  { label: "डिज़ाइनर बुटीक बोरिंग रोड", href: "/shop" },
-                ]
-              : [
-                  { label: "Boutique Near Me", href: "/shop" },
-                  { label: "Best Boutique Near Me", href: "/shop" },
-                  { label: "Designer Boutique Boring Road", href: "/shop" },
-                ]
-          }
-        />
+        <p className="quick-explore__context">
+          {lang === "hi" ? (
+            <>
+              बोरिंग रोड, पटना में{" "}
+              <Link href="/shop" className="quick-explore__context-link">
+                डिज़ाइनर बुटीक
+              </Link>{" "}
+              और कस्टम सिलाई की सेवाएँ देखें।
+            </>
+          ) : (
+            <>
+              Explore our{" "}
+              <Link href="/shop" className="quick-explore__context-link">
+                designer boutique
+              </Link>{" "}
+              and custom stitching services on Boring Road, Patna.
+            </>
+          )}
+        </p>
       </div>
 
       <motion.div

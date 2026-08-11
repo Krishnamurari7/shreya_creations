@@ -7,6 +7,8 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
+import OptimizedImage from "@/components/OptimizedImage";
+import { exploreCategoryAlt, MEDIA } from "@/lib/media";
 
 const CATEGORIES = [
   {
@@ -28,7 +30,7 @@ const CATEGORIES = [
     href: "/courses",
     type: "course",
     bg: "#FCE4EC",
-    image: "/categories/stitching.png",
+    image: "/categories/stitching.webp",
     fallbackCount: 3,
   },
   {
@@ -50,7 +52,7 @@ const CATEGORIES = [
     href: "/courses",
     type: "course",
     bg: "#F0E4F2",
-    image: "/categories/stitching.png",
+    image: "/categories/stitching.webp",
     fallbackCount: 2,
   },
   
@@ -73,7 +75,7 @@ const CATEGORIES = [
     href: "/shop",
     type: "product",
     bg: "#FFF3E0",
-    image: "/categories/bridal.png",
+    image: "/categories/bridal.webp",
     fallbackCount: 12,
   },
   {
@@ -84,7 +86,7 @@ const CATEGORIES = [
     href: "/shop",
     type: "product",
     bg: "#FFE8D6",
-    image: "/categories/ethnic-wear.png",
+    image: "/categories/ethnic-wear.webp",
     fallbackCount: 10,
   },
 ];
@@ -182,15 +184,16 @@ export default function ExploreCategories({ courses = [], products = [], home = 
             <motion.div key={cat.key} variants={reduceMotion ? undefined : item}>
               <Link href={cat.href} className="explore-cat-card group">
                 <div
-                  className="explore-cat-card__visual"
+                  className="explore-cat-card__visual relative"
                   style={{ backgroundColor: cat.bg }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <OptimizedImage
                     src={cat.image}
-                    alt=""
-                    className="explore-cat-card__img"
+                    alt={exploreCategoryAlt(cat.key, lang)}
+                    fill
+                    sizes="(max-width: 640px) 45vw, 160px"
                     loading="lazy"
+                    className="explore-cat-card__img object-contain"
                   />
                 </div>
                 <div className="explore-cat-card__body">

@@ -11,6 +11,6 @@ SET
   ),
   whatsapp = coalesce(nullif(whatsapp, ''), '919031105666'),
   whatsapp_number = coalesce(nullif(whatsapp_number, ''), coalesce(nullif(whatsapp, ''), '919031105666')),
-  email = coalesce(nullif(email, ''), 'hello@shreyacreations.in'),
+  email = coalesce(nullif(email, ''), 'hello@shreyacreation.com'),
   updated_at = now()
 WHERE id = 1;

@@ -22,11 +22,14 @@ import CardImage from "@/components/CardImage";
 import AmbientGlows from "@/components/AmbientGlows";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickLocalized } from "@/lib/i18n";
+import { resolveMediaSrc, resolveFounderImage, MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
 import { SITE_STATS } from "@/lib/seed";
 import {
   DEFAULT_OUTFITS_DELIVERED,
   DEFAULT_STUDENTS_TAUGHT,
+  computeYearsExperience,
+  DEFAULT_FOUNDING_YEAR,
 } from "@/lib/site-config";
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -230,8 +233,8 @@ export default function AboutClient({ site, aboutPage }) {
   const imageParallax = useSpring(rawParallax, { stiffness: 90, damping: 24 });
   const imageScale = useTransform(heroProgress, [0, 0.5, 1], [1.06, 1, 1.06]);
 
-  const years = site.yearsExperience || Number(String(SITE_STATS.yearsEn).replace(/\D/g, "")) || 17;
-  const founded = site.foundingYear || 2012;
+  const years = site.yearsExperience ?? computeYearsExperience(site.foundingYear ?? DEFAULT_FOUNDING_YEAR);
+  const founded = site.foundingYear ?? DEFAULT_FOUNDING_YEAR;
   const students = site.studentsTaught || DEFAULT_STUDENTS_TAUGHT;
   const outfits = site.outfitsDelivered || DEFAULT_OUTFITS_DELIVERED;
   const hours = site.expressDeliveryHours || 24;
@@ -315,9 +318,11 @@ export default function AboutClient({ site, aboutPage }) {
     hi ? `${hours} घंटे एक्सप्रेस डिलीवरी` : `${hours} Hours Express Delivery`,
   ];
 
-  const studioImage = about.heroImage || home.heroImage || "/botique.png";
-  const foundersImage =
-    about.foundersImage || home.founderImage || home.mentorImage || "/institute.png";
+  const studioImage = resolveMediaSrc(about.heroImage || home.heroImage || MEDIA.boutique);
+  const foundersImage = resolveFounderImage(
+    about.foundersImage || home.founderImage || home.mentorImage,
+    "/institute.png"
+  );
 
   const foundersTitle = hi ? "हमारे संस्थापक" : "Our Founders";
   const foundersNames = hi ? "संजय कुमार मिश्रा एवं श्रेया" : "Sanjay Kumar Mishra & Shreya";

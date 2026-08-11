@@ -125,12 +125,12 @@ export const PROCESS = [
 
 /** Local placeholder images — never use Unsplash on the public site. */
 const LOCAL_IMGS = [
-  "/slider1.png",
-  "/slider2.png",
-  "/slider3.png",
+  "/slider1.webp",
+  "/slider2.webp",
+  "/slider3.webp",
   "/slider4.png",
-  "/hero_studio_banner.png",
-  "/botique.png",
+  "/hero_studio_banner.webp",
+  "/boutique.webp",
   "/institute.png",
   "/job.png",
 ];
@@ -226,6 +226,7 @@ export const PRODUCTS = [
     colours: "Gold-tone kundan",
     estimated_delivery: "2–5 days (subject to stock)",
     stitchable: false,
+    ready_made: true,
     published: true,
     description:
       "Statement kundan necklace with matching earrings and maang tikka to complete the bridal look.",
@@ -245,6 +246,7 @@ export const PRODUCTS = [
     colours: "Assorted festive colours",
     estimated_delivery: "1–3 days",
     stitchable: false,
+    ready_made: true,
     published: true,
     description:
       "Hand-finished potli bag with beads and tassels — the perfect finishing touch for festive wear.",
@@ -264,6 +266,7 @@ export const COURSES = [
     titleHi: "बेसिक बुटीक मास्टरी कोर्स",
     category: "Boutique",
     price: 15000,
+    price_confirmed: true,
     duration: "3 months",
     language: "Hindi",
     published: true,
@@ -323,7 +326,8 @@ export const COURSES = [
     title: "Advanced Boutique Course",
     titleHi: "एडवांस्ड बुटीक कोर्स",
     category: "Boutique",
-    price: 45000, // TODO(owner): confirm starting price
+    price: 45000,
+    price_tbd: true, // TODO(owner): confirm starting price
     duration: "12 months",
     language: "Hindi",
     published: true,
@@ -369,6 +373,7 @@ export const COURSES = [
     category: "Blouse Making",
     price: 4995,
     compare_price: 7999,
+    price_confirmed: true,
     badge: "bestseller",
     duration: "3 months",
     language: "Hindi",
@@ -504,7 +509,8 @@ export const COURSES = [
     title: "Fashion Designing Course",
     titleHi: "फैशन डिज़ाइनिंग कोर्स",
     category: "Fashion Design",
-    price: 55000, // TODO(owner): confirm starting price
+    price: 55000,
+    price_tbd: true, // TODO(owner): confirm starting price
     duration: "1.5 years",
     language: "Hindi & English",
     published: true,
@@ -526,7 +532,8 @@ export const COURSES = [
     title: "Lehenga Making Course",
     titleHi: "लहंगा मेकिंग कोर्स",
     category: "Fashion Design",
-    price: 15000, // TODO(owner): confirm starting price
+    price: 15000,
+    price_tbd: true, // TODO(owner): confirm starting price
     duration: "6 months",
     language: "Hindi",
     published: true,
@@ -850,15 +857,15 @@ export const PORTFOLIO = [
   { id: "g1", title: "Bridal Lehenga — Maroon & Gold", slug: "bridal-lehenga-maroon-gold", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 1, featured: true },
   { id: "g2", title: "Reception Gown", slug: "reception-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 2, featured: true },
   { id: "g3", title: "Mirror-work Blouse", slug: "mirror-work-blouse", category: "Blouses", image: LOCAL_IMGS[2], sort_order: 3, featured: true },
-  { id: "g4", title: "Festive Anarkali", slug: "festive-anarkali", category: "Suits", image: LOCAL_IMGS[3], sort_order: 4 },
-  { id: "g5", title: "Kundan Bridal Set", slug: "kundan-bridal-set", category: "Jewellery", image: LOCAL_IMGS[4], sort_order: 5 },
-  { id: "g6", title: "Silk Saree Drape", slug: "silk-saree-drape", category: "Sarees", image: LOCAL_IMGS[5], sort_order: 6 },
-  { id: "g7", title: "Embroidered Dupatta", slug: "embroidered-dupatta", category: "Bridal", image: LOCAL_IMGS[6], sort_order: 7 },
+  { id: "g4", title: "Festive Anarkali", slug: "festive-anarkali", category: "Suits", image: LOCAL_IMGS[3], sort_order: 4, featured: true },
+  { id: "g5", title: "Kundan Bridal Set", slug: "kundan-bridal-set", category: "Jewellery", image: LOCAL_IMGS[4], sort_order: 5, featured: true },
+  { id: "g6", title: "Silk Saree Drape", slug: "silk-saree-drape", category: "Sarees", image: LOCAL_IMGS[5], sort_order: 6, featured: true },
+  { id: "g7", title: "Embroidered Dupatta", slug: "embroidered-dupatta", category: "Bridal", image: LOCAL_IMGS[6], sort_order: 7, featured: true },
   { id: "g8", title: "Designer Blouse Back", slug: "designer-blouse-back", category: "Blouses", image: LOCAL_IMGS[7], sort_order: 8, featured: true },
   { id: "g9", title: "Pastel Mehendi Lehenga", slug: "pastel-mehendi-lehenga", category: "Bridal", image: LOCAL_IMGS[0], sort_order: 9, featured: true },
   { id: "g10", title: "Indo-Western Fusion Gown", slug: "indo-western-fusion-gown", category: "Gowns", image: LOCAL_IMGS[1], sort_order: 10, featured: true },
   { id: "g11", title: "Zardozi Potli Bag", slug: "zardozi-potli-bag", category: "Accessories", image: LOCAL_IMGS[2], sort_order: 11 },
-  { id: "g12", title: "Hand-embroidered Cape Blouse", slug: "hand-embroidered-cape-blouse", category: "Blouses", image: LOCAL_IMGS[3], sort_order: 12 },
+  { id: "g12", title: "Hand-embroidered Cape Blouse", slug: "hand-embroidered-cape-blouse", category: "Blouses", image: LOCAL_IMGS[3], sort_order: 12, featured: true },
 ];
 
 /**

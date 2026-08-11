@@ -25,6 +25,8 @@ module.exports = {
         lavender: "var(--lavender)",
         orange: {
           DEFAULT: "rgba(var(--orange-rgb), <alpha-value>)",
+          text: "rgba(var(--orange-text-rgb), <alpha-value>)",
+          brand: "rgba(var(--orange-rgb), <alpha-value>)",
           light: "var(--orange-light)",
           dark: "var(--orange-dark)",
         },

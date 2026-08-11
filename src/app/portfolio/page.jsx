@@ -11,7 +11,8 @@ import JsonLdScript from "@/components/JsonLdScript";
 import { TrustWall } from "@/components/Sections";
 import { getPortfolio, getSiteSettings, getTrustStats } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
-import { buildMetadata, breadcrumbJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { getRequestLocale } from "@/lib/locale";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Bridal & Designer Work Portfolio | Shreya Creation Patna",
@@ -23,6 +24,7 @@ export const metadata = buildMetadata({
 });
 
 export default async function PortfolioPage() {
+  const locale = await getRequestLocale();
   const [items, site, trust] = await Promise.all([
     getPortfolio(),
     getSiteSettings(),
@@ -33,10 +35,13 @@ export default async function PortfolioPage() {
   return (
     <PageShell>
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Portfolio", path: "/portfolio" },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("portfolio", locale), path: "/portfolio" },
+          ],
+          locale
+        )}
       />
       <LocalizedPageHeader
         eyebrow={portfolio.headerEyebrow || "Our work"}
@@ -52,9 +57,10 @@ export default async function PortfolioPage() {
 
       <PageSeoIntro
         links={[
-          { href: "/shop", label: "order custom stitching in Patna" },
-          { href: "/contact", label: "book a bridal consultation" },
+          { href: "/shop", label: "order custom stitching in Patna", labelHi: "पटना में कस्टम सिलाई ऑर्डर" },
+          { href: "/contact", label: "book a bridal consultation", labelHi: "ब्राइडल परामर्श बुक करें" },
         ]}
+        childrenHi="हमारा पटना ब्राइडल बुटीक देखें — वेडिंग लहंगा, रिसेप्शन गाउन और डिज़ाइनर ब्राइडल वियर आपके माप पर। इस गैलरी के कई लुक बोरिंग रोड पर 24 घंटे एक्सप्रेस डिलीवरी में दोहराए जा सकते हैं।"
       >
         Explore our bridal boutique in Patna — wedding lehengas, reception gowns, and designer
         bridal wear stitched to your measurements. Many looks from this gallery can be recreated with

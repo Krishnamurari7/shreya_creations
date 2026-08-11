@@ -12,8 +12,60 @@ function normalizeSyllabus(syllabus) {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+/** Homepage entry-point courses — shown before add-on modules. */
+export const FLAGSHIP_COURSE_SLUGS = [
+  "fashion-designing-course",
+  "advanced-boutique-course",
+  "blouse-suit-making-course",
+  "lehenga-making-course",
+];
+
 export function isDbUuid(id) {
   return typeof id === "string" && UUID_RE.test(id);
+}
+
+export function isFlagshipCourse(course) {
+  return Boolean(course?.slug && FLAGSHIP_COURSE_SLUGS.includes(course.slug));
+}
+
+/** True when owner has confirmed the displayed starting fee. */
+export function isPriceConfirmed(course) {
+  if (course?.price_confirmed === true || course?.priceConfirmed === true) return true;
+  if (course?.price_confirmed === false || course?.priceConfirmed === false) return false;
+  if (course?.price_tbd === true || course?.priceTbd === true) return false;
+  return course?.price != null && Number(course.price) > 0;
+}
+
+/**
+ * Starting price for course cards — never invents a fee.
+ * @returns {{ kind: "price" | "todo"; amount?: number; label: string }}
+ */
+export function courseStartingPrice(course, lang = "en") {
+  const hi = lang === "hi";
+  if (isPriceConfirmed(course) && course.price != null) {
+    const amount = Number(course.price);
+    return {
+      kind: "price",
+      amount,
+      label: `₹${amount.toLocaleString("en-IN")}`,
+    };
+  }
+  return {
+    kind: "todo",
+    label: hi ? "TODO(owner): फीस कन्फर्म करें" : "TODO(owner): confirm fee",
+  };
+}
+
+export function sortFlagshipFirst(courses = []) {
+  return [...courses].sort((a, b) => {
+    const aFlag = isFlagshipCourse(a);
+    const bFlag = isFlagshipCourse(b);
+    if (aFlag !== bFlag) return aFlag ? -1 : 1;
+    const aIdx = FLAGSHIP_COURSE_SLUGS.indexOf(a.slug);
+    const bIdx = FLAGSHIP_COURSE_SLUGS.indexOf(b.slug);
+    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+    return (a.title || "").localeCompare(b.title || "");
+  });
 }
 
 /** Merge seed catalog with Supabase rows for the admin course list. */

@@ -14,7 +14,7 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
     const wa = whatsapp ? waLink(whatsapp, productMessage(product, productUrl)) : productUrl;
 
     return (
-      <div className={cn("boutique-product-card group flex flex-col h-full", compact && "boutique-product-card--compact")}>
+      <div className={cn("boutique-product-card group flex flex-col h-full product-card", compact && "boutique-product-card--compact")} data-track-item={product.title}>
         <div className="product-card-media relative">
           <Link href={`/shop/${product.slug}`} className="block">
             <CardImage src={cover} alt={product.image_alt || product.imageAlt || `${product.title} Patna`} ratio={compact ? "4/5" : "3/4"} position="top" />
@@ -46,6 +46,7 @@ export default function ProductCard({ product, variant = "boutique", whatsapp, c
             href={wa}
             target={whatsapp ? "_blank" : undefined}
             rel={whatsapp ? "noopener noreferrer" : undefined}
+            data-track-cta="product_card"
             className={cn(
               BTN_PRIMARY,
               "product-card-wa-btn mt-auto w-full gap-1.5",

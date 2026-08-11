@@ -11,6 +11,7 @@ import { DEFAULT_STUDENTS_TAUGHT } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { addonCourseLabel, isAddonCourse } from "@/lib/courses";
 import CoursePdfModal, { coursePdfUrl } from "@/components/CoursePdfModal";
+import { trackLead, trackViewContent } from "@/lib/analytics";
 
 function usePageUrl() {
   const [url, setUrl] = useState("");
@@ -116,9 +117,16 @@ function PricingBlock({ price, comparePrice, discountPct, lang }) {
   );
 }
 
-function EnrollButton({ href, label, className }) {
+function EnrollButton({ href, label, className, itemName }) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={cn("course-detail__enroll-btn", className)}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-track-cta="course_enroll"
+      data-track-item={itemName}
+      className={cn("course-detail__enroll-btn", className)}
+    >
       {label}
       <span aria-hidden>→</span>
     </a>
@@ -193,6 +201,14 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
   const enrollUrl = waLink(site.whatsapp, courseMessage(course, pageUrl, lang));
   const pdfUrl = coursePdfUrl(course.course_pdf ?? course.coursePdf);
   const showPdf = course.show_pdf !== false;
+
+  useEffect(() => {
+    const name = title?.trim();
+    if (!name) return;
+    trackViewContent("course", name, price, {
+      source_page: `/courses/${course.slug}`,
+    });
+  }, [course.slug, title, price]);
 
   const t = {
     back: lang === "hi" ? "सभी कोर्स" : "All Courses",
@@ -281,7 +297,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
                 lang={lang}
               />
 
-              <EnrollButton href={enrollUrl} label={t.getCourse} />
+              <EnrollButton href={enrollUrl} label={t.getCourse} itemName={title} />
 
               <p className="course-detail__secure">🔒 {t.secure}</p>
 
@@ -315,7 +331,14 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
           <button
             type="button"
             className="course-detail__pdf-btn"
-            onClick={() => setPdfOpen(true)}
+            onClick={() => {
+              trackLead("brochure_download", {
+                cta_label: "brochure_download",
+                item_name: title,
+                source_page: `/courses/${course.slug}`,
+              });
+              setPdfOpen(true);
+            }}
           >
             <span className="course-detail__pdf-btn-icon" aria-hidden>
               📄
@@ -379,7 +402,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
             discountPct={discountPct}
             lang={lang}
           />
-          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--wide" />
+          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--wide" itemName={title} />
           <p className="course-detail__secure">🔒 {t.securePay}</p>
         </section>
       </div>
@@ -404,7 +427,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
               </span>
             )}
           </div>
-          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--sticky" />
+          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--sticky" itemName={title} />
         </div>
       </div>
 

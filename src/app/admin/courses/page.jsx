@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import ResourceManager from "@/components/admin/ResourceManager";
 import { courseToFormState, isCourseAvailable, mergeAdminCourses } from "@/lib/courses";
 import { COURSE_CATEGORIES } from "@/lib/seed";
+import { BTN_SECONDARY } from "@/lib/ui";
 
 const COURSE_PDF_OPTIONS = [
   "/courses/pdfs/Basic Boutique Mastery Course 15000.pdf",
@@ -82,6 +84,11 @@ function CourseListBadges({ course }) {
         <span className="admin-course-badge admin-course-badge--bestseller">Bestseller</span>
       )}
       {course.duration && <span className="admin-course-badge admin-course-badge--muted">{course.duration}</span>}
+      {course._dbId && (
+        <Link href={`/admin/courses/${course._dbId}/batches`} className={BTN_SECONDARY + " text-xs py-1 px-2"}>
+          Batches
+        </Link>
+      )}
     </div>
   );
 }

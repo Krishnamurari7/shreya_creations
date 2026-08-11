@@ -30,7 +30,7 @@ const CONTACT_FIELDS = [
   { name: "phone_primary", label: "Primary phone", hint: "e.g. +919031105666" },
   { name: "phone_secondary", label: "Secondary phone", hint: "e.g. +917903155125" },
   { name: "phone", label: "Phone display (combined)", hint: "Legacy combined string; prefer primary + secondary for click-to-call" },
-  { name: "email", label: "Email", hint: "hello@shreyacreations.in" },
+  { name: "email", label: "Email", hint: "hello@shreyacreation.com" },
   { name: "address", label: "Full address", type: "textarea", col: "address" },
   { name: "address_line", label: "Address line (optional override)", type: "textarea" },
   { name: "city", label: "City", hint: "Patna" },

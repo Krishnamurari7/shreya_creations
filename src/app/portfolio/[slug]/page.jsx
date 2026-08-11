@@ -5,11 +5,13 @@ import CardImage from "@/components/CardImage";
 import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getPortfolioBySlug, getSiteSettings } from "@/lib/data";
+import { getRequestLocale } from "@/lib/locale";
 import { PAGE_CONTAINER, PAGE_HERO_TITLE, SECTION_LEAD } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import {
   buildMetadata,
   breadcrumbJsonLd,
+  breadcrumbLabel,
   itemImage,
   itemImageAlt,
   portfolioMetaDescription,
@@ -40,20 +42,26 @@ export async function generateMetadata({ params }) {
 
 export default async function PortfolioDetailPage({ params }) {
   const { slug } = await params;
+  const locale = await getRequestLocale();
   const [item, site] = await Promise.all([getPortfolioBySlug(slug), getSiteSettings()]);
   if (!item) return notFound();
 
   const alt = itemImageAlt(item);
   const image = item.og_image || item.image;
+  const title =
+    locale === "hi" && (item.title_hi || item.titleHi) ? item.title_hi || item.titleHi : item.title;
 
   return (
     <PageShell>
       <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Portfolio", path: "/portfolio" },
-          { name: item.title, path: `/portfolio/${item.slug}` },
-        ])}
+        data={breadcrumbJsonLd(
+          [
+            { name: breadcrumbLabel("home", locale), path: "/" },
+            { name: breadcrumbLabel("portfolio", locale), path: "/portfolio" },
+            { name: title, path: `/portfolio/${item.slug}` },
+          ],
+          locale
+        )}
       />
       <div className={cn(PAGE_CONTAINER, "max-w-4xl", "pt-[calc(var(--header-offset)+1rem)]", "pb-12", "relative", "z-20")}>
         <Link
