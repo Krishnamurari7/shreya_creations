@@ -128,11 +128,11 @@ const LOCAL_IMGS = [
   "/slider1.webp",
   "/slider2.webp",
   "/slider3.webp",
-  "/slider4.png",
+  "/slider4.webp",
   "/hero_studio_banner.webp",
   "/boutique.webp",
-  "/institute.png",
-  "/job.png",
+  "/institute.webp",
+  "/job.webp",
 ];
 const img = (id = "0") => LOCAL_IMGS[Math.abs(String(id).length + String(id).charCodeAt(0) || 0) % LOCAL_IMGS.length];
 const localPair = (a, b) => [LOCAL_IMGS[a % LOCAL_IMGS.length], LOCAL_IMGS[b % LOCAL_IMGS.length]];

@@ -1,19 +1,25 @@
-/** Self-hosted media paths (WebP). */
+/** Self-hosted media paths (WebP sources; next/image serves AVIF + WebP). */
 export const MEDIA = {
   heroStudioBanner: "/hero_studio_banner.webp",
   background: "/background.webp",
   slider1: "/slider1.webp",
   slider2: "/slider2.webp",
   slider3: "/slider3.webp",
+  slider4: "/slider4.webp",
   boutique: "/boutique.webp",
   logo3d: "/3d.webp",
   logoNav: "/logo-nav.webp",
+  institute: "/institute.webp",
+  job: "/job.webp",
+  atelierDetails: "/atelier_details.webp",
   founderSanjay: "/founders/sanjay-kumar-mishra.webp",
   founderShreya: "/founders/sangi-shreya.webp",
   categories: {
     bridal: "/categories/bridal.webp",
     ethnicWear: "/categories/ethnic-wear.webp",
     stitching: "/categories/stitching.webp",
+    fashionDesigning: "/categories/fashion-designing.webp",
+    beauty: "/categories/beauty.webp",
   },
 };
 
@@ -23,13 +29,19 @@ const LEGACY_WEBP = {
   "/slider1.png": MEDIA.slider1,
   "/slider2.png": MEDIA.slider2,
   "/slider3.png": MEDIA.slider3,
+  "/slider4.png": MEDIA.slider4,
   "/boutique.png": MEDIA.boutique,
-  "/boutique.png": MEDIA.boutique,
+  "/botique.png": MEDIA.boutique,
   "/3d.png": MEDIA.logo3d,
   "/logo-nav.png": MEDIA.logoNav,
+  "/institute.png": MEDIA.institute,
+  "/job.png": MEDIA.job,
+  "/atelier_details.png": MEDIA.atelierDetails,
   "/categories/bridal.png": MEDIA.categories.bridal,
   "/categories/ethnic-wear.png": MEDIA.categories.ethnicWear,
   "/categories/stitching.png": MEDIA.categories.stitching,
+  "/categories/fashion-designing.png": MEDIA.categories.fashionDesigning,
+  "/categories/beauty.png": MEDIA.categories.beauty,
 };
 
 const SUPABASE_FOUNDER_IDS = {

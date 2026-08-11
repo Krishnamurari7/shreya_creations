@@ -134,6 +134,9 @@ export default async function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
+        {process.env.NEXT_PUBLIC_SUPABASE_URL ? (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} crossOrigin="anonymous" />
+        ) : null}
         <link rel="dns-prefetch" href="https://www.facebook.com" />
       </head>
       <body className={cn(BG_ATMOSPHERE, "has-mobile-contact-bar")} suppressHydrationWarning>

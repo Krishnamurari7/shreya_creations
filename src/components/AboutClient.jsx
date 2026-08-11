@@ -321,7 +321,7 @@ export default function AboutClient({ site, aboutPage }) {
   const studioImage = resolveMediaSrc(about.heroImage || home.heroImage || MEDIA.boutique);
   const foundersImage = resolveFounderImage(
     about.foundersImage || home.founderImage || home.mentorImage,
-    "/institute.png"
+    MEDIA.institute
   );
 
   const foundersTitle = hi ? "हमारे संस्थापक" : "Our Founders";

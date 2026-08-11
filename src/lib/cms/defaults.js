@@ -199,7 +199,7 @@ export const PAGE_DEFAULTS = {
     hero_tile4_sub: "Express stitching",
     hero_tile4_sub_hi: "एक्सप्रेस सिलाई",
     hero_image: "/slider1.webp",
-    hero_images: ["/slider1.webp", "/slider2.webp", "/slider3.webp", "/slider4.png"],
+    hero_images: ["/slider1.webp", "/slider2.webp", "/slider3.webp", "/slider4.webp"],
     hero_floating_cards: [
       { icon: "🏪", title: "Boutique Courses", sub: "Basic, Advanced & Western — 3 to 12 months", title_hi: "बुटीक कोर्स", sub_hi: "बेसिक, एडवांस्ड और वेस्टर्न — 3 से 12 महीने" },
       { icon: "👚", title: "Blouse Making", sub: "Basic, Advanced & Western blouse modules", title_hi: "ब्लाउज मेकिंग", sub_hi: "बेसिक, एडवांस्ड और वेस्टर्न ब्लाउज" },
@@ -337,7 +337,7 @@ export const PAGE_DEFAULTS = {
       "From basic salwar-kurti sets to designer blouses with 10+ neck styles — every garment is cut and finished to your exact measurements. We combine hands-on boutique training with real client order experience. Learn. Create. Earn.",
     atelier_body_hi:
       "बेसिक सलवार-कुर्ती से लेकर 10+ नेक स्टाइल वाले डिज़ाइनर ब्लाउज तक — हर परिधान आपके माप पर। हाथों-हाथ बुटीक ट्रेनिंग और असली ऑर्डर अनुभव। सीखें। बनाएं। कमाएं।",
-    atelier_image: "/atelier_details.png",
+    atelier_image: "/atelier_details.webp",
     atelier_quote: '"Handmade embroidery motifs crafted with metallic threads & beads."',
     atelier_quote_hi: '"धातु के धागों और मोतियों से हस्तनिर्मित कढ़ाई।"',
     collection_eyebrow: "NEW COLLECTION",
@@ -352,7 +352,7 @@ export const PAGE_DEFAULTS = {
     collection_cta_label_hi: "कलेक्शन देखें",
     collection_cta_href: "/portfolio",
     collection_image_left: "/hero_studio_banner.webp",
-    collection_image_right: "/atelier_details.png",
+    collection_image_right: "/atelier_details.webp",
     academy_badge: "Academy Studio",
     academy_badge_hi: "अकादमी स्टूडियो",
     academy_heading: "Best Fashion Designing Institute",

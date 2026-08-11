@@ -18,7 +18,8 @@ import {
   DEFAULT_FOUNDING_YEAR,
   SITE_FACTS,
 } from "@/lib/site-config";
-import { MEDIA } from "@/lib/media";
+import { MEDIA, heroServiceImageAlt } from "@/lib/media";
+import OptimizedImage from "@/components/OptimizedImage";
 
 const HERO_STATS_EN = [
   { icon: "trust", highlight: "years", line1: "Years of Trust", line2: "Since 2012" },
@@ -735,15 +736,13 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
       aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
     >
       <div className="home-hero__ambient" aria-hidden>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <OptimizedImage
           src={MEDIA.background}
           alt=""
+          fill
+          sizes="100vw"
           className="home-hero__bg-image"
-          width={1920}
-          height={1080}
-          decoding="async"
-          fetchPriority="high"
+          imgClassName="home-hero__bg-image"
         />
         <span className="home-hero__bg-overlay" />
       </div>
@@ -867,8 +866,15 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                     )}
                   >
                     {card.image ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={card.image} alt="" className="home-hero__service-img" loading="lazy" decoding="async" />
+                      <OptimizedImage
+                        src={card.image}
+                        alt={heroServiceImageAlt(card.key, lang)}
+                        fill
+                        sizes="(max-width: 640px) 45vw, 200px"
+                        loading="lazy"
+                        className="home-hero__service-img"
+                        imgClassName="home-hero__service-img"
+                      />
                     ) : (
                       <div className="home-hero__service-clock" aria-hidden>
                         <span className="home-hero__service-clock-face">

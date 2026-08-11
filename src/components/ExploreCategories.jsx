@@ -19,7 +19,7 @@ const CATEGORIES = [
     href: "/courses",
     type: "course",
     bg: "#FFF3E0",
-    image: "/categories/fashion-designing.png",
+    image: MEDIA.categories.fashionDesigning,
     fallbackCount: 3,
   },
   {
@@ -41,7 +41,7 @@ const CATEGORIES = [
     href: "/courses",
     type: "course",
     bg: "#FDE2E4",
-    image: "/categories/fashion-designing.png",
+    image: MEDIA.categories.fashionDesigning,
     fallbackCount: 2,
   },
   {
@@ -64,7 +64,7 @@ const CATEGORIES = [
     href: "/shop",
     type: "product",
     bg: "#FCE4EC",
-    image: "/categories/beauty.png",
+    image: MEDIA.categories.beauty,
     fallbackCount: 7,
   },
   {

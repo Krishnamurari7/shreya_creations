@@ -325,7 +325,7 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
     : "Shreya Creation Boutique is Patna’s trusted designer studio on Boring Road — specialising in blouses, lehengas, saree customisation, bridal wear and hand embroidery. Every outfit is cut and finished to your measurements and taste.";
 
   const gallery = [
-    { src: "/atelier_details.png", alt: hi ? "कढ़ाई डिटेल" : "Embroidery detail" },
+    { src: MEDIA.atelierDetails, alt: hi ? "कढ़ाई डिटेल" : "Embroidery detail on bridal lehenga at Shreya Creation, Patna" },
     { src: "/slider1.webp", alt: hi ? "पटना में फैशन डिज़ाइनर स्टूडियो में डिज़ाइनर वियर" : "Designer wear at Shreya Creation fashion studio, Patna" },
     { src: "/slider2.webp", alt: hi ? "पटना में श्रेया क्रिएशन पर ब्राइडल लहंगा और ब्लाउज़ सिलाई" : "Bridal lehenga and blouse stitching at Shreya Creation, Patna" },
     { src: "/slider3.webp", alt: hi ? "पटना में श्रेया क्रिएशन स्टूडियो की हैंडवर्क और सिलाई" : "Handwork and studio craft at Shreya Creation, Patna" },

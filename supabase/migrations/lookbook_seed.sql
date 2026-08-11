@@ -13,7 +13,7 @@ select * from (values
     'bridal-blouse-necklines',
     'From deep V to illusion net — neckline ideas we stitch most for Patna weddings, with tips on what flatters different saree drapes.',
     'डीप V से इल्यूज़न नेट तक — पटना की शादियों में सबसे ज़्यादा सिली जाने वाली नेकलाइन, और अलग-अलग साड़ी ड्रेप के लिए टिप्स।',
-    '/slider3.png',
+    '/slider3.webp',
     true,
     '2026-06-01T10:00:00Z'::timestamptz
   ),
@@ -23,7 +23,7 @@ select * from (values
     'nri-whatsapp-measurements',
     'A simple photo + tape guide so families abroad can order bridal and festive wear from our Boring Road atelier with confidence.',
     'सरल फोटो और टेप गाइड — विदेश में परिवार बोरिंग रोड एटेलियर से ब्राइडल और फेस्टिव वियर आत्मविश्वास से ऑर्डर कर सकें।',
-    '/slider1.png',
+    '/slider1.webp',
     true,
     '2026-05-18T10:00:00Z'::timestamptz
   ),
@@ -33,7 +33,7 @@ select * from (values
     '24-hour-express-stitching',
     'Which blouse, suit and lehenga styles we can often finish in a day — and when you should allow extra time for heavy embroidery.',
     'कौन से ब्लाउज, सूट और लहंगा अक्सर एक दिन में तैयार — और भारी कढ़ाई के लिए कब अतिरिक्त समय रखें।',
-    '/slider2.png',
+    '/slider2.webp',
     true,
     '2026-05-02T10:00:00Z'::timestamptz
   ),
@@ -43,7 +43,7 @@ select * from (values
     'reception-gown-silhouettes',
     'Floor-length, cape, and Indo-western fusion options we craft for reception nights — fabric picks that move well on the dance floor.',
     'फ्लोर-लेंथ, केप और इंडो-वेस्टर्न फ़्यूज़न — रिसेप्शन के लिए गाउन, और डांस फ्लोर पर अच्छे लगने वाले कपड़े।',
-    '/hero_studio_banner.png',
+    '/hero_studio_banner.webp',
     true,
     '2026-04-12T10:00:00Z'::timestamptz
   ),
@@ -53,7 +53,7 @@ select * from (values
     'student-success-stories',
     'How boutique course graduates turn practice pieces into paid orders — and the mentorship path we follow at the institute.',
     'बुटीक कोर्स ग्रेजुएट प्रैक्टिस पीस से पेड ऑर्डर तक कैसे पहुँचते हैं — और संस्थान में मेंटरशिप का रास्ता।',
-    '/botique.png',
+    '/boutique.webp',
     true,
     '2026-03-28T10:00:00Z'::timestamptz
   ),
@@ -63,7 +63,7 @@ select * from (values
     'zardozi-vs-aari-embroidery',
     'Weight, shine and timeline differences — so you pick the right handwork for lehenga panels, blouses and dupattas.',
     'वज़न, चमक और टाइमलाइन का फर्क — लहंगा पैनल, ब्लाउज और दुपट्टे के लिए सही हैंडवर्क चुनें।',
-    '/institute.png',
+    '/institute.webp',
     true,
     '2026-03-10T10:00:00Z'::timestamptz
   )
