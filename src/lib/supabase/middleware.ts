@@ -57,7 +57,10 @@ export async function updateSession(request: NextRequest) {
   if (isAdminRoute && !isLogin && user) {
     const admin = await userIsAdmin(supabase, user.id);
     if (!admin) {
-      return new NextResponse("Forbidden — admin access required.", { status: 403 });
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/admin/login";
+      redirectUrl.searchParams.set("error", "not_admin");
+      return NextResponse.redirect(redirectUrl);
     }
   }
 

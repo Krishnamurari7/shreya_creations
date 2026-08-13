@@ -2,19 +2,46 @@
 
 import { BTN_PRIMARY, GLASS, TEXT_GOLD_GRADIENT } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { BRAND_NAME, LOGO_SRC } from "@/lib/brand";
 
+const NOT_ADMIN_MSG =
+  "This account is signed in but does not have admin access. Ask the site owner to run the grant_admin.sql script in Supabase for your email.";
+
+async function accountIsAdmin(supabase) {
+  const { data: isAdmin, error: rpcError } = await supabase.rpc("is_admin");
+  if (!rpcError && isAdmin === true) return true;
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return false;
+
+  const { data: row } = await supabase
+    .from("admins")
+    .select("role")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  return Boolean(row?.role);
+}
+
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const configured = isSupabaseConfigured();
+
+  useEffect(() => {
+    if (searchParams.get("error") === "not_admin") {
+      setError(NOT_ADMIN_MSG);
+    }
+  }, [searchParams]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -26,12 +53,22 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      setLoading(false);
+      setError(signInError.message);
       return;
     }
+
+    const admin = await accountIsAdmin(supabase);
+    if (!admin) {
+      await supabase.auth.signOut();
+      setLoading(false);
+      setError(NOT_ADMIN_MSG);
+      return;
+    }
+
+    setLoading(false);
     router.push("/admin");
     router.refresh();
   };

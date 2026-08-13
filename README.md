@@ -38,7 +38,8 @@ If you leave the Supabase values as-is (or unset), the site stays in **demo mode
    - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
    - **anon public** key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 4. Create your admin account: **Authentication → Users → Add user** (enter email + password, and tick “Auto Confirm User”). This is the account you’ll log in with at `/admin`. There is no public signup.
-5. Restart `npm run dev`. Visit `/admin/login`, sign in, and start adding products, courses, portfolio images and testimonials.
+5. **Grant admin access:** in **SQL Editor**, run [`supabase/migrations/phase8_01_helpers_and_admins.sql`](supabase/migrations/phase8_01_helpers_and_admins.sql) (once), then [`supabase/scripts/grant_admin.sql`](supabase/scripts/grant_admin.sql) — edit the email in that file to match your login user. Without a row in the `admins` table, sign-in succeeds but `/admin` blocks you.
+6. Restart `npm run dev`. Visit `/admin/login`, sign in, and start adding products, courses, portfolio images and testimonials.
 
 That’s it — anything you add in `/admin` instantly replaces the demo content on the public site.
 
