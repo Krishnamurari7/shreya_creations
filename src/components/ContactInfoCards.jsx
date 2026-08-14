@@ -175,7 +175,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
             </div>
           </div>
 
-          {site.mapEmbedUrl && (
+          {(site.mapEmbedUrl || site.address) && (
             <MapFacade
               embedUrl={site.mapEmbedUrl}
               address={site.address}

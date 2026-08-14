@@ -28,7 +28,28 @@ function postImageAlt(post, title) {
   return post?.image_alt || post?.imageAlt || (title ? `${title} Patna` : "Shreya Creation Patna");
 }
 
-export default function BlogGrid({ posts = [] }) {
+function splitFeaturedPosts(posts, featuredSlug) {
+  if (!posts.length) return { featured: null, rest: [] };
+  if (featuredSlug) {
+    const idx = posts.findIndex((post) => post.slug === featuredSlug);
+    if (idx >= 0) {
+      return {
+        featured: posts[idx],
+        rest: posts.filter((_, i) => i !== idx),
+      };
+    }
+  }
+  const [featured, ...rest] = posts;
+  return { featured, rest };
+}
+
+export default function BlogGrid({
+  posts = [],
+  featuredSlug,
+  featuredEmoji = "🇮🇳",
+  featuredOverrides = {},
+  postsBlock = {},
+}) {
   const { lang } = useLanguage();
 
   if (!posts.length) {
@@ -58,7 +79,29 @@ export default function BlogGrid({ posts = [] }) {
     );
   }
 
-  const [featured, ...rest] = posts;
+  const { featured, rest } = splitFeaturedPosts(posts, featuredSlug);
+  const featuredBadge = lang === "hi" ? "विशेष लेख" : "Featured Article";
+  const featuredHeadline =
+    pickLocalized(featuredOverrides, lang, "title", "titleHi") ||
+    pickLocalized(featured, lang, "title", "title_hi") ||
+    pickLocalized(featuredOverrides, lang, "h1", "h1Hi") ||
+    featured?.title;
+  const featuredExcerpt =
+    pickLocalized(featuredOverrides, lang, "description", "descriptionHi") ||
+    pickLocalized(featured, lang, "excerpt", "excerpt_hi") ||
+    featured?.excerpt;
+
+  const blockEyebrow =
+    pickLocalized(postsBlock, lang, "title", "titleHi") ||
+    (lang === "hi" ? "श्रेया क्रिएशन की नवीनतम जानकारी" : "Latest from Shreya Creation");
+  const blockHeading =
+    pickLocalized(postsBlock, lang, "h1", "h1Hi") ||
+    (lang === "hi" ? "लेटेस्ट बुटीक और फैशन अपडेट्स" : "Latest Boutique & Fashion Updates");
+  const blockDescription =
+    pickLocalized(postsBlock, lang, "description", "descriptionHi") ||
+    (lang === "hi"
+      ? "बुटीक फैशन, सिलाई, डिजाइनर ब्लाउज़, ब्राइडल वियर और फैशन डिजाइनिंग से जुड़े हमारे नवीनतम लेख पढ़ें।"
+      : "Read our latest articles on boutique fashion, tailoring, stitching, designer blouses, bridal wear and fashion designing.");
 
   return (
     <div className="blog-grid space-y-8 sm:space-y-10">
@@ -80,10 +123,7 @@ export default function BlogGrid({ posts = [] }) {
                   <div className="blog-featured-media relative h-full min-h-[260px] md:min-h-[340px]">
                     <CardImage
                       src={featured.image}
-                      alt={postImageAlt(
-                        featured,
-                        pickLocalized(featured, lang, "title", "title_hi") || featured.title
-                      )}
+                      alt={postImageAlt(featured, featuredHeadline)}
                       ratio="fill"
                       position="top"
                       className="h-full min-h-[260px] md:min-h-[340px]"
@@ -94,7 +134,8 @@ export default function BlogGrid({ posts = [] }) {
                 <Float3D translateZ="50" className="p-6 sm:p-10 flex flex-col justify-center">
                   <div className="flex flex-wrap items-center gap-2 mb-4">
                     <span className="inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-3 py-1 rounded-full text-[10px] font-semibold tracking-widest uppercase">
-                      {lang === "hi" ? "नवीनतम" : "Latest"}
+                      {featuredEmoji && <span aria-hidden>{featuredEmoji}</span>}
+                      {featuredBadge}
                     </span>
                     {formatPostDate(featured.created_at, lang) && (
                       <time
@@ -106,11 +147,11 @@ export default function BlogGrid({ posts = [] }) {
                     )}
                   </div>
                   <h2 className="font-display text-3xl sm:text-4xl text-ink leading-tight break-words text-balance group-hover:text-orange transition-colors">
-                    {pickLocalized(featured, lang, "title", "title_hi") || featured.title}
+                    {featuredHeadline}
                   </h2>
-                  {(pickLocalized(featured, lang, "excerpt", "excerpt_hi") || featured.excerpt) && (
+                  {featuredExcerpt && (
                     <p className="mt-4 text-sm sm:text-base text-ink/80 font-normal leading-relaxed">
-                      {pickLocalized(featured, lang, "excerpt", "excerpt_hi") || featured.excerpt}
+                      {featuredExcerpt}
                     </p>
                   )}
                   <span className="mt-6 inline-flex items-center gap-2 self-start text-sm font-medium text-orange group-hover:text-orange-dark transition-colors">
@@ -126,9 +167,15 @@ export default function BlogGrid({ posts = [] }) {
 
       {rest.length > 0 && (
         <div className="space-y-4 sm:space-y-5">
-          <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-ink/45 px-1">
-            {lang === "hi" ? "और लेख" : "More articles"}
-          </p>
+          <div className="px-1 space-y-2">
+            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-ink/45">{blockEyebrow}</p>
+            <h2 className="font-display text-2xl sm:text-3xl text-ink leading-tight text-balance">{blockHeading}</h2>
+            {blockDescription && (
+              <p className="text-sm sm:text-base text-ink/75 font-normal leading-relaxed max-w-3xl">
+                {blockDescription}
+              </p>
+            )}
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:gap-5">
             {rest.map((p, i) => {
               const title = pickLocalized(p, lang, "title", "title_hi") || p.title;

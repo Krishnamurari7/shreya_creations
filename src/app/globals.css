@@ -19101,6 +19101,40 @@ html.dark .career-cta-section__btn {
   word-break: break-word;
 }
 
+.blog-article-prose,
+.blog-article-prose .blog-article__p {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.blog-article__h2 {
+  margin-top: 2.25rem;
+  padding-top: 0.25rem;
+}
+
+.blog-article__h2:first-child {
+  margin-top: 0;
+}
+
+.blog-article__faq-q {
+  position: relative;
+  padding-left: 1.1rem;
+}
+
+.blog-article__faq-q::before {
+  content: "?";
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgb(var(--orange-rgb));
+}
+
+.blog-article__list {
+  margin-top: 0.25rem;
+}
+
 .shop-grid,
 .home-courses-preview__grid,
 .explore-categories__grid {
@@ -22394,6 +22428,11 @@ summary:focus-visible {
   font-size: 0.72rem;
   color: #fff;
   text-decoration: underline;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .map-facade__iframe {

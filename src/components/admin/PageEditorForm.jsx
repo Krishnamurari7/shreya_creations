@@ -78,6 +78,15 @@ export function CtaEditor({ page, onChange, showHighlight = false, showWaMessage
         <BilingualField label="Title highlight" enKey={fk("title_highlight")} hiKey={fk("title_highlight_hi")} values={page} onChange={onChange} />
       )}
       <BilingualTextarea label="Subtitle" enKey={fk("subtitle")} hiKey={fk("subtitle_hi")} values={page} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Primary link (leave empty for WhatsApp button)</label>
+        <input
+          value={page[fk("primary_href")] ?? ""}
+          onChange={(e) => onChange(fk("primary_href"), e.target.value)}
+          placeholder="/shop"
+          className={ADMIN_INPUT}
+        />
+      </div>
       <BilingualField label="Primary button" enKey={fk("primary_label")} hiKey={fk("primary_label_hi")} values={page} onChange={onChange} />
       <div>
         <label className={ADMIN_LABEL}>Secondary link (leave empty to hide)</label>

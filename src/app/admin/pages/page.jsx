@@ -159,9 +159,9 @@ export default function PagesAdmin() {
 
   return (
     <div>
-      <AdminPageHeader
+        <AdminPageHeader
         title="Page editor"
-        subtitle="Homepage sections and copy for About, Contact, Shop, Courses, Portfolio, Blog, and FAQ — English & Hindi."
+        subtitle="Homepage sections and copy for About, Contact, Shop, Courses, Portfolio, Blog, NRI Clients, and FAQ — English & Hindi."
       />
 
       <div className="admin-tabs" role="tablist" aria-label="Page sections">
@@ -299,7 +299,7 @@ export default function PagesAdmin() {
                 value={page.meta_title || ""}
                 onChange={(e) => onChange("meta_title", e.target.value)}
                 className={ADMIN_INPUT}
-                placeholder="Blog | Style Tips & Atelier Guides from Shreya Creation Patna"
+                placeholder="Boutique & Fashion Designing Blog Patna | Shreya Creation"
               />
             </div>
             <div>
@@ -309,7 +309,7 @@ export default function PagesAdmin() {
                 value={page.meta_description || ""}
                 onChange={(e) => onChange("meta_description", e.target.value)}
                 className={ADMIN_INPUT}
-                placeholder="Bridal blouse ideas, stitching tips…"
+                placeholder="Explore boutique fashion, tailoring tips, designer blouse ideas…"
               />
             </div>
             <div>
@@ -331,6 +331,69 @@ export default function PagesAdmin() {
               addLabel="Add feature"
               fields={FEATURE_FIELDS}
             />
+            <SectionHeading>Featured article</SectionHeading>
+            <p className="admin-muted">
+              Pin a blog post on the listing page. Create or edit posts in{" "}
+              <a href="/admin/lookbook" className="text-gold hover:underline">
+                Blog admin
+              </a>
+              .
+            </p>
+            <div>
+              <label className={ADMIN_LABEL}>Featured post slug</label>
+              <input
+                value={page.feature_post_slug || ""}
+                onChange={(e) => onChange("feature_post_slug", e.target.value)}
+                placeholder="fashion-boutique-womens-freedom-independence-day"
+                className={ADMIN_INPUT}
+              />
+            </div>
+            <div>
+              <label className={ADMIN_LABEL}>Featured badge emoji</label>
+              <input
+                value={page.feature_post_emoji || ""}
+                onChange={(e) => onChange("feature_post_emoji", e.target.value)}
+                placeholder="🇮🇳"
+                className={ADMIN_INPUT}
+              />
+            </div>
+            <BilingualField
+              label="Feature post title"
+              enKey="feature_post_title"
+              hiKey="feature_post_title_hi"
+              values={page}
+              onChange={onChange}
+            />
+            <BilingualField
+              label="Feature headline (H1)"
+              enKey="feature_post_h1"
+              hiKey="feature_post_h1_hi"
+              values={page}
+              onChange={onChange}
+            />
+            <BilingualTextarea
+              label="Feature description"
+              enKey="feature_post_description"
+              hiKey="feature_post_description_hi"
+              values={page}
+              onChange={onChange}
+            />
+            <SectionHeading>Posts block</SectionHeading>
+            <BilingualField
+              label="Block eyebrow"
+              enKey="posts_block_title"
+              hiKey="posts_block_title_hi"
+              values={page}
+              onChange={onChange}
+            />
+            <BilingualField label="Block heading" enKey="posts_block_h1" hiKey="posts_block_h1_hi" values={page} onChange={onChange} />
+            <BilingualTextarea
+              label="Block description"
+              enKey="posts_block_description"
+              hiKey="posts_block_description_hi"
+              values={page}
+              onChange={onChange}
+            />
             <p className="admin-muted">
               Blog posts:{" "}
               <a href="/admin/lookbook" className="text-gold hover:underline">
@@ -345,6 +408,18 @@ export default function PagesAdmin() {
         {tab === "nri" && (
           <>
             <HeaderSimple page={page} onChange={onChange} />
+            <BilingualTextarea
+              label="Hero lead paragraph"
+              enKey="hero_subtitle"
+              hiKey="hero_subtitle_hi"
+              values={page}
+              onChange={onChange}
+              rows={3}
+            />
+            <div>
+              <label className={ADMIN_LABEL}>Hero image</label>
+              <ImageUploader multiple={false} value={page.hero_image || ""} onChange={(url) => onChange("hero_image", url)} />
+            </div>
             <SectionHeading>Service highlights</SectionHeading>
             <RepeaterField
               label="Highlight cards"

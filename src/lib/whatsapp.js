@@ -114,11 +114,27 @@ export function nriClientMessage(lang = "en") {
   return "Hi Shreya Creation! 👋 I'm an NRI client. I'd like details on bridal/custom stitching and shipping support. Please share the process.";
 }
 
+/** NRI page — book custom stitching from abroad. */
+export function nriStitchMessage(lang = "en") {
+  if (lang === "hi") {
+    return "नमस्ते श्रेया क्रिएशन! 👋 मैं NRI क्लाइंट हूँ और custom stitching बुक करना चाहती/चाहता हूँ। कृपया designer blouse, bridal wear या lehenga के लिए process, माप और timeline बताएँ।";
+  }
+  return "Hi Shreya Creation! 👋 I'm an NRI client and would like to book custom stitching. Please share the process, measurements and timeline for designer blouse, bridal wear or lehenga.";
+}
+
+/** NRI page — join 1-to-1 fashion class (online or offline). */
+export function nriClassMessage(lang = "en") {
+  if (lang === "hi") {
+    return "नमस्ते श्रेया क्रिएशन! 👋 मैं NRI हूँ और 1-to-1 fashion designing / stitching class join करना चाहती/चाहता हूँ। कृपया online/offline options, topics और fees बताएँ।";
+  }
+  return "Hi Shreya Creation! 👋 I'm an NRI and would like to join a 1-to-1 fashion designing / stitching class. Please share online/offline options, topics and fees.";
+}
+
 export function lookbookMessage(lang = "en") {
   if (lang === "hi") {
-    return "नमस्ते श्रेया क्रिएशन! 👋 मैंने आपका ब्लॉग देखा — मुझे एक लुक अपने माप पर चाहिए। कृपया कपड़ा, डिज़ाइन और टाइमलाइन बताएँ।";
+    return "नमस्ते Shreya Creation, मैंने आपका ब्लॉग देखा है और आपकी boutique services एवं fashion designing courses के बारे में जानकारी लेना चाहता/चाहती हूँ।";
   }
-  return "Hi Shreya Creation! 👋 I saw your blog — I'd love a look made in my size. Please share fabric, design, and timeline.";
+  return "Hello Shreya Creation, I found your blog and would like to know more about your boutique services and fashion designing courses.";
 }
 
 export function studioVisitMessage(lang = "en") {

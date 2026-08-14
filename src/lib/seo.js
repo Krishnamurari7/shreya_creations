@@ -207,7 +207,7 @@ export function lookbookMetaDescriptionHi(post) {
 
 export function blogListingMetaTitle(page) {
   if (page?.metaTitle || page?.meta_title) return page.metaTitle || page.meta_title;
-  return "Blog | Style Tips & Atelier Guides from Shreya Creation Patna";
+  return "Boutique & Fashion Designing Blog Patna | Shreya Creation";
 }
 
 export function blogListingMetaDescription(page) {
@@ -217,7 +217,7 @@ export function blogListingMetaDescription(page) {
   return (
     page?.headerSubtitle ||
     page?.header_subtitle ||
-    "Bridal blouse ideas, 24-hour stitching tips, NRI ordering guides and atelier stories from Shreya Creation on Boring Road, Patna."
+    "Explore boutique fashion, tailoring tips, designer blouse ideas, stitching guides and fashion designing updates from Shreya Creation, Boring Road, Patna."
   );
 }
 

@@ -206,6 +206,7 @@ export function pickPillar(pillar, lang) {
 export function pageCtaProps(page) {
   if (!page) return {};
   const secondaryHref = page.ctaSecondaryHref;
+  const primaryHref = page.ctaPrimaryHref;
   return {
     title: page.ctaTitle,
     titleHi: page.ctaTitleHi,
@@ -213,6 +214,7 @@ export function pageCtaProps(page) {
     titleHighlightHi: page.ctaTitleHighlightHi,
     subtitle: page.ctaSubtitle,
     subtitleHi: page.ctaSubtitleHi,
+    primaryHref: primaryHref === "" ? null : primaryHref ?? undefined,
     primaryLabel: page.ctaPrimaryLabel,
     primaryLabelHi: page.ctaPrimaryLabelHi,
     secondaryHref: secondaryHref === "" ? null : secondaryHref ?? "/contact",

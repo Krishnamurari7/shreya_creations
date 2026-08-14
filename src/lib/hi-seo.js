@@ -41,11 +41,11 @@ const HI_PAGES = {
     imageAlt: "पटना में Shreya Creation बुटीक — संपर्क और पता",
   },
   blog: {
-    title: "ब्लॉग — पटना बुटीक स्टाइल टिप्स | Shreya Creation",
+    title: "बुटीक और फैशन डिजाइनिंग ब्लॉग पटना | Shreya Creation",
     description:
-      "ब्राइडल ब्लाउज, 24 घंटे सिलाई, NRI ऑर्डर और बुटीक गाइड — Shreya Creation बोरिंग रोड, पटना से।",
+      "बुटीक फैशन, सिलाई टिप्स, डिजाइनर ब्लाउज़, स्टिचिंग गाइड और फैशन डिजाइनिंग अपडेट — Shreya Creation, बोरिंग रोड, पटना।",
     path: "/blog",
-    imageAlt: "Shreya Creation पटना ब्लॉग — स्टाइल टिप्स और एटेलियर गाइड",
+    imageAlt: "Shreya Creation पटना — बुटीक और फैशन डिजाइनिंग ब्लॉग",
   },
   faq: {
     title: "सवाल-जवाब — बुटीक कोर्स और सिलाई पटना",
@@ -55,11 +55,11 @@ const HI_PAGES = {
     imageAlt: "पटना में बुटीक कोर्स और सिलाई FAQ",
   },
   nriClients: {
-    title: "NRI क्लाइंट — पटना से ब्राइडल और शिपिंग",
+    title: "NRI Boutique & Fashion Classes | Custom Stitching Patna",
     description:
-      "विदेश से ब्राइडल वियर ऑर्डर — WhatsApp माप, पटना में सिलाई और कूरियर सपोर्ट। Shreya Creation।",
+      "NRI clients — custom Indian wear, bridal blouse, lehenga, ready-to-wear saree और 1-to-1 online/offline fashion classes। Shreya Creation Patna।",
     path: "/nri-clients",
-    imageAlt: "NRI क्लाइंट्स के लिए Shreya Creation पटना ब्राइडल सेवाएँ",
+    imageAlt: "NRI boutique, custom stitching और fashion classes — Shreya Creation Patna",
   },
   portfolio: {
     title: "पोर्टफोलियो — ब्राइडल और डिज़ाइनर काम पटना",

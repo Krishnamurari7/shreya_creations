@@ -1056,6 +1056,24 @@ Certificates (where offered) are issued after successful completion of attendanc
 /** Blog / lookbook posts — used when Supabase has none published yet. */
 export const LOOKBOOK = [
   {
+    id: "lb0",
+    title: "Fashion Boutique & Women's Freedom – Independence Day Special",
+    title_hi: "फैशन बुटीक और महिलाओं की स्वतंत्रता – स्वतंत्रता दिवस विशेष",
+    slug: "fashion-boutique-womens-freedom-independence-day",
+    excerpt:
+      "Discover how boutiques, ladies tailors, fashion designers and women entrepreneurs contribute to skills, creativity and self-reliance this Independence Day.",
+    excerpt_hi:
+      "जानिए कि बुटीक, लेडीज़ टेलर, फैशन डिजाइनर और महिला उद्यमी इस स्वतंत्रता दिवस पर हुनर, रचनात्मकता और आत्मनिर्भरता में कैसे योगदान दे रहे हैं।",
+    body: "Independence Day reminds us that freedom is not only political — it is also economic, creative and personal.\n\nAcross Patna and India, boutique owners, ladies tailors and fashion designers help women build skills, earn with dignity and express identity through clothing. From custom blouses and bridal lehengas to fashion designing courses, local ateliers turn talent into livelihood.\n\nAt Shreya Creation on Boring Road, we see students and clients choose fashion as a path to self-reliance — learning stitching, starting small orders on WhatsApp, and growing into confident creators.\n\nThis Independence Day, celebrate the women who stitch, design and lead — and explore how boutique fashion and practical training can support your own journey.",
+    body_hi:
+      "स्वतंत्रता दिवस हमें याद दिलाता है कि आज़ादी सिर्फ राजनीतिक नहीं — आर्थिक, रचनात्मक और व्यक्तिगत भी है।\n\nपटना और पूरे भारत में बुटीक मालिक, ladies tailors और fashion designers महिलाओं को skill, सम्मानजनक कमाई और कपड़ों से पहचान बनाने में मदद करते हैं। कस्टम ब्लाउज और ब्राइडल लहंगे से लेकर fashion designing courses तक, local ateliers प्रतिभा को रोज़गार में बदलते हैं।\n\nShreya Creation, Boring Road पर हम देखते हैं कि छात्राएँ और clients fashion को आत्मनिर्भरता का रास्ता चुनती हैं — सिलाई सीखना, WhatsApp पर छोटे orders और confident creator बनना।\n\nइस स्वतंत्रता दिवस, उन महिलाओं का सम्मान करें जो सिलती, डिज़ाइन करती और lead करती हैं — और जानें कि boutique fashion और practical training आपकी journey में कैसे मदद कर सकते हैं।",
+    image: LOCAL_IMGS[3],
+    image_alt: "Fashion boutique and women's freedom Independence Day special Patna",
+    focus_keyword: "fashion boutique women's freedom Independence Day Patna",
+    published: true,
+    created_at: "2026-08-10T10:00:00.000Z",
+  },
+  {
     id: "lb1",
     title: "Bridal blouse necklines that photograph beautifully",
     title_hi: "ब्राइडल ब्लाउज नेकलाइन जो फोटो में खूबसूरत लगें",

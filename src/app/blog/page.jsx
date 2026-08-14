@@ -25,7 +25,9 @@ export const dynamic = "force-dynamic";
 const BLOG_DEFAULTS = PAGE_DEFAULTS.lookbook;
 
 function isLegacyLookbookCopy(value = "") {
-  return /lookbook|लुकबुक|love a look|कोई लुक पसंद/i.test(String(value));
+  return /lookbook|लुकबुक|love a look|कोई लुक पसंद|style question|स्टाइल सवाल|Ask on WhatsApp|WhatsApp पर पूछें/i.test(
+    String(value)
+  );
 }
 
 export async function generateMetadata() {
@@ -36,7 +38,7 @@ export async function generateMetadata() {
     description: blogListingMetaDescription(page),
     path: "/blog",
     image: page.ogImage || DEFAULT_OG_IMAGE,
-    imageAlt: "Blog style tips and atelier guides from Shreya Creation Patna",
+    imageAlt: "Boutique and fashion designing blog from Shreya Creation Patna",
   });
 }
 
@@ -97,7 +99,27 @@ export default async function BlogPage() {
           "z-20"
         )}
       >
-        <BlogGrid posts={posts} />
+        <BlogGrid
+          posts={posts}
+          featuredSlug={cms.featurePostSlug || BLOG_DEFAULTS.feature_post_slug}
+          featuredEmoji={cms.featurePostEmoji || BLOG_DEFAULTS.feature_post_emoji}
+          featuredOverrides={{
+            title: cms.featurePostTitle || BLOG_DEFAULTS.feature_post_title,
+            titleHi: cms.featurePostTitleHi || BLOG_DEFAULTS.feature_post_title_hi,
+            h1: cms.featurePostH1 || BLOG_DEFAULTS.feature_post_h1,
+            h1Hi: cms.featurePostH1Hi || BLOG_DEFAULTS.feature_post_h1_hi,
+            description: cms.featurePostDescription || BLOG_DEFAULTS.feature_post_description,
+            descriptionHi: cms.featurePostDescriptionHi || BLOG_DEFAULTS.feature_post_description_hi,
+          }}
+          postsBlock={{
+            title: cms.postsBlockTitle || BLOG_DEFAULTS.posts_block_title,
+            titleHi: cms.postsBlockTitleHi || BLOG_DEFAULTS.posts_block_title_hi,
+            h1: cms.postsBlockH1 || BLOG_DEFAULTS.posts_block_h1,
+            h1Hi: cms.postsBlockH1Hi || BLOG_DEFAULTS.posts_block_h1_hi,
+            description: cms.postsBlockDescription || BLOG_DEFAULTS.posts_block_description,
+            descriptionHi: cms.postsBlockDescriptionHi || BLOG_DEFAULTS.posts_block_description_hi,
+          }}
+        />
       </div>
 
       <PageCTA
@@ -107,12 +129,17 @@ export default async function BlogPage() {
         titleHi={isLegacyLookbookCopy(cta.titleHi) ? BLOG_DEFAULTS.cta_title_hi : cta.titleHi}
         subtitle={cta.subtitle || BLOG_DEFAULTS.cta_subtitle}
         subtitleHi={cta.subtitleHi || BLOG_DEFAULTS.cta_subtitle_hi}
+        primaryHref={cta.primaryHref ?? BLOG_DEFAULTS.cta_primary_href}
         primaryLabel={cta.primaryLabel || BLOG_DEFAULTS.cta_primary_label}
         primaryLabelHi={cta.primaryLabelHi || BLOG_DEFAULTS.cta_primary_label_hi}
-        eyebrow="Ask our atelier"
-        eyebrowHi="हमारे एटेलियर से पूछें"
-        perks={["Style advice", "Your size", "WhatsApp help", "Studio finish"]}
-        perksHi={["स्टाइल सलाह", "आपके माप", "WhatsApp मदद", "स्टूडियो फिनिश"]}
+        secondaryHref={cta.secondaryHref ?? BLOG_DEFAULTS.cta_secondary_href}
+        secondaryLabel={cta.secondaryLabel || BLOG_DEFAULTS.cta_secondary_label}
+        secondaryLabelHi={cta.secondaryLabelHi || BLOG_DEFAULTS.cta_secondary_label_hi}
+        waMessage={cta.waMessage || BLOG_DEFAULTS.cta_wa_message}
+        eyebrow="Fashion & style"
+        eyebrowHi="फैशन और स्टाइल"
+        perks={["Boutique wear", "Custom stitching", "Fashion courses", "Patna studio"]}
+        perksHi={["बुटीक वियर", "कस्टम सिलाई", "फैशन कोर्स", "पटना स्टूडियो"]}
       />
     </PageShell>
   );

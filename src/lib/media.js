@@ -30,6 +30,7 @@ const LEGACY_WEBP = {
   "/slider2.png": MEDIA.slider2,
   "/slider3.png": MEDIA.slider3,
   "/slider4.png": MEDIA.slider4,
+  "/slider5.png": MEDIA.slider4,
   "/boutique.png": MEDIA.boutique,
   "/botique.png": MEDIA.boutique,
   "/3d.png": MEDIA.logo3d,

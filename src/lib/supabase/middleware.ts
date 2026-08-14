@@ -39,9 +39,14 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // Supabase unreachable (offline dev, bad URL, etc.) — skip auth gating.
+    return response;
+  }
 
   const path = request.nextUrl.pathname;
   const isAdminRoute = path.startsWith("/admin");
