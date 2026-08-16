@@ -5,7 +5,6 @@ import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import BlogGrid from "@/components/BlogGrid";
 import PageCTA from "@/components/PageCTA";
 import PageSeoIntro from "@/components/PageSeoIntro";
-import FeatureStrip from "@/components/FeatureStrip";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getLookbookPosts, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
@@ -47,7 +46,6 @@ export default async function BlogPage() {
   const [posts, site] = await Promise.all([getLookbookPosts(), getSiteSettings()]);
   const cms = site.pages?.lookbook || {};
   const cta = pageCtaProps(cms);
-  const features = Array.isArray(cms.features) ? cms.features : [];
 
   return (
     <PageShell>
@@ -84,17 +82,15 @@ export default async function BlogPage() {
         {cms.seoIntro || BLOG_DEFAULTS.seo_intro}
       </PageSeoIntro>
 
-      {features?.length > 0 && <FeatureStrip items={features} />}
-
       <div
         className={cn(
           PAGE_CONTAINER,
           "mx-auto",
           "max-w-6xl",
-          "pt-4",
-          "sm:pt-6",
-          "pb-6",
-          "sm:pb-8",
+          "pt-2",
+          "sm:pt-4",
+          "pb-8",
+          "sm:pb-12",
           "relative",
           "z-20"
         )}

@@ -4,6 +4,7 @@ import { INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import AmbientGlows from "@/components/AmbientGlows";
+import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import { useLanguage } from "@/components/LanguageProvider";
 import { parseBlogMarkdown } from "@/lib/blog-markdown";
 
@@ -24,7 +25,7 @@ function Block({ block, index }) {
     return (
       <h2
         id={`section-${index}`}
-        className="blog-article__h2 font-display text-2xl sm:text-3xl text-ink leading-tight text-balance scroll-mt-28"
+        className="blog-article__h2 font-display text-2xl sm:text-[1.75rem] text-ink leading-tight text-balance scroll-mt-28 pl-4 border-l-[3px] border-orange/60"
       >
         <InlineText parts={block.inline} />
       </h2>
@@ -47,10 +48,18 @@ function Block({ block, index }) {
 
   if (block.type === "ul") {
     return (
-      <ul className="blog-article__list space-y-2.5 pl-1">
+      <ul className="blog-article__list space-y-3 pl-0">
         {block.items.map((item, i) => (
-          <li key={i} className="flex gap-3 text-ink/90 leading-relaxed">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" aria-hidden />
+          <li
+            key={i}
+            className="flex gap-3.5 rounded-xl border border-ink/[0.06] bg-orange/[0.03] px-4 py-3 text-ink/90 leading-relaxed dark:border-white/[0.06] dark:bg-white/[0.03]"
+          >
+            <span
+              className="mt-2 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange/15 text-[10px] font-bold text-orange"
+              aria-hidden
+            >
+              ✓
+            </span>
             <span>
               <InlineText parts={item.inline} />
             </span>
@@ -61,19 +70,20 @@ function Block({ block, index }) {
   }
 
   return (
-    <p className="blog-article__p text-ink/90 leading-[1.8] text-pretty text-sm sm:text-base">
+    <p className="blog-article__p text-ink/85 leading-[1.85] text-pretty text-[0.9375rem] sm:text-[1.0625rem]">
       <InlineText parts={block.inline} />
     </p>
   );
 }
 
-export default function BlogArticleBody({ body, bodyHi }) {
+export default function BlogArticleBody({ body, bodyHi, image, imageAlt }) {
   const { lang } = useLanguage();
   const source = lang === "hi" && bodyHi ? bodyHi : body;
   const blocks = parseBlogMarkdown(source || body || "");
+  const hasFloatImage = Boolean(image);
 
   return (
-    <div className={cn(PAGE_CONTAINER, "max-w-3xl", "pb-4", "relative", "z-20")}>
+    <div className={cn("relative min-w-0", !hasFloatImage && cn(PAGE_CONTAINER, "max-w-3xl", "pb-6", "z-20"))}>
       <AmbientGlows variant="subtle" />
       <Glass3DCard
         layered
@@ -83,20 +93,29 @@ export default function BlogArticleBody({ body, bodyHi }) {
           "blog-article",
           "rounded-2xl",
           "sm:rounded-[2rem]",
-          "p-5",
-          "sm:p-8",
-          "md:p-10",
-          "border-ink/15",
+          "p-6",
+          "sm:p-9",
+          "md:p-11",
+          "border-orange/10",
           "relative",
-          "overflow-hidden"
+          hasFloatImage ? "overflow-visible" : "overflow-hidden",
+          "shadow-[0_20px_60px_-16px_rgba(26,16,40,0.12)]"
         )}
       >
-        <div className="absolute -top-20 -right-16 h-56 w-56 rounded-full bg-orange/5 blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-20 h-64 w-64 rounded-full bg-orange/[0.07] blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-golden/[0.06] blur-3xl pointer-events-none" />
         <Float3D translateZ="40">
-          <div className="blog-article-prose space-y-5 sm:space-y-6">
-            {blocks.map((block, index) => (
-              <Block key={`${block.type}-${index}`} block={block} index={index} />
-            ))}
+          <div className={cn(hasFloatImage && "blog-article-with-float")}>
+            {hasFloatImage && (
+              <figure className="blog-article-float-media not-prose mb-6 lg:float-right lg:ml-8 lg:mb-5 w-full lg:w-[min(360px,38%)] shrink-0">
+                <BlogFeaturedImage src={image} alt={imageAlt} variant="sidebar" />
+              </figure>
+            )}
+            <div className="blog-article-prose space-y-5 sm:space-y-7 min-w-0">
+              {blocks.map((block, index) => (
+                <Block key={`${block.type}-${index}`} block={block} index={index} />
+              ))}
+            </div>
           </div>
         </Float3D>
       </Glass3DCard>

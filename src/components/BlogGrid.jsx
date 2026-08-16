@@ -8,6 +8,7 @@ import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickLocalized } from "@/lib/i18n";
 import { staggerDelay } from "@/lib/motion";
+import { estimateReadingMinutes } from "@/lib/blog-markdown";
 
 function formatPostDate(value, lang) {
   if (!value) return null;
@@ -90,6 +91,11 @@ export default function BlogGrid({
     pickLocalized(featuredOverrides, lang, "description", "descriptionHi") ||
     pickLocalized(featured, lang, "excerpt", "excerpt_hi") ||
     featured?.excerpt;
+  const featuredBody =
+    pickLocalized(featured, lang, "body", "body_hi") ||
+    featured?.body ||
+    featuredExcerpt;
+  const featuredReadingMinutes = estimateReadingMinutes(featuredBody || "");
 
   const blockEyebrow =
     pickLocalized(postsBlock, lang, "title", "titleHi") ||
@@ -102,6 +108,9 @@ export default function BlogGrid({
     (lang === "hi"
       ? "बुटीक फैशन, सिलाई, डिजाइनर ब्लाउज़, ब्राइडल वियर और फैशन डिजाइनिंग से जुड़े हमारे नवीनतम लेख पढ़ें।"
       : "Read our latest articles on boutique fashion, tailoring, stitching, designer blouses, bridal wear and fashion designing.");
+
+  const categoryLabel = lang === "hi" ? "बुटीक गाइड" : "Boutique guide";
+  const readLabel = lang === "hi" ? "मिनट" : "min read";
 
   return (
     <div className="blog-grid space-y-8 sm:space-y-10">
@@ -120,13 +129,14 @@ export default function BlogGrid({
             >
               <div className="grid md:grid-cols-2 gap-0">
                 {featured.image && (
-                  <div className="blog-featured-media relative h-full min-h-[260px] md:min-h-[340px]">
+                  <div className="blog-featured-media relative h-full min-h-[260px] md:min-h-[340px] overflow-hidden">
                     <CardImage
                       src={featured.image}
                       alt={postImageAlt(featured, featuredHeadline)}
                       ratio="fill"
                       position="top"
                       className="h-full min-h-[260px] md:min-h-[340px]"
+                      imgClassName="transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/25 pointer-events-none" />
                   </div>
@@ -145,6 +155,9 @@ export default function BlogGrid({
                         {formatPostDate(featured.created_at, lang)}
                       </time>
                     )}
+                    <span className="text-[11px] tracking-wide uppercase text-ink/45 font-medium">
+                      · {featuredReadingMinutes} {readLabel}
+                    </span>
                   </div>
                   <h2 className="font-display text-3xl sm:text-4xl text-ink leading-tight break-words text-balance group-hover:text-orange transition-colors">
                     {featuredHeadline}
@@ -154,7 +167,7 @@ export default function BlogGrid({
                       {featuredExcerpt}
                     </p>
                   )}
-                  <span className="mt-6 inline-flex items-center gap-2 self-start text-sm font-medium text-orange group-hover:text-orange-dark transition-colors">
+                  <span className="mt-6 inline-flex items-center gap-2 self-start rounded-full bg-orange/[0.08] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-orange transition-all group-hover:bg-orange group-hover:text-white">
                     {lang === "hi" ? "पूरा पढ़ें" : "Read article"}
                     <span aria-hidden>→</span>
                   </span>
@@ -166,25 +179,31 @@ export default function BlogGrid({
       )}
 
       {rest.length > 0 && (
-        <div className="space-y-4 sm:space-y-5">
-          <div className="px-1 space-y-2">
-            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-ink/45">{blockEyebrow}</p>
-            <h2 className="font-display text-2xl sm:text-3xl text-ink leading-tight text-balance">{blockHeading}</h2>
+        <div className="space-y-5 sm:space-y-6">
+          <div className="px-1 space-y-2.5">
+            <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-orange/70">
+              {blockEyebrow}
+            </p>
+            <h2 className="font-display text-2xl sm:text-3xl text-ink leading-tight text-balance">
+              {blockHeading}
+            </h2>
             {blockDescription && (
-              <p className="text-sm sm:text-base text-ink/75 font-normal leading-relaxed max-w-3xl">
+              <p className="text-sm sm:text-base text-ink/70 font-normal leading-relaxed max-w-3xl">
                 {blockDescription}
               </p>
             )}
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 lg:gap-6">
             {rest.map((p, i) => {
               const title = pickLocalized(p, lang, "title", "title_hi") || p.title;
               const excerpt = pickLocalized(p, lang, "excerpt", "excerpt_hi") || p.excerpt;
+              const body = pickLocalized(p, lang, "body", "body_hi") || p.body || excerpt;
               const dateLabel = formatPostDate(p.created_at, lang);
+              const readingMinutes = estimateReadingMinutes(body || "");
 
               return (
                 <article key={p.id} style={staggerDelay(i, 80)}>
-                  <Link href={postHref(p)} className="block group">
+                  <Link href={postHref(p)} className="block group h-full">
                     <Glass3DCard
                       layered
                       className={cn(
@@ -192,44 +211,55 @@ export default function BlogGrid({
                         INTERACTIVE_CARD,
                         "rounded-2xl",
                         "sm:rounded-3xl",
-                        "overflow-hidden"
+                        "overflow-hidden",
+                        "h-full",
+                        "border-ink/10",
+                        "hover:border-orange/25"
                       )}
                     >
-                      <div className="grid sm:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr] gap-0">
-                        {p.image && (
-                          <div className="relative min-h-[180px] sm:min-h-full sm:h-full">
-                            <CardImage
-                              src={p.image}
-                              alt={postImageAlt(p, title)}
-                              ratio="fill"
-                              position="top"
-                              className="h-full min-h-[180px]"
-                            />
-                          </div>
-                        )}
-                        <Float3D translateZ="40" className="p-5 sm:p-6 lg:p-7 flex flex-col justify-center">
-                          {dateLabel && (
-                            <time
-                              dateTime={p.created_at}
-                              className="text-[11px] tracking-wide uppercase text-ink/50 font-medium mb-2"
-                            >
-                              {dateLabel}
-                            </time>
-                          )}
-                          <h3 className="font-display text-xl sm:text-2xl text-ink leading-snug break-words group-hover:text-orange transition-colors">
-                            {title}
-                          </h3>
-                          {excerpt && (
-                            <p className="text-sm text-ink/75 mt-2 font-normal leading-relaxed line-clamp-3">
-                              {excerpt}
-                            </p>
-                          )}
-                          <span className="mt-4 inline-flex items-center gap-2 self-start text-sm font-medium text-orange group-hover:text-orange-dark transition-colors">
-                            {lang === "hi" ? "पूरा पढ़ें" : "Read article"}
-                            <span aria-hidden>→</span>
+                      {p.image && (
+                        <div className="blog-card-media relative overflow-hidden">
+                          <CardImage
+                            src={p.image}
+                            alt={postImageAlt(p, title)}
+                            ratio="16/10"
+                            position="top"
+                            imgClassName="transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                          />
+                          <div
+                            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-80"
+                            aria-hidden
+                          />
+                          <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full border border-white/30 bg-black/30 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
+                            {categoryLabel}
                           </span>
-                        </Float3D>
-                      </div>
+                        </div>
+                      )}
+                      <Float3D translateZ="40" className="p-5 sm:p-6 flex flex-col flex-1">
+                        <div className="flex flex-wrap items-center gap-2 mb-3 text-[11px] font-medium uppercase tracking-wide text-ink/50">
+                          {dateLabel && (
+                            <time dateTime={p.created_at}>{dateLabel}</time>
+                          )}
+                          {dateLabel && (
+                            <span aria-hidden className="text-ink/25">
+                              ·
+                            </span>
+                          )}
+                          <span>{readingMinutes} {readLabel}</span>
+                        </div>
+                        <h3 className="font-display text-xl sm:text-[1.35rem] text-ink leading-snug break-words group-hover:text-orange transition-colors line-clamp-2">
+                          {title}
+                        </h3>
+                        {excerpt && (
+                          <p className="text-sm text-ink/70 mt-2.5 font-normal leading-relaxed line-clamp-3 flex-1">
+                            {excerpt}
+                          </p>
+                        )}
+                        <span className="mt-5 inline-flex items-center gap-2 self-start rounded-full bg-orange/[0.08] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-orange transition-all group-hover:bg-orange group-hover:text-white">
+                          {lang === "hi" ? "पूरा पढ़ें" : "Read article"}
+                          <span aria-hidden>→</span>
+                        </span>
+                      </Float3D>
                     </Glass3DCard>
                   </Link>
                 </article>

@@ -57,6 +57,11 @@ export const metadata = {
     template: "%s | Shreya Creation",
   },
   description: siteDescription,
+  alternates: {
+    types: {
+      "text/markdown": "/llms.txt",
+    },
+  },
   applicationName: "Shreya Creation",
   authors: [{ name: "Shreya Creation", url: siteUrl }],
   creator: "Shreya Creation",
@@ -138,6 +143,7 @@ export default async function RootLayout({ children }) {
           <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} crossOrigin="anonymous" />
         ) : null}
         <link rel="dns-prefetch" href="https://www.facebook.com" />
+        <link rel="alternate" type="text/markdown" href={`${siteUrl}/llms.txt`} title="LLM site index" />
       </head>
       <body className={cn(BG_ATMOSPHERE, "has-mobile-contact-bar")} suppressHydrationWarning>
         <a href="#main-content" className="skip-link">

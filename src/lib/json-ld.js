@@ -143,8 +143,23 @@ export function buildSitewideGraph(site, locale = "en") {
         "@id": ids.website,
         url: base,
         name: brand,
+        description,
         publisher: { "@id": ids.clothingStore },
+        about: { "@id": ids.clothingStore },
         inLanguage: ["en-IN", "hi-IN"],
+        copyrightHolder: { "@id": ids.clothingStore },
+        potentialAction: {
+          "@type": "CommunicateAction",
+          name: "Contact via WhatsApp",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `https://wa.me/${String(site?.whatsapp || site?.whatsappNumber || "919031105666").replace(/\D/g, "")}`,
+            actionPlatform: [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/MobileWebPlatform",
+            ],
+          },
+        },
       },
     ],
   };

@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
-import CardImage from "@/components/CardImage";
 import PageCTA from "@/components/PageCTA";
-import BlogArticleBody from "@/components/BlogArticleBody";
+import BlogArticleSection from "@/components/BlogArticleSection";
+import BlogPostHero from "@/components/BlogPostHero";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getLookbookPostBySlug, getSiteSettings } from "@/lib/data";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { getRequestLocale } from "@/lib/locale";
 import { estimateReadingMinutes, extractBlogFaqs } from "@/lib/blog-markdown";
-import { PAGE_CONTAINER, PAGE_HERO_TITLE, SECTION_LEAD } from "@/lib/ui";
+import { PAGE_CONTAINER } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import {
   blogPostingJsonLd,
@@ -122,69 +122,37 @@ export default async function BlogPostPage({ params }) {
         )}
       />
 
-      <header
-        className={cn(
-          PAGE_CONTAINER,
-          "max-w-3xl",
-          "pt-[calc(var(--header-offset)+1rem)]",
-          "pb-6",
-          "relative",
-          "z-20"
-        )}
-      >
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-orange hover:text-orange-dark text-sm font-semibold tracking-wider uppercase mb-6"
-        >
-          ← {locale === "hi" ? "ब्लॉग पर वापस" : "Back to Blog"}
-        </Link>
+      <BlogPostHero
+        locale={locale}
+        title={copy.title}
+        excerpt={copy.excerpt}
+        dateLabel={dateLabel}
+        published={published}
+        readingMinutes={readingMinutes}
+      />
 
-        <div className="flex flex-wrap items-center gap-2 mb-4">
-          <span className="inline-flex items-center gap-1.5 bg-orange/10 border border-orange/20 text-orange px-3 py-1 rounded-full text-[10px] font-semibold tracking-widest uppercase">
-            {locale === "hi" ? "बुटीक गाइड" : "Boutique guide"}
-          </span>
-        </div>
+      <BlogArticleSection
+        image={image}
+        imageAlt={alt}
+        body={post.body}
+        bodyHi={post.body_hi || post.bodyHi}
+      />
 
-        <h1 className={cn(PAGE_HERO_TITLE, "text-balance", "mb-4")}>{copy.title}</h1>
-
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] tracking-wide uppercase text-ink/55 font-medium mb-4">
-          {dateLabel && published && <time dateTime={published}>{dateLabel}</time>}
-          <span aria-hidden>·</span>
-          <span>
-            {readingMinutes} {locale === "hi" ? "मिनट पढ़ें" : "min read"}
-          </span>
-        </div>
-
-        {copy.excerpt && <p className={cn(SECTION_LEAD, "max-w-2xl")}>{copy.excerpt}</p>}
-      </header>
-
-      {image && (
-        <div className={cn(PAGE_CONTAINER, "max-w-4xl", "pb-8", "relative", "z-20")}>
-          <div className="rounded-2xl sm:rounded-[2rem] overflow-hidden border border-ink/15 shadow-xl">
-            <CardImage src={image} alt={alt} ratio="16/9" position="center" loading="eager" />
-          </div>
-        </div>
-      )}
-
-      <BlogArticleBody body={post.body} bodyHi={post.body_hi || post.bodyHi} />
-
-      <div className={cn(PAGE_CONTAINER, "max-w-3xl", "pt-8", "pb-4", "relative", "z-20")}>
-        <div className="rounded-2xl border border-ink/10 bg-orange/[0.04] p-5 sm:p-6">
-          <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-ink/45 mb-3">
+      <div className={cn(PAGE_CONTAINER, "max-w-6xl", "pt-6", "pb-4", "relative", "z-20")}>
+        <div className="blog-related-links rounded-2xl sm:rounded-[1.75rem] border border-orange/15 bg-gradient-to-br from-orange/[0.06] via-white/60 to-orange/[0.03] p-5 sm:p-7 shadow-[0_8px_32px_-8px_rgba(var(--orange-rgb),0.12)] backdrop-blur-sm dark:from-orange/[0.08] dark:via-white/[0.03] dark:to-transparent">
+          <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-orange/70 mb-4">
             {locale === "hi" ? "और जानें" : "Explore more"}
           </p>
-          <div className="flex flex-wrap gap-x-3 gap-y-2 text-sm">
-            {relatedLinks.map((link, index) => (
-              <span key={link.href} className="inline-flex items-center gap-3">
-                {index > 0 && (
-                  <span className="text-ink/25" aria-hidden>
-                    ·
-                  </span>
-                )}
-                <Link href={link.href} className="text-orange font-medium underline-offset-2 hover:underline">
-                  {link.label}
-                </Link>
-              </span>
+          <div className="flex flex-wrap gap-2.5">
+            {relatedLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="inline-flex items-center gap-1.5 rounded-full border border-orange/20 bg-white/70 px-4 py-2 text-sm font-medium text-ink/80 transition-all hover:border-orange/40 hover:bg-orange/[0.08] hover:text-orange dark:border-orange/25 dark:bg-white/[0.06] dark:hover:bg-orange/10"
+              >
+                {link.label}
+                <span aria-hidden className="text-orange/60">→</span>
+              </Link>
             ))}
           </div>
         </div>

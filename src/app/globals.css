@@ -19108,12 +19108,78 @@ html.dark .career-cta-section__btn {
 }
 
 .blog-article__h2 {
-  margin-top: 2.25rem;
+  margin-top: 2.5rem;
   padding-top: 0.25rem;
 }
 
 .blog-article__h2:first-child {
   margin-top: 0;
+}
+
+.blog-article-prose > .blog-article__p:first-child {
+  font-size: 1.0625rem;
+  line-height: 1.9;
+  color: rgb(var(--ink-rgb) / 0.88);
+}
+
+@media (min-width: 640px) {
+  .blog-article-prose > .blog-article__p:first-child {
+    font-size: 1.125rem;
+  }
+}
+
+.blog-article__h3 {
+  color: rgb(var(--ink-rgb) / 0.92);
+}
+
+.blog-card-media {
+  overflow: hidden;
+}
+
+.blog-featured-frame {
+  transform: translateZ(0);
+}
+
+.blog-featured-frame__img,
+.blog-featured-frame img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.blog-article-layout {
+  width: 100%;
+}
+
+.blog-article-with-float::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media (min-width: 1024px) {
+  .blog-article-float-media {
+    shape-outside: margin-box;
+  }
+
+  .blog-article-with-float .blog-article-prose {
+    max-width: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .blog-article-float-media {
+    max-width: 560px;
+    margin-inline: auto;
+  }
+}
+
+.blog-post-title {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .blog-article__faq-q {
