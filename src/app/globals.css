@@ -22422,7 +22422,39 @@ summary:focus-visible {
   background: rgba(255, 255, 255, 0.85);
 }
 
-.instagram-feed__frame {
+.social-feeds__row {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  padding-bottom: 0.35rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.social-feed-card {
+  flex: 0 0 min(86vw, 360px);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 1100px) {
+  .social-feeds__row {
+    overflow: visible;
+    gap: 1.5rem;
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .social-feed-card {
+    flex: 1 1 0;
+  }
+}
+
+.instagram-feed__frame,
+.facebook-feed__frame,
+.youtube-feed__frame {
   max-width: 540px;
   margin: 0 auto;
   border-radius: 1rem;
@@ -22432,13 +22464,228 @@ summary:focus-visible {
   background: #fafafa;
 }
 
-.instagram-feed__iframe {
+.social-feed-card .instagram-feed__frame,
+.social-feed-card .facebook-feed__frame,
+.social-feed-card .youtube-feed__frame {
+  max-width: none;
+  min-height: 430px;
+}
+
+.social-feed-card .instagram-feed__iframe,
+.social-feed-card .facebook-feed__iframe,
+.social-feed-card .youtube-feed__iframe {
+  min-height: 430px;
+  height: 430px;
+}
+
+.instagram-feed__iframe,
+.facebook-feed__iframe,
+.youtube-feed__iframe {
   width: 100%;
   min-height: 480px;
   border: 0;
 }
 
-.instagram-feed__placeholder {
+.facebook-feed__iframe {
+  min-height: 430px;
+  height: 430px;
+}
+
+.facebook-feed__fallback {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-height: 430px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.facebook-feed__fallback.is-hidden {
+  display: none;
+}
+
+.facebook-feed__fallback-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.facebook-feed__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #f4e8d4;
+}
+
+.facebook-feed__page-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink, #1a1208);
+}
+
+.facebook-feed__page-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.facebook-feed__badge {
+  margin-left: auto;
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  border-radius: 999px;
+  background: #1877f2;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.facebook-feed__cover {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+.facebook-feed__blurb {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.facebook-feed__frame .fb-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.facebook-feed__frame.is-ready .fb-page {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.facebook-feed__frame {
+  position: relative;
+}
+
+.social-profile-embed {
+  display: flex;
+  flex-direction: column;
+  min-height: 430px;
+  background: #fff;
+  color: #262626;
+}
+
+.social-profile-embed__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #efefef;
+  text-align: left;
+}
+
+.social-profile-embed__avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #f4e8d4;
+  flex-shrink: 0;
+}
+
+.social-profile-embed__meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.social-profile-embed__handle {
+  display: block;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.social-profile-embed__name,
+.social-profile-embed__stats {
+  margin: 0;
+  color: #737373;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.social-profile-embed__brand {
+  flex-shrink: 0;
+}
+
+.social-profile-embed__platform {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.social-profile-embed__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  overflow-y: auto;
+  max-height: 340px;
+  background: #fff;
+}
+
+.social-profile-embed__cell {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.social-profile-embed__cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.social-profile-embed__cell.is-skeleton {
+  background: linear-gradient(90deg, #f0f0f0, #e6e6e6, #f0f0f0);
+  background-size: 200% 100%;
+}
+
+.social-profile-embed__play {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 8px;
+  line-height: 18px;
+  text-align: center;
+  text-indent: 1px;
+}
+
+.social-feed-card > p {
+  margin-top: 0.75rem;
+}
+
+.instagram-feed__placeholder,
+.facebook-feed__placeholder,
+.youtube-feed__placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;

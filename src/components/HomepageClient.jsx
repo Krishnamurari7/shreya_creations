@@ -14,7 +14,7 @@ import InquiryPopup from "@/components/InquiryPopup";
 import HeroSection from "@/components/HeroSection";
 import HomePortfolioPreview from "@/components/HomePortfolioPreview";
 import HomeCoursesPreview from "@/components/HomeCoursesPreview";
-import InstagramFeed from "@/components/InstagramFeed";
+import SocialFeeds from "@/components/SocialFeeds";
 
 function SectionHeader({
   home,
@@ -242,9 +242,9 @@ export default function HomepageClient({
       {/* ===== PORTFOLIO PREVIEW ===== */}
       <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
 
-      {/* ===== INSTAGRAM FEED (lazy, below fold) ===== */}
+      {/* ===== SOCIAL FEEDS (lazy, below fold) ===== */}
       <section className="home-instagram-band relative z-20 overflow-hidden">
-        <InstagramFeed handle={site.instagramHandle || "shreya.creationss"} lang={lang} />
+        <SocialFeeds site={site} lang={lang} />
       </section>
 
       {/* ===== STUDENT SUCCESS ===== */}

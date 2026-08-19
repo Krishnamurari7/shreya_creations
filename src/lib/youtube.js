@@ -58,3 +58,50 @@ export function youtubeVideoId(embedUrl) {
     return "";
   }
 }
+
+/** @handle / user / custom URL slug from a YouTube channel URL. */
+export function youtubeHandleFromUrl(input, fallback = "ShreyaCreations111") {
+  if (!input || typeof input !== "string") return fallback;
+  const trimmed = input.trim();
+  try {
+    const url = new URL(trimmed);
+    const handle = url.pathname.match(/\/@([^/]+)/);
+    if (handle?.[1]) return decodeURIComponent(handle[1]);
+    const user = url.pathname.match(/\/user\/([^/]+)/);
+    if (user?.[1]) return decodeURIComponent(user[1]);
+    const custom = url.pathname.match(/\/c\/([^/]+)/);
+    if (custom?.[1]) return decodeURIComponent(custom[1]);
+  } catch {
+    const raw = trimmed.replace(/^@/, "").trim();
+    if (raw && !raw.includes("/")) return raw;
+  }
+  return fallback;
+}
+
+/** UC… channel id from a /channel/ URL, or the fallback. */
+export function youtubeChannelIdFromUrl(input, fallback = "") {
+  if (!input || typeof input !== "string") return fallback;
+  const trimmed = input.trim();
+  if (/^UC[\w-]+$/.test(trimmed)) return trimmed;
+  try {
+    const match = new URL(trimmed).pathname.match(/\/channel\/(UC[\w-]+)/);
+    if (match?.[1]) return match[1];
+  } catch {
+    return fallback;
+  }
+  return fallback;
+}
+
+/** Channel uploads playlist (UC… → UU…). */
+export function youtubeUploadsPlaylistId(channelId) {
+  if (typeof channelId !== "string" || !channelId.startsWith("UC") || channelId.length < 12) {
+    return "";
+  }
+  return `UU${channelId.slice(2)}`;
+}
+
+export function youtubeUploadsEmbedUrl(channelId) {
+  const list = youtubeUploadsPlaylistId(channelId);
+  if (!list) return "";
+  return `https://www.youtube.com/embed/videoseries?list=${list}`;
+}

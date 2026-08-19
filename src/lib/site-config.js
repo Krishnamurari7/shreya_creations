@@ -37,6 +37,24 @@ export const DEFAULT_SOCIALS = {
   facebook: "https://www.facebook.com/shreyascreation",
 };
 
+/** Stable YouTube channel id for @ShreyaCreations111 (uploads playlist = UU + rest). */
+export const DEFAULT_YOUTUBE_CHANNEL_ID = "UCpPUrj0cpbzAe9-J4T4O3FQ";
+export const DEFAULT_YOUTUBE_HANDLE = "ShreyaCreations111";
+export const DEFAULT_FACEBOOK_HANDLE = "shreyascreation";
+
+/** Keep the public Page URL the owner provided. */
+export function canonicalFacebookUrl(url) {
+  const fallback = DEFAULT_SOCIALS.facebook;
+  if (!url || typeof url !== "string") return fallback;
+  try {
+    const slug = new URL(url).pathname.split("/").filter(Boolean)[0] || "";
+    if (/^shreyacreations$/i.test(slug)) return fallback;
+    return url;
+  } catch {
+    return fallback;
+  }
+}
+
 /**
  * @param {number} foundingYear
  * @param {number} [nowYear]
