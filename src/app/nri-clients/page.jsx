@@ -40,11 +40,7 @@ export default async function NriClientsPage() {
       <PageCTA
         whatsapp={site.whatsapp}
         {...cta}
-        eyebrow="NRI enquiry"
-        eyebrowHi="NRI पूछताछ"
         waMessage={cta.waMessage || nriClientMessage("en")}
-        perks={["Custom stitching", "1-to-1 classes", "Bridal wear", "Ready-to-wear saree"]}
-        perksHi={["कस्टम सिलाई", "1-to-1 क्लास", "ब्राइडल वियर", "Ready-to-wear saree"]}
       />
     </PageShell>
   );

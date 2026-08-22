@@ -12,10 +12,11 @@ import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } fr
 
 export async function generateMetadata() {
   const site = await getSiteSettings();
+  const hours = site.studioHours || "Mon–Sat, 10 AM–8 PM";
+  const closed = site.closedDays ? `, closed ${site.closedDays}` : "";
   return buildMetadata({
     title: "Contact Shreya Creation | Boutique & Stitching Studio, Patna",
-    description:
-      "Visit Shreya Creation at East Boring Canal Road, Patna. Call/WhatsApp for courses, custom stitching & bridal orders. Open Mon–Sun.",
+    description: `Visit Shreya Creation at East Boring Canal Road, Patna. Call/WhatsApp for courses, custom stitching & bridal orders. Open ${hours}${closed}.`,
     path: "/contact",
     image: DEFAULT_OG_IMAGE,
     imageAlt: `Boutique near me — ${site.addressLine || site.address || "East Boring Canal Road, Patna"}`,

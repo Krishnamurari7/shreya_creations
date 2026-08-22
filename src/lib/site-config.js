@@ -31,6 +31,13 @@ export const DEFAULT_PINCODE = "800001";
 export const DEFAULT_ADDRESS_LINE =
   "Shreya Creation, Sisodiya Place, East Boring Canal Road, Sri Krishna Puri, Patna, Bihar 800001";
 
+/**
+ * Studio pin for LocalBusiness JSON-LD.
+ * Leave null until lat/lng are copied from Google Business Profile (do not invent).
+ * @type {{ latitude: number, longitude: number } | null}
+ */
+export const DEFAULT_GEO = null;
+
 export const DEFAULT_SOCIALS = {
   instagram: "https://www.instagram.com/shreya.creationss/",
   youtube: "https://www.youtube.com/@ShreyaCreations111/",
@@ -266,6 +273,19 @@ export function buildSITE(raw = {}, opts = {}) {
   const closedDays = str(raw.closed_days ?? raw.closedDays, DEFAULT_CLOSED_DAYS);
   const email = str(raw.email, DEFAULT_EMAIL);
 
+  const geoLat = Number(raw.geo_lat ?? raw.geoLat ?? raw.latitude);
+  const geoLng = Number(raw.geo_lng ?? raw.geoLng ?? raw.longitude);
+  const geoFromRaw =
+    Number.isFinite(geoLat) &&
+    Number.isFinite(geoLng) &&
+    geoLat >= -90 &&
+    geoLat <= 90 &&
+    geoLng >= -180 &&
+    geoLng <= 180
+      ? { latitude: geoLat, longitude: geoLng }
+      : null;
+  const geo = geoFromRaw || DEFAULT_GEO;
+
   const stats = formatSiteStats({ foundingYear, studentsTaught, coursesCount, yearsExperience });
 
   const socialsIn = raw.socials && typeof raw.socials === "object" ? raw.socials : {};
@@ -300,6 +320,7 @@ export function buildSITE(raw = {}, opts = {}) {
     pincode,
     studioHours,
     closedDays,
+    geo,
     whatsapp: whatsappNumber,
     whatsappNumber,
     mapEmbedUrl: raw.map_embed_url ?? raw.mapEmbedUrl,

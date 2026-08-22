@@ -33,14 +33,7 @@ export default async function AboutPage() {
         )}
       />
       <AboutClient site={site} aboutPage={about} />
-      <PageCTA
-        whatsapp={site.whatsapp}
-        {...pageCtaProps(about)}
-        eyebrow="Visit Us"
-        eyebrowHi="हमसे मिलें"
-        perks={["Studio tour", "Boutique consult", "Course guidance", "Free demo"]}
-        perksHi={["स्टूडियो टूर", "बुटीक सलाह", "कोर्स गाइडेंस", "मुफ़्त डेमो"]}
-      />
+      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(about)} />
     </PageShell>
   );
 }

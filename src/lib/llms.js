@@ -1,5 +1,6 @@
 import { getSiteUrl } from "@/lib/siteUrl";
 import { formatPhoneDisplay } from "@/lib/site-config";
+import { isCourseAvailable } from "@/lib/courses";
 import { itemName, courseMetaDescription, productMetaDescription } from "@/lib/seo";
 
 function abs(path) {
@@ -32,7 +33,9 @@ export function buildLlmsTxt(site, { courses = [], products = [], posts = [] } =
     site?.intro ||
     "Fashion boutique institute and custom stitching studio on East Boring Canal Road, Patna — boutique courses, bridal wear, and express stitching.";
 
-  const publishedCourses = courses.filter((c) => c?.slug && c.published !== false);
+  const publishedCourses = courses.filter(
+    (c) => c?.slug && c.published !== false && isCourseAvailable(c)
+  );
   const publishedProducts = products.filter((p) => p?.slug && p.published !== false);
   const publishedPosts = posts.filter((p) => p?.slug && p.published !== false);
 
@@ -134,7 +137,9 @@ export function buildLlmsFullTxt(
   const email = site?.email || "hello@shreyacreation.com";
   const address = site?.addressLine || site?.address || "Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001";
 
-  const publishedCourses = courses.filter((c) => c?.slug && c.published !== false);
+  const publishedCourses = courses.filter(
+    (c) => c?.slug && c.published !== false && isCourseAvailable(c)
+  );
   const publishedProducts = products.filter((p) => p?.slug && p.published !== false);
   const publishedPosts = posts.filter((p) => p?.slug && p.published !== false);
 

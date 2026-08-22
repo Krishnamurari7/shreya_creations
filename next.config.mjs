@@ -4,6 +4,8 @@ const nextConfig = {
   transpilePackages: ["three", "react-pdf", "pdfjs-dist"],
   images: {
     formats: ["image/avif", "image/webp"],
+    deviceSizes: [360, 414, 640, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 150, 220, 256, 384],
     remotePatterns: [
       // Supabase Storage public URLs (CMS uploads; founder photos are self-hosted)
       { protocol: "https", hostname: "*.supabase.co" },

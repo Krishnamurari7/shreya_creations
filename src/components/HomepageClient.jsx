@@ -1,20 +1,38 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_LEFT, REVEAL_RIGHT, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import CardImage from "@/components/CardImage";
 import CategoryCards from "@/components/CategoryCards";
-import { Testimonials } from "@/components/Sections";
 import { DesignProcess } from "@/components/FashionSections";
 import { useLanguage } from "@/components/LanguageProvider";
 import { resolveFounderImage, MEDIA } from "@/lib/media";
-import { pickPage } from "@/lib/cms";
-import InquiryPopup from "@/components/InquiryPopup";
+import { pageBottomCtaProps, pickPage } from "@/lib/cms";
+import LazyWhenVisible from "@/components/LazyWhenVisible";
 import HeroSection from "@/components/HeroSection";
-import HomePortfolioPreview from "@/components/HomePortfolioPreview";
-import HomeCoursesPreview from "@/components/HomeCoursesPreview";
-import SocialFeeds from "@/components/SocialFeeds";
+import PageCTA from "@/components/PageCTA";
+
+const HomeCoursesPreview = dynamic(() => import("@/components/HomeCoursesPreview"), {
+  loading: () => <div className="home-courses-preview-skeleton min-h-[480px]" aria-hidden />,
+});
+const HomePortfolioPreview = dynamic(() => import("@/components/HomePortfolioPreview"), {
+  loading: () => <div className="home-portfolio-skeleton min-h-[360px]" aria-hidden />,
+});
+const SocialFeeds = dynamic(() => import("@/components/SocialFeeds"), {
+  ssr: false,
+  loading: () => (
+    <div className="social-feeds-skeleton min-h-[280px] flex items-center justify-center text-sm text-muted" aria-busy="true">
+      Loading social feeds…
+    </div>
+  ),
+});
+const Testimonials = dynamic(() => import("@/components/Sections").then((mod) => mod.Testimonials), {
+  ssr: false,
+  loading: () => <div className="testimonials-skeleton min-h-[240px]" aria-hidden />,
+});
+const InquiryPopup = dynamic(() => import("@/components/InquiryPopup"), { ssr: false });
 
 function SectionHeader({
   home,
@@ -180,6 +198,9 @@ function FounderMessageSlider({ slides }) {
 }
 
 export default function HomepageClient({
+  heroBackground,
+  initialLang: _initialLang,
+  home: homeProp,
   site,
   courses,
   portfolio = [],
@@ -188,7 +209,21 @@ export default function HomepageClient({
   processSteps = [],
 }) {
   const { lang } = useLanguage();
-  const home = site.pages?.home || {};
+  const home = homeProp || site.pages?.home || {};
+  const [mountPopup, setMountPopup] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const open = () => setMountPopup(true);
+    const timer = window.setTimeout(open, 8000);
+    window.addEventListener("scroll", open, { once: true, passive: true });
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", open);
+    };
+  }, []);
 
   const founderImage = resolveFounderImage(home.founderImage, MEDIA.founderSanjay);
   const mentorImage = resolveFounderImage(home.mentorImage, MEDIA.founderShreya);
@@ -213,53 +248,78 @@ export default function HomepageClient({
 
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
-      {/* ===== HERO BANNER (includes stats + quick actions) ===== */}
-      <HeroSection home={home} lang={lang} phone={site.phone} whatsapp={site.whatsapp} site={site} />
+      <section
+        className={`home-hero home-hero--boutique${lang === "hi" ? " home-hero--hi" : ""}`}
+        aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
+      >
+        {heroBackground}
+        <HeroSection
+          home={home}
+          lang={lang}
+          phone={site.phone}
+          whatsapp={site.whatsapp}
+          site={site}
+          embedded
+        />
+      </section>
 
-      {/* ===== QUICK EXPLORE ===== */}
       <CategoryCards lang={lang} site={site} whatsapp={site.whatsapp} home={home} />
 
-      <HomeCoursesPreview courses={courses} home={home} site={site} />
+      <LazyWhenVisible fallback={<div className="home-courses-preview-skeleton min-h-[480px]" aria-hidden />}>
+        <HomeCoursesPreview courses={courses} home={home} site={site} />
+      </LazyWhenVisible>
 
       {/* ===== FOUNDER MESSAGE ===== */}
-      <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "relative", "z-20", "overflow-hidden")}>
-        <div className="founder-section__bg" aria-hidden />
-        <div className="founder-section__glow founder-section__glow--left" aria-hidden />
-        <div className="founder-section__glow founder-section__glow--right" aria-hidden />
-        <div className="relative z-10">
-          <SectionHeader
-            home={home}
-            lang={lang}
-            eyebrowKey="founderEyebrow"
-            titleKey="founderTitle"
-            compact
-            className="founder-section__header"
-          />
-          <FounderMessageSlider slides={founderSlides} />
-        </div>
-      </section>
+      <LazyWhenVisible>
+        <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "relative", "z-20", "overflow-hidden")}>
+          <div className="founder-section__bg" aria-hidden />
+          <div className="founder-section__glow founder-section__glow--left" aria-hidden />
+          <div className="founder-section__glow founder-section__glow--right" aria-hidden />
+          <div className="relative z-10">
+            <SectionHeader
+              home={home}
+              lang={lang}
+              eyebrowKey="founderEyebrow"
+              titleKey="founderTitle"
+              compact
+              className="founder-section__header"
+            />
+            <FounderMessageSlider slides={founderSlides} />
+          </div>
+        </section>
+      </LazyWhenVisible>
 
-      {/* ===== PORTFOLIO PREVIEW ===== */}
-      <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
+      <LazyWhenVisible fallback={<div className="home-portfolio-skeleton min-h-[360px]" aria-hidden />}>
+        <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
+      </LazyWhenVisible>
 
-      {/* ===== SOCIAL FEEDS (lazy, below fold) ===== */}
-      <section className="home-instagram-band relative z-20 overflow-hidden">
-        <SocialFeeds site={site} lang={lang} />
-      </section>
+      <LazyWhenVisible
+        fallback={
+          <section className="home-instagram-band relative z-20 overflow-hidden">
+            <div className="social-feeds-skeleton min-h-[280px]" aria-hidden />
+          </section>
+        }
+      >
+        <section className="home-instagram-band relative z-20 overflow-hidden">
+          <SocialFeeds site={site} lang={lang} />
+        </section>
+      </LazyWhenVisible>
 
       {/* ===== STUDENT SUCCESS ===== */}
-      <section id="testimonials" className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "overflow-hidden", "min-w-0")}>
-        <div className={PAGE_CONTAINER}>
-          <SectionHeader
-            home={home}
-            lang={lang}
-            eyebrowKey="successEyebrow"
-            titleKey="successTitle"
-            subtitleKey="successSubtitle"
-          />
-        </div>
-        <Testimonials items={testimonials} site={site} />
-      </section>
+      <LazyWhenVisible>
+        <section id="testimonials" className={cn(HOME_BAND_WHITE, PAGE_SECTION, PAGE_SECTION_BORDERED, "overflow-hidden", "min-w-0")}>
+          <div className={PAGE_CONTAINER}>
+            <SectionHeader
+              home={home}
+              lang={lang}
+              eyebrowKey="successEyebrow"
+              titleKey="successTitle"
+              subtitleKey="successSubtitle"
+            />
+          </div>
+          <Testimonials items={testimonials} site={site} />
+        </section>
+      </LazyWhenVisible>
 
       {/* ===== DESIGN PROCESS ===== */}
       {processSteps.length > 0 && (
@@ -281,7 +341,9 @@ export default function HomepageClient({
         </section>
       )}
 
-      <InquiryPopup source="home_popup" whatsapp={site.whatsapp} />
+      <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} />
+
+      {mountPopup ? <InquiryPopup source="home_popup" delayMs={8000} whatsapp={site.whatsapp} /> : null}
     </div>
   );
 }

@@ -35,9 +35,19 @@ const CONTACT_FIELDS = [
   { name: "address_line", label: "Address line (optional override)", type: "textarea" },
   { name: "city", label: "City", hint: "Patna" },
   { name: "pincode", label: "Pincode" },
-  // TODO(owner): confirm real hours & closed day
+  // Canonical hours: Mon–Sat 10 AM–8 PM, closed Sunday (match JSON-LD + GBP)
   { name: "studio_hours", label: "Studio hours", hint: "e.g. Mon–Sat, 10 AM–8 PM" },
   { name: "closed_days", label: "Closed days", hint: "e.g. Sunday" },
+  {
+    name: "geo_lat",
+    label: "Geo latitude",
+    hint: "From Google Business Profile pin only — leave blank until confirmed",
+  },
+  {
+    name: "geo_lng",
+    label: "Geo longitude",
+    hint: "From Google Business Profile pin only — leave blank until confirmed",
+  },
   { name: "founded", label: "Founded label (display)", hint: "e.g. 14+ Years — optional override; leave blank to auto-calc from founding year" },
 ];
 
@@ -73,6 +83,8 @@ function emptyForm() {
     express_delivery_hours: "",
     studio_hours: "",
     closed_days: "",
+    geo_lat: "",
+    geo_lng: "",
     socials: {},
   };
 }
@@ -104,6 +116,8 @@ function loadForm(data) {
     express_delivery_hours: data.express_delivery_hours ?? "",
     studio_hours: data.studio_hours || "",
     closed_days: data.closed_days || "",
+    geo_lat: data.geo_lat ?? "",
+    geo_lng: data.geo_lng ?? "",
     socials: data.socials || {},
   };
 }
@@ -191,6 +205,8 @@ export default function SettingsAdmin() {
         form.express_delivery_hours === "" ? null : Number(form.express_delivery_hours),
       studio_hours: form.studio_hours,
       closed_days: form.closed_days,
+      geo_lat: form.geo_lat === "" ? null : Number(form.geo_lat),
+      geo_lng: form.geo_lng === "" ? null : Number(form.geo_lng),
       socials: form.socials,
       updated_at: new Date().toISOString(),
     };

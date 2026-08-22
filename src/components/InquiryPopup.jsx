@@ -73,7 +73,7 @@ function isDemoSource(src) {
   return /demo/i.test(src || "");
 }
 
-export default function InquiryPopup({ source = "home_popup", delayMs = 4000, whatsapp }) {
+export default function InquiryPopup({ source = "home_popup", delayMs = 8000, whatsapp }) {
   const { lang } = useLanguage();
   const t = COPY[lang] || COPY.en;
   const [mounted, setMounted] = useState(false);

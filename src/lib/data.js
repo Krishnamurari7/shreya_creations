@@ -34,6 +34,10 @@ function normalizeSettings(data) {
     pincode: data.pincode,
     studioHours: data.studio_hours ?? data.studioHours,
     closedDays: data.closed_days ?? data.closedDays,
+    geo_lat: data.geo_lat ?? data.geoLat,
+    geo_lng: data.geo_lng ?? data.geoLng,
+    geoLat: data.geo_lat ?? data.geoLat,
+    geoLng: data.geo_lng ?? data.geoLng,
     whatsappNumber: data.whatsapp_number ?? data.whatsappNumber ?? data.whatsapp,
   };
 }

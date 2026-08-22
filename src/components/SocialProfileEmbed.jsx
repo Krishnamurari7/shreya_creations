@@ -1,5 +1,7 @@
 "use client";
 
+import OptimizedImage from "@/components/OptimizedImage";
+
 function FacebookIcon() {
   return (
     <svg viewBox="0 0 24 24" className="social-profile-embed__platform" aria-hidden>
@@ -37,7 +39,14 @@ export default function SocialProfileEmbed({
     <div className="social-profile-embed">
       <div className="social-profile-embed__head">
         <a href={profileUrl} target="_blank" rel="noopener noreferrer">
-          <img src={avatarSrc} alt="" width={50} height={50} className="social-profile-embed__avatar" />
+          <OptimizedImage
+            src={avatarSrc}
+            alt=""
+            width={50}
+            height={50}
+            sizes="50px"
+            className="social-profile-embed__avatar"
+          />
         </a>
         <div className="social-profile-embed__meta">
           <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="social-profile-embed__handle">
@@ -70,7 +79,15 @@ export default function SocialProfileEmbed({
               className="social-profile-embed__cell"
               title={item.title}
             >
-              <img src={item.image} alt={item.title || ""} />
+              <OptimizedImage
+                src={item.image}
+                alt={item.title || ""}
+                fill
+                sizes="(max-width: 768px) 33vw, 120px"
+                loading="lazy"
+                quality={80}
+                className="object-cover"
+              />
               {item.isVideo ? (
                 <span className="social-profile-embed__play" aria-hidden>
                   ▶

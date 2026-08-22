@@ -154,7 +154,7 @@ export default async function RootLayout({ children }) {
         <Analytics />
         <ThemeScript />
         <ThemeProvider>
-          <LanguageProvider defaultLang={site.defaultLanguage}>
+          <LanguageProvider>
             <ScrollReveal />
             <SiteProtection />
             <Navbar site={site} />

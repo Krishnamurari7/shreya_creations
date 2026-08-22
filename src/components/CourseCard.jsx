@@ -146,7 +146,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
       >
         {available ? (
           <Link href={detailHref} className={mediaClass}>
-            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" />
+            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" quality={80} />
             {badge && (
               <span className={cn("featured-course-card__badge", `featured-course-card__badge--${badge.tone}`)}>
                 {badge.tone === "addon" ? addonCourseLabel(lang) : badge.label}
@@ -161,7 +161,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           </Link>
         ) : (
           <div className={mediaClass}>
-            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" />
+            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" quality={80} />
             {badge && (
               <span className={cn("featured-course-card__badge", `featured-course-card__badge--${badge.tone}`)}>
                 {badge.tone === "addon" ? addonCourseLabel(lang) : badge.label}
@@ -211,25 +211,19 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           )}
 
           <div className="featured-course-card__footer mt-auto min-w-0">
-            <div className="featured-course-card__pricing">
-              {priceInfo.kind === "price" ? (
-                <>
-                  <span className="featured-course-card__price-label text-[10px] uppercase tracking-wide text-muted block mb-0.5">
-                    {hi ? "शुरुआत" : "Starting from"}
-                  </span>
-                  <span className="featured-course-card__price">{priceInfo.label}</span>
-                  {showCompare && (
-                    <span className="featured-course-card__compare">
-                      ₹{Number(comparePrice).toLocaleString("en-IN")}
-                    </span>
-                  )}
-                </>
-              ) : (
-                <span className="featured-course-card__price featured-course-card__price--todo owner-todo-marker">
-                  {priceInfo.label}
+            {priceInfo.kind === "price" ? (
+              <div className="featured-course-card__pricing">
+                <span className="featured-course-card__price-label text-[10px] uppercase tracking-wide text-muted block mb-0.5">
+                  {hi ? "शुरुआत" : "Starting from"}
                 </span>
-              )}
-            </div>
+                <span className="featured-course-card__price">{priceInfo.label}</span>
+                {showCompare && (
+                  <span className="featured-course-card__compare">
+                    ₹{Number(comparePrice).toLocaleString("en-IN")}
+                  </span>
+                )}
+              </div>
+            ) : null}
 
             {available ? (
               <Link href={detailHref} className="featured-course-card__details">

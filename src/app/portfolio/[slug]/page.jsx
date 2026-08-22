@@ -102,10 +102,10 @@ export default async function PortfolioDetailPage({ params }) {
       </div>
       <PageCTA
         whatsapp={site.whatsapp}
-        title="Want this look made for you?"
-        titleHi="यह लुक आपके लिए चाहिए?"
-        subtitle="Share a reference photo on WhatsApp — we'll guide fabric, sizing and delivery."
-        subtitleHi="रेफरेंस फोटो WhatsApp पर भेजें — कपड़ा, माप और डिलीवरी बताएंगे।"
+        title="Want to visit our studio?"
+        titleHi="हमारा स्टूडियो देखना चाहते हैं?"
+        subtitle="Share a reference photo on WhatsApp — or book a studio visit for a custom consultation."
+        subtitleHi="रेफरेंस फोटो WhatsApp पर भेजें — या कस्टम सलाह के लिए स्टूडियो विज़िट बुक करें।"
       />
     </PageShell>
   );

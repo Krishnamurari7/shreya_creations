@@ -75,7 +75,6 @@ export default function InstagramFeed({ handle = "shreya.creationss", lang = "en
             title={`Instagram @${cleanHandle}`}
             loading="lazy"
             className="instagram-feed__iframe"
-            allowTransparency
             referrerPolicy="no-referrer-when-downgrade"
           />
         ) : (

@@ -40,6 +40,7 @@ export default function MobileContactBar({ site }) {
           href={phoneHref}
           className="mobile-contact-bar__btn mobile-contact-bar__btn--call"
           data-track-cta="mobile_sticky_call"
+          aria-label={hi ? `कॉल करें ${phoneLabel}` : `Call ${phoneLabel}`}
         >
           <PhoneIcon />
           <span>{hi ? "कॉल" : "Call"}</span>
@@ -53,6 +54,7 @@ export default function MobileContactBar({ site }) {
           rel="noopener noreferrer"
           className="mobile-contact-bar__btn mobile-contact-bar__btn--wa"
           data-track-cta="mobile_sticky_whatsapp"
+          aria-label={hi ? "WhatsApp पर चैट करें" : "Chat on WhatsApp"}
         >
           <WhatsAppIcon />
           <span>WhatsApp</span>

@@ -115,10 +115,10 @@ function BrandLogo({ brandName, variant = "header" }) {
         <OptimizedImage
           src={NAV_LOGO_SRC}
           alt={brandName}
-          width={220}
-          height={88}
-          priority
-          sizes="220px"
+          width={150}
+          height={60}
+          sizes="150px"
+          loading="eager"
           className={cn("nav-logo-img", isDrawer && "nav-logo-img--drawer")}
         />
       </span>

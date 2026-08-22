@@ -164,17 +164,13 @@ export default async function BlogPostPage({ params }) {
         titleHi={BLOG_CTA.cta_title_hi}
         subtitle={BLOG_CTA.cta_subtitle}
         subtitleHi={BLOG_CTA.cta_subtitle_hi}
-        primaryHref={BLOG_CTA.cta_primary_href}
+        primaryHref={BLOG_CTA.cta_primary_href || undefined}
         primaryLabel={BLOG_CTA.cta_primary_label}
         primaryLabelHi={BLOG_CTA.cta_primary_label_hi}
         secondaryHref={BLOG_CTA.cta_secondary_href}
         secondaryLabel={BLOG_CTA.cta_secondary_label}
         secondaryLabelHi={BLOG_CTA.cta_secondary_label_hi}
         waMessage={BLOG_CTA.cta_wa_message}
-        eyebrow="Fashion & style"
-        eyebrowHi="फैशन और स्टाइल"
-        perks={["Boutique wear", "Custom stitching", "Fashion courses", "Patna studio"]}
-        perksHi={["बुटीक वियर", "कस्टम सिलाई", "फैशन कोर्स", "पटना स्टूडियो"]}
       />
     </PageShell>
   );

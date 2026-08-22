@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getProductBySlug, getSiteSettings } from "@/lib/data";
 import ProductDetailClient from "@/components/ProductDetailClient";
+import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getRequestLocale } from "@/lib/locale";
 import {
@@ -63,6 +64,7 @@ export default async function ProductDetail({ params }) {
         )}
       />
       <ProductDetailClient product={product} site={site} images={images} />
+      <PageCTA whatsapp={site.whatsapp} />
     </>
   );
 }

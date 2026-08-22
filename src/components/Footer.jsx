@@ -373,7 +373,7 @@ export default function Footer({ site }) {
                 <span>{hi ? `${foundingYear} से` : `Since ${foundingYear}`}</span>
               </p>
 
-              <OptimizedImage src={LOGO_SRC} alt={brandName} width={220} height={140} sizes="220px" loading="lazy" className="sf-logo" />
+              <OptimizedImage src={LOGO_SRC} alt={brandName} width={150} height={95} sizes="150px" loading="lazy" className="sf-logo" />
 
               <p className="sf-brand-sub">{hi ? "बुटीक और इंस्टिट्यूट" : "Boutique & Institute"}</p>
               <p className="sf-brand-ribbon">

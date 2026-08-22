@@ -125,17 +125,13 @@ export default async function BlogPage() {
         titleHi={isLegacyLookbookCopy(cta.titleHi) ? BLOG_DEFAULTS.cta_title_hi : cta.titleHi}
         subtitle={cta.subtitle || BLOG_DEFAULTS.cta_subtitle}
         subtitleHi={cta.subtitleHi || BLOG_DEFAULTS.cta_subtitle_hi}
-        primaryHref={cta.primaryHref ?? BLOG_DEFAULTS.cta_primary_href}
+        primaryHref={cta.primaryHref === undefined ? BLOG_DEFAULTS.cta_primary_href : cta.primaryHref}
         primaryLabel={cta.primaryLabel || BLOG_DEFAULTS.cta_primary_label}
         primaryLabelHi={cta.primaryLabelHi || BLOG_DEFAULTS.cta_primary_label_hi}
         secondaryHref={cta.secondaryHref ?? BLOG_DEFAULTS.cta_secondary_href}
         secondaryLabel={cta.secondaryLabel || BLOG_DEFAULTS.cta_secondary_label}
         secondaryLabelHi={cta.secondaryLabelHi || BLOG_DEFAULTS.cta_secondary_label_hi}
         waMessage={cta.waMessage || BLOG_DEFAULTS.cta_wa_message}
-        eyebrow="Fashion & style"
-        eyebrowHi="फैशन और स्टाइल"
-        perks={["Boutique wear", "Custom stitching", "Fashion courses", "Patna studio"]}
-        perksHi={["बुटीक वियर", "कस्टम सिलाई", "फैशन कोर्स", "पटना स्टूडियो"]}
       />
     </PageShell>
   );

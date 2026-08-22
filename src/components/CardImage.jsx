@@ -15,12 +15,12 @@ const RATIO_CLASS = {
 };
 
 const RATIO_SIZES = {
-  "3/4": "(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 320px",
-  "4/5": "(max-width: 640px) 85vw, (max-width: 1024px) 40vw, 280px",
-  "4/3": "(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 400px",
-  "16/9": "(max-width: 640px) 95vw, (max-width: 1024px) 60vw, 560px",
-  "16/10": "(max-width: 640px) 95vw, (max-width: 1024px) 55vw, 480px",
-  "1/1": "(max-width: 640px) 80vw, (max-width: 1024px) 30vw, 240px",
+  "3/4": "(max-width: 768px) 100vw, 33vw",
+  "4/5": "(max-width: 768px) 100vw, 33vw",
+  "4/3": "(max-width: 768px) 100vw, 33vw",
+  "16/9": "(max-width: 768px) 100vw, 33vw",
+  "16/10": "(max-width: 768px) 100vw, 33vw",
+  "1/1": "(max-width: 768px) 80vw, 25vw",
   fill: "100vw",
 };
 
@@ -34,6 +34,7 @@ export default function CardImage({
   imgClassName,
   loading = "lazy",
   priority = false,
+  quality,
   sizes,
 }) {
   const resolved = resolveMediaSrc(src);
@@ -63,6 +64,7 @@ export default function CardImage({
         sizes={sizes || RATIO_SIZES[ratio] || RATIO_SIZES["3/4"]}
         priority={priority}
         loading={loading}
+        quality={quality}
         className={cn(
           "object-cover",
           fit === "contain" && "object-contain",

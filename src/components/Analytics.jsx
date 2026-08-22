@@ -100,7 +100,7 @@ export default function Analytics() {
         <Script
           id="gtm-container"
           src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       ) : null}
 

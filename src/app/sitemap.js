@@ -1,8 +1,9 @@
-import { getSiteUrl } from "@/lib/siteUrl";
 import { getCourses, getLookbookPosts, getPortfolio, getProducts } from "@/lib/data";
+import { isCourseAvailable } from "@/lib/courses";
 import { sitemapWithAlternates } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+/** ISR — avoids force-dynamic 500s on Cloudflare edge fetches. */
+export const revalidate = 3600;
 
 const STATIC_PATHS = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
@@ -44,8 +45,9 @@ export default async function sitemap() {
       getPortfolio(),
       getLookbookPosts(),
     ]);
+    // Detail pages 404 unless isCourseAvailable — never list those in the sitemap.
     courseEntries = (courses || [])
-      .filter((c) => c?.slug && c.published !== false)
+      .filter((c) => c?.slug && c.published !== false && isCourseAvailable(c))
       .map((c) =>
         sitemapWithAlternates(`/courses/${c.slug}`, {
           lastModified: c.updated_at ? new Date(c.updated_at) : now,

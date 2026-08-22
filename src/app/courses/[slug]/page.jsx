@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getCourseBySlug, getFaqs, getSiteSettings } from "@/lib/data";
 import { isCourseAvailable } from "@/lib/courses";
 import CourseDetailClient from "@/components/CourseDetailClient";
+import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getRequestLocale } from "@/lib/locale";
 import {
@@ -78,6 +79,7 @@ export default async function CourseDetail({ params }) {
       />
       <JsonLdScript data={faqJsonLd(faqSlice, locale)} />
       <CourseDetailClient course={course} site={site} faqs={faqSlice} />
+      <PageCTA whatsapp={site.whatsapp} />
     </>
   );
 }

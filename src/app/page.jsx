@@ -1,4 +1,5 @@
 import HomepageClient from "@/components/HomepageClient";
+import HeroBackgroundImage from "@/components/HeroBackgroundImage";
 import {
   getProducts,
   getCourses,
@@ -9,6 +10,7 @@ import {
 } from "@/lib/data";
 import { PROCESS } from "@/lib/seed";
 import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { headers } from "next/headers";
 
 export const metadata = buildMetadata({
   title: "Best Designer Boutique & Fashion Designing Institute in Boring Road, Patna | Shreya Creation",
@@ -29,8 +31,15 @@ export default async function HomePage() {
     getTrustStats(),
   ]);
 
+  const headersList = await headers();
+  const locale = headersList.get("x-locale") || "en";
+  const home = site.pages?.home || {};
+
   return (
     <HomepageClient
+      heroBackground={<HeroBackgroundImage />}
+      initialLang={locale}
+      home={home}
       site={site}
       products={products}
       courses={courses}

@@ -75,6 +75,27 @@ function sharedDescription(site, locale = "en") {
   );
 }
 
+/** Only emit geo when lat/lng were confirmed (site.geo / DEFAULT_GEO) — never invent. */
+function sharedGeo(site) {
+  const lat = Number(site?.geo?.latitude);
+  const lng = Number(site?.geo?.longitude);
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lng) ||
+    lat < -90 ||
+    lat > 90 ||
+    lng < -180 ||
+    lng > 180
+  ) {
+    return null;
+  }
+  return {
+    "@type": "GeoCoordinates",
+    latitude: lat,
+    longitude: lng,
+  };
+}
+
 /**
  * Sitewide @graph: ClothingStore + EducationalOrganization (linked by @id) + WebSite.
  * Drives Google Maps / local pack — values from site settings / site-config.
@@ -88,6 +109,7 @@ export function buildSitewideGraph(site, locale = "en") {
   const address = sharedPostalAddress(site);
   const description = sharedDescription(site, locale);
   const foundingYear = site?.foundingYear || DEFAULT_FOUNDING_YEAR;
+  const geo = sharedGeo(site);
 
   const shared = {
     name: brand,
@@ -97,7 +119,7 @@ export function buildSitewideGraph(site, locale = "en") {
     description,
     ...contact,
     address,
-    // TODO(owner): confirm exact lat/lng from Google Business Profile before adding geo
+    ...(geo ? { geo } : {}),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",

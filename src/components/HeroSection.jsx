@@ -138,17 +138,57 @@ function HeroVideoVolumeOffIcon() {
   );
 }
 
-function HeroAutoplayVideo({ src, alt, lang = "en" }) {
+function HeroLazyVideo({ src, poster, alt, lang = "en" }) {
   const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const containerRef = useRef(null);
+  const [activeSrc, setActiveSrc] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const activate = useCallback(() => {
+    setActiveSrc(src);
+  }, [src]);
+
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node || activeSrc || isMobile) return undefined;
+
+    if (typeof IntersectionObserver === "undefined") {
+      activate();
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          activate();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "120px 0px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [activeSrc, activate, isMobile]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !activeSrc) return;
 
     const play = () => {
-      video.play().catch(() => {});
+      if (!isMobile) {
+        video.play().catch(() => {});
+      }
     };
 
     play();
@@ -157,7 +197,7 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
 
     video.addEventListener("loadeddata", play);
     return () => video.removeEventListener("loadeddata", play);
-  }, [src]);
+  }, [activeSrc, isMobile]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -172,7 +212,7 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
       video.removeEventListener("play", onPlay);
       video.removeEventListener("pause", onPause);
     };
-  }, [src]);
+  }, [activeSrc]);
 
   const togglePlay = useCallback((event) => {
     event.stopPropagation();
@@ -199,14 +239,39 @@ function HeroAutoplayVideo({ src, alt, lang = "en" }) {
 
   const playLabel = lang === "hi" ? (isPlaying ? "रोकें" : "चलाएं") : isPlaying ? "Pause" : "Play";
   const muteLabel = lang === "hi" ? (isMuted ? "आवाज़ चालू करें" : "आवाज़ बंद करें") : isMuted ? "Unmute" : "Mute";
+  const startLabel = lang === "hi" ? "वीडियो चलाएं" : "Play video";
+
+  if (!activeSrc) {
+    return (
+      <div ref={containerRef} className="home-hero__video-poster">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={poster} alt={alt} className="home-hero__video-thumb" loading="lazy" decoding="async" />
+        <button
+          type="button"
+          className="home-hero__video-overlay home-hero__video-overlay--interactive"
+          onClick={(event) => {
+            event.stopPropagation();
+            activate();
+          }}
+          aria-label={startLabel}
+        >
+          <span className="home-hero__video-play" aria-hidden>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </button>
+      </div>
+    );
+  }
 
   return (
     <>
       <video
         ref={videoRef}
         className="home-hero__video-media"
-        src={src}
-        autoPlay
+        src={activeSrc}
+        poster={poster}
         loop
         muted={isMuted}
         playsInline
@@ -470,7 +535,7 @@ function HeroVideoCard({
           {watchLabel}
         </span>
         {videoSrc ? (
-          <HeroAutoplayVideo src={videoSrc} alt={alt} lang={lang} />
+          <HeroLazyVideo src={videoSrc} poster={thumb} alt={alt} lang={lang} />
         ) : (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -522,7 +587,7 @@ function HeroVideoCard({
   );
 }
 
-export default function HeroSection({ home = {}, lang = "en", phone: _phone = "", whatsapp: _whatsapp = "", site = {} }) {
+export default function HeroSection({ home = {}, lang = "en", phone: _phone = "", whatsapp: _whatsapp = "", site = {}, embedded = false }) {
   const defaultHeroBadge =
     lang === "hi"
       ? "बिहार का नं. 1 बुटीक और फैशन इंस्टिट्यूट"
@@ -730,23 +795,8 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
           },
         ];
 
-  return (
-    <section
-      className={`home-hero home-hero--boutique${lang === "hi" ? " home-hero--hi" : ""}`}
-      aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
-    >
-      <div className="home-hero__ambient" aria-hidden>
-        <OptimizedImage
-          src={MEDIA.background}
-          alt=""
-          fill
-          sizes="100vw"
-          className="home-hero__bg-image"
-          imgClassName="home-hero__bg-image"
-        />
-        <span className="home-hero__bg-overlay" />
-      </div>
-
+  const heroContent = (
+    <>
       <div className={cn(PAGE_CONTAINER, "home-hero__top", "py-16 md:py-24")}>
         <div className="home-hero__grid">
           <div className="home-hero__copy">
@@ -870,7 +920,8 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                         src={card.image}
                         alt={heroServiceImageAlt(card.key, lang)}
                         fill
-                        sizes="(max-width: 640px) 45vw, 200px"
+                        quality={65}
+                        sizes="(max-width: 768px) 45vw, 200px"
                         loading="lazy"
                         className="home-hero__service-img"
                         imgClassName="home-hero__service-img"
@@ -919,6 +970,33 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
           </div>
         </div>
       </div>
+    </>
+  );
+
+  if (embedded) {
+    return heroContent;
+  }
+
+  return (
+    <section
+      className={`home-hero home-hero--boutique${lang === "hi" ? " home-hero--hi" : ""}`}
+      aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
+    >
+      <div className="home-hero__ambient" aria-hidden>
+        <OptimizedImage
+          src={MEDIA.background}
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+          fetchPriority="high"
+          quality={65}
+          className="home-hero__bg-image"
+          imgClassName="home-hero__bg-image"
+        />
+        <span className="home-hero__bg-overlay" />
+      </div>
+      {heroContent}
     </section>
   );
 }
