@@ -4,6 +4,9 @@ const nextConfig = {
   transpilePackages: ["three", "react-pdf", "pdfjs-dist"],
   images: {
     formats: ["image/avif", "image/webp"],
+    // OpenNext Cloudflare only serves qualities listed here (default is [75]).
+    // Requests with other q= values return 400 and show broken images.
+    qualities: [65, 75, 80],
     deviceSizes: [360, 414, 640, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 150, 220, 256, 384],
     remotePatterns: [

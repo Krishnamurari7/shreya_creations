@@ -45,6 +45,9 @@ const LEGACY_WEBP = {
   "/categories/beauty.png": MEDIA.categories.beauty,
 };
 
+/** CMS sometimes still stores old .png paths for files that only exist as .webp. */
+const LEGACY_PNG_EXT = /\.png$/i;
+
 const SUPABASE_FOUNDER_IDS = {
   "1781886543737": MEDIA.founderSanjay,
   "1781196462114": MEDIA.founderShreya,
@@ -58,7 +61,13 @@ export function resolveMediaSrc(src) {
       if (src.includes(id)) return local;
     }
   }
-  return LEGACY_WEBP[src] || src;
+  if (LEGACY_WEBP[src]) return LEGACY_WEBP[src];
+  // Local public assets were converted to WebP; rewrite leftover .png CMS paths.
+  if (src.startsWith("/") && !src.startsWith("//") && LEGACY_PNG_EXT.test(src)) {
+    const webp = src.replace(LEGACY_PNG_EXT, ".webp");
+    return LEGACY_WEBP[webp] || webp;
+  }
+  return src;
 }
 
 export function resolveFounderImage(src, fallback) {

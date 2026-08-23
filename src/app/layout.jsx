@@ -115,6 +115,9 @@ export const metadata = {
         },
       }
     : {}),
+  other: {
+    "p:domain_verify": "ab028a1a14ac0f537f56f869983f8c04",
+  },
 };
 
 export const viewport = {
