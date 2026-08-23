@@ -1,14 +1,21 @@
+import { NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 import { localeFromPathname } from "@/lib/locale";
 
+function needsAuthSession(path) {
+  return path.startsWith("/admin") || path.startsWith("/api/admin");
+}
+
 export async function middleware(request) {
-  const response = await updateSession(request);
   const path = request.nextUrl.pathname;
 
-  // Expose locale to root layout for <html lang> (English at root, Hindi under /hi/).
+  // Only refresh Supabase auth cookies on admin routes — public pages stay CDN-cacheable.
+  const response = needsAuthSession(path)
+    ? await updateSession(request)
+    : NextResponse.next({ request });
+
   if (!path.startsWith("/admin") && !path.startsWith("/api")) {
-    const locale = localeFromPathname(path);
-    response.headers.set("x-locale", locale);
+    response.headers.set("x-locale", localeFromPathname(path));
   }
 
   return response;

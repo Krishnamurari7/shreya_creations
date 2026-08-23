@@ -28,6 +28,26 @@ function clientIp(request) {
   );
 }
 
+const ALLOWED_ORIGIN_HOSTS = new Set([
+  "shreyacreation.com",
+  "www.shreyacreation.com",
+  "localhost",
+  "127.0.0.1",
+]);
+
+function isAllowedOrigin(request) {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+  try {
+    const { hostname } = new URL(origin);
+    if (ALLOWED_ORIGIN_HOSTS.has(hostname)) return true;
+    if (hostname.endsWith(".pages.dev") || hostname.endsWith(".workers.dev")) return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 function isRateLimited(ip) {
   const now = Date.now();
   const bucket = hits.get(ip) || [];
@@ -48,6 +68,10 @@ function inferType(source = "") {
 /** Public enquiry endpoint — honeypot + rate limit. Anon INSERT via RLS. */
 export async function POST(request) {
   try {
+    if (!isAllowedOrigin(request)) {
+      return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+    }
+
     const ip = clientIp(request);
     if (isRateLimited(ip)) {
       return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });

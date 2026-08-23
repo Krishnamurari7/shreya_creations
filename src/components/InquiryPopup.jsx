@@ -256,7 +256,14 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 8000, wh
               {demoMode ? t.demoSubtitle : t.subtitle}
             </p>
 
-            <form onSubmit={submit} className="mt-5 sm:mt-6 space-y-3.5 sm:space-y-4" aria-describedby={formError ? "inquiry-form-error" : undefined} noValidate>
+            <form
+              onSubmit={submit}
+              className="mt-5 sm:mt-6 space-y-3.5 sm:space-y-4"
+              aria-describedby={formError ? "inquiry-form-error" : undefined}
+              noValidate
+              tool-name="submit-demo-class-enquiry"
+              tool-description="Book a demo class or boutique consultation at Shreya Creation, Patna."
+            >
               <div>
                 <label htmlFor="inquiry-name" className="block text-[10px] uppercase tracking-[0.2em] text-orange-text font-semibold mb-2">
                   {t.name}

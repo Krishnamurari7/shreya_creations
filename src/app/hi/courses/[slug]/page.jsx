@@ -8,8 +8,6 @@ import {
   itemImageAlt,
 } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const course = await getCourseBySlug(slug);

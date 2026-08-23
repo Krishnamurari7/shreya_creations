@@ -138,7 +138,7 @@ function HeroVideoVolumeOffIcon() {
   );
 }
 
-function HeroLazyVideo({ src, poster, alt, lang = "en" }) {
+function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }) {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const [activeSrc, setActiveSrc] = useState(null);
@@ -245,7 +245,14 @@ function HeroLazyVideo({ src, poster, alt, lang = "en" }) {
     return (
       <div ref={containerRef} className="home-hero__video-poster">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={poster} alt={alt} className="home-hero__video-thumb" loading="lazy" decoding="async" />
+        <img
+          src={poster}
+          alt={alt}
+          className="home-hero__video-thumb"
+          loading={priorityPoster ? "eager" : "lazy"}
+          fetchPriority={priorityPoster ? "high" : "auto"}
+          decoding="async"
+        />
         <button
           type="button"
           className="home-hero__video-overlay home-hero__video-overlay--interactive"
@@ -504,6 +511,7 @@ function HeroVideoCard({
   watchLabel,
   offset = false,
   lang = "en",
+  priorityPoster = false,
 }) {
   const isLive = Boolean(videoSrc);
 
@@ -535,7 +543,7 @@ function HeroVideoCard({
           {watchLabel}
         </span>
         {videoSrc ? (
-          <HeroLazyVideo src={videoSrc} poster={thumb} alt={alt} lang={lang} />
+          <HeroLazyVideo src={videoSrc} poster={thumb} alt={alt} lang={lang} priorityPoster={priorityPoster} />
         ) : (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -849,6 +857,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
             <div className="home-hero__videos">
               <HeroVideoCard
                 lang={lang}
+                priorityPoster
                 watchLabel={lang === "hi" ? "वीडियो देखें" : "Watch Video"}
                 headerLabel={lang === "hi" ? "फ्री डेमो क्लास" : "FREE DEMO CLASS"}
                 footerTitle={lang === "hi" ? "फ्री डेमो क्लास बुक करें" : "BOOK FREE DEMO CLASS"}
@@ -939,7 +948,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                     <span className="home-hero__service-icon" aria-hidden>
                       <ServiceIcon type={card.icon} />
                     </span>
-                    <h3 className="home-hero__service-title">{card.title}</h3>
+                    <h2 className="home-hero__service-title">{card.title}</h2>
                     <p className="home-hero__service-desc">{card.desc}</p>
                     <button
                       type="button"

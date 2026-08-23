@@ -1,7 +1,7 @@
 import { getSiteSettings, getCourses, getProducts, getLookbookPosts } from "@/lib/data";
 import { buildLlmsTxt, LLMS_TXT_HEADERS } from "@/lib/llms";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export async function GET() {
   const [site, courses, products, posts] = await Promise.all([

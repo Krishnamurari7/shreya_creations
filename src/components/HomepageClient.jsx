@@ -199,7 +199,6 @@ function FounderMessageSlider({ slides }) {
 
 export default function HomepageClient({
   heroBackground,
-  initialLang: _initialLang,
   home: homeProp,
   site,
   courses,

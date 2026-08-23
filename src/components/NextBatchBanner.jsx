@@ -33,9 +33,7 @@ export default function NextBatchBanner({ site = {}, lang = "en" }) {
                 {" "}
                 · <strong>{seats}</strong> सीटें बाकी
               </>
-            ) : (
-              <> · TODO(owner): set seat count</>
-            )}
+            ) : null}
           </>
         ) : (
           <>
@@ -45,9 +43,7 @@ export default function NextBatchBanner({ site = {}, lang = "en" }) {
                 {" "}
                 · <strong>{seats}</strong> seats left
               </>
-            ) : (
-              <> · TODO(owner): set seat count</>
-            )}
+            ) : null}
           </>
         )}
       </p>

@@ -8,8 +8,6 @@ import {
   lookbookMetaTitle,
 } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = await getLookbookPostBySlug(slug);

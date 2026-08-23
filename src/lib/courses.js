@@ -52,7 +52,7 @@ export function courseStartingPrice(course, lang = "en") {
   }
   return {
     kind: "todo",
-    label: hi ? "TODO(owner): फीस कन्फर्म करें" : "TODO(owner): confirm fee",
+    label: hi ? "वर्तमान फीस के लिए संपर्क करें" : "Contact us for current fee details",
   };
 }
 

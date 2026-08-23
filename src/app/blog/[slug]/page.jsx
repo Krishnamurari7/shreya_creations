@@ -23,7 +23,7 @@ import {
   lookbookMetaTitle,
 } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 const BLOG_CTA = PAGE_DEFAULTS.lookbook;
 

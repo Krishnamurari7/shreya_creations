@@ -28,13 +28,13 @@
   --cream: #F5E8C8;
   --gold: #D4AF37;
   --ivory: #FAF0DC;
-  --font-sans: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-body: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-brand-script: "Kaushan Script", "Dancing Script", "Brush Script MT", cursive;
-  --font-brand-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --font-brand-hi: "Noto Serif Devanagari", "Nirmala UI", "Mangal", serif;
-  --font-brand-hi-sans: "Noto Sans Devanagari", "Nirmala UI", "Segoe UI", sans-serif;
+  --font-sans: var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-brand-script: var(--font-kaushan), var(--font-dancing), "Brush Script MT", cursive;
+  --font-brand-serif: var(--font-cormorant), var(--font-playfair), Georgia, serif;
+  --font-brand-hi: var(--font-noto-serif-hi), "Nirmala UI", "Mangal", serif;
+  --font-brand-hi-sans: var(--font-noto-sans-hi), "Nirmala UI", "Segoe UI", sans-serif;
   --font-script: var(--font-brand-script);
   --font-hero-en-display: var(--font-brand-script);
   --font-hero-en-accent: var(--font-brand-serif);
@@ -4807,6 +4807,22 @@ html.dark .founder-quote-card__mark {
 
 .founder-slider__dot {
   position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.founder-slider__dot::after {
+  content: "";
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 9999px;
@@ -4819,14 +4835,14 @@ html.dark .founder-quote-card__mark {
 .founder-slider__dot::before {
   content: "";
   position: absolute;
-  inset: -0.85rem -0.65rem;
+  inset: 0;
 }
 
-.founder-slider__dot:hover {
+.founder-slider__dot:hover::after {
   background: rgba(var(--orange-rgb), 0.45);
 }
 
-.founder-slider__dot--active {
+.founder-slider__dot--active::after {
   width: 1.75rem;
   background: linear-gradient(90deg, var(--orange), var(--golden));
   box-shadow: 0 2px 8px rgba(var(--orange-rgb), 0.28);
@@ -22694,8 +22710,8 @@ summary:focus-visible {
 
 .mobile-contact-bar__btn--call {
   background: #fff;
-  border: 1px solid rgba(204, 79, 6, 0.35);
-  color: #cc4f06;
+  border: 1px solid rgba(163, 61, 4, 0.45);
+  color: #8a3203;
 }
 
 .mobile-contact-bar__btn--wa {

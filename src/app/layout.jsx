@@ -1,30 +1,6 @@
 import "./globals.css";
-import "@fontsource/playfair-display/400.css";
-import "@fontsource/playfair-display/500.css";
-import "@fontsource/playfair-display/600.css";
-import "@fontsource/playfair-display/700.css";
-import "@fontsource/poppins/400.css";
-import "@fontsource/poppins/500.css";
-import "@fontsource/poppins/600.css";
-import "@fontsource/poppins/700.css";
-import "@fontsource/montserrat/800.css";
-import "@fontsource/kaushan-script/400.css";
-import "@fontsource/dancing-script/500.css";
-import "@fontsource/dancing-script/600.css";
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/500.css";
-import "@fontsource/cormorant-garamond/600.css";
-import "@fontsource/cormorant-garamond/700.css";
-import "@fontsource/cormorant-garamond/400-italic.css";
-import "@fontsource/cormorant-garamond/600-italic.css";
-import "@fontsource/noto-serif-devanagari/400.css";
-import "@fontsource/noto-serif-devanagari/500.css";
-import "@fontsource/noto-serif-devanagari/600.css";
-import "@fontsource/noto-serif-devanagari/700.css";
-import "@fontsource/noto-sans-devanagari/400.css";
-import "@fontsource/noto-sans-devanagari/500.css";
-import "@fontsource/noto-sans-devanagari/600.css";
-import "@fontsource/noto-sans-devanagari/700.css";
+import { latinFontVariables } from "@/lib/fonts";
+import { MEDIA } from "@/lib/media";
 import { BG_ATMOSPHERE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
@@ -42,7 +18,6 @@ import { LOGO_SRC } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/siteUrl";
 import JsonLd from "@/components/JsonLd";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
-import { headers } from "next/headers";
 
 const siteUrl = getSiteUrl();
 
@@ -132,21 +107,14 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   const site = await getSiteSettings();
-  const headersList = await headers();
-  const locale = headersList.get("x-locale") || "en";
-  const htmlLang = locale === "hi" ? "hi" : "en";
 
   return (
-    <html lang={htmlLang} suppressHydrationWarning>
+    <html lang="en" className={latinFontVariables} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href={MEDIA.background} fetchPriority="high" />
         {process.env.NEXT_PUBLIC_SUPABASE_URL ? (
           <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} crossOrigin="anonymous" />
         ) : null}
-        <link rel="dns-prefetch" href="https://www.facebook.com" />
-        <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="alternate" type="text/markdown" href={`${siteUrl}/llms.txt`} title="LLM site index" />
       </head>
       <body className={cn(BG_ATMOSPHERE, "has-mobile-contact-bar")} suppressHydrationWarning>

@@ -10,6 +10,8 @@ import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
 import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
+export const revalidate = 3600;
+
 export async function generateMetadata() {
   const site = await getSiteSettings();
   const hours = site.studioHours || "Mon–Sat, 10 AM–8 PM";

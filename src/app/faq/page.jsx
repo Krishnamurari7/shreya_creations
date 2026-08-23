@@ -8,6 +8,8 @@ import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
 import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, faqJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
+export const revalidate = 3600;
+
 export const metadata = buildMetadata({
   title: "FAQ | Boutique Courses & Custom Stitching Patna",
   description:

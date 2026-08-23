@@ -114,7 +114,14 @@ export default function ContactForm({ number }) {
           </span>
         </div>
 
-        <form onSubmit={send} className="space-y-4 sm:space-y-5" noValidate aria-describedby={error ? "contact-form-error" : undefined}>
+        <form
+          onSubmit={send}
+          className="space-y-4 sm:space-y-5"
+          noValidate
+          aria-describedby={error ? "contact-form-error" : undefined}
+          tool-name="submit-contact-enquiry"
+          tool-description="Submit a boutique stitching or fashion course enquiry to Shreya Creation, Patna."
+        >
           <div>
             <label htmlFor="contact-name" className="contact-field-label">
               {t.name}

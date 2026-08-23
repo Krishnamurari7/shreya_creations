@@ -8,8 +8,6 @@ import {
   portfolioMetaTitle,
 } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const item = await getPortfolioBySlug(slug);

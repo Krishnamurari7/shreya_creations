@@ -8,6 +8,8 @@ import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
 import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
+export const revalidate = 3600;
+
 export const metadata = buildMetadata({
   title: "Boutique & Fashion Designing Courses in Patna | Shreya Creation",
   description:

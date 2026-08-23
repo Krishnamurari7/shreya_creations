@@ -1,7 +1,12 @@
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
+import { unstable_cache } from "next/cache";
 import { mergePageDefaults, normalizePillars } from "@/lib/cms";
 import { buildSITE, buildTrustFromSite } from "@/lib/site-config";
 import * as seed from "@/lib/seed";
+
+const SITE_CONTENT_TAG = "site-content";
+const PUBLIC_REVALIDATE = 3600;
 
 function normalizeSettings(data) {
   if (!data) return null;
@@ -160,7 +165,17 @@ async function query(supabase, table, options = {}) {
 /**
  * Canonical site object — always includes coursesCount from published courses.
  */
+const getSiteSettingsCached = unstable_cache(
+  async () => getSiteSettingsUncached(),
+  ["site-settings"],
+  { tags: [SITE_CONTENT_TAG], revalidate: PUBLIC_REVALIDATE }
+);
+
 export async function getSiteSettings() {
+  return getSiteSettingsCached();
+}
+
+async function getSiteSettingsUncached() {
   const courses = await getCourses({ includeUnpublished: false });
   const coursesCount = courses.filter((c) => !c.is_addon).length || courses.length;
   const nextBatch = await getNextBatch();
@@ -177,7 +192,7 @@ export async function getSiteSettings() {
     };
   }
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.from("settings").select("*").eq("id", 1).single();
     const normalized = normalizeSettings(data);
     if (!normalized) {
@@ -201,10 +216,21 @@ export async function getSiteSettings() {
   }
 }
 
+const getPublishedProductsCached = unstable_cache(
+  async () => fetchProducts(false),
+  ["products-published"],
+  { tags: [SITE_CONTENT_TAG], revalidate: PUBLIC_REVALIDATE }
+);
+
 export async function getProducts({ includeUnpublished = false } = {}) {
+  if (includeUnpublished) return fetchProducts(true);
+  return getPublishedProductsCached();
+}
+
+async function fetchProducts(includeUnpublished = false) {
   if (!isSupabaseConfigured()) return seed.PRODUCTS.map(normalizeProduct);
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     let q = supabase.from("products").select("*").order("created_at", { ascending: false });
     if (!includeUnpublished) q = q.eq("published", true);
     const { data } = await q;
@@ -220,7 +246,7 @@ export async function getProductBySlug(slug) {
     return normalizeProduct(seed.PRODUCTS.find((p) => p.slug === slug) || null);
   }
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.from("products").select("*").eq("slug", slug).single();
     return normalizeProduct(data || seed.PRODUCTS.find((p) => p.slug === slug) || null);
   } catch {
@@ -228,11 +254,22 @@ export async function getProductBySlug(slug) {
   }
 }
 
+const getPublishedCoursesCached = unstable_cache(
+  async () => fetchCourses(false),
+  ["courses-published"],
+  { tags: [SITE_CONTENT_TAG], revalidate: PUBLIC_REVALIDATE }
+);
+
 export async function getCourses({ includeUnpublished = false } = {}) {
+  if (includeUnpublished) return fetchCourses(includeUnpublished);
+  return getPublishedCoursesCached();
+}
+
+async function fetchCourses(includeUnpublished = false) {
   const seedList = publishedSeedCourses(includeUnpublished);
   if (!isSupabaseConfigured()) return seedList;
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     let q = supabase.from("courses").select("*").order("created_at", { ascending: false });
     if (!includeUnpublished) q = q.eq("published", true);
     const { data, error } = await q;
@@ -250,7 +287,7 @@ export async function getCourseBySlug(slug) {
   // Seed catalog is canonical — return immediately; overlay DB fields when available.
   if (!seedCourse) {
     try {
-      const supabase = await createClient();
+      const supabase = createPublicClient();
       const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
       return data ? normalizeCourse(data) : null;
     } catch {
@@ -259,7 +296,7 @@ export async function getCourseBySlug(slug) {
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
     const dbCourse = data ? normalizeCourse(data) : null;
     return dbCourse ? mergeCourseRecord(seedCourse, dbCourse) : seedCourse;
@@ -271,7 +308,7 @@ export async function getCourseBySlug(slug) {
 export async function getPortfolio() {
   if (!isSupabaseConfigured()) return seed.PORTFOLIO.map(normalizePortfolioItem);
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.from("portfolio").select("*").order("sort_order", { ascending: true });
     const rows = data?.length ? data : seed.PORTFOLIO;
     return rows.map(normalizePortfolioItem);
@@ -288,7 +325,7 @@ export async function getPortfolioBySlug(slug) {
 
   if (!isSupabaseConfigured()) return fromSeed();
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.from("portfolio").select("*").eq("slug", slug).maybeSingle();
     if (data) return normalizePortfolioItem(data);
     return fromSeed();
@@ -300,7 +337,7 @@ export async function getPortfolioBySlug(slug) {
 export async function getTestimonials() {
   if (!isSupabaseConfigured()) return seed.TESTIMONIALS;
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
     return data?.length ? data : seed.TESTIMONIALS;
   } catch {
@@ -314,7 +351,7 @@ export async function getTrustStats() {
 
   if (!isSupabaseConfigured()) return fallback;
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("trust_stats")
       .select("*")
@@ -335,7 +372,7 @@ export async function getTrustStats() {
 export async function getFaqs() {
   if (!isSupabaseConfigured()) return seed.FAQS;
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("faqs")
       .select("*")
@@ -356,7 +393,7 @@ export async function getFaqs() {
 export async function getPolicyPage(slug) {
   if (!isSupabaseConfigured()) return seed.POLICIES[slug] || null;
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.from("policy_pages").select("*").eq("slug", slug).single();
     if (!data) return seed.POLICIES[slug] || null;
     return {
@@ -374,7 +411,7 @@ export async function getPolicyPage(slug) {
 export async function getLookbookPosts() {
   if (!isSupabaseConfigured()) return seed.LOOKBOOK;
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("lookbook_posts")
       .select("*")
@@ -392,7 +429,7 @@ export async function getLookbookPostBySlug(slug) {
 
   if (!isSupabaseConfigured()) return fromSeed();
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("lookbook_posts")
       .select("*")
@@ -409,7 +446,7 @@ export async function getLookbookPostBySlug(slug) {
 export async function getNextBatch() {
   if (!isSupabaseConfigured()) return null;
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("batches")
       .select("start_date, seats_left, seats_total, course_id")

@@ -1,5 +1,6 @@
 import HomepageClient from "@/components/HomepageClient";
 import HeroBackgroundImage from "@/components/HeroBackgroundImage";
+import WebMcpRegister from "@/components/WebMcpRegister";
 import {
   getProducts,
   getCourses,
@@ -10,7 +11,8 @@ import {
 } from "@/lib/data";
 import { PROCESS } from "@/lib/seed";
 import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
-import { headers } from "next/headers";
+
+export const revalidate = 3600;
 
 export const metadata = buildMetadata({
   title: "Best Designer Boutique & Fashion Designing Institute in Boring Road, Patna | Shreya Creation",
@@ -31,14 +33,13 @@ export default async function HomePage() {
     getTrustStats(),
   ]);
 
-  const headersList = await headers();
-  const locale = headersList.get("x-locale") || "en";
   const home = site.pages?.home || {};
 
   return (
-    <HomepageClient
+    <>
+      <WebMcpRegister courses={courses} />
+      <HomepageClient
       heroBackground={<HeroBackgroundImage />}
-      initialLang={locale}
       home={home}
       site={site}
       products={products}
@@ -48,5 +49,6 @@ export default async function HomePage() {
       trust={trust}
       processSteps={site.processSteps?.length ? site.processSteps : PROCESS}
     />
+    </>
   );
 }

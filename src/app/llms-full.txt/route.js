@@ -7,7 +7,7 @@ import {
 } from "@/lib/data";
 import { buildLlmsFullTxt, LLMS_TXT_HEADERS } from "@/lib/llms";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export async function GET() {
   const [site, courses, products, posts, faqs] = await Promise.all([

@@ -1,19 +1,22 @@
 import { getSiteUrl, SITE_DOMAIN } from "@/lib/siteUrl";
 
 /**
- * Site crawler rules for search engines.
- * Do not emit per-bot Allow rules for AI scrapers (GPTBot, ClaudeBot, etc.) —
- * Cloudflare Managed robots already Disallows those agents; re-Allowing them
- * here creates a conflicting robots.txt.
+ * Site crawler rules for search engines and Pinterest.
  */
 export default function robots() {
   const base = getSiteUrl();
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/admin", "/admin/", "/api/"],
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/admin", "/admin/", "/api/"],
+      },
+      {
+        userAgent: "Pinterestbot",
+        allow: "/",
+      },
+    ],
     sitemap: `${base}/sitemap.xml`,
     host: SITE_DOMAIN,
   };

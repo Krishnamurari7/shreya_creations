@@ -1,13 +1,12 @@
 import { buildSitewideGraph } from "@/lib/json-ld";
-import { getRequestLocale } from "@/lib/locale";
+import { DEFAULT_LOCALE } from "@/lib/locale";
 
 /**
  * Sitewide ClothingStore + EducationalOrganization + WebSite JSON-LD.
  * Values come from site settings / site-config.
  */
 export default async function JsonLd({ site }) {
-  const locale = await getRequestLocale();
-  const schema = buildSitewideGraph(site, locale);
+  const schema = buildSitewideGraph(site, DEFAULT_LOCALE);
 
   return (
     <script
