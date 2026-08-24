@@ -5,7 +5,6 @@ import { GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, P
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import CardImage from "@/components/CardImage";
-import CategoryCards from "@/components/CategoryCards";
 import { DesignProcess } from "@/components/FashionSections";
 import { useLanguage } from "@/components/LanguageProvider";
 import { resolveFounderImage, MEDIA } from "@/lib/media";
@@ -13,6 +12,10 @@ import { pageBottomCtaProps, pickPage } from "@/lib/cms";
 import LazyWhenVisible from "@/components/LazyWhenVisible";
 import HeroSection from "@/components/HeroSection";
 import PageCTA from "@/components/PageCTA";
+
+const HomeCategoryCards = dynamic(() => import("@/components/CategoryCards"), {
+  loading: () => <div className="category-cards-skeleton min-h-[320px]" aria-hidden />,
+});
 
 const HomeCoursesPreview = dynamic(() => import("@/components/HomeCoursesPreview"), {
   loading: () => <div className="home-courses-preview-skeleton min-h-[480px]" aria-hidden />,
@@ -262,7 +265,9 @@ export default function HomepageClient({
         />
       </section>
 
-      <CategoryCards lang={lang} site={site} whatsapp={site.whatsapp} home={home} />
+      <LazyWhenVisible fallback={<div className="category-cards-skeleton min-h-[320px]" aria-hidden />}>
+        <HomeCategoryCards lang={lang} site={site} whatsapp={site.whatsapp} home={home} />
+      </LazyWhenVisible>
 
       <LazyWhenVisible fallback={<div className="home-courses-preview-skeleton min-h-[480px]" aria-hidden />}>
         <HomeCoursesPreview courses={courses} home={home} site={site} />

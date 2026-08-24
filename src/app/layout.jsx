@@ -111,7 +111,22 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={latinFontVariables} suppressHydrationWarning>
       <head>
-        <link rel="preload" as="image" href={MEDIA.background} fetchPriority="high" />
+        <link
+          rel="preload"
+          as="image"
+          href="/background-mobile.webp"
+          type="image/webp"
+          media="(max-width: 767px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href={MEDIA.background}
+          type="image/webp"
+          media="(min-width: 768px)"
+          fetchPriority="high"
+        />
         {process.env.NEXT_PUBLIC_SUPABASE_URL ? (
           <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} crossOrigin="anonymous" />
         ) : null}

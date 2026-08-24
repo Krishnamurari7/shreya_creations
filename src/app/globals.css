@@ -647,6 +647,13 @@ html.dark .hero-stat-chip__value { color: var(--lavender); }
   box-shadow: 0 8px 32px rgba(26, 16, 40, 0.08);
 }
 
+@media (max-width: 767px) {
+  .glass-dock {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
 /* Infinite scrolling marquee ??? keyframes used by ui.js MARQUEE_CONTENT + legacy blocks */
 @keyframes marquee-scroll {
   0% { transform: translate3d(0, 0, 0); }
@@ -666,6 +673,12 @@ html.dark .hero-stat-chip__value { color: var(--lavender); }
 @keyframes rise-in {
   from { opacity: 0; transform: translateY(28px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Transform-only — does not delay LCP (unlike opacity:0 fade-ins). */
+@keyframes rise-in-y {
+  from { transform: translateY(14px); }
+  to { transform: translateY(0); }
 }
 
 @keyframes hero-media-in {
@@ -691,6 +704,15 @@ html.dark .hero-stat-chip__value { color: var(--lavender); }
   .nav-mobile-tagline {
     font-size: 0.5rem;
     letter-spacing: 0.14em;
+  }
+
+  /* Skip entrance delays on phones — improves FCP/LCP/Speed Index. */
+  .anim-rise,
+  .anim-rise.opacity-0,
+  .anim-hero-media {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -742,6 +764,14 @@ html.dark .hero-stat-chip__value { color: var(--lavender); }
     background 0.4s var(--ease-out-expo),
     box-shadow 0.4s var(--ease-out-expo),
     border-color 0.4s ease;
+}
+
+@media (max-width: 767px) {
+  .site-header {
+    background: rgba(255, 248, 241, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 .site-header::after {
@@ -17407,6 +17437,7 @@ html.dark .course-pdf-modal__state p {
   overscroll-behavior-x: contain;
   padding: 1.15rem 0.15rem 0.85rem;
   margin-inline: -0.15rem;
+  list-style: none;
   scrollbar-width: thin;
   scrollbar-color: rgba(232, 106, 23, 0.45) transparent;
 }

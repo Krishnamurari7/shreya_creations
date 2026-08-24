@@ -124,7 +124,11 @@ export const SPARKLE_PULSE = "sparkle-pulse inline-block animate-[sparkle-pulse_
 
 export const FLOAT_SOFT = "float-soft animate-[float-soft_6s_ease-in-out_infinite]";
 
+/** Fade-in — avoid on LCP text (opacity:0 delays Largest Contentful Paint). */
 export const ANIM_RISE = "anim-rise opacity-0 animate-[rise-in_0.9s_cubic-bezier(0.16,1,0.3,1)_forwards]";
+
+/** Transform-only entrance — safe for above-the-fold / LCP candidates. */
+export const ANIM_RISE_LCP = "anim-rise animate-[rise-in-y_0.65s_cubic-bezier(0.16,1,0.3,1)_both]";
 
 export const MARQUEE_CONTAINER = "marquee-container flex w-full overflow-hidden whitespace-nowrap";
 

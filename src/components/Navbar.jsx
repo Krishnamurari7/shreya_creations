@@ -118,7 +118,9 @@ function BrandLogo({ brandName, variant = "header" }) {
           width={150}
           height={60}
           sizes="150px"
+          quality={65}
           loading="eager"
+          fetchPriority="low"
           className={cn("nav-logo-img", isDrawer && "nav-logo-img--drawer")}
         />
       </span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ANIM_RISE, PAGE_CONTAINER } from "@/lib/ui";
+import { ANIM_RISE_LCP, PAGE_CONTAINER } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
@@ -250,7 +250,7 @@ function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }
           alt={alt}
           className="home-hero__video-thumb"
           loading={priorityPoster ? "eager" : "lazy"}
-          fetchPriority={priorityPoster ? "high" : "auto"}
+          fetchPriority={priorityPoster ? "low" : "auto"}
           decoding="async"
         />
         <button
@@ -715,8 +715,8 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     }));
   }, [home.heroFeatureStrip, lang]);
 
-  const demoThumb = home.heroDemoThumb || MEDIA.slider1;
-  const bookThumb = home.heroBookThumb || MEDIA.slider2;
+  const demoThumb = home.heroDemoThumb || MEDIA.slider1Poster;
+  const bookThumb = home.heroBookThumb || MEDIA.slider2Poster;
   const heroLocalVideo = home.heroLocalVideo || "/video-1.mp4";
   const heroBookLocalVideo = home.heroBookLocalVideo || "/video-2.mp4";
 
@@ -811,13 +811,13 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
             <div className="home-hero__glass-panel">
               <div className="home-hero__copy-stack">
                 {heroBadge ? (
-                  <p className={cn(ANIM_RISE, "home-hero__badge", "home-hero__badge--boutique", "anim-delay-1")}>
+                  <p className={cn(ANIM_RISE_LCP, "home-hero__badge", "home-hero__badge--boutique", "anim-delay-1")}>
                     <HeroCrownIcon />
                     <span>{heroBadge}</span>
                   </p>
                 ) : null}
 
-                <h1 className={cn(ANIM_RISE, "home-hero__title-block", "anim-delay-2")}>
+                <h1 className={cn(ANIM_RISE_LCP, "home-hero__title-block", "anim-delay-2")}>
                   <span className="home-hero__title-lead">{heroTitle}</span>
                   {/* Whitespace node keeps the H1 text content spaced for SEO/screen readers */}
                   {heroTitleHighlight ? (
@@ -831,13 +831,13 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                 {heroSubtitle ? (
                   <p
                     role="doc-subtitle"
-                    className={cn(ANIM_RISE, "home-hero__title-sub", "anim-delay-2")}
+                    className={cn(ANIM_RISE_LCP, "home-hero__title-sub", "anim-delay-2")}
                   >
                     {heroSubtitle}
                   </p>
                 ) : null}
 
-                <div className={cn(ANIM_RISE, "home-hero__action-row", "anim-delay-3")}>
+                <div className={cn(ANIM_RISE_LCP, "home-hero__action-row", "anim-delay-3")}>
                   {courseCtas.map((cta) => (
                     <HeroCourseCta
                       key={cta.key}
@@ -915,9 +915,9 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
         <div className="home-hero__paths" aria-label={lang === "hi" ? "हमारी सेवाएँ" : "Our services"}>
           <div className={cn(PAGE_CONTAINER, "home-hero__paths-inner")}>
-            <div className="home-hero__services-track" role="list">
+            <ul className="home-hero__services-track">
               {serviceCards.map((card) => (
-                <article key={card.key} className="home-hero__service-card" role="listitem">
+                <li key={card.key} className="home-hero__service-card">
                   <div
                     className={cn(
                       "home-hero__service-media",
@@ -959,9 +959,9 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                       <CtaArrowIcon />
                     </button>
                   </div>
-                </article>
+                </li>
               ))}
-            </div>
+            </ul>
 
             <div className="home-hero__feature-strip" aria-label={lang === "hi" ? "मुख्य विशेषताएँ" : "Key features"}>
               {featureStrip.map((item) => (

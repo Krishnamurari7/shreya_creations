@@ -11,8 +11,8 @@ export function normalizeBrandName(value) {
   return /^shreya\s+creations?$/i.test(trimmed) ? BRAND_NAME : trimmed;
 }
 
-/** Canonical brand logo — always served from /public/3d.webp */
-export const LOGO_SRC = "/3d.webp";
+/** Canonical brand logo — compact WebP for footer/icons (~400px wide) */
+export const LOGO_SRC = "/3d-sm.webp";
 
-/** Navbar logo — transparent WebP */
-export const NAV_LOGO_SRC = "/logo-nav.webp";
+/** Navbar logo — compact transparent WebP (~360px wide) */
+export const NAV_LOGO_SRC = "/logo-nav-sm.webp";
