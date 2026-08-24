@@ -82,15 +82,17 @@ export default function BlogGrid({
 
   const { featured, rest } = splitFeaturedPosts(posts, featuredSlug);
   const featuredBadge = lang === "hi" ? "विशेष लेख" : "Featured Article";
+  // Prefer the real post title/excerpt so the listing card matches /blog/[slug].
+  // CMS overrides are fallback only (e.g. when the pinned slug is missing).
   const featuredHeadline =
-    pickLocalized(featuredOverrides, lang, "title", "titleHi") ||
     pickLocalized(featured, lang, "title", "title_hi") ||
-    pickLocalized(featuredOverrides, lang, "h1", "h1Hi") ||
-    featured?.title;
+    featured?.title ||
+    pickLocalized(featuredOverrides, lang, "title", "titleHi") ||
+    pickLocalized(featuredOverrides, lang, "h1", "h1Hi");
   const featuredExcerpt =
-    pickLocalized(featuredOverrides, lang, "description", "descriptionHi") ||
     pickLocalized(featured, lang, "excerpt", "excerpt_hi") ||
-    featured?.excerpt;
+    featured?.excerpt ||
+    pickLocalized(featuredOverrides, lang, "description", "descriptionHi");
   const featuredBody =
     pickLocalized(featured, lang, "body", "body_hi") ||
     featured?.body ||

@@ -333,18 +333,19 @@ export default function PagesAdmin() {
             />
             <SectionHeading>Featured article</SectionHeading>
             <p className="admin-muted">
-              Pin a blog post on the listing page. Create or edit posts in{" "}
+              Pin a blog post on the listing page. The card title and excerpt always
+              come from that post in{" "}
               <a href="/admin/lookbook" className="text-gold hover:underline">
                 Blog admin
               </a>
-              .
+              ; optional fields below are fallbacks only.
             </p>
             <div>
               <label className={ADMIN_LABEL}>Featured post slug</label>
               <input
                 value={page.feature_post_slug || ""}
                 onChange={(e) => onChange("feature_post_slug", e.target.value)}
-                placeholder="fashion-boutique-womens-freedom-independence-day"
+                placeholder="fashion-designing-institute-designer-boutique-patna"
                 className={ADMIN_INPUT}
               />
             </div>
@@ -353,7 +354,7 @@ export default function PagesAdmin() {
               <input
                 value={page.feature_post_emoji || ""}
                 onChange={(e) => onChange("feature_post_emoji", e.target.value)}
-                placeholder="🇮🇳"
+                placeholder="👗"
                 className={ADMIN_INPUT}
               />
             </div>
