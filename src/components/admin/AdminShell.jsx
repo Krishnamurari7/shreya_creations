@@ -41,7 +41,9 @@ function NavLinks({ pathname, onNavigate }) {
     <nav className="admin-nav" aria-label="Admin navigation">
       <ul className="admin-nav__list">
         {NAV.map((n) => {
-          const active = pathname === n.href;
+        const active =
+          pathname === n.href ||
+          (n.href !== "/admin" && pathname.startsWith(`${n.href}/`));
           return (
             <li key={n.href}>
               <Link
@@ -68,7 +70,10 @@ export default function AdminShell({ children }) {
   const isLogin = pathname === "/admin/login";
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const currentPage = NAV.find((n) => n.href === pathname)?.label || "Admin";
+  const currentPage =
+    NAV.find((n) => n.href === pathname)?.label ||
+    NAV.find((n) => n.href !== "/admin" && pathname.startsWith(`${n.href}/`))?.label ||
+    "Admin";
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 

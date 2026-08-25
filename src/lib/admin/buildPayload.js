@@ -27,7 +27,7 @@ export function buildPayload(editing, fields, { isUpdate = false } = {}) {
       if (!Array.isArray(payload[key])) payload[key] = [];
     }
 
-    if (f.type === "image") {
+    if (f.type === "image" || f.type === "pdf") {
       if (payload[key] === "" || payload[key] == null) payload[key] = null;
     }
 

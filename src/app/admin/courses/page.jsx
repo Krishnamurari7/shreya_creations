@@ -6,16 +6,6 @@ import { courseToFormState, isCourseAvailable, mergeAdminCourses } from "@/lib/c
 import { COURSE_CATEGORIES } from "@/lib/seed";
 import { BTN_SECONDARY } from "@/lib/ui";
 
-const COURSE_PDF_OPTIONS = [
-  "/courses/pdfs/Basic Boutique Mastery Course 15000.pdf",
-  "/courses/pdfs/Basic suit and  Blouse Course.pdf",
-  "/courses/pdfs/Collar Design Blouse Course.pdf",
-  "/courses/pdfs/Madhubala Blouse Course.pdf",
-  "/courses/pdfs/Rajwadi Blouse Course.pdf",
-  "/courses/pdfs/Backless Blouse Course.pdf",
-  "/courses/pdfs/sleevless Blouse  Course.pdf",
-];
-
 const FIELDS = [
   { name: "title", label: "Title (English)", type: "text" },
   { name: "title_hi", label: "Title (Hindi)", type: "text" },
@@ -35,7 +25,12 @@ const FIELDS = [
   { name: "includes", label: "What's included (English)", type: "list", hint: "One item per line." },
   { name: "includes_hi", label: "What's included (Hindi)", type: "list", hint: "One item per line." },
   { name: "syllabus", label: "Syllabus", type: "list", hint: "One module or week per line." },
-  { name: "course_pdf", label: "Course brochure PDF", type: "select", options: COURSE_PDF_OPTIONS, hint: "Required for Enroll Now — without PDF the course shows as Coming Soon." },
+  {
+    name: "course_pdf",
+    label: "Course brochure PDF",
+    type: "pdf",
+    hint: "Upload a PDF to Supabase Storage. Required for Enroll Now — without PDF the course shows as Coming Soon.",
+  },
   { name: "image", label: "Thumbnail", type: "image" },
   { name: "preview_video", label: "Preview video embed URL", type: "text", hint: "e.g. https://www.youtube.com/embed/VIDEO_ID" },
   { name: "meta_title", label: "SEO meta title", type: "text", hint: "Optional. Fallback: “{title} in Patna | Shreya Creation”. Keep ~60 characters." },
@@ -71,6 +66,7 @@ const SECTIONS = [
 function CourseListBadges({ course }) {
   const available = isCourseAvailable(course);
   const isAddon = course.is_addon || course.badge === "addon";
+  const hasPdf = Boolean((course.course_pdf || course.coursePdf || "").trim());
 
   return (
     <div className="admin-course-badges">
@@ -78,6 +74,11 @@ function CourseListBadges({ course }) {
         <span className="admin-course-badge admin-course-badge--live">Enrollable</span>
       ) : (
         <span className="admin-course-badge admin-course-badge--soon">Coming soon</span>
+      )}
+      {hasPdf ? (
+        <span className="admin-course-badge admin-course-badge--muted">PDF</span>
+      ) : (
+        <span className="admin-course-badge admin-course-badge--soon">No PDF</span>
       )}
       {isAddon && <span className="admin-course-badge admin-course-badge--addon">Add-on</span>}
       {course.badge === "bestseller" && (
@@ -98,7 +99,7 @@ export default function CoursesAdmin() {
     <ResourceManager
       table="courses"
       title="Courses"
-      subtitle="Manage courses stored in Supabase. A course shows Enroll Now only when it has a PDF brochure and full about text."
+      subtitle="Edit courses, upload brochure PDFs, and manage batches. Enroll Now shows only when a course has a PDF and full about text."
       fields={FIELDS}
       sections={SECTIONS}
       mergeRows={mergeAdminCourses}

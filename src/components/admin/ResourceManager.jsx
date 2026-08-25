@@ -7,6 +7,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { buildPayload, validatePayload, slugify } from "@/lib/admin/buildPayload";
 import { revalidateSiteContent } from "@/lib/admin/revalidate";
 import ImageUploader from "@/components/admin/ImageUploader";
+import PdfUploader from "@/components/admin/PdfUploader";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import AdminModal from "@/components/admin/AdminModal";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
@@ -206,6 +207,9 @@ export default function ResourceManager({
       testimonials: ["/"],
     };
     await revalidateSiteContent(pathMap[table] || []);
+    if (table === "courses" && payload.slug) {
+      await revalidateSiteContent([`/courses/${payload.slug}`]);
+    }
   };
 
   const remove = async (row) => {
@@ -270,20 +274,30 @@ export default function ResourceManager({
       {visibleFields.map((f) => (
         <div key={f.name} className="admin-field">
           {f.type === "checkbox" ? (
-            <label className="flex items-center gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={!!editing?.[f.name]}
-                onChange={(e) => setEditing({ ...editing, [f.name]: e.target.checked })}
-                className="h-4 w-4 accent-[#E65A05]"
-              />
-              {f.label}
-            </label>
+            <div>
+              <label className="flex items-center gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  checked={!!editing?.[f.name]}
+                  onChange={(e) => setEditing({ ...editing, [f.name]: e.target.checked })}
+                  className="h-4 w-4 accent-[#E65A05]"
+                />
+                {f.label}
+              </label>
+              {f.hint && <p className="admin-muted mt-1">{f.hint}</p>}
+            </div>
           ) : f.type === "image" || f.type === "images" ? (
             <ImageUploader
               label={f.label}
               multiple={f.type === "images"}
               value={editing?.[f.name]}
+              onChange={(v) => setEditing({ ...editing, [f.name]: v })}
+            />
+          ) : f.type === "pdf" ? (
+            <PdfUploader
+              label={f.label}
+              hint={f.hint}
+              value={editing?.[f.name] || ""}
               onChange={(v) => setEditing({ ...editing, [f.name]: v })}
             />
           ) : (

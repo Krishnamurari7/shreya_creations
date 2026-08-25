@@ -16,6 +16,8 @@ const CoursePdfCanvas = dynamic(() => import("@/components/CoursePdfCanvas"), {
 
 function encodePdfPath(url = "") {
   if (!url) return url;
+  // Absolute URLs (Supabase Storage) are already safe for fetch/iframe.
+  if (/^https?:\/\//i.test(url)) return url;
   const [path, ...hashParts] = url.split("#");
   const hash = hashParts.length ? `#${hashParts.join("#")}` : "";
   const encoded = path

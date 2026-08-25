@@ -42,7 +42,7 @@ const nextConfig = {
           "img-src 'self' data: blob: https: *.supabase.co https://www.facebook.com https://www.google-analytics.com",
           "font-src 'self' data:",
           "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com",
-          "frame-src 'self' https://www.youtube.com https://www.google.com https://maps.google.com https://www.instagram.com",
+          "frame-src 'self' https://*.supabase.co https://www.youtube.com https://www.google.com https://maps.google.com https://www.instagram.com",
           "frame-ancestors 'self'",
           "base-uri 'self'",
           "form-action 'self'",

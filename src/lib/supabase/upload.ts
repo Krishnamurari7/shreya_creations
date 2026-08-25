@@ -77,6 +77,51 @@ export async function uploadMediaImage(
   };
 }
 
+const MAX_PDF_BYTES = 25 * 1024 * 1024; // 25 MB
+
+function sanitizePdfFileName(name = "brochure.pdf") {
+  const base = String(name).split(/[/\\]/).pop() || "brochure.pdf";
+  const cleaned = base
+    .replace(/\.pdf$/i, "")
+    .replace(/[^a-zA-Z0-9._\-\s]+/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .slice(0, 80);
+  return `${cleaned || "brochure"}.pdf`;
+}
+
+/**
+ * Upload a course brochure PDF to the public `media` bucket under `pdfs/`.
+ * Server-only — call from admin route handlers.
+ */
+export async function uploadCoursePdf(file) {
+  const admin = createAdminClient();
+  if (!admin) throw new Error("Supabase admin client not configured.");
+
+  const type = file.type || "";
+  const name = file.name || "";
+  if (type !== "application/pdf" && !name.toLowerCase().endsWith(".pdf")) {
+    throw new Error("Only PDF files are allowed.");
+  }
+  if (typeof file.size === "number" && file.size > MAX_PDF_BYTES) {
+    throw new Error("PDF must be 25 MB or smaller.");
+  }
+
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const safeName = sanitizePdfFileName(name);
+  const path = `pdfs/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
+
+  const { error: upErr } = await admin.storage.from("media").upload(path, buffer, {
+    contentType: "application/pdf",
+    cacheControl: "31536000",
+    upsert: false,
+  });
+  if (upErr) throw upErr;
+
+  const { data: pub } = admin.storage.from("media").getPublicUrl(path);
+  return { path, url: pub.publicUrl };
+}
+
 /** Signed URL for private documents bucket. */
 export async function getDocumentSignedUrl(path, expiresIn = 3600) {
   const admin = createAdminClient();
