@@ -20,9 +20,10 @@ import {
 } from "framer-motion";
 import CardImage from "@/components/CardImage";
 import AmbientGlows from "@/components/AmbientGlows";
+import FounderMessageSection from "@/components/FounderMessageSection";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickLocalized } from "@/lib/i18n";
-import { resolveMediaSrc, resolveFounderImage, MEDIA } from "@/lib/media";
+import { resolveMediaSrc, MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
 import { SITE_STATS } from "@/lib/seed";
 import {
@@ -319,16 +320,6 @@ export default function AboutClient({ site, aboutPage }) {
   ];
 
   const studioImage = resolveMediaSrc(about.heroImage || home.heroImage || MEDIA.boutique);
-  const foundersImage = resolveFounderImage(
-    about.foundersImage || home.founderImage || home.mentorImage,
-    MEDIA.institute
-  );
-
-  const foundersTitle = hi ? "हमारे संस्थापक" : "Our Founders";
-  const foundersNames = hi ? "संजय कुमार मिश्रा एवं श्रेया" : "Sanjay Kumar Mishra & Shreya";
-  const foundersBlurb = hi
-    ? "उनके विज़न और मिशन ने श्रेया क्रिएशन को पटना का भरोसेमंद फैशन बुटीक और इंस्टिट्यूट बनाया।"
-    : "Their vision and mission built Shreya Creation into Patna's trusted fashion boutique and institute.";
 
   const rise = (delay = 0) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 26, filter: "blur(6px)" },
@@ -512,7 +503,10 @@ export default function AboutClient({ site, aboutPage }) {
         </motion.div>
       </section>
 
-      {/* ——— Founders + services ——— */}
+      {/* ——— Founder message ——— */}
+      <FounderMessageSection home={home} lang={lang} className="max-w-6xl !py-8 sm:!py-10 lg:!py-12" />
+
+      {/* ——— Services ——— */}
       <section
         className={cn(
           PAGE_CONTAINER,
@@ -526,88 +520,52 @@ export default function AboutClient({ site, aboutPage }) {
           "min-w-0"
         )}
       >
-        <div className="grid lg:grid-cols-12 gap-7 sm:gap-9 lg:gap-10 items-start">
-          <motion.div className="lg:col-span-5 min-w-0" {...rise(0.05)}>
-            <span className={cn(SECTION_EYEBROW, "about-v2-eyebrow")}>
-              <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
-                ✦
-              </span>
-              {foundersTitle}
-            </span>
-            <div className="about-v2-founders mt-3 sm:mt-4 group">
-              <div className="about-v2-founders__frame">
-                <CardImage
-                  src={foundersImage}
-                  alt={foundersNames}
-                  ratio="4/3"
-                  position="top"
-                  className="about-v2-founders__media rounded-2xl"
-                />
-                <span className="about-v2-founders__sheen" aria-hidden />
-              </div>
-              <h2 className="about-v2-founders__names">{foundersNames}</h2>
-              <p className="about-v2-founders__blurb">{foundersBlurb}</p>
-              <motion.p
-                className="about-v2-motto"
-                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: 0.2, duration: 0.7, ease: EASE }}
-              >
-                “{motto}”
-              </motion.p>
-            </div>
-          </motion.div>
-
-          <div className="lg:col-span-7 min-w-0">
+        <motion.div
+          className="about-v2-services"
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
+        >
+          {services.map((svc, i) => (
             <motion.div
-              className="about-v2-services"
-              initial={reduceMotion ? false : "hidden"}
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
+              key={svc.label}
+              className="about-v2-service"
+              variants={{
+                hidden: { opacity: 0, y: 26, scale: 0.94 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  transition: { type: "spring", stiffness: 240, damping: 20 },
+                },
+              }}
+              whileHover={reduceMotion ? undefined : { y: -6, scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 320, damping: 18 }}
             >
-              {services.map((svc, i) => (
-                <motion.div
-                  key={svc.label}
-                  className="about-v2-service"
-                  variants={{
-                    hidden: { opacity: 0, y: 26, scale: 0.94 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      scale: 1,
-                      transition: { type: "spring", stiffness: 240, damping: 20 },
-                    },
-                  }}
-                  whileHover={reduceMotion ? undefined : { y: -6, scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 18 }}
-                >
-                  <span className="about-v2-service__glow" aria-hidden />
-                  <span className="about-v2-service__icon">
-                    <RevealIcon delay={0.1 + i * 0.05}>{SERVICE_ICONS[svc.icon]}</RevealIcon>
-                  </span>
-                  <span className="about-v2-service__label">{svc.label}</span>
-                </motion.div>
-              ))}
+              <span className="about-v2-service__glow" aria-hidden />
+              <span className="about-v2-service__icon">
+                <RevealIcon delay={0.1 + i * 0.05}>{SERVICE_ICONS[svc.icon]}</RevealIcon>
+              </span>
+              <span className="about-v2-service__label">{svc.label}</span>
             </motion.div>
+          ))}
+        </motion.div>
 
-            <motion.div className="about-v2-ctas" {...rise(0.15)}>
-              <Link href="/shop" className="about-v2-cta about-v2-cta--boutique">
-                <span>{hi ? "बुटीक देखें" : "Explore Boutique"}</span>
-                <span className="about-v2-cta__arrow" aria-hidden>
-                  →
-                </span>
-              </Link>
-              <Link href="/courses" className="about-v2-cta about-v2-cta--institute">
-                <span>{hi ? "इंस्टिट्यूट देखें" : "Explore Institute"}</span>
-                <span className="about-v2-cta__arrow" aria-hidden>
-                  →
-                </span>
-              </Link>
-            </motion.div>
-          </div>
-        </div>
+        <motion.div className="about-v2-ctas" {...rise(0.15)}>
+          <Link href="/shop" className="about-v2-cta about-v2-cta--boutique">
+            <span>{hi ? "बुटीक देखें" : "Explore Boutique"}</span>
+            <span className="about-v2-cta__arrow" aria-hidden>
+              →
+            </span>
+          </Link>
+          <Link href="/courses" className="about-v2-cta about-v2-cta--institute">
+            <span>{hi ? "इंस्टिट्यूट देखें" : "Explore Institute"}</span>
+            <span className="about-v2-cta__arrow" aria-hidden>
+              →
+            </span>
+          </Link>
+        </motion.div>
       </section>
 
       {/* ——— Service ribbon ——— */}

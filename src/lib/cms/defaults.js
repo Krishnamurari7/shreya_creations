@@ -303,12 +303,12 @@ export const PAGE_DEFAULTS = {
     services_subtitle_hi: "कस्टम सिलाई, ब्राइडल कउचर, कढ़ाई और स्टाइलिंग — सब WhatsApp पर।",
     founder_eyebrow: "Founder Message",
     founder_eyebrow_hi: "संस्थापक का संदेश",
-    founder_title: "Best Stitching & Silai Course in Patna",
-    founder_title_hi: "पटना में बेस्ट स्टिचिंग और सिलाई कोर्स",
+    founder_title: "From Skill to Business — Fashion Institute in Patna",
+    founder_title_hi: "कौशल से कारोबार तक — पटना में फैशन इंस्टिट्यूट",
     founder_quote:
-      "When we started Shreya Creation, our dream was simple — teach real stitching skills and help every student turn craft into a livelihood. We have trained thousands of learners. We don't just teach sewing — we prepare the path from skill to self-reliance, and self-reliance to success.",
+      "When we started Shreya Creation in 2012, our dream was simple — teach real stitching skills and help every student turn craft into a livelihood. Today we stitch thousands of outfits and train hundreds of students, all from our Patna studio.",
     founder_quote_hi:
-      "श्रेया क्रिएशन की शुरुआत का सपना था — असली सिलाई सिखाना और हर छात्र को रोज़गार तक पहुँचाना। हम केवल सिलाई नहीं सिखाते — कौशल से आत्मनिर्भरता, आत्मनिर्भरता से सफलता का मार्ग तैयार करते हैं।",
+      "जब हमने 2012 में श्रेया क्रिएशन शुरू किया, सपना सरल था — असली सिलाई सिखाना और हर छात्र को कौशल से रोज़गार तक पहुँचाना। आज हम हज़ारों आउटफ़िट सिलाई करते हैं और सैकड़ों छात्रों को ट्रेन करते हैं — सब हमारे पटना स्टूडियो से।",
     founder_name: "Sanjay Kumar Mishra",
     founder_name_hi: "संजय कुमार मिश्रा",
     founder_role: "Founder",

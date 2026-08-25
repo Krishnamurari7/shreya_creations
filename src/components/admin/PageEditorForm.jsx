@@ -274,7 +274,7 @@ export function HomeTab({ home, patchPage }) {
         <p className="admin-muted mt-1">Also accepts youtu.be links or https://www.youtube.com/embed/VIDEO_ID</p>
       </div>
 
-      <SectionHeading>Founder message (slider)</SectionHeading>
+      <SectionHeading>Founder message (About page slider)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="founder_eyebrow" hiKey="founder_eyebrow_hi" values={home} onChange={onChange} />
       <BilingualField label="Title" enKey="founder_title" hiKey="founder_title_hi" values={home} onChange={onChange} />
       <p className="admin-muted">Slide 1 — Sanjay Kumar Mishra (Founder)</p>

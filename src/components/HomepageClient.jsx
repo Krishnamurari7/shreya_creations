@@ -1,13 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { GLASS, HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, REVEAL_LEFT, REVEAL_RIGHT, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
+import { HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { useEffect, useMemo, useState } from "react";
-import CardImage from "@/components/CardImage";
+import { useEffect, useState } from "react";
 import { DesignProcess } from "@/components/FashionSections";
 import { useLanguage } from "@/components/LanguageProvider";
-import { resolveFounderImage, MEDIA } from "@/lib/media";
 import { pageBottomCtaProps, pickPage } from "@/lib/cms";
 import LazyWhenVisible from "@/components/LazyWhenVisible";
 import HeroSection from "@/components/HeroSection";
@@ -90,116 +88,6 @@ function SectionHeader({
   );
 }
 
-function FounderMessageSlider({ slides }) {
-  const [active, setActive] = useState(0);
-  const count = slides.length;
-
-  useEffect(() => {
-    if (count < 2) return undefined;
-    const id = setInterval(() => setActive((i) => (i + 1) % count), 6000);
-    return () => clearInterval(id);
-  }, [count]);
-
-  if (!slides[0]) return null;
-
-  return (
-    <div className="founder-message-wrap">
-      <div className="founder-message-card">
-        <div className="founder-message-card__layout">
-          <div className={cn(REVEAL, REVEAL_LEFT, "founder-message-card__media")}>
-            <div className="founder-portrait relative">
-              <div className="founder-portrait__halo" aria-hidden />
-              <div className="founder-portrait__ring gradient-ring rounded-2xl p-[2px] shadow-glow">
-                <div className={cn(GLASS, "founder-portrait__inner", "rounded-[calc(1rem-2px)]", "overflow-hidden", "border-0", "p-1.5", "sm:p-2")}>
-                  {slides.map((s, i) => (
-                    <div
-                      key={s.name}
-                      className={`transition-all duration-700 ease-in-out ${i === active ? "opacity-100 scale-100 relative" : "opacity-0 scale-[0.98] absolute inset-1.5 sm:inset-2 pointer-events-none"}`}
-                      aria-hidden={i !== active}
-                    >
-                      <CardImage src={s.image} alt={s.name} ratio="4/5" position="top" className="founder-portrait__media rounded-xl" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <span className="founder-portrait__badge hero-float-badge hero-float-badge--bottom">
-                <span className="hero-float-badge__dot" aria-hidden />
-                {slides[active]?.role || "Founder"}
-              </span>
-            </div>
-          </div>
-
-          <div className={cn(REVEAL, REVEAL_RIGHT, "founder-message-card__content")}>
-            <span className="founder-quote-card__mark" aria-hidden>&ldquo;</span>
-            <div className="founder-quote-card__body">
-              {slides.map((s, i) => (
-                <div
-                  key={s.name}
-                  className={`founder-quote-card__slide transition-all duration-700 ease-in-out ${i === active ? "opacity-100 relative translate-y-0" : "opacity-0 absolute inset-0 translate-y-2 pointer-events-none"}`}
-                  aria-hidden={i !== active}
-                >
-                  <blockquote className="founder-quote-card__text text-ink leading-relaxed italic font-normal">
-                    {s.quote}
-                  </blockquote>
-                  <div className="founder-quote-card__author">
-                    <div className="founder-quote-card__avatar" aria-hidden>
-                      {(s.name || "S").charAt(0)}
-                    </div>
-                    <div className="founder-quote-card__meta min-w-0">
-                      <p className="founder-quote-card__name">{s.name}</p>
-                      <p className="founder-quote-card__role">{s.role}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {count > 1 && (
-        <div className="founder-slider__nav">
-          <button
-            type="button"
-            onClick={() => setActive((i) => (i - 1 + count) % count)}
-            className="founder-slider__btn"
-            aria-label="Previous message"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <div className="founder-slider__dots">
-            {slides.map((s, i) => (
-              <button
-                key={s.name}
-                type="button"
-                onClick={() => setActive(i)}
-                className={`founder-slider__dot ${i === active ? "founder-slider__dot--active" : ""}`}
-                aria-label={`Show message from ${s.name}`}
-                aria-current={i === active ? "true" : undefined}
-              />
-            ))}
-          </div>
-          <span className="founder-slider__counter" aria-live="polite">
-            {String(active + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
-          </span>
-          <button
-            type="button"
-            onClick={() => setActive((i) => (i + 1) % count)}
-            className="founder-slider__btn"
-            aria-label="Next message"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function HomepageClient({
   heroBackground,
   home: homeProp,
@@ -227,27 +115,6 @@ export default function HomepageClient({
     };
   }, []);
 
-  const founderImage = resolveFounderImage(home.founderImage, MEDIA.founderSanjay);
-  const mentorImage = resolveFounderImage(home.mentorImage, MEDIA.founderShreya);
-
-  const founderSlides = useMemo(
-    () => [
-      {
-        name: pickPage(home, lang, "founderName", "founderNameHi"),
-        role: pickPage(home, lang, "founderRole", "founderRoleHi"),
-        quote: pickPage(home, lang, "founderQuote", "founderQuoteHi"),
-        image: founderImage,
-      },
-      {
-        name: pickPage(home, lang, "mentorName", "mentorNameHi"),
-        role: pickPage(home, lang, "mentorRole", "mentorRoleHi"),
-        quote: pickPage(home, lang, "mentorQuote", "mentorQuoteHi"),
-        image: mentorImage,
-      },
-    ],
-    [home, lang, founderImage, mentorImage]
-  );
-
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
       <section
@@ -271,26 +138,6 @@ export default function HomepageClient({
 
       <LazyWhenVisible fallback={<div className="home-courses-preview-skeleton min-h-[480px]" aria-hidden />}>
         <HomeCoursesPreview courses={courses} home={home} site={site} />
-      </LazyWhenVisible>
-
-      {/* ===== FOUNDER MESSAGE ===== */}
-      <LazyWhenVisible>
-        <section className={cn(HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, "founder-section", "relative", "z-20", "overflow-hidden")}>
-          <div className="founder-section__bg" aria-hidden />
-          <div className="founder-section__glow founder-section__glow--left" aria-hidden />
-          <div className="founder-section__glow founder-section__glow--right" aria-hidden />
-          <div className="relative z-10">
-            <SectionHeader
-              home={home}
-              lang={lang}
-              eyebrowKey="founderEyebrow"
-              titleKey="founderTitle"
-              compact
-              className="founder-section__header"
-            />
-            <FounderMessageSlider slides={founderSlides} />
-          </div>
-        </section>
       </LazyWhenVisible>
 
       <LazyWhenVisible fallback={<div className="home-portfolio-skeleton min-h-[360px]" aria-hidden />}>
