@@ -10708,6 +10708,31 @@ body.admin-mode main {
   font-weight: 500;
 }
 
+.admin-course-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 0.85rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.admin-course-status--live {
+  border-color: rgba(125, 255, 184, 0.28);
+  background: rgba(125, 255, 184, 0.06);
+}
+
+.admin-course-status--soon {
+  border-color: rgba(245, 200, 66, 0.28);
+  background: rgba(245, 200, 66, 0.06);
+}
+
+.admin-course-status--muted {
+  border-color: rgba(245, 240, 232, 0.12);
+}
+
 .admin-list-item__actions {
   display: flex;
   flex-wrap: wrap;
@@ -14146,6 +14171,37 @@ html.dark .explore-cat-card__count {
 .course-detail__enroll-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 28px rgba(var(--orange-rgb), 0.42);
+}
+
+.course-detail__coming-soon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.25rem;
+  width: 100%;
+  max-width: 22rem;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink, #1a1410);
+  background: rgba(245, 200, 66, 0.22);
+  border: 1px solid rgba(245, 200, 66, 0.45);
+}
+
+.course-detail__coming-soon--wide {
+  max-width: 18rem;
+}
+
+.course-detail__coming-soon--sticky {
+  margin-top: 0;
+  width: auto;
+  flex: 1 1 auto;
+  max-width: none;
+  padding: 0.7rem 1.1rem;
+  font-size: 0.8125rem;
 }
 
 .course-detail__enroll-btn--wide {

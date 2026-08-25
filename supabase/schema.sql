@@ -101,6 +101,7 @@ create table if not exists public.courses (
   image           text,
   preview_video   text,
   published       boolean default true,
+  coming_soon     boolean not null default true,
   meta_title      text,
   meta_description text,
   og_image        text,

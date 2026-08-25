@@ -9,7 +9,7 @@ import { pickFaq } from "@/lib/i18n";
 import { SITE_STATS } from "@/lib/seed";
 import { DEFAULT_STUDENTS_TAUGHT } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
-import { addonCourseLabel, isAddonCourse } from "@/lib/courses";
+import { addonCourseLabel, comingSoonLabel, isAddonCourse, isComingSoon } from "@/lib/courses";
 import CoursePdfModal, { coursePdfUrl } from "@/components/CoursePdfModal";
 import { trackLead, trackViewContent } from "@/lib/analytics";
 
@@ -200,7 +200,8 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
   const pageUrl = usePageUrl();
   const enrollUrl = waLink(site.whatsapp, courseMessage(course, pageUrl, lang));
   const pdfUrl = coursePdfUrl(course.course_pdf ?? course.coursePdf);
-  const showPdf = course.show_pdf !== false;
+  const showPdf = Boolean(pdfUrl) && course.show_pdf !== false;
+  const comingSoon = isComingSoon(course);
 
   useEffect(() => {
     const name = title?.trim();
@@ -297,7 +298,13 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
                 lang={lang}
               />
 
-              <EnrollButton href={enrollUrl} label={t.getCourse} itemName={title} />
+              {comingSoon ? (
+                <span className="course-detail__coming-soon" aria-disabled="true">
+                  {comingSoonLabel(lang)}
+                </span>
+              ) : (
+                <EnrollButton href={enrollUrl} label={t.getCourse} itemName={title} />
+              )}
 
               <p className="course-detail__secure">🔒 {t.secure}</p>
 
@@ -402,7 +409,13 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
             discountPct={discountPct}
             lang={lang}
           />
-          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--wide" itemName={title} />
+          {comingSoon ? (
+            <span className="course-detail__coming-soon course-detail__coming-soon--wide" aria-disabled="true">
+              {comingSoonLabel(lang)}
+            </span>
+          ) : (
+            <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--wide" itemName={title} />
+          )}
           <p className="course-detail__secure">🔒 {t.securePay}</p>
         </section>
       </div>
@@ -427,7 +440,13 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
               </span>
             )}
           </div>
-          <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--sticky" itemName={title} />
+          {comingSoon ? (
+            <span className="course-detail__coming-soon course-detail__coming-soon--sticky" aria-disabled="true">
+              {comingSoonLabel(lang)}
+            </span>
+          ) : (
+            <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--sticky" itemName={title} />
+          )}
         </div>
       </div>
 

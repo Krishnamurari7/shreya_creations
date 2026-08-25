@@ -66,7 +66,7 @@ export default function PdfUploader({ value = "", onChange, label = "PDF", hint 
           </button>
         </div>
       ) : (
-        <p className={`${ADMIN_MUTED} mb-2`}>No PDF yet — upload a brochure to enable Enroll Now.</p>
+        <p className={`${ADMIN_MUTED} mb-2`}>No PDF yet — optional brochure for the course page.</p>
       )}
 
       <input

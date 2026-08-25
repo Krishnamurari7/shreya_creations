@@ -1,5 +1,4 @@
 import { getCourses, getLookbookPosts, getPortfolio, getProducts } from "@/lib/data";
-import { isCourseAvailable } from "@/lib/courses";
 import { sitemapWithAlternates } from "@/lib/seo";
 
 /** ISR — avoids force-dynamic 500s on Cloudflare edge fetches. */
@@ -45,9 +44,9 @@ export default async function sitemap() {
       getPortfolio(),
       getLookbookPosts(),
     ]);
-    // Detail pages 404 unless isCourseAvailable — never list those in the sitemap.
+    // Include published courses (Enrollable + Coming Soon); drafts are already excluded by getCourses.
     courseEntries = (courses || [])
-      .filter((c) => c?.slug && c.published !== false && isCourseAvailable(c))
+      .filter((c) => c?.slug && c.published !== false)
       .map((c) =>
         sitemapWithAlternates(`/courses/${c.slug}`, {
           lastModified: c.updated_at ? new Date(c.updated_at) : now,

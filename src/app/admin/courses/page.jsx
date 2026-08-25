@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import ResourceManager from "@/components/admin/ResourceManager";
-import { courseToFormState, isCourseAvailable, mergeAdminCourses } from "@/lib/courses";
+import { coursePublicStatus, courseToFormState, mergeAdminCourses } from "@/lib/courses";
 import { COURSE_CATEGORIES } from "@/lib/seed";
 import { BTN_SECONDARY } from "@/lib/ui";
 
@@ -17,7 +17,18 @@ const FIELDS = [
   { name: "language", label: "Language", type: "text", hint: "e.g. Hindi, Hindi & English" },
   { name: "is_addon", label: "Add-on course", type: "checkbox", hint: "Short specialised module after a main blouse course." },
   { name: "badge", label: "Badge", type: "select", options: ["bestseller", "addon"], hint: "Optional card badge. Leave as “Select…” for none." },
-  { name: "published", label: "Published on site", type: "checkbox" },
+  {
+    name: "published",
+    label: "Published on site",
+    type: "checkbox",
+    hint: "Off = Draft (hidden). On = visible on /courses and homepage.",
+  },
+  {
+    name: "coming_soon",
+    label: "Coming soon",
+    type: "checkbox",
+    hint: "On = Coming Soon badge, Enroll off. Off = Enroll Now (when Published).",
+  },
   { name: "description", label: "Short description (English)", type: "textarea" },
   { name: "description_hi", label: "Short description (Hindi)", type: "textarea" },
   { name: "about", label: "Full about (English)", type: "textarea", hint: "Shown on the course detail page." },
@@ -29,7 +40,7 @@ const FIELDS = [
     name: "course_pdf",
     label: "Course brochure PDF",
     type: "pdf",
-    hint: "Upload a PDF to Supabase Storage. Required for Enroll Now — without PDF the course shows as Coming Soon.",
+    hint: "Optional brochure. Upload to Supabase Storage — shown as “View Full Details” on the course page.",
   },
   { name: "image", label: "Thumbnail", type: "image" },
   { name: "preview_video", label: "Preview video embed URL", type: "text", hint: "e.g. https://www.youtube.com/embed/VIDEO_ID" },
@@ -44,7 +55,20 @@ const SECTIONS = [
   {
     id: "basics",
     label: "Basics",
-    fields: ["title", "title_hi", "slug", "category", "price", "compare_price", "duration", "language", "is_addon", "badge", "published"],
+    fields: [
+      "title",
+      "title_hi",
+      "slug",
+      "category",
+      "price",
+      "compare_price",
+      "duration",
+      "language",
+      "is_addon",
+      "badge",
+      "published",
+      "coming_soon",
+    ],
   },
   {
     id: "content",
@@ -63,18 +87,32 @@ const SECTIONS = [
   },
 ];
 
+function CourseStatusBanner({ course }) {
+  const status = coursePublicStatus(course);
+  const tone =
+    status.id === "enrollable" ? "live" : status.id === "coming_soon" ? "soon" : "muted";
+
+  return (
+    <div className={`admin-course-status admin-course-status--${tone}`} role="status">
+      <span className={`admin-course-badge admin-course-badge--${tone === "muted" ? "muted" : tone}`}>
+        {status.label}
+      </span>
+      <p className="admin-muted m-0">{status.hint}</p>
+    </div>
+  );
+}
+
 function CourseListBadges({ course }) {
-  const available = isCourseAvailable(course);
+  const status = coursePublicStatus(course);
   const isAddon = course.is_addon || course.badge === "addon";
   const hasPdf = Boolean((course.course_pdf || course.coursePdf || "").trim());
+  const tone = status.id === "enrollable" ? "live" : status.id === "coming_soon" ? "soon" : "muted";
 
   return (
     <div className="admin-course-badges">
-      {available ? (
-        <span className="admin-course-badge admin-course-badge--live">Enrollable</span>
-      ) : (
-        <span className="admin-course-badge admin-course-badge--soon">Coming soon</span>
-      )}
+      <span className={`admin-course-badge admin-course-badge--${tone}`}>
+        {status.label}
+      </span>
       {hasPdf ? (
         <span className="admin-course-badge admin-course-badge--muted">PDF</span>
       ) : (
@@ -99,11 +137,12 @@ export default function CoursesAdmin() {
     <ResourceManager
       table="courses"
       title="Courses"
-      subtitle="Edit courses, upload brochure PDFs, and manage batches. Enroll Now shows only when a course has a PDF and full about text."
+      subtitle="Edit courses and control Draft / Coming Soon / Enroll. Published = on site; Coming Soon on = badge only; Coming Soon off = Enroll Now."
       fields={FIELDS}
       sections={SECTIONS}
       mergeRows={mergeAdminCourses}
       toFormState={courseToFormState}
+      renderFormExtra={(editing) => <CourseStatusBanner course={editing} />}
       persistId="_dbId"
       rowKey="slug"
       canDelete={(course) => Boolean(course._dbId)}

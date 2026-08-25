@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getCourseBySlug, getFaqs, getSiteSettings } from "@/lib/data";
-import { isCourseAvailable } from "@/lib/courses";
 import CourseDetailClient from "@/components/CourseDetailClient";
 import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
@@ -50,7 +49,7 @@ export default async function CourseDetail({ params }) {
     getSiteSettings(),
     getFaqs(),
   ]);
-  if (!course || !isCourseAvailable(course)) return notFound();
+  if (!course || course.published === false) return notFound();
 
   const courseFaqs = faqs.filter(
     (f) =>

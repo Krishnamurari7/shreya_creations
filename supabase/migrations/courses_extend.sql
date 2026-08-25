@@ -9,3 +9,4 @@ alter table public.courses add column if not exists includes_hi jsonb default '[
 alter table public.courses add column if not exists course_pdf text;
 alter table public.courses add column if not exists is_addon boolean default false;
 alter table public.courses add column if not exists badge text;
+alter table public.courses add column if not exists coming_soon boolean not null default true;

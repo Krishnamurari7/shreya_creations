@@ -31,6 +31,10 @@ export function buildPayload(editing, fields, { isUpdate = false } = {}) {
       if (payload[key] === "" || payload[key] == null) payload[key] = null;
     }
 
+    if (f.type === "checkbox") {
+      payload[key] = Boolean(val);
+    }
+
     if (typeof payload[key] === "string" && f.type !== "textarea" && f.type !== "list") {
       const trimmed = payload[key].trim();
       payload[key] = trimmed === "" ? null : trimmed;
@@ -47,6 +51,9 @@ export function buildPayload(editing, fields, { isUpdate = false } = {}) {
       // keep explicit false
     } else if (fields.some((f) => f.name === "published")) {
       payload.published = true;
+    }
+    if (fields.some((f) => f.name === "coming_soon") && !("coming_soon" in editing)) {
+      payload.coming_soon = true;
     }
     if (fields.some((f) => f.name === "images") && !payload.images) {
       payload.images = [];

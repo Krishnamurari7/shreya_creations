@@ -77,6 +77,7 @@ export function mergeAdminCourses(dbRows = []) {
         title_hi: row.title_hi ?? row.titleHi ?? "",
         syllabus: normalizeSyllabus(row.syllabus),
         is_addon: Boolean(row.is_addon),
+        coming_soon: Boolean(row.coming_soon),
         _dbId: row.id,
         _source: "db",
       }))
@@ -95,6 +96,7 @@ export function mergeAdminCourses(dbRows = []) {
       title_hi: row.title_hi ?? row.titleHi ?? "",
       syllabus: normalizeSyllabus(row.syllabus),
       is_addon: Boolean(row.is_addon),
+      coming_soon: Boolean(row.coming_soon),
       _dbId: row.id,
       _source: "db",
     });
@@ -148,6 +150,7 @@ export function courseToFormState(course) {
     is_addon: Boolean(course.is_addon ?? course.isAddon),
     badge: course.badge ?? "",
     published: course.published !== false,
+    coming_soon: isComingSoon(course),
     meta_title: course.meta_title ?? course.metaTitle ?? "",
     meta_description: course.meta_description ?? course.metaDescription ?? "",
     og_image: course.og_image ?? course.ogImage ?? "",
@@ -169,9 +172,41 @@ function courseHasDetails(course) {
   return false;
 }
 
-/** Course is open for enrollment when it has both a PDF brochure and full details. */
+/**
+ * Explicit Coming Soon flag when set; otherwise legacy PDF + details rule.
+ * Used by admin form + public Enroll / Coming Soon UI.
+ */
+export function isComingSoon(course) {
+  if (!course) return true;
+  if (course.coming_soon === true || course.comingSoon === true) return true;
+  if (course.coming_soon === false || course.comingSoon === false) return false;
+  // Legacy rows / seed without the column
+  return !(coursePdf(course) && courseHasDetails(course));
+}
+
+/** Course is open for enrollment (Enroll Now) — not Coming Soon. */
 export function isCourseAvailable(course) {
-  return Boolean(coursePdf(course) && courseHasDetails(course));
+  if (!course || course.published === false) return false;
+  return !isComingSoon(course);
+}
+
+/** Admin / form helper: Draft | Coming soon | Enrollable */
+export function coursePublicStatus(course) {
+  if (!course || course.published === false) {
+    return { id: "draft", label: "Draft", hint: "Hidden from the public site." };
+  }
+  if (isComingSoon(course)) {
+    return {
+      id: "coming_soon",
+      label: "Coming soon",
+      hint: "Visible on the site with a Coming Soon badge — Enroll is off.",
+    };
+  }
+  return {
+    id: "enrollable",
+    label: "Enrollable",
+    hint: "Visible on the site with Enroll Now.",
+  };
 }
 
 export function isAddonCourse(course) {

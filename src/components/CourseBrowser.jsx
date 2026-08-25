@@ -6,28 +6,27 @@ import { useState, useMemo } from "react";
 import CourseCard from "@/components/CourseCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
-import { isCourseAvailable } from "@/lib/courses";
 import { staggerDelay } from "@/lib/motion";
 
 export default function CourseBrowser({ courses = [] }) {
   const { lang } = useLanguage();
 
-  const availableCourses = useMemo(
-    () => courses.filter((c) => isCourseAvailable(c)),
+  const listedCourses = useMemo(
+    () => courses.filter((c) => c && c.published !== false),
     [courses]
   );
 
   const categories = useMemo(() => {
-    const set = new Set(availableCourses.map((c) => c.category).filter(Boolean));
+    const set = new Set(listedCourses.map((c) => c.category).filter(Boolean));
     return ["All", ...set];
-  }, [availableCourses]);
+  }, [listedCourses]);
 
   const [active, setActive] = useState("All");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return availableCourses.filter((c) => {
+    return listedCourses.filter((c) => {
       const okCat = active === "All" || c.category === active;
       const okQ =
         !q ||
@@ -36,7 +35,7 @@ export default function CourseBrowser({ courses = [] }) {
         c.category?.toLowerCase().includes(q);
       return okCat && okQ;
     });
-  }, [availableCourses, active, query]);
+  }, [listedCourses, active, query]);
 
   const searchPlaceholder =
     lang === "hi" ? "कोर्स खोजें…" : "Search courses…";

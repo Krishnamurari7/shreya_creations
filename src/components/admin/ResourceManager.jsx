@@ -46,6 +46,7 @@ export default function ResourceManager({
   modalWide = false,
   mergeRows,
   toFormState,
+  renderFormExtra,
   persistId = "id",
   rowKey = "id",
   canDelete,
@@ -64,7 +65,9 @@ export default function ResourceManager({
     const o = {};
     fields.forEach((f) => {
       if (f.type === "checkbox") {
-        o[f.name] = f.name === "published" ? true : false;
+        if (f.name === "published") o[f.name] = true;
+        else if (f.name === "coming_soon") o[f.name] = true;
+        else o[f.name] = false;
       } else if (f.type === "images" || f.type === "list") {
         o[f.name] = [];
       } else {
@@ -271,6 +274,7 @@ export default function ResourceManager({
           {modalError}
         </div>
       )}
+      {editing && renderFormExtra?.(editing)}
       {visibleFields.map((f) => (
         <div key={f.name} className="admin-field">
           {f.type === "checkbox" ? (

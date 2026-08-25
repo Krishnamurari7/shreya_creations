@@ -86,6 +86,7 @@ function normalizeCourse(row) {
     price_tbd: row.price_tbd ?? row.priceTbd ?? false,
     price_confirmed: row.price_confirmed ?? row.priceConfirmed,
     published: row.published ?? true,
+    coming_soon: row.coming_soon ?? row.comingSoon,
   });
 }
 

@@ -144,41 +144,25 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
           !available && "featured-course-card--coming-soon"
         )}
       >
-        {available ? (
-          <Link href={detailHref} className={mediaClass}>
-            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" quality={80} />
-            {badge && (
-              <span className={cn("featured-course-card__badge", `featured-course-card__badge--${badge.tone}`)}>
-                {badge.tone === "addon" ? addonCourseLabel(lang) : badge.label}
-              </span>
-            )}
-            {discountPct != null && discountPct > 0 && (
-              <span className="featured-course-card__badge featured-course-card__badge--sale">
-                {discountPct}% OFF
-              </span>
-            )}
-            <span className="featured-course-card__duration">{duration}</span>
-          </Link>
-        ) : (
-          <div className={mediaClass}>
-            <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" quality={80} />
-            {badge && (
-              <span className={cn("featured-course-card__badge", `featured-course-card__badge--${badge.tone}`)}>
-                {badge.tone === "addon" ? addonCourseLabel(lang) : badge.label}
-              </span>
-            )}
-            <span className="featured-course-card__duration">{duration}</span>
-          </div>
-        )}
+        <Link href={detailHref} className={mediaClass}>
+          <CardImage src={course.image} alt={course.image_alt || course.imageAlt || `${title} Patna`} ratio="16/9" position="top" quality={80} />
+          {badge && (
+            <span className={cn("featured-course-card__badge", `featured-course-card__badge--${badge.tone}`)}>
+              {badge.tone === "addon" ? addonCourseLabel(lang) : badge.label}
+            </span>
+          )}
+          {discountPct != null && discountPct > 0 && (
+            <span className="featured-course-card__badge featured-course-card__badge--sale">
+              {discountPct}% OFF
+            </span>
+          )}
+          <span className="featured-course-card__duration">{duration}</span>
+        </Link>
 
         <div className="featured-course-card__body flex flex-col flex-1">
-          {available ? (
-            <Link href={detailHref}>
-              <h3 className="featured-course-card__title">{title}</h3>
-            </Link>
-          ) : (
+          <Link href={detailHref}>
             <h3 className="featured-course-card__title">{title}</h3>
-          )}
+          </Link>
 
           {description && (
             <p className="featured-course-card__desc">{description}</p>
@@ -231,9 +215,9 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
                 <span aria-hidden>→</span>
               </Link>
             ) : (
-              <span className="featured-course-card__coming-soon" aria-disabled="true">
+              <Link href={detailHref} className="featured-course-card__coming-soon">
                 {comingSoonLabel(lang)}
-              </span>
+              </Link>
             )}
           </div>
         </div>
@@ -243,7 +227,8 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
 
   if (!available) {
     return (
-      <div
+      <Link
+        href={detailHref}
         className={cn(
           glassCardStyles,
           "featured-course-card--coming-soon",
@@ -292,7 +277,7 @@ export default function CourseCard({ course, variant = "default", featuredIndex 
         <span className="featured-course-card__coming-soon mt-4 sm:mt-5" aria-disabled="true">
           {comingSoonLabel(lang)}
         </span>
-      </div>
+      </Link>
     );
   }
 
