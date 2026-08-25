@@ -1,5 +1,3 @@
-import { COURSES } from "@/lib/seed";
-
 function coursePdf(course) {
   return (course?.course_pdf ?? course?.coursePdf ?? "").trim();
 }
@@ -12,12 +10,12 @@ function normalizeSyllabus(syllabus) {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-/** Homepage entry-point courses — shown before add-on modules. */
+/** Homepage entry-point courses — only slugs that exist in admin/Supabase. */
 export const FLAGSHIP_COURSE_SLUGS = [
-  "fashion-designing-course",
+  "basic-boutique-course",
   "advanced-boutique-course",
   "blouse-suit-making-course",
-  "lehenga-making-course",
+  "advanced-blouse-making-course",
 ];
 
 export function isDbUuid(id) {
@@ -68,30 +66,10 @@ export function sortFlagshipFirst(courses = []) {
   });
 }
 
-/** Merge seed catalog with Supabase rows for the admin course list. */
+/** Admin course list = Supabase only (same catalog as the public site). */
 export function mergeAdminCourses(dbRows = []) {
-  if (dbRows.length) {
-    return dbRows
-      .map((row) => ({
-        ...row,
-        title_hi: row.title_hi ?? row.titleHi ?? "",
-        syllabus: normalizeSyllabus(row.syllabus),
-        is_addon: Boolean(row.is_addon),
-        coming_soon: Boolean(row.coming_soon),
-        _dbId: row.id,
-        _source: "db",
-      }))
-      .sort((a, b) => {
-        const byCategory = (a.category || "").localeCompare(b.category || "");
-        if (byCategory !== 0) return byCategory;
-        return (a.title || "").localeCompare(b.title || "");
-      });
-  }
-
-  const dbBySlug = new Map();
-
-  dbRows.forEach((row) => {
-    dbBySlug.set(row.slug, {
+  return dbRows
+    .map((row) => ({
       ...row,
       title_hi: row.title_hi ?? row.titleHi ?? "",
       syllabus: normalizeSyllabus(row.syllabus),
@@ -99,38 +77,12 @@ export function mergeAdminCourses(dbRows = []) {
       coming_soon: Boolean(row.coming_soon),
       _dbId: row.id,
       _source: "db",
+    }))
+    .sort((a, b) => {
+      const byCategory = (a.category || "").localeCompare(b.category || "");
+      if (byCategory !== 0) return byCategory;
+      return (a.title || "").localeCompare(b.title || "");
     });
-  });
-
-  const merged = COURSES.map((seedCourse) => {
-    const dbCourse = dbBySlug.get(seedCourse.slug);
-    dbBySlug.delete(seedCourse.slug);
-    if (dbCourse) {
-      return {
-        ...seedCourse,
-        ...dbCourse,
-        title_hi: dbCourse.title_hi || seedCourse.title_hi || seedCourse.titleHi || "",
-        syllabus: dbCourse.syllabus?.length ? dbCourse.syllabus : normalizeSyllabus(seedCourse.syllabus),
-        _dbId: dbCourse._dbId,
-        _source: "merged",
-      };
-    }
-    return {
-      ...seedCourse,
-      title_hi: seedCourse.title_hi ?? seedCourse.titleHi ?? "",
-      syllabus: normalizeSyllabus(seedCourse.syllabus),
-      _dbId: null,
-      _source: "seed",
-    };
-  });
-
-  dbBySlug.forEach((dbCourse) => merged.push(dbCourse));
-
-  return merged.sort((a, b) => {
-    const byCategory = (a.category || "").localeCompare(b.category || "");
-    if (byCategory !== 0) return byCategory;
-    return (a.title || "").localeCompare(b.title || "");
-  });
 }
 
 /** Normalize a course row for the admin edit form. */

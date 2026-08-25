@@ -109,8 +109,11 @@ function normalizePortfolioItem(row) {
   });
 }
 
-function mergeCourseRecord(seedCourse, dbCourse) {
-  if (!dbCourse) return seedCourse;
+/** Fill empty DB fields from matching seed row — never invents a course that isn't in Supabase. */
+function enrichCourseFromSeed(dbCourse) {
+  if (!dbCourse?.slug) return dbCourse;
+  const seedCourse = seed.COURSES.find((c) => c.slug === dbCourse.slug);
+  if (!seedCourse) return dbCourse;
   const merged = { ...seedCourse, ...dbCourse };
   if (dbCourse.price == null && seedCourse.price != null) merged.price = seedCourse.price;
   if (!dbCourse.course_pdf && seedCourse.course_pdf) merged.course_pdf = seedCourse.course_pdf;
@@ -135,22 +138,9 @@ function publishedSeedCourses(includeUnpublished) {
     : seed.COURSES.filter((c) => c.published !== false);
 }
 
-function mergeCoursesWithSeed(dbRows, { includeUnpublished = false } = {}) {
-  const seedList = publishedSeedCourses(includeUnpublished);
-  if (!dbRows?.length) return seedList;
-
-  const dbBySlug = new Map(dbRows.map((row) => [row.slug, normalizeCourse(row)]));
-  const merged = dbRows.map((row) => {
-    const seedCourse = seedList.find((c) => c.slug === row.slug);
-    const dbCourse = dbBySlug.get(row.slug);
-    return seedCourse ? mergeCourseRecord(seedCourse, dbCourse) : dbCourse;
-  });
-
-  seedList.forEach((seedCourse) => {
-    if (!dbBySlug.has(seedCourse.slug)) merged.push(seedCourse);
-  });
-
-  return merged;
+/** Supabase/admin is the catalog source of truth — seed is only used offline or to enrich matching rows. */
+function coursesFromDbRows(dbRows) {
+  return (dbRows || []).map((row) => enrichCourseFromSeed(normalizeCourse(row)));
 }
 
 async function query(supabase, table, options = {}) {
@@ -275,7 +265,8 @@ async function fetchCourses(includeUnpublished = false) {
     if (!includeUnpublished) q = q.eq("published", true);
     const { data, error } = await q;
     if (error) return seedList;
-    return mergeCoursesWithSeed(data, { includeUnpublished });
+    // Only courses present in admin/Supabase — never append seed-only extras.
+    return coursesFromDbRows(data);
   } catch {
     return seedList;
   }
@@ -285,22 +276,11 @@ export async function getCourseBySlug(slug) {
   const seedCourse = seed.COURSES.find((c) => c.slug === slug) || null;
   if (!isSupabaseConfigured()) return seedCourse;
 
-  // Seed catalog is canonical — return immediately; overlay DB fields when available.
-  if (!seedCourse) {
-    try {
-      const supabase = createPublicClient();
-      const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
-      return data ? normalizeCourse(data) : null;
-    } catch {
-      return null;
-    }
-  }
-
   try {
     const supabase = createPublicClient();
     const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
-    const dbCourse = data ? normalizeCourse(data) : null;
-    return dbCourse ? mergeCourseRecord(seedCourse, dbCourse) : seedCourse;
+    if (!data) return null;
+    return enrichCourseFromSeed(normalizeCourse(data));
   } catch {
     return seedCourse;
   }
