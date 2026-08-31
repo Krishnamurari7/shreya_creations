@@ -99,10 +99,35 @@ export const DEFAULT_PILLARS = [
 
 export const PAGE_DEFAULTS = {
   about: {
-    header_eyebrow: "Our story",
+    meta_title: "Best Fashion Designing in Patna | Shreya Creation",
+    meta_description:
+      "Discover Shreya Creation for the best fashion designing in Patna, with practical training, boutique skills, bridal wear, designer stitching and hands-on learning.",
+    header_eyebrow: "Our Story",
     header_eyebrow_hi: "हमारी कहानी",
-    header_title: "About Shreya Creation — Patna's Fashion Boutique Institute",
-    header_title_hi: "श्रेया क्रिएशन — पटना का फैशन बुटीक इंस्टिट्यूट",
+    header_title: "About Shreya Creation",
+    header_title_hi: "श्रेया क्रिएशन के बारे में",
+    header_tagline:
+      "Where Fashion Becomes Skill, Skill Becomes Confidence & Confidence Becomes Business.",
+    header_tagline_hi:
+      "जहाँ फैशन कौशल बनता है, कौशल आत्मविश्वास बनता है और आत्मविश्वास कारोबार बनता है।",
+    story_block_1:
+      "Founded in 2012 by Sanjay Kumar Mishra and Shreya, Shreya Creation, today prominent for the best fashion designing in Patna, began with a powerful vision – to empower women through fashion, practical skills, and entrepreneurship.",
+    story_block_1_hi:
+      "2012 में संजय कुमार मिश्रा और श्रेया द्वारा स्थापित, श्रेया क्रिएशन — आज पटना में बेस्ट फैशन डिज़ाइनिंग के लिए प्रमुख — महिलाओं को फैशन, व्यावहारिक कौशल और उद्यमिता के माध्यम से सशक्त बनाने के शक्तिशाली विज़न के साथ शुरू हुआ।",
+    story_block_2:
+      "Situated on Boring Road, Patna, Shreya Creation is a reliable source of designer blouses, bridal collections, elegant Aari & Zari embroidery, and innovative saree re-designs, where every dress is made according to your personality and occasion.",
+    story_block_2_hi:
+      "बोरिंग रोड, पटना पर स्थित, श्रेया क्रिएशन डिज़ाइनर ब्लाउज़, ब्राइडल कलेक्शन, सुंदर आरी और ज़री कढ़ाई और नवीन साड़ी रीडिज़ाइन का भरोसेमंद स्रोत है — हर ड्रेस आपके व्यक्तित्व और अवसर के अनुसार बनाई जाती है।",
+    story_block_3:
+      "Our fashion design institute and best ladies tailor in Patna help you convert your creativity into a profession through intensive training in fashion design techniques and boutique management practices.",
+    story_block_3_hi:
+      "हमारा फैशन डिज़ाइन इंस्टिट्यूट और पटना का बेस्ट लेडीज़ टेलर फैशन डिज़ाइन तकनीकों और बुटीक प्रबंधन में गहन प्रशिक्षण के माध्यम से आपकी रचनात्मकता को पेशे में बदलने में मदद करता है।",
+    boutique_eyebrow: "Boutique & Institute",
+    boutique_eyebrow_hi: "बुटीक और इंस्टिट्यूट",
+    boutique_body:
+      "Shreya Creation – The best fashion designing classes in Patna, offering bespoke stitching, bridal couture, and 50+ job-oriented fashion designing courses in Patna. Here, you get a stitched outfit in just 24 hours.",
+    boutique_body_hi:
+      "श्रेया क्रिएशन — पटना में बेस्ट फैशन डिज़ाइनिंग क्लासेज, बेस्पोक सिलाई, ब्राइडल काउचर और 50+ जॉब-ओरिएंटेड फैशन डिज़ाइनिंग कोर्स। यहाँ आपको सिर्फ 24 घंटे में सिला हुआ आउटफ़िट मिलता है।",
     header_subtitle: "Patna's trusted fashion boutique & training institute on East Boring Canal Road — from skill to business.",
     header_subtitle_hi: "ईस्ट बोरिंग कैनाल रोड पर पटना का भरोसेमंद फैशन बुटीक और ट्रेनिंग इंस्टिट्यूट — कौशल से कारोबार तक।",
     hero_title_before: "From skill to business —",
@@ -438,14 +463,47 @@ export const PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'm reaching out from your contact page. Please get back to me.",
   },
   shop: {
+    meta_title: "Best Designer Boutique in Patna | Shreya Creation",
+    meta_description:
+      "Discover Shreya Creation, the best designer boutique in Patna for bridal wear, designer blouses, lehengas, custom stitching, Aari-Zari handwork, & a perfect fit.",
     header_eyebrow: "Boutique",
     header_eyebrow_hi: "बुटीक",
-    header_title: "BOUTIQUE",
+    header_title: "Boutique",
     header_title_hi: "बुटीक",
+    header_tagline: "Where Your Imagination Takes Shape in Fashion",
+    header_tagline_hi: "जहाँ आपकी कल्पना फैशन में आकार लेती है",
     header_highlight: "",
     header_highlight_hi: "",
-    header_subtitle: "Designer blouses, bridal lehengas & suits — custom-fit and often ready in 24 hours. Order on WhatsApp.",
-    header_subtitle_hi: "डिज़ाइनर ब्लाउज, ब्राइडल लहंगा और सूट — कस्टम फिट, अक्सर 24 घंटे में। WhatsApp पर ऑर्डर करें।",
+    header_subtitle:
+      "Your attire should never look ordinary. At Shreya Creation, we transform your imagination into unique fashion with the help of our signature bridal tops, designer lehengas, designer suits, designer gowns, and other customized dresses with a perfect fit and fine details.",
+    header_subtitle_hi:
+      "आपका पहनावा कभी साधारण नहीं लगना चाहिए। श्रेया क्रिएशन में हम आपकी कल्पना को अनोखे फैशन में बदलते हैं — ब्राइडल टॉप्स, डिज़ाइनर लहंगे, सूट, गाउन और अन्य कस्टम ड्रेस परफेक्ट फिट और बारीक डिटेल के साथ।",
+    intro_body:
+      "Being the best designer boutique in Patna, we combine the trendiest styles with our exquisite designs to produce a remarkable fashion line for you.",
+    intro_body_hi:
+      "पटना का बेस्ट डिज़ाइनर बुटीक होने के नाते, हम नवीनतम स्टाइल को अपने उत्कृष्ट डिज़ाइन के साथ मिलाकर आपके लिए एक शानदार फैशन लाइन तैयार करते हैं।",
+    hero_cta_primary_label: "Explore our Creations",
+    hero_cta_primary_label_hi: "हमारी रचनाएँ देखें",
+    hero_cta_primary_href: "/portfolio",
+    hero_cta_secondary_label: "Chat on WhatsApp",
+    hero_cta_secondary_label_hi: "WhatsApp पर चैट करें",
+    about_title: "About Our Boutique",
+    about_title_hi: "हमारे बुटीक के बारे में",
+    about_body:
+      "At Shreya Creation, we understand that an ideal outfit does not just come out of a stitch but is made keeping your needs in mind. Whether it is bridal blouses, designer lehengas, or even suits and gowns, each of our creations is a combination of your imagination and our skill. As the best designer boutique in Patna and the best ladies tailor in Patna, we have always specialized in personalized designs, fine fitting, Aari & Zari hand embroidery, and finishing.",
+    about_body_hi:
+      "श्रेया क्रिएशन में हम समझते हैं कि आदर्श आउटफ़िट सिर्फ सिलाई से नहीं बनता — आपकी ज़रूरतों को ध्यान में रखकर बनता है। चाहे ब्राइडल ब्लाउज़ हों, डिज़ाइनर लहंगे, सूट या गाउन — हर रचना आपकी कल्पना और हमारे कौशल का संगम है। पटना के बेस्ट डिज़ाइनर बुटीक और बेस्ट लेडीज़ टेलर के रूप में हम व्यक्तिगत डिज़ाइन, सटीक फिटिंग, आरी और ज़री हाथ कढ़ाई और फिनिशिंग में विशेषज्ञ हैं।",
+    process_title: "From First Sketch to Final Stitch – Your Look, Your Way",
+    process_title_hi: "पहले स्केच से आखिरी सिलाई तक — आपका लुक, आपके तरीके से",
+    process_features: [
+      { icon: "design", title: "Personalised Designs", title_hi: "व्यक्तिगत डिज़ाइन" },
+      { icon: "measure", title: "Precision Fitting", title_hi: "सटीक फिटिंग" },
+      { icon: "bridal", title: "Bridal & Designer Expertise", title_hi: "ब्राइडल और डिज़ाइनर विशेषज्ञता" },
+      { icon: "hand", title: "Fine Handwork", title_hi: "बारीक हैंडवर्क" },
+      { icon: "check", title: "Thoughtful Finishing", title_hi: "सोच-समझकर फिनिशिंग" },
+    ],
+    closing_tagline: "We Don't Just Stitch Outfits. We Create the Look You'll Remember.",
+    closing_tagline_hi: "हम सिर्फ कपड़े नहीं सिलते — वह लुक बनाते हैं जो आप याद रखेंगी।",
     features: [
       { emoji: "📏", title: "Custom sizing", title_hi: "कस्टम माप", desc: "Every piece stitched to your exact measurements.", desc_hi: "हर पीस आपके माप पर सिला जाता है।" },
       { emoji: "⚡", title: "24h express", title_hi: "24 घंटे एक्सप्रेस", desc: "Many ready styles delivered within a day.", desc_hi: "कई स्टाइल एक दिन में डिलीवर।" },
@@ -464,14 +522,73 @@ export const PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'd like to order from the boutique. Please share available designs, sizing, and delivery details.",
   },
   courses: {
-    header_eyebrow: "Our Courses",
-    header_eyebrow_hi: "हमारे कोर्स",
-    header_title: "Fashion Designing & Boutique Courses in Patna",
-    header_title_hi: "पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स",
+    meta_title: "Best Fashion Institute in Patna | Shreya Creation",
+    meta_description:
+      "Join the Best Fashion Institute in Patna for practical fashion designing, stitching, boutique management, blouse making, & career-focused training.",
+    header_eyebrow: "Best Fashion Institute in Patna",
+    header_eyebrow_hi: "पटना का बेस्ट फैशन इंस्टिट्यूट",
+    header_title: "Turn Your Passion for Fashion Into a Skill, Career & Business",
+    header_title_hi: "फैशन के प्रति अपने जुनून को कौशल, करियर और कारोबार में बदलें",
     header_highlight: "",
     header_highlight_hi: "",
-    header_subtitle: "Job-oriented boutique, blouse making, fashion designing & lehenga courses on Boring Road — practical training, certificate & placement support.",
-    header_subtitle_hi: "बोरिंग रोड पर जॉब-ओरिएंटेड बुटीक, ब्लाउज मेकिंग, फैशन डिज़ाइनिंग और लहंगा कोर्स — प्रैक्टिकल ट्रेनिंग, सर्टिफिकेट और प्लेसमेंट सपोर्ट।",
+    header_subtitle:
+      "Fashion is not just about drawing pretty designs; it's about knowing how to realize them. At Shreya Creation, we blend creativity, craftsmanship, and industry insights to assist emerging designers in turning their dreams into reality.",
+    header_subtitle_hi:
+      "फैशन सिर्फ सुंदर डिज़ाइन बनाने के बारे में नहीं है — यह उन्हें साकार करना जानने के बारे में है। श्रेया क्रिएशन में हम रचनात्मकता, कारीगरी और इंडस्ट्री अंतर्दृष्टि को मिलाकर नए डिज़ाइनरों को उनके सपनों को हकीकत बनाने में मदद करते हैं।",
+    intro_body:
+      "We, at the Best Fashion Institute in Patna, emphasize \"learning through practice\" and teach everything related to stitching, pattern making, embroidery, garment making, and boutique management.",
+    intro_body_hi:
+      "पटना के बेस्ट फैशन इंस्टिट्यूट में हम \"प्रैक्टिस के माध्यम से सीखने\" पर जोर देते हैं और सिलाई, पैटर्न मेकिंग, कढ़ाई, गारमेंट मेकिंग और बुटीक मैनेजमेंट से जुड़ी हर चीज़ सिखाते हैं।",
+    intro_cta_primary: "Check Our Programs",
+    intro_cta_primary_hi: "हमारे कोर्स देखें",
+    intro_cta_secondary: "Schedule Your Free Demo",
+    intro_cta_secondary_hi: "मुफ़्त डेमो बुक करें",
+    seo_practical_title: "A Fashion Design Institute in Patna Focused on Practical Training",
+    seo_practical_title_hi: "पटना में प्रैक्टिकल ट्रेनिंग पर केंद्रित फैशन डिज़ाइन इंस्टिट्यूट",
+    seo_practical_body:
+      "Are you looking for the best fashion design institute in Patna that offers practical training to develop your skills? Then visit Shreya Creation, where you can learn from scratch to create professional garments using all practical methods.\n\nWe will teach you everything, right from understanding fabrics, measurements, cutting, and sewing to finishing and design development.",
+    seo_practical_body_hi:
+      "क्या आप पटना में ऐसा बेस्ट फैशन डिज़ाइन इंस्टिट्यूट खोज रहे हैं जो आपके कौशल विकसित करने के लिए प्रैक्टिकल ट्रेनिंग दे? तो श्रेया क्रिएशन आएं — यहाँ आप शुरुआत से प्रोफेशनल गारमेंट बनाने तक सब कुछ प्रैक्टिकल तरीकों से सीख सकते हैं।\n\nफैब्रिक, माप, कटिंग और सिलाई से लेकर फिनिशिंग और डिज़ाइन डेवलपमेंट तक — हम सब कुछ सिखाते हैं।",
+    seo_practical_tagline: "Learn. Practice. Master. Create.",
+    seo_practical_tagline_hi: "सीखें। प्रैक्टिस करें। मास्टर बनें। बनाएं।",
+    seo_practical_cta: "Explore our Fashion Courses",
+    seo_practical_cta_hi: "हमारे फैशन कोर्स देखें",
+    seo_classes_title: "Fashion Designing Classes in Patna That Will Teach You to Create",
+    seo_classes_title_hi: "पटना में फैशन डिज़ाइनिंग क्लासेज जो आपको बनाना सिखाएंगी",
+    seo_classes_body:
+      "Great designers are not created just by learning techniques – great designers are created by practicing them.\n\nOur Fashion Designing Courses in Patna are meant for those students who want real hands-on experience with various aspects of fashion designing.\n\nBe it learning a new skill or improving your existing skills, we make sure that you grow into a confident designer, piece by piece.",
+    seo_classes_body_hi:
+      "महान डिज़ाइनर सिर्फ तकनीकें सीखकर नहीं बनते — महान डिज़ाइनर प्रैक्टिस करके बनते हैं।\n\nपटना में हमारे फैशन डिज़ाइनिंग कोर्स उन छात्राओं के लिए हैं जो फैशन डिज़ाइनिंग के विभिन्न पहलुओं में असली हाथों-हाथ अनुभव चाहती हैं।\n\nनया कौशल सीखना हो या मौजूदा कौशल में सुधार — हम सुनिश्चित करते हैं कि आप आत्मविश्वासी डिज़ाइनर बनें, कदम दर कदम।",
+    seo_classes_tagline: "From Learning to Mastering – The Journey Begins Here",
+    seo_classes_tagline_hi: "सीखने से मास्टरी तक — यात्रा यहीं से शुरू होती है",
+    seo_classes_cta: "Book Your Free Demo Class",
+    seo_classes_cta_hi: "मुफ़्त डेमो क्लास बुक करें",
+    seo_stitching_title: "Master The Craft That Turns Fabric Into Fashion",
+    seo_stitching_title_hi: "वह कला सीखें जो कपड़े को फैशन में बदलती है",
+    seo_stitching_body:
+      "The stitching classes in Patna revolve around garment making, measuring, cutting, stitching, and finishing skills.\n\nThere is much more: learn specialised courses like Designer Blouse Stitching in Patna and get to learn about construction, designing, and finishing of garments.",
+    seo_stitching_body_hi:
+      "पटना की सिलाई क्लासेज गारमेंट मेकिंग, माप, कटिंग, सिलाई और फिनिशिंग कौशल पर केंद्रित हैं।\n\nइससे भी अधिक: Designer Blouse Stitching in Patna जैसे विशेष कोर्स सीखें और गारमेंट की कंस्ट्रक्शन, डिज़ाइनिंग और फिनिशिंग समझें।",
+    seo_stitching_tagline: "Learn the Stitch. Master the Fit. Elevate the Finish.",
+    seo_stitching_tagline_hi: "सिलाई सीखें। फिट मास्टर करें। फिनिश उन्नत करें।",
+    seo_stitching_cta: "Stitching Program Courses",
+    seo_stitching_cta_hi: "सिलाई प्रोग्राम कोर्स",
+    seo_boutique_title: "Boutique Management Course in Patna – From Skill to Business",
+    seo_boutique_title_hi: "पटना में बुटीक मैनेजमेंट कोर्स — कौशल से कारोबार तक",
+    seo_boutique_body:
+      "Creating fashionable attire is one thing, while turning that skill into a profitable business is another thing altogether.\n\nOur boutique management course in Patna is geared towards those interested in learning the basics of operating a fashion business, from product development to costing, pricing, dealing with customers, order processing, and operating boutiques.",
+    seo_boutique_body_hi:
+      "फैशनेबल कपड़े बनाना एक बात है, उस कौशल को लाभदायक कारोबार में बदलना पूरी तरह अलग बात है।\n\nपटना में हमारा बुटीक मैनेजमेंट कोर्स उन लोगों के लिए है जो प्रोडक्ट डेवलपमेंट, कॉस्टिंग, प्राइसिंग, ग्राहकों से dealing, ऑर्डर प्रोसेसिंग और बुटीक संचालन की बुनियादी बातें सीखना चाहते हैं।",
+    seo_boutique_steps:
+      "Learn The Skill → Gain Confidence → Take Orders → Generate Income → Run Your Boutique",
+    seo_boutique_steps_hi:
+      "कौशल सीखें → आत्मविश्वास बढ़ाएं → ऑर्डर लें → आय बनाएं → अपना बुटीक चलाएं",
+    seo_closing_title: "Your Fashion Journey Starts Here",
+    seo_closing_title_hi: "आपकी फैशन यात्रा यहीं से शुरू होती है",
+    seo_closing_body:
+      "There is no need to wait for the \"perfect moment\" before starting on your fashion journey.\n\nIf you wish to be a professional designer, learn to stitch, master designer blouse designing, work in the fashion industry, or open your very own boutique, Shreya Creation has everything needed to take the first step.",
+    seo_closing_body_hi:
+      "अपनी फैशन यात्रा शुरू करने से पहले \"सही समय\" का इंतज़ार करने की ज़रूरत नहीं है।\n\nचाहे आप प्रोफेशनल डिज़ाइनर बनना चाहें, सिलाई सीखना चाहें, डिज़ाइनर ब्लाउज डिज़ाइनिंग में माहिर हों, फैशन इंडस्ट्री में काम करें, या अपना बुटीक खोलें — श्रेया क्रिएशन में पहला कदम उठाने के लिए सब कुछ है।",
     features: [
       { emoji: "🪡", title: "100% practical studio", title_hi: "100% प्रैक्टिकल स्टूडियो", desc: "Foundation to boutique finishing — all hands-on.", desc_hi: "फाउंडेशन से बुटीक फिनिशिंग — सब हाथों-हाथ।" },
       { emoji: "👩‍🏫", title: "Small batch mentorship", title_hi: "छोटे बैच मेंटरशिप", desc: "Personal attention at every student's learning pace.", desc_hi: "हर छात्रा की गति के अनुसार व्यक्तिगत मार्गदर्शन।" },

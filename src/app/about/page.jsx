@@ -9,14 +9,27 @@ import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } fr
 
 export const revalidate = 3600;
 
-export const metadata = buildMetadata({
-  title: "About Shreya Creation | Fashion Boutique Institute in Patna",
+const ABOUT_META_FALLBACK = {
+  title: "Best Fashion Designing in Patna | Shreya Creation",
   description:
-    "Patna's trusted fashion boutique & training institute. From skill to business — bespoke stitching, bridal couture & job-oriented fashion courses.",
-  path: "/about",
-  image: DEFAULT_OG_IMAGE,
-  imageAlt: "About Shreya Creation fashion boutique institute in Patna",
-});
+    "Discover Shreya Creation for the best fashion designing in Patna, with practical training, boutique skills, bridal wear, designer stitching and hands-on learning.",
+};
+
+export async function generateMetadata() {
+  const site = await getSiteSettings();
+  const about = site.pages?.about || {};
+  const title = about.metaTitle || about.meta_title || ABOUT_META_FALLBACK.title;
+  const description =
+    about.metaDescription || about.meta_description || ABOUT_META_FALLBACK.description;
+
+  return buildMetadata({
+    title,
+    description,
+    path: "/about",
+    image: DEFAULT_OG_IMAGE,
+    imageAlt: "About Shreya Creation — best fashion designing in Patna",
+  });
+}
 
 export default async function AboutPage() {
   const locale = await getRequestLocale();

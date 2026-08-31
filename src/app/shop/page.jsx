@@ -5,18 +5,33 @@ import JsonLdScript from "@/components/JsonLdScript";
 import { getProducts, getSiteSettings, getTestimonials } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
+import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const revalidate = 3600;
 
-export const metadata = buildMetadata({
-  title: "Designer Boutique in Patna | Blouses, Lehengas & 24hr Custom Stitching",
-  description:
-    "Shreya Creation Boutique — designer blouses, bridal lehengas, saree customisation & handwork in Patna. Custom-fit stitching, often ready in 24 hours. Order on WhatsApp.",
-  path: "/shop",
-  image: DEFAULT_OG_IMAGE,
-  imageAlt: "Shreya Creation designer boutique and custom stitching in Patna",
-});
+const SHOP_DEFAULTS = PAGE_DEFAULTS.shop;
+
+const SHOP_META_FALLBACK = {
+  title: SHOP_DEFAULTS.meta_title,
+  description: SHOP_DEFAULTS.meta_description,
+};
+
+export async function generateMetadata() {
+  const site = await getSiteSettings();
+  const shop = site.pages?.shop || {};
+  const title = shop.metaTitle || shop.meta_title || SHOP_META_FALLBACK.title;
+  const description =
+    shop.metaDescription || shop.meta_description || SHOP_META_FALLBACK.description;
+
+  return buildMetadata({
+    title,
+    description,
+    path: "/shop",
+    image: DEFAULT_OG_IMAGE,
+    imageAlt: "Best designer boutique in Patna — Shreya Creation",
+  });
+}
 
 export default async function ShopPage() {
   const locale = await getRequestLocale();

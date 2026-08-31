@@ -21393,6 +21393,27 @@ html.dark .sf-bottom {
   color: var(--orange-text);
 }
 
+/* ——— Boutique & Institute ——— */
+.about-v2-boutique__inner {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .about-v2-boutique__inner {
+    margin-inline: 0;
+    max-width: 48rem;
+  }
+}
+
+.about-v2-boutique__body {
+  margin-top: 0.85rem;
+  font-size: clamp(0.95rem, 0.4vw + 0.85rem, 1.05rem);
+  line-height: 1.72;
+  color: var(--ink);
+  opacity: 0.88;
+}
+
 /* ——— Service tiles ——— */
 .about-v2-services {
   display: grid;
@@ -22813,3 +22834,156 @@ summary:focus-visible {
   background: linear-gradient(135deg, #25d366, #128c7e);
   color: #fff;
 }
+
+/* ——— Institute / courses SEO sections ——— */
+.institute-seo__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.institute-seo-intro {
+  text-align: center;
+  padding-bottom: 1.5rem;
+}
+
+.institute-seo-intro__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.institute-seo__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 0.5rem;
+}
+
+.institute-seo-block {
+  padding: 1.5rem 1.25rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(163, 61, 4, 0.12);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 248, 240, 0.55));
+  box-shadow: 0 8px 32px rgba(163, 61, 4, 0.06);
+}
+
+.institute-seo-block--alt {
+  background: linear-gradient(145deg, rgba(255, 248, 240, 0.65), rgba(255, 255, 255, 0.72));
+}
+
+.institute-seo-block--closing {
+  border-color: rgba(163, 61, 4, 0.2);
+  background: linear-gradient(145deg, rgba(255, 237, 213, 0.45), rgba(255, 255, 255, 0.8));
+}
+
+.institute-seo-block__title {
+  font-size: clamp(1.15rem, 2.8vw, 1.45rem);
+  margin-bottom: 0.85rem;
+  text-align: center;
+}
+
+.institute-seo-block__body {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-top: 0.65rem;
+  text-align: center;
+}
+
+.institute-seo-block__body:first-of-type {
+  margin-top: 0;
+}
+
+.institute-seo-block__tagline,
+.institute-seo-block__steps {
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  color: var(--color-orange, #a33d04);
+}
+
+.institute-seo-block__steps {
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.institute-seo-block__cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.1rem;
+}
+
+.institute-seo-block__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid rgba(163, 61, 4, 0.35);
+  background: linear-gradient(135deg, rgba(163, 61, 4, 0.08), rgba(255, 255, 255, 0.9));
+  color: #8a3203;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.institute-seo-block__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(163, 61, 4, 0.15);
+  background: linear-gradient(135deg, rgba(163, 61, 4, 0.14), rgba(255, 255, 255, 0.95));
+}
+
+.institute-seo-block__cta--primary {
+  background: linear-gradient(135deg, #a33d04, #c24a06);
+  color: #fff;
+  border-color: transparent;
+}
+
+.institute-seo-block__cta--primary:hover {
+  background: linear-gradient(135deg, #8a3203, #a33d04);
+  color: #fff;
+}
+
+.institute-seo-block__cta--secondary {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.institute-seo__eyebrow {
+  opacity: 0.85;
+}
+
+html.dark .institute-seo-block {
+  background: linear-gradient(145deg, rgba(30, 24, 20, 0.85), rgba(40, 32, 28, 0.75));
+  border-color: rgba(255, 200, 140, 0.12);
+}
+
+html.dark .institute-seo-block--closing {
+  background: linear-gradient(145deg, rgba(50, 36, 24, 0.7), rgba(30, 24, 20, 0.85));
+}
+
+html.dark .institute-seo-block__cta {
+  color: #ffc88c;
+  border-color: rgba(255, 200, 140, 0.25);
+}
+
+html.dark .institute-seo-block__cta--primary {
+  color: #fff;
+}
+
+@media (min-width: 640px) {
+  .institute-seo-block {
+    padding: 1.75rem 1.75rem;
+  }
+
+  .institute-seo__sections {
+    gap: 2.25rem;
+  }
+}
+

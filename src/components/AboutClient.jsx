@@ -22,7 +22,6 @@ import CardImage from "@/components/CardImage";
 import AmbientGlows from "@/components/AmbientGlows";
 import FounderMessageSection from "@/components/FounderMessageSection";
 import { useLanguage } from "@/components/LanguageProvider";
-import { pickLocalized } from "@/lib/i18n";
 import { resolveMediaSrc, MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
 import { SITE_STATS } from "@/lib/seed";
@@ -239,41 +238,53 @@ export default function AboutClient({ site, aboutPage }) {
   const students = site.studentsTaught || DEFAULT_STUDENTS_TAUGHT;
   const outfits = site.outfitsDelivered || DEFAULT_OUTFITS_DELIVERED;
   const hours = site.expressDeliveryHours || 24;
-  const motto =
-    pickLocalized(site, lang, "boutique", "boutiqueHi") ||
-    (hi ? "कौशल से कारोबार तक" : "From Skill to Business");
 
   const storyEyebrow =
     pickPage(about, lang, "headerEyebrow", "headerEyebrowHi") || (hi ? "हमारी कहानी" : "Our Story");
   const pageTitle =
     pickPage(about, lang, "headerTitle", "headerTitleHi") ||
+    (hi ? "श्रेया क्रिएशन के बारे में" : "About Shreya Creation");
+  const tagline =
+    pickPage(about, lang, "headerTagline", "headerTaglineHi") ||
     (hi
-      ? "श्रेया क्रिएशन बुटीक एंड इंस्टिट्यूट के बारे में"
-      : "About Shreya Creation Boutique & Institute");
-  const tagline = hi
-    ? "डिज़ाइनर फैशन तैयार करना। महिलाओं को सशक्त बनाना। सफल व्यवसाय बनाना।"
-    : "Crafting Designer Fashion. Empowering Women. Building Successful Businesses.";
+      ? "जहाँ फैशन कौशल बनता है, कौशल आत्मविश्वास बनता है और आत्मविश्वास कारोबार बनता है।"
+      : "Where Fashion Becomes Skill, Skill Becomes Confidence & Confidence Becomes Business.");
 
   const storyBlocks = [
     {
       icon: "people",
-      text: hi
-        ? `श्रेया क्रिएशन की स्थापना ${founded} में संजय कुमार मिश्रा और श्रेया ने महिलाओं को सशक्त बनाने के विज़न के साथ की। हमारा मंत्र — “${motto}”.`
-        : `Founded in ${founded} by Sanjay Kumar Mishra and Shreya, with a vision of empowering women through fashion and skill. Our motto — “${motto}”.`,
+      text:
+        pickPage(about, lang, "storyBlock1", "storyBlock1Hi") ||
+        (hi
+          ? `2012 में संजय कुमार मिश्रा और श्रेया द्वारा स्थापित, श्रेया क्रिएशन — आज पटना में बेस्ट फैशन डिज़ाइनिंग के लिए प्रमुख — महिलाओं को फैशन, व्यावहारिक कौशल और उद्यमिता के माध्यम से सशक्त बनाने के शक्तिशाली विज़न के साथ शुरू हुआ।`
+          : `Founded in ${founded} by Sanjay Kumar Mishra and Shreya, Shreya Creation, today prominent for the best fashion designing in Patna, began with a powerful vision – to empower women through fashion, practical skills, and entrepreneurship.`),
     },
     {
       icon: "dress",
-      text: hi
-        ? "बोरिंग रोड, पटना का भरोसेमंद बुटीक — डिज़ाइनर ब्लाउज़, ब्राइडल वियर, हाथ का काम (आरी/ज़री) और साड़ी रीडिज़ाइनिंग में विशेषज्ञ।"
-        : "A trusted boutique on Boring Road, Patna — specializing in designer blouses, bridal wear, handwork (Aari/Zari), and saree redesigning.",
+      text:
+        pickPage(about, lang, "storyBlock2", "storyBlock2Hi") ||
+        (hi
+          ? "बोरिंग रोड, पटना पर स्थित, श्रेया क्रिएशन डिज़ाइनर ब्लाउज़, ब्राइडल कलेक्शन, सुंदर आरी और ज़री कढ़ाई और नवीन साड़ी रीडिज़ाइन का भरोसेमंद स्रोत है — हर ड्रेस आपके व्यक्तित्व और अवसर के अनुसार बनाई जाती है।"
+          : "Situated on Boring Road, Patna, Shreya Creation is a reliable source of designer blouses, bridal collections, elegant Aari & Zari embroidery, and innovative saree re-designs, where every dress is made according to your personality and occasion."),
     },
     {
       icon: "cap",
-      text: hi
-        ? "फैशन डिज़ाइनिंग कोर्स, बुटीक मास्टर कोर्स और 100% प्रैक्टिकल लर्निंग के साथ तेज़ डिलीवरी — कौशल से व्यवसाय तक।"
-        : "Fashion designing courses, boutique master course, and a commitment to practical learning with fast delivery — from skill to business.",
+      text:
+        pickPage(about, lang, "storyBlock3", "storyBlock3Hi") ||
+        (hi
+          ? "हमारा फैशन डिज़ाइन इंस्टिट्यूट और पटना का बेस्ट लेडीज़ टेलर फैशन डिज़ाइन तकनीकों और बुटीक प्रबंधन में गहन प्रशिक्षण के माध्यम से आपकी रचनात्मकता को पेशे में बदलने में मदद करता है।"
+          : "Our fashion design institute and best ladies tailor in Patna help you convert your creativity into a profession through intensive training in fashion design techniques and boutique management practices."),
     },
   ];
+
+  const boutiqueEyebrow =
+    pickPage(about, lang, "boutiqueEyebrow", "boutiqueEyebrowHi") ||
+    (hi ? "बुटीक और इंस्टिट्यूट" : "Boutique & Institute");
+  const boutiqueBody =
+    pickPage(about, lang, "boutiqueBody", "boutiqueBodyHi") ||
+    (hi
+      ? "श्रेया क्रिएशन — पटना में बेस्ट फैशन डिज़ाइनिंग क्लासेज, बेस्पोक सिलाई, ब्राइडल काउचर और 50+ जॉब-ओरिएंटेड फैशन डिज़ाइनिंग कोर्स। यहाँ आपको सिर्फ 24 घंटे में सिला हुआ आउटफ़िट मिलता है।"
+      : "Shreya Creation – The best fashion designing classes in Patna, offering bespoke stitching, bridal couture, and 50+ job-oriented fashion designing courses in Patna. Here, you get a stitched outfit in just 24 hours.");
 
   const stats = [
     {
@@ -505,6 +516,30 @@ export default function AboutClient({ site, aboutPage }) {
 
       {/* ——— Founder message ——— */}
       <FounderMessageSection home={home} lang={lang} className="max-w-6xl !py-8 sm:!py-10 lg:!py-12" />
+
+      {/* ——— Boutique & Institute ——— */}
+      <section
+        className={cn(
+          PAGE_CONTAINER,
+          "about-v2-boutique",
+          "max-w-6xl",
+          "py-8",
+          "sm:py-10",
+          "relative",
+          "z-20",
+          "min-w-0"
+        )}
+      >
+        <motion.div className="about-v2-boutique__inner text-center lg:text-left" {...rise(0.05)}>
+          <span className={cn(SECTION_EYEBROW, "about-v2-eyebrow")}>
+            <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
+              ✦
+            </span>
+            {boutiqueEyebrow}
+          </span>
+          <p className="about-v2-boutique__body">{boutiqueBody}</p>
+        </motion.div>
+      </section>
 
       {/* ——— Services ——— */}
       <section

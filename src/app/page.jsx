@@ -14,14 +14,28 @@ import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const revalidate = 3600;
 
-export const metadata = buildMetadata({
-  title: "Best Designer Boutique & Fashion Designing Institute in Boring Road, Patna | Shreya Creation",
+const HOME_META_FALLBACK = {
+  title:
+    "Best Designer Boutique & Fashion Designing Institute in Boring Road, Patna | Shreya Creation",
   description:
     "Best boutique, ladies tailors & fashion designing institute on Boring Road, Patna, Bihar — bridal blouse, lehenga stitching, boutique master & silai courses. Call/WhatsApp today.",
-  path: "/",
-  image: DEFAULT_OG_IMAGE,
-  imageAlt: "Best designer boutique and fashion designing institute in Boring Road, Patna, Bihar",
-});
+};
+
+export async function generateMetadata() {
+  const site = await getSiteSettings();
+  const home = site.pages?.home || {};
+  const title = home.metaTitle || home.meta_title || HOME_META_FALLBACK.title;
+  const description =
+    home.metaDescription || home.meta_description || HOME_META_FALLBACK.description;
+
+  return buildMetadata({
+    title,
+    description,
+    path: "/",
+    image: DEFAULT_OG_IMAGE,
+    imageAlt: "Best designer boutique and fashion designing institute in Boring Road, Patna, Bihar",
+  });
+}
 
 export default async function HomePage() {
   const [site, products, courses, portfolio, testimonials, trust] = await Promise.all([

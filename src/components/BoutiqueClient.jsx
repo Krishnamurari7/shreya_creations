@@ -29,6 +29,7 @@ import { Testimonials } from "@/components/Sections";
 import { useLanguage } from "@/components/LanguageProvider";
 import { resolveMediaSrc, MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
+import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { waLink, stitchOrderMessage } from "@/lib/whatsapp";
 import {
   DEFAULT_OUTFITS_DELIVERED,
@@ -38,6 +39,25 @@ import {
 } from "@/lib/site-config";
 
 const EASE = [0.16, 1, 0.3, 1];
+const SHOP_DEFAULTS = PAGE_DEFAULTS.shop;
+
+function normalizeProcessFeatures(raw, hi) {
+  const fallback = SHOP_DEFAULTS.process_features || [];
+  if (!Array.isArray(raw) || !raw.length) {
+    return fallback.map((item) => ({
+      icon: item.icon,
+      title: hi ? item.title_hi || item.title : item.title,
+    }));
+  }
+  return raw.map((item, index) => {
+    const def = fallback[index] || {};
+    const icon = item.icon || def.icon || "star";
+    const title = hi
+      ? item.title_hi || item.titleHi || def.title_hi || def.title
+      : item.title || def.title;
+    return { icon, title };
+  });
+}
 
 const ICONS = {
   measure: (
@@ -264,13 +284,38 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
   const outfits = site.outfitsDelivered || DEFAULT_OUTFITS_DELIVERED;
   const hours = site.expressDeliveryHours || 24;
 
-  const title = hi ? "बुटीक" : "BOUTIQUE";
-  const tagline = hi ? "जहाँ परंपरा मिलती है सिलाई की बारीकी से" : "Where Tradition Meets Perfection";
+  const title =
+    pickPage(shop, lang, "headerTitle", "headerTitleHi") ||
+    (hi ? SHOP_DEFAULTS.header_title_hi : SHOP_DEFAULTS.header_title);
+  const tagline =
+    pickPage(shop, lang, "headerTagline", "headerTaglineHi") ||
+    (hi ? SHOP_DEFAULTS.header_tagline_hi : SHOP_DEFAULTS.header_tagline);
   const heroLead =
     pickPage(shop, lang, "headerSubtitle", "headerSubtitleHi") ||
-    (hi
-      ? "पटना में डिज़ाइनर ब्लाउज़, ब्राइडल लहंगा और कस्टम सिलाई — अक्सर 24 घंटे में तैयार*।"
-      : "Designer blouses, bridal lehengas & custom stitching in Patna — often ready in 24 hours*.");
+    (hi ? SHOP_DEFAULTS.header_subtitle_hi : SHOP_DEFAULTS.header_subtitle);
+  const heroIntro =
+    pickPage(shop, lang, "introBody", "introBodyHi") ||
+    (hi ? SHOP_DEFAULTS.intro_body_hi : SHOP_DEFAULTS.intro_body);
+  const heroCtaPrimary =
+    pickPage(shop, lang, "heroCtaPrimaryLabel", "heroCtaPrimaryLabelHi") ||
+    (hi ? SHOP_DEFAULTS.hero_cta_primary_label_hi : SHOP_DEFAULTS.hero_cta_primary_label);
+  const heroCtaPrimaryHref = shop.heroCtaPrimaryHref || SHOP_DEFAULTS.hero_cta_primary_href || "/portfolio";
+  const heroCtaSecondary =
+    pickPage(shop, lang, "heroCtaSecondaryLabel", "heroCtaSecondaryLabelHi") ||
+    (hi ? SHOP_DEFAULTS.hero_cta_secondary_label_hi : SHOP_DEFAULTS.hero_cta_secondary_label);
+  const aboutTitle =
+    pickPage(shop, lang, "aboutTitle", "aboutTitleHi") ||
+    (hi ? SHOP_DEFAULTS.about_title_hi : SHOP_DEFAULTS.about_title);
+  const aboutText =
+    pickPage(shop, lang, "aboutBody", "aboutBodyHi") ||
+    (hi ? SHOP_DEFAULTS.about_body_hi : SHOP_DEFAULTS.about_body);
+  const processTitle =
+    pickPage(shop, lang, "processTitle", "processTitleHi") ||
+    (hi ? SHOP_DEFAULTS.process_title_hi : SHOP_DEFAULTS.process_title);
+  const processFeatures = normalizeProcessFeatures(shop.processFeatures, hi);
+  const closingTagline =
+    pickPage(shop, lang, "closingTagline", "closingTaglineHi") ||
+    (hi ? SHOP_DEFAULTS.closing_tagline_hi : SHOP_DEFAULTS.closing_tagline);
 
   const heroImage = resolveMediaSrc(shop.heroImage || home.heroImage || MEDIA.boutique);
   const waHref = waLink(site.whatsapp, stitchOrderMessage(lang));
@@ -319,10 +364,6 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
         { icon: "hand", label: "Handwork Experts" },
         { icon: "star", label: "100% Satisfaction" },
       ];
-
-  const aboutText = hi
-    ? "श्रेया क्रिएशन बुटीक — बोरिंग रोड, पटना का भरोसेमंद डिज़ाइनर स्टूडियो। हम ब्लाउज़, लहंगा, साड़ी कस्टमाइज़ेशन, ब्राइडल वियर और हाथ की कढ़ाई में विशेषज्ञ हैं। हर आउटफ़िट आपके माप और पसंद पर सिला जाता है।"
-    : "Shreya Creation Boutique is Patna’s trusted designer studio on Boring Road — specialising in blouses, lehengas, saree customisation, bridal wear and hand embroidery. Every outfit is cut and finished to your measurements and taste.";
 
   const gallery = [
     { src: MEDIA.atelierDetails, alt: hi ? "कढ़ाई डिटेल" : "Embroidery detail on bridal lehenga at Shreya Creation, Patna" },
@@ -384,6 +425,8 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
         { icon: "pack", title: "Quality Check", desc: "Finish inspection and secure packing." },
         { icon: "truck", title: "Express Delivery", desc: "Pickup or delivery — many styles in 24 hours." },
       ];
+
+  const useSeoProcess = processFeatures.length > 0;
 
   const rise = (delay = 0) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(6px)" },
@@ -450,6 +493,17 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
               {heroLead}
             </motion.p>
 
+            {heroIntro && (
+              <motion.p
+                className="boutique-v2-lead mt-3"
+                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.32, ease: EASE }}
+              >
+                {heroIntro}
+              </motion.p>
+            )}
+
             <motion.ul
               className="boutique-v2-perks"
               initial={reduceMotion ? false : { opacity: 0, y: 14 }}
@@ -474,18 +528,18 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.44, ease: EASE }}
             >
+              <Link href={heroCtaPrimaryHref} className={cn(BTN_PRIMARY)}>
+                {heroCtaPrimary}
+              </Link>
               <a
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(BTN_PRIMARY, "boutique-v2-wa")}
+                className={cn(BTN_SECONDARY, "boutique-v2-wa")}
               >
                 <WhatsAppGlyph />
-                {hi ? "WhatsApp पर चैट करें" : "Chat on WhatsApp"}
+                {heroCtaSecondary}
               </a>
-              <Link href="/portfolio" className={cn(BTN_SECONDARY)}>
-                {hi ? "हमारा काम देखें" : "Our Work Speaks"}
-              </Link>
             </motion.div>
           </div>
 
@@ -555,7 +609,7 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
           <motion.div className="lg:col-span-5 min-w-0" {...rise(0.05)}>
             <SectionHead
               eyebrow={hi ? "हमारी कहानी" : "About"}
-              title={hi ? "हमारे बुटीक के बारे में" : "About Our Boutique"}
+              title={aboutTitle}
               center={false}
             />
             <p className="boutique-v2-about__text mt-4">{aboutText}</p>
@@ -643,28 +697,30 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
         </motion.div>
       </section>
 
-      {/* ——— Process ——— */}
+      {/* ——— Process / expertise ——— */}
       <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
         <SectionHead
-          eyebrow={hi ? "प्रक्रिया" : "Process"}
-          title={hi ? "हमारी कस्टमाइज़ेशन प्रक्रिया" : "Our Customisation Process"}
+          eyebrow={hi ? "विशेषज्ञता" : "Expertise"}
+          title={processTitle}
           subtitle={
-            hi
-              ? "WhatsApp से डिलीवरी तक — साफ़ और आसान कदम।"
-              : "From WhatsApp to delivery — a clear, simple path."
+            useSeoProcess
+              ? undefined
+              : hi
+                ? "WhatsApp से डिलीवरी तक — साफ़ और आसान कदम।"
+                : "From WhatsApp to delivery — a clear, simple path."
           }
         />
 
-        <div className="boutique-v2-process">
-          {processSteps.map((step, i) => (
+        <div className={cn("boutique-v2-process", useSeoProcess && "boutique-v2-process--pillars")}>
+          {(useSeoProcess ? processFeatures : processSteps).map((step, i) => (
             <motion.div key={step.title} className="boutique-v2-process__step" {...rise(0.06 + i * 0.05)}>
               <div className="boutique-v2-process__num">
                 <span>{String(i + 1).padStart(2, "0")}</span>
                 <GoldIcon name={step.icon} />
               </div>
               <h3 className="boutique-v2-process__title">{step.title}</h3>
-              <p className="boutique-v2-process__desc">{step.desc}</p>
-              {i < processSteps.length - 1 && (
+              {step.desc && <p className="boutique-v2-process__desc">{step.desc}</p>}
+              {!useSeoProcess && i < processSteps.length - 1 && (
                 <span className="boutique-v2-process__arrow" aria-hidden>
                   →
                 </span>
@@ -672,6 +728,15 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
             </motion.div>
           ))}
         </div>
+
+        {closingTagline && (
+          <motion.p
+            className="boutique-v2-script text-center mt-8 sm:mt-10 max-w-3xl mx-auto"
+            {...rise(0.1)}
+          >
+            {closingTagline}
+          </motion.p>
+        )}
       </section>
 
       {/* ——— Shop catalogue ——— */}

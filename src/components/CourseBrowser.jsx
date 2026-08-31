@@ -8,7 +8,7 @@ import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
 
-export default function CourseBrowser({ courses = [] }) {
+export default function CourseBrowser({ courses = [], id }) {
   const { lang } = useLanguage();
 
   const listedCourses = useMemo(
@@ -50,6 +50,7 @@ export default function CourseBrowser({ courses = [] }) {
 
   return (
     <section
+      id={id}
       className={cn(
         PAGE_SECTION,
         "courses-browser",
