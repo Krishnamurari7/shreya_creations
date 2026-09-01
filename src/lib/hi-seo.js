@@ -40,6 +40,13 @@ const HI_PAGES = {
     path: "/contact",
     imageAlt: "पटना में Shreya Creation बुटीक — संपर्क और पता",
   },
+  register: {
+    title: "छात्र एडमिशन फॉर्म | Shreya Creation पटना",
+    description:
+      "Shreya Creation में ऑनलाइन एडमिशन फॉर्म भरें — फैशन डिज़ाइनिंग, बुटीक, ब्लाउज मेकिंग कोर्स। जानकारी सुरक्षित सेव, WhatsApp पर कन्फर्म।",
+    path: "/register",
+    imageAlt: "Shreya Creation पटना — छात्र एडमिशन फॉर्म",
+  },
   blog: {
     title: "बुटीक और फैशन डिजाइनिंग ब्लॉग पटना | Shreya Creation",
     description:

@@ -18,12 +18,14 @@ export default async function Dashboard() {
     { label: "FAQs", value: counts.faqs, href: "/admin/faqs" },
     { label: "Blog", value: counts.lookbook, href: "/admin/lookbook" },
     { label: "Enquiries", value: counts.inquiries, href: "/admin/enquiries", badge: counts.unreadEnquiries },
+    { label: "Registrations", value: counts.registrations, href: "/admin/registrations", badge: counts.unreadRegistrations },
   ];
 
   const sitePages = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/courses", label: "Courses" },
+    { href: "/register", label: "Admission Form" },
     { href: "/shop", label: "Shop" },
     { href: "/portfolio", label: "Portfolio" },
     { href: "/blog", label: "Blog" },

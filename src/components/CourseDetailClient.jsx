@@ -6,6 +6,7 @@ import Link from "next/link";
 import { waLink, courseMessage } from "@/lib/whatsapp";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickFaq } from "@/lib/i18n";
+import { localizedPath } from "@/lib/locale";
 import { SITE_STATS } from "@/lib/seed";
 import { DEFAULT_STUDENTS_TAUGHT } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -133,6 +134,18 @@ function EnrollButton({ href, label, className, itemName }) {
   );
 }
 
+function RegisterFormLink({ slug, label, className, lang }) {
+  return (
+    <Link
+      href={localizedPath(`/register?course=${encodeURIComponent(slug)}`, lang)}
+      className={cn("course-detail__register-link", className)}
+      data-track-cta="course_register_form"
+    >
+      {label}
+    </Link>
+  );
+}
+
 function CourseFaq({ faqs, lang }) {
   const [open, setOpen] = useState(0);
   const items = faqs.slice(0, 6);
@@ -216,6 +229,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
     languages: lang === "hi" ? "उपलब्ध भाषा" : "Available in",
     getCourse: lang === "hi" ? "यह कोर्स लें" : "Get This Course",
     enroll: lang === "hi" ? "अभी एनरोल करें" : "Enroll Now",
+    fillForm: lang === "hi" ? "ऑनलाइन एडमिशन फॉर्म भरें" : "Fill online admission form",
     secure: lang === "hi" ? "सुरक्षित एनरोलमेंट · सर्टिफिकेट शामिल" : "Secure enrollment · Certificate included",
     included: lang === "hi" ? "क्या शामिल है" : "What's Included",
     about: lang === "hi" ? "इस कोर्स के बारे में" : "About This Course",
@@ -303,7 +317,10 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
                   {comingSoonLabel(lang)}
                 </span>
               ) : (
-                <EnrollButton href={enrollUrl} label={t.getCourse} itemName={title} />
+                <div className="course-detail__enroll-actions">
+                  <EnrollButton href={enrollUrl} label={t.getCourse} itemName={title} />
+                  <RegisterFormLink slug={course.slug} label={t.fillForm} lang={lang} />
+                </div>
               )}
 
               <p className="course-detail__secure">🔒 {t.secure}</p>
@@ -414,7 +431,10 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
               {comingSoonLabel(lang)}
             </span>
           ) : (
-            <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--wide" itemName={title} />
+            <div className="course-detail__enroll-actions course-detail__enroll-actions--wide">
+              <EnrollButton href={enrollUrl} label={t.enroll} className="course-detail__enroll-btn--wide" itemName={title} />
+              <RegisterFormLink slug={course.slug} label={t.fillForm} lang={lang} className="course-detail__register-link--wide" />
+            </div>
           )}
           <p className="course-detail__secure">🔒 {t.securePay}</p>
         </section>

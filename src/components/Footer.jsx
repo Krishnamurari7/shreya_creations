@@ -17,6 +17,7 @@ const NAV_ROUTES = [
   { href: "/about", key: "about" },
   { href: "/shop", key: "boutique" },
   { href: "/courses", key: "institute" },
+  { href: "/register", key: "register" },
   { href: "/portfolio", key: "gallery" },
   { href: "/blog", key: "blog" },
   { href: "/faq", key: "faq" },

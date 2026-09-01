@@ -454,11 +454,13 @@ export async function getAdminCounts() {
       lookbook: seed.LOOKBOOK.length,
       inquiries: 0,
       unreadEnquiries: 0,
+      registrations: 0,
+      unreadRegistrations: 0,
     };
   }
   try {
     const supabase = await createClient();
-    const [products, courses, portfolio, testimonials, trust, faqs, lookbook, inquiries, unread] =
+    const [products, courses, portfolio, testimonials, trust, faqs, lookbook, inquiries, unread, registrations, unreadRegs] =
       await Promise.all([
       supabase.from("products").select("id", { count: "exact", head: true }),
       supabase.from("courses").select("id", { count: "exact", head: true }),
@@ -469,6 +471,8 @@ export async function getAdminCounts() {
       supabase.from("lookbook_posts").select("id", { count: "exact", head: true }),
       supabase.from("contact_inquiries").select("id", { count: "exact", head: true }),
       supabase.from("contact_inquiries").select("id", { count: "exact", head: true }).eq("is_read", false),
+      supabase.from("student_registrations").select("id", { count: "exact", head: true }),
+      supabase.from("student_registrations").select("id", { count: "exact", head: true }).eq("is_read", false),
     ]);
     return {
       products: products.count ?? 0,
@@ -480,6 +484,8 @@ export async function getAdminCounts() {
       lookbook: lookbook.count ?? 0,
       inquiries: inquiries.count ?? 0,
       unreadEnquiries: unread.count ?? 0,
+      registrations: registrations.count ?? 0,
+      unreadRegistrations: unreadRegs.count ?? 0,
     };
   } catch {
     return {
@@ -492,6 +498,8 @@ export async function getAdminCounts() {
       lookbook: 0,
       inquiries: 0,
       unreadEnquiries: 0,
+      registrations: 0,
+      unreadRegistrations: 0,
     };
   }
 }

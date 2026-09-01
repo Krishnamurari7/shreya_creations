@@ -69,6 +69,15 @@ export function admissionMessage(lang = "en") {
   return "Hi Shreya Creation! 👋 I would like to apply for admission. Please share details about the demo class and courses.";
 }
 
+/** After online admission form submission — prefilled WhatsApp follow-up. */
+export function studentRegistrationMessage({ name, courseName, phone, lang = "en" }) {
+  const course = courseName ? ` *${courseName}*` : "";
+  if (lang === "hi") {
+    return `नमस्ते श्रेया क्रिएशन! 👋 मैं *${name}* हूँ। मैंने वेबसाइट पर${course} के लिए एडमिशन फॉर्म भरा है।\nफ़ोन: ${phone}\nकृपया अगले कदम (काउंसलिंग, फीस, डॉक्यूमेंट) बताएँ।`;
+  }
+  return `Hi Shreya Creation! 👋 I'm *${name}*. I just submitted the online admission form${course ? ` for${course}` : ""}.\nPhone: ${phone}\nPlease share next steps (counselling, fees, documents).`;
+}
+
 export function demoClassMessage(lang = "en") {
   if (lang === "hi") {
     return "नमस्ते श्रेया क्रिएशन! 👋 मुझे फ्री ऑफलाइन डेमो क्लास में दिलचस्पी है। कृपया सीट उपलब्धता बताएँ।";
