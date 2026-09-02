@@ -32,7 +32,7 @@ export default function LocalizedPageHeader({
       className={cn(
         "relative text-center mx-auto max-w-4xl px-4 sm:px-5 overflow-hidden",
         compact
-          ? "pt-[calc(var(--header-offset)+0.5rem)] sm:pt-[calc(var(--header-offset)+0.75rem)] pb-1 sm:pb-2"
+          ? "pt-[calc(var(--header-offset)+0.5rem)] sm:pt-[calc(var(--header-offset)+0.75rem)] pb-0"
           : "pt-[calc(var(--header-offset)+1.25rem)] sm:pt-[calc(var(--header-offset)+2rem)] md:pt-[calc(var(--header-offset)+2.5rem)] pb-4 sm:pb-6 md:pb-8"
       )}
     >

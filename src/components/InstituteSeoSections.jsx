@@ -2,12 +2,9 @@
 
 import {
   PAGE_CONTAINER,
-  PAGE_SECTION,
+  PAGE_SECTION_BORDERED,
   REVEAL,
-  SECTION_EYEBROW,
   SECTION_LEAD,
-  SECTION_TITLE,
-  SPARKLE_PULSE,
 } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -32,10 +29,13 @@ function openDemo(message) {
   openInquiryPopup({ source: "courses_demo", message });
 }
 
+const SEO_BLOCK_TITLE =
+  "institute-seo-block__title font-sans text-balance font-bold leading-snug tracking-tight text-ink";
+
 function SeoBlock({ title, paragraphs, tagline, steps, cta, ctaAction, className }) {
   return (
     <article className={cn("institute-seo-block", REVEAL, className)}>
-      <h2 className={cn(SECTION_TITLE, "institute-seo-block__title text-balance")}>{title}</h2>
+      <h2 className={SEO_BLOCK_TITLE}>{title}</h2>
       {paragraphs.map((paragraph) => (
         <p key={paragraph.slice(0, 48)} className={cn(SECTION_LEAD, "institute-seo-block__body text-pretty")}>
           {paragraph}
@@ -62,7 +62,7 @@ function SeoBlock({ title, paragraphs, tagline, steps, cta, ctaAction, className
   );
 }
 
-export default function InstituteSeoSections({ coursesPage = {} }) {
+function useCoursesSeoContent(coursesPage = {}) {
   const { lang } = useLanguage();
   const hi = lang === "hi";
 
@@ -129,33 +129,58 @@ export default function InstituteSeoSections({ coursesPage = {} }) {
     },
   ];
 
-  return (
-    <section className={cn(PAGE_SECTION, "institute-seo", "relative", "z-20", "min-w-0")}>
-      <div className={cn(PAGE_CONTAINER, "institute-seo__inner", "max-w-3xl")}>
-        {introBody && (
-          <div className={cn("institute-seo-intro", REVEAL)}>
-            <p className={cn(SECTION_LEAD, "text-center text-pretty mx-auto")}>{introBody}</p>
-            <div className="institute-seo-intro__ctas">
-              <button type="button" className="institute-seo-block__cta institute-seo-block__cta--primary" onClick={scrollToCourses}>
-                {introCtaPrimary}
-              </button>
-              <button
-                type="button"
-                className="institute-seo-block__cta institute-seo-block__cta--secondary"
-                onClick={() =>
-                  openDemo(
-                    hi
-                      ? "नमस्ते! मैं Shreya Creation में मुफ़्त डेमो क्लास बुक करना चाहती/चाहता हूँ।"
-                      : "Hi! I'd like to schedule a free demo class at Shreya Creation."
-                  )
-                }
-              >
-                {introCtaSecondary}
-              </button>
-            </div>
-          </div>
-        )}
+  return { hi, introBody, introCtaPrimary, introCtaSecondary, sections };
+}
 
+export function CoursesIntroStrip({ coursesPage = {} }) {
+  const { hi, introBody, introCtaPrimary, introCtaSecondary } = useCoursesSeoContent(coursesPage);
+
+  if (!introBody) return null;
+
+  return (
+    <div className={cn(PAGE_CONTAINER, "institute-seo-intro", "relative", "z-20", "max-w-3xl", REVEAL)}>
+      <p className={cn(SECTION_LEAD, "text-center text-pretty mx-auto max-w-2xl")}>{introBody}</p>
+      <div className="institute-seo-intro__ctas">
+        <button
+          type="button"
+          className="institute-seo-block__cta institute-seo-block__cta--primary"
+          onClick={scrollToCourses}
+        >
+          {introCtaPrimary}
+        </button>
+        <button
+          type="button"
+          className="institute-seo-block__cta institute-seo-block__cta--secondary"
+          onClick={() =>
+            openDemo(
+              hi
+                ? "नमस्ते! मैं Shreya Creation में मुफ़्त डेमो क्लास बुक करना चाहती/चाहता हूँ।"
+                : "Hi! I'd like to schedule a free demo class at Shreya Creation."
+            )
+          }
+        >
+          {introCtaSecondary}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function InstituteSeoBlocks({ coursesPage = {} }) {
+  const { sections } = useCoursesSeoContent(coursesPage);
+
+  return (
+    <section
+      className={cn(
+        PAGE_SECTION_BORDERED,
+        "institute-seo",
+        "institute-seo--content",
+        "relative",
+        "z-20",
+        "min-w-0"
+      )}
+    >
+      <div className={cn(PAGE_CONTAINER, "institute-seo__inner", "max-w-3xl")}>
         <div className="institute-seo__sections">
           {sections.map((section, index) => (
             <SeoBlock
@@ -170,14 +195,16 @@ export default function InstituteSeoSections({ coursesPage = {} }) {
             />
           ))}
         </div>
-
-        <p className={cn(SECTION_EYEBROW, "institute-seo__eyebrow justify-center mt-8 sm:mt-10")}>
-          <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
-            ✦
-          </span>
-          {hi ? "हमारे कोर्स" : "Our Programs"}
-        </p>
       </div>
     </section>
+  );
+}
+
+export default function InstituteSeoSections({ coursesPage = {} }) {
+  return (
+    <>
+      <CoursesIntroStrip coursesPage={coursesPage} />
+      <InstituteSeoBlocks coursesPage={coursesPage} />
+    </>
   );
 }

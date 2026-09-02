@@ -22880,15 +22880,40 @@ summary:focus-visible {
 }
 
 /* ——— Institute / courses SEO sections ——— */
+.institute-seo-intro {
+  text-align: center;
+  padding-top: 0.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.courses-browser--compact-top {
+  padding-top: 1.25rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .courses-browser--compact-top {
+    padding-top: 1.75rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.institute-seo--content {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .institute-seo--content {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
 .institute-seo__inner {
   display: flex;
   flex-direction: column;
   gap: 0;
-}
-
-.institute-seo-intro {
-  text-align: center;
-  padding-bottom: 1.5rem;
 }
 
 .institute-seo-intro__ctas {
@@ -22902,8 +22927,8 @@ summary:focus-visible {
 .institute-seo__sections {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-top: 0.5rem;
+  gap: 1.5rem;
+  margin-top: 0;
 }
 
 .institute-seo-block {

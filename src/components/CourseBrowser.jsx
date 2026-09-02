@@ -1,6 +1,6 @@
 "use client";
 
-import { FIELD_SURFACE, PAGE_CONTAINER, PAGE_SECTION, REVEAL, REVEAL_ZOOM } from "@/lib/ui";
+import { FIELD_SURFACE, PAGE_CONTAINER, PAGE_SECTION, REVEAL, REVEAL_ZOOM, SECTION_EYEBROW, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import CourseCard from "@/components/CourseCard";
@@ -8,7 +8,7 @@ import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { staggerDelay } from "@/lib/motion";
 
-export default function CourseBrowser({ courses = [], id }) {
+export default function CourseBrowser({ courses = [], id, compactTop = false }) {
   const { lang } = useLanguage();
 
   const listedCourses = useMemo(
@@ -59,10 +59,20 @@ export default function CourseBrowser({ courses = [], id }) {
         "min-w-0",
         "w-full",
         "max-w-full",
-        "overflow-x-clip"
+        "overflow-x-clip",
+        compactTop && "courses-browser--compact-top"
       )}
     >
       <div className={cn(PAGE_CONTAINER, "max-w-7xl", "min-w-0", "w-full")}>
+        {compactTop && (
+          <p className={cn(SECTION_EYEBROW, REVEAL, "courses-browser__eyebrow", "justify-center", "mb-4", "sm:mb-5")}>
+            <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
+              ✦
+            </span>
+            {lang === "hi" ? "हमारे कोर्स" : "Our Programs"}
+          </p>
+        )}
+
         <Glass3DCard
           className={cn(
             REVEAL,

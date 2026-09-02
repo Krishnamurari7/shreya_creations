@@ -1,7 +1,7 @@
 import PageShell from "@/components/PageShell";
 import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import CoursesPageClient from "@/components/CoursesPageClient";
-import InstituteSeoSections from "@/components/InstituteSeoSections";
+import { CoursesIntroStrip, InstituteSeoBlocks } from "@/components/InstituteSeoSections";
 import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getCourses, getSiteSettings } from "@/lib/data";
@@ -60,8 +60,9 @@ export default async function CoursesPage() {
         subtitle={coursesPage.headerSubtitle || COURSES_DEFAULTS.header_subtitle}
         subtitleHi={coursesPage.headerSubtitleHi || COURSES_DEFAULTS.header_subtitle_hi}
       />
-      <InstituteSeoSections coursesPage={coursesPage} />
+      <CoursesIntroStrip coursesPage={coursesPage} />
       <CoursesPageClient courses={courses} whatsapp={site.whatsapp} />
+      <InstituteSeoBlocks coursesPage={coursesPage} />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(coursesPage)} />
     </PageShell>
   );
