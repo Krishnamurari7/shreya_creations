@@ -2,7 +2,7 @@ import { buildSitewideGraph } from "@/lib/json-ld";
 import { DEFAULT_LOCALE } from "@/lib/locale";
 
 /**
- * Sitewide ClothingStore + EducationalOrganization + WebSite JSON-LD.
+ * Sitewide LocalBusiness + Organization + EducationalOrganization + WebSite JSON-LD.
  * Values come from site settings / site-config.
  */
 export default async function JsonLd({ site }) {

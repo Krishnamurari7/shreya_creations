@@ -7,7 +7,7 @@ Run `supabase/migrations/content_fixes.sql` in the Supabase SQL Editor first (ex
 1. **Students taught** — code default is **2000**. Site previously also showed 1000+, 30K+/30,000+. Edit in Admin → Site Settings → `students_taught`.
 2. **Outfits delivered** — default **5000**. Confirm in Site Settings.
 3. **Founding year** — default **2012** (`yearsExperience` = current year − this). Confirm in Site Settings.
-4. **Studio hours** — default `Mon–Sat, 10 AM–8 PM`. Confirm (was also Mon–Sun 10–8 and 11 AM–8 Closed Tuesdays). Keep contact meta, JSON-LD, and Google Business / Justdial / Sulekha identical — directories still show 9 AM or Sunday open.
+4. **Studio hours** — default `Mon–Sat, 11 AM–8 PM`. Keep contact meta, JSON-LD, and Google Business / Justdial / Sulekha identical — directories still show 9 AM or Sunday open.
 5. **Closed days** — default `Sunday`. Confirm.
 6. **Email** — confirmed live: `hello@shreyacreation.com` (site host is `shreyacreation.com`).
 7. **Phones** — primary `+919031105666`, secondary `+917903155125` (also WhatsApp on primary). Footer/contact use separate `tel:` links.
@@ -18,7 +18,7 @@ Run `supabase/migrations/content_fixes.sql` in the Supabase SQL Editor first (ex
 11. **Google Business reviews URL** — set it in Admin → Content. The “Read all reviews on Google” button under the homepage testimonials stays hidden until it is filled in.
 12. **Policies** — review Privacy, Shipping, Returns, Terms, Course Cancellation before treating as legally binding (`// TODO(owner): legal review`).
 13. **About pillars** — if “Prayagraj” still appears after SQL, edit Admin → Content / Pages About pillars to say **Patna**.
-14. **JSON-LD geo** — copy exact lat/lng from Google Business Profile → place pin, then set `geo_lat` / `geo_lng` in Admin → Settings (or tell the agent). Do not invent coordinates.
+14. **JSON-LD geo** — default lat/lng set from GBP pin (`25.61052…`, `85.11890…`); override via `geo_lat` / `geo_lng` in Admin → Settings if the pin moves.
 
 ## SEO (run after content_fixes)
 

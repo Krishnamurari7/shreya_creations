@@ -230,7 +230,7 @@ function ContactBar({ site, whatsapp, lang }) {
       key: "call",
       icon: "call",
       title: lang === "hi" ? "अभी कॉल करें" : "Call Us Now",
-      body: `${phone}\n${site?.studioHours || (lang === "hi" ? "सोम – शनि | सुबह 10 – रात 8" : "Mon–Sat | 10 AM–8 PM")}${site?.closedDays ? (lang === "hi" ? ` · ${site.closedDays} बंद` : ` · Closed ${site.closedDays}`) : ""}`,
+      body: `${phone}\n${site?.studioHours || (lang === "hi" ? "सोम – शनि | सुबह 11 – रात 8" : "Mon–Sat | 11 AM–8 PM")}${site?.closedDays ? (lang === "hi" ? ` · ${site.closedDays} बंद` : ` · Closed ${site.closedDays}`) : ""}`,
       cta: lang === "hi" ? "कॉल करें" : "Call Now",
       href: phoneHref,
       phones: [
@@ -269,7 +269,7 @@ function ContactBar({ site, whatsapp, lang }) {
                   </span>
                 ))}
                 {"\n"}
-                {site?.studioHours || (lang === "hi" ? "सोम – शनि | सुबह 10 – रात 8" : "Mon–Sat | 10 AM–8 PM")}
+                {site?.studioHours || (lang === "hi" ? "सोम – शनि | सुबह 11 – रात 8" : "Mon–Sat | 11 AM–8 PM")}
                 {site?.closedDays ? (lang === "hi" ? ` · ${site.closedDays} बंद` : ` · Closed ${site.closedDays}`) : ""}
               </p>
             ) : (

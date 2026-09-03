@@ -169,7 +169,7 @@ export default function ContactInfoCards({ site, wa, directionsUrl, directionsLa
               <h3 className="contact-card-label">{t.address}</h3>
               <p className="text-sm text-ink font-normal leading-relaxed mt-1">{site.address}</p>
               <span className="contact-hours-chip mt-3">
-                {t.hours}: {site.studioHours || "Mon–Sat, 10 AM–8 PM"}
+                {t.hours}: {site.studioHours || "Mon–Sat, 11 AM–8 PM"}
                 {site.closedDays ? ` (${t.closed} ${site.closedDays})` : ""}
               </span>
             </div>

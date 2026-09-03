@@ -14,7 +14,7 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   const site = await getSiteSettings();
-  const hours = site.studioHours || "Mon–Sat, 10 AM–8 PM";
+  const hours = site.studioHours || "Mon–Sat, 11 AM–8 PM";
   const closed = site.closedDays ? `, closed ${site.closedDays}` : "";
   return buildMetadata({
     title: "Contact Shreya Creation | Boutique & Stitching Studio, Patna",

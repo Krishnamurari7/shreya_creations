@@ -233,7 +233,7 @@ export function blogPostingJsonLd(post, locale = "en") {
   const published = post.created_at || post.createdAt;
   const modified = post.updated_at || post.updatedAt || published;
   const lang = locale === "hi" ? "hi-IN" : "en-IN";
-  const orgId = `${getSiteUrl()}/#clothing-store`;
+  const orgId = `${getSiteUrl()}/#organization`;
 
   return {
     "@context": "https://schema.org",
@@ -269,6 +269,15 @@ export function blogPostingJsonLd(post, locale = "en") {
   };
 }
 
+function ogImageType(image) {
+  const src = String(image || "").split("?")[0].toLowerCase();
+  if (src.endsWith(".png")) return "image/png";
+  if (src.endsWith(".webp")) return "image/webp";
+  if (src.endsWith(".gif")) return "image/gif";
+  if (src.endsWith(".jpg") || src.endsWith(".jpeg")) return "image/jpeg";
+  return "image/jpeg";
+}
+
 export function buildMetadata({
   title,
   description,
@@ -276,6 +285,8 @@ export function buildMetadata({
   locale = "en",
   image = DEFAULT_OG_IMAGE,
   imageAlt = "Shreya Creation fashion boutique and stitching institute in Patna",
+  imageSecureUrl,
+  siteName = "shreyacreation",
   type = "website",
   noIndex = false,
 }) {
@@ -287,6 +298,9 @@ export function buildMetadata({
   const enUrl = `${siteUrl}${enPath}`;
   const hiUrl = `${siteUrl}${hiPath}`;
   const isHi = locale === "hi";
+  const imageUrl = absoluteUrl(image);
+  const secureUrl = absoluteUrl(imageSecureUrl || image);
+  const imageType = ogImageType(image);
 
   return {
     title: { absolute: title },
@@ -311,18 +325,28 @@ export function buildMetadata({
     openGraph: {
       title,
       description: cleanDescription,
-      url: canonicalPath,
-      siteName: "Shreya Creation",
-      locale: isHi ? "hi_IN" : "en_IN",
-      alternateLocale: isHi ? ["en_IN"] : ["hi_IN"],
+      url: absoluteUrl(canonicalPath),
+      siteName,
+      locale: isHi ? "hi_IN" : "en_US",
+      alternateLocale: isHi ? ["en_US"] : ["hi_IN"],
       type,
-      images: [{ url: image, alt: imageAlt }],
+      images: [
+        {
+          url: imageUrl,
+          secureUrl,
+          alt: imageAlt,
+          type: imageType,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: cleanDescription,
-      images: [image],
+      images: [imageUrl],
+    },
+    other: {
+      "twitter:url": absoluteUrl(canonicalPath),
     },
   };
 }

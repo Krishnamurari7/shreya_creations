@@ -156,7 +156,7 @@ export function buildLlmsFullTxt(
     `- **Phone:** ${phone}`,
     `- **Email:** ${email}`,
     `- **WhatsApp:** wa.me/${String(site?.whatsapp || site?.whatsappNumber || "919031105666").replace(/\D/g, "")}`,
-    `- **Hours:** ${site?.studioHours || "Mon–Sat, 10 AM–8 PM"} (${site?.closedDays || "Sunday"} closed)`,
+    `- **Hours:** ${site?.studioHours || "Mon–Sat, 11 AM–8 PM"} (${site?.closedDays || "Sunday"} closed)`,
     `- **Founded:** ${site?.foundingYear || 2012}`,
     `- **Students trained:** ${site?.studentsTaught || "2000"}+`,
     `- **Languages:** English (default), Hindi at /hi/ prefix`,

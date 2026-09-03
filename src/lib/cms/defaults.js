@@ -102,6 +102,7 @@ export const PAGE_DEFAULTS = {
     meta_title: "Best Fashion Designing in Patna | Shreya Creation",
     meta_description:
       "Discover Shreya Creation for the best fashion designing in Patna, with practical training, boutique skills, bridal wear, designer stitching and hands-on learning.",
+    og_image: "/founders/sangi-shreya.webp",
     header_eyebrow: "Our Story",
     header_eyebrow_hi: "हमारी कहानी",
     header_title: "About Shreya Creation",
@@ -156,6 +157,10 @@ export const PAGE_DEFAULTS = {
     journey_steps: DEFAULT_ABOUT_JOURNEY.map((step) => ({ ...step })),
   },
   home: {
+    meta_title: "Best Boutique in Patna | Shreya Creation",
+    meta_description:
+      "Discover Shreya Creation, the best boutique in Patna, offering designer bridal wear, custom stitching, stylish outfits, exquisite detailing, and personalised fashion solutions.",
+    og_image: "/slider3.webp",
     hero_badge: "Patna's Trusted Fashion Boutique Institute",
     hero_badge_hi: "पटना का भरोसेमंद फैशन बुटीक इंस्टिट्यूट",
     hero_boutique_badge: "Patna's Trusted Fashion Boutique Institute",
@@ -466,6 +471,8 @@ export const PAGE_DEFAULTS = {
     meta_title: "Best Designer Boutique in Patna | Shreya Creation",
     meta_description:
       "Discover Shreya Creation, the best designer boutique in Patna for bridal wear, designer blouses, lehengas, custom stitching, Aari-Zari handwork, & a perfect fit.",
+    og_image:
+      "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239288560-v7jdgv.png",
     header_eyebrow: "Boutique",
     header_eyebrow_hi: "बुटीक",
     header_title: "Boutique",
@@ -525,6 +532,8 @@ export const PAGE_DEFAULTS = {
     meta_title: "Best Fashion Institute in Patna | Shreya Creation",
     meta_description:
       "Join the Best Fashion Institute in Patna for practical fashion designing, stitching, boutique management, blouse making, & career-focused training.",
+    og_image:
+      "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1786290945897-ewbdy9.jpg",
     header_eyebrow: "Best Fashion Institute in Patna",
     header_eyebrow_hi: "पटना का बेस्ट फैशन इंस्टिट्यूट",
     header_title: "Turn Your Passion for Fashion Into a Skill, Career & Business",

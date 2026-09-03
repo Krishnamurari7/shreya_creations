@@ -8,7 +8,7 @@ import { getCourses, getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { getRequestLocale } from "@/lib/locale";
-import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -30,8 +30,11 @@ export async function generateMetadata() {
     title,
     description,
     path: "/courses",
-    image: DEFAULT_OG_IMAGE,
-    imageAlt: "Best fashion institute and designing courses in Patna",
+    image:
+      courses.ogImage ||
+      courses.og_image ||
+      "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1786290945897-ewbdy9.jpg",
+    imageAlt: "Best Fashion Institute in Patna",
   });
 }
 

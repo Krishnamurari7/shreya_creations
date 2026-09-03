@@ -6,7 +6,7 @@ import { getProducts, getSiteSettings, getTestimonials } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
-import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -28,8 +28,11 @@ export async function generateMetadata() {
     title,
     description,
     path: "/shop",
-    image: DEFAULT_OG_IMAGE,
-    imageAlt: "Best designer boutique in Patna — Shreya Creation",
+    image:
+      shop.ogImage ||
+      shop.og_image ||
+      "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239288560-v7jdgv.png",
+    imageAlt: "best designer boutique in Patna",
   });
 }
 

@@ -35,8 +35,8 @@ const CONTACT_FIELDS = [
   { name: "address_line", label: "Address line (optional override)", type: "textarea" },
   { name: "city", label: "City", hint: "Patna" },
   { name: "pincode", label: "Pincode" },
-  // Canonical hours: Mon–Sat 10 AM–8 PM, closed Sunday (match JSON-LD + GBP)
-  { name: "studio_hours", label: "Studio hours", hint: "e.g. Mon–Sat, 10 AM–8 PM" },
+  // Canonical hours: Mon–Sat 11 AM–8 PM, closed Sunday (match JSON-LD + GBP)
+  { name: "studio_hours", label: "Studio hours", hint: "e.g. Mon–Sat, 11 AM–8 PM" },
   { name: "closed_days", label: "Closed days", hint: "e.g. Sunday" },
   {
     name: "geo_lat",

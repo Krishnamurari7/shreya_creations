@@ -100,6 +100,14 @@ const HI_POLICY_META = {
   },
 };
 
+const HI_PAGE_IMAGES = {
+  home: "/slider3.webp",
+  about: "/founders/sangi-shreya.webp",
+  shop: "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239288560-v7jdgv.png",
+  courses:
+    "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1786290945897-ewbdy9.jpg",
+};
+
 /** Build Hindi metadata for a static page key. */
 export function buildHiPageMetadata(pageKey, overrides = {}) {
   const page = HI_PAGES[pageKey];
@@ -116,7 +124,8 @@ export function buildHiPageMetadata(pageKey, overrides = {}) {
     title: page.title,
     description: page.description,
     path: page.path,
-    image: DEFAULT_OG_IMAGE,
+    image: HI_PAGE_IMAGES[pageKey] || DEFAULT_OG_IMAGE,
+    imageSecureUrl: pageKey === "home" ? "/slider1.webp" : undefined,
     imageAlt: page.imageAlt,
     locale: "hi",
     ...overrides,

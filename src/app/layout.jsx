@@ -17,13 +17,12 @@ import { getSiteSettings } from "@/lib/data";
 import { LOGO_SRC } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/siteUrl";
 import JsonLd from "@/components/JsonLd";
-import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const siteUrl = getSiteUrl();
 
-const siteTitle = "Fashion Boutique Institute & 24hr Stitching in Patna | Shreya Creation";
+const siteTitle = "Best Boutique in Patna | Shreya Creation";
 const siteDescription =
-  "Learn fashion designing & boutique courses in Patna, or get custom outfits stitched in 24 hours — bridal lehengas, designer blouses & more. Call/WhatsApp today.";
+  "Discover Shreya Creation, the best boutique in Patna, offering designer bridal wear, custom stitching, stylish outfits, exquisite detailing, and personalised fashion solutions.";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
@@ -65,15 +64,15 @@ export const metadata = {
     title: siteTitle,
     description: siteDescription,
     url: siteUrl,
-    siteName: "Shreya Creation",
-    locale: "en_IN",
+    siteName: "shreyacreation",
+    locale: "en_US",
     type: "website",
     images: [
       {
-        url: DEFAULT_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: "Shreya Creation — fashion boutique institute and stitching studio in Patna",
+        url: "/slider3.webp",
+        secureUrl: "/slider1.webp",
+        alt: "Best Boutique in Patna",
+        type: "image/webp",
       },
     ],
   },
@@ -81,7 +80,7 @@ export const metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [DEFAULT_OG_IMAGE],
+    images: ["/slider3.webp"],
   },
   ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
     ? {
@@ -91,6 +90,7 @@ export const metadata = {
       }
     : {}),
   other: {
+    "twitter:url": `${siteUrl}/`,
     "p:domain_verify": "ab028a1a14ac0f537f56f869983f8c04",
   },
 };

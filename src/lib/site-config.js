@@ -24,7 +24,7 @@ export const DEFAULT_WHATSAPP = "919031105666";
 /** Confirmed business inbox — matches site host shreyacreation.com */
 export const DEFAULT_EMAIL = "hello@shreyacreation.com";
 
-export const DEFAULT_STUDIO_HOURS = "Mon–Sat, 10 AM–8 PM";
+export const DEFAULT_STUDIO_HOURS = "Mon–Sat, 11 AM–8 PM";
 export const DEFAULT_CLOSED_DAYS = "Sunday";
 export const DEFAULT_CITY = "Patna";
 export const DEFAULT_PINCODE = "800001";
@@ -32,11 +32,13 @@ export const DEFAULT_ADDRESS_LINE =
   "Shreya Creation, Sisodiya Place, East Boring Canal Road, Sri Krishna Puri, Patna, Bihar 800001";
 
 /**
- * Studio pin for LocalBusiness JSON-LD.
- * Leave null until lat/lng are copied from Google Business Profile (do not invent).
+ * Studio pin for LocalBusiness JSON-LD (GBP / Maps).
  * @type {{ latitude: number, longitude: number } | null}
  */
-export const DEFAULT_GEO = null;
+export const DEFAULT_GEO = {
+  latitude: 25.610524557996968,
+  longitude: 85.1189048153447,
+};
 
 export const DEFAULT_SOCIALS = {
   instagram: "https://www.instagram.com/shreya.creationss/",

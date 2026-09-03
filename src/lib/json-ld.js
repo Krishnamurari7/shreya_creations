@@ -8,7 +8,9 @@ import {
   formatPhoneDisplay,
 } from "@/lib/site-config";
 
-const DEFAULT_OG_IMAGE = "/hero_studio_banner.webp";
+/** Direct CDN URL for LocalBusiness / Organization schema image (avoid ephemeral /_next/image URLs). */
+export const SCHEMA_BUSINESS_IMAGE =
+  "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783527114529-jmf764.jpeg";
 
 function absoluteUrl(value = "") {
   if (!value) return getSiteUrl();
@@ -17,11 +19,15 @@ function absoluteUrl(value = "") {
 }
 
 /** Postal street line for schema.org — distinct from full display address. */
-export const SCHEMA_STREET_ADDRESS = "Sisodiya Place, East Boring Canal Road";
+export const SCHEMA_STREET_ADDRESS =
+  "J469+4GQ Sisodiya Place, E Boring Canal Rd, Sri Krishna Puri";
 
 export function schemaIds(base = getSiteUrl()) {
   return {
-    clothingStore: `${base}/#clothing-store`,
+    localBusiness: `${base}/#local-business`,
+    /** @deprecated Prefer localBusiness — kept so existing @id references remain stable. */
+    clothingStore: `${base}/#local-business`,
+    organization: `${base}/#organization`,
     educationalOrganization: `${base}/#educational-organization`,
     website: `${base}/#website`,
   };
@@ -46,24 +52,37 @@ function sharedPostalAddress(site) {
   };
 }
 
-function sharedContact(site) {
+/** Schema telephone — primary national digits as provided for GBP/NAP consistency. */
+function schemaTelephone(site) {
   const phone = site?.phonePrimary || site?.phone1 || "";
+  const digits = String(phone).replace(/\D/g, "");
+  if (digits.length === 12 && digits.startsWith("91")) return digits.slice(2);
+  if (digits.length === 10) return digits;
+  return formatPhoneDisplay(phone) || "9031105666";
+}
+
+function sharedContact(site) {
+  const phone = schemaTelephone(site);
   const phoneAlt = site?.phoneSecondary || site?.phone2 || "";
-  const telephones = [phone, phoneAlt]
-    .filter(Boolean)
-    .map((p) => formatPhoneDisplay(p));
+  const altDigits = String(phoneAlt).replace(/\D/g, "");
+  const alt =
+    altDigits.length === 12 && altDigits.startsWith("91")
+      ? altDigits.slice(2)
+      : altDigits.length === 10
+        ? altDigits
+        : null;
 
   return {
-    telephone: [...new Set(telephones)],
+    telephone: alt && alt !== phone ? [phone, alt] : phone,
     email: site?.email || DEFAULT_EMAIL,
   };
 }
 
 function sharedSocials(site) {
   return [
-    site?.socials?.instagram,
-    site?.socials?.facebook,
-    site?.socials?.youtube,
+    site?.socials?.facebook || "https://www.facebook.com/shreyascreation",
+    site?.socials?.instagram || "https://www.instagram.com/shreya.creationss/",
+    site?.socials?.youtube || "https://www.youtube.com/@ShreyaCreations111",
   ].filter(Boolean);
 }
 
@@ -96,8 +115,17 @@ function sharedGeo(site) {
   };
 }
 
+const WEEKDAY_HOURS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 /**
- * Sitewide @graph: ClothingStore + EducationalOrganization (linked by @id) + WebSite.
+ * Sitewide @graph: LocalBusiness + Organization + EducationalOrganization + WebSite.
  * Drives Google Maps / local pack — values from site settings / site-config.
  */
 export function buildSitewideGraph(site, locale = "en") {
@@ -110,32 +138,33 @@ export function buildSitewideGraph(site, locale = "en") {
   const description = sharedDescription(site, locale);
   const foundingYear = site?.foundingYear || DEFAULT_FOUNDING_YEAR;
   const geo = sharedGeo(site);
+  const logoUrl = absoluteUrl(LOGO_SRC);
+  const imageUrl = SCHEMA_BUSINESS_IMAGE;
+  const sameAs = sharedSocials(site);
+  const telephone = Array.isArray(contact.telephone)
+    ? contact.telephone[0]
+    : contact.telephone;
 
-  const shared = {
+  const openingHoursSpecification = WEEKDAY_HOURS.map((dayOfWeek) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek,
+    opens: "11:00",
+    closes: "20:00",
+  }));
+
+  const localBusiness = {
+    "@type": "LocalBusiness",
+    "@id": ids.localBusiness,
     name: brand,
+    image: imageUrl,
     url: base,
-    logo: absoluteUrl(LOGO_SRC),
-    image: absoluteUrl(DEFAULT_OG_IMAGE),
-    description,
-    ...contact,
+    telephone,
     address,
     ...(geo ? { geo } : {}),
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ],
-        opens: "10:00",
-        closes: "20:00",
-      },
-    ],
-    sameAs: sharedSocials(site),
+    openingHoursSpecification,
+    sameAs,
+    email: contact.email,
+    description,
     areaServed: [
       { "@type": "City", name: "Patna" },
       { "@type": "State", name: "Bihar" },
@@ -143,46 +172,72 @@ export function buildSitewideGraph(site, locale = "en") {
     foundingDate: String(foundingYear),
     priceRange: "₹₹",
     inLanguage: lang,
+    department: { "@id": ids.educationalOrganization },
+  };
+
+  const organization = {
+    "@type": "Organization",
+    "@id": ids.organization,
+    name: brand,
+    url: base,
+    logo: logoUrl,
+    image: imageUrl,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone,
+      contactType: "customer service",
+      areaServed: "IN",
+      availableLanguage: ["en", "hi"],
+    },
+    sameAs,
+    address,
+    ...(geo ? { geo } : {}),
+  };
+
+  const educationalOrganization = {
+    "@type": "EducationalOrganization",
+    "@id": ids.educationalOrganization,
+    name: brand,
+    url: base,
+    logo: logoUrl,
+    image: imageUrl,
+    description,
+    telephone: contact.telephone,
+    email: contact.email,
+    address,
+    ...(geo ? { geo } : {}),
+    openingHoursSpecification,
+    sameAs,
+    location: { "@id": ids.localBusiness },
+    inLanguage: lang,
+  };
+
+  const website = {
+    "@type": "WebSite",
+    "@id": ids.website,
+    url: base,
+    name: brand,
+    description,
+    publisher: { "@id": ids.organization },
+    about: { "@id": ids.localBusiness },
+    inLanguage: ["en-IN", "hi-IN"],
+    copyrightHolder: { "@id": ids.organization },
+    potentialAction: {
+      "@type": "CommunicateAction",
+      name: "Contact via WhatsApp",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `https://wa.me/${String(site?.whatsapp || site?.whatsappNumber || "919031105666").replace(/\D/g, "")}`,
+        actionPlatform: [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform",
+        ],
+      },
+    },
   };
 
   return {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "ClothingStore",
-        "@id": ids.clothingStore,
-        ...shared,
-        department: { "@id": ids.educationalOrganization },
-      },
-      {
-        "@type": "EducationalOrganization",
-        "@id": ids.educationalOrganization,
-        ...shared,
-        location: { "@id": ids.clothingStore },
-      },
-      {
-        "@type": "WebSite",
-        "@id": ids.website,
-        url: base,
-        name: brand,
-        description,
-        publisher: { "@id": ids.clothingStore },
-        about: { "@id": ids.clothingStore },
-        inLanguage: ["en-IN", "hi-IN"],
-        copyrightHolder: { "@id": ids.clothingStore },
-        potentialAction: {
-          "@type": "CommunicateAction",
-          name: "Contact via WhatsApp",
-          target: {
-            "@type": "EntryPoint",
-            urlTemplate: `https://wa.me/${String(site?.whatsapp || site?.whatsappNumber || "919031105666").replace(/\D/g, "")}`,
-            actionPlatform: [
-              "http://schema.org/DesktopWebPlatform",
-              "http://schema.org/MobileWebPlatform",
-            ],
-          },
-        },
-      },
-    ],
+    "@graph": [localBusiness, organization, educationalOrganization, website],
   };
 }

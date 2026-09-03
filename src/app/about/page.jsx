@@ -5,7 +5,7 @@ import JsonLdScript from "@/components/JsonLdScript";
 import { getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
-import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -26,8 +26,8 @@ export async function generateMetadata() {
     title,
     description,
     path: "/about",
-    image: DEFAULT_OG_IMAGE,
-    imageAlt: "About Shreya Creation — best fashion designing in Patna",
+    image: about.ogImage || about.og_image || "/founders/sangi-shreya.webp",
+    imageAlt: "Best Fashion Designing in Patna",
   });
 }
 

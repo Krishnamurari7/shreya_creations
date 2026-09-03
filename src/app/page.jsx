@@ -10,16 +10,17 @@ import {
   getTrustStats,
 } from "@/lib/data";
 import { PROCESS } from "@/lib/seed";
-import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 3600;
 
 const HOME_META_FALLBACK = {
-  title:
-    "Best Designer Boutique & Fashion Designing Institute in Boring Road, Patna | Shreya Creation",
+  title: "Best Boutique in Patna | Shreya Creation",
   description:
-    "Best boutique, ladies tailors & fashion designing institute on Boring Road, Patna, Bihar — bridal blouse, lehenga stitching, boutique master & silai courses. Call/WhatsApp today.",
+    "Discover Shreya Creation, the best boutique in Patna, offering designer bridal wear, custom stitching, stylish outfits, exquisite detailing, and personalised fashion solutions.",
 };
+
+const HOME_OG_IMAGE = "/slider3.webp";
 
 export async function generateMetadata() {
   const site = await getSiteSettings();
@@ -32,8 +33,9 @@ export async function generateMetadata() {
     title,
     description,
     path: "/",
-    image: DEFAULT_OG_IMAGE,
-    imageAlt: "Best designer boutique and fashion designing institute in Boring Road, Patna, Bihar",
+    image: home.ogImage || home.og_image || HOME_OG_IMAGE,
+    imageSecureUrl: "/slider1.webp",
+    imageAlt: "Best Boutique in Patna",
   });
 }
 
