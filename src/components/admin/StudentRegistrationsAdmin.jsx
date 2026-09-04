@@ -15,6 +15,13 @@ const BATCH_LABELS = {
   any: "Flexible",
 };
 
+const PAYMENT_LABELS = {
+  cash: "Cash",
+  upi: "UPI",
+  card: "Card",
+  bank: "Bank Transfer",
+};
+
 function waLink(phone) {
   const digits = String(phone || "").replace(/\D/g, "");
   if (digits.length < 10) return null;
@@ -27,6 +34,23 @@ function telLink(phone) {
   return `tel:+91${digits.slice(-10)}`;
 }
 
+function money(n) {
+  if (n == null || n === "") return null;
+  const num = Number(n);
+  if (!Number.isFinite(num)) return String(n);
+  return `₹${num.toLocaleString("en-IN")}`;
+}
+
+function Detail({ label, value }) {
+  if (value == null || value === "") return null;
+  return (
+    <p>
+      <span className="text-gold/70">{label}: </span>
+      {value}
+    </p>
+  );
+}
+
 export default function StudentRegistrationsAdmin() {
   const configured = isSupabaseConfigured();
   const [rows, setRows] = useState([]);
@@ -34,6 +58,11 @@ export default function StudentRegistrationsAdmin() {
   const [filterStatus, setFilterStatus] = useState("");
   const [filterFrom, setFilterFrom] = useState("");
   const [toast, setToast] = useState("");
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 3000);
+  };
 
   const load = useCallback(async () => {
     if (!configured) return setLoading(false);
@@ -44,6 +73,7 @@ export default function StudentRegistrationsAdmin() {
       .select("*")
       .order("created_at", { ascending: false });
     if (!error) setRows(data || []);
+    else setToast(error.message);
     setLoading(false);
   }, [configured]);
 
@@ -64,11 +94,6 @@ export default function StudentRegistrationsAdmin() {
   }, [rows, filterStatus, filterFrom]);
 
   const unread = rows.filter((r) => !r.is_read).length;
-
-  const showToast = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(""), 3000);
-  };
 
   const toggleRead = async (row) => {
     const supabase = createClient();
@@ -99,21 +124,29 @@ export default function StudentRegistrationsAdmin() {
   const exportCsv = () => {
     const header = [
       "created_at",
+      "invoice_no",
+      "form_date",
       "name",
       "phone",
       "email",
-      "course_name",
-      "preferred_batch",
+      "guardian_name",
+      "address",
       "city",
-      "education",
+      "course_name",
+      "course_code",
+      "duration_months",
+      "preferred_batch",
+      "start_date",
+      "end_date",
+      "fee_total",
+      "payment_mode",
+      "amount_received",
       "status",
       "admission_number",
       "is_read",
     ];
     const lines = filtered.map((r) =>
-      header
-        .map((k) => `"${String(r[k] ?? "").replace(/"/g, '""')}"`)
-        .join(",")
+      header.map((k) => `"${String(r[k] ?? "").replace(/"/g, '""')}"`).join(",")
     );
     const blob = new Blob([[header.join(","), ...lines].join("\n")], { type: "text/csv" });
     const a = document.createElement("a");
@@ -203,6 +236,7 @@ export default function StudentRegistrationsAdmin() {
                   <div className="flex flex-wrap gap-2 text-xs admin-muted mt-1">
                     <span className="uppercase tracking-wider">{r.status || "pending"}</span>
                     <span>{r.course_name}</span>
+                    {r.invoice_no && <span>Inv: {r.invoice_no}</span>}
                     {r.locale && <span>{r.locale}</span>}
                     {!r.is_read && <span className="text-orange">Unread</span>}
                   </div>
@@ -224,21 +258,76 @@ export default function StudentRegistrationsAdmin() {
                 </div>
               </div>
 
-              <div className="text-sm mt-2 grid sm:grid-cols-2 gap-x-4 gap-y-1">
-                {r.phone && <p>📱 {r.phone}</p>}
-                {r.email && <p>✉ {r.email}</p>}
-                {r.address && <p className="sm:col-span-2">📍 {r.address}{r.city ? `, ${r.city}` : ""}</p>}
-                {r.date_of_birth && <p>🎂 {r.date_of_birth}</p>}
-                {r.gender && <p>Gender: {r.gender}</p>}
-                {r.preferred_batch && <p>Batch: {BATCH_LABELS[r.preferred_batch] || r.preferred_batch}</p>}
-                {r.education && <p>Education: {r.education}</p>}
-                {r.guardian_name && <p>Guardian: {r.guardian_name}</p>}
-                {r.aadhaar_last4 && <p>Aadhaar: •••• {r.aadhaar_last4}</p>}
-                {r.referral_source && <p>Referral: {r.referral_source}</p>}
+              <div className="text-sm mt-3 grid sm:grid-cols-2 gap-x-4 gap-y-1">
+                <Detail label="Phone" value={r.phone} />
+                <Detail label="Email" value={r.email} />
+                <Detail label="Guardian" value={r.guardian_name} />
+                <Detail
+                  label="Address"
+                  value={r.address ? `${r.address}${r.city ? `, ${r.city}` : ""}` : null}
+                />
+                <Detail label="Form date" value={r.form_date} />
+                <Detail label="Course code" value={r.course_code} />
+                <Detail
+                  label="Duration"
+                  value={r.duration_months ? `${r.duration_months} months` : null}
+                />
+                <Detail label="Batch" value={BATCH_LABELS[r.preferred_batch] || r.preferred_batch} />
+                <Detail label="Start" value={r.start_date} />
+                <Detail label="End" value={r.end_date} />
+                <Detail label="Course fee" value={money(r.fee_course)} />
+                <Detail label="Registration fee" value={money(r.fee_registration)} />
+                <Detail label="Material / kit" value={money(r.fee_material)} />
+                <Detail
+                  label="GST"
+                  value={
+                    r.fee_gst_amount != null || r.fee_gst_percent != null
+                      ? `${r.fee_gst_percent != null ? `${r.fee_gst_percent}% ` : ""}${money(r.fee_gst_amount) || ""}`.trim()
+                      : null
+                  }
+                />
+                <Detail label="Fee total" value={money(r.fee_total)} />
+                <Detail label="Payment mode" value={PAYMENT_LABELS[r.payment_mode] || r.payment_mode} />
+                <Detail label="Amount received" value={money(r.amount_received)} />
+                <Detail label="Payment date" value={r.payment_received_date} />
+                <Detail label="Received by" value={r.received_by} />
               </div>
 
+              {(r.installment_1_amount != null ||
+                r.installment_1_due ||
+                r.installment_2_amount != null ||
+                r.installment_2_due ||
+                r.installment_3_amount != null ||
+                r.installment_3_due) && (
+                <div className="mt-3 rounded-xl border border-white/10 bg-black/10 p-3 text-sm">
+                  <p className="text-xs uppercase tracking-wider text-gold/80 mb-2">Payment plan</p>
+                  <ul className="space-y-1">
+                    {(r.installment_1_amount != null || r.installment_1_due) && (
+                      <li>
+                        1st — {r.installment_1_due || "—"} · {money(r.installment_1_amount) || "—"}
+                        {r.installment_1_paid ? " · Paid" : ""}
+                      </li>
+                    )}
+                    {(r.installment_2_amount != null || r.installment_2_due) && (
+                      <li>
+                        2nd — {r.installment_2_due || "—"} · {money(r.installment_2_amount) || "—"}
+                        {r.installment_2_paid ? " · Paid" : ""}
+                      </li>
+                    )}
+                    {(r.installment_3_amount != null || r.installment_3_due) && (
+                      <li>
+                        3rd — {r.installment_3_due || "—"} · {money(r.installment_3_amount) || "—"}
+                        {r.installment_3_paid ? " · Paid" : ""}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
+
               {r.message && (
-                <p className="text-sm whitespace-pre-wrap break-words leading-relaxed mt-2">{r.message}</p>
+                <p className="text-sm whitespace-pre-wrap break-words leading-relaxed mt-2 opacity-90">
+                  {r.message}
+                </p>
               )}
 
               <div className="grid sm:grid-cols-2 gap-3 mt-3">

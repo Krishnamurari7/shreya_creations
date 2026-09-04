@@ -35,13 +35,17 @@ const COURSES_SEO_PATCH = {
   meta_description:
     "Join the Best Fashion Institute in Patna for practical fashion designing, stitching, boutique management, blouse making, & career-focused training.",
   header_eyebrow: "Best Fashion Institute in Patna",
-  header_title: "Turn Your Passion for Fashion Into a Skill, Career & Business",
+  header_title: "Fashion Designing Stitching & Boutique master Courses in Patna",
+  header_title_hi: "पटना में फैशन डिजाइनिंग, सिलाई और बुटीक मास्टर कोर्स",
+  header_highlight: "",
+  header_highlight_hi: "",
   header_subtitle:
     "Fashion is not just about drawing pretty designs; it's about knowing how to realize them. At Shreya Creation, we blend creativity, craftsmanship, and industry insights to assist emerging designers in turning their dreams into reality.",
   intro_body:
     "We, at the Best Fashion Institute in Patna, emphasize \"learning through practice\" and teach everything related to stitching, pattern making, embroidery, garment making, and boutique management.",
   intro_cta_primary: "Check Our Programs",
-  intro_cta_secondary: "Schedule Your Free Demo",
+  intro_cta_secondary: "Book Your free demo class",
+  intro_cta_secondary_hi: "अपनी मुफ़्त डेमो क्लास बुक करें",
   seo_practical_title: "A Fashion Design Institute in Patna Focused on Practical Training",
   seo_practical_body:
     "Are you looking for the best fashion design institute in Patna that offers practical training to develop your skills? Then visit Shreya Creation, where you can learn from scratch to create professional garments using all practical methods.\n\nWe will teach you everything, right from understanding fabrics, measurements, cutting, and sewing to finishing and design development.",

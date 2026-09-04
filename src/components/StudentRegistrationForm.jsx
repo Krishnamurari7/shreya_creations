@@ -1,144 +1,55 @@
 "use client";
 
-import { BTN_PRIMARY, INTERACTIVE_CARD, REVEAL } from "@/lib/ui";
 import { useMemo, useState } from "react";
 import { waLink, studentRegistrationMessage } from "@/lib/whatsapp";
-import { Glass3DCard } from "@/components/Glass3DCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pickLocalized } from "@/lib/i18n";
 import { trackLead, trackWhatsAppClick } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { LOGO_SRC } from "@/lib/brand";
+import { formatPhoneDisplay } from "@/lib/site-config";
 
-const COPY = {
-  en: {
-    title: "Student Admission Form",
-    subtitle: "Fill your details — we save them online and confirm admission on WhatsApp.",
-    stepPersonal: "Personal",
-    stepCourse: "Course",
-    stepMore: "More info",
-    personal: "Personal details",
-    courseSection: "Course preference",
-    background: "Background & documents",
-    name: "Full name",
-    phone: "Phone / WhatsApp",
-    email: "Email (optional)",
-    dob: "Date of birth (optional)",
-    gender: "Gender (optional)",
-    address: "Address",
-    city: "City",
-    course: "Course you want to join",
-    batch: "Preferred batch timing",
-    education: "Highest education",
-    guardian: "Parent / guardian name (optional)",
-    aadhaar: "Aadhaar last 4 digits (optional)",
-    referral: "How did you hear about us?",
-    message: "Any questions or notes",
-    selectCourse: "Select a course",
-    selectBatch: "Select batch timing",
-    selectEducation: "Select education",
-    selectGender: "Select gender",
-    submit: "Submit admission form",
-    footnote:
-      "After submit, WhatsApp opens so we can confirm counselling, fees, and documents (photos, Aadhaar copy).",
-    successTitle: "Application saved!",
-    success: "Your details are saved online. WhatsApp should open — we'll confirm counselling, fees & documents.",
-    nameRequired: "Please enter your full name.",
-    phoneRequired: "Please enter your phone number.",
-    courseRequired: "Please select a course.",
-    addressRequired: "Please enter your address.",
-    aadhaarInvalid: "Enter exactly 4 digits for Aadhaar (last 4 only).",
-    saveError: "Could not save online. Please try WhatsApp directly.",
-    savedBadge: "Saved online",
-    courseSelected: "Selected course",
-    optional: "Optional",
-    namePh: "e.g. Priyanshi Sharma",
-    phonePh: "e.g. 9876543210",
-    emailPh: "you@email.com",
-    addressPh: "House no., area, landmark…",
-    cityPh: "Patna",
-    guardianPh: "Parent or guardian name",
-    messagePh: "Any question about fees, batch, or demo class…",
-  },
-  hi: {
-    title: "छात्र एडमिशन फॉर्म",
-    subtitle: "अपनी जानकारी भरें — हम ऑनलाइन सेव करेंगे और WhatsApp पर एडमिशन कन्फर्म करेंगे।",
-    stepPersonal: "व्यक्तिगत",
-    stepCourse: "कोर्स",
-    stepMore: "अतिरिक्त",
-    personal: "व्यक्तिगत जानकारी",
-    courseSection: "कोर्स पसंद",
-    background: "पृष्ठभूमि और दस्तावेज",
-    name: "पूरा नाम",
-    phone: "फ़ोन / WhatsApp",
-    email: "ईमेल (वैकल्पिक)",
-    dob: "जन्म तिथि (वैकल्पिक)",
-    gender: "लिंग (वैकल्पिक)",
-    address: "पता",
-    city: "शहर",
-    course: "जिस कोर्स में एडमिशन चाहिए",
-    batch: "पसंदीदा बैच समय",
-    education: "उच्चतम शिक्षा",
-    guardian: "अभिभावक का नाम (वैकल्पिक)",
-    aadhaar: "आधार के अंतिम 4 अंक (वैकल्पिक)",
-    referral: "हमारे बारे में कैसे पता चला?",
-    message: "कोई सवाल या नोट",
-    selectCourse: "कोर्स चुनें",
-    selectBatch: "बैच समय चुनें",
-    selectEducation: "शिक्षा चुनें",
-    selectGender: "लिंग चुनें",
-    submit: "एडमिशन फॉर्म जमा करें",
-    footnote:
-      "जमा करने के बाद WhatsApp खुलेगा — काउंसलिंग, फीस और दस्तावेज (फोटो, आधार कॉपी) कन्फर्म होंगे।",
-    successTitle: "आवेदन सेव हो गया!",
-    success: "आपकी जानकारी ऑनलाइन सेव है। WhatsApp खुलना चाहिए — काउंसलिंग, फीस और दस्तावेज कन्फर्म करेंगे।",
-    nameRequired: "कृपया अपना पूरा नाम लिखें।",
-    phoneRequired: "कृपया अपना फ़ोन नंबर लिखें।",
-    courseRequired: "कृपया कोर्स चुनें।",
-    addressRequired: "कृपया अपना पता लिखें।",
-    aadhaarInvalid: "आधार के अंतिम 4 अंक ही लिखें (ठीक 4 अंक)।",
-    saveError: "ऑनलाइन सेव नहीं हो सका। सीधे WhatsApp करें।",
-    savedBadge: "ऑनलाइन सेव",
-    courseSelected: "चुना गया कोर्स",
-    optional: "वैकल्पिक",
-    namePh: "उदा. प्रियांशी शर्मा",
-    phonePh: "उदा. 9876543210",
-    emailPh: "aap@email.com",
-    addressPh: "मकान नं., इलाका, लैंडमार्क…",
-    cityPh: "पटना",
-    guardianPh: "अभिभावक का नाम",
-    messagePh: "फीस, बैच या डेमो क्लास के बारे में कोई सवाल…",
-  },
+const GST_NUMBER = "10CROPS2823L2ZI";
+const STATE_CODE = "10-Bihar";
+const WEBSITE = "www.shreyacreation.com";
+
+const BANK = {
+  accountName: "SHREYAS CREATION",
+  bankName: "Canara Bank",
+  accountNo: "1967201001031",
+  ifsc: "CNRB0001967",
+  branch: "S.K Puri",
 };
 
+const FEE_LABELS = [
+  { key: "feeCourse", label: "Course Fee" },
+  { key: "feeRegistration", label: "Registration Fee" },
+  { key: "feeMaterial", label: "Material / Kit Charge" },
+  { key: "feeGstAmount", label: "GST amount" },
+];
+
+const TERMS = [
+  "Fees once paid are non-refundable under any circumstances.",
+  "Course duration and batch timing will be as mentioned above.",
+  "Minimum 75% attendance is required for certificate eligibility.",
+  "Installment payments must be cleared on or before due dates.",
+  "Certificate will be issued only after full fee payment & course completion.",
+  "Institute reserves the right to reschedule batches if required.",
+];
+
+const PAYMENT_MODES = [
+  { id: "cash", label: "Cash", icon: "cash" },
+  { id: "upi", label: "UPI", icon: "upi" },
+  { id: "card", label: "Card", icon: "card" },
+  { id: "bank", label: "Bank Transfer", icon: "bank" },
+];
+
 const BATCH_OPTIONS = [
-  { value: "morning", en: "Morning", hi: "सुबह", time: "9 – 12" },
-  { value: "afternoon", en: "Afternoon", hi: "दोपहर", time: "12 – 3" },
-  { value: "evening", en: "Evening", hi: "शाम", time: "3 – 6" },
-  { value: "any", en: "Flexible", hi: "लचीला", time: "Any" },
+  { value: "morning", en: "Morning 9–12", hi: "सुबह 9–12" },
+  { value: "afternoon", en: "Afternoon 12–3", hi: "दोपहर 12–3" },
+  { value: "evening", en: "Evening 3–6", hi: "शाम 3–6" },
+  { value: "any", en: "Flexible", hi: "लचीला" },
 ];
-
-const EDUCATION_OPTIONS = [
-  { value: "10th", en: "10th pass", hi: "10वीं पास" },
-  { value: "12th", en: "12th pass", hi: "12वीं पास" },
-  { value: "graduate", en: "Graduate", hi: "स्नातक" },
-  { value: "other", en: "Other", hi: "अन्य" },
-];
-
-const GENDER_OPTIONS = [
-  { value: "female", en: "Female", hi: "महिला" },
-  { value: "male", en: "Male", hi: "पुरुष" },
-  { value: "other", en: "Other", hi: "अन्य" },
-];
-
-const REFERRAL_OPTIONS = [
-  { value: "google", en: "Google search", hi: "Google खोज" },
-  { value: "instagram", en: "Instagram / Facebook", hi: "Instagram / Facebook" },
-  { value: "friend", en: "Friend / family", hi: "दोस्त / परिवार" },
-  { value: "student", en: "Existing student", hi: "मौजूदा छात्र" },
-  { value: "other", en: "Other", hi: "अन्य" },
-];
-
-const FORM_STEPS = ["personal", "course", "more"];
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -146,95 +57,76 @@ function courseKey(course) {
   return course.id || course.slug;
 }
 
-function SectionPanel({ icon, title, optional, children, className }) {
+function handleFromUrl(url, fallback = "") {
+  if (!url) return fallback;
+  try {
+    const path = new URL(url).pathname.replace(/\/+$/, "");
+    const last = path.split("/").filter(Boolean).pop() || "";
+    return last.replace(/^@/, "") || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function toNum(v) {
+  const n = Number(String(v || "").replace(/[^\d.]/g, ""));
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function DocSection({ title, children, className }) {
   return (
-    <div className={cn("reg-form__panel", className)}>
-      <div className="reg-form__panel-head">
-        <span className="reg-form__panel-icon" aria-hidden>
-          {icon}
-        </span>
-        <div>
-          <h4 className="reg-form__panel-title">{title}</h4>
-          {optional && <span className="reg-form__panel-optional">{optional}</span>}
-        </div>
+    <section className={cn("adm-doc__section", className)}>
+      {title ? <div className="adm-doc__section-bar">{title}</div> : null}
+      <div className="adm-doc__section-body">{children}</div>
+    </section>
+  );
+}
+
+function LineField({ id, label, required, suffix, children, className }) {
+  return (
+    <div className={cn("adm-doc__line", className)}>
+      <label htmlFor={id} className="adm-doc__line-label">
+        {label}
+        {required ? <span className="adm-doc__req">*</span> : null}
+        <span aria-hidden> :</span>
+      </label>
+      <div className="adm-doc__line-input">
+        {children}
+        {suffix ? <span className="adm-doc__line-suffix">{suffix}</span> : null}
       </div>
-      <div className="reg-form__panel-body">{children}</div>
     </div>
   );
 }
 
-function FormProgress({ t, filled }) {
-  const labels = [t.stepPersonal, t.stepCourse, t.stepMore];
+function PayIcon({ type }) {
+  if (type === "cash") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
+        <rect x="2" y="6" width="20" height="12" rx="2" />
+        <circle cx="12" cy="12" r="2.5" />
+      </svg>
+    );
+  }
+  if (type === "upi") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
+        <path d="M12 3v18M7 8l5-5 5 5M7 16l5 5 5-5" />
+      </svg>
+    );
+  }
+  if (type === "card") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
+        <rect x="2" y="5" width="20" height="14" rx="2" />
+        <path d="M2 10h20" />
+      </svg>
+    );
+  }
   return (
-    <div className="reg-form__progress" aria-hidden>
-      {FORM_STEPS.map((key, i) => (
-        <div
-          key={key}
-          className={cn("reg-form__progress-step", filled >= i + 1 && "reg-form__progress-step--filled")}
-        >
-          <span className="reg-form__progress-dot">{i + 1}</span>
-          <span className="reg-form__progress-label">{labels[i]}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function BatchChips({ value, onChange, lang, t }) {
-  return (
-    <div className="reg-form__chips" role="group" aria-label={t.batch}>
-      {BATCH_OPTIONS.map((o) => {
-        const selected = value === o.value;
-        return (
-          <button
-            key={o.value}
-            type="button"
-            className={cn("reg-form__chip", selected && "reg-form__chip--active")}
-            aria-pressed={selected}
-            onClick={() => onChange(selected ? "" : o.value)}
-          >
-            <span className="reg-form__chip-label">{lang === "hi" ? o.hi : o.en}</span>
-            <span className="reg-form__chip-time">{o.time}</span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-function CoursePreview({ course, lang, label }) {
-  if (!course) return null;
-  const title = pickLocalized(course, lang, "title", "title_hi");
-  const duration = course.duration;
-  const price = course.price;
-
-  return (
-    <div className="reg-form__course-preview">
-      <span className="reg-form__course-preview-label">{label}</span>
-      <p className="reg-form__course-preview-title">{title}</p>
-      {(duration || price != null) && (
-        <p className="reg-form__course-preview-meta">
-          {duration && <span>{duration}</span>}
-          {duration && price != null && <span aria-hidden> · </span>}
-          {price != null && <span>₹{Number(price).toLocaleString("en-IN")}</span>}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function SuccessState({ title, message }) {
-  return (
-    <div className="reg-form__success" role="status">
-      <div className="reg-form__success-icon" aria-hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M8 12l2.5 2.5L16 9" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-      <h4 className="reg-form__success-title">{title}</h4>
-      <p className="reg-form__success-text">{message}</p>
-    </div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
+      <path d="M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z" />
+      <path d="M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3" />
+    </svg>
   );
 }
 
@@ -242,27 +134,49 @@ export default function StudentRegistrationForm({
   number,
   courses = [],
   defaultCourseSlug = "",
+  site = null,
 }) {
   const { lang } = useLanguage();
-  const t = COPY[lang] || COPY.en;
 
   const defaultCourse =
     courses.find((c) => c.slug === defaultCourseSlug) || courses[0] || null;
 
+  const todayIso = useMemo(() => new Date().toISOString().slice(0, 10), []);
+
+  const [invoiceNo, setInvoiceNo] = useState("");
+  const [formDate, setFormDate] = useState(todayIso);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
   const [address, setAddress] = useState("");
-  const [city, setCity] = useState("Patna");
-  const [courseId, setCourseId] = useState(defaultCourse ? courseKey(defaultCourse) : "");
-  const [preferredBatch, setPreferredBatch] = useState("");
-  const [education, setEducation] = useState("");
   const [guardianName, setGuardianName] = useState("");
-  const [aadhaarLast4, setAadhaarLast4] = useState("");
-  const [referralSource, setReferralSource] = useState("");
-  const [message, setMessage] = useState("");
+  const [courseId, setCourseId] = useState(defaultCourse ? courseKey(defaultCourse) : "");
+  const [courseCode, setCourseCode] = useState("");
+  const [durationMonths, setDurationMonths] = useState("");
+  const [preferredBatch, setPreferredBatch] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [feeCourse, setFeeCourse] = useState("");
+  const [feeRegistration, setFeeRegistration] = useState("");
+  const [feeMaterial, setFeeMaterial] = useState("");
+  const [feeGstPercent, setFeeGstPercent] = useState("");
+  const [feeGstAmount, setFeeGstAmount] = useState("");
+  const [feeTotal, setFeeTotal] = useState("");
+  const [inst1Due, setInst1Due] = useState("");
+  const [inst1Amount, setInst1Amount] = useState("");
+  const [inst1Paid, setInst1Paid] = useState(false);
+  const [inst2Due, setInst2Due] = useState("");
+  const [inst2Amount, setInst2Amount] = useState("");
+  const [inst2Paid, setInst2Paid] = useState(false);
+  const [inst3Due, setInst3Due] = useState("");
+  const [inst3Amount, setInst3Amount] = useState("");
+  const [inst3Paid, setInst3Paid] = useState(false);
+  const [planTotal, setPlanTotal] = useState("");
+  const [paymentMode, setPaymentMode] = useState("");
+  const [amountReceived, setAmountReceived] = useState("");
+  const [paymentReceivedDate, setPaymentReceivedDate] = useState("");
+  const [receivedBy, setReceivedBy] = useState("");
+  const [signatureNote, setSignatureNote] = useState("");
   const [honeypot, setHoneypot] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -274,34 +188,68 @@ export default function StudentRegistrationForm({
     ? pickLocalized(selectedCourse, lang, "title", "title_hi")
     : "";
 
-  const filledSteps = useMemo(() => {
-    let n = 0;
-    if (name.trim() && phone.trim() && address.trim()) n = 1;
-    if (n >= 1 && courseId) n = 2;
-    if (n >= 2 && (education || guardianName || aadhaarLast4 || referralSource || message)) n = 3;
-    return n;
-  }, [name, phone, address, courseId, education, guardianName, aadhaarLast4, referralSource, message]);
+  const brand = site?.brandName || site?.brand || "Shreya Creation";
+  const phone1 = formatPhoneDisplay(site?.phonePrimary || site?.phone1 || "+919031105666");
+  const phone2Display = formatPhoneDisplay(site?.phoneSecondary || site?.phone2 || "+917903155125");
+  const phone2Short = phone2Display.replace("+91 ", "");
+  const fb = handleFromUrl(site?.socials?.facebook, "shreyascreation");
+  const ig = handleFromUrl(site?.socials?.instagram, "shreya.creationss");
+  const yt = handleFromUrl(site?.socials?.youtube, "ShreyaCreations111");
+
+  const feeSetters = {
+    feeCourse: setFeeCourse,
+    feeRegistration: setFeeRegistration,
+    feeMaterial: setFeeMaterial,
+    feeGstAmount: setFeeGstAmount,
+  };
+  const feeValues = {
+    feeCourse,
+    feeRegistration,
+    feeMaterial,
+    feeGstAmount,
+  };
+
+  const recalcTotal = (next = {}) => {
+    const c = toNum(next.feeCourse ?? feeCourse) || 0;
+    const r = toNum(next.feeRegistration ?? feeRegistration) || 0;
+    const m = toNum(next.feeMaterial ?? feeMaterial) || 0;
+    const g = toNum(next.feeGstAmount ?? feeGstAmount) || 0;
+    const sum = c + r + m + g;
+    setFeeTotal(sum > 0 ? String(sum) : "");
+  };
+
+  const onCourseChange = (value) => {
+    setCourseId(value);
+    const c = courses.find((x) => courseKey(x) === value);
+    if (c?.slug) setCourseCode(String(c.slug).slice(0, 16).toUpperCase());
+    if (c?.duration) {
+      const match = String(c.duration).match(/(\d+)/);
+      if (match) setDurationMonths(match[1]);
+    }
+    if (c?.price != null && c.price !== "") {
+      const p = String(c.price);
+      setFeeCourse(p);
+      recalcTotal({ feeCourse: p });
+    }
+    if (error) setError("");
+  };
 
   const submit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError(t.nameRequired);
+      setError(lang === "hi" ? "कृपया छात्र का नाम लिखें।" : "Please enter student name.");
       return;
     }
     if (!phone.trim()) {
-      setError(t.phoneRequired);
+      setError(lang === "hi" ? "कृपया मोबाइल नंबर लिखें।" : "Please enter mobile number.");
       return;
     }
     if (!courseId && !courseTitle) {
-      setError(t.courseRequired);
+      setError(lang === "hi" ? "कृपया कोर्स चुनें।" : "Please select a course.");
       return;
     }
     if (!address.trim()) {
-      setError(t.addressRequired);
-      return;
-    }
-    if (aadhaarLast4 && !/^\d{4}$/.test(aadhaarLast4)) {
-      setError(t.aadhaarInvalid);
+      setError(lang === "hi" ? "कृपया पता लिखें।" : "Please enter address.");
       return;
     }
     setError("");
@@ -311,19 +259,44 @@ export default function StudentRegistrationForm({
       name: name.trim(),
       phone: phone.trim(),
       email: email.trim(),
-      date_of_birth: dob || undefined,
-      gender: gender || undefined,
       address: address.trim(),
-      city: city.trim() || "Patna",
+      city: "Patna",
       course_id: UUID_RE.test(courseId) ? courseId : undefined,
       course_name: courseTitle || "General enquiry",
       course_slug: selectedCourse?.slug,
       preferred_batch: preferredBatch || undefined,
-      education: education || undefined,
       guardian_name: guardianName.trim() || undefined,
-      aadhaar_last4: aadhaarLast4 || undefined,
-      referral_source: referralSource || undefined,
-      message: message.trim() || undefined,
+      invoice_no: invoiceNo.trim() || undefined,
+      form_date: formDate || undefined,
+      course_code: courseCode.trim() || undefined,
+      duration_months: durationMonths.trim() || undefined,
+      start_date: startDate || undefined,
+      end_date: endDate || undefined,
+      fee_course: toNum(feeCourse),
+      fee_registration: toNum(feeRegistration),
+      fee_material: toNum(feeMaterial),
+      fee_gst_percent: toNum(feeGstPercent),
+      fee_gst_amount: toNum(feeGstAmount),
+      fee_total: toNum(feeTotal),
+      installment_1_due: inst1Due || undefined,
+      installment_1_amount: toNum(inst1Amount),
+      installment_1_paid: inst1Paid,
+      installment_2_due: inst2Due || undefined,
+      installment_2_amount: toNum(inst2Amount),
+      installment_2_paid: inst2Paid,
+      installment_3_due: inst3Due || undefined,
+      installment_3_amount: toNum(inst3Amount),
+      installment_3_paid: inst3Paid,
+      payment_mode: paymentMode || undefined,
+      amount_received: toNum(amountReceived),
+      payment_received_date: paymentReceivedDate || undefined,
+      received_by: receivedBy.trim() || undefined,
+      message: [
+        signatureNote.trim() ? `Signature note: ${signatureNote.trim()}` : null,
+        planTotal ? `Payment plan total: ₹${planTotal}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n") || undefined,
       locale: lang,
       source_page: typeof window !== "undefined" ? window.location.pathname : "/register",
       website: honeypot,
@@ -339,10 +312,10 @@ export default function StudentRegistrationForm({
       saved = res.ok;
       if (!saved) {
         const data = await res.json().catch(() => ({}));
-        setError(data.error || t.saveError);
+        setError(data.error || (lang === "hi" ? "सेव नहीं हो सका।" : "Could not save online."));
       }
     } catch {
-      setError(t.saveError);
+      setError(lang === "hi" ? "सेव नहीं हो सका।" : "Could not save online.");
     }
 
     if (saved) {
@@ -371,355 +344,558 @@ export default function StudentRegistrationForm({
   };
 
   return (
-    <Glass3DCard
-      layered
-      className={cn(
-        REVEAL,
-        INTERACTIVE_CARD,
-        "reg-form-card",
-        "rounded-2xl sm:rounded-[2rem]",
-        "relative overflow-hidden"
-      )}
-    >
-      <div className="reg-form-card__glow reg-form-card__glow--tr" aria-hidden />
-      <div className="reg-form-card__glow reg-form-card__glow--bl" aria-hidden />
-
-      <div className="reg-form-card__inner">
-        <header className="reg-form__header">
-          <div className="reg-form__header-copy">
-            <span className="reg-form__eyebrow">{lang === "hi" ? "चरण 2 / 7" : "Step 2 of 7"}</span>
-            <h3 className="reg-form__title">{t.title}</h3>
-            <p className="reg-form__subtitle">{t.subtitle}</p>
+    <div className="adm-doc">
+      <header className="adm-doc__letterhead">
+        <div className="adm-doc__brand-row">
+          <div className="adm-doc__logo-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={LOGO_SRC} alt="" className="adm-doc__logo" width={72} height={72} />
           </div>
-          <span className="reg-form__badge">
-            <span className="reg-form__badge-dot" aria-hidden />
-            {t.savedBadge}
-          </span>
-        </header>
 
-        {submitted ? (
-          <SuccessState title={t.successTitle} message={t.success} />
-        ) : (
-          <>
-            <FormProgress t={t} filled={filledSteps} />
+          <div className="adm-doc__brand-center">
+            <h2 className="adm-doc__brand-name">{brand.toUpperCase()}</h2>
+            <p className="adm-doc__brand-sub">BOUTIQUE &amp; INSTITUTE</p>
+            <p className="adm-doc__services">FASHION DESIGNING • STITCHING • BOUTIQUE TRAINING</p>
+            <p className="adm-doc__tagline">Learn • Create • Earn</p>
+          </div>
 
-            <form
-              onSubmit={submit}
-              className="reg-form"
-              noValidate
-              aria-describedby={error ? "registration-form-error" : undefined}
-            >
-              <div className="reg-form__honeypot" aria-hidden>
-                <label htmlFor="reg-website">Website</label>
+          <div className="adm-doc__socials-wrap">
+            <p className="adm-doc__socials-label">Follow us on -</p>
+            <ul className="adm-doc__socials" aria-label="Social">
+              <li>
+                <span className="adm-doc__social-icon adm-doc__social-icon--fb" aria-hidden>
+                  f
+                </span>
+                <span>/{fb}</span>
+              </li>
+              <li>
+                <span className="adm-doc__social-icon adm-doc__social-icon--ig" aria-hidden>
+                  ◇
+                </span>
+                <span>/{ig}</span>
+              </li>
+              <li>
+                <span className="adm-doc__social-icon adm-doc__social-icon--yt" aria-hidden>
+                  ▶
+                </span>
+                <span>@{yt}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="adm-doc__title-row">
+          <div className="adm-doc__title-pill">
+            <span>TAX INVOICE</span>
+          </div>
+          <div className="adm-doc__gst">
+            <span>
+              GST Number : <strong>{GST_NUMBER}</strong>
+            </span>
+            <span>
+              State Code : <strong>{STATE_CODE}</strong>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      {submitted ? (
+        <div className="adm-doc__success" role="status">
+          <h4 className="adm-doc__success-title">
+            {lang === "hi" ? "आवेदन सेव हो गया!" : "Application saved!"}
+          </h4>
+          <p className="adm-doc__success-text">
+            {lang === "hi"
+              ? "आपकी जानकारी ऑनलाइन सेव है और admin panel में दिखेगी। WhatsApp खुलना चाहिए।"
+              : "Your details are saved online and will appear in the admin panel. WhatsApp should open."}
+          </p>
+        </div>
+      ) : (
+        <form onSubmit={submit} className="adm-doc__form" noValidate>
+          <div className="adm-doc__honeypot" aria-hidden>
+            <label htmlFor="reg-website">Website</label>
+            <input
+              id="reg-website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+
+          <div className="adm-doc__grid adm-doc__grid--top">
+            <div className="adm-doc__col">
+              <DocSection title="BILL DETAILS">
+                <LineField id="reg-invoice" label="Invoice No.">
+                  <input
+                    id="reg-invoice"
+                    type="text"
+                    value={invoiceNo}
+                    onChange={(e) => setInvoiceNo(e.target.value)}
+                    placeholder="e.g. SC-INV-001"
+                  />
+                </LineField>
+                <LineField id="reg-date" label="Date">
+                  <input
+                    id="reg-date"
+                    type="date"
+                    value={formDate}
+                    onChange={(e) => setFormDate(e.target.value)}
+                  />
+                </LineField>
+              </DocSection>
+
+              <DocSection title="STUDENT DETAILS">
+                <LineField id="reg-name" label="Student Name" required>
+                  <input
+                    id="reg-name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (error) setError("");
+                    }}
+                    autoComplete="name"
+                    required
+                  />
+                </LineField>
+                <LineField id="reg-guardian" label="Father / Guardian Name">
+                  <input
+                    id="reg-guardian"
+                    type="text"
+                    value={guardianName}
+                    onChange={(e) => setGuardianName(e.target.value)}
+                  />
+                </LineField>
+                <LineField id="reg-phone" label="Mobile No" required>
+                  <input
+                    id="reg-phone"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      if (error) setError("");
+                    }}
+                    autoComplete="tel"
+                    required
+                  />
+                </LineField>
+                <LineField id="reg-email" label="Email">
+                  <input
+                    id="reg-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                  />
+                </LineField>
+                <LineField id="reg-address" label="Address" required className="adm-doc__line--tall">
+                  <textarea
+                    id="reg-address"
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                      if (error) setError("");
+                    }}
+                    rows={2}
+                    required
+                  />
+                </LineField>
+              </DocSection>
+            </div>
+
+            <DocSection title="COURSE DETAILS" className="adm-doc__section--course">
+              <LineField id="reg-course" label="Course Name" required>
+                <select id="reg-course" value={courseId} onChange={(e) => onCourseChange(e.target.value)} required>
+                  <option value="">Select course</option>
+                  {courses.map((c) => (
+                    <option key={courseKey(c)} value={courseKey(c)}>
+                      {pickLocalized(c, lang, "title", "title_hi")}
+                    </option>
+                  ))}
+                </select>
+              </LineField>
+              <LineField id="reg-code" label="Course Code">
                 <input
-                  id="reg-website"
+                  id="reg-code"
                   type="text"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={honeypot}
-                  onChange={(e) => setHoneypot(e.target.value)}
+                  value={courseCode}
+                  onChange={(e) => setCourseCode(e.target.value)}
                 />
+              </LineField>
+              <LineField id="reg-duration" label="Duration" suffix="Months">
+                <input
+                  id="reg-duration"
+                  type="text"
+                  inputMode="numeric"
+                  value={durationMonths}
+                  onChange={(e) => setDurationMonths(e.target.value.replace(/\D/g, "").slice(0, 2))}
+                />
+              </LineField>
+              <LineField id="reg-batch" label="Batch / Timing">
+                <select
+                  id="reg-batch"
+                  value={preferredBatch}
+                  onChange={(e) => setPreferredBatch(e.target.value)}
+                >
+                  <option value="">Select</option>
+                  {BATCH_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {lang === "hi" ? o.hi : o.en}
+                    </option>
+                  ))}
+                </select>
+              </LineField>
+              <LineField id="reg-start" label="Start Date">
+                <input id="reg-start" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+              </LineField>
+              <LineField id="reg-end" label="End Date">
+                <input id="reg-end" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+              </LineField>
+            </DocSection>
+          </div>
+
+          <div className="adm-doc__grid adm-doc__grid--mid">
+            <DocSection title="FEE BREAKUP">
+              <table className="adm-doc__table">
+                <thead>
+                  <tr>
+                    <th className="adm-doc__th-sno">S. No.</th>
+                    <th>Particulars</th>
+                    <th className="adm-doc__th-amt">Amount (₹)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {FEE_LABELS.map((row, i) => (
+                    <tr key={row.key}>
+                      <td>{i + 1}</td>
+                      <td>
+                        {row.key === "feeGstAmount" ? (
+                          <span className="adm-doc__gst-row">
+                            GST @{" "}
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              className="adm-doc__inline-input"
+                              value={feeGstPercent}
+                              onChange={(e) => setFeeGstPercent(e.target.value.replace(/[^\d.]/g, ""))}
+                              aria-label="GST percent"
+                              placeholder="%"
+                            />{" "}
+                            %
+                          </span>
+                        ) : (
+                          row.label
+                        )}
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          className="adm-doc__cell-input"
+                          value={feeValues[row.key]}
+                          onChange={(e) => {
+                            const v = e.target.value.replace(/[^\d.]/g, "");
+                            feeSetters[row.key](v);
+                            recalcTotal({ [row.key]: v });
+                          }}
+                          aria-label={row.label}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="adm-doc__total-bar">
+                <span>TOTAL AMOUNT</span>
+                <span className="adm-doc__total-amt">
+                  ₹{" "}
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    className="adm-doc__cell-input adm-doc__cell-input--on-orange"
+                    value={feeTotal}
+                    onChange={(e) => setFeeTotal(e.target.value.replace(/[^\d.]/g, ""))}
+                    aria-label="Total amount"
+                  />
+                </span>
               </div>
+            </DocSection>
 
-              <SectionPanel
-                icon={
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                }
-                title={t.personal}
-              >
-                <div className="reg-form__grid">
-                  <div className="reg-form__field reg-form__field--full">
-                    <label htmlFor="reg-name" className="contact-field-label">
-                      {t.name}<span className="reg-form__req">*</span>
-                    </label>
-                    <div className="contact-field-wrap">
+            <DocSection title="PAYMENT PLAN">
+              <table className="adm-doc__table adm-doc__table--plan">
+                <thead>
+                  <tr>
+                    <th>Installment No</th>
+                    <th>Due Date</th>
+                    <th>Amount (₹)</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1st Installment</td>
+                    <td>
                       <input
-                        id="reg-name"
-                        type="text"
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                          if (error) setError("");
-                        }}
-                        className="contact-field-input reg-form__input"
-                        placeholder={t.namePh}
-                        autoComplete="name"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-phone" className="contact-field-label">
-                      {t.phone}<span className="reg-form__req">*</span>
-                    </label>
-                    <div className="contact-field-wrap">
-                      <input
-                        id="reg-phone"
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => {
-                          setPhone(e.target.value);
-                          if (error) setError("");
-                        }}
-                        className="contact-field-input reg-form__input"
-                        placeholder={t.phonePh}
-                        autoComplete="tel"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-email" className="contact-field-label">{t.email}</label>
-                    <div className="contact-field-wrap">
-                      <input
-                        id="reg-email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="contact-field-input reg-form__input"
-                        placeholder={t.emailPh}
-                        autoComplete="email"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-dob" className="contact-field-label">{t.dob}</label>
-                    <div className="contact-field-wrap">
-                      <input
-                        id="reg-dob"
                         type="date"
-                        value={dob}
-                        onChange={(e) => setDob(e.target.value)}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
+                        className="adm-doc__cell-input"
+                        value={inst1Due}
+                        onChange={(e) => setInst1Due(e.target.value)}
                       />
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-gender" className="contact-field-label">{t.gender}</label>
-                    <div className="contact-field-wrap">
-                      <select
-                        id="reg-gender"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
-                      >
-                        <option value="">{t.selectGender}</option>
-                        {GENDER_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value}>
-                            {lang === "hi" ? o.hi : o.en}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field reg-form__field--full">
-                    <label htmlFor="reg-address" className="contact-field-label">
-                      {t.address}<span className="reg-form__req">*</span>
-                    </label>
-                    <div className="contact-field-wrap">
-                      <textarea
-                        id="reg-address"
-                        value={address}
-                        onChange={(e) => {
-                          setAddress(e.target.value);
-                          if (error) setError("");
-                        }}
-                        rows={2}
-                        className="contact-field-input reg-form__input reg-form__input--plain resize-none leading-relaxed min-h-[4.5rem]"
-                        placeholder={t.addressPh}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-city" className="contact-field-label">{t.city}</label>
-                    <div className="contact-field-wrap">
+                    </td>
+                    <td>
                       <input
-                        id="reg-city"
                         type="text"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
-                        placeholder={t.cityPh}
+                        inputMode="decimal"
+                        className="adm-doc__cell-input"
+                        value={inst1Amount}
+                        onChange={(e) => setInst1Amount(e.target.value.replace(/[^\d.]/g, ""))}
                       />
-                    </div>
-                  </div>
-                </div>
-              </SectionPanel>
-
-              <SectionPanel
-                icon={
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                    <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
-                  </svg>
-                }
-                title={t.courseSection}
-              >
-                <div className="reg-form__grid">
-                  <div className="reg-form__field reg-form__field--full">
-                    <label htmlFor="reg-course" className="contact-field-label">
-                      {t.course}<span className="reg-form__req">*</span>
-                    </label>
-                    <div className="contact-field-wrap">
-                      <select
-                        id="reg-course"
-                        value={courseId}
-                        onChange={(e) => {
-                          setCourseId(e.target.value);
-                          if (error) setError("");
-                        }}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
-                        required
-                      >
-                        <option value="">{t.selectCourse}</option>
-                        {courses.map((c) => (
-                          <option key={courseKey(c)} value={courseKey(c)}>
-                            {pickLocalized(c, lang, "title", "title_hi")}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <CoursePreview course={selectedCourse} lang={lang} label={t.courseSelected} />
-                  </div>
-
-                  <div className="reg-form__field reg-form__field--full">
-                    <span className="contact-field-label">{t.batch}</span>
-                    <BatchChips
-                      value={preferredBatch}
-                      onChange={setPreferredBatch}
-                      lang={lang}
-                      t={t}
-                    />
-                  </div>
-                </div>
-              </SectionPanel>
-
-              <SectionPanel
-                icon={
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
-                    <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-                  </svg>
-                }
-                title={t.background}
-                optional={t.optional}
-              >
-                <div className="reg-form__grid">
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-education" className="contact-field-label">{t.education}</label>
-                    <div className="contact-field-wrap">
-                      <select
-                        id="reg-education"
-                        value={education}
-                        onChange={(e) => setEducation(e.target.value)}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
-                      >
-                        <option value="">{t.selectEducation}</option>
-                        {EDUCATION_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value}>
-                            {lang === "hi" ? o.hi : o.en}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-guardian" className="contact-field-label">{t.guardian}</label>
-                    <div className="contact-field-wrap">
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className={cn("adm-doc__check", inst1Paid && "adm-doc__check--on")}
+                        aria-pressed={inst1Paid}
+                        aria-label="1st installment paid"
+                        onClick={() => setInst1Paid((v) => !v)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2nd Installment</td>
+                    <td>
                       <input
-                        id="reg-guardian"
-                        type="text"
-                        value={guardianName}
-                        onChange={(e) => setGuardianName(e.target.value)}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
-                        placeholder={t.guardianPh}
+                        type="date"
+                        className="adm-doc__cell-input"
+                        value={inst2Due}
+                        onChange={(e) => setInst2Due(e.target.value)}
                       />
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-aadhaar" className="contact-field-label">{t.aadhaar}</label>
-                    <div className="contact-field-wrap">
+                    </td>
+                    <td>
                       <input
-                        id="reg-aadhaar"
                         type="text"
-                        inputMode="numeric"
-                        maxLength={4}
-                        value={aadhaarLast4}
-                        onChange={(e) => setAadhaarLast4(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
-                        placeholder="••••"
+                        inputMode="decimal"
+                        className="adm-doc__cell-input"
+                        value={inst2Amount}
+                        onChange={(e) => setInst2Amount(e.target.value.replace(/[^\d.]/g, ""))}
                       />
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field">
-                    <label htmlFor="reg-referral" className="contact-field-label">{t.referral}</label>
-                    <div className="contact-field-wrap">
-                      <select
-                        id="reg-referral"
-                        value={referralSource}
-                        onChange={(e) => setReferralSource(e.target.value)}
-                        className="contact-field-input reg-form__input reg-form__input--plain"
-                      >
-                        <option value="">—</option>
-                        {REFERRAL_OPTIONS.map((o) => (
-                          <option key={o.value} value={o.value}>
-                            {lang === "hi" ? o.hi : o.en}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="reg-form__field reg-form__field--full">
-                    <label htmlFor="reg-message" className="contact-field-label">{t.message}</label>
-                    <div className="contact-field-wrap">
-                      <textarea
-                        id="reg-message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        rows={3}
-                        className="contact-field-input reg-form__input reg-form__input--plain resize-none leading-relaxed min-h-[5rem]"
-                        placeholder={t.messagePh}
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className={cn("adm-doc__check", inst2Paid && "adm-doc__check--on")}
+                        aria-pressed={inst2Paid}
+                        aria-label="2nd installment paid"
+                        onClick={() => setInst2Paid((v) => !v)}
                       />
-                    </div>
-                  </div>
-                </div>
-              </SectionPanel>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        type="text"
+                        className="adm-doc__cell-input"
+                        value={inst3Due ? "3rd Installment" : ""}
+                        placeholder="3rd / Other"
+                        readOnly
+                        tabIndex={-1}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        className="adm-doc__cell-input"
+                        value={inst3Due}
+                        onChange={(e) => setInst3Due(e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        className="adm-doc__cell-input"
+                        value={inst3Amount}
+                        onChange={(e) => setInst3Amount(e.target.value.replace(/[^\d.]/g, ""))}
+                      />
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className={cn("adm-doc__check", inst3Paid && "adm-doc__check--on")}
+                        aria-pressed={inst3Paid}
+                        aria-label="3rd installment paid"
+                        onClick={() => setInst3Paid((v) => !v)}
+                      />
+                    </td>
+                  </tr>
+                  <tr className="adm-doc__tr-total">
+                    <td colSpan={2}>Total</td>
+                    <td>
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        className="adm-doc__cell-input"
+                        value={planTotal}
+                        onChange={(e) => setPlanTotal(e.target.value.replace(/[^\d.]/g, ""))}
+                        aria-label="Payment plan total"
+                      />
+                    </td>
+                    <td />
+                  </tr>
+                </tbody>
+              </table>
+            </DocSection>
+          </div>
 
-              {error && (
-                <p id="registration-form-error" className="reg-form__error" role="alert">
-                  {error}
-                </p>
-              )}
-
-              <div className="reg-form__submit-wrap">
-                <button type="submit" disabled={saving} className={cn(BTN_PRIMARY, "reg-form__submit")}>
-                  {saving ? (
-                    <span className="reg-form__submit-loading" aria-hidden />
-                  ) : (
-                    <>
-                      {t.submit}
-                      <span aria-hidden>→</span>
-                    </>
-                  )}
-                </button>
-                <p className="reg-form__footnote">{t.footnote}</p>
+          <div className="adm-doc__grid adm-doc__grid--mid">
+            <DocSection title="PAYMENT MODE">
+              <div className="adm-doc__pay-modes" role="group" aria-label="Payment mode">
+                {PAYMENT_MODES.map((m) => {
+                  const on = paymentMode === m.id;
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      className={cn("adm-doc__pay-mode", on && "adm-doc__pay-mode--on")}
+                      aria-pressed={on}
+                      onClick={() => setPaymentMode(on ? "" : m.id)}
+                    >
+                      <span className={cn("adm-doc__check", on && "adm-doc__check--on")} aria-hidden />
+                      <span className="adm-doc__pay-icon">
+                        <PayIcon type={m.icon} />
+                      </span>
+                      <span>{m.label}</span>
+                    </button>
+                  );
+                })}
               </div>
-            </form>
-          </>
-        )}
-      </div>
-    </Glass3DCard>
+              <div className="adm-doc__pay-fields">
+                <LineField id="reg-amt-recv" label="Amount Received">
+                  <input
+                    id="reg-amt-recv"
+                    type="text"
+                    inputMode="decimal"
+                    value={amountReceived}
+                    onChange={(e) => setAmountReceived(e.target.value.replace(/[^\d.]/g, ""))}
+                    placeholder="₹"
+                  />
+                </LineField>
+                <LineField id="reg-pay-date" label="Date">
+                  <input
+                    id="reg-pay-date"
+                    type="date"
+                    value={paymentReceivedDate}
+                    onChange={(e) => setPaymentReceivedDate(e.target.value)}
+                  />
+                </LineField>
+                <LineField id="reg-recv-by" label="Received By">
+                  <input
+                    id="reg-recv-by"
+                    type="text"
+                    value={receivedBy}
+                    onChange={(e) => setReceivedBy(e.target.value)}
+                  />
+                </LineField>
+                <LineField id="reg-sign" label="Signature">
+                  <input
+                    id="reg-sign"
+                    type="text"
+                    value={signatureNote}
+                    onChange={(e) => setSignatureNote(e.target.value)}
+                    placeholder="Name / note"
+                  />
+                </LineField>
+              </div>
+            </DocSection>
+
+            <DocSection title="TERMS & CONDITIONS">
+              <ol className="adm-doc__terms">
+                {TERMS.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ol>
+            </DocSection>
+          </div>
+
+          <div className="adm-doc__bottom">
+            <div className="adm-doc__bank">
+              <p className="adm-doc__bank-title">BANK DETAILS (For Online Transfer)</p>
+              <p className="adm-doc__bank-line">
+                <span>
+                  <strong>Account Name :</strong> {BANK.accountName}
+                </span>
+                <span className="adm-doc__bank-sep" aria-hidden>
+                  |
+                </span>
+                <span>
+                  <strong>Bank Name :</strong> {BANK.bankName}
+                </span>
+                <span className="adm-doc__bank-sep" aria-hidden>
+                  |
+                </span>
+                <span>
+                  <strong>Account No. :</strong> {BANK.accountNo}
+                </span>
+                <span className="adm-doc__bank-sep" aria-hidden>
+                  |
+                </span>
+                <span>
+                  <strong>IFSC Code :</strong> {BANK.ifsc}
+                </span>
+                <span className="adm-doc__bank-sep" aria-hidden>
+                  |
+                </span>
+                <span>
+                  <strong>Branch :</strong> {BANK.branch}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          {error ? (
+            <p className="adm-doc__error" role="alert">
+              {error}
+            </p>
+          ) : null}
+
+          <div className="adm-doc__submit-wrap">
+            <button type="submit" disabled={saving} className="adm-doc__submit">
+              {saving ? (
+                <span className="adm-doc__submit-loading" aria-hidden />
+              ) : lang === "hi" ? (
+                "एडमिशन फॉर्म जमा करें"
+              ) : (
+                "Submit admission form"
+              )}
+            </button>
+          </div>
+        </form>
+      )}
+
+      <footer className="adm-doc__footer">
+        <span className="adm-doc__footer-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.34a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.74-1.25a2 2 0 0 1 2.11-.45c.74.32 1.53.55 2.34.68A2 2 0 0 1 22 16.92z" />
+          </svg>
+          {phone1} / {phone2Short}
+        </span>
+        <span className="adm-doc__footer-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <circle cx="12" cy="12" r="10" />
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg>
+          {WEBSITE}
+        </span>
+        <span className="adm-doc__footer-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          Boring Road Patna
+        </span>
+      </footer>
+    </div>
   );
 }

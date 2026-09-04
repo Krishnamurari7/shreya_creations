@@ -67,10 +67,10 @@ const COURSE_LINKS = [
     noteHi: "अपना बुटीक बिज़नेस शुरू करें",
   },
   {
-    href: "/courses/lehenga-making-course",
+    href: "/courses/lehenga-design-course-patna",
     icon: "sparkle",
-    title: "Lehenga Making Course",
-    titleHi: "लहंगा मेकिंग कोर्स",
+    title: "Lehenga Design Course",
+    titleHi: "लहंगा डिजाइनिंग कोर्स",
     note: "Bridal, Gown & Designer Wear",
     noteHi: "ब्राइडल, गाउन और डिज़ाइनर वियर",
   },

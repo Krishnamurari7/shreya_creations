@@ -259,24 +259,52 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
           </Link>
 
           <div className="course-detail__hero-grid">
-            <div className="course-detail__media">
-              {course.preview_video ? (
-                <iframe
-                  src={course.preview_video}
-                  title={title}
-                  className="course-detail__iframe"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : course.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={course.image}
-                  alt={course.image_alt || course.imageAlt || `${title} Patna`}
-                  className="course-detail__image"
-                />
-              ) : (
-                <div className="course-detail__image-placeholder">{title}</div>
+            <div className="course-detail__media-col">
+              <div className="course-detail__media">
+                {course.preview_video ? (
+                  <iframe
+                    src={course.preview_video}
+                    title={title}
+                    className="course-detail__iframe"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : course.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={course.image}
+                    alt={course.image_alt || course.imageAlt || `${title} Patna`}
+                    className="course-detail__image"
+                  />
+                ) : (
+                  <div className="course-detail__image-placeholder">{title}</div>
+                )}
+              </div>
+
+              {showPdf && (
+                <button
+                  type="button"
+                  className="course-detail__pdf-btn"
+                  onClick={() => {
+                    trackLead("brochure_download", {
+                      cta_label: "brochure_download",
+                      item_name: title,
+                      source_page: `/courses/${course.slug}`,
+                    });
+                    setPdfOpen(true);
+                  }}
+                >
+                  <span className="course-detail__pdf-btn-icon" aria-hidden>
+                    📄
+                  </span>
+                  <span className="course-detail__pdf-btn-copy">
+                    <span className="course-detail__pdf-btn-label">{t.viewDetails}</span>
+                    <span className="course-detail__pdf-btn-sub">{t.viewDetailsSub}</span>
+                  </span>
+                  <span className="course-detail__pdf-btn-arrow" aria-hidden>
+                    →
+                  </span>
+                </button>
               )}
             </div>
 
@@ -349,34 +377,6 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
           </div>
         </div>
       </div>
-
-      {showPdf && (
-        <div className={cn(PAGE_CONTAINER, "course-detail__pdf-wrap")}>
-          <button
-            type="button"
-            className="course-detail__pdf-btn"
-            onClick={() => {
-              trackLead("brochure_download", {
-                cta_label: "brochure_download",
-                item_name: title,
-                source_page: `/courses/${course.slug}`,
-              });
-              setPdfOpen(true);
-            }}
-          >
-            <span className="course-detail__pdf-btn-icon" aria-hidden>
-              📄
-            </span>
-            <span className="course-detail__pdf-btn-copy">
-              <span className="course-detail__pdf-btn-label">{t.viewDetails}</span>
-              <span className="course-detail__pdf-btn-sub">{t.viewDetailsSub}</span>
-            </span>
-            <span className="course-detail__pdf-btn-arrow" aria-hidden>
-              →
-            </span>
-          </button>
-        </div>
-      )}
 
       <div className={cn(PAGE_CONTAINER, "course-detail__body")}>
         <section className="course-detail__section">

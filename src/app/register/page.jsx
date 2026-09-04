@@ -1,10 +1,7 @@
 import PageShell from "@/components/PageShell";
-import LocalizedPageHeader from "@/components/LocalizedPageHeader";
 import RegisterPageClient from "@/components/RegisterPageClient";
-import PageCTA from "@/components/PageCTA";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getCourses, getSiteSettings } from "@/lib/data";
-import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
 import { buildMetadata, breadcrumbJsonLd, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
@@ -26,8 +23,6 @@ export default async function RegisterPage({ searchParams }) {
   const [courses, site] = await Promise.all([getCourses(), getSiteSettings()]);
   const courseSlug = (await searchParams)?.course || "";
 
-  const registerCopy = site.pages?.register || {};
-
   return (
     <PageShell>
       <JsonLdScript
@@ -40,23 +35,7 @@ export default async function RegisterPage({ searchParams }) {
           locale
         )}
       />
-      <LocalizedPageHeader
-        compact
-        eyebrow={registerCopy.headerEyebrow || "Student admission"}
-        eyebrowHi={registerCopy.headerEyebrowHi || "छात्र एडमिशन"}
-        title={registerCopy.headerTitle || "Online Admission Form — Fashion Institute Patna"}
-        titleHi={registerCopy.headerTitleHi || "ऑनलाइन एडमिशन फॉर्म — पटना फैशन इंस्टिट्यूट"}
-        subtitle={
-          registerCopy.headerSubtitle ||
-          "Fill your details online. We save everything securely and confirm counselling, fees & documents on WhatsApp."
-        }
-        subtitleHi={
-          registerCopy.headerSubtitleHi ||
-          "अपनी जानकारी ऑनलाइन भरें। सब कुछ सुरक्षित सेव होगा — काउंसलिंग, फीस और दस्तावेज WhatsApp पर कन्फर्म होंगे।"
-        }
-      />
       <RegisterPageClient site={site} courses={courses} defaultCourseSlug={courseSlug} />
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(registerCopy)} />
     </PageShell>
   );
 }

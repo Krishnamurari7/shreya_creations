@@ -536,8 +536,8 @@ export const PAGE_DEFAULTS = {
       "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1786290945897-ewbdy9.jpg",
     header_eyebrow: "Best Fashion Institute in Patna",
     header_eyebrow_hi: "पटना का बेस्ट फैशन इंस्टिट्यूट",
-    header_title: "Turn Your Passion for Fashion Into a Skill, Career & Business",
-    header_title_hi: "फैशन के प्रति अपने जुनून को कौशल, करियर और कारोबार में बदलें",
+    header_title: "Fashion Designing Stitching & Boutique master Courses in Patna",
+    header_title_hi: "पटना में फैशन डिजाइनिंग, सिलाई और बुटीक मास्टर कोर्स",
     header_highlight: "",
     header_highlight_hi: "",
     header_subtitle:
@@ -550,8 +550,8 @@ export const PAGE_DEFAULTS = {
       "पटना के बेस्ट फैशन इंस्टिट्यूट में हम \"प्रैक्टिस के माध्यम से सीखने\" पर जोर देते हैं और सिलाई, पैटर्न मेकिंग, कढ़ाई, गारमेंट मेकिंग और बुटीक मैनेजमेंट से जुड़ी हर चीज़ सिखाते हैं।",
     intro_cta_primary: "Check Our Programs",
     intro_cta_primary_hi: "हमारे कोर्स देखें",
-    intro_cta_secondary: "Schedule Your Free Demo",
-    intro_cta_secondary_hi: "मुफ़्त डेमो बुक करें",
+    intro_cta_secondary: "Book Your free demo class",
+    intro_cta_secondary_hi: "अपनी मुफ़्त डेमो क्लास बुक करें",
     seo_practical_title: "A Fashion Design Institute in Patna Focused on Practical Training",
     seo_practical_title_hi: "पटना में प्रैक्टिकल ट्रेनिंग पर केंद्रित फैशन डिज़ाइन इंस्टिट्यूट",
     seo_practical_body:

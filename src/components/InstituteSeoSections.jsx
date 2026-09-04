@@ -70,9 +70,7 @@ function useCoursesSeoContent(coursesPage = {}) {
     pickPage(coursesPage, lang, "introBody", "introBodyHi") || DEFAULTS.intro_body;
   const introCtaPrimary =
     pickPage(coursesPage, lang, "introCtaPrimary", "introCtaPrimaryHi") || DEFAULTS.intro_cta_primary;
-  const introCtaSecondary =
-    pickPage(coursesPage, lang, "introCtaSecondary", "introCtaSecondaryHi") ||
-    DEFAULTS.intro_cta_secondary;
+  const introCtaSecondary = lang === "hi" ? DEFAULTS.intro_cta_secondary_hi : DEFAULTS.intro_cta_secondary;
 
   const sections = [
     {
@@ -133,7 +131,7 @@ function useCoursesSeoContent(coursesPage = {}) {
 }
 
 export function CoursesIntroStrip({ coursesPage = {} }) {
-  const { hi, introBody, introCtaPrimary, introCtaSecondary } = useCoursesSeoContent(coursesPage);
+  const { hi, introBody, introCtaSecondary } = useCoursesSeoContent(coursesPage);
 
   if (!introBody) return null;
 
@@ -143,19 +141,12 @@ export function CoursesIntroStrip({ coursesPage = {} }) {
       <div className="institute-seo-intro__ctas">
         <button
           type="button"
-          className="institute-seo-block__cta institute-seo-block__cta--primary"
-          onClick={scrollToCourses}
-        >
-          {introCtaPrimary}
-        </button>
-        <button
-          type="button"
-          className="institute-seo-block__cta institute-seo-block__cta--secondary"
+          className="institute-seo-block__cta institute-seo-block__cta--secondary institute-seo-block__cta--demo-pulse"
           onClick={() =>
             openDemo(
               hi
                 ? "नमस्ते! मैं Shreya Creation में मुफ़्त डेमो क्लास बुक करना चाहती/चाहता हूँ।"
-                : "Hi! I'd like to schedule a free demo class at Shreya Creation."
+                : "Hi! I'd like to book a free demo class at Shreya Creation."
             )
           }
         >

@@ -58,8 +58,8 @@ export default async function CoursesPage() {
         compact
         eyebrow={coursesPage.headerEyebrow || COURSES_DEFAULTS.header_eyebrow}
         eyebrowHi={coursesPage.headerEyebrowHi || COURSES_DEFAULTS.header_eyebrow_hi}
-        title={coursesPage.headerTitle || COURSES_DEFAULTS.header_title}
-        titleHi={coursesPage.headerTitleHi || COURSES_DEFAULTS.header_title_hi}
+        title={COURSES_DEFAULTS.header_title}
+        titleHi={COURSES_DEFAULTS.header_title_hi}
         subtitle={coursesPage.headerSubtitle || COURSES_DEFAULTS.header_subtitle}
         subtitleHi={coursesPage.headerSubtitleHi || COURSES_DEFAULTS.header_subtitle_hi}
       />
