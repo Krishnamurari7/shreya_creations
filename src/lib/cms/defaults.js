@@ -531,27 +531,27 @@ export const PAGE_DEFAULTS = {
   courses: {
     meta_title: "Best Fashion Institute in Patna | Shreya Creation",
     meta_description:
-      "Join the Best Fashion Institute in Patna for practical fashion designing, stitching, boutique management, blouse making, & career-focused training.",
+      "Learn stitching, fashion designing & boutique training in Patna — blouse, suit, lehenga, gown. Practical Hindi & English courses. Book a free demo class.",
     og_image:
       "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1786290945897-ewbdy9.jpg",
     header_eyebrow: "Best Fashion Institute in Patna",
     header_eyebrow_hi: "पटना का बेस्ट फैशन इंस्टिट्यूट",
-    header_title: "Fashion Designing Stitching & Boutique master Courses in Patna",
-    header_title_hi: "पटना में फैशन डिजाइनिंग, सिलाई और बुटीक मास्टर कोर्स",
+    header_title: "Learn Stitching. Build Your Career. Start Your Own Boutique.",
+    header_title_hi: "सिलाई सीखें। करियर बनाएं। अपना बुटीक शुरू करें।",
     header_highlight: "",
     header_highlight_hi: "",
     header_subtitle:
-      "Fashion is not just about drawing pretty designs; it's about knowing how to realize them. At Shreya Creation, we blend creativity, craftsmanship, and industry insights to assist emerging designers in turning their dreams into reality.",
+      "Learn blouse, suit, lehenga, gown stitching and dress designing the practical way. Fashion Designing & Boutique Training Course in Patna — beginner to professional.",
     header_subtitle_hi:
-      "फैशन सिर्फ सुंदर डिज़ाइन बनाने के बारे में नहीं है — यह उन्हें साकार करना जानने के बारे में है। श्रेया क्रिएशन में हम रचनात्मकता, कारीगरी और इंडस्ट्री अंतर्दृष्टि को मिलाकर नए डिज़ाइनरों को उनके सपनों को हकीकत बनाने में मदद करते हैं।",
+      "हमारे यहाँ Blouse Stitching, Suit Stitching, Lehenga Stitching, Gown Stitching और Dress Designing practical तरीके से सीखें। Beginner से लेकर professional level तक Fashion Designing & Boutique Training Course in Patna करें।",
     intro_body:
-      "We, at the Best Fashion Institute in Patna, emphasize \"learning through practice\" and teach everything related to stitching, pattern making, embroidery, garment making, and boutique management.",
+      "Learn stitching to get a job or start your own boutique. Book a free demo class and see our practical training before you enroll. Hindi & English · Practical Training · Beginner Friendly · Certificate Course",
     intro_body_hi:
-      "पटना के बेस्ट फैशन इंस्टिट्यूट में हम \"प्रैक्टिस के माध्यम से सीखने\" पर जोर देते हैं और सिलाई, पैटर्न मेकिंग, कढ़ाई, गारमेंट मेकिंग और बुटीक मैनेजमेंट से जुड़ी हर चीज़ सिखाते हैं।",
+      "Stitching सीखकर Job करें या अपना खुद का Boutique शुरू करें। Free Demo Class बुक करें और हमारे practical training को खुद देखकर सीखने का पहला कदम उठाएँ। Hindi & English · Practical Training · Beginner Friendly · Certificate Course",
     intro_cta_primary: "Check Our Programs",
     intro_cta_primary_hi: "हमारे कोर्स देखें",
-    intro_cta_secondary: "Book Your free demo class",
-    intro_cta_secondary_hi: "अपनी मुफ़्त डेमो क्लास बुक करें",
+    intro_cta_secondary: "Book Your Free Demo Class",
+    intro_cta_secondary_hi: "मुफ़्त डेमो क्लास बुक करें",
     seo_practical_title: "A Fashion Design Institute in Patna Focused on Practical Training",
     seo_practical_title_hi: "पटना में प्रैक्टिकल ट्रेनिंग पर केंद्रित फैशन डिज़ाइन इंस्टिट्यूट",
     seo_practical_body:

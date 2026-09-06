@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { getSupabaseAnonKey, getSupabaseUrl, isSupabaseConfigured } from "@/lib/supabase/config";
+import { uploadPassportPhotoDataUrl } from "@/lib/supabase/upload-passport";
 
 const RATE_LIMIT_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
@@ -22,6 +23,18 @@ const optionalNum = z
     return Number.isFinite(n) ? n : null;
   });
 
+const passportPhotoSchema = z
+  .string()
+  .max(600_000)
+  .optional()
+  .or(z.literal(""))
+  .transform((v) => {
+    const s = String(v || "").trim();
+    if (!s) return undefined;
+    if (/^data:image\/(jpeg|jpg|png|webp);base64,/i.test(s)) return s;
+    return undefined;
+  });
+
 const registrationSchema = z.object({
   name: z.string().min(1).max(200),
   phone: z.string().min(10).max(20),
@@ -30,12 +43,22 @@ const registrationSchema = z.object({
   gender: z.enum(["female", "male", "other", ""]).optional(),
   address: z.string().max(500).optional(),
   city: z.string().max(100).optional(),
+  whatsapp_phone: z.string().max(20).optional(),
+  district: z.string().max(100).optional(),
+  state: z.string().max(100).optional(),
+  pin_code: z.string().max(12).optional(),
   course_id: z.string().uuid().optional().or(z.literal("")),
   course_name: z.string().min(1).max(300),
   course_slug: z.string().max(200).optional(),
   preferred_batch: z.enum(["morning", "afternoon", "evening", "any", ""]).optional(),
+  course_mode: z.enum(["offline", "online", ""]).optional(),
   education: z.string().max(200).optional(),
   guardian_name: z.string().max(200).optional(),
+  experience: z.string().max(500).optional(),
+  sewing_machine: z.enum(["yes", "no", ""]).optional(),
+  previous_training: z.string().max(500).optional(),
+  documents_submitted: z.string().max(500).optional(),
+  passport_photo: passportPhotoSchema,
   aadhaar_last4: z.string().max(4).optional(),
   referral_source: z.string().max(200).optional(),
   message: z.string().max(5000).optional(),
@@ -50,6 +73,7 @@ const registrationSchema = z.object({
   start_date: optionalDate,
   end_date: optionalDate,
   fee_course: optionalNum,
+  fee_discount: optionalNum,
   fee_registration: optionalNum,
   fee_material: optionalNum,
   fee_gst_percent: optionalNum,
@@ -116,6 +140,19 @@ function money(n) {
 function buildMessageFallback(data) {
   const lines = [];
   if (data.message?.trim()) lines.push(data.message.trim());
+  if (data.whatsapp_phone) lines.push(`WhatsApp: ${data.whatsapp_phone}`);
+  if (data.district) lines.push(`District: ${data.district}`);
+  if (data.state) lines.push(`State: ${data.state}`);
+  if (data.pin_code) lines.push(`PIN: ${data.pin_code}`);
+  if (data.course_mode) lines.push(`Mode: ${data.course_mode}`);
+  if (data.fee_discount != null) lines.push(`Discount / Scholarship: ${money(data.fee_discount)}`);
+  if (data.experience) lines.push(`Previous stitching / fashion experience: ${data.experience}`);
+  if (data.sewing_machine) lines.push(`Sewing machine available: ${data.sewing_machine}`);
+  if (data.previous_training) lines.push(`Previous course / training: ${data.previous_training}`);
+  if (data.documents_submitted) lines.push(`Documents submitted: ${data.documents_submitted}`);
+  if (data.passport_photo_url && /^https?:\/\//i.test(data.passport_photo_url)) {
+    lines.push(`Passport photo: ${data.passport_photo_url}`);
+  }
   if (data.invoice_no) lines.push(`Invoice No: ${data.invoice_no}`);
   if (data.form_date) lines.push(`Form Date: ${data.form_date}`);
   if (data.course_code) lines.push(`Course Code: ${data.course_code}`);
@@ -131,18 +168,6 @@ function buildMessageFallback(data) {
     data.fee_total != null ? `Total: ${money(data.fee_total)}` : null,
   ].filter(Boolean);
   if (fees.length) lines.push(`Fees — ${fees.join(" | ")}`);
-  const plans = [
-    data.installment_1_amount != null || data.installment_1_due
-      ? `1st: ${data.installment_1_due || "—"} / ${money(data.installment_1_amount) || "—"} ${data.installment_1_paid ? "(paid)" : ""}`
-      : null,
-    data.installment_2_amount != null || data.installment_2_due
-      ? `2nd: ${data.installment_2_due || "—"} / ${money(data.installment_2_amount) || "—"} ${data.installment_2_paid ? "(paid)" : ""}`
-      : null,
-    data.installment_3_amount != null || data.installment_3_due
-      ? `3rd: ${data.installment_3_due || "—"} / ${money(data.installment_3_amount) || "—"} ${data.installment_3_paid ? "(paid)" : ""}`
-      : null,
-  ].filter(Boolean);
-  if (plans.length) lines.push(`Payment plan — ${plans.join(" | ")}`);
   if (data.payment_mode) lines.push(`Payment mode: ${data.payment_mode}`);
   if (data.amount_received != null) lines.push(`Amount received: ${money(data.amount_received)}`);
   if (data.payment_received_date) lines.push(`Payment date: ${data.payment_received_date}`);
@@ -178,6 +203,17 @@ function coreRow(data) {
 function fullRow(data) {
   return {
     ...coreRow(data),
+    message: data.message?.trim() || null,
+    whatsapp_phone: data.whatsapp_phone?.trim() || null,
+    district: data.district?.trim() || null,
+    state: data.state?.trim() || null,
+    pin_code: data.pin_code?.trim() || null,
+    course_mode: data.course_mode || null,
+    experience: data.experience?.trim() || null,
+    sewing_machine: data.sewing_machine || null,
+    previous_training: data.previous_training?.trim() || null,
+    documents_submitted: data.documents_submitted?.trim() || null,
+    passport_photo_url: data.passport_photo_url || null,
     invoice_no: data.invoice_no?.trim() || null,
     form_date: data.form_date || null,
     course_code: data.course_code?.trim() || null,
@@ -185,6 +221,7 @@ function fullRow(data) {
     start_date: data.start_date || null,
     end_date: data.end_date || null,
     fee_course: data.fee_course,
+    fee_discount: data.fee_discount,
     fee_registration: data.fee_registration,
     fee_material: data.fee_material,
     fee_gst_percent: data.fee_gst_percent,
@@ -204,6 +241,35 @@ function fullRow(data) {
     payment_received_date: data.payment_received_date || null,
     received_by: data.received_by?.trim() || null,
   };
+}
+
+function invoiceRow(data) {
+  const row = { ...fullRow(data) };
+  delete row.whatsapp_phone;
+  delete row.district;
+  delete row.state;
+  delete row.pin_code;
+  delete row.course_mode;
+  delete row.experience;
+  delete row.sewing_machine;
+  delete row.previous_training;
+  delete row.documents_submitted;
+  delete row.passport_photo_url;
+  delete row.fee_discount;
+  row.message = buildMessageFallback(data);
+  return row;
+}
+
+async function resolvePassportPhotoUrl(dataUrl) {
+  if (!dataUrl) return null;
+  try {
+    const uploaded = await uploadPassportPhotoDataUrl(dataUrl);
+    if (uploaded) return uploaded;
+  } catch (err) {
+    console.error("passport photo upload:", err?.message || err);
+  }
+  // Do not store raw data URLs in Postgres — registration still saves without photo
+  return null;
 }
 
 /** Public student registration endpoint — honeypot + rate limit. Anon INSERT via RLS. */
@@ -251,24 +317,53 @@ export async function POST(request) {
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
-    const extended = fullRow({ ...data, aadhaar_last4: aadhaar });
-    let { error } = await supabase.from("student_registrations").insert(extended);
+    const passport_photo_url = await resolvePassportPhotoUrl(data.passport_photo);
+    const payload = { ...data, aadhaar_last4: aadhaar, passport_photo_url };
 
-    // Older DB without invoice columns — fall back to core columns + message summary
+    let { error } = await supabase.from("student_registrations").insert(fullRow(payload));
+
+    // Missing passport column — retry without it
+    if (error && /passport_photo_url/i.test(error.message || "")) {
+      const row = fullRow(payload);
+      delete row.passport_photo_url;
+      const retry = await supabase.from("student_registrations").insert(row);
+      error = retry.error;
+    }
+
+    // Older DB without enrollment columns — try invoice columns
+    if (error && /column|schema cache|does not exist/i.test(error.message || "")) {
+      const { error: invoiceError } = await supabase
+        .from("student_registrations")
+        .insert(invoiceRow(payload));
+      error = invoiceError;
+    }
+
+    // Oldest DB — core columns + message summary only
     if (error && /column|schema cache|does not exist/i.test(error.message || "")) {
       const { error: coreError } = await supabase
         .from("student_registrations")
-        .insert(coreRow({ ...data, aadhaar_last4: aadhaar }));
+        .insert(coreRow(payload));
       error = coreError;
     }
 
     if (error) {
       console.error("registration insert:", error.message);
-      return NextResponse.json({ error: "Could not save registration. Please try WhatsApp." }, { status: 500 });
+      const missingTable = /could not find the table|relation .* does not exist/i.test(
+        error.message || ""
+      );
+      return NextResponse.json(
+        {
+          error: missingTable
+            ? "Registration table is missing in Supabase. Run student_registrations_complete_setup.sql, then try again."
+            : "Could not save registration. Please try WhatsApp.",
+        },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true, recordedAt: new Date().toISOString() });
-  } catch {
+  } catch (err) {
+    console.error("registration fatal:", err?.message || err);
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 }

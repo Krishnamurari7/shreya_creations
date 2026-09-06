@@ -5,21 +5,15 @@ import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
+import { downloadAdmissionFormPdf, normalizeEnrollment } from "@/lib/admission-form-pdf";
 
 const STATUSES = ["pending", "reviewed", "admitted", "rejected"];
 
 const BATCH_LABELS = {
-  morning: "Morning",
-  afternoon: "Afternoon",
-  evening: "Evening",
+  morning: "Morning 9–12",
+  afternoon: "Afternoon 12–3",
+  evening: "Evening 3–6",
   any: "Flexible",
-};
-
-const PAYMENT_LABELS = {
-  cash: "Cash",
-  upi: "UPI",
-  card: "Card",
-  bank: "Bank Transfer",
 };
 
 function waLink(phone) {
@@ -41,6 +35,16 @@ function money(n) {
   return `₹${num.toLocaleString("en-IN")}`;
 }
 
+function formatDate(d) {
+  if (!d) return null;
+  const s = String(d);
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+    const [y, m, day] = s.slice(0, 10).split("-");
+    return `${day}/${m}/${y}`;
+  }
+  return s;
+}
+
 function Detail({ label, value }) {
   if (value == null || value === "") return null;
   return (
@@ -58,6 +62,7 @@ export default function StudentRegistrationsAdmin() {
   const [filterStatus, setFilterStatus] = useState("");
   const [filterFrom, setFilterFrom] = useState("");
   const [toast, setToast] = useState("");
+  const [pdfBusyId, setPdfBusyId] = useState("");
 
   const showToast = (msg) => {
     setToast(msg);
@@ -121,33 +126,54 @@ export default function StudentRegistrationsAdmin() {
     }
   };
 
+  const downloadPdf = async (row) => {
+    try {
+      setPdfBusyId(row.id);
+      await downloadAdmissionFormPdf(normalizeEnrollment(row));
+      showToast("PDF downloaded");
+    } catch (err) {
+      showToast(err?.message || "Could not create PDF");
+    } finally {
+      setPdfBusyId("");
+    }
+  };
+
   const exportCsv = () => {
     const header = [
       "created_at",
-      "invoice_no",
       "form_date",
       "name",
       "phone",
+      "whatsapp_phone",
       "email",
       "guardian_name",
+      "date_of_birth",
+      "gender",
       "address",
       "city",
+      "district",
+      "state",
+      "pin_code",
       "course_name",
-      "course_code",
       "duration_months",
       "preferred_batch",
-      "start_date",
-      "end_date",
+      "course_mode",
+      "education",
+      "experience",
+      "sewing_machine",
+      "previous_training",
+      "documents_submitted",
+      "fee_course",
+      "fee_discount",
       "fee_total",
-      "payment_mode",
-      "amount_received",
       "status",
       "admission_number",
       "is_read",
     ];
-    const lines = filtered.map((r) =>
-      header.map((k) => `"${String(r[k] ?? "").replace(/"/g, '""')}"`).join(",")
-    );
+    const lines = filtered.map((raw) => {
+      const r = normalizeEnrollment(raw);
+      return header.map((k) => `"${String(r[k] ?? "").replace(/"/g, '""')}"`).join(",");
+    });
     const blob = new Blob([[header.join(","), ...lines].join("\n")], { type: "text/csv" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -222,158 +248,163 @@ export default function StudentRegistrationsAdmin() {
         <p className="admin-muted">No student registrations yet.</p>
       ) : (
         <ul className="space-y-3 sm:space-y-4">
-          {filtered.map((r) => (
-            <li
-              key={r.id}
-              className={cn(GLASS, "rounded-2xl", "p-4", "sm:p-5", !r.is_read && "border-orange/40")}
-            >
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                  <div className="admin-inquiry-meta">
-                    <span className="font-medium">{r.name}</span>
-                    <span>{new Date(r.created_at).toLocaleString("en-IN")}</span>
+          {filtered.map((raw) => {
+            const r = normalizeEnrollment(raw);
+            return (
+              <li
+                key={r.id}
+                className={cn(GLASS, "rounded-2xl", "p-4", "sm:p-5", !r.is_read && "border-orange/40")}
+              >
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <div className="admin-inquiry-meta">
+                      <span className="font-medium">{r.name}</span>
+                      <span>{new Date(r.created_at).toLocaleString("en-IN")}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2 text-xs admin-muted mt-1">
+                      <span className="uppercase tracking-wider">{r.status || "pending"}</span>
+                      <span>{r.course_name}</span>
+                      {r.admission_number && <span>Adm: {r.admission_number}</span>}
+                      {r.locale && <span>{r.locale}</span>}
+                      {!r.is_read && <span className="text-orange">Unread</span>}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2 text-xs admin-muted mt-1">
-                    <span className="uppercase tracking-wider">{r.status || "pending"}</span>
-                    <span>{r.course_name}</span>
-                    {r.invoice_no && <span>Inv: {r.invoice_no}</span>}
-                    {r.locale && <span>{r.locale}</span>}
-                    {!r.is_read && <span className="text-orange">Unread</span>}
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => downloadPdf(raw)}
+                      disabled={pdfBusyId === r.id}
+                      className={BTN_PRIMARY}
+                    >
+                      {pdfBusyId === r.id ? "Preparing…" : "Download PDF"}
+                    </button>
+                    {telLink(r.phone) && (
+                      <a href={telLink(r.phone)} className={BTN_SECONDARY}>
+                        Call
+                      </a>
+                    )}
+                    {waLink(r.whatsapp_phone || r.phone) && (
+                      <a
+                        href={waLink(r.whatsapp_phone || r.phone)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={BTN_SECONDARY}
+                      >
+                        WhatsApp
+                      </a>
+                    )}
+                    <button type="button" onClick={() => toggleRead(raw)} className={BTN_SECONDARY}>
+                      {r.is_read ? "Mark unread" : "Mark read"}
+                    </button>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {telLink(r.phone) && (
-                    <a href={telLink(r.phone)} className={BTN_SECONDARY}>
-                      Call
-                    </a>
-                  )}
-                  {waLink(r.phone) && (
-                    <a href={waLink(r.phone)} target="_blank" rel="noopener noreferrer" className={BTN_PRIMARY}>
-                      WhatsApp
-                    </a>
-                  )}
-                  <button type="button" onClick={() => toggleRead(r)} className={BTN_SECONDARY}>
-                    {r.is_read ? "Mark unread" : "Mark read"}
-                  </button>
+
+                <div className="text-sm mt-3 grid sm:grid-cols-2 gap-x-4 gap-y-1">
+                  {r.passport_photo_url ? (
+                    <div className="sm:col-span-2 flex items-start gap-3 mb-1">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={r.passport_photo_url}
+                        alt=""
+                        className="w-14 h-16 object-cover rounded border border-orange/30 bg-cream"
+                      />
+                      <span className="admin-muted text-xs self-center">Passport photo attached</span>
+                    </div>
+                  ) : null}
+                  <Detail label="Phone" value={r.phone} />
+                  <Detail label="WhatsApp" value={r.whatsapp_phone} />
+                  <Detail label="Email" value={r.email} />
+                  <Detail label="Guardian" value={r.guardian_name} />
+                  <Detail label="DOB" value={formatDate(r.date_of_birth)} />
+                  <Detail label="Gender" value={r.gender} />
+                  <Detail
+                    label="Address"
+                    value={
+                      [
+                        r.address,
+                        r.city,
+                        r.district,
+                        r.state,
+                        r.pin_code ? `PIN ${r.pin_code}` : null,
+                      ]
+                        .filter(Boolean)
+                        .join(", ") || null
+                    }
+                  />
+                  <Detail label="Admission date" value={formatDate(r.form_date)} />
+                  <Detail
+                    label="Duration"
+                    value={
+                      r.duration_months
+                        ? /\d/.test(String(r.duration_months)) && !/month/i.test(String(r.duration_months))
+                          ? `${r.duration_months} months`
+                          : r.duration_months
+                        : null
+                    }
+                  />
+                  <Detail label="Batch" value={BATCH_LABELS[r.preferred_batch] || r.preferred_batch} />
+                  <Detail label="Mode" value={r.course_mode} />
+                  <Detail label="Education" value={r.education} />
+                  <Detail label="Experience" value={r.experience} />
+                  <Detail label="Sewing machine" value={r.sewing_machine} />
+                  <Detail label="Previous training" value={r.previous_training} />
+                  <Detail label="Documents" value={r.documents_submitted} />
+                  <Detail label="Course fee" value={money(r.fee_course)} />
+                  <Detail label="Discount" value={money(r.fee_discount)} />
+                  <Detail label="Final payable" value={money(r.fee_total)} />
                 </div>
-              </div>
 
-              <div className="text-sm mt-3 grid sm:grid-cols-2 gap-x-4 gap-y-1">
-                <Detail label="Phone" value={r.phone} />
-                <Detail label="Email" value={r.email} />
-                <Detail label="Guardian" value={r.guardian_name} />
-                <Detail
-                  label="Address"
-                  value={r.address ? `${r.address}${r.city ? `, ${r.city}` : ""}` : null}
-                />
-                <Detail label="Form date" value={r.form_date} />
-                <Detail label="Course code" value={r.course_code} />
-                <Detail
-                  label="Duration"
-                  value={r.duration_months ? `${r.duration_months} months` : null}
-                />
-                <Detail label="Batch" value={BATCH_LABELS[r.preferred_batch] || r.preferred_batch} />
-                <Detail label="Start" value={r.start_date} />
-                <Detail label="End" value={r.end_date} />
-                <Detail label="Course fee" value={money(r.fee_course)} />
-                <Detail label="Registration fee" value={money(r.fee_registration)} />
-                <Detail label="Material / kit" value={money(r.fee_material)} />
-                <Detail
-                  label="GST"
-                  value={
-                    r.fee_gst_amount != null || r.fee_gst_percent != null
-                      ? `${r.fee_gst_percent != null ? `${r.fee_gst_percent}% ` : ""}${money(r.fee_gst_amount) || ""}`.trim()
-                      : null
-                  }
-                />
-                <Detail label="Fee total" value={money(r.fee_total)} />
-                <Detail label="Payment mode" value={PAYMENT_LABELS[r.payment_mode] || r.payment_mode} />
-                <Detail label="Amount received" value={money(r.amount_received)} />
-                <Detail label="Payment date" value={r.payment_received_date} />
-                <Detail label="Received by" value={r.received_by} />
-              </div>
+                {r.message && r.message !== "Declaration accepted: yes" && (
+                  <p className="text-sm whitespace-pre-wrap break-words leading-relaxed mt-2 opacity-90">
+                    {r.message}
+                  </p>
+                )}
 
-              {(r.installment_1_amount != null ||
-                r.installment_1_due ||
-                r.installment_2_amount != null ||
-                r.installment_2_due ||
-                r.installment_3_amount != null ||
-                r.installment_3_due) && (
-                <div className="mt-3 rounded-xl border border-white/10 bg-black/10 p-3 text-sm">
-                  <p className="text-xs uppercase tracking-wider text-gold/80 mb-2">Payment plan</p>
-                  <ul className="space-y-1">
-                    {(r.installment_1_amount != null || r.installment_1_due) && (
-                      <li>
-                        1st — {r.installment_1_due || "—"} · {money(r.installment_1_amount) || "—"}
-                        {r.installment_1_paid ? " · Paid" : ""}
-                      </li>
-                    )}
-                    {(r.installment_2_amount != null || r.installment_2_due) && (
-                      <li>
-                        2nd — {r.installment_2_due || "—"} · {money(r.installment_2_amount) || "—"}
-                        {r.installment_2_paid ? " · Paid" : ""}
-                      </li>
-                    )}
-                    {(r.installment_3_amount != null || r.installment_3_due) && (
-                      <li>
-                        3rd — {r.installment_3_due || "—"} · {money(r.installment_3_amount) || "—"}
-                        {r.installment_3_paid ? " · Paid" : ""}
-                      </li>
-                    )}
-                  </ul>
+                <div className="grid sm:grid-cols-2 gap-3 mt-3">
+                  <label className="text-xs uppercase tracking-wider text-gold/80">
+                    Status
+                    <select
+                      className="admin-input mt-1 w-full"
+                      value={r.status || "pending"}
+                      onChange={(e) => saveField(raw, { status: e.target.value })}
+                    >
+                      {STATUSES.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="text-xs uppercase tracking-wider text-gold/80">
+                    Admission number
+                    <input
+                      className="admin-input mt-1 w-full"
+                      defaultValue={r.admission_number || ""}
+                      onBlur={(e) => {
+                        if ((r.admission_number || "") !== e.target.value) {
+                          saveField(raw, { admission_number: e.target.value || null });
+                        }
+                      }}
+                      placeholder="e.g. SC-2026-042"
+                    />
+                  </label>
                 </div>
-              )}
 
-              {r.message && (
-                <p className="text-sm whitespace-pre-wrap break-words leading-relaxed mt-2 opacity-90">
-                  {r.message}
-                </p>
-              )}
-
-              <div className="grid sm:grid-cols-2 gap-3 mt-3">
-                <label className="text-xs uppercase tracking-wider text-gold/80">
-                  Status
-                  <select
+                <label className="block mt-3 text-xs uppercase tracking-wider text-gold/80">
+                  Notes
+                  <textarea
                     className="admin-input mt-1 w-full"
-                    value={r.status || "pending"}
-                    onChange={(e) => saveField(r, { status: e.target.value })}
-                  >
-                    {STATUSES.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="text-xs uppercase tracking-wider text-gold/80">
-                  Admission number
-                  <input
-                    className="admin-input mt-1 w-full"
-                    defaultValue={r.admission_number || ""}
+                    rows={2}
+                    defaultValue={r.notes || ""}
                     onBlur={(e) => {
-                      if ((r.admission_number || "") !== e.target.value) {
-                        saveField(r, { admission_number: e.target.value || null });
-                      }
+                      if ((r.notes || "") !== e.target.value) saveField(raw, { notes: e.target.value });
                     }}
-                    placeholder="e.g. SC-2026-042"
+                    placeholder="Internal notes…"
                   />
                 </label>
-              </div>
-
-              <label className="block mt-3 text-xs uppercase tracking-wider text-gold/80">
-                Notes
-                <textarea
-                  className="admin-input mt-1 w-full"
-                  rows={2}
-                  defaultValue={r.notes || ""}
-                  onBlur={(e) => {
-                    if ((r.notes || "") !== e.target.value) saveField(r, { notes: e.target.value });
-                  }}
-                  placeholder="Internal notes…"
-                />
-              </label>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
