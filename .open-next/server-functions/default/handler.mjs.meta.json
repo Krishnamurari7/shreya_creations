@@ -3307,7 +3307,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-      "bytes": 682938,
+      "bytes": 683704,
       "imports": [
         {
           "path": "path",
@@ -3893,7 +3893,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/1325.js": {
-      "bytes": 84428,
+      "bytes": 83791,
       "imports": [],
       "format": "cjs"
     },
@@ -3964,7 +3964,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/3980.js": {
-      "bytes": 185541,
+      "bytes": 185079,
       "imports": [],
       "format": "cjs"
     },
@@ -4072,7 +4072,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/6466.js": {
-      "bytes": 82657,
+      "bytes": 82195,
       "imports": [],
       "format": "cjs"
     },
@@ -4112,7 +4112,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/8713.js": {
-      "bytes": 24574,
+      "bytes": 23550,
       "imports": [],
       "format": "cjs"
     },
@@ -4137,7 +4137,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/webpack-runtime.js": {
-      "bytes": 5029,
+      "bytes": 5044,
       "imports": [
         {
           "path": ".open-next/server-functions/default/.next/server/chunks/1224.js",
@@ -6018,7 +6018,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/admin/registrations/page.js": {
-      "bytes": 31384,
+      "bytes": 917263,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -6051,6 +6051,11 @@
           "external": true
         },
         {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
           "path": ".open-next/server-functions/default/node_modules/next/dist/server/app-render/work-async-storage.external.js",
           "kind": "require-call",
           "original": "next/dist/server/app-render/work-async-storage.external.js"
@@ -6071,6 +6076,11 @@
           "original": "next/dist/server/app-render/work-unit-async-storage.external.js"
         },
         {
+          "path": "worker_threads",
+          "kind": "require-call",
+          "external": true
+        },
+        {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/no-fallback-error.external.js",
           "kind": "require-call",
           "original": "next/dist/shared/lib/no-fallback-error.external"
@@ -6084,7 +6094,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/api/registrations/route.js": {
-      "bytes": 14041,
+      "bytes": 17167,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -9817,7 +9827,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/node_modules/next/dist/server/require.js": {
-      "bytes": 201863,
+      "bytes": 201894,
       "imports": [
         {
           "path": "path",
@@ -11459,7 +11469,17 @@
           "external": true
         },
         {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
           "path": "path",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "worker_threads",
           "kind": "require-call",
           "external": true
         },
@@ -12770,7 +12790,7 @@
           "bytesInOutput": 22451
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-          "bytesInOutput": 602249
+          "bytesInOutput": 602882
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/app-render/action-async-storage-instance.js": {
           "bytesInOutput": 501
@@ -12797,7 +12817,7 @@
           "bytesInOutput": 319
         },
         ".open-next/server-functions/default/node_modules/next/dist/compiled/jsonwebtoken/index.js": {
-          "bytesInOutput": 125960
+          "bytesInOutput": 125962
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/app-render/cache-signal.js": {
           "bytesInOutput": 2312
@@ -12839,7 +12859,7 @@
           "bytesInOutput": 51237
         },
         ".open-next/server-functions/default/.next/server/chunks/1325.js": {
-          "bytesInOutput": 93964
+          "bytesInOutput": 92983
         },
         ".open-next/server-functions/default/.next/server/chunks/1450.js": {
           "bytesInOutput": 25241
@@ -12878,7 +12898,7 @@
           "bytesInOutput": 15342
         },
         ".open-next/server-functions/default/.next/server/chunks/3980.js": {
-          "bytesInOutput": 257838
+          "bytesInOutput": 256692
         },
         ".open-next/server-functions/default/.next/server/chunks/3986.js": {
           "bytesInOutput": 35311
@@ -12932,7 +12952,7 @@
           "bytesInOutput": 215861
         },
         ".open-next/server-functions/default/.next/server/chunks/6466.js": {
-          "bytesInOutput": 119233
+          "bytesInOutput": 118087
         },
         ".open-next/server-functions/default/.next/server/chunks/657.js": {
           "bytesInOutput": 74387
@@ -12956,7 +12976,7 @@
           "bytesInOutput": 14102
         },
         ".open-next/server-functions/default/.next/server/chunks/8713.js": {
-          "bytesInOutput": 25626
+          "bytesInOutput": 25332
         },
         ".open-next/server-functions/default/.next/server/chunks/8864.js": {
           "bytesInOutput": 15345
@@ -12971,7 +12991,7 @@
           "bytesInOutput": 24712
         },
         ".open-next/server-functions/default/.next/server/webpack-runtime.js": {
-          "bytesInOutput": 4219
+          "bytesInOutput": 4234
         },
         ".open-next/server-functions/default/.next/server/app/api/razorpay/create-order/route.js": {
           "bytesInOutput": 7976
@@ -13193,10 +13213,10 @@
           "bytesInOutput": 16587
         },
         ".open-next/server-functions/default/.next/server/app/admin/registrations/page.js": {
-          "bytesInOutput": 31886
+          "bytesInOutput": 997582
         },
         ".open-next/server-functions/default/.next/server/app/api/registrations/route.js": {
-          "bytesInOutput": 14369
+          "bytesInOutput": 17629
         },
         ".open-next/server-functions/default/.next/server/app/admin/testimonials/page.js": {
           "bytesInOutput": 17067
@@ -13403,7 +13423,7 @@
           "bytesInOutput": 15204
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/require.js": {
-          "bytesInOutput": 220121
+          "bytesInOutput": 220179
         },
         ".open-next/server-functions/default/node_modules/next/dist/lib/wait.js": {
           "bytesInOutput": 341
@@ -13514,7 +13534,7 @@
           "bytesInOutput": 68582
         }
       },
-      "bytes": 7022995
+      "bytes": 7989092
     }
   }
 }

@@ -2,7 +2,7 @@
 
 import { ANIM_RISE_LCP, PAGE_CONTAINER } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Children, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { pickPage } from "@/lib/cms";
 import { openInquiryPopup } from "@/lib/inquiryPopup";
@@ -140,64 +140,10 @@ function HeroVideoVolumeOffIcon() {
 
 function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }) {
   const videoRef = useRef(null);
-  const containerRef = useRef(null);
-  const [activeSrc, setActiveSrc] = useState(null);
+  const startingRef = useRef(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const sync = () => setIsMobile(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
-  const activate = useCallback(() => {
-    setActiveSrc(src);
-  }, [src]);
-
-  useEffect(() => {
-    const node = containerRef.current;
-    if (!node || activeSrc || isMobile) return undefined;
-
-    if (typeof IntersectionObserver === "undefined") {
-      activate();
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          activate();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "120px 0px" }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [activeSrc, activate, isMobile]);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video || !activeSrc) return;
-
-    const play = () => {
-      if (!isMobile) {
-        video.play().catch(() => {});
-      }
-    };
-
-    play();
-
-    if (video.readyState >= 2) return undefined;
-
-    video.addEventListener("loadeddata", play);
-    return () => video.removeEventListener("loadeddata", play);
-  }, [activeSrc, isMobile]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -205,16 +151,100 @@ function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }
 
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
+    const onEnded = () => setIsPlaying(false);
 
     video.addEventListener("play", onPlay);
     video.addEventListener("pause", onPause);
+    video.addEventListener("ended", onEnded);
     return () => {
       video.removeEventListener("play", onPlay);
       video.removeEventListener("pause", onPause);
+      video.removeEventListener("ended", onEnded);
     };
-  }, [activeSrc]);
+  }, []);
+
+  // Desktop only: autoplay muted when visible.
+  useEffect(() => {
+    if (hasStarted || typeof window === "undefined") return undefined;
+    if (window.matchMedia("(max-width: 767px)").matches) return undefined;
+
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const start = () => {
+      if (!video.getAttribute("src")) {
+        video.src = src;
+      }
+      setHasStarted(true);
+      video.muted = true;
+      video.play().catch(() => {});
+    };
+
+    if (typeof IntersectionObserver === "undefined") {
+      start();
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          start();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "120px 0px" }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [hasStarted, src]);
+
+  const startVideo = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.type === "pointerup" && event.pointerType === "mouse") {
+        // Mouse will also fire click — avoid double-start.
+        return;
+      }
+      if (startingRef.current || hasStarted) return;
+
+      const video = videoRef.current;
+      if (!video) return;
+      startingRef.current = true;
+
+      if (!video.getAttribute("src")) {
+        video.src = src;
+      }
+
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      setIsMuted(true);
+      setHasStarted(true);
+
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise.catch(() => {
+          const retry = () => {
+            video.play().catch(() => {
+              startingRef.current = false;
+            });
+          };
+          video.addEventListener("canplay", retry, { once: true });
+          try {
+            video.load();
+          } catch {
+            startingRef.current = false;
+          }
+        });
+      }
+    },
+    [hasStarted, src]
+  );
 
   const togglePlay = useCallback((event) => {
+    event.preventDefault();
     event.stopPropagation();
     const video = videoRef.current;
     if (!video) return;
@@ -223,11 +253,11 @@ function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }
       video.play().catch(() => {});
       return;
     }
-
     video.pause();
   }, []);
 
   const toggleMute = useCallback((event) => {
+    event.preventDefault();
     event.stopPropagation();
     const video = videoRef.current;
     if (!video) return;
@@ -241,69 +271,68 @@ function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }
   const muteLabel = lang === "hi" ? (isMuted ? "आवाज़ चालू करें" : "आवाज़ बंद करें") : isMuted ? "Unmute" : "Mute";
   const startLabel = lang === "hi" ? "वीडियो चलाएं" : "Play video";
 
-  if (!activeSrc) {
-    return (
-      <div ref={containerRef} className="home-hero__video-poster">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={poster}
-          alt={alt}
-          className="home-hero__video-thumb"
-          loading={priorityPoster ? "eager" : "lazy"}
-          fetchPriority={priorityPoster ? "low" : "auto"}
-          decoding="async"
-        />
-        <button
-          type="button"
-          className="home-hero__video-overlay home-hero__video-overlay--interactive"
-          onClick={(event) => {
-            event.stopPropagation();
-            activate();
-          }}
-          aria-label={startLabel}
-        >
-          <span className="home-hero__video-play" aria-hidden>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </span>
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <>
+    <div
+      className="home-hero__video-poster"
+      onClick={(event) => event.stopPropagation()}
+      onPointerDown={(event) => event.stopPropagation()}
+    >
       <video
         ref={videoRef}
         className="home-hero__video-media"
-        src={activeSrc}
         poster={poster}
         loop
-        muted={isMuted}
+        muted
         playsInline
-        preload="none"
+        preload={priorityPoster ? "metadata" : "none"}
         aria-label={alt}
       />
-      <div className="home-hero__video-controls home-hero__video-controls--live">
-        <button
-          type="button"
-          className="home-hero__video-controls-btn home-hero__video-controls-btn--play"
-          onClick={togglePlay}
-          aria-label={playLabel}
-        >
-          {isPlaying ? <HeroVideoPauseIcon /> : <HeroVideoPlayIcon />}
-        </button>
-        <button
-          type="button"
-          className="home-hero__video-controls-btn home-hero__video-controls-btn--volume"
-          onClick={toggleMute}
-          aria-label={muteLabel}
-        >
-          {isMuted ? <HeroVideoVolumeOffIcon /> : <HeroVideoVolumeOnIcon />}
-        </button>
-      </div>
-    </>
+      {!hasStarted ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={poster}
+            alt=""
+            className="home-hero__video-thumb"
+            loading={priorityPoster ? "eager" : "lazy"}
+            fetchPriority={priorityPoster ? "low" : "auto"}
+            decoding="async"
+          />
+          <button
+            type="button"
+            className="home-hero__video-overlay home-hero__video-overlay--interactive"
+            onPointerUp={startVideo}
+            onClick={startVideo}
+            aria-label={startLabel}
+          >
+            <span className="home-hero__video-play" aria-hidden>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </button>
+        </>
+      ) : (
+        <div className="home-hero__video-controls home-hero__video-controls--live">
+          <button
+            type="button"
+            className="home-hero__video-controls-btn home-hero__video-controls-btn--play"
+            onClick={togglePlay}
+            aria-label={playLabel}
+          >
+            {isPlaying ? <HeroVideoPauseIcon /> : <HeroVideoPlayIcon />}
+          </button>
+          <button
+            type="button"
+            className="home-hero__video-controls-btn home-hero__video-controls-btn--volume"
+            onClick={toggleMute}
+            aria-label={muteLabel}
+          >
+            {isMuted ? <HeroVideoVolumeOffIcon /> : <HeroVideoVolumeOnIcon />}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -320,6 +349,14 @@ function GradCapIcon() {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
       <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
+    </svg>
+  );
+}
+
+function DemoPlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M8 5v14l11-7z" />
     </svg>
   );
 }
@@ -480,11 +517,16 @@ function FeatureStripIcon({ type }) {
 
 const SERVICE_CARDS_FALLBACK = DEFAULT_HERO_SERVICE_CARDS;
 
-function HeroCourseCta({ variant = "outline", icon, line1, line2, onClick }) {
+function HeroCourseCta({ variant = "outline", icon, line1, line2, onClick, visibility = "both" }) {
   return (
     <button
       type="button"
-      className={cn("home-hero__course-cta", `home-hero__course-cta--${variant}`)}
+      className={cn(
+        "home-hero__course-cta",
+        `home-hero__course-cta--${variant}`,
+        visibility === "mobile" && "home-hero__course-cta--mobile-only",
+        visibility === "desktop" && "home-hero__course-cta--desktop-only"
+      )}
       onClick={onClick}
     >
       <span className="home-hero__course-cta-icon" aria-hidden>
@@ -492,9 +534,221 @@ function HeroCourseCta({ variant = "outline", icon, line1, line2, onClick }) {
       </span>
       <span className="home-hero__course-cta-label">
         <span>{line1}</span>
-        <span>{line2}</span>
+        {line2 ? <span>{line2}</span> : null}
       </span>
     </button>
+  );
+}
+
+function HeroMobileCtaCarousel({ items }) {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const slideRefs = useRef([]);
+  const count = items.length;
+
+  const goTo = useCallback((next) => {
+    slideRefs.current.forEach((slide) => {
+      slide?.querySelector(":focus")?.blur();
+    });
+    setActive(next);
+  }, []);
+
+  useEffect(() => {
+    if (paused || count <= 1) return undefined;
+
+    const id = window.setInterval(() => {
+      slideRefs.current.forEach((slide) => {
+        slide?.querySelector(":focus")?.blur();
+      });
+      setActive((prev) => (prev + 1) % count);
+    }, 2000);
+
+    return () => window.clearInterval(id);
+  }, [paused, count]);
+
+  useEffect(() => {
+    slideRefs.current.forEach((slide, index) => {
+      if (slide && "inert" in slide) {
+        slide.inert = index !== active;
+      }
+    });
+  }, [active]);
+
+  if (!count) return null;
+
+  return (
+    <div
+      className="home-hero__cta-carousel"
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setPaused(false);
+        }
+      }}
+    >
+      <div className="home-hero__cta-carousel-viewport">
+        {items.map((cta, index) => {
+          const hidden = index !== active;
+          return (
+            <div
+              key={cta.key}
+              ref={(node) => {
+                slideRefs.current[index] = node;
+                if (node && "inert" in node) node.inert = hidden;
+              }}
+              className={cn(
+                "home-hero__cta-carousel-slide",
+                index === active && "is-active"
+              )}
+              aria-hidden={hidden ? true : undefined}
+            >
+              <HeroCourseCta
+                variant={cta.variant}
+                icon={cta.icon}
+                line1={cta.line1}
+                line2={cta.line2}
+                onClick={cta.onClick}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <div className="home-hero__cta-carousel-dots" role="tablist" aria-label="Course options">
+        {items.map((cta, index) => (
+          <button
+            key={`${cta.key}-dot`}
+            type="button"
+            role="tab"
+            aria-selected={index === active}
+            tabIndex={index === active ? 0 : -1}
+            aria-label={cta.line1}
+            className={cn(
+              "home-hero__cta-carousel-dot",
+              index === active && "is-active"
+            )}
+            onClick={() => goTo(index)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HeroMobileVideoCarousel({ children, labels = [] }) {
+  const slides = Children.toArray(children).filter(Boolean);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const viewportRef = useRef(null);
+  const slideRefs = useRef([]);
+  const count = slides.length;
+
+  const goTo = useCallback((next) => {
+    slideRefs.current.forEach((slide) => {
+      slide?.querySelector(":focus")?.blur();
+    });
+    setActive(next);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile || paused || count <= 1) return undefined;
+
+    const id = window.setInterval(() => {
+      // Skip auto-advance while a video is actively playing.
+      const anyPlaying = viewportRef.current
+        ? Array.from(viewportRef.current.querySelectorAll("video")).some((video) => !video.paused && !video.ended)
+        : false;
+      if (anyPlaying) return;
+
+      slideRefs.current.forEach((slide) => {
+        slide?.querySelector(":focus")?.blur();
+      });
+      setActive((prev) => (prev + 1) % count);
+    }, 5000);
+
+    return () => window.clearInterval(id);
+  }, [paused, count, isMobile]);
+
+  useEffect(() => {
+    if (!isMobile || !viewportRef.current) return;
+
+    const videos = viewportRef.current.querySelectorAll("video");
+    videos.forEach((video, index) => {
+      if (index !== active && !video.paused) {
+        video.pause();
+      }
+    });
+
+    slideRefs.current.forEach((slide, index) => {
+      if (slide && "inert" in slide) {
+        slide.inert = index !== active;
+      }
+    });
+  }, [active, isMobile]);
+
+  if (!count) return null;
+
+  return (
+    <div
+      className="home-hero__video-carousel"
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setPaused(false);
+        }
+      }}
+    >
+      <div ref={viewportRef} className="home-hero__video-carousel-viewport home-hero__videos">
+        {slides.map((slide, index) => {
+          const hidden = isMobile && index !== active;
+          return (
+            <div
+              key={labels[index] || index}
+              ref={(node) => {
+                slideRefs.current[index] = node;
+                if (node && "inert" in node) node.inert = hidden;
+              }}
+              className={cn(
+                "home-hero__video-carousel-slide",
+                index === active && "is-active"
+              )}
+              aria-hidden={hidden ? true : undefined}
+            >
+              {slide}
+            </div>
+          );
+        })}
+      </div>
+      <div className="home-hero__video-carousel-dots" role="tablist" aria-label="Hero videos">
+        {slides.map((_, index) => (
+          <button
+            key={`video-dot-${index}`}
+            type="button"
+            role="tab"
+            aria-selected={index === active}
+            tabIndex={index === active ? 0 : -1}
+            aria-label={labels[index] || `Video ${index + 1}`}
+            className={cn(
+              "home-hero__video-carousel-dot",
+              index === active && "is-active"
+            )}
+            onClick={() => goTo(index)}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -520,22 +774,7 @@ function HeroVideoCard({
       <div className="home-hero__video-head">
         <span className="home-hero__video-head-label">{headerLabel}</span>
       </div>
-      <div
-        className="home-hero__video-body"
-        onClick={isLive ? onVideoClick : undefined}
-        onKeyDown={
-          isLive
-            ? (event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  onVideoClick?.();
-                }
-              }
-            : undefined
-        }
-        role={isLive ? "button" : undefined}
-        tabIndex={isLive ? 0 : undefined}
-      >
+      <div className="home-hero__video-body">
         <span className="home-hero__video-watch" aria-hidden>
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>
             <path d="M8 5v14l11-7z" />
@@ -558,7 +797,11 @@ function HeroVideoCard({
           </>
         )}
       </div>
-      <div className="home-hero__video-foot">
+      <button
+        type="button"
+        className="home-hero__video-foot home-hero__video-foot--action"
+        onClick={isLive ? onVideoClick : undefined}
+      >
         {footerIcon ? (
           <span className="home-hero__video-foot-icon" aria-hidden>
             {footerIcon}
@@ -568,7 +811,7 @@ function HeroVideoCard({
           <span className="home-hero__video-foot-title">{footerTitle}</span>
           <span className="home-hero__video-foot-sub">{footerSub}</span>
         </span>
-      </div>
+      </button>
     </div>
   );
 
@@ -755,6 +998,15 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
             message: fashionCourseMsg,
           },
           {
+            key: "demo",
+            variant: "outline",
+            icon: <DemoPlayIcon />,
+            line1: "फ्री डेमो क्लास बुक करें",
+            line2: "",
+            source: "hero_demo_video",
+            message: demoMsg,
+          },
+          {
             key: "boutique",
             variant: "outline",
             icon: <HeroCrownIcon />,
@@ -784,6 +1036,15 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
             message: fashionCourseMsg,
           },
           {
+            key: "demo",
+            variant: "outline",
+            icon: <DemoPlayIcon />,
+            line1: "BOOK FREE DEMO CLASS",
+            line2: "",
+            source: "hero_demo_video",
+            message: demoMsg,
+          },
+          {
             key: "boutique",
             variant: "outline",
             icon: <HeroCrownIcon />,
@@ -803,9 +1064,16 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
           },
         ];
 
+  const mobileCarouselCtas = courseCtas.map((cta) => ({
+    ...cta,
+    onClick: () => openHeroInquiryForm(cta.source, cta.message),
+  }));
+
+  const desktopCtas = courseCtas.filter((cta) => cta.key !== "demo");
+
   const heroContent = (
     <>
-      <div className={cn(PAGE_CONTAINER, "home-hero__top", "py-16 md:py-24")}>
+      <div className={cn(PAGE_CONTAINER, "home-hero__top", "pt-6 pb-8 md:py-24")}>
         <div className="home-hero__grid">
           <div className="home-hero__copy">
             <div className="home-hero__glass-panel">
@@ -837,8 +1105,12 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                   </p>
                 ) : null}
 
-                <div className={cn(ANIM_RISE_LCP, "home-hero__action-row", "anim-delay-3")}>
-                  {courseCtas.map((cta) => (
+                <div className={cn(ANIM_RISE_LCP, "home-hero__action-row", "home-hero__action-row--mobile-carousel", "anim-delay-3")}>
+                  <HeroMobileCtaCarousel items={mobileCarouselCtas} />
+                </div>
+
+                <div className={cn(ANIM_RISE_LCP, "home-hero__action-row", "home-hero__action-row--desktop", "anim-delay-3")}>
+                  {desktopCtas.map((cta) => (
                     <HeroCourseCta
                       key={cta.key}
                       variant={cta.variant}
@@ -854,7 +1126,12 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
           </div>
 
           <div className="home-hero__visual anim-hero-media">
-            <div className="home-hero__videos">
+            <HeroMobileVideoCarousel
+              labels={[
+                lang === "hi" ? "फ्री डेमो क्लास" : "FREE DEMO CLASS",
+                lang === "hi" ? "बुटीक सिलाई" : "BOUTIQUE STITCHING",
+              ]}
+            >
               <HeroVideoCard
                 lang={lang}
                 priorityPoster
@@ -887,7 +1164,7 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
                 href="/contact"
                 onVideoClick={() => openHeroInquiryForm("hero_book_video", premiumCourseMsg)}
               />
-            </div>
+            </HeroMobileVideoCarousel>
           </div>
         </div>
       </div>

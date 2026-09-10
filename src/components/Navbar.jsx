@@ -247,13 +247,21 @@ export default function Navbar({ site }) {
           </Link>
 
           <div className="nav-mobile-actions">
-            <Link
-              href={langToggleHref}
-              className="nav-lang-btn nav-lang-btn--mobile"
-              aria-label={langToggleLabel}
+            <a
+              href={wa}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-wa-circle nav-wa-circle--mobile navbar-wa-link"
+              data-track-cta="navbar"
+              aria-label={t.chatWhatsApp}
             >
-              <GlobeIcon />
-              <span>{langToggleLabel}</span>
+              <WhatsAppIcon className="nav-wa-circle__icon" />
+            </a>
+            <Link
+              href={enquireHref}
+              className="nav-enquire-btn nav-enquire-btn--mobile nav-enquire-btn--shine"
+            >
+              <span className="nav-enquire-btn__text">{t.enquireNow}</span>
             </Link>
             <button
               type="button"
