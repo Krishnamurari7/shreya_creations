@@ -3307,7 +3307,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-      "bytes": 683704,
+      "bytes": 683702,
       "imports": [
         {
           "path": "path",
@@ -3888,12 +3888,12 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/1224.js": {
-      "bytes": 46158,
+      "bytes": 49874,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/1325.js": {
-      "bytes": 83791,
+      "bytes": 84070,
       "imports": [],
       "format": "cjs"
     },
@@ -7851,8 +7851,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/admin/login/page.js": {
-      "bytes": 25143,
+    ".open-next/server-functions/default/.next/server/app/admin/media/page.js": {
+      "bytes": 19610,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -7917,8 +7917,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/admin/media/page.js": {
-      "bytes": 19610,
+    ".open-next/server-functions/default/.next/server/app/admin/login/page.js": {
+      "bytes": 25143,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -9827,7 +9827,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/node_modules/next/dist/server/require.js": {
-      "bytes": 201894,
+      "bytes": 202972,
       "imports": [
         {
           "path": "path",
@@ -10055,14 +10055,14 @@
           "original": "E:\\shreya-creati\\.open-next\\server-functions\\default\\.next\\server\\app\\nri-clients\\page.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/app/admin/login/page.js",
-          "kind": "require-call",
-          "original": "E:\\shreya-creati\\.open-next\\server-functions\\default\\.next\\server\\app\\admin\\login\\page.js"
-        },
-        {
           "path": ".open-next/server-functions/default/.next/server/app/admin/media/page.js",
           "kind": "require-call",
           "original": "E:\\shreya-creati\\.open-next\\server-functions\\default\\.next\\server\\app\\admin\\media\\page.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/.next/server/app/admin/login/page.js",
+          "kind": "require-call",
+          "original": "E:\\shreya-creati\\.open-next\\server-functions\\default\\.next\\server\\app\\admin\\login\\page.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/app/admin/pages/page.js",
@@ -12790,7 +12790,7 @@
           "bytesInOutput": 22451
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
-          "bytesInOutput": 602882
+          "bytesInOutput": 602880
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/app-render/action-async-storage-instance.js": {
           "bytesInOutput": 501
@@ -12856,10 +12856,10 @@
           "bytesInOutput": 171015
         },
         ".open-next/server-functions/default/.next/server/chunks/1224.js": {
-          "bytesInOutput": 51237
+          "bytesInOutput": 55240
         },
         ".open-next/server-functions/default/.next/server/chunks/1325.js": {
-          "bytesInOutput": 92983
+          "bytesInOutput": 93266
         },
         ".open-next/server-functions/default/.next/server/chunks/1450.js": {
           "bytesInOutput": 25241
@@ -13299,11 +13299,11 @@
         ".open-next/server-functions/default/.next/server/app/nri-clients/page.js": {
           "bytesInOutput": 15319
         },
-        ".open-next/server-functions/default/.next/server/app/admin/login/page.js": {
-          "bytesInOutput": 25481
-        },
         ".open-next/server-functions/default/.next/server/app/admin/media/page.js": {
           "bytesInOutput": 19803
+        },
+        ".open-next/server-functions/default/.next/server/app/admin/login/page.js": {
+          "bytesInOutput": 25481
         },
         ".open-next/server-functions/default/.next/server/app/admin/pages/page.js": {
           "bytesInOutput": 51746
@@ -13423,7 +13423,7 @@
           "bytesInOutput": 15204
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/require.js": {
-          "bytesInOutput": 220179
+          "bytesInOutput": 221030
         },
         ".open-next/server-functions/default/node_modules/next/dist/lib/wait.js": {
           "bytesInOutput": 341
@@ -13534,7 +13534,7 @@
           "bytesInOutput": 68582
         }
       },
-      "bytes": 7989092
+      "bytes": 7994227
     }
   }
 }

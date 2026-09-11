@@ -45,7 +45,7 @@ SET
                           ),
                           '{shop,header_subtitle}',
                           to_jsonb(
-                            'Your attire should never look ordinary. At Shreya Creation, we transform your imagination into unique fashion with the help of our signature bridal tops, designer lehengas, designer suits, designer gowns, and other customized dresses with a perfect fit and fine details.'::text
+                            'Your attire should never look ordinary. At Shreya Creation, the best designer boutique in Patna, we transform your imagination into unique fashion with the help of our signature bridal tops, designer lehengas, designer suits, designer gowns, and other customized dresses with a perfect fit and fine details.'::text
                           ),
                           true
                         ),
@@ -73,7 +73,7 @@ SET
               ),
               '{shop,about_body}',
               to_jsonb(
-                'At Shreya Creation, we understand that an ideal outfit does not just come out of a stitch but is made keeping your needs in mind. Whether it is bridal blouses, designer lehengas, or even suits and gowns, each of our creations is a combination of your imagination and our skill. As the best designer boutique in Patna and the best ladies tailor in Patna, we have always specialized in personalized designs, fine fitting, Aari & Zari hand embroidery, and finishing.'::text
+                'At Shreya Creation, we understand that an ideal outfit does not just come out of a stitch but is made keeping your needs in mind. Whether it is bridal blouses, designer lehengas, or even suits and gowns, each of our creations is a combination of your imagination and our skill. As the best designer boutique in Patna, we have always specialized in personalized designs, fine fitting, Aari & Zari hand embroidery, and finishing.'::text
               ),
               true
             ),

@@ -36,15 +36,15 @@ const HOME_SEO_PATCH = {
     "Discover Shreya Creation, the best boutique in Patna, offering designer bridal wear, custom stitching, stylish outfits, exquisite detailing, and personalised fashion solutions.",
   category_eyebrow: "Where Fashion Meets Creativity, Craft, & Opportunity",
   category_title_before: "",
-  category_title_highlight: "Best Boutique in Patna | Best Bridal Boutique in Patna",
+  category_title_highlight: "One destination. Every expression of fashion.",
   category_title_after: "",
   category_subtitle:
-    "Experience the best in designer fashion, quality bridal stitching, and a fashion design institute, all in one place at the best boutique in Patna. Be it crafting your dream wedding outfit or acquiring skills in fashion design, Shreya Creation can be your guide to all things fashion-related.",
+    "Experience the best in designer fashion, quality bridal stitching, and a fashion design institute, all in one place at the best boutique in Patna. Be it crafting your dream wedding outfit or acquiring skills in fashion design, Shreya Creation can be your guide to all things fashion-related.\n\nAt the best boutique in Patna, fashion is not just about choosing what to wear but also involves learning the craft, creating confidently, and wearing something truly your own. With the right fashion designing courses and specialized institute programs, expert boutique stitching made to your measurements and style, Shreya Creation brings all aspects of fashion together. Explore our designer collection, discover intricate bridal and occasion wear, or learn the art of fashion designing and boutique craftsmanship through hands-on training designed to take you from skills to style and from passion to profession.",
   academy_heading: "Boutique Courses & Stitching Classes in Patna",
   academy_heading_highlight: "",
   courses_script_tagline: "Learn It. Create It. Make It Yours.",
   courses_subtitle:
-    "Whether you seek to develop a career in fashion or create an outfit that feels truly yours, Shreya Creation provides you with the excellence, craftsmanship, and mentorship to make it happen. If you are searching for the best boutique near me, explore our custom stitching services at Boutique Boring Road, Patna.",
+    "Whether you seek to develop a career in fashion or create an outfit that feels truly yours, Shreya Creation provides you with the excellence, craftsmanship, and mentorship to make it happen.\n\nIf you are searching for the best boutique in Patna, explore our custom stitching services at Shreya Creation.",
 };
 
 loadEnv();

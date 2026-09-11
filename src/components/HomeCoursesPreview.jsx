@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import CourseCard from "@/components/CourseCard";
 import { pickPage } from "@/lib/cms";
+import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { isAddonCourse, isCourseAvailable, isFlagshipCourse, FLAGSHIP_COURSE_SLUGS } from "@/lib/courses";
 import FeeStructureLeadMagnet from "@/components/FeeStructureLeadMagnet";
 import NextBatchBanner from "@/components/NextBatchBanner";
@@ -372,23 +373,39 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
     return hi ? item.hi : item.en;
   };
 
+  const homeDefaults = PAGE_DEFAULTS.home;
   const eyebrow =
     pickPage(home, lang, "coursesEyebrow", "coursesEyebrowHi") ||
     (hi ? "हमारे लोकप्रिय कोर्स" : "Our Popular Courses");
   const titleLead =
     pickPage(home, lang, "academyHeading", "academyHeadingHi") ||
-    (hi ? "सीखें. प्रैक्टिस." : "Learn. Practice.");
-  const titleHighlight =
-    pickPage(home, lang, "academyHeadingHighlight", "academyHeadingHighlightHi") ||
-    (hi ? "कमाएँ." : "Earn.");
+    (hi ? homeDefaults.academy_heading_hi : homeDefaults.academy_heading);
+  const rawTitleHighlight =
+    pickPage(home, lang, "academyHeadingHighlight", "academyHeadingHighlightHi") || "";
+  const legacyAcademyHighlights = new Set(["in Patna, Bihar", "पटना, बिहार में", "Earn.", "कमाएँ."]);
+  const titleHighlight = legacyAcademyHighlights.has(rawTitleHighlight) ? "" : rawTitleHighlight;
   const scriptTagline =
     pickPage(home, lang, "coursesScriptTagline", "coursesScriptTaglineHi") ||
-    (hi ? "कौशल जो आय बनाता है।" : "Skill that creates income.");
-  const intro =
+    (hi ? homeDefaults.courses_script_tagline_hi : homeDefaults.courses_script_tagline);
+  const rawIntro =
     pickPage(home, lang, "coursesSubtitle", "coursesSubtitleHi") ||
-    (hi
-      ? "बेसिक से एडवांस्ड तक — अपने करियर के लिए सही कोर्स चुनें।"
-      : "From basics to advanced, choose the right course for your career.");
+    (hi ? homeDefaults.courses_subtitle_hi : homeDefaults.courses_subtitle);
+  const legacyIntros = new Set([
+    "Whether you seek to develop a career in fashion or create an outfit that feels truly yours, Shreya Creation provides you with the excellence, craftsmanship, and mentorship to make it happen. If you are searching for the best boutique near me, explore our custom stitching services at Boutique Boring Road, Patna.",
+    "From basics to advanced, choose the right course for your career.",
+    "बेसिक से एडवांस्ड तक — अपने करियर के लिए सही कोर्स चुनें।",
+  ]);
+  const intro = legacyIntros.has(rawIntro)
+    ? hi
+      ? homeDefaults.courses_subtitle_hi
+      : homeDefaults.courses_subtitle
+    : rawIntro;
+  const introParagraphs = intro
+    ? intro
+        .split(/\n\s*\n/)
+        .map((para) => para.trim())
+        .filter(Boolean)
+    : [];
   const viewAllLabel =
     pickPage(home, lang, "coursesViewAll", "coursesViewAllHi") ||
     (hi ? `सभी ${courseCount} कोर्स देखें` : `View All ${courseCount} Courses`);
@@ -447,10 +464,15 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
           </span>
 
           <h2 className={cn(SECTION_TITLE, "home-courses-preview__title", "mt-2")}>
-            {titleLead}{" "}
-            <span className={cn(HIGHLIGHT_SHIMMER, "home-courses-preview__title-accent")}>
-              {titleHighlight}
-            </span>
+            {titleLead}
+            {titleHighlight ? (
+              <>
+                {" "}
+                <span className={cn(HIGHLIGHT_SHIMMER, "home-courses-preview__title-accent")}>
+                  {titleHighlight}
+                </span>
+              </>
+            ) : null}
           </h2>
 
           <p className="home-courses-preview__script">{scriptTagline}</p>
@@ -466,7 +488,11 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
             ))}
           </ul>
 
-          <p className="home-courses-preview__lead">{intro}</p>
+          {introParagraphs.map((para, index) => (
+            <p key={`courses-lead-${index}`} className="home-courses-preview__lead">
+              {para}
+            </p>
+          ))}
         </div>
 
         {/* Category tabs */}

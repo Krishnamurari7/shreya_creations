@@ -675,7 +675,7 @@ html.dark .hero-stat-chip__value { color: var(--lavender); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Transform-only — does not delay LCP (unlike opacity:0 fade-ins). */
+/* Transform-only ? does not delay LCP (unlike opacity:0 fade-ins). */
 @keyframes rise-in-y {
   from { transform: translateY(14px); }
   to { transform: translateY(0); }
@@ -706,7 +706,7 @@ html.dark .hero-stat-chip__value { color: var(--lavender); }
     letter-spacing: 0.14em;
   }
 
-  /* Skip entrance delays on phones — improves FCP/LCP/Speed Index. */
+  /* Skip entrance delays on phones ? improves FCP/LCP/Speed Index. */
   .anim-rise,
   .anim-rise.opacity-0,
   .anim-hero-media {
@@ -5641,7 +5641,7 @@ html.dark .start-journey-card__feature {
   background: var(--orange);
 }
 
-/* Testimonials â€” trust highlight bar above the review tracks */
+/* Testimonials ? trust highlight bar above the review tracks */
 .trust-highlights {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5776,7 +5776,7 @@ html.dark .start-journey-card__feature {
   }
 }
 
-/* Testimonials â€” per-audience track heading */
+/* Testimonials ? per-audience track heading */
 .testimonial-track__head {
   display: flex;
   align-items: center;
@@ -5831,7 +5831,7 @@ html.dark .start-journey-card__feature {
   color: var(--text-subtle);
 }
 
-/* Testimonials â€” closing action pair */
+/* Testimonials ? closing action pair */
 .review-cta-row {
   display: grid;
   gap: 0.75rem;
@@ -6835,7 +6835,7 @@ html.dark .trust-highlight__icon {
 }
 
 /* The PNG already carries its own bevel and shadow, so no CSS shadow/glow layer
-   is added here â€” stacking one only hazes the artwork. */
+   is added here ? stacking one only hazes the artwork. */
 .nav-logo-img {
   position: relative;
   z-index: 2;
@@ -7747,10 +7747,11 @@ html.dark .nav-desktop-links--minimal a.is-active {
 /* ??? Quick Explore (5 destination cards + contact bar) ??? */
 .quick-explore__subtitle {
   margin: 0.65rem auto 0;
-  max-width: 28rem;
+  max-width: 48rem;
   font-size: 0.9rem;
-  line-height: 1.45;
+  line-height: 1.55;
   color: var(--text-muted, #6b5c4a);
+  text-wrap: pretty;
 }
 
 /* Column counts come from the Tailwind grid utilities on the element. */
@@ -8490,7 +8491,7 @@ html.dark .category-card--gold:focus-visible {
   background-image: url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23fff' stroke-width='0.45'%3E%3Cpath d='M36 18c0-5 3-8 8-8s8 3 8 8-3 8-8 8-8-3-8-8z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* ——— Page CTA banner (studio visit) ——— */
+/* ??? Page CTA banner (studio visit) ??? */
 .page-cta-wrap {
   position: relative;
 }
@@ -12638,10 +12639,11 @@ html.dark .popular-cat-card__icon {
 
 .home-courses-preview__lead {
   margin: 0.95rem auto 0;
-  max-width: 36rem;
+  max-width: 48rem;
   font-size: 0.92rem;
   line-height: 1.55;
   color: var(--text-muted, #5c4a3a);
+  text-wrap: pretty;
 }
 
 .home-courses-preview__toolbar {
@@ -15395,7 +15397,7 @@ html.dark .course-pdf-modal__state p {
   color: var(--home-brand-dark);
 }
 
-/* CTAs invert on the orange bands â€” a brand-orange fill reads as no button at all
+/* CTAs invert on the orange bands ? a brand-orange fill reads as no button at all
    against the band it sits on. */
 .home-page .home-band--brand .btn-primary {
   background-color: #ffffff;
@@ -16868,7 +16870,7 @@ html.dark .course-pdf-modal__state p {
   animation: sparkle-pulse 2.8s ease-in-out infinite;
 }
 
-/* Hero course booking CTAs — mobile-first responsive */
+/* Hero course booking CTAs ? mobile-first responsive */
 .home-hero--boutique .home-hero__action-row {
   display: grid;
   grid-template-columns: 1fr;
@@ -16991,7 +16993,7 @@ html.dark .course-pdf-modal__state p {
   word-break: break-word;
 }
 
-/* Phones / small tablets — full-width buttons stacked vertically */
+/* Phones / small tablets ? full-width buttons stacked vertically */
 @media (max-width: 767px) {
   .home-hero--boutique .home-hero__action-row {
     grid-template-columns: 1fr;
@@ -17024,7 +17026,7 @@ html.dark .course-pdf-modal__state p {
   }
 }
 
-/* Narrow phones â€” tighter, still tappable */
+/* Narrow phones ? tighter, still tappable */
 @media (max-width: 379px) {
   .home-hero--boutique .home-hero__course-cta {
     min-height: 3rem;
@@ -17038,7 +17040,7 @@ html.dark .course-pdf-modal__state p {
   }
 }
 
-/* Laptop / desktop — 3 buttons in one row */
+/* Laptop / desktop ? 3 buttons in one row */
 @media (min-width: 768px) {
   .home-hero--boutique .home-hero__action-row--desktop {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -20732,7 +20734,7 @@ html.dark .sf-foot {
     box-shadow 0.35s ease;
 }
 
-/* Sheen sweep on hover â€” same language as the site's primary buttons. */
+/* Sheen sweep on hover ? same language as the site's primary buttons. */
 .sf-cta::after {
   content: "";
   position: absolute;
@@ -21434,7 +21436,7 @@ html.dark .sf-bottom {
   }
 }
 
-/* ===== About page v2 — modern animated layout ===== */
+/* ===== About page v2 ? modern animated layout ===== */
 .about-page--v2 {
   --about-boutique: #2f4f42;
   --about-boutique-hover: #264336;
@@ -21478,7 +21480,7 @@ html.dark .sf-bottom {
   letter-spacing: 0.18em;
 }
 
-/* ——— Title with word-by-word reveal ——— */
+/* ??? Title with word-by-word reveal ??? */
 .about-v2-title {
   font-family: var(--font-display);
   font-size: clamp(1.8rem, 3.6vw + 0.6rem, 3rem);
@@ -21549,7 +21551,7 @@ html.dark .sf-bottom {
   }
 }
 
-/* ——— Studio image ——— */
+/* ??? Studio image ??? */
 .about-v2-studio {
   position: relative;
   border-radius: 1.4rem;
@@ -21641,7 +21643,7 @@ html.dark .sf-bottom {
   }
 }
 
-/* ——— Since badge ——— */
+/* ??? Since badge ??? */
 .about-v2-badge {
   position: absolute;
   top: 0.9rem;
@@ -21704,7 +21706,7 @@ html.dark .sf-bottom {
   max-width: 4.4rem;
 }
 
-/* ——— Story list ——— */
+/* ??? Story list ??? */
 .about-v2-story-list {
   display: grid;
   gap: 1rem;
@@ -21751,7 +21753,7 @@ html.dark .sf-bottom {
   opacity: 0.88;
 }
 
-/* ——— Stats ——— */
+/* ??? Stats ??? */
 .about-v2-stats-wrap {
   padding-bottom: 0.5rem;
 }
@@ -21822,7 +21824,7 @@ html.dark .sf-bottom {
   color: var(--text-muted);
 }
 
-/* ——— Founders ——— */
+/* ??? Founders ??? */
 .about-v2-founders__frame {
   position: relative;
   border-radius: 1.1rem;
@@ -21876,7 +21878,7 @@ html.dark .sf-bottom {
   color: var(--orange-text);
 }
 
-/* ——— Boutique & Institute ——— */
+/* ??? Boutique & Institute ??? */
 .about-v2-boutique__inner {
   max-width: 42rem;
   margin-inline: auto;
@@ -21897,7 +21899,7 @@ html.dark .sf-bottom {
   opacity: 0.88;
 }
 
-/* ——— Service tiles ——— */
+/* ??? Service tiles ??? */
 .about-v2-services {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -21972,7 +21974,7 @@ html.dark .sf-bottom {
   color: var(--ink);
 }
 
-/* ——— CTAs ——— */
+/* ??? CTAs ??? */
 .about-v2-ctas {
   display: grid;
   grid-template-columns: 1fr;
@@ -22055,7 +22057,7 @@ html.dark .sf-bottom {
   box-shadow: 0 18px 38px rgba(107, 74, 47, 0.4);
 }
 
-/* ——— Ribbon ——— */
+/* ??? Ribbon ??? */
 .about-v2-ribbon {
   position: relative;
   z-index: 20;
@@ -22108,7 +22110,7 @@ html.dark .sf-bottom {
   }
 }
 
-/* ——— Dark mode ——— */
+/* ??? Dark mode ??? */
 html.dark .about-v2-stats,
 html.dark .about-v2-service,
 html.dark .about-v2-story-item__icon,
@@ -22131,7 +22133,7 @@ html.dark .about-v2-ribbon {
   background: linear-gradient(90deg, #150f0c, #23180f 45%, #150f0c);
 }
 
-/* ——— Reduced motion ——— */
+/* ??? Reduced motion ??? */
 @media (prefers-reduced-motion: reduce) {
   .about-v2-studio__sheen,
   .about-v2-badge__ring,
@@ -22182,10 +22184,10 @@ html.dark .about-v2-ribbon {
   }
 }
 
-/* ═══════════════════════════════════════════
-   Boutique page (/shop) — site palette
+/* ???????????????????????????????????????????
+   Boutique page (/shop) ? site palette
    Cream / orange / gold (not mock dark-green)
-   ═══════════════════════════════════════════ */
+   ??????????????????????????????????????????? */
 
 .boutique-page--v2 {
   position: relative;
@@ -22227,7 +22229,7 @@ html.dark .about-v2-ribbon {
   letter-spacing: 0.02em;
 }
 
-/* ——— Hero ——— */
+/* ??? Hero ??? */
 .boutique-v2-title {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 6vw + 0.6rem, 4.4rem);
@@ -22436,7 +22438,7 @@ html.dark .boutique-v2-rail__item {
   line-height: 1.3;
 }
 
-/* ——— Trust strip ——— */
+/* ??? Trust strip ??? */
 .boutique-v2-strip-wrap {
   padding-bottom: 0.5rem;
 }
@@ -22485,7 +22487,7 @@ html.dark .boutique-v2-strip {
   line-height: 1.3;
 }
 
-/* ——— About + gallery ——— */
+/* ??? About + gallery ??? */
 .boutique-v2-about__text {
   font-size: 1rem;
   line-height: 1.75;
@@ -22528,7 +22530,7 @@ html.dark .boutique-v2-strip {
   }
 }
 
-/* ——— Services grid ——— */
+/* ??? Services grid ??? */
 .boutique-v2-services {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -22599,7 +22601,7 @@ html.dark .boutique-v2-service:hover {
   color: var(--text-muted);
 }
 
-/* ——— Process ——— */
+/* ??? Process ??? */
 .boutique-v2-process {
   display: grid;
   grid-template-columns: 1fr;
@@ -22774,7 +22776,7 @@ summary:focus-visible {
   }
 }
 
-/* ========== PHASE 7 — CRO components ========== */
+/* ========== PHASE 7 ? CRO components ========== */
 
 .home-hero__doors {
   display: grid;
@@ -23318,7 +23320,7 @@ summary:focus-visible {
   color: #fff;
 }
 
-/* ——— Institute / courses SEO sections ——— */
+/* ??? Institute / courses SEO sections ??? */
 .institute-seo-intro {
   text-align: center;
   padding-top: 0.25rem;
@@ -24319,7 +24321,7 @@ html.dark .institute-seo-block__cta--demo-pulse {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Admission form — enrollment document layout (matches studio paper form)   */
+/* Admission form ? enrollment document layout (matches studio paper form)   */
 /* -------------------------------------------------------------------------- */
 
 .adm-doc {
@@ -25200,3 +25202,134 @@ html.dark .institute-seo-block__cta--demo-pulse {
     0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
+
+/* SEO location landings (/ladies-tailor-patna, /boutique-boring-road) */
+.seo-landing {
+  --seo-landing-gutter: max(0.75rem, env(safe-area-inset-left));
+}
+
+.seo-landing .boutique-v2-hero-ctas.seo-landing__ctas,
+.seo-landing .seo-landing__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .seo-landing .boutique-v2-hero-ctas.seo-landing__ctas,
+  .seo-landing .seo-landing__ctas {
+    justify-content: center;
+    max-width: none;
+  }
+}
+
+.seo-landing__cta {
+  width: 100%;
+  max-width: 100%;
+  white-space: normal;
+  text-wrap: balance;
+  line-height: 1.25;
+  padding-block: 0.85rem;
+}
+
+@media (min-width: 480px) {
+  .seo-landing__cta {
+    width: auto;
+    flex: 1 1 auto;
+    min-width: min(100%, 12.5rem);
+    padding-block: 0.75rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .seo-landing__cta {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}
+
+.seo-landing__eyebrow {
+  max-width: 100%;
+  white-space: normal;
+  text-wrap: balance;
+  letter-spacing: 0.1em;
+  line-height: 1.45;
+  padding-inline: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .seo-landing__eyebrow {
+    letter-spacing: 0.16em;
+  }
+}
+
+.seo-landing__h1,
+.seo-landing__section-title {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.seo-landing__services {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.seo-landing__service {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  font-family: var(--font-display), serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(var(--orange-rgb), 0.35);
+  padding: 0.2rem 0.4rem 0.25rem;
+  text-align: center;
+  text-wrap: balance;
+}
+
+@media (min-width: 640px) {
+  .seo-landing__service {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .seo-landing__hero,
+  .seo-landing__section {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+
+  .seo-landing__cta {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    padding-inline: 1rem;
+  }
+
+  .seo-landing__service {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .seo-landing__offerings,
+  .seo-landing__why-items {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .seo-landing__cta {
+    min-height: 2.75rem;
+  }
+}

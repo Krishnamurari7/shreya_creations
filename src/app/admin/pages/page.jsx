@@ -45,6 +45,8 @@ const TABS = [
   { id: "lookbook", label: "Blog" },
   { id: "nri", label: "NRI Clients" },
   { id: "faq", label: "FAQ" },
+  { id: "ladiesTailor", label: "Ladies Tailor" },
+  { id: "boutiqueBoringRoad", label: "Boutique Boring Road" },
 ];
 
 function emptyPages() {
@@ -89,9 +91,10 @@ export default function PagesAdmin() {
         const base = emptyPages();
         for (const key of PAGE_EDITOR_KEYS) {
           const pageFromDb = data.pages && typeof data.pages === "object" ? data.pages[key] : null;
-          if (pageFromDb && typeof pageFromDb === "object") {
-            base[key] = { ...pageFromDb };
-          }
+          base[key] = {
+            ...structuredClone(PAGE_DEFAULTS[key]),
+            ...(pageFromDb && typeof pageFromDb === "object" ? pageFromDb : {}),
+          };
           if (key === "home") {
             base[key].academy_perks = normalizeAcademyPerks(
               base[key].academy_perks,
@@ -455,6 +458,66 @@ export default function PagesAdmin() {
         {tab === "faq" && (
           <>
             <HeaderWithHighlight page={page} onChange={onChange} />
+            <CtaEditor page={page} onChange={onChange} showWaMessage />
+          </>
+        )}
+
+        {(tab === "ladiesTailor" || tab === "boutiqueBoringRoad") && (
+          <>
+            <SectionHeading>SEO</SectionHeading>
+            <p className="admin-muted">
+              Public URL:{" "}
+              <code>{tab === "ladiesTailor" ? "/ladies-tailor-patna" : "/boutique-boring-road"}</code>
+            </p>
+            <div>
+              <label className={ADMIN_LABEL}>Meta title</label>
+              <input
+                value={page.meta_title || ""}
+                onChange={(e) => onChange("meta_title", e.target.value)}
+                className={ADMIN_INPUT}
+              />
+            </div>
+            <div>
+              <label className={ADMIN_LABEL}>Meta description</label>
+              <textarea
+                rows={3}
+                value={page.meta_description || ""}
+                onChange={(e) => onChange("meta_description", e.target.value)}
+                className={ADMIN_INPUT}
+              />
+            </div>
+            <HeaderSimple page={page} onChange={onChange} />
+            <BilingualTextarea
+              label="Intro body"
+              enKey="intro_body"
+              hiKey="intro_body_hi"
+              values={page}
+              onChange={onChange}
+              rows={5}
+            />
+            <SectionHeading>Hero CTAs</SectionHeading>
+            <BilingualField
+              label="Primary button"
+              enKey="hero_cta_primary_label"
+              hiKey="hero_cta_primary_label_hi"
+              values={page}
+              onChange={onChange}
+            />
+            <BilingualField
+              label="Secondary button"
+              enKey="hero_cta_secondary_label"
+              hiKey="hero_cta_secondary_label_hi"
+              values={page}
+              onChange={onChange}
+            />
+            <div>
+              <label className={ADMIN_LABEL}>Secondary link</label>
+              <input
+                value={page.hero_cta_secondary_href || "/shop"}
+                onChange={(e) => onChange("hero_cta_secondary_href", e.target.value)}
+                className={ADMIN_INPUT}
+              />
+            </div>
             <CtaEditor page={page} onChange={onChange} showWaMessage />
           </>
         )}

@@ -54,6 +54,8 @@ export function buildLlmsTxt(site, { courses = [], products = [], posts = [] } =
     linkLine("Portfolio", "/portfolio", "Bridal, blouse, and boutique work gallery."),
     linkLine("Blog", "/blog", "Fashion tips, blouse guides, and boutique updates."),
     linkLine("NRI clients", "/nri-clients", "Remote measurements and shipping for overseas clients."),
+    linkLine("Ladies tailor in Patna", "/ladies-tailor-patna", "Custom ladies stitching, bridal wear, and Aari-Zari handwork."),
+    linkLine("Boutique Boring Road", "/boutique-boring-road", "Designer boutique on Boring Road — custom stitching and collections."),
     linkLine("Contact", "/contact", "Phone, WhatsApp, map, and studio visit details."),
     linkLine("FAQ", "/faq", "Common questions about courses, stitching, and orders."),
     "",

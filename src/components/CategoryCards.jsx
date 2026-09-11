@@ -26,7 +26,16 @@ import {
 } from "@/lib/whatsapp";
 import { formatPhoneDisplay, telHref } from "@/lib/site-config";
 import { DEFAULT_CATEGORY_CARDS } from "@/lib/cms/home-blocks";
+import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { pickPage } from "@/lib/cms";
+
+function splitParagraphs(text) {
+  if (!text) return [];
+  return text
+    .split(/\n\s*\n/)
+    .map((para) => para.trim())
+    .filter(Boolean);
+}
 
 function localizeCategoryCard(card) {
   const rows = (card.items || []).length
@@ -347,13 +356,47 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp, home =
     return localizeCategoryCard(override ? { ...fallback, ...override } : fallback);
   });
 
-  const eyebrow = pickPage(home, lang, "categoryEyebrow", "categoryEyebrowHi") || (lang === "hi" ? "क्विक एक्सप्लोर" : "Quick Explore");
-  const titleBefore = pickPage(home, lang, "categoryTitleBefore", "categoryTitleBeforeHi") || (lang === "hi" ? "आज आप क्या " : "What are you ");
-  const titleHighlight = pickPage(home, lang, "categoryTitleHighlight", "categoryTitleHighlightHi") || (lang === "hi" ? "खोज रहे" : "looking");
-  const titleAfter = pickPage(home, lang, "categoryTitleAfter", "categoryTitleAfterHi") || (lang === "hi" ? " हैं?" : " for today?");
-  const subtitle =
+  const homeDefaults = PAGE_DEFAULTS.home;
+  const eyebrow =
+    pickPage(home, lang, "categoryEyebrow", "categoryEyebrowHi") ||
+    (lang === "hi" ? homeDefaults.category_eyebrow_hi : homeDefaults.category_eyebrow);
+  const titleBefore =
+    pickPage(home, lang, "categoryTitleBefore", "categoryTitleBeforeHi") ??
+    (lang === "hi" ? homeDefaults.category_title_before_hi : homeDefaults.category_title_before);
+  const rawTitleHighlight =
+    pickPage(home, lang, "categoryTitleHighlight", "categoryTitleHighlightHi") ||
+    (lang === "hi" ? homeDefaults.category_title_highlight_hi : homeDefaults.category_title_highlight);
+  const legacyTitleHighlights = new Set([
+    "Best Boutique in Patna | Best Bridal Boutique in Patna",
+    "Boring Road, Patna",
+    "looking",
+    "खोज रहे",
+    "बेस्ट बुटीक",
+  ]);
+  const titleHighlight = legacyTitleHighlights.has(rawTitleHighlight)
+    ? lang === "hi"
+      ? homeDefaults.category_title_highlight_hi
+      : homeDefaults.category_title_highlight
+    : rawTitleHighlight;
+  const titleAfter =
+    pickPage(home, lang, "categoryTitleAfter", "categoryTitleAfterHi") ??
+    (lang === "hi" ? homeDefaults.category_title_after_hi : homeDefaults.category_title_after);
+  const rawSubtitle =
     pickPage(home, lang, "categorySubtitle", "categorySubtitleHi") ||
-    (lang === "hi" ? "अपनी यात्रा जारी रखने के लिए एक विकल्प चुनें।" : "Choose one option to continue your journey.");
+    (lang === "hi" ? homeDefaults.category_subtitle_hi : homeDefaults.category_subtitle);
+  const legacySubtitles = new Set([
+    "Experience the best in designer fashion, quality bridal stitching, and a fashion design institute, all in one place at the best boutique in Patna. Be it crafting your dream wedding outfit or acquiring skills in fashion design, Shreya Creation can be your guide to all things fashion-related.",
+    "Designer boutique, ladies tailors & custom stitching on Boring Road, Patna.",
+    "Choose one option to continue your journey.",
+    "अपनी यात्रा जारी रखने के लिए एक विकल्प चुनें।",
+    "बोरिंग रोड, पटना पर डिज़ाइनर बुटीक, लेडीज़ टेलर और कस्टम सिलाई।",
+  ]);
+  const subtitle = legacySubtitles.has(rawSubtitle)
+    ? lang === "hi"
+      ? homeDefaults.category_subtitle_hi
+      : homeDefaults.category_subtitle
+    : rawSubtitle;
+  const subtitleParagraphs = splitParagraphs(subtitle);
 
   return (
     <section
@@ -380,7 +423,11 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp, home =
           {titleHighlight ? <span className={HIGHLIGHT_SHIMMER}>{titleHighlight}</span> : null}
           {titleAfter}
         </h2>
-        <p className="quick-explore__subtitle">{subtitle}</p>
+        {subtitleParagraphs.map((para, index) => (
+          <p key={`category-sub-${index}`} className="quick-explore__subtitle">
+            {para}
+          </p>
+        ))}
         <p className="quick-explore__context">
           {lang === "hi" ? (
             <>

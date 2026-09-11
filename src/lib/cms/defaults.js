@@ -181,15 +181,16 @@ export const PAGE_DEFAULTS = {
     hero_book_local_video: "/video-2.mp4",
     hero_service_cards: DEFAULT_HERO_SERVICE_CARDS.map((card) => ({ ...card })),
     hero_feature_strip: DEFAULT_HERO_FEATURE_STRIP.map((item) => ({ ...item })),
-    category_eyebrow: "Quick Explore",
+    category_eyebrow: "Where Fashion Meets Creativity, Craft, & Opportunity",
     category_eyebrow_hi: "क्विक एक्सप्लोर",
-    category_title_before: "Best Boutique in ",
+    category_title_before: "",
     category_title_before_hi: "बोरिंग रोड, पटना का ",
-    category_title_highlight: "Boring Road, Patna",
+    category_title_highlight: "One destination. Every expression of fashion.",
     category_title_highlight_hi: "बेस्ट बुटीक",
     category_title_after: "",
     category_title_after_hi: "",
-    category_subtitle: "Designer boutique, ladies tailors & custom stitching on Boring Road, Patna.",
+    category_subtitle:
+      "Experience the best in designer fashion, quality bridal stitching, and a fashion design institute, all in one place at the best boutique in Patna. Be it crafting your dream wedding outfit or acquiring skills in fashion design, Shreya Creation can be your guide to all things fashion-related.\n\nAt the best boutique in Patna, fashion is not just about choosing what to wear but also involves learning the craft, creating confidently, and wearing something truly your own. With the right fashion designing courses and specialized institute programs, expert boutique stitching made to your measurements and style, Shreya Creation brings all aspects of fashion together. Explore our designer collection, discover intricate bridal and occasion wear, or learn the art of fashion designing and boutique craftsmanship through hands-on training designed to take you from skills to style and from passion to profession.",
     category_subtitle_hi: "बोरिंग रोड, पटना पर डिज़ाइनर बुटीक, लेडीज़ टेलर और कस्टम सिलाई।",
     category_cards: DEFAULT_CATEGORY_CARDS.map((card) => ({
       ...card,
@@ -307,9 +308,10 @@ export const PAGE_DEFAULTS = {
     courses_eyebrow_hi: "हमारे लोकप्रिय कोर्स",
     courses_title: "Best Fashion Designing Institute in Patna, Bihar",
     courses_title_hi: "पटना, बिहार का बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट",
-    courses_subtitle: "From basics to advanced, choose the right course for your career.",
+    courses_subtitle:
+      "Whether you seek to develop a career in fashion or create an outfit that feels truly yours, Shreya Creation provides you with the excellence, craftsmanship, and mentorship to make it happen.\n\nIf you are searching for the best boutique in Patna, explore our custom stitching services at Shreya Creation.",
     courses_subtitle_hi: "बेसिक से एडवांस्ड तक — अपने करियर के लिए सही कोर्स चुनें।",
-    courses_script_tagline: "Skill that creates income.",
+    courses_script_tagline: "Learn It. Create It. Make It Yours.",
     courses_script_tagline_hi: "कौशल जो आय बनाता है।",
     courses_view_all: "View All Courses",
     courses_view_all_hi: "सभी कोर्स देखें",
@@ -385,9 +387,9 @@ export const PAGE_DEFAULTS = {
     collection_image_right: "/atelier_details.webp",
     academy_badge: "Academy Studio",
     academy_badge_hi: "अकादमी स्टूडियो",
-    academy_heading: "Best Fashion Designing Institute",
+    academy_heading: "Boutique Courses & Stitching Classes in Patna",
     academy_heading_hi: "बेस्ट फैशन डिज़ाइनिंग इंस्टिट्यूट",
-    academy_heading_highlight: "in Patna, Bihar",
+    academy_heading_highlight: "",
     academy_heading_highlight_hi: "पटना, बिहार में",
     academy_subheading: "Professional courses — boutique, blouse, suit, kids wear, fashion design & lehenga. Enroll on WhatsApp.",
     academy_subheading_hi: "प्रोफेशनल कोर्स — बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा। WhatsApp पर एनरोल करें।",
@@ -482,9 +484,9 @@ export const PAGE_DEFAULTS = {
     header_highlight: "",
     header_highlight_hi: "",
     header_subtitle:
-      "Your attire should never look ordinary. At Shreya Creation, we transform your imagination into unique fashion with the help of our signature bridal tops, designer lehengas, designer suits, designer gowns, and other customized dresses with a perfect fit and fine details.",
+      "Your attire should never look ordinary. At Shreya Creation, the best designer boutique in Patna, we transform your imagination into unique fashion with the help of our signature bridal tops, designer lehengas, designer suits, designer gowns, and other customized dresses with a perfect fit and fine details.",
     header_subtitle_hi:
-      "आपका पहनावा कभी साधारण नहीं लगना चाहिए। श्रेया क्रिएशन में हम आपकी कल्पना को अनोखे फैशन में बदलते हैं — ब्राइडल टॉप्स, डिज़ाइनर लहंगे, सूट, गाउन और अन्य कस्टम ड्रेस परफेक्ट फिट और बारीक डिटेल के साथ।",
+      "आपका पहनावा कभी साधारण नहीं लगना चाहिए। श्रेया क्रिएशन, पटना का बेस्ट डिज़ाइनर बुटीक, आपकी कल्पना को अनोखे फैशन में बदलता है — ब्राइडल टॉप्स, डिज़ाइनर लहंगे, सूट, गाउन और अन्य कस्टम ड्रेस परफेक्ट फिट और बारीक डिटेल के साथ।",
     intro_body:
       "Being the best designer boutique in Patna, we combine the trendiest styles with our exquisite designs to produce a remarkable fashion line for you.",
     intro_body_hi:
@@ -497,9 +499,9 @@ export const PAGE_DEFAULTS = {
     about_title: "About Our Boutique",
     about_title_hi: "हमारे बुटीक के बारे में",
     about_body:
-      "At Shreya Creation, we understand that an ideal outfit does not just come out of a stitch but is made keeping your needs in mind. Whether it is bridal blouses, designer lehengas, or even suits and gowns, each of our creations is a combination of your imagination and our skill. As the best designer boutique in Patna and the best ladies tailor in Patna, we have always specialized in personalized designs, fine fitting, Aari & Zari hand embroidery, and finishing.",
+      "At Shreya Creation, we understand that an ideal outfit does not just come out of a stitch but is made keeping your needs in mind. Whether it is bridal blouses, designer lehengas, or even suits and gowns, each of our creations is a combination of your imagination and our skill. As the best designer boutique in Patna, we have always specialized in personalized designs, fine fitting, Aari & Zari hand embroidery, and finishing.",
     about_body_hi:
-      "श्रेया क्रिएशन में हम समझते हैं कि आदर्श आउटफ़िट सिर्फ सिलाई से नहीं बनता — आपकी ज़रूरतों को ध्यान में रखकर बनता है। चाहे ब्राइडल ब्लाउज़ हों, डिज़ाइनर लहंगे, सूट या गाउन — हर रचना आपकी कल्पना और हमारे कौशल का संगम है। पटना के बेस्ट डिज़ाइनर बुटीक और बेस्ट लेडीज़ टेलर के रूप में हम व्यक्तिगत डिज़ाइन, सटीक फिटिंग, आरी और ज़री हाथ कढ़ाई और फिनिशिंग में विशेषज्ञ हैं।",
+      "श्रेया क्रिएशन में हम समझते हैं कि आदर्श आउटफ़िट सिर्फ सिलाई से नहीं बनता — आपकी ज़रूरतों को ध्यान में रखकर बनता है। चाहे ब्राइडल ब्लाउज़ हों, डिज़ाइनर लहंगे, सूट या गाउन — हर रचना आपकी कल्पना और हमारे कौशल का संगम है। पटना के बेस्ट डिज़ाइनर बुटीक के रूप में हम व्यक्तिगत डिज़ाइन, सटीक फिटिंग, आरी और ज़री हाथ कढ़ाई और फिनिशिंग में विशेषज्ञ हैं।",
     process_title: "From First Sketch to Final Stitch – Your Look, Your Way",
     process_title_hi: "पहले स्केच से आखिरी सिलाई तक — आपका लुक, आपके तरीके से",
     process_features: [
@@ -804,9 +806,89 @@ export const PAGE_DEFAULTS = {
     cta_wa_message:
       "Hi Shreya Creation! 👋 I have a few questions after reading your FAQ. Please help.",
   },
+  ladiesTailor: {
+    meta_title: "Best Ladies Tailor in Patna | Shreya Creation",
+    meta_description:
+      "Looking for the best ladies tailor in Patna? Shreya Creation offers designer blouses, bridal wear, custom stitching, perfect fitting, and Aari-Zari handwork.",
+    header_eyebrow: "Ladies Tailor · Boring Road, Patna",
+    header_eyebrow_hi: "लेडीज़ टेलर · बोरिंग रोड, पटना",
+    header_title: "Ladies Tailor in Patna: Where Every Stitch Is Designed Around You",
+    header_title_hi: "पटना में लेडीज़ टेलर: हर टांका आपके लिए",
+    header_subtitle:
+      "Finding the best ladies tailor in Patna is not only about getting the cloth stitched but about choosing the perfect fit and a beautiful, unique design according to your choice.",
+    header_subtitle_hi:
+      "पटना में बेस्ट लेडीज़ टेलर चुनना सिर्फ सिलाई नहीं — सही फिट और आपके पसंद का डिज़ाइन भी है।",
+    intro_body:
+      "We at Shreya Creation offer a wide range of stitching and designing services, including designer blouses, bridal wear, lehenga, suits, gowns, saree pre-stitching, custom outfits, and the best Aari & Zari work, based on your choice of measurements and design.\n\nBacked by a great experience of tailoring, our professional tailors provide you with the best-fitting clothes stitched right to you.",
+    intro_body_hi: "",
+    hero_cta_primary_label: "Book Your Custom Stitching",
+    hero_cta_primary_label_hi: "कस्टम सिलाई बुक करें",
+    hero_cta_secondary_label: "Explore Our Designer Collection",
+    hero_cta_secondary_label_hi: "डिज़ाइनर कलेक्शन देखें",
+    hero_cta_secondary_href: "/shop",
+    cta_title: "Ready for a perfect fit?",
+    cta_title_hi: "परफेक्ट फिट के लिए तैयार?",
+    cta_subtitle:
+      "Book custom stitching or visit our Boring Road studio for a personalised consultation.",
+    cta_subtitle_hi:
+      "कस्टम सिलाई बुक करें या पर्सनल कंसल्टेशन के लिए बोरिंग रोड स्टूडियो आएँ।",
+    cta_primary_label: "Book Your Custom Stitching",
+    cta_primary_label_hi: "कस्टम सिलाई बुक करें",
+    cta_secondary_href: "/shop",
+    cta_secondary_label: "Explore Our Designer Collection",
+    cta_secondary_label_hi: "डिज़ाइनर कलेक्शन देखें",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I'm looking for a ladies tailor in Patna for custom stitching. Please share design options, fitting, and timing.",
+  },
+  boutiqueBoringRoad: {
+    meta_title: "Boutique Boring Road | Shreya Creation",
+    meta_description:
+      "Discover Shreya Creation, a boutique Boring Road offering designer blouses, bridal wear, custom stitching, and designer collections. Your best boutique near me.",
+    header_eyebrow: "Boutique · East Boring Canal Road, Patna",
+    header_eyebrow_hi: "बुटीक · ईस्ट बोरिंग कैनाल रोड, पटना",
+    header_title: "Where Your Style Finds Its Perfect Address",
+    header_title_hi: "जहाँ आपकी स्टाइल को सही पता मिलता है",
+    header_subtitle:
+      "Looking for Boutique Boring Road that understands your style beyond the standard stitch? Welcome to Shreya Creation, a fashion destination where personalised design and exquisite fitting meet.",
+    header_subtitle_hi:
+      "बोरिंग रोड पर ऐसा बुटीक ढूँढ रहे हैं जो सिर्फ सिलाई नहीं, आपकी स्टाइल समझे? Shreya Creation में आपका स्वागत है।",
+    intro_body:
+      "From designer blouse, bridal wear to elegant suits, gowns, lehengas, and customised outfit are made according to your desired specifications and fit.\n\nFor those who have been searching for the best boutique near me can explore a range of designer clothes that are not picked off the rack but created for the customer.",
+    intro_body_hi: "",
+    hero_cta_primary_label: "Book Your Custom Stitching",
+    hero_cta_primary_label_hi: "कस्टम सिलाई बुक करें",
+    hero_cta_secondary_label: "Explore Our Designer Collection",
+    hero_cta_secondary_label_hi: "डिज़ाइनर कलेक्शन देखें",
+    hero_cta_secondary_href: "/shop",
+    cta_title: "Visit our Boutique on Boring Road",
+    cta_title_hi: "बोरिंग रोड पर हमारा बुटीक देखें",
+    cta_subtitle:
+      "Explore designer collections or book custom stitching with a personalised boutique consultation.",
+    cta_subtitle_hi:
+      "डिज़ाइनर कलेक्शन देखें या पर्सनल बुटीक कंसल्टेशन के साथ कस्टम सिलाई बुक करें।",
+    cta_primary_label: "Book Your Custom Stitching",
+    cta_primary_label_hi: "कस्टम सिलाई बुक करें",
+    cta_secondary_href: "/shop",
+    cta_secondary_label: "Explore Our Designer Collection",
+    cta_secondary_label_hi: "डिज़ाइनर कलेक्शन देखें",
+    cta_wa_message:
+      "Hi Shreya Creation! 👋 I found your boutique on Boring Road and would like custom stitching / designer wear. Please share options and timings.",
+  },
 };
 
-export const PAGE_EDITOR_KEYS = ["home", "about", "contact", "shop", "courses", "portfolio", "lookbook", "nri", "faq"];
+export const PAGE_EDITOR_KEYS = [
+  "home",
+  "about",
+  "contact",
+  "shop",
+  "courses",
+  "portfolio",
+  "lookbook",
+  "nri",
+  "faq",
+  "ladiesTailor",
+  "boutiqueBoringRoad",
+];
 
 export const FEATURE_FIELDS = [
   { key: "emoji", label: "Emoji", default: "✦" },

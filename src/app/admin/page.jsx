@@ -29,6 +29,9 @@ export default async function Dashboard() {
     { href: "/shop", label: "Shop" },
     { href: "/portfolio", label: "Portfolio" },
     { href: "/blog", label: "Blog" },
+    { href: "/nri-clients", label: "NRI Clients" },
+    { href: "/ladies-tailor-patna", label: "Ladies Tailor Patna" },
+    { href: "/boutique-boring-road", label: "Boutique Boring Road" },
     { href: "/contact", label: "Contact" },
     { href: "/faq", label: "FAQ" },
   ];

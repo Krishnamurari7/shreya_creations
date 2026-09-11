@@ -22,6 +22,8 @@ const NAV_ROUTES = [
   { href: "/blog", key: "blog" },
   { href: "/faq", key: "faq" },
   { href: "/nri-clients", key: "nriClients" },
+  { href: "/ladies-tailor-patna", key: "ladiesTailorPatna" },
+  { href: "/boutique-boring-road", key: "boutiqueBoringRoad" },
   { href: "/contact", key: "contact" },
 ];
 

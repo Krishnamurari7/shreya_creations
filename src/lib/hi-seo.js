@@ -68,6 +68,20 @@ const HI_PAGES = {
     path: "/nri-clients",
     imageAlt: "NRI boutique, custom stitching और fashion classes — Shreya Creation Patna",
   },
+  ladiesTailorPatna: {
+    title: "पटना में बेस्ट लेडीज़ टेलर | Shreya Creation",
+    description:
+      "पटना में बेस्ट लेडीज़ टेलर ढूँढ रहे हैं? Shreya Creation — डिज़ाइनर ब्लाउज, ब्राइडल वियर, कस्टम सिलाई, परफेक्ट फिटिंग और आरी-ज़री हैंडवर्क।",
+    path: "/ladies-tailor-patna",
+    imageAlt: "पटना में लेडीज़ टेलर — Shreya Creation डिज़ाइनर ब्लाउज और ब्राइडल सिलाई",
+  },
+  boutiqueBoringRoad: {
+    title: "बुटीक बोरिंग रोड | Shreya Creation",
+    description:
+      "Shreya Creation — बोरिंग रोड बुटीक: डिज़ाइनर ब्लाउज, ब्राइडल वियर, कस्टम सिलाई और डिज़ाइनर कलेक्शन। आपके पास बेस्ट बुटीक।",
+    path: "/boutique-boring-road",
+    imageAlt: "बोरिंग रोड, पटना पर Shreya Creation बुटीक",
+  },
   portfolio: {
     title: "पोर्टफोलियो — ब्राइडल और डिज़ाइनर काम पटना",
     description:
