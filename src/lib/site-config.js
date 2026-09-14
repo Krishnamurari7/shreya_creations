@@ -359,3 +359,24 @@ export function buildSITE(raw = {}, opts = {}) {
 
 /** Static defaults when DB is empty (seed uses this). */
 export const SITE_DEFAULTS = buildSITE({}, { coursesCount: DEFAULT_COURSES_COUNT });
+
+/**
+ * Layout chrome (Navbar/Footer/contact bar) only needs contact/brand fields.
+ * Omit `pages` so other routes' meta_title/description are not embedded in every HTML payload
+ * (SEO tools otherwise report conflicting “Rendered” meta from JSON in the DOM).
+ */
+export function chromeSiteProps(site) {
+  if (!site || typeof site !== "object") return site;
+  const {
+    pages: _pages,
+    aboutBody: _aboutBody,
+    aboutBodyHi: _aboutBodyHi,
+    aboutPillars: _aboutPillars,
+    services: _services,
+    processSteps: _processSteps,
+    intro: _intro,
+    introHi: _introHi,
+    ...chrome
+  } = site;
+  return chrome;
+}

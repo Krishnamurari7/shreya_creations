@@ -269,7 +269,6 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
   const reduceMotion = useReducedMotion();
   const hi = lang === "hi";
   const shop = shopPage || site.pages?.shop || {};
-  const home = site.pages?.home || {};
 
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -317,7 +316,7 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
     pickPage(shop, lang, "closingTagline", "closingTaglineHi") ||
     (hi ? SHOP_DEFAULTS.closing_tagline_hi : SHOP_DEFAULTS.closing_tagline);
 
-  const heroImage = resolveMediaSrc(shop.heroImage || home.heroImage || MEDIA.boutique);
+  const heroImage = resolveMediaSrc(shop.heroImage || MEDIA.boutique);
   const waHref = waLink(site.whatsapp, stitchOrderMessage(lang));
 
   const heroPerks = hi

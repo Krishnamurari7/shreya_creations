@@ -1,5 +1,8 @@
--- Add boutique/shop page SEO meta + on-page copy (jsonb_set — does not replace other pages/shop keys).
+-- Restore service_role write (scripts/apply-shop-seo.mjs) + boutique/shop SEO copy.
 -- Run in Supabase SQL Editor: Dashboard → SQL → New query → paste → Run.
+-- Source of truth for these fields: src/lib/cms/defaults.js → PAGE_DEFAULTS.shop
+
+GRANT SELECT, INSERT, UPDATE ON public.settings TO service_role;
 
 UPDATE public.settings
 SET

@@ -90,7 +90,11 @@ export default function SeoLandingClient({ content, site, cmsPage = {} }) {
   const eyebrow =
     pickPage(page, lang, "headerEyebrow", "headerEyebrowHi") || content.eyebrow;
   const h1 = pickPage(page, lang, "headerTitle", "headerTitleHi") || content.h1;
-  const headerLead = pickPage(page, lang, "headerSubtitle", "headerSubtitleHi") || "";
+  const headerLead =
+    pickPage(page, lang, "headerSubtitle", "headerSubtitleHi") ||
+    content.lead ||
+    content.meta?.description ||
+    "";
   const introBody = pickPage(page, lang, "introBody", "introBodyHi");
   const intro = introBody
     ? introBody

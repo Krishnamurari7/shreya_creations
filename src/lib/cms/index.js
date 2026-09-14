@@ -46,6 +46,71 @@ function mergePreferFilled(base, fromDb) {
   return out;
 }
 
+/** /shop SEO + boutique copy — single source of truth in PAGE_DEFAULTS.shop (ignore stale CMS). */
+const SHOP_CANONICAL_KEYS = [
+  "meta_title",
+  "meta_description",
+  "header_eyebrow",
+  "header_eyebrow_hi",
+  "header_title",
+  "header_title_hi",
+  "header_tagline",
+  "header_tagline_hi",
+  "header_subtitle",
+  "header_subtitle_hi",
+  "intro_body",
+  "intro_body_hi",
+  "hero_cta_primary_label",
+  "hero_cta_primary_label_hi",
+  "hero_cta_primary_href",
+  "hero_cta_secondary_label",
+  "hero_cta_secondary_label_hi",
+  "about_title",
+  "about_title_hi",
+  "about_body",
+  "about_body_hi",
+  "process_title",
+  "process_title_hi",
+  "process_features",
+  "closing_tagline",
+  "closing_tagline_hi",
+];
+
+/** /ladies-tailor-patna — same copy as seo-landing-content.js (ignore stale CMS). */
+const LADIES_TAILOR_CANONICAL_KEYS = [
+  "meta_title",
+  "meta_description",
+  "header_eyebrow",
+  "header_eyebrow_hi",
+  "header_title",
+  "header_title_hi",
+  "header_subtitle",
+  "header_subtitle_hi",
+  "intro_body",
+  "intro_body_hi",
+  "hero_cta_primary_label",
+  "hero_cta_primary_label_hi",
+  "hero_cta_secondary_label",
+  "hero_cta_secondary_label_hi",
+  "hero_cta_secondary_href",
+  "cta_title",
+  "cta_title_hi",
+  "cta_subtitle",
+  "cta_subtitle_hi",
+  "cta_primary_label",
+  "cta_primary_label_hi",
+  "cta_secondary_label",
+  "cta_secondary_label_hi",
+  "cta_secondary_href",
+  "cta_wa_message",
+];
+
+function canonicalPageSlice(defaults, keys) {
+  return keysToCamel(
+    Object.fromEntries(keys.filter((key) => defaults[key] !== undefined).map((key) => [key, defaults[key]])),
+  );
+}
+
 export function mergePageDefaults(pages = {}) {
   const merged = {};
   for (const slug of Object.keys(PAGE_DEFAULTS)) {
@@ -53,6 +118,15 @@ export function mergePageDefaults(pages = {}) {
     const fromDb = pages[slug] && typeof pages[slug] === "object" ? keysToCamel(pages[slug]) : {};
     merged[slug] = mergePreferFilled(base, fromDb);
   }
+
+  const shopDefaults = PAGE_DEFAULTS.shop || {};
+  merged.shop = { ...merged.shop, ...canonicalPageSlice(shopDefaults, SHOP_CANONICAL_KEYS) };
+
+  const ladiesDefaults = PAGE_DEFAULTS.ladiesTailor || {};
+  merged.ladiesTailor = {
+    ...merged.ladiesTailor,
+    ...canonicalPageSlice(ladiesDefaults, LADIES_TAILOR_CANONICAL_KEYS),
+  };
 
   return merged;
 }

@@ -14,6 +14,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import ThemeScript from "@/components/ThemeScript";
 import Analytics from "@/components/Analytics";
 import { getSiteSettings } from "@/lib/data";
+import { chromeSiteProps } from "@/lib/site-config";
 import { LOGO_SRC } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/siteUrl";
 import JsonLd from "@/components/JsonLd";
@@ -107,6 +108,7 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   const site = await getSiteSettings();
+  const chrome = chromeSiteProps(site);
 
   return (
     <html lang="en" className={latinFontVariables} suppressHydrationWarning>
@@ -136,18 +138,18 @@ export default async function RootLayout({ children }) {
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        <JsonLd site={site} />
+        <JsonLd site={chrome} />
         <Analytics />
         <ThemeScript />
         <ThemeProvider>
           <LanguageProvider>
             <ScrollReveal />
             <SiteProtection />
-            <Navbar site={site} />
+            <Navbar site={chrome} />
             <main id="main-content" className="relative z-0 flex-1 min-w-0 w-full overflow-x-hidden">{children}</main>
-            <Footer site={site} />
-            <MobileContactBar site={site} />
-            <WhatsAppAssistant number={site.whatsapp} />
+            <Footer site={chrome} />
+            <MobileContactBar site={chrome} />
+            <WhatsAppAssistant number={chrome.whatsapp} />
           </LanguageProvider>
         </ThemeProvider>
       </body>

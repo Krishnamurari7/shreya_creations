@@ -44,6 +44,18 @@ export default async function ShopPage() {
     getTestimonials(),
   ]);
   const shop = site.pages?.shop || {};
+  const home = site.pages?.home || {};
+  const boutiqueSite = {
+    whatsapp: site.whatsapp,
+    yearsExperience: site.yearsExperience,
+    foundingYear: site.foundingYear,
+    outfitsDelivered: site.outfitsDelivered,
+    expressDeliveryHours: site.expressDeliveryHours,
+  };
+  const shopPage = {
+    ...shop,
+    heroImage: shop.heroImage || home.heroImage,
+  };
 
   return (
     <PageShell>
@@ -57,8 +69,8 @@ export default async function ShopPage() {
         )}
       />
       <BoutiqueClient
-        site={site}
-        shopPage={shop}
+        site={boutiqueSite}
+        shopPage={shopPage}
         products={products}
         testimonials={testimonials}
       />

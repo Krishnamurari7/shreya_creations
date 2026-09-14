@@ -12,8 +12,10 @@ export const LADIES_TAILOR_PATNA = {
       "Looking for the best ladies tailor in Patna? Shreya Creation offers designer blouses, bridal wear, custom stitching, perfect fitting, and Aari-Zari handwork.",
     imageAlt: "Ladies tailor in Patna — designer blouses and bridal stitching at Shreya Creation",
   },
-  eyebrow: "Ladies Tailor · Boring Road, Patna",
+  eyebrow: "Ladies Tailor in Patna",
   h1: "Ladies Tailor in Patna: Where Every Stitch Is Designed Around You",
+  lead:
+    "Looking for the best ladies tailor in Patna? Shreya Creation offers designer blouses, bridal wear, custom stitching, perfect fitting, and Aari-Zari handwork.",
   intro: [
     "Finding the best ladies tailor in Patna is not only about getting the cloth stitched but about choosing the perfect fit and a beautiful, unique design according to your choice. We at Shreya Creation offer a wide range of stitching and designing services, including designer blouses, bridal wear, lehenga, suits, gowns, saree pre-stitching, custom outfits, and the best Aari & Zari work, based on your choice of measurements and design.",
     "Backed by a great experience of tailoring, our professional tailors provide you with the best-fitting clothes stitched right to you.",
@@ -124,8 +126,10 @@ export const BOUTIQUE_BORING_ROAD = {
   },
   eyebrow: "Boutique · East Boring Canal Road, Patna",
   h1: "Where Your Style Finds Its Perfect Address",
-  intro: [
+  // lead = hero first paragraph (CMS header_subtitle); intro = remaining body (CMS intro_body)
+  lead:
     "Looking for Boutique Boring Road that understands your style beyond the standard stitch? Welcome to Shreya Creation, a fashion destination where personalised design and exquisite fitting meet. From designer blouse, bridal wear to elegant suits, gowns, lehengas, and customised outfit are made according to your desired specifications and fit.",
+  intro: [
     "For those who have been searching for the best boutique near me can explore a range of designer clothes that are not picked off the rack but created for the customer.",
   ],
   story: {
