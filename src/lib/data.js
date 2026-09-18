@@ -274,15 +274,17 @@ async function fetchCourses(includeUnpublished = false) {
 
 export async function getCourseBySlug(slug) {
   const seedCourse = seed.COURSES.find((c) => c.slug === slug) || null;
-  if (!isSupabaseConfigured()) return seedCourse;
+  if (!isSupabaseConfigured()) return seedCourse ? normalizeCourse(seedCourse) : null;
 
   try {
     const supabase = createPublicClient();
     const { data } = await supabase.from("courses").select("*").eq("slug", slug).maybeSingle();
-    if (!data) return null;
+    // DB miss: restore seed content for known seed slugs (footer destinations).
+    // Never invent a course that is not in seed or Supabase.
+    if (!data) return seedCourse ? normalizeCourse(seedCourse) : null;
     return enrichCourseFromSeed(normalizeCourse(data));
   } catch {
-    return seedCourse;
+    return seedCourse ? normalizeCourse(seedCourse) : null;
   }
 }
 

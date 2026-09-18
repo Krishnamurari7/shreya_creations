@@ -9,19 +9,10 @@ import { INQUIRY_OPEN_EVENT } from "@/lib/inquiryPopup";
 import { enquiryMessage, waLink } from "@/lib/whatsapp";
 import { trackLead, trackWhatsAppClick } from "@/lib/analytics";
 
-const DISMISS_HOURS = 24;
+const DISMISS_KEY_PREFIX = "sc_inquiry_popup_";
 
 function dismissKey(source) {
-  return `sc_inquiry_popup_${source}`;
-}
-
-function wasRecentlyDismissed(source) {
-  if (typeof window === "undefined") return true;
-  const raw = localStorage.getItem(dismissKey(source));
-  if (!raw) return false;
-  const ts = Number(raw);
-  if (!Number.isFinite(ts)) return false;
-  return Date.now() - ts < DISMISS_HOURS * 60 * 60 * 1000;
+  return `${DISMISS_KEY_PREFIX}${source}`;
 }
 
 function markDismissed(source) {
@@ -73,7 +64,7 @@ function isDemoSource(src) {
   return /demo/i.test(src || "");
 }
 
-export default function InquiryPopup({ source = "home_popup", delayMs = 8000, whatsapp }) {
+export default function InquiryPopup({ source = "home_popup", whatsapp }) {
   const { lang } = useLanguage();
   const t = COPY[lang] || COPY.en;
   const [mounted, setMounted] = useState(false);
@@ -86,14 +77,17 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 8000, wh
   const [done, setDone] = useState(false);
   const [formError, setFormError] = useState("");
   const [activeSource, setActiveSource] = useState(source);
-  const userOpenedRef = useRef(false);
+  const panelRef = useRef(null);
+  const previouslyFocusedRef = useRef(null);
 
   const close = useCallback(() => {
     setOpen(false);
-    if (!userOpenedRef.current) {
-      markDismissed(source);
+    markDismissed(source);
+    const prev = previouslyFocusedRef.current;
+    if (prev && typeof prev.focus === "function") {
+      requestAnimationFrame(() => prev.focus());
     }
-    userOpenedRef.current = false;
+    previouslyFocusedRef.current = null;
   }, [source]);
 
   useEffect(() => {
@@ -101,18 +95,14 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 8000, wh
   }, []);
 
   useEffect(() => {
-    if (wasRecentlyDismissed(source)) return undefined;
-    const id = setTimeout(() => setOpen(true), delayMs);
-    return () => clearTimeout(id);
-  }, [source, delayMs]);
-
-  useEffect(() => {
     const onOpen = (event) => {
       const detail = event.detail || {};
+      previouslyFocusedRef.current =
+        typeof document !== "undefined" ? document.activeElement : null;
       setActiveSource(detail.source || source);
       setMessage(typeof detail.message === "string" ? detail.message : "");
       setDone(false);
-      userOpenedRef.current = true;
+      setFormError("");
       setOpen(true);
     };
 
@@ -122,14 +112,44 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 8000, wh
 
   useEffect(() => {
     if (!open) return undefined;
-    const prev = document.body.style.overflow;
+    const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
+    const panel = panelRef.current;
+    const focusables = () =>
+      panel
+        ? Array.from(
+            panel.querySelectorAll(
+              'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+          ).filter((el) => !el.hasAttribute("disabled") && el.getAttribute("aria-hidden") !== "true")
+        : [];
+
+    const first = focusables()[0];
+    if (first) requestAnimationFrame(() => first.focus());
+
     const onKey = (e) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+        return;
+      }
+      if (e.key !== "Tab" || !panel) return;
+      const nodes = focusables();
+      if (!nodes.length) return;
+      const firstNode = nodes[0];
+      const lastNode = nodes[nodes.length - 1];
+      if (e.shiftKey && document.activeElement === firstNode) {
+        e.preventDefault();
+        lastNode.focus();
+      } else if (!e.shiftKey && document.activeElement === lastNode) {
+        e.preventDefault();
+        firstNode.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKey);
     };
   }, [open, close]);
@@ -183,9 +203,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 8000, wh
     window.open(href, "_blank", "noopener,noreferrer");
     setSaving(false);
     setDone(true);
-    if (!userOpenedRef.current) {
-      markDismissed(source);
-    }
+    markDismissed(source);
   };
 
   if (!mounted || !open) return null;
@@ -211,6 +229,7 @@ export default function InquiryPopup({ source = "home_popup", delayMs = 8000, wh
         onClick={close}
       />
       <div
+        ref={panelRef}
         className={cn(
           GLASS,
           POPUP_PANEL,

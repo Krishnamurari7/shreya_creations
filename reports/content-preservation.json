@@ -1,0 +1,126 @@
+{
+  "checkedAt": "2026-09-18T05:24:35.575Z",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "course slug retained: advanced-boutique-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: sleeveless-blouse-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: backless-blouse-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: madhubala-blouse-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: blouse-suit-making-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: collar-design-blouse-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: rajwadi-blouse-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: sabyasachi-blouse-design-course-patna"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: basic-boutique-course"
+    },
+    {
+      "ok": true,
+      "msg": "course slug retained: lehenga-design-course-patna"
+    },
+    {
+      "ok": true,
+      "msg": "settings.students_taught unchanged (2000 → 2000)"
+    },
+    {
+      "ok": true,
+      "msg": "settings.outfits_delivered unchanged (5000 → 5000)"
+    },
+    {
+      "ok": true,
+      "msg": "settings.founding_year unchanged (2012 → 2012)"
+    },
+    {
+      "ok": true,
+      "msg": "settings.email unchanged (hello@shreyacreations.in → hello@shreyacreations.in)"
+    },
+    {
+      "ok": true,
+      "msg": "product price royal-bridal-lehenga"
+    },
+    {
+      "ok": true,
+      "msg": "product title royal-bridal-lehenga"
+    },
+    {
+      "ok": true,
+      "msg": "product price designer-evening-gown"
+    },
+    {
+      "ok": true,
+      "msg": "product title designer-evening-gown"
+    },
+    {
+      "ok": true,
+      "msg": "product price embroidered-designer-blouse"
+    },
+    {
+      "ok": true,
+      "msg": "product title embroidered-designer-blouse"
+    },
+    {
+      "ok": true,
+      "msg": "product price anarkali-suit-set"
+    },
+    {
+      "ok": true,
+      "msg": "product title anarkali-suit-set"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio title perfect-lehenga-blouse-designer-stitching"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio image perfect-lehenga-blouse-designer-stitching"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio title reception-gown"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio image reception-gown"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio title shreya-creation-boutique-institute-patna"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio image shreya-creation-boutique-institute-patna"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio title bridal-lehenga-maroon-gold"
+    },
+    {
+      "ok": true,
+      "msg": "portfolio image bridal-lehenga-maroon-gold"
+    }
+  ],
+  "failed": 0
+}

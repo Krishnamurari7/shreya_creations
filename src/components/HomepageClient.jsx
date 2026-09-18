@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
 import { DesignProcess } from "@/components/FashionSections";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pageBottomCtaProps, pickPage } from "@/lib/cms";
@@ -100,20 +99,6 @@ export default function HomepageClient({
 }) {
   const { lang } = useLanguage();
   const home = homeProp || site.pages?.home || {};
-  const [mountPopup, setMountPopup] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-
-    const open = () => setMountPopup(true);
-    const timer = window.setTimeout(open, 8000);
-    window.addEventListener("scroll", open, { once: true, passive: true });
-
-    return () => {
-      window.clearTimeout(timer);
-      window.removeEventListener("scroll", open);
-    };
-  }, []);
 
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
@@ -194,7 +179,7 @@ export default function HomepageClient({
 
       <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} />
 
-      {mountPopup ? <InquiryPopup source="home_popup" delayMs={8000} whatsapp={site.whatsapp} /> : null}
+      <InquiryPopup source="home_popup" whatsapp={site.whatsapp} />
     </div>
   );
 }

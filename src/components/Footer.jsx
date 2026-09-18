@@ -267,11 +267,26 @@ function Icon({ name, className = "h-4 w-4" }) {
   );
 }
 
-function ColTitle({ children }) {
+function ColTitle({ children, as = "h2" }) {
+  const Tag = as;
   return (
-    <h2 className="sf-col-title">
+    <Tag className="sf-col-title">
       <span>{children}</span>
-    </h2>
+    </Tag>
+  );
+}
+
+function CollapsibleCol({ title, children, className, style, defaultOpen = false }) {
+  return (
+    <details className={cn(REVEAL, "sf-col", "sf-col-collapse", className)} style={style} defaultOpen={defaultOpen}>
+      <summary>
+        <ColTitle as="span">{title}</ColTitle>
+        <span className="sf-col-collapse__chevron" aria-hidden>
+          ▾
+        </span>
+      </summary>
+      <div className="sf-col-collapse__body">{children}</div>
+    </details>
   );
 }
 
@@ -422,8 +437,11 @@ export default function Footer({ site }) {
             </div>
 
             {/* ── Why choose us ── */}
-            <div className={cn(REVEAL, "sf-col")} style={{ transitionDelay: "60ms" }}>
-              <ColTitle>{hi ? "हमें क्यों चुनें?" : "Why Choose Us?"}</ColTitle>
+            <CollapsibleCol
+              title={hi ? "हमें क्यों चुनें?" : "Why Choose Us?"}
+              style={{ transitionDelay: "60ms" }}
+              defaultOpen
+            >
               <ul className="sf-reasons">
                 {reasons.map((r) => (
                   <li key={r.title} className={cn("sf-reason", r.highlight && "sf-reason--hero")}>
@@ -437,11 +455,10 @@ export default function Footer({ site }) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </CollapsibleCol>
 
             {/* ── Quick links ── */}
-            <div className={cn(REVEAL, "sf-col")} style={{ transitionDelay: "110ms" }}>
-              <ColTitle>{hi ? "त्वरित लिंक" : "Quick Links"}</ColTitle>
+            <CollapsibleCol title={hi ? "त्वरित लिंक" : "Quick Links"} style={{ transitionDelay: "110ms" }}>
               <ul className="sf-links">
                 {navLinks.map((l) => (
                   <li key={l.href}>
@@ -454,11 +471,13 @@ export default function Footer({ site }) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </CollapsibleCol>
 
             {/* ── Courses ── */}
-            <div className={cn(REVEAL, "sf-col")} style={{ transitionDelay: "160ms" }}>
-              <ColTitle>{hi ? "हमारे कोर्स (इंस्टिट्यूट)" : "Our Courses (Institute)"}</ColTitle>
+            <CollapsibleCol
+              title={hi ? "हमारे कोर्स (इंस्टिट्यूट)" : "Our Courses (Institute)"}
+              style={{ transitionDelay: "160ms" }}
+            >
               <ul className="sf-courses">
                 {COURSE_LINKS.map((c) => (
                   <li key={c.href}>
@@ -479,11 +498,10 @@ export default function Footer({ site }) {
               <p className="sf-course-ribbon">
                 {hi ? "प्लेसमेंट सहायता" : "Placement Assistance"}
               </p>
-            </div>
+            </CollapsibleCol>
 
             {/* ── Contact ── */}
-            <div className={cn(REVEAL, "sf-col")} style={{ transitionDelay: "210ms" }}>
-              <ColTitle>{hi ? "संपर्क करें" : "Contact Us"}</ColTitle>
+            <CollapsibleCol title={hi ? "संपर्क करें" : "Contact Us"} style={{ transitionDelay: "210ms" }} defaultOpen>
               <ul className="sf-contact">
                 {site?.address && (
                   <li>
@@ -589,7 +607,7 @@ export default function Footer({ site }) {
                   </SocialIcon>
                 )}
               </div>
-            </div>
+            </CollapsibleCol>
           </div>
         </div>
 

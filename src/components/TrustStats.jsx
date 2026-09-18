@@ -83,15 +83,16 @@ function MetricValue({ value, accent }) {
   const ref = useRef(null);
   const parsed = useMemo(() => parseMetricValue(value), [value]);
   const [started, setStarted] = useState(false);
-  const [display, setDisplay] = useState(parsed.animate ? formatMetric(0, parsed) : parsed.display);
+  // Keep authoritative final value available immediately (aria + reduced motion / no-JS animation).
+  const [display, setDisplay] = useState(parsed.display);
 
   useEffect(() => {
-    if (!parsed.animate) {
-      setDisplay(parsed.display);
-      return;
-    }
+    setDisplay(parsed.display);
+  }, [parsed]);
+
+  useEffect(() => {
+    if (!parsed.animate) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplay(parsed.display);
       return;
     }
     const node = ref.current;
@@ -124,6 +125,7 @@ function MetricValue({ value, accent }) {
       const eased = 1 - (1 - progress) ** 3;
       setDisplay(formatMetric(parsed.num * eased, parsed));
       if (progress < 1) frame = requestAnimationFrame(tick);
+      else setDisplay(parsed.display);
     };
 
     frame = requestAnimationFrame(tick);

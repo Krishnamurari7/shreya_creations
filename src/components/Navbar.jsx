@@ -241,7 +241,7 @@ export default function Navbar({ site }) {
       <AnnouncementBar items={site?.heroMarquee} />
 
       <div className="site-header-inner">
-        <div className="nav-mobile-bar lg:hidden">
+        <div className="nav-mobile-bar xl:hidden">
           <Link href={localizedPath("/", lang)} onClick={closeMenu} className="nav-brand nav-mobile-brand">
             <BrandLogo brandName={brandName} />
           </Link>
@@ -276,7 +276,7 @@ export default function Navbar({ site }) {
           </div>
         </div>
 
-        <nav className="nav-desktop-bar nav-desktop-bar--luxury hidden lg:grid" aria-label="Main navigation">
+        <nav className="nav-desktop-bar nav-desktop-bar--luxury hidden xl:grid" aria-label="Main navigation">
           <Link href={localizedPath("/", lang)} className="nav-brand nav-desktop-brand">
             <BrandLogo brandName={brandName} />
           </Link>

@@ -184,26 +184,26 @@ export function formatSiteStats(facts) {
 export function buildTrustFromSite(site) {
   return [
     {
-      value: `${site.yearsExperience}+`,
-      valueHi: `${site.yearsExperience}+`,
+      value: formatCountPlus(site.yearsExperience, computeYearsExperience(DEFAULT_FOUNDING_YEAR)),
+      valueHi: formatCountPlus(site.yearsExperience, computeYearsExperience(DEFAULT_FOUNDING_YEAR)),
       label: "Years Experience",
       labelHi: "वर्ष अनुभव",
     },
     {
-      value: `${site.studentsTaught}+`,
-      valueHi: `${site.studentsTaught}+`,
+      value: formatCountPlus(site.studentsTaught, DEFAULT_STUDENTS_TAUGHT),
+      valueHi: formatCountPlus(site.studentsTaught, DEFAULT_STUDENTS_TAUGHT),
       label: "Students Trained",
       labelHi: "प्रशिक्षित छात्र",
     },
     {
-      value: `${site.coursesCount || DEFAULT_COURSES_COUNT}+`,
-      valueHi: `${site.coursesCount || DEFAULT_COURSES_COUNT}+`,
+      value: formatCountPlus(site.coursesCount || DEFAULT_COURSES_COUNT, DEFAULT_COURSES_COUNT),
+      valueHi: formatCountPlus(site.coursesCount || DEFAULT_COURSES_COUNT, DEFAULT_COURSES_COUNT),
       label: "Courses Offered",
       labelHi: "कोर्स उपलब्ध",
     },
     {
-      value: `${site.expressDeliveryHours} Hours`,
-      valueHi: `${site.expressDeliveryHours} घंटे`,
+      value: `${num(site.expressDeliveryHours, DEFAULT_EXPRESS_DELIVERY_HOURS)} Hours`,
+      valueHi: `${num(site.expressDeliveryHours, DEFAULT_EXPRESS_DELIVERY_HOURS)} घंटे`,
       label: "Delivery Service",
       labelHi: "डिलीवरी सेवा",
     },
@@ -213,6 +213,15 @@ export function buildTrustFromSite(site) {
 function num(value, fallback) {
   const n = Number(value);
   return Number.isFinite(n) && n >= 0 ? n : fallback;
+}
+
+/**
+ * Format a countable site fact for display (e.g. "2000+").
+ * Never renders undefined/null/NaN — uses the provided authoritative fallback.
+ */
+export function formatCountPlus(value, fallback) {
+  const n = num(value, fallback);
+  return `${n}+`;
 }
 
 /** Google star average, or null when unset/out of range so callers can hide the card. */

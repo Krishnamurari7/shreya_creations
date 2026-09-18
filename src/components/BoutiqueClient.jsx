@@ -36,6 +36,7 @@ import {
   computeYearsExperience,
   DEFAULT_FOUNDING_YEAR,
   EXPRESS_DELIVERY_DISCLAIMER,
+  formatCountPlus,
 } from "@/lib/site-config";
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -333,11 +334,11 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
 
   const trustRail = [
     {
-      value: `${years}+`,
+      value: formatCountPlus(years, computeYearsExperience(DEFAULT_FOUNDING_YEAR)),
       label: hi ? "वर्षों का भरोसा" : "Years of Trust",
     },
     {
-      value: `${outfits}+`,
+      value: formatCountPlus(outfits, DEFAULT_OUTFITS_DELIVERED),
       label: hi ? "कस्टम आउटफ़िट्स" : "Outfits Customised",
     },
     {

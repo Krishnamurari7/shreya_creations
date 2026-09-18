@@ -31,27 +31,21 @@ function VideoPlayer({ embedUrl, title }) {
   const iframeRef = useRef(null);
   const [iframeSrc, setIframeSrc] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const mountedRef = useRef(false);
+  const [userStarted, setUserStarted] = useState(false);
   const inViewRef = useRef(false);
 
   const videoId = youtubeVideoId(embedUrl);
   const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
 
   useEffect(() => {
-    mountedRef.current = false;
     setIframeSrc("");
     setIsActive(false);
+    setUserStarted(false);
   }, [embedUrl]);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !embedUrl) return undefined;
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      setIframeSrc(withYoutubeEmbedParams(embedUrl));
-      return undefined;
-    }
+    if (!container || !embedUrl || !userStarted) return undefined;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -59,28 +53,28 @@ function VideoPlayer({ embedUrl, title }) {
         setIsActive(entry.isIntersecting);
 
         if (entry.isIntersecting) {
-          if (!mountedRef.current) {
-            mountedRef.current = true;
-            setIframeSrc(withYoutubeEmbedParams(embedUrl, { autoplay: true }));
-            return;
-          }
           youtubeIframeCommand(iframeRef.current, "playVideo");
           return;
         }
-
-        if (mountedRef.current) {
-          youtubeIframeCommand(iframeRef.current, "pauseVideo");
-        }
+        youtubeIframeCommand(iframeRef.current, "pauseVideo");
       },
       { threshold: 0.35, rootMargin: "0px 0px -6% 0px" }
     );
 
     observer.observe(container);
     return () => observer.disconnect();
-  }, [embedUrl]);
+  }, [embedUrl, userStarted]);
+
+  const startPlayback = () => {
+    if (!embedUrl) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setUserStarted(true);
+    setIframeSrc(withYoutubeEmbedParams(embedUrl, { autoplay: !reduced }));
+    setIsActive(true);
+  };
 
   const handleLoad = () => {
-    if (inViewRef.current) {
+    if (inViewRef.current && userStarted) {
       youtubeIframeCommand(iframeRef.current, "playVideo");
     }
   };
@@ -91,7 +85,7 @@ function VideoPlayer({ embedUrl, title }) {
         className={`video-showcase-live ${isActive && iframeSrc ? "video-showcase-live--on" : "video-showcase-live--idle"}`}
       >
         <span className="video-showcase-live__dot" />
-        {isActive && iframeSrc ? "Now playing" : "Scroll to play"}
+        {isActive && iframeSrc ? "Now playing" : "Tap to play"}
       </span>
 
       {iframeSrc ? (
@@ -106,10 +100,15 @@ function VideoPlayer({ embedUrl, title }) {
           allowFullScreen
         />
       ) : (
-        <div className="video-showcase-placeholder">
+        <button
+          type="button"
+          className="video-showcase-placeholder video-showcase-placeholder--button"
+          onClick={startPlayback}
+          aria-label={title}
+        >
           {thumbUrl && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={thumbUrl} alt={title} className="video-showcase-placeholder__thumb" />
+            <img src={thumbUrl} alt="" className="video-showcase-placeholder__thumb" />
           )}
           <div className="video-showcase-placeholder__veil" aria-hidden />
           <div className="video-showcase-play" aria-hidden>
@@ -120,7 +119,7 @@ function VideoPlayer({ embedUrl, title }) {
               </svg>
             </span>
           </div>
-        </div>
+        </button>
       )}
     </div>
   );

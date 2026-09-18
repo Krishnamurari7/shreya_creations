@@ -7,7 +7,13 @@ import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
 import TrustStats from "@/components/TrustStats";
 import { useLanguage } from "@/components/LanguageProvider";
 import { greetingMessage, waLink } from "@/lib/whatsapp";
-import { EXPRESS_DELIVERY_DISCLAIMER } from "@/lib/site-config";
+import {
+  DEFAULT_EXPRESS_DELIVERY_HOURS,
+  DEFAULT_OUTFITS_DELIVERED,
+  DEFAULT_STUDENTS_TAUGHT,
+  EXPRESS_DELIVERY_DISCLAIMER,
+  formatCountPlus,
+} from "@/lib/site-config";
 
 export function TrustWall({ items, localize = false }) {
   return <TrustStats items={items} localize={localize} />;
@@ -286,19 +292,23 @@ function TrustHighlights({ site, copy }) {
       )}
       <TrustHighlight
         icon={<OutfitIcon />}
-        value={`${site.outfitsDelivered}+`}
+        value={formatCountPlus(site.outfitsDelivered, DEFAULT_OUTFITS_DELIVERED)}
         label={copy.outfitsLabel}
         note={copy.outfitsNote}
       />
       <TrustHighlight
         icon={<StudentIcon />}
-        value={`${site.studentsTaught}+`}
+        value={formatCountPlus(site.studentsTaught, DEFAULT_STUDENTS_TAUGHT)}
         label={copy.studentsLabel}
         note={copy.studentsNote}
       />
       <TrustHighlight
         icon={<ExpressIcon />}
-        value={copy.expressValue(site.expressDeliveryHours)}
+        value={copy.expressValue(
+          Number.isFinite(Number(site.expressDeliveryHours)) && Number(site.expressDeliveryHours) >= 0
+            ? Number(site.expressDeliveryHours)
+            : DEFAULT_EXPRESS_DELIVERY_HOURS
+        )}
         label={copy.expressLabel}
         note={copy.expressNote}
       />

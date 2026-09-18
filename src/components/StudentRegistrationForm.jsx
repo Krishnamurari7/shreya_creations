@@ -395,7 +395,7 @@ export default function StudentRegistrationForm({
 
         <div className="adm-doc__title-row adm-doc__title-row--enroll">
           <div className="adm-doc__title-pill">
-            <span>ADMISSION / ENROLLMENT FORM</span>
+            <h1 className="adm-doc__title-heading">ADMISSION / ENROLLMENT FORM</h1>
           </div>
         </div>
       </header>

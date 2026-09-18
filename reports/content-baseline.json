@@ -1,0 +1,1638 @@
+{
+  "capturedAt": "2026-09-18T03:46:08.349Z",
+  "routes": {
+    "en": [
+      "/",
+      "/about",
+      "/shop",
+      "/courses",
+      "/register",
+      "/portfolio",
+      "/blog",
+      "/faq",
+      "/nri-clients",
+      "/contact",
+      "/policies/privacy"
+    ],
+    "hi": [
+      "/hi",
+      "/hi/about",
+      "/hi/shop",
+      "/hi/courses",
+      "/hi/register",
+      "/hi/portfolio",
+      "/hi/blog",
+      "/hi/faq",
+      "/hi/nri-clients",
+      "/hi/contact",
+      "/hi/policies/privacy"
+    ]
+  },
+  "footerCourseLinks": [
+    "/courses/fashion-designing-course",
+    "/courses/blouse-suit-making-course",
+    "/courses/basic-boutique-course",
+    "/courses/advanced-boutique-course",
+    "/courses/lehenga-design-course-patna",
+    "/courses/kids-wear-course"
+  ],
+  "records": {
+    "courses": [
+      {
+        "slug": "advanced-boutique-course",
+        "title": "Advanced Boutique Course",
+        "title_hi": "एडवांस्ड बुटीक कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 32000,
+        "duration": "9 months",
+        "description": "A complete year-long boutique programme covering advanced cutting, designer garments, boutique management, and business skills.",
+        "description_hi": null,
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/pdfs/1788364006722-izujkq-Advanced-Boutique-course-32000_compressed.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239492897-mjp2s2.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "sleeveless-blouse-course",
+        "title": "Sleeveless Blouse Course",
+        "title_hi": "स्लीवलेस ब्लाउज कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 4600,
+        "duration": "10 days",
+        "description": "Focused add-on for sleeveless blouses — V-neck, scoop, spaghetti strap, wide strap, teardrop back and boutique armhole finishing.",
+        "description_hi": null,
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "/courses/pdfs/sleevless Blouse  Course.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783527085090-0toedw.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "backless-blouse-course",
+        "title": "Backless Blouse Course",
+        "title_hi": "बैकलेस ब्लाउज कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 2499,
+        "duration": "2 weeks",
+        "description": "Premium add-on for backless designer blouses — halter, circular cutout, criss-cross dori, keyhole neck, latkan finishing and bridal-ready backs.",
+        "description_hi": null,
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "/courses/pdfs/Backless Blouse Course.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783526726411-yegh8h.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "madhubala-blouse-course",
+        "title": "Madhubala Blouse Course",
+        "title_hi": "मधुबाला ब्लाउज कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 7900,
+        "duration": "2 weeks",
+        "description": "Add-on course inspired by timeless Madhubala-era elegance — sweetheart necks, zari borders, dori backs, puff sleeves and vintage boutique finishing.",
+        "description_hi": null,
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "/courses/pdfs/Madhubala Blouse Course.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783527043668-lzyi5k.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "blouse-suit-making-course",
+        "title": "Blouse & Suit Making Course",
+        "title_hi": "ब्लाउज और सूट मेकिंग कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 4995,
+        "duration": "3 months",
+        "description": "If you want to learn sewing to make your own clothes or start working in a boutique, this course is for you. Build a strong foundation in salwar, kurti, and blouse cutting & stitching — and start earning with basic orders.",
+        "description_hi": null,
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "/courses/pdfs/Basic suit and  Blouse Course.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783526973254-2wibuc.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "collar-design-blouse-course",
+        "title": "Collar Design Blouse Course",
+        "title_hi": "कॉलर डिज़ाइन ब्लाउज कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 5500,
+        "duration": "2 weeks",
+        "description": "Specialised add-on module — master shirt collar, mandarin, lapel and embroidered collar blouses with boutique-quality cutting, stitching and finishing.",
+        "description_hi": null,
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "/courses/pdfs/Collar Design Blouse Course.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783527025222-bn0dlg.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "rajwadi-blouse-course",
+        "title": "Rajwadi Blouse Course",
+        "title_hi": "राजवाड़ी ब्लाउज कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 5500,
+        "duration": "2 weeks",
+        "description": "Royal heritage add-on — mirror work, heavy zari, cowrie shell embellishment, criss-cross backs and Rajwadi boutique blouse construction.",
+        "description_hi": null,
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "/courses/pdfs/Rajwadi Blouse Course.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783527063710-jwvmxg.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "sabyasachi-blouse-design-course-patna",
+        "title": "Sabyasachi Blouse Design",
+        "title_hi": "सब्यसाची ब्लाउज़ डिज़ाइन कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 7999,
+        "duration": "3 months",
+        "description": "Learn professional blouse designing, measurement, cutting, stitching, fitting and finishing through practical training at Shreya Creation Boutique Institute, Patna.",
+        "description_hi": "श्रेय क्रिएशन बुटीक इंस्टीट्यूट, पटना में प्रैक्टिकल ट्रेनिंग के साथ प्रोफेशनल ब्लाउज़ डिजाइनिंग, नाप लेना, कटिंग, सिलाई, फिटिंग और फिनिशिंग सीखें।",
+        "about": "The Sabyasachi Blouse Design Course at Shreya Creation Boutique Institute is a practical training program designed for students, beginners, boutique owners and aspiring fashion designers.\n\nIn this course, you will learn professional body measurement, pattern drafting, fabric selection, blouse cutting, stitching, fitting correction and premium finishing techniques. The training covers designer necklines, stylish sleeves, front and back patterns, bridal blouses, party-wear blouses, traditional designs and modern blouse styles.\n\nStudents receive step-by-step practical guidance to understand how to create well-fitted and professionally finished designer blouses. The course is suitable for anyone who wants to improve their tailoring skills, start a boutique or build a career in blouse designing.\n\nEnroll now and learn professional blouse designing with practical training at Shreya Creation Boutique Institute, Patna.",
+        "about_hi": "श्रेय क्रिएशन बुटीक इंस्टीट्यूट का सब्यसाची ब्लाउज़ डिज़ाइन कोर्स विद्यार्थियों, शुरुआती लोगों, बुटीक संचालकों और फैशन डिजाइनिंग में करियर बनाने वालों के लिए एक प्रैक्टिकल ट्रेनिंग प्रोग्राम है।\n\nइस कोर्स में प्रोफेशनल बॉडी मेजरमेंट, पैटर्न ड्राफ्टिंग, फैब्रिक का चुनाव, ब्लाउज़ कटिंग, सिलाई, फिटिंग सुधार और प्रीमियम फिनिशिंग की तकनीकें सिखाई जाती हैं। ट्रेनिंग में डिजाइनर नेकलाइन, स्टाइलिश स्लीव्स, फ्रंट और बैक पैटर्न, ब्राइडल ब्लाउज़, पार्टी-वियर ब्लाउज़, पारंपरिक डिजाइन और आधुनिक ब्लाउज़ स्टाइल शामिल हैं।\n\nविद्यार्थियों को अच्छी फिटिंग और प्रोफेशनल फिनिश वाला डिजाइनर ब्लाउज़ तैयार करने के लिए चरणबद्ध प्रैक्टिकल मार्गदर्शन दिया जाता है। यह कोर्स उन लोगों के लिए उपयोगी है जो सिलाई कौशल बेहतर करना, अपना बुटीक शुरू करना या ब्लाउज़ डिजाइनिंग में करियर बनाना चाहते हैं।\n\nआज ही नामांकन करें और श्रेय क्रिएशन बुटीक इंस्टीट्यूट, पटना में प्रैक्टिकल ट्रेनिंग के साथ प्रोफेशनल ब्लाउज़ डिजाइनिंग सीखें।",
+        "course_pdf": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/pdfs/1788536655419-ufu06g-Sabyasachi-Blouse-Design-Booklet-By-Shreya-Creation-2026_compressed.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1786290945897-ewbdy9.jpg",
+        "meta_title": "Sabyasachi Blouse Design Course in Patna | Shreya Creation",
+        "meta_description": "Learn Sabyasachi blouse designing, cutting, stitching and fitting through practical training at Shreya Creation Boutique Institute in Patna. Enroll now."
+      },
+      {
+        "slug": "basic-boutique-course",
+        "title": "Basic Boutique Course",
+        "title_hi": "बेसिक बुटीक मास्टरी कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 15000,
+        "duration": "3 months",
+        "description": "Complete 3-month programme from beginner to professional boutique owner — foundation, petticoat, salwar, kurti, frock, gown, blouse, lehenga & boutique business. 3 days/week, 3 hours/day.",
+        "description_hi": "शुरुआती स्तर से प्रोफेशनल बुटीक ओनर बनने तक का पूरा 3 महीने का प्रोग्राम — फाउंडेशन, पेटीकोट, सलवार, कुर्ती, फ्रॉक, गाउन, ब्लाउज, लहंगा और बुटीक बिज़नेस। सप्ताह में 3 दिन, दिन में 3 घंटे।",
+        "about": null,
+        "about_hi": null,
+        "course_pdf": "/courses/pdfs/Basic Boutique Mastery Course 15000.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1783527114529-jmf764.jpeg",
+        "meta_title": null,
+        "meta_description": null
+      },
+      {
+        "slug": "lehenga-design-course-patna",
+        "title": "Lehenga Design Course",
+        "title_hi": "लहंगा डिजाइनिंग कोर्स",
+        "published": true,
+        "coming_soon": false,
+        "price": 45000,
+        "duration": "6 Months",
+        "description": "Learn professional lehenga designing, measurement, pattern making, cutting, stitching, fitting and finishing through practical training at Shreya Creation Boutique Institute, Patna.",
+        "description_hi": "श्रेय क्रिएशन बुटीक इंस्टीट्यूट, पटना में प्रैक्टिकल ट्रेनिंग के साथ प्रोफेशनल लहंगा डिजाइनिंग, नाप, पैटर्न मेकिंग, कटिंग, सिलाई, फिटिंग और फिनिशिंग सीखें।",
+        "about": "The Lehenga Design Course at Shreya Creation Boutique Institute is a practical training program for beginners, tailoring students, boutique owners and aspiring fashion designers.\n\nIn this course, students learn professional body measurement, pattern drafting, fabric selection, lehenga cutting, blouse construction, stitching, fitting correction and premium finishing techniques. The training covers bridal lehengas, party-wear lehengas, traditional styles, Indo-Western designs, layered lehengas, flared patterns, designer blouses and modern outfit combinations.\n\nStudents receive step-by-step practical guidance to create stylish, well-fitted and professionally finished lehenga designs. The course also helps students understand fabric combinations, colour coordination, design placement and garment presentation.\n\nThis course is suitable for anyone who wants to improve their tailoring skills, start a boutique, create customised outfits or build a professional career in fashion designing.\n\nEnroll now and learn professional lehenga designing with practical training at Shreya Creation Boutique Institute, Patna.",
+        "about_hi": "श्रेय क्रिएशन बुटीक इंस्टीट्यूट का लहंगा डिजाइनिंग कोर्स शुरुआती विद्यार्थियों, सिलाई सीखने वालों, बुटीक संचालकों और फैशन डिजाइनिंग में करियर बनाने वालों के लिए एक प्रैक्टिकल ट्रेनिंग प्रोग्राम है।\n\nइस कोर्स में प्रोफेशनल बॉडी मेजरमेंट, पैटर्न ड्राफ्टिंग, फैब्रिक का चुनाव, लहंगा कटिंग, ब्लाउज़ निर्माण, सिलाई, फिटिंग सुधार और प्रीमियम फिनिशिंग की तकनीकें सिखाई जाती हैं। ट्रेनिंग में ब्राइडल लहंगा, पार्टी-वियर लहंगा, पारंपरिक डिजाइन, इंडो-वेस्टर्न स्टाइल, लेयर्ड लहंगा, फ्लेयर्ड पैटर्न, डिजाइनर ब्लाउज़ और आधुनिक आउटफिट कॉम्बिनेशन शामिल हैं।\n\nविद्यार्थियों को स्टाइलिश, अच्छी फिटिंग और प्रोफेशनल फिनिश वाले लहंगे तैयार करने के लिए चरणबद्ध प्रैक्टिकल मार्गदर्शन दिया जाता है। कोर्स में फैब्रिक कॉम्बिनेशन, रंगों का चयन, डिजाइन प्लेसमेंट और तैयार ड्रेस की प्रस्तुति की जानकारी भी दी जाती है।\n\nयह कोर्स उन लोगों के लिए उपयोगी है जो अपना सिलाई कौशल बेहतर करना, बुटीक शुरू करना, कस्टमाइज्ड आउटफिट बनाना या फैशन डिजाइनिंग में प्रोफेशनल करियर बनाना चाहते हैं।\n\nआज ही नामांकन करें और श्रेय क्रिएशन बुटीक इंस्टीट्यूट, पटना में प्रैक्टिकल ट्रेनिंग के साथ प्रोफेशनल लहंगा डिजाइनिंग सीखें।",
+        "course_pdf": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/pdfs/1788539423171-9esnlq-Lehnga-Design-Booklet-By-Shreya-Creation-New-2026-1.pdf",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1788540494073-kna8pv.jpg",
+        "meta_title": "Lehenga Design Course in Patna | Shreya Creation",
+        "meta_description": "Learn lehenga designing, cutting, stitching and finishing with practical training at Shreya Creation Boutique Institute in Patna. Enroll now."
+      }
+    ],
+    "products": [
+      {
+        "slug": "royal-bridal-lehenga",
+        "title": "Royal Bridal Lehenga",
+        "published": true,
+        "price": 18999,
+        "description": "A hand-embroidered bridal lehenga with intricate zardozi and sequins. Made to order and stitched to your exact measurements for a flawless fit.",
+        "images": [
+          "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1780726183809-7pla6l.jpeg"
+        ],
+        "meta_title": null
+      },
+      {
+        "slug": "designer-evening-gown",
+        "title": "Designer Evening Gown",
+        "published": true,
+        "price": 8499,
+        "description": "A flowing floor-length gown with delicate beadwork along the bodice. Perfect for receptions and evening events.",
+        "images": [
+          "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1780726223713-3bw2q1.jpeg"
+        ],
+        "meta_title": null
+      },
+      {
+        "slug": "embroidered-designer-blouse",
+        "title": "Embroidered Designer Blouse",
+        "published": true,
+        "price": 2499,
+        "description": "Statement saree blouse with mirror and thread embroidery. Choose your neckline and sleeve style.",
+        "images": [
+          "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1780590251090-nq4von.jpeg"
+        ],
+        "meta_title": null
+      },
+      {
+        "slug": "anarkali-suit-set",
+        "title": "Anarkali Suit Set",
+        "published": true,
+        "price": 5999,
+        "description": "Graceful floor-length Anarkali with churidar and dupatta. Light, breathable and festive-ready.",
+        "images": [
+          "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1780590285921-cgi8gy.jpeg"
+        ],
+        "meta_title": null
+      }
+    ],
+    "portfolio": [
+      {
+        "slug": "perfect-lehenga-blouse-designer-stitching",
+        "title": "Perfect Lehenga Blouse – Exclusive Designer Blouse Stitching",
+        "category": "Lehenga, Designer Blouse, Bridal Wear",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1789472263820-q5c1b0.jpg",
+        "caption": "Perfect lehenga blouse designed for a beautiful and personalized bridal look. Shreya Creation offers exclusive designer blouse stitching tailored to every bride's personality, style and outfit.",
+        "featured": false,
+        "sort_order": 2
+      },
+      {
+        "slug": "reception-gown",
+        "title": "Reception Gown",
+        "category": "Gowns",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1780726309151-06rmye.jpeg",
+        "caption": null,
+        "featured": true,
+        "sort_order": 3
+      },
+      {
+        "slug": "shreya-creation-boutique-institute-patna",
+        "title": "Shreya Creation Boutique & Institute – Designer Fashion & Blouse Collection",
+        "category": "Boutique, Blouse, Fashion Designing, Bridal Wear",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1789472095938-18psnt.jpg",
+        "caption": "Explore the designer fashion collection by Shreya Creation, Patna, featuring bridal blouse stitching, designer blouses, lehenga stitching, designer suits, ready-to-wear sarees and custom fashion designing services.",
+        "featured": false,
+        "sort_order": 4
+      },
+      {
+        "slug": "bridal-lehenga-maroon-gold",
+        "title": "Bridal Lehenga — Maroon & Gold",
+        "category": "Bridal",
+        "image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1780726249320-wwg256.jpeg",
+        "caption": null,
+        "featured": true,
+        "sort_order": 1
+      }
+    ],
+    "faqs": [],
+    "policy_pages": [],
+    "lookbook_posts": [],
+    "testimonials": [],
+    "trust_stats": [],
+    "settings": [
+      {
+        "brand": "Shreya Creation",
+        "students_taught": 2000,
+        "outfits_delivered": 5000,
+        "founding_year": 2012,
+        "express_delivery_hours": 24,
+        "phone_primary": "+919031105666",
+        "phone_secondary": "+917903155125",
+        "email": "hello@shreyacreations.in",
+        "address_line": null,
+        "whatsapp_number": "919031105666",
+        "pages": {
+          "faq": {
+            "cta_title": "Still have questions?",
+            "cta_subtitle": "Our boutique team is happy to help — message us on WhatsApp anytime.",
+            "cta_title_hi": "अभी भी सवाल हैं?",
+            "header_title": "Frequently Asked",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I have a few questions after reading your FAQ. Please help.",
+            "header_eyebrow": "Help & FAQ",
+            "cta_subtitle_hi": "हमारी टीम मदद के लिए तैयार है — कभी भी WhatsApp पर लिखें।",
+            "header_subtitle": "Custom sizing, WhatsApp ordering, academy courses, and studio location.",
+            "header_title_hi": "अक्सर पूछे जाने वाले",
+            "header_highlight": "Questions",
+            "header_eyebrow_hi": "सहायता",
+            "header_subtitle_hi": "कस्टम माप, WhatsApp ऑर्डर, अकादमी कोर्स और स्टूडियो का पता।",
+            "header_highlight_hi": "प्रश्न"
+          },
+          "nri": {
+            "features": [
+              {
+                "desc": "Consult fully on WhatsApp — no studio visit required to start.",
+                "emoji": "🌍",
+                "title": "Order from abroad",
+                "desc_hi": "पूरा कंसल्ट WhatsApp पर — शुरू करने के लिए स्टूडियो आना ज़रूरी नहीं।",
+                "title_hi": "विदेश से ऑर्डर"
+              },
+              {
+                "desc": "We plan around flights, mehendi and wedding dates you share.",
+                "emoji": "📅",
+                "title": "Date-led timelines",
+                "desc_hi": "आपकी फ्लाइट, मेहंदी और शादी की डेट के हिसाब से प्लान।",
+                "title_hi": "डेट-आधारित टाइमलाइन"
+              },
+              {
+                "desc": "Help with packing and tracking so outfits arrive safely.",
+                "emoji": "📦",
+                "title": "Courier coordination",
+                "desc_hi": "पैकिंग और ट्रैकिंग में मदद — आउटफ़िट सुरक्षित पहुँचे।",
+                "title_hi": "कूरियर कोऑर्डिनेशन"
+              }
+            ],
+            "cta_title": "Planning an outfit or class from abroad?",
+            "hero_image": "/institute.webp",
+            "highlights": [
+              {
+                "body": "Share photos, reference looks and body measurements — we guide you step by step from abroad.",
+                "title": "WhatsApp measurements",
+                "body_hi": "फ़ोटो, रेफ़रेंस लुक और माप भेजें — विदेश से भी हम स्टेप-बाय-स्टेप गाइड करेंगे।",
+                "title_hi": "WhatsApp माप"
+              },
+              {
+                "body": "Lehengas, blouses, suits and designer wear stitched in Patna for your wedding or festive dates.",
+                "title": "Bridal & custom stitching",
+                "body_hi": "लहंगा, ब्लाउज, सूट और डिज़ाइनर वियर — शादी या त्योहार की डेट के हिसाब से पटना में सिले।",
+                "title_hi": "ब्राइडल और कस्टम सिलाई"
+              },
+              {
+                "body": "Packaging and courier coordination so your outfit reaches family in India or abroad safely.",
+                "title": "Secure shipping support",
+                "body_hi": "पैकेजिंग और कूरियर कोऑर्डिनेशन — आउटफ़िट भारत या विदेश में परिवार तक सुरक्षित पहुँचे।",
+                "title_hi": "सुरक्षित शिपिंग सपोर्ट"
+              }
+            ],
+            "cta_subtitle": "Message us on WhatsApp — custom stitching, 1-to-1 fashion classes, bridal wear or ready-to-wear saree enquiries.",
+            "cta_title_hi": "विदेश से outfit या class plan कर रहे हैं?",
+            "header_title": "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna",
+            "hero_subtitle": "Designer blouses, bridal wear, lehengas, suits, ready-to-wear sarees and customised outfits for NRI clients — plus 1-to-1 online and offline fashion designing classes.",
+            "process_steps": [
+              {
+                "desc": "Occasion date, city for delivery/pickup, budget and reference photos on WhatsApp.",
+                "step": "01",
+                "title": "Share your brief",
+                "desc_hi": "अवसर की डेट, डिलीवरी/पिकअप शहर, बजट और रेफ़रेंस फ़ोटो WhatsApp पर।",
+                "title_hi": "अपना ब्रीफ भेजें"
+              },
+              {
+                "desc": "We guide measurements, fabric options and timeline before we start stitching.",
+                "step": "02",
+                "title": "Confirm design & fit",
+                "desc_hi": "सिलाई शुरू करने से पहले माप, कपड़ा और टाइमलाइन गाइड करते हैं।",
+                "title_hi": "डिज़ाइन और फिट कन्फर्म"
+              },
+              {
+                "desc": "Your outfit is cut and finished at our Boring Road atelier to the agreed plan.",
+                "step": "03",
+                "title": "Stitch in Patna",
+                "desc_hi": "आउटफ़िट बोरिंग रोड एटेलियर में तय प्लान के अनुसार कट और फिनिश होता है।",
+                "title_hi": "पटना में सिलाई"
+              },
+              {
+                "desc": "Secure packaging with courier support — or family collects from the studio.",
+                "step": "04",
+                "title": "Ship or family pickup",
+                "desc_hi": "सुरक्षित पैकेजिंग व कूरियर — या परिवार स्टूडियो से ले जाएँ।",
+                "title_hi": "शिप या परिवार पिकअप"
+              }
+            ],
+            "process_title": "From WhatsApp to doorstep",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I am an NRI client. I would like details on bridal/custom stitching and shipping support. Please share the process.",
+            "header_eyebrow": "NRI Clients & Global Fashion Services",
+            "cta_subtitle_hi": "WhatsApp पर लिखें — custom stitching, 1-to-1 fashion classes, bridal wear या ready-to-wear saree enquiry।",
+            "header_subtitle": "Living Abroad? Design, Stitch or Learn Indian Fashion with Shreya Creation.",
+            "header_title_hi": "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna",
+            "process_eyebrow": "How it works",
+            "hero_subtitle_hi": "NRI clients के लिए designer blouse, bridal wear, lehenga, suit, ready-to-wear saree और customised outfits — साथ ही 1-to-1 online/offline fashion designing classes।",
+            "process_subtitle": "A clear process so NRI families can plan outfits around travel and wedding dates.",
+            "process_title_hi": "WhatsApp से डोरस्टेप तक",
+            "cta_primary_label": "WhatsApp NRI desk",
+            "header_eyebrow_hi": "NRI क्लाइंट्स और ग्लोबल फैशन सेवाएँ",
+            "cta_secondary_href": "/contact",
+            "header_subtitle_hi": "विदेश में रहते हैं? Shreya Creation के साथ Indian fashion design, stitch या learn करें।",
+            "process_eyebrow_hi": "कैसे काम करता है",
+            "cta_secondary_label": "Contact studio",
+            "process_subtitle_hi": "साफ प्रक्रिया — NRI परिवार यात्रा और शादी की डेट के हिसाब से आउटफ़िट प्लान कर सकें।",
+            "cta_primary_label_hi": "WhatsApp NRI डेस्क",
+            "cta_secondary_label_hi": "स्टूडियो से संपर्क"
+          },
+          "home": {
+            "video_url": "https://youtu.be/Ln5L6Gt7XmI?si=qsHuCQAx6QK2TBba",
+            "hero_badge": "Shreya Creation · Patna · Since 2012",
+            "hero_image": "",
+            "meta_title": "Best Boutique in Patna | Shreya Creation",
+            "academy_cta": "Book Studio Visit on WhatsApp",
+            "hero_images": [
+              "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239288560-v7jdgv.png",
+              "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239324371-pvtg8u.png",
+              "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239351751-hx7j4m.png"
+            ],
+            "mentor_name": "Sangi Shreya",
+            "mentor_role": "Director & Lead Mentor",
+            "stat1_label": "Experience",
+            "stat1_value": "17+ Years",
+            "stat2_label": "Stitched Outfits",
+            "stat2_value": "5,000+",
+            "stat3_label": "Job-Oriented Courses",
+            "stat3_value": "10+",
+            "trust_title": "Trusted by Thousands",
+            "video_perks": [
+              {
+                "text": "Studio tour",
+                "text_hi": "स्टूडियो टूर"
+              },
+              {
+                "text": "Live stitching demo",
+                "text_hi": "लाइव सिलाई डेमो"
+              },
+              {
+                "text": "Meet the mentors",
+                "text_hi": "मेंटर से मिलें"
+              }
+            ],
+            "video_title": "Inside Our",
+            "academy_note": "Limited batches",
+            "atelier_body": "From royal bridal lehengas to boutique-perfect designer blouses, every garment is cut and finished to your exact measurements. We combine standard manual embroidery (zardozi, aari, and mirror work) with a highly organized, digital consultation process. No logins, no complex checkout—we design, size, and deliver custom couture entirely on WhatsApp.",
+            "founder_name": "Sanjay Kumar Mishra",
+            "founder_role": "Founder",
+            "mentor_image": "/founders/sangi-shreya.webp",
+            "mentor_quote": "As Director and Lead Mentor, my joy is watching every student grow from their first stitch to their first paying client. At our Patna studio we don't just teach technique — we build confidence, creativity, and real careers in fashion.",
+            "academy_badge": "Academy Studio",
+            "academy_perks": [
+              {
+                "text": "Certified fashion design courses",
+                "text_hi": "प्रमाणित फैशन डिज़ाइन कोर्स"
+              },
+              {
+                "text": "Hands-on sewing & embroidery frames",
+                "text_hi": "हाथों-हाथ सिलाई और कढ़ाई"
+              },
+              {
+                "text": "Complete mentor support till placement",
+                "text_hi": "प्लेसमेंट तक पूरा मेंटर सपोर्ट"
+              }
+            ],
+            "academy_title": "Bespoke Practice at Our",
+            "atelier_image": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1780591144093-ouxds5.png",
+            "atelier_quote": "\"Handmade embroidery motifs crafted with metallic threads & beads.\"",
+            "atelier_title": "14+ Years of tailoring dreams into reality.",
+            "courses_title": "Fashion Designing & Boutique Courses in Patna",
+            "explore_title": "Find What's Perfect for You",
+            "founder_image": "/founders/sanjay-kumar-mishra.webp",
+            "founder_quote": "When we started Shreya Creation in 2012, our dream was simple — teach real stitching skills and help every student turn craft into a livelihood. Today we stitch thousands of outfits and train hundreds of students, all from our Patna studio.",
+            "founder_title": "From Skill to Business — Fashion Institute in Patna",
+            "hero_badge_hi": "श्रेया क्रिएशन · पटना · 2012 से",
+            "hero_cta_href": "/courses",
+            "hero_subtitle": "Learn 10+ job-oriented courses in stitching, fashion design & embroidery — with certificate and placement support. Plus bespoke boutique stitching delivered in just 24 hours.",
+            "journey_cards": [
+              {
+                "cta": "Book Your Stitching",
+                "key": "boutique",
+                "href": "/shop",
+                "icon": "sewing",
+                "image": "/5.jpeg",
+                "theme": "orange",
+                "title": "Boutique",
+                "cta_hi": "सिलाई बुक करें",
+                "features": [
+                  {
+                    "icon": "needle",
+                    "label": "Custom Stitching",
+                    "label_hi": "कस्टम सिलाई"
+                  },
+                  {
+                    "icon": "blouse",
+                    "label": "Designer Blouse",
+                    "label_hi": "डिज़ाइनर ब्लाउज"
+                  },
+                  {
+                    "icon": "bridal",
+                    "label": "Bridal Wear",
+                    "label_hi": "ब्राइडल वियर"
+                  },
+                  {
+                    "icon": "lehenga",
+                    "label": "Lehenga",
+                    "label_hi": "लहंगा"
+                  }
+                ],
+                "title_hi": "बुटीक"
+              },
+              {
+                "cta": "Explore Courses",
+                "key": "institute",
+                "href": "/courses",
+                "icon": "graduation",
+                "image": "/8.jpeg",
+                "theme": "purple",
+                "title": "Institute",
+                "cta_hi": "कोर्स देखें",
+                "features": [
+                  {
+                    "icon": "design",
+                    "label": "Fashion Designing",
+                    "label_hi": "फैशन डिज़ाइनिंग"
+                  },
+                  {
+                    "icon": "business",
+                    "label": "Boutique Business",
+                    "label_hi": "बुटीक बिज़नेस"
+                  },
+                  {
+                    "icon": "tailoring",
+                    "label": "Tailoring",
+                    "label_hi": "टेलरिंग"
+                  },
+                  {
+                    "icon": "courses",
+                    "label": "Professional Courses",
+                    "label_hi": "प्रोफेशनल कोर्स"
+                  }
+                ],
+                "title_hi": "इंस्टिट्यूट"
+              },
+              {
+                "cta": "Join Shakti 50",
+                "key": "shakti",
+                "href": "/contact",
+                "icon": "community",
+                "image": "/7.jpeg",
+                "theme": "gold",
+                "title": "Shakti 50",
+                "cta_hi": "शक्ति 50 में शामिल हों",
+                "features": [
+                  {
+                    "icon": "mission",
+                    "label": "Free Skill Mission",
+                    "label_hi": "मुफ़्त कौशल मिशन"
+                  },
+                  {
+                    "icon": "skill",
+                    "label": "कौशल से कारोबार तक",
+                    "label_hi": "कौशल से कारोबार तक"
+                  },
+                  {
+                    "icon": "women",
+                    "label": "Women Empowerment",
+                    "label_hi": "महिला सशक्तिकरण"
+                  },
+                  {
+                    "icon": "apply",
+                    "label": "Apply Now",
+                    "label_hi": "अभी आवेदन करें"
+                  }
+                ],
+                "title_hi": "शक्ति 50"
+              }
+            ],
+            "journey_title": "Everything",
+            "process_title": "Custom Stitching in Patna — WhatsApp to Delivery",
+            "success_title": "Reviews from Fashion Students & Boutique Clients in Patna",
+            "trust_eyebrow": "By the numbers",
+            "video_eyebrow": "Watch & Learn",
+            "academy_cta_hi": "WhatsApp पर स्टूडियो विज़िट बुक करें",
+            "category_cards": [
+              {
+                "cta": "Explore Courses",
+                "key": "courses",
+                "href": "/courses",
+                "icon": "graduation",
+                "items": [
+                  {
+                    "label": "Fashion Designing Courses",
+                    "label_hi": "फैशन डिज़ाइनिंग कोर्स"
+                  },
+                  {
+                    "label": "Boutique Management",
+                    "label_hi": "बुटीक मैनेजमेंट"
+                  },
+                  {
+                    "label": "NIFT • NID • UCEED Coaching",
+                    "label_hi": "NIFT • NID • UCEED कोचिंग"
+                  },
+                  {
+                    "label": "Embroidery & Pattern Making",
+                    "label_hi": "एम्ब्रॉयडरी व पैटर्न मेकिंग"
+                  },
+                  {
+                    "label": "Internship & Placement Support",
+                    "label_hi": "इंटर्नशिप व प्लेसमेंट सपोर्ट"
+                  }
+                ],
+                "title": "Institute Courses",
+                "cta_hi": "कोर्स देखें",
+                "tagline": "Learn • Practice • Earn",
+                "title_hi": "इंस्टिट्यूट कोर्स",
+                "tagline_hi": "सीखें • प्रैक्टिस • कमाई"
+              },
+              {
+                "cta": "Book Stitching",
+                "key": "boutique",
+                "href": "/shop",
+                "icon": "mannequin",
+                "items": [
+                  {
+                    "label": "Designer Blouse, Suits & Kurtis",
+                    "label_hi": "डिज़ाइनर ब्लाउज, सूट व कुर्ती"
+                  },
+                  {
+                    "label": "Bridal Lehenga & Gowns",
+                    "label_hi": "ब्राइडल लहंगा व गाउन"
+                  },
+                  {
+                    "label": "Saree Pre-Stitching",
+                    "label_hi": "साड़ी प्री-स्टिचिंग"
+                  },
+                  {
+                    "label": "Alteration & Perfect Fitting",
+                    "label_hi": "अल्टरेशन व परफेक्ट फिटिंग"
+                  },
+                  {
+                    "label": "24 Hour Express Delivery",
+                    "label_hi": "24 घंटे एक्सप्रेस डिलीवरी"
+                  }
+                ],
+                "title": "Boutique Stitching",
+                "cta_hi": "सिलाई बुक करें",
+                "tagline": "Premium Custom Stitching",
+                "title_hi": "बुटीक सिलाई",
+                "tagline_hi": "प्रीमियम कस्टम सिलाई"
+              },
+              {
+                "cta": "View Collection",
+                "key": "collection",
+                "href": "/portfolio",
+                "icon": "blouse",
+                "items": [
+                  {
+                    "label": "Latest Blouse Designs",
+                    "label_hi": "लेटेस्ट ब्लाउज डिज़ाइन"
+                  },
+                  {
+                    "label": "Bridal & Party Wear",
+                    "label_hi": "ब्राइडल व पार्टी वियर"
+                  },
+                  {
+                    "label": "Saree & Lehenga Collection",
+                    "label_hi": "साड़ी व लहंगा कलेक्शन"
+                  },
+                  {
+                    "label": "Trending Designs Gallery",
+                    "label_hi": "ट्रेंडिंग डिज़ाइन गैलरी"
+                  }
+                ],
+                "title": "Designer Collection",
+                "cta_hi": "कलेक्शन देखें",
+                "tagline": "Latest. Exclusive. Elegant.",
+                "title_hi": "डिज़ाइनर कलेक्शन",
+                "tagline_hi": "लेटेस्ट. एक्सक्लूसिव. एलिगेंट."
+              },
+              {
+                "cta": "Know More",
+                "key": "shakti",
+                "href": "/contact",
+                "icon": "shakti",
+                "items": [
+                  {
+                    "label": "Free Training for 50 Women",
+                    "label_hi": "50 महिलाओं के लिए मुफ़्त ट्रेनिंग"
+                  },
+                  {
+                    "label": "Skill Development",
+                    "label_hi": "कौशल विकास"
+                  },
+                  {
+                    "label": "Self-Reliance & Empowerment",
+                    "label_hi": "आत्मनिर्भरता व सशक्तिकरण"
+                  },
+                  {
+                    "label": "Internship & Business Support",
+                    "label_hi": "इंटर्नशिप व बिज़नेस सपोर्ट"
+                  }
+                ],
+                "title": "Shakti 50",
+                "cta_hi": "और जानें",
+                "tagline": "Kaushal se Karobar Tak",
+                "title_hi": "शक्ति 50",
+                "tagline_hi": "कौशल से कारोबार तक"
+              },
+              {
+                "cta": "Chat & Order",
+                "key": "shop",
+                "href": "/shop",
+                "icon": "bag",
+                "badge": "New",
+                "items": [
+                  {
+                    "label": "Designer Blouses",
+                    "label_hi": "डिज़ाइनर ब्लाउज"
+                  },
+                  {
+                    "label": "Ready-to-Wear Outfits",
+                    "label_hi": "रेडी-टू-वेयर आउटफिट"
+                  },
+                  {
+                    "label": "Accessories & More",
+                    "label_hi": "एक्सेसरीज़ व अधिक"
+                  },
+                  {
+                    "label": "Share your size, get a quote",
+                    "label_hi": "साइज़ भेजें, कोटेशन पाएँ"
+                  }
+                ],
+                "title": "Order on WhatsApp",
+                "cta_hi": "चैट कर ऑर्डर करें",
+                "tagline": "Custom fit, 24-hr stitching",
+                "badge_hi": "नया",
+                "title_hi": "WhatsApp पर ऑर्डर करें",
+                "tagline_hi": "कस्टम फिट, 24 घंटे सिलाई"
+              }
+            ],
+            "hero_card_text": "Ready styles stitched & delivered in 24 hours.",
+            "hero_checklist": [
+              {
+                "text": "Fashion Designing Course",
+                "text_hi": "फैशन डिज़ाइनिंग कोर्स"
+              },
+              {
+                "text": "Boutique Mastery Course",
+                "text_hi": "बुटीक मास्टरी कोर्स"
+              },
+              {
+                "text": "NIFT • NID • UCEED Coaching",
+                "text_hi": "NIFT • NID • UCEED कोचिंग"
+              },
+              {
+                "text": "Certificate + Placement Support",
+                "text_hi": "सर्टिफिकेट + प्लेसमेंट सपोर्ट"
+              }
+            ],
+            "hero_cta_label": "Explore Courses",
+            "hero_tile1_sub": "Certified training with placement support",
+            "hero_tile2_sub": "Bridal couture & outfits in 24 hours",
+            "hero_tile3_sub": "",
+            "hero_tile4_sub": "",
+            "mentor_name_hi": "संगी श्रेया",
+            "mentor_role_hi": "निदेशक और मुख्य मेंटर",
+            "services_title": "Services Tailored for You",
+            "stat1_label_hi": "अनुभव",
+            "stat2_label_hi": "आउटफिट",
+            "stat3_label_hi": "कोर्स",
+            "trust_title_hi": "हज़ारों का भरोसा",
+            "video_subtitle": "Take a virtual tour of Shreya Creation — see our stitching academy, boutique workspace, and the craft behind every outfit.",
+            "video_title_hi": "हमारे",
+            "academy_heading": "Boutique Courses & Stitching Classes in Patna",
+            "academy_note_hi": "सीमित बैच",
+            "atelier_body_hi": "शाही लहंगों से लेकर डिज़ाइनर ब्लाउज तक — हर परिधान आपके माप पर। ज़रदोज़ी, आरी और मिरर वर्क के साथ सीधे WhatsApp पर कंसल्टेशन।",
+            "atelier_eyebrow": "The Atelier Studio",
+            "collection_body": "Explore our latest ethnic wear collection — handcrafted with love and timeless elegance.",
+            "courses_eyebrow": "Courses Overview",
+            "explore_eyebrow": "Explore Categories",
+            "founder_eyebrow": "Founder Message",
+            "founder_name_hi": "संजय कुमार मिश्रा",
+            "founder_role_hi": "संस्थापक",
+            "hero_book_thumb": "/slider2.webp",
+            "hero_card_title": "Express Delivery",
+            "hero_demo_thumb": "/slider1.webp",
+            "hero_since_text": "14+ Years Experience",
+            "hero_tile1_icon": "🎓",
+            "hero_tile2_icon": "🧵",
+            "hero_tile3_icon": "🛡️",
+            "hero_tile4_icon": "∞",
+            "journey_eyebrow": "Start Your Journey",
+            "mentor_quote_hi": "निदेशक और मुख्य मेंटर के रूप में मेरी खुशी है कि हर छात्र अपनी पहली सिलाई से अपने पहले ग्राहक तक पहुँचे। हमारे पटना स्टूडियो में हम केवल तकनीक नहीं सिखाते — आत्मविश्वास, रचनात्मकता और फैशन में असली करियर बनाते हैं।",
+            "process_eyebrow": "How It Works",
+            "success_eyebrow": "Student Success",
+            "academy_badge_hi": "अकादमी स्टूडियो",
+            "academy_features": [
+              {
+                "icon": "🧵",
+                "text": "Manual & computerized high-end sewing machines",
+                "text_hi": "मैनुअल और कंप्यूटराइज़्ड सिलाई मशीनें"
+              },
+              {
+                "icon": "👩‍🏫",
+                "text": "Direct 1-on-1 designer mentorship",
+                "text_hi": "1-on-1 डिज़ाइनर मेंटरशिप"
+              },
+              {
+                "icon": "📐",
+                "text": "Real boutique internship & order handling",
+                "text_hi": "बुटीक इंटर्नशिप और ऑर्डर हैंडलिंग"
+              },
+              {
+                "icon": "👰",
+                "text": "Zardozi, aari & mirror-work practice frames",
+                "text_hi": "ज़रदोज़ी, आरी और मिरर वर्क"
+              },
+              {
+                "icon": "💼",
+                "text": "Boutique set-up & business guidance",
+                "text_hi": "बुटीक सेट-अप और बिज़नेस गाइडेंस"
+              }
+            ],
+            "academy_location": "Shreya Creation, Sisodiya Place, East Boring Canal Road, Patna, Bihar 800001",
+            "academy_note_sub": "Personal attention in every class",
+            "academy_perks_hi": [
+              "प्रमाणित फैशन डिज़ाइन कोर्स",
+              "हाथों-हाथ सिलाई और कढ़ाई",
+              "प्लेसमेंट तक पूरा मेंटर सपोर्ट"
+            ],
+            "academy_subtitle": "Learn stitching and fashion design hands-on — with direct mentorship on professional machines inside our working boutique.",
+            "academy_title_hi": "हमारे",
+            "atelier_quote_hi": "\"धातु के धागों और मोतियों से हस्तनिर्मित कढ़ाई।\"",
+            "atelier_title_hi": "14+ वर्ष — सिलाई की परंपरा।",
+            "bottom_cta_title": "Start your custom stitching project",
+            "category_eyebrow": "Where Fashion Meets Creativity, Craft, & Opportunity",
+            "collection_title": "Grace in Every Thread",
+            "courses_demo_cta": "Book Free Demo Now",
+            "courses_subtitle": "Whether you seek to develop a career in fashion or create an outfit that feels truly yours, Shreya Creation provides you with the excellence, craftsmanship, and mentorship to make it happen. If you are searching for the best boutique near me, explore our custom stitching services at Boutique Boring Road, Patna.",
+            "courses_title_hi": "पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स",
+            "courses_view_all": "View All Courses",
+            "explore_title_hi": "अपने लिए सही चुनें",
+            "explore_view_all": "View All",
+            "founder_quote_hi": "2012 में शुरुआत का सपना था — असली सिलाई सिखाना और हर छात्र को रोज़गार तक पहुँचाना। आज हज़ारों आउटफिट सिलते हैं और सैकड़ों छात्र प्रशिक्षित होते हैं — सब पटना स्टूडियो से।",
+            "founder_title_hi": "कौशल से कारोबार तक — पटना फैशन इंस्टिट्यूट",
+            "hero_local_video": "/video-1.mp4",
+            "hero_since_badge": "Since 2012",
+            "hero_subtitle_hi": "सिलाई, फैशन डिज़ाइन और कढ़ाई के 10+ रोज़गार-उन्मुख कोर्स — सर्टिफिकेट और प्लेसमेंट सपोर्ट के साथ। साथ ही मात्र 24 घंटे में कस्टम बुटीक सिलाई।",
+            "hero_tile1_title": "Job-Oriented Courses",
+            "hero_tile2_title": "Boutique & Custom Stitching",
+            "hero_tile3_title": "Industry Certifications",
+            "hero_tile4_title": "Lifetime Access",
+            "hero_title_line1": "Luxury Boutique",
+            "hero_title_line2": "Fashion Institute",
+            "journey_title_hi": "सब कुछ",
+            "meta_description": "Discover Shreya Creation, the best boutique in Patna, offering designer bridal wear, custom stitching, stylish outfits, exquisite detailing, and personalised fashion solutions.",
+            "process_title_hi": "पटना में कस्टम सिलाई — WhatsApp से डिलीवरी तक",
+            "services_eyebrow": "Boutique Services Overview",
+            "shop_preview_cta": "Explore Full Collection",
+            "success_subtitle": "Real stories from our academy graduates and boutique clients across Patna.",
+            "success_title_hi": "पटना के फैशन छात्र और बुटीक क्लाइंट की समीक्षाएँ",
+            "trust_eyebrow_hi": "आंकड़ों में",
+            "video_eyebrow_hi": "देखें और सीखें",
+            "why_choose_title": "Crafted with care, delivered with speed",
+            "category_subtitle": "Experience the best in designer fashion, quality bridal stitching, and a fashion design institute, all in one place at the best boutique in Patna. Be it crafting your dream wedding outfit or acquiring skills in fashion design, Shreya Creation can be your guide to all things fashion-related.",
+            "courses_demo_note": "Limited Seats – Enroll Today!",
+            "courses_why_title": "Boutique Master Course & Fashion Designing Course",
+            "hero_boutique_cta": "Your Career Starts Here",
+            "hero_card_text_hi": "24 घंटे में सिलाई और डिलीवरी।",
+            "hero_cta_label_hi": "कोर्स देखें",
+            "hero_tile1_sub_hi": "सर्टिफिकेट और प्लेसमेंट सपोर्ट के साथ",
+            "hero_tile2_sub_hi": "ब्राइडल कउचर और आउटफिट — 24 घंटे में",
+            "hero_tile3_sub_hi": "",
+            "hero_tile4_sub_hi": "",
+            "hero_wa_cta_label": "WhatsApp Now",
+            "services_subtitle": "Bespoke tailoring, bridal couture, embroidery and styling — all via WhatsApp consultation.",
+            "services_title_hi": "आपके लिए सिलाई सेवाएँ",
+            "video_subtitle_hi": "श्रेया क्रिएशन का वर्चुअल टूर — सिलाई अकादमी, बुटीक वर्कस्पेस और हर आउटफिट के पीछे की कारीगरी देखें।",
+            "academy_heading_hi": "पटना में फैशन डिज़ाइनिंग और बुटीक कोर्स",
+            "academy_highlights": [
+              {
+                "label": "Mentorship",
+                "value": "1:1",
+                "label_hi": "मेंटरशिप"
+              },
+              {
+                "label": "Courses",
+                "value": "10+",
+                "label_hi": "कोर्स"
+              },
+              {
+                "label": "Years Experience",
+                "value": "17+ Years",
+                "label_hi": "वर्ष अनुभव"
+              }
+            ],
+            "academy_subheading": "Practice sewing under direct personal mentorship on professional high-end machines at our Patna studio.",
+            "atelier_eyebrow_hi": "एटेलियर स्टूडियो",
+            "collection_body_hi": "हमारा नवीनतम एथनिक वियर कलेक्शन देखें — प्यार और कालातीत खूबसूरती के साथ हस्तनिर्मित।",
+            "collection_eyebrow": "NEW COLLECTION",
+            "courses_demo_title": "Not Sure Which Course is Right for You?",
+            "courses_eyebrow_hi": "कोर्स ओवरव्यू",
+            "explore_eyebrow_hi": "श्रेणियाँ देखें",
+            "founder_eyebrow_hi": "संस्थापक का संदेश",
+            "hero_card_title_hi": "एक्सप्रेस डिलीवरी",
+            "hero_feature_strip": [
+              {
+                "key": "tailoring",
+                "icon": "sewing",
+                "title": "BEST LADIES TAILORING SERVICE",
+                "subtitle": "Perfect Fit. Perfect You. Every Time.",
+                "title_hi": "सर्वश्रेष्ठ लेडीज़ टेलरिंग सेवा",
+                "subtitle_hi": "परफेक्ट फिट। परफेक्ट यू। हर बार।"
+              },
+              {
+                "key": "boutique",
+                "icon": "dress",
+                "title": "DESIGNER BOUTIQUE",
+                "subtitle": "Trendy Designs. Premium Finishing.",
+                "title_hi": "डिज़ाइनर बुटीक",
+                "subtitle_hi": "ट्रेंडी डिज़ाइन। प्रीमियम फिनिशिंग।"
+              },
+              {
+                "key": "stitching",
+                "icon": "mannequin",
+                "title": "PREMIUM STITCHING",
+                "subtitle": "High Quality Fabrics. Finest Craftsmanship.",
+                "title_hi": "प्रीमियम सिलाई",
+                "subtitle_hi": "उच्च गुणवत्ता वाले कपड़े। बेहतरीन कारीगरी।"
+              },
+              {
+                "key": "diploma",
+                "icon": "certificate",
+                "title": "DIPLOMA & CERTIFICATE COURSES",
+                "subtitle": "Govt. Recognized Certification",
+                "title_hi": "डिप्लोमा और सर्टिफिकेट कोर्स",
+                "subtitle_hi": "सरकारी मान्यता प्राप्त प्रमाणपत्र"
+              },
+              {
+                "key": "entrance",
+                "icon": "book",
+                "title": "NIFT / NID / CEED PREPARATION",
+                "subtitle": "Entrance Coaching by Experts",
+                "title_hi": "NIFT / NID / CEED तैयारी",
+                "subtitle_hi": "विशेषज्ञों द्वारा एंट्रेंस कोचिंग"
+              }
+            ],
+            "hero_secondary_cta": "Watch Success Stories",
+            "hero_service_cards": [
+              {
+                "cta": "BOOK NOW",
+                "key": "fashion",
+                "desc": "Learn Fashion Design from Experts.",
+                "icon": "fashion",
+                "image": "/slider1.webp",
+                "title": "FASHION DESIGNING COURSE",
+                "cta_hi": "अभी बुक करें",
+                "source": "hero_service_fashion",
+                "desc_hi": "एक्सपर्ट्स से फैशन डिज़ाइन सीखें।",
+                "title_hi": "फैशन डिज़ाइनिंग कोर्स"
+              },
+              {
+                "cta": "BOOK NOW",
+                "key": "boutique",
+                "desc": "Master Stitching & Boutique Skills.",
+                "icon": "boutique",
+                "image": "/boutique.webp",
+                "title": "BOUTIQUE COURSE",
+                "cta_hi": "अभी बुक करें",
+                "source": "hero_service_boutique",
+                "desc_hi": "सिलाई और बुटीक स्किल्स मास्टर करें।",
+                "title_hi": "बुटीक कोर्स"
+              },
+              {
+                "cta": "BOOK NOW",
+                "key": "blouse",
+                "desc": "Designer & Bridal Blouse Stitching.",
+                "icon": "blouse",
+                "image": "/categories/bridal.webp",
+                "title": "BRIDAL BLOUSE BOOKING",
+                "cta_hi": "अभी बुक करें",
+                "source": "hero_service_blouse",
+                "desc_hi": "डिज़ाइनर और ब्राइडल ब्लाउज़ सिलाई।",
+                "title_hi": "ब्राइडल ब्लाउज़ बुकिंग"
+              },
+              {
+                "cta": "BOOK NOW",
+                "key": "lehenga",
+                "desc": "Custom Bridal Lehenga Stitching.",
+                "icon": "lehenga",
+                "image": "/slider3.webp",
+                "title": "BRIDAL LEHENGA BOOKING",
+                "cta_hi": "अभी बुक करें",
+                "source": "hero_service_lehenga",
+                "desc_hi": "कस्टम ब्राइडल लहंगा सिलाई।",
+                "title_hi": "ब्राइडल लहंगा बुकिंग"
+              },
+              {
+                "cta": "BOOK NOW",
+                "key": "suit",
+                "desc": "Designer Suits Perfectly Tailored.",
+                "icon": "suit",
+                "image": "/categories/ethnic-wear.webp",
+                "title": "SUIT STITCHING",
+                "cta_hi": "अभी बुक करें",
+                "source": "hero_service_suit",
+                "desc_hi": "डिज़ाइनर सूट परफेक्टली टेलर्ड।",
+                "title_hi": "सूट सिलाई"
+              },
+              {
+                "cta": "BOOK NOW",
+                "key": "handwork",
+                "desc": "Exquisite Handwork for Every Occasion.",
+                "icon": "handwork",
+                "image": "/categories/stitching.webp",
+                "title": "HAND WORK & EMBROIDERY",
+                "cta_hi": "अभी बुक करें",
+                "source": "hero_service_handwork",
+                "desc_hi": "हर अवसर के लिए बेहतरीन हैंडवर्क।",
+                "title_hi": "हैंड वर्क और एम्ब्रॉयडरी"
+              },
+              {
+                "cta": "BOOK NOW",
+                "key": "express",
+                "desc": "Get Your Outfit in Just 24 Hours.",
+                "icon": "express",
+                "image": "",
+                "title": "EXPRESS 24-HOUR STITCHING",
+                "cta_hi": "अभी बुक करें",
+                "source": "hero_service_express",
+                "desc_hi": "सिर्फ 24 घंटे में अपना आउटफिट पाएँ।",
+                "title_hi": "एक्सप्रेस 24 घंटे सिलाई"
+              }
+            ],
+            "hero_since_text_hi": "14+ वर्षों का अनुभव",
+            "journey_eyebrow_hi": "अपनी यात्रा शुरू करें",
+            "journey_title_tail": ", All in One Place",
+            "process_eyebrow_hi": "हमारी प्रक्रिया",
+            "services_seo_title": "Designer Boutique in Patna, Bihar",
+            "shop_preview_perks": [
+              {
+                "icon": "📏",
+                "label": "Custom Fit",
+                "label_hi": "आपके माप पर"
+              },
+              {
+                "icon": "⚡",
+                "label": "24hr Stitching",
+                "label_hi": "24 घंटे सिलाई"
+              },
+              {
+                "icon": "💬",
+                "label": "WhatsApp Order",
+                "label_hi": "WhatsApp ऑर्डर"
+              }
+            ],
+            "shop_preview_title": "Curated",
+            "success_eyebrow_hi": "छात्र सफलता",
+            "why_choose_divider": "Plus more reasons",
+            "why_choose_eyebrow": "Why Choose Us",
+            "why_choose_usp_tag": "Our Signature Service",
+            "academy_note_sub_hi": "हर क्लास में व्यक्तिगत ध्यान",
+            "academy_subtitle_hi": "बुटीक के अंदर प्रोफेशनल मशीनों पर सीधे मेंटरशिप के साथ सीखें।",
+            "bottom_cta_subtitle": "Click below to chat with our boutique managers on WhatsApp. We'll guide you through designs, pricing, sizing, and shipping.",
+            "bottom_cta_title_hi": "अपना कस्टम सिलाई प्रोजेक्ट शुरू करें",
+            "category_eyebrow_hi": "क्विक एक्सप्लोर",
+            "collection_cta_href": "/portfolio",
+            "collection_title_hi": "हर धागे में खूबसूरती",
+            "courses_demo_cta_hi": "अभी मुफ़्त डेमो बुक करें",
+            "courses_subtitle_hi": "पटना स्टूडियो में हाथों-हाथ फैशन कोर्स — WhatsApp पर एनरोल करें।",
+            "courses_view_all_hi": "सभी कोर्स देखें",
+            "explore_view_all_hi": "सभी देखें",
+            "hero_boutique_badge": "Shreya Creation Boutique & Fashion Designing Institute, Patna Bihar",
+            "hero_boutique_title": "Best Ladies Designer Boutique in Boring Road, Patna, Bihar",
+            "hero_floating_cards": [
+              {
+                "sub": "From Basics to Advanced",
+                "icon": "✂️",
+                "title": "Fashion Design",
+                "sub_hi": "बेसिक से एडवांस तक",
+                "title_hi": "फैशन डिज़ाइन"
+              },
+              {
+                "sub": "Start, Manage & Grow Your Brand",
+                "icon": "🏪",
+                "title": "Boutique Business",
+                "sub_hi": "ब्रांड शुरू करें और बढ़ाएँ",
+                "title_hi": "बुटीक बिज़नेस"
+              },
+              {
+                "sub": "Master Patterns Like a Pro",
+                "icon": "📐",
+                "title": "Pattern Making",
+                "sub_hi": "प्रो की तरह पैटर्न सीखें",
+                "title_hi": "पैटर्न मेकिंग"
+              },
+              {
+                "sub": "Handcrafted Finishing Skills",
+                "icon": "✨",
+                "title": "Embroidery & Couture",
+                "sub_hi": "हस्तनिर्मित फिनिशिंग",
+                "title_hi": "कढ़ाई और कउचर"
+              }
+            ],
+            "hero_since_badge_hi": "2012 से",
+            "hero_tile1_title_hi": "रोज़गार-उन्मुख कोर्स",
+            "hero_tile2_title_hi": "बुटीक और कस्टम सिलाई",
+            "hero_tile3_title_hi": "इंडस्ट्री सर्टिफिकेशन",
+            "hero_tile4_title_hi": "लाइफटाइम एक्सेस",
+            "hero_title_line1_hi": "लक्ज़री बुटीक",
+            "hero_title_line2_hi": "फैशन इंस्टिट्यूट",
+            "services_eyebrow_hi": "बुटीक सेवाएँ",
+            "shop_preview_cta_hi": "पूरी शॉप देखें",
+            "success_subtitle_hi": "पटना के अकादमी ग्रेजुएट और ग्राहकों की असली कहानियाँ।",
+            "why_choose_features": [
+              {
+                "sub": "Stitched outfits in 24 hours",
+                "icon": "⚡",
+                "title": "24-Hour Stitching",
+                "sub_hi": "24 घंटे में सिले कपड़े",
+                "title_hi": "24 घंटे सिलाई"
+              },
+              {
+                "sub": "On orders above ₹999",
+                "icon": "🚚",
+                "title": "Free Shipping",
+                "sub_hi": "₹999 से ऊपर के ऑर्डर पर",
+                "title_hi": "मुफ़्त शिपिंग"
+              },
+              {
+                "sub": "Handcrafted with care",
+                "icon": "✓",
+                "title": "Premium Quality",
+                "sub_hi": "ध्यान से हस्तनिर्मित",
+                "title_hi": "प्रीमियम क्वालिटी"
+              },
+              {
+                "sub": "Hassle-free exchange",
+                "icon": "↩",
+                "title": "Easy Returns",
+                "sub_hi": "बिना झंझट एक्सचेंज",
+                "title_hi": "आसान रिटर्न"
+              },
+              {
+                "sub": "Led by Sangi Shreya",
+                "icon": "🎧",
+                "title": "Expert Mentorship",
+                "sub_hi": "संगी श्रेया के नेतृत्व में",
+                "title_hi": "विशेषज्ञ मेंटरशिप"
+              },
+              {
+                "sub": "100% protected",
+                "icon": "🔒",
+                "title": "Secure Payments",
+                "sub_hi": "100% सुरक्षित",
+                "title_hi": "सुरक्षित भुगतान"
+              }
+            ],
+            "why_choose_title_hi": "देखभाल से बना, तेज़ी से डिलीवर",
+            "why_choose_usp_hint": "Fast tailoring, premium finish — in Patna",
+            "academy_title_accent": "Offline Studio",
+            "category_subtitle_hi": "इंस्टिट्यूट कोर्स, बुटीक सिलाई या डिज़ाइनर कलेक्शन चुनें।",
+            "category_title_after": "",
+            "collection_cta_label": "EXPLORE COLLECTION",
+            "courses_demo_note_hi": "सीमित सीटें — आज ही एनरोल करें!",
+            "courses_why_title_hi": "बुटीक मास्टर कोर्स और फैशन डिज़ाइनिंग कोर्स",
+            "hero_boutique_cta_hi": "आपका करियर यहीं से शुरू हो",
+            "hero_title_highlight": "in Patna Bihar, since 2012",
+            "hero_wa_cta_label_hi": "WhatsApp अभी",
+            "services_subtitle_hi": "कस्टम सिलाई, ब्राइडल कउचर, कढ़ाई और स्टाइलिंग — सब WhatsApp पर।",
+            "shop_preview_eyebrow": "Boutique Shop",
+            "why_choose_brand_tag": "Brand Message",
+            "academy_subheading_hi": "पटना स्टूडियो में मेंटर के साथ प्रोफेशनल मशीनों पर अभ्यास।",
+            "bottom_cta_wa_message": "Hi Shreya Creation! 👋 I want a custom stitching consultation — designs, pricing, sizing, and shipping.",
+            "category_title_before": "",
+            "collection_eyebrow_hi": "नया कलेक्शन",
+            "collection_image_left": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1781369767660-awo362.jpeg",
+            "courses_demo_subtitle": "Book a FREE Demo Class and get expert guidance.",
+            "courses_demo_title_hi": "कौन सा कोर्स सही है, तय नहीं?",
+            "hero_book_local_video": "/video-2.mp4",
+            "hero_secondary_cta_hi": "सफलता की कहानियाँ देखें",
+            "journey_title_tail_hi": ", एक ही जगह",
+            "portfolio_preview_cta": "View Full Portfolio",
+            "services_seo_title_hi": "पटना, बिहार में डिज़ाइनर बुटीक",
+            "shop_preview_subtitle": "Browse the collection and order stitched to your size on WhatsApp.",
+            "shop_preview_title_hi": "क्यूरेटेड",
+            "video_title_highlight": "Patna Studio",
+            "why_choose_divider_hi": "और भी कारण",
+            "why_choose_eyebrow_hi": "हमें क्यों चुनें",
+            "why_choose_usp_tag_hi": "हमारी खास सेवा",
+            "bottom_cta_subtitle_hi": "नीचे टैप करके WhatsApp पर बुटीक मैनेजर से बात करें — डिज़ाइन, कीमत, माप और शिपिंग में मदद।",
+            "collection_image_right": "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1781369750972-acyxuf.jpeg",
+            "courses_script_tagline": "Learn It. Create It. Make It Yours.",
+            "hero_boutique_badge_hi": "श्रेया क्रिएशन्स बुटीक एवं फैशन डिजाइनिंग इंस्टीट्यूट, पटना",
+            "hero_boutique_keywords": "Course / Boutique / Institute",
+            "hero_boutique_subtitle": "Practical boutique & fashion designing courses since 2012 — plus bridal lehengas and designer blouses stitched in 24 hours on Boring Road.",
+            "hero_boutique_title_hi": "बोरिंग रोड, पटना, बिहार का प्रमुख लेडीज़ डिज़ाइनर बुटीक",
+            "why_choose_usp_hint_hi": "तेज़ सिलाई, प्रीमियम फिनिश — पटना में",
+            "academy_title_accent_hi": "ऑफलाइन स्टूडियो",
+            "category_title_after_hi": "",
+            "collection_cta_label_hi": "कलेक्शन देखें",
+            "hero_title_highlight_hi": "पटना बिहार में, 2012 से",
+            "journey_title_highlight": "You Need",
+            "portfolio_preview_title": "Bridal & Designer Portfolio",
+            "shop_preview_eyebrow_hi": "बुटीक शॉप",
+            "why_choose_brand_tag_hi": "ब्रांड संदेश",
+            "bottom_cta_primary_label": "Start Consultation on WhatsApp",
+            "category_title_before_hi": "पटना में बुटीक कोर्स और ",
+            "category_title_highlight": "Best Boutique in Patna | Best Bridal Boutique in Patna",
+            "courses_demo_subtitle_hi": "मुफ़्त डेमो क्लास बुक करें और एक्सपर्ट गाइडेंस पाएँ।",
+            "portfolio_preview_cta_hi": "पूरा पोर्टफोलियो",
+            "shop_preview_subtitle_hi": "कलेक्शन देखें और WhatsApp पर अपने माप पर ऑर्डर करें।",
+            "video_title_highlight_hi": "पटना स्टूडियो",
+            "academy_heading_highlight": "",
+            "courses_script_tagline_hi": "कौशल जो आय बनाता है।",
+            "hero_boutique_keywords_hi": "कोर्स / बुटीक / इंस्टिट्यूट",
+            "hero_boutique_subtitle_hi": "2012 से प्रैक्टिकल बुटीक और फैशन डिज़ाइनिंग कोर्स — साथ ही ब्राइडल लहंगा व डिज़ाइनर ब्लाउज 24 घंटे में, बोरिंग रोड पर।",
+            "portfolio_preview_eyebrow": "Our Work",
+            "journey_title_highlight_hi": "जो चाहिए",
+            "portfolio_preview_subtitle": "Lehengas, gowns and bridal pieces crafted at our Patna atelier.",
+            "portfolio_preview_title_hi": "ब्राइडल और डिज़ाइनर पोर्टफोलियो",
+            "bottom_cta_primary_label_hi": "WhatsApp पर कंसल्टेशन शुरू करें",
+            "category_title_highlight_hi": "कस्टम सिलाई",
+            "academy_heading_highlight_hi": "",
+            "portfolio_preview_eyebrow_hi": "हमारा काम",
+            "shop_preview_title_highlight": "Couture",
+            "hero_boutique_title_highlight": "Best Boutique in Patna | Ladies Tailors in Boring Road",
+            "portfolio_preview_subtitle_hi": "पटना एटेलियर में बने लहंगे, गाउन और ब्राइडल पीस।",
+            "shop_preview_title_highlight_hi": "कउचर",
+            "hero_boutique_title_highlight_hi": "पटना का प्रमुख बुटीक | बोरिंग रोड में लेडीज़ टेलर्स",
+            "portfolio_preview_title_highlight": "in Patna",
+            "portfolio_preview_title_highlight_hi": "पटना"
+          },
+          "shop": {
+            "features": [
+              {
+                "desc": "Every piece stitched to your exact measurements.",
+                "emoji": "📏",
+                "title": "Custom sizing",
+                "desc_hi": "हर पीस आपके माप पर सिला जाता है।",
+                "title_hi": "कस्टम माप"
+              },
+              {
+                "desc": "Many ready styles delivered within a day.",
+                "emoji": "⚡",
+                "title": "24h express",
+                "desc_hi": "कई स्टाइल एक दिन में डिलीवर।",
+                "title_hi": "24 घंटे एक्सप्रेस"
+              },
+              {
+                "desc": "No checkout — consult and pay in chat.",
+                "emoji": "💬",
+                "title": "WhatsApp order",
+                "desc_hi": "कोई चेकआउट नहीं — चैट में कंसल्ट और पेमेंट।",
+                "title_hi": "WhatsApp ऑर्डर"
+              }
+            ],
+            "cta_title": "Found something you love?",
+            "about_body": "At Shreya Creation, we understand that an ideal outfit does not just come out of a stitch but is made keeping your needs in mind. Whether it is bridal blouses, designer lehengas, or even suits and gowns, each of our creations is a combination of your imagination and our skill. As the best designer boutique in Patna, we have always specialized in personalized designs, fine fitting, Aari & Zari hand embroidery, and finishing.",
+            "intro_body": "Being the best designer boutique in Patna, we combine the trendiest styles with our exquisite designs to produce a remarkable fashion line for you.",
+            "meta_title": "Best Designer Boutique in Patna | Shreya Creation",
+            "about_title": "About Our Boutique",
+            "cta_subtitle": "Share the design on WhatsApp — we'll confirm fabric, sizing and delivery timeline.",
+            "cta_title_hi": "कुछ पसंद आया?",
+            "header_title": "Boutique",
+            "process_title": "From First Sketch to Final Stitch – Your Look, Your Way",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I'd like to order from the boutique. Please share available designs, sizing, and delivery details.",
+            "header_eyebrow": "Boutique",
+            "header_tagline": "Where Your Imagination Takes Shape in Fashion",
+            "closing_tagline": "We Don't Just Stitch Outfits. We Create the Look You'll Remember.",
+            "cta_subtitle_hi": "डिज़ाइन WhatsApp पर भेजें — हम कपड़ा, माप और डिलीवरी बताएंगे।",
+            "header_subtitle": "Your attire should never look ordinary. At Shreya Creation, the best designer boutique in Patna, we transform your imagination into unique fashion with the help of our signature bridal tops, designer lehengas, designer suits, designer gowns, and other customized dresses with a perfect fit and fine details.",
+            "header_title_hi": "बुटीक",
+            "header_highlight": "couture",
+            "meta_description": "Discover Shreya Creation, the best designer boutique in Patna for bridal wear, designer blouses, lehengas, custom stitching, Aari-Zari handwork, & a perfect fit.",
+            "process_features": [
+              {
+                "icon": "design",
+                "title": "Personalised Designs"
+              },
+              {
+                "icon": "measure",
+                "title": "Precision Fitting"
+              },
+              {
+                "icon": "bridal",
+                "title": "Bridal & Designer Expertise"
+              },
+              {
+                "icon": "hand",
+                "title": "Fine Handwork"
+              },
+              {
+                "icon": "check",
+                "title": "Thoughtful Finishing"
+              }
+            ],
+            "header_eyebrow_hi": "बुटीक",
+            "cta_secondary_href": "/portfolio",
+            "header_subtitle_hi": "कलेक्शन देखें, फिर WhatsApp पर अपने माप पर ऑर्डर करें।",
+            "cta_secondary_label": "See portfolio",
+            "header_highlight_hi": "कउचर",
+            "hero_cta_primary_href": "/portfolio",
+            "cta_secondary_label_hi": "पोर्टफोलियो देखें",
+            "hero_cta_primary_label": "Explore our Creations",
+            "hero_cta_secondary_label": "Chat on WhatsApp"
+          },
+          "about": {
+            "cta_title": "Want to visit our studio?",
+            "hero_image": "/atelier_details.png",
+            "meta_title": "Best Fashion Designing in Patna | Shreya Creation",
+            "team_title": "Our Leadership",
+            "trust_title": "Trusted by Thousands",
+            "cta_subtitle": "Book a studio visit or start a custom stitching consultation on WhatsApp.",
+            "cta_title_hi": "हमारा स्टूडियो देखना चाहते हैं?",
+            "header_title": "About Shreya Creation",
+            "team_members": [
+              {
+                "name": "Sanjay Kumar Mishra",
+                "role": "Founder",
+                "name_hi": "संजय कुमार मिश्रा",
+                "role_hi": "संस्थापक"
+              },
+              {
+                "name": "Sangi Shreya",
+                "role": "Director & Lead Mentor",
+                "name_hi": "संगी श्रेया",
+                "role_hi": "निदेशक और मुख्य मेंटर"
+              }
+            ],
+            "boutique_body": "Shreya Creation – The best fashion designing classes in Patna, offering bespoke stitching, bridal couture, and 50+ job-oriented fashion designing courses in Patna. Here, you get a stitched outfit in just 24 hours.",
+            "journey_steps": [
+              {
+                "desc": "Started with a vision to empower women through fashion skills.",
+                "icon": "🏛️",
+                "title": "Founded in Patna",
+                "desc_hi": "फैशन कौशल से महिलाओं को सशक्त बनाने की दृष्टि के साथ शुरुआत।",
+                "title_hi": "पटना में स्थापना",
+                "year_key": "founding"
+              },
+              {
+                "desc": "Learners who turned skill into self-employment.",
+                "icon": "🎓",
+                "title": "Students Trained",
+                "desc_hi": "छात्राओं ने कौशल को स्वरोजगार में बदला।",
+                "title_hi": "छात्र प्रशिक्षित",
+                "year_key": "students"
+              },
+              {
+                "desc": "Boutique, blouse, suit, kids wear, fashion design & lehenga.",
+                "icon": "📚",
+                "title": "Professional Courses",
+                "desc_hi": "बुटीक, ब्लाउज, सूट, किड्स वियर, फैशन डिज़ाइन और लहंगा।",
+                "title_hi": "प्रोफेशनल कोर्स",
+                "year_key": "courses"
+              },
+              {
+                "desc": "Custom outfits delivered fast for urgent needs.",
+                "icon": "⚡",
+                "title": "Stitching Service",
+                "desc_hi": "जरूरी ऑर्डर के लिए तेज़ कस्टम सिलाई।",
+                "title_hi": "सिलाई सेवा",
+                "year_key": "express"
+              }
+            ],
+            "journey_title": "Our Journey",
+            "pillars_title": "The Pillars of Our Craft",
+            "story_block_1": "Founded in 2012 by Sanjay Kumar Mishra and Shreya, Shreya Creation, today prominent for the best fashion designing in Patna, began with a powerful vision – to empower women through fashion, practical skills, and entrepreneurship.",
+            "story_block_2": "Situated on Boring Road, Patna, Shreya Creation is a reliable source of designer blouses, bridal collections, elegant Aari & Zari embroidery, and innovative saree re-designs, where every dress is made according to your personality and occasion.",
+            "story_block_3": "Our fashion design institute and best ladies tailor in Patna help you convert your creativity into a profession through intensive training in fashion design techniques and boutique management practices.",
+            "team_title_hi": "हमारी टीम",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I'd like to book a studio visit. Please share available timings.",
+            "header_eyebrow": "Our Story",
+            "header_tagline": "Where Fashion Becomes Skill, Skill Becomes Confidence & Confidence Becomes Business.",
+            "trust_title_hi": "हज़ारों का भरोसा",
+            "cta_subtitle_hi": "स्टूडियो विज़िट बुक करें या WhatsApp पर कस्टम सिलाई की जानकारी लें।",
+            "header_subtitle": "",
+            "header_title_hi": "श्रेया क्रिएशन के बारे में",
+            "boutique_eyebrow": "Boutique & Institute",
+            "journey_title_hi": "हमारी यात्रा",
+            "meta_description": "Discover Shreya Creation for the best fashion designing in Patna, with practical training, boutique skills, bridal wear, designer stitching and hands-on learning.",
+            "pillars_title_hi": "हमारी विशेषताएँ",
+            "header_eyebrow_hi": "हमारी कहानी",
+            "hero_title_before": "Crafting elegance,",
+            "header_subtitle_hi": "",
+            "hero_title_before_hi": "हर सिलाई में",
+            "hero_title_highlight": "14+ Years.",
+            "hero_title_highlight_hi": "14+ वर्ष।"
+          },
+          "contact": {
+            "cta_title": "Prefer a quick chat?",
+            "cta_subtitle": "Tap below to open WhatsApp — we typically reply within minutes during studio hours.",
+            "cta_title_hi": "तुरंत बात करना चाहते हैं?",
+            "header_title": "Contact Us",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I'm reaching out from your contact page. Please get back to me.",
+            "header_eyebrow": "Say hello",
+            "cta_subtitle_hi": "नीचे टैप करें — स्टूडियो के समय में मिनटों में जवाब मिलता है।",
+            "header_subtitle": "We're just a message away — order a custom garment, enroll in a class, or ask anything.",
+            "header_title_hi": "संपर्क करें",
+            "header_highlight": "Us",
+            "cta_primary_label": "Open WhatsApp",
+            "header_eyebrow_hi": "नमस्ते",
+            "cta_secondary_href": "",
+            "header_subtitle_hi": "एक मैसेज दूर — कस्टम परिधान, कोर्स एनरोल या कोई भी सवाल।",
+            "header_highlight_hi": "करें",
+            "cta_primary_label_hi": "WhatsApp खोलें"
+          },
+          "courses": {
+            "features": [
+              {
+                "desc": "Learn on the same machines used for client orders.",
+                "emoji": "🪡",
+                "title": "Hands-on studio",
+                "desc_hi": "क्लाइंट ऑर्डर वाली मशीनों पर सीखें।",
+                "title_hi": "प्रैक्टिकल स्टूडियो"
+              },
+              {
+                "desc": "Direct guidance from experienced designers.",
+                "emoji": "👩‍🏫",
+                "title": "1-on-1 mentorship",
+                "desc_hi": "अनुभवी डिज़ाइनरों से सीधा मार्गदर्शन।",
+                "title_hi": "व्यक्तिगत मेंटरशिप"
+              },
+              {
+                "desc": "Job-oriented programs with placement support.",
+                "emoji": "📜",
+                "title": "Certified courses",
+                "desc_hi": "प्लेसमेंट सपोर्ट के साथ रोज़गार-उन्मुख प्रोग्राम।",
+                "title_hi": "प्रमाणित कोर्स"
+              }
+            ],
+            "cta_title": "Ready to enroll?",
+            "cta_subtitle": "Book a free studio visit and discuss batch timings, fees and course roadmap on WhatsApp.",
+            "cta_title_hi": "एनरोल करने के लिए तैयार?",
+            "header_title": "Fashion & stitching",
+            "cta_wa_message": "Hello! I would like to learn more about fashion design courses and book a studio visit.",
+            "header_eyebrow": "Learn the craft",
+            "cta_subtitle_hi": "मुफ़्त स्टूडियो विज़िट बुक करें — बैच, फीस और कोर्स रोडमैप पर बात करें।",
+            "header_subtitle": "Hands-on, mentor-led courses in Hindi & English. Enroll directly on WhatsApp.",
+            "header_title_hi": "फैशन और सिलाई",
+            "header_highlight": "courses",
+            "header_eyebrow_hi": "कला सीखें",
+            "header_subtitle_hi": "हिंदी और अंग्रेज़ी में हाथों-हाथ कोर्स। सीधे WhatsApp पर एनरोल करें।",
+            "header_highlight_hi": "कोर्स"
+          },
+          "lookbook": {
+            "features": [
+              {
+                "desc": "Necklines, fabrics and fittings we use every day in the studio.",
+                "emoji": "🧵",
+                "title": "Atelier tips",
+                "desc_hi": "नेकलाइन, कपड़े और फिटिंग — रोज़ स्टूडियो में जो हम इस्तेमाल करते हैं।",
+                "title_hi": "एटेलियर टिप्स"
+              },
+              {
+                "desc": "Lehenga, gown and blouse looks for weddings and receptions.",
+                "emoji": "👰",
+                "title": "Bridal ideas",
+                "desc_hi": "शादी और रिसेप्शन के लिए लहंगा, गाउन और ब्लाउज लुक।",
+                "title_hi": "ब्राइडल आइडिया"
+              },
+              {
+                "desc": "Guides for ordering custom wear from abroad via WhatsApp.",
+                "emoji": "✈️",
+                "title": "NRI friendly",
+                "desc_hi": "विदेश से WhatsApp पर कस्टम वियर ऑर्डर करने की गाइड।",
+                "title_hi": "NRI फ्रेंडली"
+              }
+            ],
+            "og_image": "",
+            "cta_title": "Have a style question?",
+            "seo_intro": "Read style tips from our bridal boutique in Patna — necklines, NRI WhatsApp measurements, 24-hour express stitching and embroidery guides from Boring Road.",
+            "meta_title": "Blog | Style Tips & Atelier Guides from Shreya Creation Patna",
+            "cta_subtitle": "Ask us on WhatsApp — we will share fabric, design and timeline advice from the atelier.",
+            "cta_title_hi": "कोई स्टाइल सवाल है?",
+            "header_title": "Style Tips from Our Patna Atelier",
+            "seo_intro_hi": "पटना बुटीक से स्टाइल टिप्स पढ़ें — नेकलाइन, NRI WhatsApp माप, 24 घंटे एक्सप्रेस सिलाई और कढ़ाई गाइड बोरिंग रोड से।",
+            "cta_wa_message": "Hi Shreya Creation! I read your blog and would love advice on a look in my size. Please share fabric, design, and timeline.",
+            "header_eyebrow": "Blog",
+            "cta_subtitle_hi": "WhatsApp पर पूछें — हम एटेलियर से कपड़ा, डिज़ाइन और टाइमलाइन की सलाह देंगे।",
+            "feature_post_h1": "Fashion Designing Institute & Designer Boutique in Patna",
+            "header_subtitle": "Guides, stitching tips and behind-the-scenes stories from our Boring Road studio — bridal, blouse and festive wear ideas.",
+            "header_title_hi": "पटना एटेलियर से स्टाइल टिप्स",
+            "header_highlight": "",
+            "meta_description": "Bridal blouse ideas, 24-hour stitching tips, NRI ordering guides and atelier stories from Shreya Creation on Boring Road, Patna.",
+            "cta_primary_label": "Ask on WhatsApp",
+            "feature_post_slug": "fashion-designing-institute-designer-boutique-patna",
+            "header_eyebrow_hi": "ब्लॉग",
+            "cta_secondary_href": "/portfolio",
+            "feature_post_emoji": "👗",
+            "feature_post_h1_hi": "पटना में फैशन डिजाइनिंग इंस्टीट्यूट और डिजाइनर बुटीक",
+            "feature_post_title": "Shreya Creation: Fashion Designing Institute & Designer Boutique in Patna",
+            "header_subtitle_hi": "बोरिंग रोड स्टूडियो से गाइड, सिलाई टिप्स और कहानियाँ — ब्राइडल, ब्लाउज और फेस्टिव आइडिया।",
+            "cta_secondary_label": "View portfolio",
+            "header_highlight_hi": "",
+            "cta_primary_label_hi": "WhatsApp पर पूछें",
+            "feature_post_title_hi": "श्रेया क्रिएशन: पटना में फैशन डिजाइनिंग इंस्टीट्यूट और डिजाइनर बुटीक",
+            "cta_secondary_label_hi": "पोर्टफोलियो देखें",
+            "feature_post_description": "Looking for a fashion designing institute or designer boutique in Patna? Discover Shreya Creation for practical fashion courses, boutique training, bridal wear, designer blouse, lehenga stitching, custom outfits and NRI fashion services.",
+            "feature_post_description_hi": "पटना में फैशन डिजाइनिंग इंस्टीट्यूट या डिजाइनर बुटीक खोज रहे हैं? श्रेया क्रिएशन में प्रैक्टिकल फैशन डिजाइनिंग कोर्स, बुटीक ट्रेनिंग, ब्राइडल वियर, डिजाइनर ब्लाउज, लहंगा स्टिचिंग और कस्टम आउटफिट सेवाएं उपलब्ध हैं."
+          },
+          "portfolio": {
+            "cta_title": "Want something like this,",
+            "craft_title": "What we create",
+            "trust_title": "Trusted craftsmanship",
+            "cta_subtitle": "Send us a reference photo or describe your dream outfit on WhatsApp. We'll guide you through fabric, design, sizing and delivery — many styles in 24 hours.",
+            "cta_title_hi": "ऐसा ही कुछ चाहिए,",
+            "header_title": "Portfolio",
+            "craft_eyebrow": "Specialities",
+            "trust_eyebrow": "By the numbers",
+            "craft_subtitle": "Every piece in our portfolio is made to order — share your inspiration on WhatsApp and we'll bring it to life.",
+            "craft_title_hi": "हम क्या बनाते हैं",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I saw your portfolio on the website and would like a similar custom piece. Please share details and pricing.",
+            "header_eyebrow": "Our work",
+            "trust_title_hi": "भरोसेमंद कारीगरी",
+            "cta_subtitle_hi": "रेफरेंस फोटो या अपना सपनों का आउटफिट WhatsApp पर भेजें — कपड़ा, डिज़ाइन, माप और डिलीवरी में मदद, कई स्टाइल 24 घंटे में।",
+            "header_subtitle": "A curated lookbook of lehengas, gowns, blouses and bridal pieces crafted at our Patna atelier.",
+            "header_title_hi": "पोर्टफोलियो",
+            "craft_eyebrow_hi": "विशेषताएँ",
+            "craft_highlights": [
+              {
+                "desc": "Lehengas, dupattas and full bridal sets with zari, zardozi and mirror work — tailored to your measurements.",
+                "emoji": "👑",
+                "title": "Bridal & Reception",
+                "desc_hi": "ज़री, ज़रदोज़ी और मिरर वर्क वाले लहंगे और ब्राइडल सेट — आपके माप पर।",
+                "title_hi": "ब्राइडल और रिसेप्शन"
+              },
+              {
+                "desc": "Floor-length gowns and cocktail dresses for receptions, parties and special occasions.",
+                "emoji": "✨",
+                "title": "Gowns & Evening Wear",
+                "desc_hi": "रिसेप्शन, पार्टी और खास मौकों के लिए फ्लोर-लेंथ गाउन।",
+                "title_hi": "गाउन और इवनिंग वियर"
+              },
+              {
+                "desc": "Designer blouses, anarkalis and festive suits with intricate necklines and back detailing.",
+                "emoji": "🧵",
+                "title": "Blouses & Suits",
+                "desc_hi": "डिज़ाइनर ब्लाउज, अनारकली और फेस्टिव सूट — खूबसूरत नेकलाइन और बैक डिटेलिंग।",
+                "title_hi": "ब्लाउज और सूट"
+              }
+            ],
+            "trust_eyebrow_hi": "आंकड़ों में",
+            "craft_subtitle_hi": "हर पीस ऑर्डर पर बनता है — WhatsApp पर अपनी पसंद भेजें, हम उसे साकार करेंगे।",
+            "cta_primary_label": "Start on WhatsApp",
+            "header_eyebrow_hi": "हमारा काम",
+            "cta_secondary_href": "/shop",
+            "header_subtitle_hi": "पटना एटेलियर में बने लहंगे, गाउन और ब्राइडल पीस की क्यूरेटेड गैलरी।",
+            "cta_secondary_label": "Browse the shop",
+            "cta_title_highlight": "made for you?",
+            "cta_primary_label_hi": "WhatsApp पर शुरू करें",
+            "cta_secondary_label_hi": "शॉप देखें",
+            "cta_title_highlight_hi": "आपके लिए?"
+          },
+          "ladiesTailor": {
+            "cta_title": "Ready to Wear Something Made Just for You?",
+            "intro_body": "Finding the best ladies tailor in Patna is not only about getting the cloth stitched but about choosing the perfect fit and a beautiful, unique design according to your choice. We at Shreya Creation offer a wide range of stitching and designing services, including designer blouses, bridal wear, lehenga, suits, gowns, saree pre-stitching, custom outfits, and the best Aari & Zari work, based on your choice of measurements and design.\n\nBacked by a great experience of tailoring, our professional tailors provide you with the best-fitting clothes stitched right to you.",
+            "meta_title": "Best Ladies Tailor in Patna | Shreya Creation",
+            "cta_subtitle": "Step into the world of Shreya Creation, the best ladies tailor in Patna, where your style comes first, every measurement matters, and every stitch has a purpose. You Imagine; We Will Shape It for You.",
+            "cta_title_hi": "अपने लिए बना कुछ पहनने को तैयार?",
+            "header_title": "Ladies Tailor in Patna: Where Every Stitch Is Designed Around You",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I'm looking for a ladies tailor in Patna for custom stitching. Please share design options, fitting, and timing.",
+            "header_eyebrow": "Ladies Tailor in Patna",
+            "cta_subtitle_hi": "Shreya Creation में आएँ — पटना का बेस्ट लेडीज़ टेलर, जहाँ आपकी स्टाइल पहले, हर माप मायने रखती है।",
+            "header_subtitle": "Looking for the best ladies tailor in Patna? Shreya Creation offers designer blouses, bridal wear, custom stitching, perfect fitting, and Aari-Zari handwork.",
+            "header_title_hi": "पटना में लेडीज़ टेलर: हर टांका आपके लिए",
+            "meta_description": "Looking for the best ladies tailor in Patna? Shreya Creation offers designer blouses, bridal wear, custom stitching, perfect fitting, and Aari-Zari handwork.",
+            "cta_primary_label": "Book Your Custom Stitching",
+            "header_eyebrow_hi": "पटना में लेडीज़ टेलर",
+            "cta_secondary_href": "/shop",
+            "header_subtitle_hi": "पटना में बेस्ट लेडीज़ टेलर ढूँढ रहे हैं? Shreya Creation — डिज़ाइनर ब्लाउज, ब्राइडल वियर, कस्टम सिलाई, परफेक्ट फिटिंग और आरी-ज़री हैंडवर्क।",
+            "cta_secondary_label": "Explore Our Designer Collection",
+            "cta_primary_label_hi": "कस्टम सिलाई बुक करें",
+            "cta_secondary_label_hi": "डिज़ाइनर कलेक्शन देखें",
+            "hero_cta_primary_label": "Book Your Custom Stitching",
+            "hero_cta_secondary_href": "/shop",
+            "hero_cta_secondary_label": "Explore Our Designer Collection",
+            "hero_cta_primary_label_hi": "कस्टम सिलाई बुक करें",
+            "hero_cta_secondary_label_hi": "डिज़ाइनर कलेक्शन देखें"
+          },
+          "boutiqueBoringRoad": {
+            "cta_title": "Come With An Idea & Leave With The Creation",
+            "intro_body": "For those who have been searching for the best boutique near me can explore a range of designer clothes that are not picked off the rack but created for the customer.",
+            "meta_title": "Boutique Boring Road | Shreya Creation",
+            "cta_subtitle": "Visit our boutique boring road destination for designer collections, customized stitching, designer bridal, and fashion designed around you.",
+            "cta_title_hi": "आइडिया लेकर आएँ, क्रिएशन लेकर जाएँ",
+            "header_title": "Where Your Style Finds Its Perfect Address",
+            "cta_wa_message": "Hi Shreya Creation! 👋 I found your boutique on Boring Road and would like custom stitching / designer wear. Please share options and timings.",
+            "header_eyebrow": "Boutique · East Boring Canal Road, Patna",
+            "cta_subtitle_hi": "बोरिंग रोड बुटीक पर डिज़ाइनर कलेक्शन, कस्टम सिलाई और ब्राइडल फ़ैशन देखें — आपके लिए डिज़ाइन किया गया।",
+            "header_subtitle": "Looking for Boutique Boring Road that understands your style beyond the standard stitch? Welcome to Shreya Creation, a fashion destination where personalised design and exquisite fitting meet. From designer blouse, bridal wear to elegant suits, gowns, lehengas, and customised outfit are made according to your desired specifications and fit.",
+            "header_title_hi": "जहाँ आपकी स्टाइल को सही पता मिलता है",
+            "meta_description": "Discover Shreya Creation, a boutique Boring Road offering designer blouses, bridal wear, custom stitching, and designer collections. Your best boutique near me.",
+            "cta_primary_label": "Book Your Custom Stitching",
+            "header_eyebrow_hi": "बुटीक · ईस्ट बोरिंग कैनाल रोड, पटना",
+            "cta_secondary_href": "/shop",
+            "header_subtitle_hi": "बोरिंग रोड पर ऐसा बुटीक ढूँढ रहे हैं जो सिर्फ सिलाई नहीं, आपकी स्टाइल समझे? Shreya Creation में आपका स्वागत है — डिज़ाइनर ब्लाउज, ब्राइडल वियर, सूट, गाउन, लहंगा और कस्टम आउटफिट आपके माप और डिज़ाइन पर।",
+            "cta_secondary_label": "Explore Our Designer Collection",
+            "cta_primary_label_hi": "कस्टम सिलाई बुक करें",
+            "cta_secondary_label_hi": "डिज़ाइनर कलेक्शन देखें",
+            "hero_cta_primary_label": "Book Your Custom Stitching",
+            "hero_cta_secondary_href": "/shop",
+            "hero_cta_secondary_label": "Explore Our Designer Collection",
+            "hero_cta_primary_label_hi": "कस्टम सिलाई बुक करें",
+            "hero_cta_secondary_label_hi": "डिज़ाइनर कलेक्शन देखें"
+          }
+        }
+      }
+    ]
+  },
+  "errors": {
+    "faqs": "column faqs.q does not exist",
+    "policy_pages": "column policy_pages.published does not exist",
+    "lookbook_posts": "column lookbook_posts.cover_image does not exist",
+    "testimonials": "column testimonials.published does not exist",
+    "trust_stats": "column trust_stats.value_hi does not exist"
+  }
+}

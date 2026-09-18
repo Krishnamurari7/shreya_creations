@@ -136,9 +136,10 @@ export default function BlogGrid({
                       src={featured.image}
                       alt={postImageAlt(featured, featuredHeadline)}
                       ratio="fill"
-                      position="top"
-                      className="h-full min-h-[260px] md:min-h-[340px]"
-                      imgClassName="transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      fit="contain"
+                      position="center"
+                      className="h-full min-h-[260px] md:min-h-[340px] bg-cream/80"
+                      imgClassName="transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/25 pointer-events-none" />
                   </div>
@@ -225,8 +226,10 @@ export default function BlogGrid({
                             src={p.image}
                             alt={postImageAlt(p, title)}
                             ratio="16/10"
-                            position="top"
-                            imgClassName="transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                            fit="contain"
+                            position="center"
+                            className="bg-cream/80"
+                            imgClassName="transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                           />
                           <div
                             className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-80"
