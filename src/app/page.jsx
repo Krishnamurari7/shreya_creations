@@ -11,6 +11,7 @@ import {
 } from "@/lib/data";
 import { PROCESS } from "@/lib/seed";
 import { buildMetadata } from "@/lib/seo";
+import { MEDIA } from "@/lib/media";
 
 export const revalidate = 3600;
 
@@ -20,7 +21,7 @@ const HOME_META_FALLBACK = {
     "Discover Shreya Creation, the best boutique in Patna, offering designer bridal wear, custom stitching, stylish outfits, exquisite detailing, and personalised fashion solutions.",
 };
 
-const HOME_OG_IMAGE = "/slider3.webp";
+const HOME_OG_IMAGE = MEDIA.slider3;
 
 export async function generateMetadata() {
   const site = await getSiteSettings();
@@ -34,7 +35,7 @@ export async function generateMetadata() {
     description,
     path: "/",
     image: home.ogImage || home.og_image || HOME_OG_IMAGE,
-    imageSecureUrl: "/slider1.webp",
+    imageSecureUrl: MEDIA.slider1,
     imageAlt: "Best Boutique in Patna",
   });
 }

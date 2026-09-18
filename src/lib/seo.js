@@ -3,7 +3,9 @@ import { hreflangPaths, localizedPath, stripLocalePrefix } from "@/lib/locale";
 import { pickFaq, UI } from "@/lib/i18n";
 import { educationalOrganizationId, SCHEMA_STREET_ADDRESS } from "@/lib/json-ld";
 
-export const DEFAULT_OG_IMAGE = "/hero_studio_banner.webp";
+import { MEDIA } from "@/lib/media";
+
+export const DEFAULT_OG_IMAGE = MEDIA.heroStudioBanner;
 
 export function absoluteUrl(value = "") {
   if (!value) return getSiteUrl();

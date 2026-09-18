@@ -115,6 +115,10 @@ function enrichCourseFromSeed(dbCourse) {
   const seedCourse = seed.COURSES.find((c) => c.slug === dbCourse.slug);
   if (!seedCourse) return dbCourse;
   const merged = { ...seedCourse, ...dbCourse };
+  // Prefer real DB media/pricing; only fill blanks from seed (empty string counts as blank).
+  if (!(typeof dbCourse.image === "string" && dbCourse.image.trim()) && seedCourse.image) {
+    merged.image = seedCourse.image;
+  }
   if (dbCourse.price == null && seedCourse.price != null) merged.price = seedCourse.price;
   if (!dbCourse.course_pdf && seedCourse.course_pdf) merged.course_pdf = seedCourse.course_pdf;
   if (!dbCourse.about && seedCourse.about) merged.about = seedCourse.about;
@@ -247,7 +251,8 @@ export async function getProductBySlug(slug) {
 
 const getPublishedCoursesCached = unstable_cache(
   async () => fetchCourses(false),
-  ["courses-published"],
+  // v2: do not permanently cache silent seed fallbacks from transient DB errors
+  ["courses-published-v2"],
   { tags: [SITE_CONTENT_TAG], revalidate: PUBLIC_REVALIDATE }
 );
 
@@ -259,17 +264,15 @@ export async function getCourses({ includeUnpublished = false } = {}) {
 async function fetchCourses(includeUnpublished = false) {
   const seedList = publishedSeedCourses(includeUnpublished);
   if (!isSupabaseConfigured()) return seedList;
-  try {
-    const supabase = createPublicClient();
-    let q = supabase.from("courses").select("*").order("created_at", { ascending: false });
-    if (!includeUnpublished) q = q.eq("published", true);
-    const { data, error } = await q;
-    if (error) return seedList;
-    // Only courses present in admin/Supabase — never append seed-only extras.
-    return coursesFromDbRows(data);
-  } catch {
-    return seedList;
-  }
+  const supabase = createPublicClient();
+  if (!supabase) return seedList;
+  let q = supabase.from("courses").select("*").order("created_at", { ascending: false });
+  if (!includeUnpublished) q = q.eq("published", true);
+  const { data, error } = await q;
+  // Throw on failure so unstable_cache does not store seed placeholders as "fresh" catalog data.
+  if (error) throw error;
+  // Only courses present in admin/Supabase — never append seed-only extras.
+  return coursesFromDbRows(data);
 }
 
 export async function getCourseBySlug(slug) {

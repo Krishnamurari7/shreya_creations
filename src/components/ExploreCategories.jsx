@@ -30,7 +30,7 @@ const CATEGORIES = [
     href: "/courses",
     type: "course",
     bg: "#FCE4EC",
-    image: "/categories/stitching.webp",
+    image: MEDIA.categories.stitching,
     fallbackCount: 3,
   },
   {
@@ -52,7 +52,7 @@ const CATEGORIES = [
     href: "/courses",
     type: "course",
     bg: "#F0E4F2",
-    image: "/categories/stitching.webp",
+    image: MEDIA.categories.stitching,
     fallbackCount: 2,
   },
   
@@ -75,7 +75,7 @@ const CATEGORIES = [
     href: "/shop",
     type: "product",
     bg: "#FFF3E0",
-    image: "/categories/bridal.webp",
+    image: MEDIA.categories.bridal,
     fallbackCount: 12,
   },
   {
@@ -86,7 +86,7 @@ const CATEGORIES = [
     href: "/shop",
     type: "product",
     bg: "#FFE8D6",
-    image: "/categories/ethnic-wear.webp",
+    image: MEDIA.categories.ethnicWear,
     fallbackCount: 10,
   },
 ];

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { REVEAL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -276,9 +277,25 @@ function ColTitle({ children, as = "h2" }) {
   );
 }
 
-function CollapsibleCol({ title, children, className, style, defaultOpen = false }) {
+function CollapsibleCol({ title, children, className, style, defaultOpen = true }) {
+  // React has no defaultOpen for <details> — only `open`. Start open so desktop
+  // always shows column links; mobile can still collapse via native toggle.
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
   return (
-    <details className={cn(REVEAL, "sf-col", "sf-col-collapse", className)} style={style} defaultOpen={defaultOpen}>
+    <details
+      className={cn(REVEAL, "sf-col", "sf-col-collapse", className)}
+      style={style}
+      open={isOpen}
+      onToggle={(e) => {
+        const next = e.currentTarget.open;
+        if (typeof window !== "undefined" && window.matchMedia("(min-width: 640px)").matches) {
+          setIsOpen(true);
+          return;
+        }
+        setIsOpen(next);
+      }}
+    >
       <summary>
         <ColTitle as="span">{title}</ColTitle>
         <span className="sf-col-collapse__chevron" aria-hidden>

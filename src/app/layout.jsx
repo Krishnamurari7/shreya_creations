@@ -70,8 +70,8 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "/slider3.webp",
-        secureUrl: "/slider1.webp",
+        url: MEDIA.slider3,
+        secureUrl: MEDIA.slider1,
         alt: "Best Boutique in Patna",
         type: "image/webp",
       },
@@ -81,7 +81,7 @@ export const metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/slider3.webp"],
+    images: [MEDIA.slider3],
   },
   ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
     ? {

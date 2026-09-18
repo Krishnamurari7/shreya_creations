@@ -6,6 +6,7 @@ import { getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
 import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel } from "@/lib/seo";
+import { MEDIA } from "@/lib/media";
 
 export const revalidate = 3600;
 
@@ -26,7 +27,7 @@ export async function generateMetadata() {
     title,
     description,
     path: "/about",
-    image: about.ogImage || about.og_image || "/founders/sangi-shreya.webp",
+    image: about.ogImage || about.og_image || MEDIA.founderShreya,
     imageAlt: "Best Fashion Designing in Patna",
   });
 }

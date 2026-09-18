@@ -367,9 +367,9 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
 
   const gallery = [
     { src: MEDIA.atelierDetails, alt: hi ? "कढ़ाई डिटेल" : "Embroidery detail on bridal lehenga at Shreya Creation, Patna" },
-    { src: "/slider1.webp", alt: hi ? "पटना में फैशन डिज़ाइनर स्टूडियो में डिज़ाइनर वियर" : "Designer wear at Shreya Creation fashion studio, Patna" },
-    { src: "/slider2.webp", alt: hi ? "पटना में श्रेया क्रिएशन पर ब्राइडल लहंगा और ब्लाउज़ सिलाई" : "Bridal lehenga and blouse stitching at Shreya Creation, Patna" },
-    { src: "/slider3.webp", alt: hi ? "पटना में श्रेया क्रिएशन स्टूडियो की हैंडवर्क और सिलाई" : "Handwork and studio craft at Shreya Creation, Patna" },
+    { src: MEDIA.slider1, alt: hi ? "पटना में फैशन डिज़ाइनर स्टूडियो में डिज़ाइनर वियर" : "Designer wear at Shreya Creation fashion studio, Patna" },
+    { src: MEDIA.slider2, alt: hi ? "पटना में श्रेया क्रिएशन पर ब्राइडल लहंगा और ब्लाउज़ सिलाई" : "Bridal lehenga and blouse stitching at Shreya Creation, Patna" },
+    { src: MEDIA.slider3, alt: hi ? "पटना में श्रेया क्रिएशन स्टूडियो की हैंडवर्क और सिलाई" : "Handwork and studio craft at Shreya Creation, Patna" },
   ];
 
   const services = hi

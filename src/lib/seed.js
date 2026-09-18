@@ -5,6 +5,7 @@
 // Image URLs here use local /public assets — replace with real photos via admin.
 
 import { BRAND_NAME } from "@/lib/brand";
+import { MEDIA } from "@/lib/media";
 import {
   buildSITE,
   buildTrustFromSite,
@@ -123,19 +124,36 @@ export const PROCESS = [
   { step: "Deliver", text: "Final fitting and delivery — many styles in just 24 hours." },
 ];
 
-/** Local placeholder images — never use Unsplash on the public site. */
+/** Placeholder images — Supabase Storage URLs (never Unsplash). */
 const LOCAL_IMGS = [
-  "/slider1.webp",
-  "/slider2.webp",
-  "/slider3.webp",
-  "/slider4.webp",
-  "/hero_studio_banner.webp",
-  "/boutique.webp",
-  "/institute.webp",
-  "/job.webp",
+  MEDIA.slider1,
+  MEDIA.slider2,
+  MEDIA.slider3,
+  MEDIA.slider4,
+  MEDIA.heroStudioBanner,
+  MEDIA.boutique,
+  MEDIA.institute,
+  MEDIA.job,
 ];
 const img = (id = "0") => LOCAL_IMGS[Math.abs(String(id).length + String(id).charCodeAt(0) || 0) % LOCAL_IMGS.length];
 const localPair = (a, b) => [LOCAL_IMGS[a % LOCAL_IMGS.length], LOCAL_IMGS[b % LOCAL_IMGS.length]];
+
+/** Canonical course cover images (same URLs as admin / Supabase `courses.image`). */
+const SB_MEDIA = "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media";
+const COURSE_COVERS = {
+  "basic-boutique-course": `${SB_MEDIA}/1783527114529-jmf764.jpeg`,
+  "advanced-boutique-course": `${SB_MEDIA}/1782239492897-mjp2s2.jpeg`,
+  "blouse-suit-making-course": `${SB_MEDIA}/1783526973254-2wibuc.jpeg`,
+  "lehenga-design-course-patna": `${SB_MEDIA}/1788540494073-kna8pv.jpg`,
+  "collar-design-blouse-course": `${SB_MEDIA}/1783527025222-bn0dlg.jpeg`,
+  "madhubala-blouse-course": `${SB_MEDIA}/1783527043668-lzyi5k.jpeg`,
+  "rajwadi-blouse-course": `${SB_MEDIA}/1783527063710-jwvmxg.jpeg`,
+  "sleeveless-blouse-course": `${SB_MEDIA}/1783527085090-0toedw.jpeg`,
+  "backless-blouse-course": `${SB_MEDIA}/1783526726411-yegh8h.jpeg`,
+  "sabyasachi-blouse-design-course-patna": `${SB_MEDIA}/1786290945897-ewbdy9.jpg`,
+};
+const courseCover = (slug, fallbackIndex = 0) =>
+  COURSE_COVERS[slug] || LOCAL_IMGS[fallbackIndex % LOCAL_IMGS.length];
 
 export const PRODUCTS = [
   {
@@ -318,7 +336,7 @@ export const COURSES = [
       "Week 16 — Boutique skills & certification: dupatta finishing, lace & tassel, fabric belt, designer potli & clutch, alteration, costing, pricing, customer handling, order taking, final assessment",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("basic-boutique-course"),
   },
   {
     id: "c2",
@@ -341,7 +359,7 @@ export const COURSES = [
       "Boutique set-up, branding & marketing basics",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[5],
+    image: courseCover("advanced-boutique-course", 5),
   },
   {
     id: "c3",
@@ -413,7 +431,7 @@ export const COURSES = [
       "Final Project: 1 Salwar/Pant, 1 Kurti, 1 Designer Kurti, 1 Blouse",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("blouse-suit-making-course"),
   },
   {
     id: "c5",
@@ -593,7 +611,7 @@ export const COURSES = [
       "Module 20 — Final bridal / festive lehenga project, fitting correction & assessment",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("lehenga-design-course-patna"),
   },
   {
     id: "c11",
@@ -601,7 +619,7 @@ export const COURSES = [
     title: "Collar Design Blouse Course",
     titleHi: "कॉलर डिज़ाइन ब्लाउज कोर्स",
     category: "Blouse Making",
-    price: 2999, // TODO(owner): confirm starting price
+    price: 5500, // TODO(owner): confirm starting price
     duration: "2 weeks",
     language: "Hindi",
     published: true,
@@ -653,7 +671,7 @@ export const COURSES = [
       "Module 15 — Geometric print lapel collar full-sleeve blouse & final assessment",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("collar-design-blouse-course"),
   },
   {
     id: "c12",
@@ -661,7 +679,7 @@ export const COURSES = [
     title: "Madhubala Blouse Course",
     titleHi: "मधुबाला ब्लाउज कोर्स",
     category: "Blouse Making",
-    price: 2999, // TODO(owner): confirm starting price
+    price: 7900, // TODO(owner): confirm starting price
     duration: "2 weeks",
     language: "Hindi",
     published: true,
@@ -713,7 +731,7 @@ export const COURSES = [
       "Module 15 — Final Madhubala-style designer blouse project",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("madhubala-blouse-course"),
   },
   {
     id: "c13",
@@ -721,7 +739,7 @@ export const COURSES = [
     title: "Rajwadi Blouse Course",
     titleHi: "राजवाड़ी ब्लाउज कोर्स",
     category: "Blouse Making",
-    price: 2999, // TODO(owner): confirm starting price
+    price: 5500, // TODO(owner): confirm starting price
     duration: "2 weeks",
     language: "Hindi",
     published: true,
@@ -773,7 +791,7 @@ export const COURSES = [
       "Module 15 — Final Rajwadi designer blouse project",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("rajwadi-blouse-course"),
   },
   {
     id: "c14",
@@ -781,7 +799,7 @@ export const COURSES = [
     title: "Sleeveless Blouse Course",
     titleHi: "स्लीवलेस ब्लाउज कोर्स",
     category: "Blouse Making",
-    price: 2499, // TODO(owner): confirm starting price
+    price: 4600, // TODO(owner): confirm starting price
     duration: "10 days",
     language: "Hindi",
     published: true,
@@ -828,7 +846,7 @@ export const COURSES = [
       "Day 10 — Final sleeveless designer blouse project & assessment",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("sleeveless-blouse-course"),
   },
   {
     id: "c15",
@@ -888,7 +906,7 @@ export const COURSES = [
       "Module 15 — Final backless designer blouse project & assessment",
     ],
     preview_video: "",
-    image: LOCAL_IMGS[0],
+    image: courseCover("backless-blouse-course"),
   },
 ];
 

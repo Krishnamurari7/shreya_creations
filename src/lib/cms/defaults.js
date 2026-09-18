@@ -12,6 +12,7 @@ import {
   DEFAULT_HERO_FEATURE_STRIP,
   DEFAULT_HERO_SERVICE_CARDS,
 } from "@/lib/cms/home-blocks";
+import { MEDIA } from "@/lib/media";
 
 const _years = computeYearsExperience(DEFAULT_FOUNDING_YEAR);
 const YEARS_LABEL = `${_years}+ Years`;
@@ -35,7 +36,7 @@ export const DEFAULT_JOURNEY_CARDS = [
   {
     key: "boutique",
     theme: "orange",
-    image: "/5.jpeg",
+    image: MEDIA.slider1,
     href: "/shop",
     icon: "sewing",
     title: "Boutique",
@@ -52,7 +53,7 @@ export const DEFAULT_JOURNEY_CARDS = [
   {
     key: "institute",
     theme: "purple",
-    image: "/8.jpeg",
+    image: MEDIA.slider3,
     href: "/courses",
     icon: "graduation",
     title: "Institute",
@@ -69,7 +70,7 @@ export const DEFAULT_JOURNEY_CARDS = [
   {
     key: "shakti",
     theme: "gold",
-    image: "/7.jpeg",
+    image: MEDIA.slider2,
     href: "/contact",
     icon: "community",
     title: "Shakti 50",
@@ -102,7 +103,7 @@ export const PAGE_DEFAULTS = {
     meta_title: "Best Fashion Designing in Patna | Shreya Creation",
     meta_description:
       "Discover Shreya Creation for the best fashion designing in Patna, with practical training, boutique skills, bridal wear, designer stitching and hands-on learning.",
-    og_image: "/founders/sangi-shreya.webp",
+    og_image: MEDIA.founderShreya,
     header_eyebrow: "Our Story",
     header_eyebrow_hi: "हमारी कहानी",
     header_title: "About Shreya Creation",
@@ -141,7 +142,7 @@ export const PAGE_DEFAULTS = {
       { name: "Sanjay Kumar Mishra", name_hi: "संजय कुमार मिश्रा", role: "Founder", role_hi: "संस्थापक" },
       { name: "Sangi Shreya", name_hi: "संगी श्रेया", role: "Director & Lead Mentor", role_hi: "निदेशक और मुख्य मेंटर" },
     ],
-    hero_image: "/hero_studio_banner.webp",
+    hero_image: MEDIA.heroStudioBanner,
     pillars_title: "The Pillars of Our Craft",
     pillars_title_hi: "हमारी विशेषताएँ",
     trust_title: "Trusted by Thousands",
@@ -160,7 +161,7 @@ export const PAGE_DEFAULTS = {
     meta_title: "Best Boutique in Patna | Shreya Creation",
     meta_description:
       "Discover Shreya Creation, the best boutique in Patna, offering designer bridal wear, custom stitching, stylish outfits, exquisite detailing, and personalised fashion solutions.",
-    og_image: "/slider3.webp",
+    og_image: MEDIA.slider3,
     hero_badge: "Patna's Trusted Fashion Boutique Institute",
     hero_badge_hi: "पटना का भरोसेमंद फैशन बुटीक इंस्टिट्यूट",
     hero_boutique_badge: "Patna's Trusted Fashion Boutique Institute",
@@ -175,8 +176,8 @@ export const PAGE_DEFAULTS = {
     hero_boutique_keywords_hi: "कोर्स / बुटीक / इंस्टिट्यूट",
     hero_boutique_cta: "Your Career Starts Here",
     hero_boutique_cta_hi: "आपका करियर यहीं से शुरू हो",
-    hero_demo_thumb: "/slider1.webp",
-    hero_book_thumb: "/slider2.webp",
+    hero_demo_thumb: MEDIA.slider1,
+    hero_book_thumb: MEDIA.slider2,
     hero_local_video: "/video-1.mp4",
     hero_book_local_video: "/video-2.mp4",
     hero_service_cards: DEFAULT_HERO_SERVICE_CARDS.map((card) => ({ ...card })),
@@ -229,8 +230,8 @@ export const PAGE_DEFAULTS = {
     hero_tile4_title_hi: "24 घंटे",
     hero_tile4_sub: "Express stitching",
     hero_tile4_sub_hi: "एक्सप्रेस सिलाई",
-    hero_image: "/slider1.webp",
-    hero_images: ["/slider1.webp", "/slider2.webp", "/slider3.webp", "/slider4.webp"],
+    hero_image: MEDIA.slider1,
+    hero_images: [MEDIA.slider1, MEDIA.slider2, MEDIA.slider3, MEDIA.slider4],
     hero_floating_cards: [
       { icon: "🏪", title: "Boutique Courses", sub: "Basic, Advanced & Western — 3 to 12 months", title_hi: "बुटीक कोर्स", sub_hi: "बेसिक, एडवांस्ड और वेस्टर्न — 3 से 12 महीने" },
       { icon: "👚", title: "Blouse Making", sub: "Basic, Advanced & Western blouse modules", title_hi: "ब्लाउज मेकिंग", sub_hi: "बेसिक, एडवांस्ड और वेस्टर्न ब्लाउज" },
@@ -345,7 +346,7 @@ export const PAGE_DEFAULTS = {
     founder_name_hi: "संजय कुमार मिश्रा",
     founder_role: "Founder",
     founder_role_hi: "संस्थापक",
-    founder_image: "/founders/sanjay-kumar-mishra.webp",
+    founder_image: MEDIA.founderSanjay,
     mentor_quote:
       "As Director and Lead Mentor, my joy is watching every student grow from their first stitch to their first paying client. At our Patna studio we don't just teach technique — we build confidence, creativity, and real careers in fashion.",
     mentor_quote_hi:
@@ -354,7 +355,7 @@ export const PAGE_DEFAULTS = {
     mentor_name_hi: "संगी श्रेया",
     mentor_role: "Director & Lead Mentor",
     mentor_role_hi: "निदेशक और मुख्य मेंटर",
-    mentor_image: "/founders/sangi-shreya.webp",
+    mentor_image: MEDIA.founderShreya,
     success_eyebrow: "Student Success",
     success_eyebrow_hi: "छात्र सफलता",
     success_title: "Why Choose Shreya Creation Boutique & Institute",
@@ -369,7 +370,7 @@ export const PAGE_DEFAULTS = {
       "From basic salwar-kurti sets to designer blouses with 10+ neck styles — every garment is cut and finished to your exact measurements. We combine hands-on boutique training with real client order experience. Learn. Create. Earn.",
     atelier_body_hi:
       "बेसिक सलवार-कुर्ती से लेकर 10+ नेक स्टाइल वाले डिज़ाइनर ब्लाउज तक — हर परिधान आपके माप पर। हाथों-हाथ बुटीक ट्रेनिंग और असली ऑर्डर अनुभव। सीखें। बनाएं। कमाएं।",
-    atelier_image: "/atelier_details.webp",
+    atelier_image: MEDIA.atelierDetails,
     atelier_quote: '"Handmade embroidery motifs crafted with metallic threads & beads."',
     atelier_quote_hi: '"धातु के धागों और मोतियों से हस्तनिर्मित कढ़ाई।"',
     collection_eyebrow: "NEW COLLECTION",
@@ -383,8 +384,8 @@ export const PAGE_DEFAULTS = {
     collection_cta_label: "EXPLORE COLLECTION",
     collection_cta_label_hi: "कलेक्शन देखें",
     collection_cta_href: "/portfolio",
-    collection_image_left: "/hero_studio_banner.webp",
-    collection_image_right: "/atelier_details.webp",
+    collection_image_left: MEDIA.heroStudioBanner,
+    collection_image_right: MEDIA.atelierDetails,
     academy_badge: "Academy Studio",
     academy_badge_hi: "अकादमी स्टूडियो",
     academy_heading: "Boutique Courses & Stitching Classes in Patna",
@@ -736,7 +737,7 @@ export const PAGE_DEFAULTS = {
       "Designer blouses, bridal wear, lehengas, suits, ready-to-wear sarees and customised outfits for NRI clients — plus 1-to-1 online and offline fashion designing classes.",
     hero_subtitle_hi:
       "NRI clients के लिए designer blouse, bridal wear, lehenga, suit, ready-to-wear saree और customised outfits — साथ ही 1-to-1 online/offline fashion designing classes।",
-    hero_image: "/institute.webp",
+    hero_image: MEDIA.institute,
     highlights: [
       {
         title: "WhatsApp measurements",

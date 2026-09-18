@@ -3,6 +3,7 @@
  * Do not machine-translate English meta; each entry is written for Patna queries.
  */
 import { buildMetadata, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { MEDIA } from "@/lib/media";
 
 const HI_PAGES = {
   home: {
@@ -115,8 +116,8 @@ const HI_POLICY_META = {
 };
 
 const HI_PAGE_IMAGES = {
-  home: "/slider3.webp",
-  about: "/founders/sangi-shreya.webp",
+  home: MEDIA.slider3,
+  about: MEDIA.founderShreya,
   shop: "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239288560-v7jdgv.png",
   courses:
     "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1786290945897-ewbdy9.jpg",
@@ -139,7 +140,7 @@ export function buildHiPageMetadata(pageKey, overrides = {}) {
     description: page.description,
     path: page.path,
     image: HI_PAGE_IMAGES[pageKey] || DEFAULT_OG_IMAGE,
-    imageSecureUrl: pageKey === "home" ? "/slider1.webp" : undefined,
+    imageSecureUrl: pageKey === "home" ? MEDIA.slider1 : undefined,
     imageAlt: page.imageAlt,
     locale: "hi",
     ...overrides,

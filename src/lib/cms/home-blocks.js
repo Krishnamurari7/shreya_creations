@@ -1,10 +1,12 @@
 /** Homepage block defaults used by Hero, Category cards, and Admin Pages editor. */
 
+import { MEDIA } from "@/lib/media";
+
 export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "fashion",
     icon: "fashion",
-    image: "/slider1.webp",
+    image: MEDIA.slider1,
     title: "FASHION DESIGNING COURSE",
     title_hi: "फैशन डिज़ाइनिंग कोर्स",
     desc: "Learn Fashion Design from Experts.",
@@ -16,7 +18,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "boutique",
     icon: "boutique",
-    image: "/boutique.webp",
+    image: MEDIA.boutique,
     title: "BOUTIQUE COURSE",
     title_hi: "बुटीक कोर्स",
     desc: "Master Stitching & Boutique Skills.",
@@ -28,7 +30,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "blouse",
     icon: "blouse",
-    image: "/categories/bridal.webp",
+    image: MEDIA.categories.bridal,
     title: "BRIDAL BLOUSE BOOKING",
     title_hi: "ब्राइडल ब्लाउज़ बुकिंग",
     desc: "Designer & Bridal Blouse Stitching.",
@@ -40,7 +42,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "lehenga",
     icon: "lehenga",
-    image: "/slider3.webp",
+    image: MEDIA.slider3,
     title: "BRIDAL LEHENGA BOOKING",
     title_hi: "ब्राइडल लहंगा बुकिंग",
     desc: "Custom Bridal Lehenga Stitching.",
@@ -52,7 +54,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "suit",
     icon: "suit",
-    image: "/categories/ethnic-wear.webp",
+    image: MEDIA.categories.ethnicWear,
     title: "SUIT STITCHING",
     title_hi: "सूट सिलाई",
     desc: "Designer Suits Perfectly Tailored.",
@@ -64,7 +66,7 @@ export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "handwork",
     icon: "handwork",
-    image: "/categories/stitching.webp",
+    image: MEDIA.categories.stitching,
     title: "HAND WORK & EMBROIDERY",
     title_hi: "हैंड वर्क और एम्ब्रॉयडरी",
     desc: "Exquisite Handwork for Every Occasion.",
