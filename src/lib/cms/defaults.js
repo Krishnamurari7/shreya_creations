@@ -1,4 +1,5 @@
 /** Default CMS content per public page (merged with Supabase settings.pages). */
+import { BOUTIQUE_PAGE_DEFAULTS } from "@/lib/boutique-services";
 
 import {
   DEFAULT_COURSES_COUNT,
@@ -875,6 +876,7 @@ export const PAGE_DEFAULTS = {
     cta_wa_message:
       "Hi Shreya Creation! 👋 I found your boutique on Boring Road and would like custom stitching / designer wear. Please share options and timings.",
   },
+  ...BOUTIQUE_PAGE_DEFAULTS,
 };
 
 export const PAGE_EDITOR_KEYS = [
@@ -889,6 +891,7 @@ export const PAGE_EDITOR_KEYS = [
   "faq",
   "ladiesTailor",
   "boutiqueBoringRoad",
+  ...Object.keys(BOUTIQUE_PAGE_DEFAULTS),
 ];
 
 export const FEATURE_FIELDS = [
@@ -897,6 +900,12 @@ export const FEATURE_FIELDS = [
   { key: "title_hi", label: "Title (HI)" },
   { key: "desc", label: "Description (EN)", type: "textarea", wide: true },
   { key: "desc_hi", label: "Description (HI)", type: "textarea", wide: true },
+];
+
+export const PROCESS_FEATURE_FIELDS = [
+  { key: "icon", label: "Icon key", default: "star" },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
 ];
 
 export const NRI_HIGHLIGHT_FIELDS = [

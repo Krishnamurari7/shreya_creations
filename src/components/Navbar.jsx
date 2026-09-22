@@ -12,11 +12,12 @@ import { UI } from "@/lib/i18n";
 import { alternateLanguagePath, localizedPath } from "@/lib/locale";
 import { NAV_LOGO_SRC, normalizeBrandName } from "@/lib/brand";
 import AnnouncementBar from "@/components/AnnouncementBar";
+import { BOUTIQUE_OVERVIEW, BOUTIQUE_SERVICES } from "@/lib/boutique-services";
 
 const ROUTES = [
   { href: "/", key: "home" },
   { href: "/about", key: "about" },
-  { href: "/shop", key: "boutique" },
+  { href: "/shop", key: "boutique", dropdown: "boutique" },
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
   { href: "/portfolio", key: "gallery" },
@@ -102,8 +103,89 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
         </svg>
       );
+    case "register":
+      return (
+        <svg {...props}>
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <path d="M14 2v6h6" />
+          <path d="M8 13h8" />
+          <path d="M8 17h5" />
+        </svg>
+      );
     default:
       return null;
+  }
+}
+
+function DropItemIcon({ type }) {
+  const props = {
+    className: "nav-drop-item__icon",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.7",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": true,
+  };
+  switch (type) {
+    case "stitch":
+      return (
+        <svg {...props}>
+          <rect x="4" y="10" width="16" height="8" rx="1.5" />
+          <path d="M7 10V8.2a2 2 0 012-2h0a2 2 0 012 2V10" />
+          <circle cx="16.5" cy="14" r="1.4" />
+        </svg>
+      );
+    case "blouse":
+      return (
+        <svg {...props}>
+          <path d="M8.5 4.5l3.5 2.2L15.5 4.5" />
+          <path d="M8.5 4.5 6 8.5v9h12v-9L15.5 4.5" />
+        </svg>
+      );
+    case "lehenga":
+      return (
+        <svg {...props}>
+          <path d="M9 4.5h6l1 4.5H8z" />
+          <path d="M8 9l-2.5 11h13L16 9" />
+        </svg>
+      );
+    case "suit":
+      return (
+        <svg {...props}>
+          <path d="M8 5.5h8v3H8z" />
+          <path d="M7 8.5l-1.5 11h13L17 8.5" />
+          <path d="M12 8.5v11" />
+        </svg>
+      );
+    case "gown":
+      return (
+        <svg {...props}>
+          <path d="M9.5 3.5l2.5 2 2.5-2" />
+          <path d="M8.3 8.5 5.5 20.5h13L15.7 8.5" />
+        </svg>
+      );
+    case "bridal":
+      return (
+        <svg {...props}>
+          <path d="M12 3.5l1.8 3.6 4 .6-2.9 2.8.7 4L12 12.7l-3.6 1.8.7-4-2.9-2.8 4-.6z" />
+        </svg>
+      );
+    case "spark":
+      return (
+        <svg {...props}>
+          <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
+          <path d="M6.2 6.2l2.8 2.8M15 15l2.8 2.8M17.8 6.2 15 9M9 15l-2.8 2.8" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...props}>
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+          <path d="M3 6h18" />
+        </svg>
+      );
   }
 }
 
@@ -174,22 +256,31 @@ export default function Navbar({ site }) {
   const t = UI[lang];
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [boutiqueOpen, setBoutiqueOpen] = useState(false);
+  const [mobileBoutiqueOpen, setMobileBoutiqueOpen] = useState(false);
   const pathname = usePathname();
   const prevPath = useRef(pathname);
+  const boutiqueRef = useRef(null);
   const wa = waLink(site?.whatsapp, greetingMessage(lang));
   const enquireHref = localizedPath("/contact", lang);
   const langToggleHref = alternateLanguagePath(pathname);
   const langToggleLabel = lang === "en" ? UI.en.language : UI.hi.language;
   const brandName = normalizeBrandName(site?.brand);
 
-  const closeMenu = useCallback(() => setOpen(false), []);
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    setMobileBoutiqueOpen(false);
+  }, []);
+
+  const closeBoutique = useCallback(() => setBoutiqueOpen(false), []);
 
   useEffect(() => {
     if (prevPath.current !== pathname) {
       closeMenu();
+      closeBoutique();
       prevPath.current = pathname;
     }
-  }, [pathname, closeMenu]);
+  }, [pathname, closeMenu, closeBoutique]);
 
   useEffect(() => {
     document.body.classList.toggle("nav-open", open);
@@ -201,13 +292,27 @@ export default function Navbar({ site }) {
   }, [open]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open && !boutiqueOpen) return;
     const onKey = (e) => {
-      if (e.key === "Escape") closeMenu();
+      if (e.key === "Escape") {
+        closeMenu();
+        closeBoutique();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, closeMenu]);
+  }, [open, boutiqueOpen, closeMenu, closeBoutique]);
+
+  useEffect(() => {
+    if (!boutiqueOpen) return;
+    const onPointer = (e) => {
+      if (boutiqueRef.current && !boutiqueRef.current.contains(e.target)) {
+        closeBoutique();
+      }
+    };
+    document.addEventListener("pointerdown", onPointer);
+    return () => document.removeEventListener("pointerdown", onPointer);
+  }, [boutiqueOpen, closeBoutique]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -234,6 +339,26 @@ export default function Navbar({ site }) {
     if (href.startsWith("/#")) return pathname === "/" || pathname === "/hi";
     return pathname === localized || pathname.startsWith(`${localized}/`);
   };
+
+  const isBoutiqueActive =
+    isActiveLink("/shop") ||
+    pathname.includes("/boutique/") ||
+    pathname.includes("/boutique-boring-road");
+
+  const boutiqueItems = [
+    BOUTIQUE_OVERVIEW,
+    ...BOUTIQUE_SERVICES.map((s) => ({
+      href: s.href,
+      navLabel: s.navLabel,
+      navLabelHi: s.navLabelHi,
+      navDesc: s.navDesc,
+      navDescHi: s.navDescHi,
+      icon: s.icon,
+    })),
+  ];
+
+  const labelFor = (item) => (lang === "hi" ? item.navLabelHi : item.navLabel);
+  const descFor = (item) => (lang === "hi" ? item.navDescHi : item.navDesc);
 
   return (
     <>
@@ -283,17 +408,84 @@ export default function Navbar({ site }) {
 
           <div className="nav-links-glow-wrap">
             <ul className="nav-desktop-links nav-desktop-links--minimal nav-desktop-links--premium">
-              {ROUTES.map((r) => (
-                <li key={r.href}>
-                  <Link
-                    href={localizedPath(r.href, lang)}
-                    className={isActiveLink(r.href) ? "is-active" : undefined}
-                  >
-                    <NavLinkIcon type={r.key} />
-                    <span className="nav-link-label">{t[r.key]}</span>
-                  </Link>
-                </li>
-              ))}
+              {ROUTES.map((r) => {
+                if (r.dropdown === "boutique") {
+                  return (
+                    <li
+                      key={r.href}
+                      className={cn("nav-drop", boutiqueOpen && "is-open")}
+                      ref={boutiqueRef}
+                      onMouseEnter={() => setBoutiqueOpen(true)}
+                      onMouseLeave={() => setBoutiqueOpen(false)}
+                    >
+                      <button
+                        type="button"
+                        className={cn("nav-drop__trigger", isBoutiqueActive && "is-active")}
+                        aria-expanded={boutiqueOpen}
+                        aria-haspopup="true"
+                        aria-controls="boutique-nav-menu"
+                        onClick={() => setBoutiqueOpen((v) => !v)}
+                      >
+                        <NavLinkIcon type={r.key} />
+                        <span className="nav-link-label">{t[r.key]}</span>
+                        <ChevronDownIcon className="nav-drop__chevron" />
+                      </button>
+                      <div
+                        id="boutique-nav-menu"
+                        className={cn("nav-drop__panel", boutiqueOpen && "is-open")}
+                        role="menu"
+                        aria-label={t.boutique}
+                        hidden={!boutiqueOpen}
+                      >
+                        <div className="nav-drop__panel-inner">
+                          <p className="nav-drop__eyebrow">
+                            <span aria-hidden>✦</span>
+                            {lang === "hi" ? "बुटीक सेवाएँ" : "Boutique services"}
+                          </p>
+                          <ul className="nav-drop__grid">
+                            {boutiqueItems.map((item) => {
+                              const active = isActiveLink(item.href);
+                              return (
+                                <li key={item.href}>
+                                  <Link
+                                    href={localizedPath(item.href, lang)}
+                                    role="menuitem"
+                                    className={cn("nav-drop-item", active && "is-active")}
+                                    onClick={closeBoutique}
+                                  >
+                                    <span className="nav-drop-item__icon-wrap">
+                                      <DropItemIcon type={item.icon} />
+                                    </span>
+                                    <span className="nav-drop-item__copy">
+                                      <span className="nav-drop-item__title">{labelFor(item)}</span>
+                                      <span className="nav-drop-item__desc">{descFor(item)}</span>
+                                    </span>
+                                    <span className="nav-drop-item__arrow" aria-hidden>
+                                      →
+                                    </span>
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                }
+
+                return (
+                  <li key={r.href}>
+                    <Link
+                      href={localizedPath(r.href, lang)}
+                      className={isActiveLink(r.href) ? "is-active" : undefined}
+                    >
+                      <NavLinkIcon type={r.key} />
+                      <span className="nav-link-label">{t[r.key]}</span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -355,22 +547,62 @@ export default function Navbar({ site }) {
         </div>
 
         <ul className="nav-mobile-drawer-list">
-          {ROUTES.map((r, i) => (
-            <li key={r.href} style={{ "--nav-item-delay": `${i * 45}ms` }}>
-              <Link
-                href={localizedPath(r.href, lang)}
-                onClick={closeMenu}
-                className={isActiveLink(r.href) ? "is-active" : undefined}
-                tabIndex={open ? 0 : -1}
-              >
-                <span className="nav-mobile-link-icon-wrap" aria-hidden>
-                  <NavLinkIcon type={r.key} className="nav-mobile-link-icon" />
-                </span>
-                <span className="nav-mobile-link-text">{t[r.key]}</span>
-                <span className="nav-mobile-link-arrow" aria-hidden>→</span>
-              </Link>
-            </li>
-          ))}
+          {ROUTES.map((r, i) => {
+            if (r.dropdown === "boutique") {
+              return (
+                <li key={r.href} style={{ "--nav-item-delay": `${i * 45}ms` }} className="nav-mobile-drop">
+                  <button
+                    type="button"
+                    className={cn("nav-mobile-drop__trigger", isBoutiqueActive && "is-active")}
+                    aria-expanded={mobileBoutiqueOpen}
+                    onClick={() => setMobileBoutiqueOpen((v) => !v)}
+                    tabIndex={open ? 0 : -1}
+                  >
+                    <span className="nav-mobile-link-icon-wrap" aria-hidden>
+                      <NavLinkIcon type={r.key} className="nav-mobile-link-icon" />
+                    </span>
+                    <span className="nav-mobile-link-text">{t[r.key]}</span>
+                    <ChevronDownIcon className={cn("nav-mobile-drop__chevron", mobileBoutiqueOpen && "is-open")} />
+                  </button>
+                  <ul className={cn("nav-mobile-drop__list", mobileBoutiqueOpen && "is-open")} hidden={!mobileBoutiqueOpen}>
+                    {boutiqueItems.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={localizedPath(item.href, lang)}
+                          onClick={closeMenu}
+                          className={isActiveLink(item.href) ? "is-active" : undefined}
+                          tabIndex={open && mobileBoutiqueOpen ? 0 : -1}
+                        >
+                          <DropItemIcon type={item.icon} />
+                          <span>
+                            <span className="nav-mobile-drop__title">{labelFor(item)}</span>
+                            <span className="nav-mobile-drop__desc">{descFor(item)}</span>
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            }
+
+            return (
+              <li key={r.href} style={{ "--nav-item-delay": `${i * 45}ms` }}>
+                <Link
+                  href={localizedPath(r.href, lang)}
+                  onClick={closeMenu}
+                  className={isActiveLink(r.href) ? "is-active" : undefined}
+                  tabIndex={open ? 0 : -1}
+                >
+                  <span className="nav-mobile-link-icon-wrap" aria-hidden>
+                    <NavLinkIcon type={r.key} className="nav-mobile-link-icon" />
+                  </span>
+                  <span className="nav-mobile-link-text">{t[r.key]}</span>
+                  <span className="nav-mobile-link-arrow" aria-hidden>→</span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="nav-mobile-drawer-footer">

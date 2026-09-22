@@ -2,7 +2,7 @@
 
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
-import { FEATURE_FIELDS } from "@/lib/cms/defaults";
+import { FEATURE_FIELDS, PROCESS_FEATURE_FIELDS } from "@/lib/cms/defaults";
 import {
   CATEGORY_CARD_FIELDS,
   HERO_FEATURE_FIELDS,
@@ -122,6 +122,132 @@ export function FeaturesEditor({ page, onChange }) {
       addLabel="Add feature"
       fields={FEATURE_FIELDS}
     />
+  );
+}
+
+/** Full editor for /shop and /boutique/[slug] pages — all BoutiqueClient fields. */
+export function BoutiquePageEditor({ page, onChange, publicPath = "/shop" }) {
+  return (
+    <>
+      <SectionHeading>SEO</SectionHeading>
+      <p className="admin-muted">
+        Public URL: <code>{publicPath}</code>
+      </p>
+      <div>
+        <label className={ADMIN_LABEL}>Meta title</label>
+        <input
+          value={page.meta_title || ""}
+          onChange={(e) => onChange("meta_title", e.target.value)}
+          className={ADMIN_INPUT}
+        />
+      </div>
+      <div>
+        <label className={ADMIN_LABEL}>Meta description</label>
+        <textarea
+          rows={3}
+          value={page.meta_description || ""}
+          onChange={(e) => onChange("meta_description", e.target.value)}
+          className={ADMIN_INPUT}
+        />
+      </div>
+      <div>
+        <label className={ADMIN_LABEL}>OG / social image</label>
+        <ImageUploader value={page.og_image || ""} onChange={(url) => onChange("og_image", url)} />
+      </div>
+
+      <HeaderWithHighlight page={page} onChange={onChange} />
+      <BilingualField
+        label="Hero tagline"
+        enKey="header_tagline"
+        hiKey="header_tagline_hi"
+        values={page}
+        onChange={onChange}
+      />
+      <BilingualTextarea
+        label="Intro body"
+        enKey="intro_body"
+        hiKey="intro_body_hi"
+        values={page}
+        onChange={onChange}
+        rows={4}
+      />
+      <div>
+        <label className={ADMIN_LABEL}>Hero image</label>
+        <ImageUploader
+          multiple={false}
+          value={page.hero_image || ""}
+          onChange={(url) => onChange("hero_image", url)}
+        />
+      </div>
+
+      <SectionHeading>Hero CTAs</SectionHeading>
+      <BilingualField
+        label="Primary button"
+        enKey="hero_cta_primary_label"
+        hiKey="hero_cta_primary_label_hi"
+        values={page}
+        onChange={onChange}
+      />
+      <div>
+        <label className={ADMIN_LABEL}>Primary link</label>
+        <input
+          value={page.hero_cta_primary_href || ""}
+          onChange={(e) => onChange("hero_cta_primary_href", e.target.value)}
+          className={ADMIN_INPUT}
+          placeholder="/portfolio"
+        />
+      </div>
+      <BilingualField
+        label="Secondary button"
+        enKey="hero_cta_secondary_label"
+        hiKey="hero_cta_secondary_label_hi"
+        values={page}
+        onChange={onChange}
+      />
+
+      <SectionHeading>About block</SectionHeading>
+      <BilingualField label="About title" enKey="about_title" hiKey="about_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea
+        label="About body"
+        enKey="about_body"
+        hiKey="about_body_hi"
+        values={page}
+        onChange={onChange}
+        rows={5}
+      />
+
+      <SectionHeading>Process section</SectionHeading>
+      <BilingualField
+        label="Process title"
+        enKey="process_title"
+        hiKey="process_title_hi"
+        values={page}
+        onChange={onChange}
+      />
+      <RepeaterField
+        label="Process features"
+        items={page.process_features || []}
+        onChange={(v) => onChange("process_features", v)}
+        addLabel="Add process feature"
+        fields={PROCESS_FEATURE_FIELDS}
+      />
+      <p className="admin-muted">
+        Icon keys: design, measure, bridal, hand, check, blouse, lehenga, stitch, star, clock, fabric…
+      </p>
+
+      <BilingualField
+        label="Closing tagline"
+        enKey="closing_tagline"
+        hiKey="closing_tagline_hi"
+        values={page}
+        onChange={onChange}
+      />
+
+      <SectionHeading>Feature cards</SectionHeading>
+      <FeaturesEditor page={page} onChange={onChange} />
+
+      <CtaEditor page={page} onChange={onChange} showWaMessage />
+    </>
   );
 }
 

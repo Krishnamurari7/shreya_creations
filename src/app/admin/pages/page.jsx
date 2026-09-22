@@ -15,6 +15,7 @@ import {
   HeaderSimple,
   CtaEditor,
   HomeTab,
+  BoutiquePageEditor,
 } from "@/components/admin/PageEditorForm";
 import {
   PAGE_DEFAULTS,
@@ -34,12 +35,18 @@ import {
 } from "@/lib/cms";
 import { ABOUT_JOURNEY_FIELDS } from "@/lib/cms/home-blocks";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
+import { BOUTIQUE_SERVICES } from "@/lib/boutique-services";
 
 const TABS = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
-  { id: "shop", label: "Shop" },
+  { id: "shop", label: "Boutique (All)" },
+  ...BOUTIQUE_SERVICES.map((s) => ({
+    id: s.cmsKey,
+    label: s.navLabel,
+    path: s.href,
+  })),
   { id: "courses", label: "Courses" },
   { id: "portfolio", label: "Portfolio" },
   { id: "lookbook", label: "Blog" },
@@ -142,6 +149,10 @@ export default function PagesAdmin() {
       about_pillars: pillars,
       updated_at: new Date().toISOString(),
     });
+    if (!error) {
+      const { revalidateSiteContent } = await import("@/lib/admin/revalidate");
+      await revalidateSiteContent(["/shop", "/ladies-tailor-patna", "/boutique-boring-road"]);
+    }
     setMsg(error ? error.message : "Saved! All page copy is live on the site.");
     setSaving(false);
   };
@@ -164,7 +175,7 @@ export default function PagesAdmin() {
     <div>
         <AdminPageHeader
         title="Page editor"
-        subtitle="Homepage sections and copy for About, Contact, Shop, Courses, Portfolio, Blog, NRI Clients, and FAQ — English & Hindi."
+        subtitle="Homepage sections and copy for About, Contact, Boutique categories, Courses, Portfolio, Blog, NRI Clients, and FAQ — English & Hindi."
       />
 
       <div className="admin-tabs" role="tablist" aria-label="Page sections">
@@ -250,11 +261,14 @@ export default function PagesAdmin() {
           </>
         )}
 
-        {tab === "shop" && (
-          <>
-            <HeaderWithHighlight page={page} onChange={onChange} />
-            <CtaEditor page={page} onChange={onChange} showWaMessage />
-          </>
+        {tab === "shop" && <BoutiquePageEditor page={page} onChange={onChange} publicPath="/shop" />}
+
+        {BOUTIQUE_SERVICES.some((s) => s.cmsKey === tab) && (
+          <BoutiquePageEditor
+            page={page}
+            onChange={onChange}
+            publicPath={BOUTIQUE_SERVICES.find((s) => s.cmsKey === tab)?.href || "/shop"}
+          />
         )}
 
         {tab === "courses" && (

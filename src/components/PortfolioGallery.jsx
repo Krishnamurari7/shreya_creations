@@ -98,7 +98,7 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
           <p className="text-ink mt-4 font-normal">No pieces in this category yet. Check back soon!</p>
         </Glass3DCard>
       ) : (
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 [&>*]:mb-4">
+        <div className="portfolio-masonry columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 [&>*]:mb-4">
           {filtered.map((item, idx) => {
             const alt = item.image_alt || item.imageAlt || `${item.title || "Portfolio piece"} Patna`;
             const href = item.slug ? `/portfolio/${item.slug}` : null;
@@ -120,7 +120,13 @@ export default function PortfolioGallery({ items = [], fullPage = false }) {
             );
             const content = (
               <>
-                <CardImage src={item.image} alt={alt} ratio="3/4" position="top" />
+                <CardImage
+                  src={item.image}
+                  alt={alt}
+                  ratio="auto"
+                  position="top"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
                 <div className="portfolio-card-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-5 text-left backdrop-blur-[2px]">
                   {item.category && (
                     <span className="text-[10px] uppercase tracking-widest text-orange font-semibold mb-1">
