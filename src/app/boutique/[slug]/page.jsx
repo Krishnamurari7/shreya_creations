@@ -1,10 +1,8 @@
 import { notFound } from "next/navigation";
 import PageShell from "@/components/PageShell";
-import BoutiqueClient from "@/components/BoutiqueClient";
-import PageCTA from "@/components/PageCTA";
+import BoutiqueServiceLandingClient from "@/components/BoutiqueServiceLandingClient";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getProducts, getSiteSettings, getTestimonials } from "@/lib/data";
-import { pageCtaProps } from "@/lib/cms";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { getRequestLocale } from "@/lib/locale";
 import { buildMetadata, breadcrumbJsonLd, breadcrumbLabel } from "@/lib/seo";
@@ -13,6 +11,7 @@ import {
   filterProductsForBoutiqueService,
   getBoutiqueService,
 } from "@/lib/boutique-services";
+import { getBoutiqueLanding, resolveBoutiqueLanding } from "@/lib/boutique-service-landing";
 
 export const revalidate = 3600;
 
@@ -29,6 +28,7 @@ export async function generateMetadata({ params }) {
   const site = await getSiteSettings();
   const defaults = PAGE_DEFAULTS[service.cmsKey] || {};
   const page = site.pages?.[service.cmsKey] || {};
+  const landing = resolveBoutiqueLanding(slug, page) || getBoutiqueLanding(slug);
   const hi = locale === "hi";
 
   return buildMetadata({
@@ -44,8 +44,17 @@ export async function generateMetadata({ params }) {
       defaults.meta_description,
     path: service.href,
     locale,
-    image: page.ogImage || page.og_image || defaults.og_image,
-    imageAlt: page.headerTitle || page.header_title || (hi ? service.navLabelHi : service.navLabel),
+    image:
+      page.ogImage ||
+      page.og_image ||
+      page.heroImage ||
+      page.hero_image ||
+      defaults.og_image ||
+      landing?.heroImage,
+    imageAlt:
+      page.headerTitle ||
+      page.header_title ||
+      (hi ? landing?.h1Hi || service.navLabelHi : landing?.h1 || service.navLabel),
   });
 }
 
@@ -53,6 +62,9 @@ export default async function BoutiqueServicePage({ params }) {
   const { slug } = await params;
   const service = getBoutiqueService(slug);
   if (!service) notFound();
+
+  const landing = getBoutiqueLanding(slug);
+  if (!landing) notFound();
 
   const locale = await getRequestLocale();
   const [products, site, testimonials] = await Promise.all([
@@ -62,10 +74,9 @@ export default async function BoutiqueServicePage({ params }) {
   ]);
 
   const cmsPage = site.pages?.[service.cmsKey] || {};
-  const home = site.pages?.home || {};
   const shopPage = {
     ...cmsPage,
-    heroImage: cmsPage.heroImage || home.heroImage,
+    heroImage: cmsPage.heroImage || undefined,
   };
   const filtered = filterProductsForBoutiqueService(products, service);
   const boutiqueSite = {
@@ -74,6 +85,7 @@ export default async function BoutiqueServicePage({ params }) {
     foundingYear: site.foundingYear,
     outfitsDelivered: site.outfitsDelivered,
     expressDeliveryHours: site.expressDeliveryHours,
+    address: site.address,
   };
 
   return (
@@ -91,13 +103,13 @@ export default async function BoutiqueServicePage({ params }) {
           locale
         )}
       />
-      <BoutiqueClient
+      <BoutiqueServiceLandingClient
+        slug={service.slug}
         site={boutiqueSite}
         shopPage={shopPage}
         products={filtered}
         testimonials={testimonials}
       />
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(shopPage)} />
     </PageShell>
   );
 }

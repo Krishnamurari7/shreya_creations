@@ -2,7 +2,18 @@
 
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
-import { FEATURE_FIELDS, PROCESS_FEATURE_FIELDS } from "@/lib/cms/defaults";
+import {
+  FEATURE_FIELDS,
+  PROCESS_FEATURE_FIELDS,
+  LANDING_USP_FIELDS,
+  LANDING_DESIGN_FIELDS,
+  LANDING_SERVICE_FIELDS,
+  LANDING_PRICE_FIELDS,
+  LANDING_OPTION_FIELDS,
+  LANDING_PROCESS_FIELDS,
+  LANDING_FAQ_FIELDS,
+  LANDING_SEARCH_FIELDS,
+} from "@/lib/cms/defaults";
 import {
   CATEGORY_CARD_FIELDS,
   HERO_FEATURE_FIELDS,
@@ -125,13 +136,19 @@ export function FeaturesEditor({ page, onChange }) {
   );
 }
 
-/** Full editor for /shop and /boutique/[slug] pages — all BoutiqueClient fields. */
-export function BoutiquePageEditor({ page, onChange, publicPath = "/shop" }) {
+/** Full editor for /shop and /boutique/[slug] pages.
+ *  variant="service" → conversion landing fields (images + copy editable).
+ *  variant="shop" → classic boutique overview fields.
+ */
+export function BoutiquePageEditor({ page, onChange, publicPath = "/shop", variant = "shop" }) {
+  const isService = variant === "service";
+
   return (
     <>
       <SectionHeading>SEO</SectionHeading>
       <p className="admin-muted">
         Public URL: <code>{publicPath}</code>
+        {isService ? " — changes go live on the boutique service landing page." : ""}
       </p>
       <div>
         <label className={ADMIN_LABEL}>Meta title</label>
@@ -156,6 +173,11 @@ export function BoutiquePageEditor({ page, onChange, publicPath = "/shop" }) {
       </div>
 
       <HeaderWithHighlight page={page} onChange={onChange} />
+      <p className="admin-muted">
+        {isService
+          ? "Header title = landing H1. Eyebrow + tagline show in the hero."
+          : "Header copy for the boutique overview page."}
+      </p>
       <BilingualField
         label="Hero tagline"
         enKey="header_tagline"
@@ -163,14 +185,16 @@ export function BoutiquePageEditor({ page, onChange, publicPath = "/shop" }) {
         values={page}
         onChange={onChange}
       />
-      <BilingualTextarea
-        label="Intro body"
-        enKey="intro_body"
-        hiKey="intro_body_hi"
-        values={page}
-        onChange={onChange}
-        rows={4}
-      />
+      {!isService && (
+        <BilingualTextarea
+          label="Intro body"
+          enKey="intro_body"
+          hiKey="intro_body_hi"
+          values={page}
+          onChange={onChange}
+          rows={4}
+        />
+      )}
       <div>
         <label className={ADMIN_LABEL}>Hero image</label>
         <ImageUploader
@@ -188,15 +212,17 @@ export function BoutiquePageEditor({ page, onChange, publicPath = "/shop" }) {
         values={page}
         onChange={onChange}
       />
-      <div>
-        <label className={ADMIN_LABEL}>Primary link</label>
-        <input
-          value={page.hero_cta_primary_href || ""}
-          onChange={(e) => onChange("hero_cta_primary_href", e.target.value)}
-          className={ADMIN_INPUT}
-          placeholder="/portfolio"
-        />
-      </div>
+      {!isService && (
+        <div>
+          <label className={ADMIN_LABEL}>Primary link</label>
+          <input
+            value={page.hero_cta_primary_href || ""}
+            onChange={(e) => onChange("hero_cta_primary_href", e.target.value)}
+            className={ADMIN_INPUT}
+            placeholder="/portfolio"
+          />
+        </div>
+      )}
       <BilingualField
         label="Secondary button"
         enKey="hero_cta_secondary_label"
@@ -205,48 +231,295 @@ export function BoutiquePageEditor({ page, onChange, publicPath = "/shop" }) {
         onChange={onChange}
       />
 
-      <SectionHeading>About block</SectionHeading>
-      <BilingualField label="About title" enKey="about_title" hiKey="about_title_hi" values={page} onChange={onChange} />
-      <BilingualTextarea
-        label="About body"
-        enKey="about_body"
-        hiKey="about_body_hi"
-        values={page}
-        onChange={onChange}
-        rows={5}
-      />
+      {isService && (
+        <>
+          <SectionHeading>Landing hero extras</SectionHeading>
+          <BilingualField
+            label="Side quote"
+            enKey="landing_hero_quote"
+            hiKey="landing_hero_quote_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualField
+            label="Quote CTA line"
+            enKey="landing_hero_quote_cta"
+            hiKey="landing_hero_quote_cta_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <RepeaterField
+            label="Hero USPs (4 recommended)"
+            items={page.landing_usps || []}
+            onChange={(v) => onChange("landing_usps", v)}
+            addLabel="Add USP"
+            fields={LANDING_USP_FIELDS}
+          />
+          <BilingualTextarea
+            label="WhatsApp booking message"
+            enKey="cta_wa_message"
+            hiKey="landing_book_msg_hi"
+            values={page}
+            onChange={onChange}
+            rows={3}
+          />
 
-      <SectionHeading>Process section</SectionHeading>
-      <BilingualField
-        label="Process title"
-        enKey="process_title"
-        hiKey="process_title_hi"
-        values={page}
-        onChange={onChange}
-      />
-      <RepeaterField
-        label="Process features"
-        items={page.process_features || []}
-        onChange={(v) => onChange("process_features", v)}
-        addLabel="Add process feature"
-        fields={PROCESS_FEATURE_FIELDS}
-      />
-      <p className="admin-muted">
-        Icon keys: design, measure, bridal, hand, check, blouse, lehenga, stitch, star, clock, fabric…
-      </p>
+          <SectionHeading>Design gallery</SectionHeading>
+          <BilingualField
+            label="Gallery title"
+            enKey="landing_gallery_title"
+            hiKey="landing_gallery_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualTextarea
+            label="Gallery intro"
+            enKey="landing_gallery_lead"
+            hiKey="landing_gallery_lead_hi"
+            values={page}
+            onChange={onChange}
+            rows={2}
+          />
+          <RepeaterField
+            label="Design cards (image + title)"
+            items={page.landing_designs || []}
+            onChange={(v) => onChange("landing_designs", v)}
+            addLabel="Add design"
+            fields={LANDING_DESIGN_FIELDS}
+          />
+          <BilingualField
+            label="Select design button"
+            enKey="landing_select_design"
+            hiKey="landing_select_design_hi"
+            values={page}
+            onChange={onChange}
+          />
 
-      <BilingualField
-        label="Closing tagline"
-        enKey="closing_tagline"
-        hiKey="closing_tagline_hi"
-        values={page}
-        onChange={onChange}
-      />
+          <SectionHeading>Services list</SectionHeading>
+          <BilingualField
+            label="Services title"
+            enKey="landing_services_title"
+            hiKey="landing_services_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <RepeaterField
+            label="Services"
+            items={page.landing_services || []}
+            onChange={(v) => onChange("landing_services", v)}
+            addLabel="Add service"
+            fields={LANDING_SERVICE_FIELDS}
+          />
 
-      <SectionHeading>Feature cards</SectionHeading>
-      <FeaturesEditor page={page} onChange={onChange} />
+          <SectionHeading>Price table</SectionHeading>
+          <BilingualField
+            label="Prices title"
+            enKey="landing_prices_title"
+            hiKey="landing_prices_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualField
+            label="Type column label"
+            enKey="landing_type_label"
+            hiKey="landing_type_label_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <RepeaterField
+            label="Price rows"
+            items={page.landing_prices || []}
+            onChange={(v) => onChange("landing_prices", v)}
+            addLabel="Add price row"
+            fields={LANDING_PRICE_FIELDS}
+          />
+          <BilingualField
+            label="Price column header"
+            enKey="landing_price_col"
+            hiKey="landing_price_col_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualTextarea
+            label="Price footnote"
+            enKey="landing_price_note"
+            hiKey="landing_price_note_hi"
+            values={page}
+            onChange={onChange}
+            rows={2}
+          />
 
-      <CtaEditor page={page} onChange={onChange} showWaMessage />
+          <SectionHeading>Booking form</SectionHeading>
+          <BilingualField
+            label="Form title"
+            enKey="landing_form_title"
+            hiKey="landing_form_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <RepeaterField
+            label="Type dropdown options"
+            items={page.landing_type_options || []}
+            onChange={(v) => onChange("landing_type_options", v)}
+            addLabel="Add type option"
+            fields={LANDING_OPTION_FIELDS}
+          />
+          <RepeaterField
+            label="Measurement options"
+            items={page.landing_measure_options || []}
+            onChange={(v) => onChange("landing_measure_options", v)}
+            addLabel="Add measurement option"
+            fields={LANDING_OPTION_FIELDS}
+          />
+          <BilingualField
+            label="Express checkbox label"
+            enKey="landing_express_label"
+            hiKey="landing_express_label_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualField
+            label="Submit button"
+            enKey="landing_submit_label"
+            hiKey="landing_submit_label_hi"
+            values={page}
+            onChange={onChange}
+          />
+
+          <SectionHeading>How to book (process)</SectionHeading>
+          <BilingualField
+            label="Process title"
+            enKey="landing_process_title"
+            hiKey="landing_process_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <RepeaterField
+            label="Process steps"
+            items={page.landing_process || []}
+            onChange={(v) => onChange("landing_process", v)}
+            addLabel="Add step"
+            fields={LANDING_PROCESS_FIELDS}
+          />
+
+          <SectionHeading>Quote + FAQs + visit + SEO tags</SectionHeading>
+          <BilingualField
+            label="Reviews section title"
+            enKey="landing_reviews_title"
+            hiKey="landing_reviews_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualField
+            label="FAQ section title"
+            enKey="landing_faq_title"
+            hiKey="landing_faq_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualTextarea
+            label="Center quote"
+            enKey="landing_quote"
+            hiKey="landing_quote_hi"
+            values={page}
+            onChange={onChange}
+            rows={2}
+          />
+          <BilingualField
+            label="Visit title"
+            enKey="landing_visit_title"
+            hiKey="landing_visit_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <BilingualField
+            label="Directions button"
+            enKey="landing_directions_label"
+            hiKey="landing_directions_label_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <p className="admin-muted">
+            Address comes from{" "}
+            <a href="/admin/settings" className="text-gold hover:underline">
+              Settings
+            </a>
+            . Reviews come from{" "}
+            <a href="/admin" className="text-gold hover:underline">
+              Testimonials
+            </a>
+            .
+          </p>
+          <RepeaterField
+            label="FAQs"
+            items={page.landing_faqs || []}
+            onChange={(v) => onChange("landing_faqs", v)}
+            addLabel="Add FAQ"
+            fields={LANDING_FAQ_FIELDS}
+          />
+          <BilingualField
+            label="Popular searches title"
+            enKey="landing_searches_title"
+            hiKey="landing_searches_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <RepeaterField
+            label="Popular searches"
+            items={page.landing_popular_searches || []}
+            onChange={(v) => onChange("landing_popular_searches", v)}
+            addLabel="Add search tag"
+            fields={LANDING_SEARCH_FIELDS}
+          />
+        </>
+      )}
+
+      {!isService && (
+        <>
+          <SectionHeading>About block</SectionHeading>
+          <BilingualField label="About title" enKey="about_title" hiKey="about_title_hi" values={page} onChange={onChange} />
+          <BilingualTextarea
+            label="About body"
+            enKey="about_body"
+            hiKey="about_body_hi"
+            values={page}
+            onChange={onChange}
+            rows={5}
+          />
+
+          <SectionHeading>Process section</SectionHeading>
+          <BilingualField
+            label="Process title"
+            enKey="process_title"
+            hiKey="process_title_hi"
+            values={page}
+            onChange={onChange}
+          />
+          <RepeaterField
+            label="Process features"
+            items={page.process_features || []}
+            onChange={(v) => onChange("process_features", v)}
+            addLabel="Add process feature"
+            fields={PROCESS_FEATURE_FIELDS}
+          />
+          <p className="admin-muted">
+            Icon keys: design, measure, bridal, hand, check, blouse, lehenga, stitch, star, clock, fabric…
+          </p>
+
+          <BilingualField
+            label="Closing tagline"
+            enKey="closing_tagline"
+            hiKey="closing_tagline_hi"
+            values={page}
+            onChange={onChange}
+          />
+
+          <SectionHeading>Feature cards</SectionHeading>
+          <FeaturesEditor page={page} onChange={onChange} />
+
+          <CtaEditor page={page} onChange={onChange} showWaMessage />
+        </>
+      )}
     </>
   );
 }

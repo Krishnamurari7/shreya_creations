@@ -115,6 +115,28 @@ export default function PagesAdmin() {
           if (key === "about") {
             base[key].journey_steps = mergeAboutJourneyForEditor(base[key].journey_steps);
           }
+          if (BOUTIQUE_SERVICES.some((s) => s.cmsKey === key)) {
+            const def = PAGE_DEFAULTS[key] || {};
+            const listKeys = [
+              "landing_usps",
+              "landing_designs",
+              "landing_services",
+              "landing_prices",
+              "landing_type_options",
+              "landing_measure_options",
+              "landing_process",
+              "landing_faqs",
+              "landing_popular_searches",
+            ];
+            for (const listKey of listKeys) {
+              if (!Array.isArray(base[key][listKey]) || base[key][listKey].length === 0) {
+                base[key][listKey] = structuredClone(def[listKey] || []);
+              }
+            }
+            if (!base[key].hero_image && def.hero_image) {
+              base[key].hero_image = def.hero_image;
+            }
+          }
         }
         setPages(base);
         if (Array.isArray(data.about_pillars) && data.about_pillars.length) {
@@ -261,13 +283,14 @@ export default function PagesAdmin() {
           </>
         )}
 
-        {tab === "shop" && <BoutiquePageEditor page={page} onChange={onChange} publicPath="/shop" />}
+        {tab === "shop" && <BoutiquePageEditor page={page} onChange={onChange} publicPath="/shop" variant="shop" />}
 
         {BOUTIQUE_SERVICES.some((s) => s.cmsKey === tab) && (
           <BoutiquePageEditor
             page={page}
             onChange={onChange}
             publicPath={BOUTIQUE_SERVICES.find((s) => s.cmsKey === tab)?.href || "/shop"}
+            variant="service"
           />
         )}
 

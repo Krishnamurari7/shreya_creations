@@ -1,5 +1,6 @@
 /** Default CMS content per public page (merged with Supabase settings.pages). */
-import { BOUTIQUE_PAGE_DEFAULTS } from "@/lib/boutique-services";
+import { BOUTIQUE_PAGE_DEFAULTS, BOUTIQUE_SERVICES } from "@/lib/boutique-services";
+import { withLandingCmsDefaults } from "@/lib/boutique-service-landing";
 
 import {
   DEFAULT_COURSES_COUNT,
@@ -14,6 +15,11 @@ import {
   DEFAULT_HERO_SERVICE_CARDS,
 } from "@/lib/cms/home-blocks";
 import { MEDIA } from "@/lib/media";
+
+const BOUTIQUE_PAGE_DEFAULTS_WITH_LANDING = withLandingCmsDefaults(
+  BOUTIQUE_PAGE_DEFAULTS,
+  BOUTIQUE_SERVICES
+);
 
 const _years = computeYearsExperience(DEFAULT_FOUNDING_YEAR);
 const YEARS_LABEL = `${_years}+ Years`;
@@ -876,7 +882,7 @@ export const PAGE_DEFAULTS = {
     cta_wa_message:
       "Hi Shreya Creation! 👋 I found your boutique on Boring Road and would like custom stitching / designer wear. Please share options and timings.",
   },
-  ...BOUTIQUE_PAGE_DEFAULTS,
+  ...BOUTIQUE_PAGE_DEFAULTS_WITH_LANDING,
 };
 
 export const PAGE_EDITOR_KEYS = [
@@ -891,7 +897,7 @@ export const PAGE_EDITOR_KEYS = [
   "faq",
   "ladiesTailor",
   "boutiqueBoringRoad",
-  ...Object.keys(BOUTIQUE_PAGE_DEFAULTS),
+  ...Object.keys(BOUTIQUE_PAGE_DEFAULTS_WITH_LANDING),
 ];
 
 export const FEATURE_FIELDS = [
@@ -908,6 +914,55 @@ export const PROCESS_FEATURE_FIELDS = [
   { key: "title_hi", label: "Title (HI)" },
 ];
 
+export const LANDING_USP_FIELDS = [
+  { key: "icon", label: "Icon (clock/fit/finish/occasion/match)", default: "finish" },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+];
+
+export const LANDING_DESIGN_FIELDS = [
+  { key: "id", label: "ID (optional)" },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+  { key: "image", label: "Image", type: "image", wide: true },
+];
+
+export const LANDING_SERVICE_FIELDS = [
+  { key: "icon", label: "Icon key", default: "needle" },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+];
+
+export const LANDING_PRICE_FIELDS = [
+  { key: "type", label: "Type (EN)" },
+  { key: "type_hi", label: "Type (HI)" },
+  { key: "price", label: "Starting price (e.g. 999 or Ask)" },
+];
+
+export const LANDING_OPTION_FIELDS = [
+  { key: "value", label: "Option (EN)" },
+  { key: "value_hi", label: "Option (HI)" },
+];
+
+export const LANDING_PROCESS_FIELDS = [
+  { key: "step", label: "Step no.", default: "1" },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+  { key: "desc", label: "Description (EN)", type: "textarea", wide: true },
+  { key: "desc_hi", label: "Description (HI)", type: "textarea", wide: true },
+];
+
+export const LANDING_FAQ_FIELDS = [
+  { key: "q", label: "Question (EN)", wide: true },
+  { key: "q_hi", label: "Question (HI)", wide: true },
+  { key: "a", label: "Answer (EN)", type: "textarea", wide: true },
+  { key: "a_hi", label: "Answer (HI)", type: "textarea", wide: true },
+];
+
+export const LANDING_SEARCH_FIELDS = [
+  { key: "label", label: "Label" },
+  { key: "href", label: "Link (e.g. /boutique/blouse)" },
+];
 export const NRI_HIGHLIGHT_FIELDS = [
   { key: "title", label: "Title (EN)" },
   { key: "title_hi", label: "Title (HI)" },

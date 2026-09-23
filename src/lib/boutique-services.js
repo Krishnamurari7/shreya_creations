@@ -217,15 +217,15 @@ export function filterProductsForBoutiqueService(products = [], service) {
 /** Default CMS blobs keyed by cmsKey — merged into PAGE_DEFAULTS. */
 export const BOUTIQUE_PAGE_DEFAULTS = {
   boutiqueStitching: serviceDefaults({
-    metaTitle: "Boutique Stitching Patna | Custom Stitching | Shreya Creation",
+    metaTitle: "Boutique Stitching in Patna | Custom Stitching | Shreya Creation",
     metaDescription:
       "Boutique stitch & custom stitching in Patna — designer blouses, bridal wear, suits, gowns and 24-hour express stitching at Shreya Creation, Boring Road.",
-    eyebrow: "Boutique Stitch",
-    eyebrowHi: "बुटीक सिलाई",
+    eyebrow: "CUSTOM STITCH. EXPRESS WHEN NEEDED.",
+    eyebrowHi: "कस्टम सिलाई। ज़रूरत पर एक्सप्रेस।",
     title: "Boutique Stitching in Patna",
     titleHi: "पटना में बुटीक सिलाई",
-    tagline: "Custom fit. Designer finish. Express when you need it.",
-    taglineHi: "कस्टम फिट। डिज़ाइनर फिनिश। जब ज़रूरत हो एक्सप्रेस।",
+    tagline: "Bring fabric or pick a design — we stitch to your size",
+    taglineHi: "कपड़ा लाएँ या डिज़ाइन चुनें — आपके साइज़ पर सिलाई",
     subtitle:
       "Bring your fabric or pick from our designs — Shreya Creation stitches every outfit to your measurements with boutique-quality finishing on Boring Road, Patna.",
     subtitleHi:
@@ -244,15 +244,15 @@ export const BOUTIQUE_PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'd like boutique / custom stitching. Please share design options, timing, and pricing.",
   }),
   boutiqueBlouse: serviceDefaults({
-    metaTitle: "Designer Blouse Stitching Patna | Shreya Creation",
+    metaTitle: "Designer Blouse Stitching in Patna | Shreya Creation",
     metaDescription:
-      "Designer blouse stitching in Patna — bridal, backless, collar, sleeveless and saree blouses with boutique finishing at Shreya Creation.",
-    eyebrow: "Blouse",
-    eyebrowHi: "ब्लाउज",
-    title: "Designer Blouse Boutique",
-    titleHi: "डिज़ाइनर ब्लाउज बुटीक",
-    tagline: "Necklines, backs & fits made for your saree.",
-    taglineHi: "नेकलाइन, बैक और फिट — आपकी साड़ी के लिए।",
+      "Designer blouse stitching in Patna — custom fit, bridal & saree blouses, 24-hour express options, and boutique finishing at Shreya Creation, Boring Road.",
+    eyebrow: "CUSTOM FIT. TIMELESS STYLE.",
+    eyebrowHi: "कस्टम फिट। टाइमलेस स्टाइल।",
+    title: "Designer Blouse Stitching in Patna",
+    titleHi: "पटना में डिज़ाइनर ब्लाउज सिलाई",
+    tagline: "Traditional to Trendy – We Stitch Your Style",
+    taglineHi: "पारंपरिक से ट्रेंडी – हम आपके स्टाइल में सिलते हैं",
     subtitle:
       "From classic to contemporary — padded, princess-cut, dori-back and embroidered blouses stitched to your exact measurements.",
     subtitleHi:
@@ -268,18 +268,18 @@ export const BOUTIQUE_PAGE_DEFAULTS = {
     aboutBodyHi:
       "हर ब्लाउज आपके बॉडी के लिए ड्राफ्ट होता है — कप, आर्महोल, बैक डेप्थ और स्लीव स्टाइल — ताकि साड़ी साफ़ ड्रेप हो और पूरा दिन सहज लगे।",
     waMessage:
-      "Hi Shreya Creation! 👋 I'm interested in a designer blouse. Please share styles, fabric options, and stitching time.",
+      "Hi Shreya Creation! 👋 I'd like to book designer blouse stitching. Please share styles, pricing, and timeline.",
   }),
   boutiqueLehenga: serviceDefaults({
-    metaTitle: "Lehenga Stitching Patna | Bridal Lehenga | Shreya Creation",
+    metaTitle: "Lehenga Stitching in Patna | Bridal Lehenga | Shreya Creation",
     metaDescription:
       "Custom lehenga stitching in Patna — bridal, festive and party lehengas with boutique fitting and finishing at Shreya Creation.",
-    eyebrow: "Lehenga",
-    eyebrowHi: "लहंगा",
-    title: "Lehenga & Bridal Skirts",
-    titleHi: "लहंगा और ब्राइडल स्कर्ट",
-    tagline: "Flare, fall and finish — measured for you.",
-    taglineHi: "फ्लेयर, फॉल और फिनिश — आपके माप पर।",
+    eyebrow: "FLARE. FALL. PERFECT FINISH.",
+    eyebrowHi: "फ्लेयर। फॉल। परफेक्ट फिनिश।",
+    title: "Lehenga Stitching in Patna",
+    titleHi: "पटना में लहंगा सिलाई",
+    tagline: "Bridal, festive & party lehengas — measured for you",
+    taglineHi: "ब्राइडल, फेस्टिव और पार्टी लहंगे — आपके माप पर",
     subtitle:
       "Panelled, kali and mermaid lehengas with matching blouses — crafted for weddings, receptions and festive evenings.",
     subtitleHi:
@@ -298,15 +298,15 @@ export const BOUTIQUE_PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'd like a custom lehenga. Please share design ideas, fabric options, and timeline.",
   }),
   boutiqueSuit: serviceDefaults({
-    metaTitle: "Suit Stitching Patna | Salwar Suit Boutique | Shreya Creation",
+    metaTitle: "Designer Suit Stitching in Patna | Salwar Suit | Shreya Creation",
     metaDescription:
       "Custom suit stitching in Patna — salwar suits, Anarkali and designer ethnic sets with boutique finishing at Shreya Creation.",
-    eyebrow: "Suit",
-    eyebrowHi: "सूट",
-    title: "Designer Suit Stitching",
-    titleHi: "डिज़ाइनर सूट सिलाई",
-    tagline: "Everyday elegance to festive sets.",
-    taglineHi: "रोज़ की एलीगेंस से फेस्टिव सेट तक।",
+    eyebrow: "EVERYDAY ELEGANCE TO FESTIVE SETS.",
+    eyebrowHi: "रोज़ की एलीगेंस से फेस्टिव सेट तक।",
+    title: "Designer Suit Stitching in Patna",
+    titleHi: "पटना में डिज़ाइनर सूट सिलाई",
+    tagline: "Salwar, churidar & Anarkali — stitched for comfort and fall",
+    taglineHi: "सलवार, चूड़ीदार और अनारकली — आराम और फॉल के साथ",
     subtitle:
       "Salwar, churidar and Anarkali suits tailored for comfort and clean fall — ideal for office, functions and family celebrations.",
     subtitleHi:
@@ -325,15 +325,15 @@ export const BOUTIQUE_PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'd like a designer suit stitched. Please share options and timing.",
   }),
   boutiqueGown: serviceDefaults({
-    metaTitle: "Gown Stitching Patna | Reception & Party Gowns | Shreya Creation",
+    metaTitle: "Gown Stitching in Patna | Reception & Party Gowns | Shreya Creation",
     metaDescription:
       "Custom gown stitching in Patna — reception, Indo-western and party gowns with precise fitting at Shreya Creation boutique.",
-    eyebrow: "Gown",
-    eyebrowHi: "गाउन",
-    title: "Reception & Party Gowns",
-    titleHi: "रिसेप्शन और पार्टी गाउन",
-    tagline: "Silhouette first. Comfort always.",
-    taglineHi: "पहले सिल्हूट। हमेशा कम्फर्ट।",
+    eyebrow: "SILHOUETTE FIRST. COMFORT ALWAYS.",
+    eyebrowHi: "पहले सिल्हूट। हमेशा कम्फर्ट।",
+    title: "Gown Stitching in Patna",
+    titleHi: "पटना में गाउन सिलाई",
+    tagline: "Reception, party & Indo-western gowns — red-carpet fit",
+    taglineHi: "रिसेप्शन, पार्टी और इंडो-वेस्टर्न गाउन — रेड-कार्पेट फिट",
     subtitle:
       "Floor-length, cocktail and fusion gowns — structured bodices, soft drapes and boutique finishing for your big evenings.",
     subtitleHi:
@@ -352,15 +352,15 @@ export const BOUTIQUE_PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'm looking for a custom gown. Please share designs and stitching timeline.",
   }),
   boutiqueBridal: serviceDefaults({
-    metaTitle: "Bridal Wear Patna | Bridal Boutique | Shreya Creation",
+    metaTitle: "Bridal Wear Boutique in Patna | Shreya Creation",
     metaDescription:
       "Bridal wear boutique in Patna — bridal lehenga, reception gown, designer blouse and custom wedding stitching at Shreya Creation.",
-    eyebrow: "Bridal Wear",
-    eyebrowHi: "ब्राइडल वियर",
-    title: "Bridal & Wedding Outfits",
-    titleHi: "ब्राइडल और वेडिंग आउटफ़िट",
-    tagline: "Your most important looks, made for you.",
-    taglineHi: "आपके सबसे खास लुक — आपके लिए।",
+    eyebrow: "YOUR MOST IMPORTANT LOOKS.",
+    eyebrowHi: "आपके सबसे खास लुक।",
+    title: "Bridal Wear Boutique in Patna",
+    titleHi: "पटना में ब्राइडल वेयर बुटीक",
+    tagline: "Bridal lehenga, reception gown & statement blouses — made for you",
+    taglineHi: "ब्राइडल लहंगा, रिसेप्शन गाउन और स्टेटमेंट ब्लाउज — आपके लिए",
     subtitle:
       "Bridal lehengas, reception gowns and statement blouses — measured, trialled and finished for wedding-day confidence.",
     subtitleHi:
@@ -379,15 +379,15 @@ export const BOUTIQUE_PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'm planning bridal wear. Please share consultation options and timelines.",
   }),
   boutiqueJewellery: serviceDefaults({
-    metaTitle: "Bridal Jewellery Patna | Boutique Accessories | Shreya Creation",
+    metaTitle: "Boutique Jewellery in Patna | Kundan & Bridal Sets | Shreya Creation",
     metaDescription:
       "Boutique jewellery and statement sets in Patna — kundan, bridal and festive pieces to complete your outfit at Shreya Creation.",
-    eyebrow: "Jewellery",
-    eyebrowHi: "ज्वेलरी",
-    title: "Jewellery & Statement Sets",
-    titleHi: "ज्वेलरी और स्टेटमेंट सेट",
-    tagline: "Finish the look with the right shine.",
-    taglineHi: "सही चमक से लुक पूरा करें।",
+    eyebrow: "FINISH THE LOOK WITH THE RIGHT SHINE.",
+    eyebrowHi: "सही चमक से लुक पूरा करें।",
+    title: "Boutique Jewellery in Patna",
+    titleHi: "पटना में बुटीक ज्वेलरी",
+    tagline: "Kundan, bridal & statement sets to complete your outfit",
+    taglineHi: "कुंदन, ब्राइडल और स्टेटमेंट सेट — आउटफ़िट पूरा करें",
     subtitle:
       "Curated bridal and festive jewellery pieces that pair with our stitched outfits — ask WhatsApp for availability.",
     subtitleHi:
@@ -406,15 +406,15 @@ export const BOUTIQUE_PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I'm interested in boutique jewellery / sets. Please share available pieces.",
   }),
   boutiqueAccessories: serviceDefaults({
-    metaTitle: "Boutique Accessories Patna | Potli & Dupatta | Shreya Creation",
+    metaTitle: "Boutique Accessories in Patna | Potli & Dupatta | Shreya Creation",
     metaDescription:
       "Boutique accessories in Patna — potli bags, dupatta finishing and styling pieces to complete custom outfits at Shreya Creation.",
-    eyebrow: "Accessories",
-    eyebrowHi: "एक्सेसरीज़",
-    title: "Boutique Accessories",
-    titleHi: "बुटीक एक्सेसरीज़",
-    tagline: "Small details that finish the outfit.",
-    taglineHi: "छोटे डिटेल जो आउटफ़िट पूरा करें।",
+    eyebrow: "SMALL DETAILS. COMPLETE LOOK.",
+    eyebrowHi: "छोटे डिटेल। पूरा लुक।",
+    title: "Boutique Accessories in Patna",
+    titleHi: "पटना में बुटीक एक्सेसरीज़",
+    tagline: "Potli, dupatta finishing & styling pieces for your outfit",
+    taglineHi: "पोतली, दुपट्टा फिनिशिंग और स्टाइलिंग पीस",
     subtitle:
       "Potli bags, embroidered dupattas and finishing pieces styled with your custom stitch order.",
     subtitleHi:

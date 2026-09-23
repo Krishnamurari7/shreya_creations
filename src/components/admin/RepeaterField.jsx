@@ -3,6 +3,7 @@
 import { GLASS } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 export default function RepeaterField({ label, items, onChange, fields, addLabel = "Add item" }) {
   const update = (index, key, value) => {
@@ -34,9 +35,15 @@ export default function RepeaterField({ label, items, onChange, fields, addLabel
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {fields.map((f) => (
-                <div key={f.key} className={f.wide ? "sm:col-span-2" : ""}>
+                <div key={f.key} className={f.wide || f.type === "image" ? "sm:col-span-2" : ""}>
                   <label className="admin-label text-[10px]">{f.label}</label>
-                  {f.type === "textarea" ? (
+                  {f.type === "image" ? (
+                    <ImageUploader
+                      multiple={false}
+                      value={row[f.key] || ""}
+                      onChange={(url) => update(index, f.key, url || "")}
+                    />
+                  ) : f.type === "textarea" ? (
                     <textarea
                       rows={f.rows || 2}
                       value={row[f.key] ?? ""}
