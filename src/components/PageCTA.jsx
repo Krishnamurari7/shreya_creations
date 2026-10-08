@@ -90,11 +90,14 @@ export default function PageCTA({
   secondaryLabel,
   secondaryLabelHi,
   waMessage,
+  waMessageHi,
   className = "",
   perks,
   perksHi,
   eyebrow: eyebrowProp,
   eyebrowHi,
+  reply,
+  replyHi,
 }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
@@ -105,7 +108,9 @@ export default function PageCTA({
   const body = lang === "hi" && subtitleHi ? subtitleHi : subtitle || t.subtitle;
   const primary = lang === "hi" && primaryLabelHi ? primaryLabelHi : primaryLabel || t.primary;
   const secondary = lang === "hi" && secondaryLabelHi ? secondaryLabelHi : secondaryLabel || t.secondary;
-  const wa = waLink(whatsapp, waMessage || greetingMessage(lang));
+  const waText = lang === "hi" && waMessageHi ? waMessageHi : waMessage || greetingMessage(lang);
+  const wa = waLink(whatsapp, waText);
+  const replyText = (lang === "hi" && replyHi ? replyHi : reply) || t.reply;
 
   const eyebrow =
     (lang === "hi" && eyebrowHi ? eyebrowHi : eyebrowProp) || t.eyebrow;
@@ -176,7 +181,7 @@ export default function PageCTA({
 
           <p className="page-cta__reply">
             <span className="page-cta__reply-dot" aria-hidden />
-            {t.reply}
+            {replyText}
           </p>
 
           <div className="page-cta__actions">

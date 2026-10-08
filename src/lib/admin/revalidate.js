@@ -3,7 +3,31 @@ import { BOUTIQUE_SERVICES } from "@/lib/boutique-services";
 
 export async function revalidateSiteContent(paths = []) {
   const boutiquePaths = BOUTIQUE_SERVICES.map((s) => s.href);
-  const defaults = ["/", "/courses", "/shop", "/portfolio", "/blog", "/contact", ...boutiquePaths];
+  const defaults = [
+    "/",
+    "/hi",
+    "/about",
+    "/hi/about",
+    "/courses",
+    "/hi/courses",
+    "/shop",
+    "/hi/shop",
+    "/portfolio",
+    "/hi/portfolio",
+    "/blog",
+    "/hi/blog",
+    "/contact",
+    "/hi/contact",
+    "/faq",
+    "/hi/faq",
+    "/nri-clients",
+    "/hi/nri-clients",
+    "/ladies-tailor-patna",
+    "/hi/ladies-tailor-patna",
+    "/boutique-boring-road",
+    "/hi/boutique-boring-road",
+    ...boutiquePaths,
+  ];
   const all = [...new Set([...defaults, ...paths])];
   try {
     await fetch("/api/admin/revalidate", {

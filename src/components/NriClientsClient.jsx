@@ -2,13 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   BTN_PRIMARY,
   BTN_SECONDARY,
@@ -29,20 +23,25 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
 import { resolveMediaSrc, MEDIA } from "@/lib/media";
 import { waLink, nriStitchMessage, nriClassMessage, nriClientMessage } from "@/lib/whatsapp";
-import {
-  NRI_FAQS,
-  nriServices,
-  nriLearnTopics,
-  nriClassSteps,
-  nriWhyChoose,
-} from "@/lib/nri-content";
+import { NRI_FAQS, nriServices, nriLearnTopics, nriClassSteps, nriWhyChoose } from "@/lib/nri-content";
 import { pickFaq } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1];
 
-function SectionHead({ eyebrow, title, subtitle, center = true }) {
+function tx(page, lang, key) {
+  return pickPage(page, lang, key, `${key}Hi`);
+}
+
+function localized(item, hi, enKey, hiKey) {
+  if (!item) return "";
+  const hiVal = item[hiKey];
+  const enVal = item[enKey];
+  return hi && hiVal ? hiVal : enVal || "";
+}
+
+function SectionHead({ eyebrow, title, subtitle, center = true, id }) {
   return (
-    <div className={cn("boutique-v2-head", center && "boutique-v2-head--center")}>
+    <div id={id} className={cn("boutique-v2-head nri-head", center && "boutique-v2-head--center")}>
       {eyebrow && (
         <span className={cn(SECTION_EYEBROW, "boutique-v2-eyebrow")}>
           <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
@@ -51,36 +50,15 @@ function SectionHead({ eyebrow, title, subtitle, center = true }) {
           {eyebrow}
         </span>
       )}
-      {title && <h2 className={cn(SECTION_TITLE, "boutique-v2-section-title", "mt-2")}>{title}</h2>}
+      {title && <h2 className={cn(SECTION_TITLE, "boutique-v2-section-title nri-h2", "mt-2")}>{title}</h2>}
       {subtitle && (
-        <p className={cn(SECTION_LEAD, "mt-3", "max-w-2xl", center && "mx-auto")}>{subtitle}</p>
+        <p className={cn(SECTION_LEAD, "mt-3 max-w-2xl", center && "mx-auto")}>{subtitle}</p>
       )}
       <div className={cn(SECTION_ORNAMENT, "mt-3 sm:mt-4")} aria-hidden>
         <span className="text-gold text-xs">✦</span>
       </div>
     </div>
   );
-}
-
-function pickFeature(feature, hi) {
-  return {
-    emoji: feature.emoji || "✦",
-    title: hi && feature.titleHi ? feature.titleHi : feature.title,
-    desc: hi && feature.descHi ? feature.descHi : feature.desc,
-  };
-}
-
-function normalizeClassSteps(raw, hi) {
-  const fallback = nriClassSteps(hi);
-  if (!Array.isArray(raw) || !raw.length) return fallback;
-  return raw.map((item, index) => {
-    const def = fallback[index] || fallback[0];
-    return {
-      step: item.step || def.step,
-      title: hi && (item.titleHi || item.title_hi) ? item.titleHi || item.title_hi : item.title || def.title,
-      desc: hi && (item.descHi || item.desc_hi) ? item.descHi || item.desc_hi : item.desc || def.desc,
-    };
-  });
 }
 
 function WhatsAppGlyph() {
@@ -91,49 +69,44 @@ function WhatsAppGlyph() {
   );
 }
 
-function NriFaqAccordion() {
+function NriFaqAccordion({ faqs }) {
   const { lang } = useLanguage();
   const [open, setOpen] = useState(0);
+  const items = faqs?.length ? faqs : NRI_FAQS;
 
   return (
-    <div className="mx-auto mt-10 max-w-3xl space-y-3">
-      {NRI_FAQS.map((faq, i) => {
-        const { q, a } = pickFaq(faq, lang);
+    <div className="nri-faq">
+      {items.map((faq, i) => {
+        const { q, a } = pickFaq(
+          {
+            q: faq.q,
+            qHi: faq.qHi || faq.q_hi,
+            a: faq.a,
+            aHi: faq.aHi || faq.a_hi,
+          },
+          lang
+        );
+        if (!q) return null;
         const isOpen = open === i;
         return (
-          <div
+          <article
             key={q}
-            className={cn(
-              "rounded-2xl border transition-all duration-300",
-              isOpen
-                ? "border-orange/35 bg-orange/[0.04] shadow-[0_12px_32px_-12px_rgba(var(--orange-rgb),0.18)]"
-                : "border-orange/15 bg-white/[0.5] hover:border-orange/25 dark:bg-[rgba(20,16,28,0.5)]"
-            )}
+            className={cn("nri-faq__item", isOpen && "nri-faq__item--open")}
           >
-            <button
-              type="button"
-              onClick={() => setOpen(isOpen ? -1 : i)}
-              className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5"
-            >
-              <span className={cn("font-display text-base sm:text-lg", isOpen ? "text-orange" : "text-ink")}>
-                {q}
-              </span>
-              <span
-                className={cn(
-                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-sm transition-colors",
-                  isOpen ? "border-orange bg-orange text-white" : "border-orange/25 text-orange"
-                )}
-                aria-hidden
+            <h3 className="nri-faq__q">
+              <button
+                type="button"
+                aria-expanded={isOpen}
+                onClick={() => setOpen(isOpen ? -1 : i)}
               >
-                {isOpen ? "−" : "+"}
-              </span>
-            </button>
-            {isOpen && (
-              <div className="border-t border-orange/10 px-5 pb-5 pt-4 text-sm leading-relaxed text-ink/75 sm:px-6 sm:text-base">
-                {a}
-              </div>
-            )}
-          </div>
+                <span>{q}</span>
+                <span className="nri-faq__toggle" aria-hidden>
+                  {isOpen ? "−" : "+"}
+                </span>
+              </button>
+            </h3>
+            {isOpen && <p className="nri-faq__a">{a}</p>}
+          </article>
         );
       })}
     </div>
@@ -151,595 +124,430 @@ export default function NriClientsClient({ site, nriPage }) {
     target: heroRef,
     offset: ["start end", "end start"],
   });
-  const rawY = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+  const rawY = useTransform(scrollYProgress, [0, 1], [-16, 16]);
   const imageY = useSpring(rawY, { stiffness: 90, damping: 24 });
-  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.05, 1, 1.05]);
 
   const heroImage = resolveMediaSrc(nri.heroImage || MEDIA.institute);
-  const stitchHref = waLink(site.whatsapp, nriStitchMessage(lang));
-  const classHref = waLink(site.whatsapp, nriClassMessage(lang));
-  const waHref = waLink(site.whatsapp, nriClientMessage(lang));
+  const trainingImage = resolveMediaSrc(nri.trainingImage || MEDIA.categories.fashionDesigning);
+  const rtwImage = resolveMediaSrc(nri.rtwImage || MEDIA.categories.ethnicWear);
+  const bridalImage = resolveMediaSrc(nri.bridalImage || MEDIA.categories.bridal);
 
-  const eyebrow =
-    pickPage(nri, lang, "headerEyebrow", "headerEyebrowHi") ||
-    (hi ? "NRI क्लाइंट्स और ग्लोबल फैशन सेवाएँ" : "NRI Clients & Global Fashion Services");
+  const stitchHref = waLink(site.whatsapp, tx(nri, lang, "waStitchMessage") || nriStitchMessage(lang));
+  const classHref = waLink(site.whatsapp, tx(nri, lang, "waClassMessage") || nriClassMessage(lang));
+  const waHref = waLink(site.whatsapp, tx(nri, lang, "waGeneralMessage") || nriClientMessage(lang));
 
+  const eyebrow = tx(nri, lang, "headerEyebrow") || (hi ? "NRI क्लाइंट्स और ग्लोबल फैशन सेवाएँ" : "NRI Clients & Global Fashion Services");
+  const legacyEnglishTitle = "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna";
+  const hindiTitle = "पटना से NRI बुटीक, कस्टम सिलाई और फैशन डिजाइनिंग सेवाएँ";
+  const storedTitle = tx(nri, lang, "headerTitle");
   const title =
-    pickPage(nri, lang, "headerTitle", "headerTitleHi") ||
-    (hi
-      ? "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna"
-      : "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna");
-
+    (hi && (!storedTitle || storedTitle === legacyEnglishTitle) ? hindiTitle : storedTitle) ||
+    (hi ? hindiTitle : legacyEnglishTitle);
   const heroLine =
-    pickPage(nri, lang, "headerSubtitle", "headerSubtitleHi") ||
+    tx(nri, lang, "headerSubtitle") ||
     (hi
       ? "विदेश में रहते हैं? Shreya Creation के साथ Indian fashion design, stitch या learn करें।"
       : "Living Abroad? Design, Stitch or Learn Indian Fashion with Shreya Creation.");
-
   const heroLead =
-    pickPage(nri, lang, "heroSubtitle", "heroSubtitleHi") ||
+    tx(nri, lang, "heroSubtitle") ||
     (hi
       ? "NRI clients के लिए designer blouse, bridal wear, lehenga, suit, ready-to-wear saree और customised outfits — साथ ही 1-to-1 online/offline fashion designing classes।"
       : "Designer blouses, bridal wear, lehengas, suits, ready-to-wear sarees and customised outfits for NRI clients — plus 1-to-1 online and offline fashion designing classes.");
 
-  const cmsFeatures = Array.isArray(nri.features) && nri.features.length
-    ? nri.features.map((f) => pickFeature(f, hi))
-    : null;
-
-  const services = nriServices(hi);
-  const learnTopics = nriLearnTopics(hi);
-  const classSteps = normalizeClassSteps(nri.classSteps, hi);
-  const whyChoose = nriWhyChoose(hi);
-
-  const conceptBullets = hi
-    ? [
-        "अपने लिए customised Indian outfits बनवा सकते हैं",
-        "bridal & wedding outfits तैयार करवा सकते हैं",
-        "designer blouse और lehenga stitch करवा सकते हैं",
-        "ready-to-wear saree customise करवा सकते हैं",
-        "India से 1-to-1 fashion designing / stitching training भी ले सकते हैं",
-      ]
+  const rail = Array.isArray(nri.rail) && nri.rail.length
+    ? nri.rail
     : [
-        "Get customised Indian outfits made for yourself",
-        "Prepare bridal & wedding outfits",
-        "Have designer blouses and lehengas stitched",
-        "Customise ready-to-wear sarees",
-        "Take 1-to-1 fashion designing / stitching training from India",
+        { emoji: "🌍", label: "Global Clients", labelHi: "ग्लोबल क्लाइंट्स" },
+        { emoji: "👗", label: "Custom Stitching", labelHi: "कस्टम सिलाई" },
+        { emoji: "🎓", label: "1-to-1 Classes", labelHi: "1-to-1 क्लासेस" },
       ];
 
-  const rtwPoints = hi
-    ? [
-        "Ready-to-wear saree क्या है?",
-        "इसे कैसे prepare किया जाता है?",
-        "Pleats और fitting कैसे set की जाती है?",
-        "Different body measurements के अनुसार finishing कैसे की जाती है?",
-      ]
-    : [
-        "What is a ready-to-wear saree?",
-        "How is it prepared?",
-        "How are pleats and fitting set?",
-        "How is finishing done for different body measurements?",
-      ];
+  const features = Array.isArray(nri.features) ? nri.features : [];
+  const conceptPoints = Array.isArray(nri.conceptPoints) ? nri.conceptPoints : [];
+  const services = Array.isArray(nri.services) && nri.services.length
+    ? nri.services
+    : nriServices(hi).map((item) => ({ ...item, titleHi: item.title, descHi: item.desc }));
+  const learnTopics = Array.isArray(nri.learnTopics) && nri.learnTopics.length
+    ? nri.learnTopics
+    : nriLearnTopics(hi).map((label) => ({ label, labelHi: label }));
+  const classSteps = Array.isArray(nri.classSteps) && nri.classSteps.length ? nri.classSteps : nriClassSteps(hi);
+  const rtwPoints = Array.isArray(nri.rtwPoints) ? nri.rtwPoints : [];
+  const whyPoints = Array.isArray(nri.whyPoints) && nri.whyPoints.length
+    ? nri.whyPoints
+    : nriWhyChoose(hi).map((text) => ({ text, textHi: text }));
+  const faqs = Array.isArray(nri.faqs) && nri.faqs.length ? nri.faqs : NRI_FAQS;
 
   const rise = (delay = 0) => ({
-    initial: reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(6px)" },
-    whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
+    initial: reduceMotion ? false : { opacity: 0, y: 22 },
+    whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-60px" },
-    transition: { duration: 0.7, delay, ease: EASE },
+    transition: { duration: 0.65, delay, ease: EASE },
   });
 
   return (
     <div className="boutique-page boutique-page--v2 nri-page relative min-w-0 w-full">
-      {/* Hero */}
       <section
         ref={heroRef}
         className={cn(
           PAGE_CONTAINER,
-          "boutique-v2-hero",
-          "max-w-6xl",
-          "pt-[calc(var(--header-offset)+0.75rem)]",
-          "sm:pt-[calc(var(--header-offset)+1.25rem)]",
-          "pb-8 sm:pb-10",
-          "relative z-20 min-w-0 w-full"
+          "nri-hero max-w-6xl pt-[calc(var(--header-offset)+0.75rem)] sm:pt-[calc(var(--header-offset)+1.25rem)] pb-6 sm:pb-8 relative z-20"
         )}
       >
         <AmbientGlows variant="header" />
-
-        <div className="grid items-center gap-7 sm:gap-9 lg:grid-cols-12 lg:gap-10">
-          <div className="min-w-0 space-y-4 text-center sm:space-y-5 lg:col-span-6 lg:text-left">
-            <motion.span
-              className={cn(SECTION_EYEBROW, "boutique-v2-eyebrow")}
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+        <div className="nri-hero__grid">
+          <div className="nri-hero__copy">
+            <motion.p
+              className={cn(SECTION_EYEBROW, "nri-kicker")}
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: EASE }}
+              transition={{ duration: 0.5, ease: EASE }}
             >
-              <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
-                🌍
-              </span>
+              <span aria-hidden>🌍</span>
               {eyebrow}
-            </motion.span>
-
+            </motion.p>
             <motion.h1
-              className="font-display text-balance text-[clamp(1.65rem,4.2vw,2.65rem)] font-bold leading-[1.15] tracking-tight text-ink"
-              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+              className="nri-h1"
+              initial={reduceMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.08, ease: EASE }}
+              transition={{ duration: 0.7, delay: 0.06, ease: EASE }}
             >
               {title}
             </motion.h1>
-
             <motion.p
-              className="boutique-v2-script text-lg sm:text-xl"
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              className="boutique-v2-script nri-script"
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.18, ease: EASE }}
+              transition={{ duration: 0.65, delay: 0.14, ease: EASE }}
             >
               {heroLine}
             </motion.p>
-
             <motion.p
-              className="boutique-v2-lead"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              className="nri-lead"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.28, ease: EASE }}
+              transition={{ duration: 0.65, delay: 0.22, ease: EASE }}
             >
               {heroLead}
             </motion.p>
-
             <motion.div
-              className="boutique-v2-hero-ctas flex-wrap"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              className="nri-ctas"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.44, ease: EASE }}
+              transition={{ duration: 0.65, delay: 0.32, ease: EASE }}
             >
-              <a href={stitchHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY)}>
-                {hi ? "Book Custom Stitching" : "Book Custom Stitching"}
+              <a href={stitchHref} target="_blank" rel="noopener noreferrer" className={BTN_PRIMARY}>
+                {tx(nri, lang, "heroCtaStitch") || (hi ? "कस्टम सिलाई बुक करें" : "Book Custom Stitching")}
               </a>
-              <a
-                href={classHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  BTN_PRIMARY,
-                  "!bg-[#25D366] !shadow-[0_4px_20px_rgba(37,211,102,0.32)] hover:!bg-[#1fb855] hover:!shadow-[0_10px_32px_rgba(37,211,102,0.38)]"
-                )}
-              >
-                {hi ? "Join 1-to-1 Class" : "Join 1-to-1 Class"}
+              <a href={classHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY, "nri-cta-wa")}>
+                {tx(nri, lang, "heroCtaClass") || (hi ? "1-to-1 क्लास जॉइन करें" : "Join 1-to-1 Class")}
               </a>
-              <a
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(BTN_SECONDARY, "inline-flex items-center gap-2")}
-              >
+              <a href={waHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_SECONDARY, "inline-flex items-center gap-2")}>
                 <WhatsAppGlyph />
-                {hi ? "WhatsApp Us" : "WhatsApp Us"}
+                {tx(nri, lang, "heroCtaWa") || "WhatsApp"}
               </a>
             </motion.div>
           </div>
 
           <motion.div
-            className="relative min-w-0 lg:col-span-6"
-            initial={reduceMotion ? false : { opacity: 0, x: 28 }}
+            className="nri-hero__media"
+            initial={reduceMotion ? false : { opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.85, ease: EASE }}
+            transition={{ duration: 0.8, ease: EASE }}
             style={reduceMotion ? undefined : { y: imageY }}
           >
-            <div className="boutique-v2-media group">
-              <motion.div
-                className="boutique-v2-media__inner"
-                style={reduceMotion ? undefined : { scale: imageScale }}
-              >
+            <div className="boutique-v2-media nri-media">
+              <div className="boutique-v2-media__inner">
                 <CardImage
                   src={heroImage}
-                  alt={
-                    hi
-                      ? "NRI clients के लिए Shreya Creation — Patna boutique और fashion training"
-                      : "Shreya Creation for NRI clients — Patna boutique and fashion training"
-                  }
+                  alt={tx(nri, lang, "heroImageAlt") || title}
                   ratio="4/5"
                   position="center"
                   className="boutique-v2-media__img rounded-2xl sm:rounded-3xl"
                   loading="eager"
                 />
-              </motion.div>
+              </div>
               <span className="boutique-v2-media__frame" aria-hidden />
               <span className="boutique-v2-media__sheen" aria-hidden />
             </div>
-
-            <aside className="boutique-v2-rail" aria-label={hi ? "NRI सेवाएँ" : "NRI services"}>
-              {[
-                { value: "🌍", label: hi ? "Global Clients" : "Global Clients" },
-                { value: "👗", label: hi ? "Custom Stitching" : "Custom Stitching" },
-                { value: "🎓", label: hi ? "1-to-1 Classes" : "1-to-1 Classes" },
-              ].map((item) => (
-                <div key={item.label} className="boutique-v2-rail__item">
-                  <span className="boutique-v2-rail__value text-2xl">{item.value}</span>
-                  <span className="boutique-v2-rail__label">{item.label}</span>
-                </div>
+            <ul className="nri-rail" aria-label={hi ? "NRI सेवाएँ" : "NRI services"}>
+              {rail.map((item) => (
+                <li key={item.label} className="nri-rail__item">
+                  <span className="nri-rail__emoji" aria-hidden>
+                    {item.emoji || "✦"}
+                  </span>
+                  <span>{localized(item, hi, "label", "labelHi")}</span>
+                </li>
               ))}
-            </aside>
+            </ul>
           </motion.div>
         </div>
       </section>
 
       <NriClientsHighlights
         highlights={nri.highlights}
-        processEyebrow={pickPage(nri, lang, "processEyebrow", "processEyebrowHi")}
+        highlightEyebrow={nri.highlightsEyebrow}
+        highlightEyebrowHi={nri.highlightsEyebrowHi}
+        highlightTitle={nri.highlightsTitle}
+        highlightTitleHi={nri.highlightsTitleHi}
+        highlightSubtitle={nri.highlightsSubtitle}
+        highlightSubtitleHi={nri.highlightsSubtitleHi}
+        processEyebrow={nri.processEyebrow}
         processEyebrowHi={nri.processEyebrowHi}
-        processTitle={pickPage(nri, lang, "processTitle", "processTitleHi")}
+        processTitle={nri.processTitle}
         processTitleHi={nri.processTitleHi}
-        processSubtitle={pickPage(nri, lang, "processSubtitle", "processSubtitleHi")}
+        processSubtitle={nri.processSubtitle}
         processSubtitleHi={nri.processSubtitleHi}
         processSteps={nri.processSteps}
       />
 
-      {cmsFeatures && (
-        <section className={cn(PAGE_CONTAINER, "max-w-5xl pb-6 sm:pb-8 relative z-20")}>
-          <ul className="grid gap-4 sm:grid-cols-3">
-            {cmsFeatures.map((item) => (
-              <li
-                key={item.title}
-                className="rounded-2xl border border-orange/15 bg-orange/[0.03] px-4 py-4 text-center sm:px-5 sm:py-5"
-              >
-                <span className="text-2xl" aria-hidden>
-                  {item.emoji}
+      {features.length > 0 && (
+        <section id="nri-order" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+          <SectionHead
+            eyebrow={tx(nri, lang, "featuresEyebrow")}
+            title={tx(nri, lang, "featuresTitle") || (hi ? "स्टूडियो आए बिना ऑर्डर करें" : "Order Without Visiting the Studio")}
+            subtitle={tx(nri, lang, "featuresSubtitle")}
+          />
+          <ul className="nri-features">
+            {features.map((item) => (
+              <li key={item.title} className="nri-card nri-card--soft">
+                <span className="nri-emoji" aria-hidden>
+                  {item.emoji || "✦"}
                 </span>
-                <h3 className="mt-2 font-display text-base text-ink sm:text-lg">{item.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink/70">{item.desc}</p>
+                <h3 className="nri-card__title">{localized(item, hi, "title", "titleHi")}</h3>
+                <p className="nri-card__body">{localized(item, hi, "desc", "descHi")}</p>
               </li>
             ))}
           </ul>
         </section>
       )}
 
-      {/* Concept */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, "max-w-6xl")}>
-        <motion.div {...rise(0.05)}>
+      <section id="nri-concept" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <motion.div {...rise(0.04)}>
           <SectionHead
-            eyebrow={hi ? "Unique Concept" : "Unique Concept"}
-            title={
-              hi
-                ? "More Than a Boutique: A Fashion Partner for NRI Clients"
-                : "More Than a Boutique: A Fashion Partner for NRI Clients"
-            }
-            subtitle={
-              hi
-                ? "आप विदेश में रहें, लेकिन Indian fashion से आपका connection बना रहे। Shreya Creation के माध्यम से NRI clients:"
-                : "Live abroad but stay connected to Indian fashion. Through Shreya Creation, NRI clients can:"
-            }
+            eyebrow={tx(nri, lang, "conceptEyebrow") || "Unique Concept"}
+            title={tx(nri, lang, "conceptTitle") || "More Than a Boutique: A Fashion Partner for NRI Clients"}
+            subtitle={tx(nri, lang, "conceptSubtitle")}
           />
-          <ul className="mx-auto mt-8 grid max-w-3xl gap-3 sm:grid-cols-2">
-            {conceptBullets.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 rounded-xl border border-orange/15 bg-orange/[0.03] px-4 py-3 text-sm leading-relaxed text-ink/80 sm:text-[0.9375rem]"
-              >
-                <span className="mt-0.5 text-orange" aria-hidden>
-                  ✓
-                </span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-      </section>
-
-      {/* Services */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
-        <SectionHead
-          eyebrow={hi ? "Services" : "Services"}
-          title={hi ? "NRI Custom Fashion Services" : "NRI Custom Fashion Services"}
-          subtitle={
-            hi
-              ? "Designer stitching, bridal wear, ready-to-wear saree और express services — Patna से worldwide support।"
-              : "Designer stitching, bridal wear, ready-to-wear sarees and express services — worldwide support from Patna."
-          }
-        />
-
-        <motion.div
-          className="boutique-v2-services mt-10 !grid-cols-2 md:!grid-cols-4"
-          initial={reduceMotion ? false : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
-        >
-          {services.map((svc) => (
-            <motion.a
-              key={svc.title}
-              href={stitchHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="boutique-v2-service text-left"
-              variants={{
-                hidden: { opacity: 0, y: 22, scale: 0.96 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: { type: "spring", stiffness: 240, damping: 20 },
-                },
-              }}
-              whileHover={reduceMotion ? undefined : { y: -5 }}
-            >
-              <span className="text-2xl" aria-hidden>
-                {svc.emoji}
-              </span>
-              <h3 className="boutique-v2-service__title">{svc.title}</h3>
-              <p className="boutique-v2-service__desc">{svc.desc}</p>
-            </motion.a>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* Fashion Training */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <motion.div {...rise(0.05)}>
-            <SectionHead
-              eyebrow={hi ? "Fashion Training" : "Fashion Training"}
-              title={
-                hi
-                  ? "Learn Fashion Designing from India, Even While Living Abroad"
-                  : "Learn Fashion Designing from India, Even While Living Abroad"
-              }
-              subtitle={
-                hi
-                  ? "India से fashion designing, boutique stitching या saree designing सीखना चाहती हैं? Patna आने की जरूरत हर बार नहीं होगी।"
-                  : "Want to learn fashion designing, boutique stitching or saree designing from India? You don't need to visit Patna every time."
-              }
-              center={false}
-            />
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-orange/15 bg-orange/[0.04] p-5">
-                <h3 className="font-display text-lg text-ink">
-                  {hi ? "Online 1-to-1" : "Online 1-to-1"}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink/70">
-                  {hi
-                    ? "विदेश में रहते हुए live personalised online class।"
-                    : "Live personalised online classes while you are abroad."}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-orange/15 bg-orange/[0.04] p-5">
-                <h3 className="font-display text-lg text-ink">
-                  {hi ? "Offline 1-to-1" : "Offline 1-to-1"}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink/70">
-                  {hi
-                    ? "India/Patna visit के दौरान personalised offline practical training।"
-                    : "Personalised offline practical training during your India/Patna visit."}
-                </p>
-              </div>
-            </div>
-
-            <p className="mt-4 text-sm text-muted">
-              {hi
-                ? "Personalised learning • Individual attention • Practical training"
-                : "Personalised learning • Individual attention • Practical training"}
-            </p>
-
-            <a
-              href={classHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(BTN_PRIMARY, "mt-6 inline-flex")}
-            >
-              {hi ? "JOIN 1-to-1 FASHION CLASS" : "JOIN 1-to-1 FASHION CLASS"}
-            </a>
-          </motion.div>
-
-          <motion.div {...rise(0.12)} className="min-w-0">
-            <CardImage
-              src={resolveMediaSrc(MEDIA.categories.fashionDesigning)}
-              alt={
-                hi
-                  ? "Patna में fashion designing training — NRI learners के लिए"
-                  : "Fashion designing training in Patna for NRI learners"
-              }
-              ratio="4/3"
-              className="rounded-2xl sm:rounded-3xl"
-            />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* What Can You Learn */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
-        <SectionHead
-          eyebrow={hi ? "Curriculum" : "Curriculum"}
-          title={hi ? "What Can You Learn?" : "What Can You Learn?"}
-          subtitle={
-            hi
-              ? "Designer blouse से ready-to-wear saree तक — practical topics for NRI learners।"
-              : "From designer blouses to ready-to-wear sarees — practical topics for NRI learners."
-          }
-        />
-        <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-3">
-          {learnTopics.map((topic) => (
-            <span
-              key={topic}
-              className="rounded-full border border-orange/20 bg-orange/[0.05] px-4 py-2 text-sm text-ink/85"
-            >
-              {topic}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {/* Ready-to-Wear Saree */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <motion.div {...rise(0.05)} className="min-w-0 order-2 lg:order-1">
-            <CardImage
-              src={resolveMediaSrc(MEDIA.categories.ethnicWear)}
-              alt={
-                hi
-                  ? "Ready-to-wear saree making और pre-stitched saree training Patna"
-                  : "Ready-to-wear saree making and pre-stitched saree training in Patna"
-              }
-              ratio="4/3"
-              className="rounded-2xl sm:rounded-3xl"
-            />
-          </motion.div>
-          <motion.div {...rise(0.1)} className="order-1 lg:order-2">
-            <SectionHead
-              eyebrow={hi ? "Specialty" : "Specialty"}
-              title={
-                hi
-                  ? "Ready-to-Wear Saree: Learn How to Prepare & Design"
-                  : "Ready-to-Wear Saree: Learn How to Prepare & Design"
-              }
-              subtitle={
-                hi
-                  ? "Practical training में इन topics को step-by-step explain किया जाता है।"
-                  : "These topics are explained step-by-step in practical training."
-              }
-              center={false}
-            />
-            <ul className="mt-6 space-y-3">
-              {rtwPoints.map((point) => (
-                <li key={point} className="flex items-start gap-3 text-sm leading-relaxed text-ink/80 sm:text-base">
-                  <span className="text-orange" aria-hidden>
-                    ✦
-                  </span>
-                  {point}
-                </li>
-              ))}
+          {conceptPoints.length > 0 && (
+            <ul className="nri-checks">
+              {conceptPoints.map((item) => {
+                const text = localized(item, hi, "text", "textHi");
+                if (!text) return null;
+                return (
+                  <li key={text} className="nri-check">
+                    <span aria-hidden>✓</span>
+                    {text}
+                  </li>
+                );
+              })}
             </ul>
-            <p className="mt-6 text-xs leading-relaxed text-muted sm:text-sm">
-              {hi
-                ? "Ready to Wear Saree • Ready to Wear Saree Making • How to Prepare Ready to Wear Saree • Pre Stitched Saree Making • Box Pleat Saree Making"
-                : "Ready to Wear Saree • Ready to Wear Saree Making • How to Prepare Ready to Wear Saree • Pre Stitched Saree Making • Box Pleat Saree Making"}
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Learn from Patna */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
-        <motion.div
-          className="relative overflow-hidden rounded-3xl border border-orange/20 bg-gradient-to-br from-orange/[0.08] via-cream to-orange/[0.04] px-6 py-10 text-center sm:px-10 sm:py-14 dark:from-orange/[0.12] dark:via-[rgba(20,16,28,0.95)] dark:to-orange/[0.06]"
-          {...rise(0.05)}
-        >
-          <AmbientGlows variant="section" />
-          <p className="text-3xl sm:text-4xl" aria-hidden>
-            🇮🇳 → 🌍
-          </p>
-          <h2 className="mt-4 font-display text-2xl text-ink sm:text-3xl">
-            {hi ? "Learn from Patna, Wherever You Are" : "Learn from Patna, Wherever You Are"}
-          </h2>
-          <p className="mt-3 font-display text-lg text-orange sm:text-xl">
-            {hi ? "You Learn • We Guide • You Create" : "You Learn • We Guide • You Create"}
-          </p>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-ink/75 sm:text-base">
-            {hi
-              ? "NRI student India से remotely सीख सकती है — stitching, saree designing और boutique techniques के साथ personalised guidance।"
-              : "NRI students can learn remotely from India — with personalised guidance in stitching, saree designing and boutique techniques."}
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/courses" className={cn(BTN_SECONDARY)}>
-              {hi ? "View Courses" : "View Courses"}
-            </Link>
-            <a href={classHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY)}>
-              {hi ? "Join 1-to-1 Class" : "Join 1-to-1 Class"}
-            </a>
-          </div>
+          )}
         </motion.div>
       </section>
 
-      {/* How Classes Work */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
+      <section id="nri-services" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
         <SectionHead
-          eyebrow={hi ? "Process" : "Process"}
-          title={hi ? "How NRI 1-to-1 Classes Work" : "How NRI 1-to-1 Classes Work"}
+          eyebrow={tx(nri, lang, "servicesEyebrow") || "Services"}
+          title={tx(nri, lang, "servicesTitle") || "NRI Custom Fashion Services"}
+          subtitle={tx(nri, lang, "servicesSubtitle")}
         />
-        <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {classSteps.map((item) => (
-            <li
-              key={item.step}
-              className="rounded-2xl border border-orange/15 bg-orange/[0.03] p-5 sm:p-6"
-            >
-              <span className="font-display text-sm tracking-widest text-orange">{item.step}</span>
-              <h3 className="mt-2 font-display text-lg text-ink">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink/70">{item.desc}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* Bridal Special */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <motion.div {...rise(0.05)}>
-            <SectionHead
-              eyebrow={hi ? "Bridal Special" : "Bridal Special"}
-              title={hi ? "NRI Bridal & Wedding Special" : "NRI Bridal & Wedding Special"}
-              center={false}
-            />
-            <blockquote className="mt-6 border-l-4 border-orange/40 pl-5 font-display text-xl italic leading-snug text-ink sm:text-2xl">
-              {hi
-                ? "“Your wedding may be abroad, but your Indian style can begin in Patna.”"
-                : "“Your wedding may be abroad, but your Indian style can begin in Patna.”"}
-            </blockquote>
-            <p className="mt-5 text-sm leading-relaxed text-ink/75 sm:text-base">
-              {hi
-                ? "Designer blouse, lehenga, saree, bridal outfits और customised wedding wear के लिए personalised consultation।"
-                : "Personalised consultation for designer blouses, lehengas, sarees, bridal outfits and customised wedding wear."}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a href={stitchHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY)}>
-                {hi ? "Book Custom Stitching" : "Book Custom Stitching"}
+        <ul className="nri-services">
+          {services.map((svc) => (
+            <li key={svc.title}>
+              <a href={stitchHref} target="_blank" rel="noopener noreferrer" className="nri-service">
+                <span className="nri-emoji" aria-hidden>
+                  {svc.emoji || "✦"}
+                </span>
+                <h3 className="nri-card__title">{hi ? localized(svc, true, "title", "titleHi") : svc.title}</h3>
+                <p className="nri-card__body">{hi ? localized(svc, true, "desc", "descHi") : svc.desc}</p>
               </a>
-              <Link href="/portfolio" className={cn(BTN_SECONDARY)}>
-                {hi ? "Bridal Portfolio" : "Bridal Portfolio"}
-              </Link>
-            </div>
-          </motion.div>
-          <motion.div {...rise(0.1)} className="min-w-0">
-            <CardImage
-              src={resolveMediaSrc(MEDIA.categories.bridal)}
-              alt={
-                hi
-                  ? "NRI bridal blouse और wedding wear stitching Patna"
-                  : "NRI bridal blouse and wedding wear stitching in Patna"
-              }
-              ratio="4/3"
-              className="rounded-2xl sm:rounded-3xl"
-            />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Why Choose */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
-        <SectionHead
-          eyebrow={hi ? "Why Us" : "Why Us"}
-          title={hi ? "Why NRI Clients Choose Shreya Creation" : "Why NRI Clients Choose Shreya Creation"}
-        />
-        <ul className="mx-auto mt-8 grid max-w-4xl gap-3 sm:grid-cols-2">
-          {whyChoose.map((item) => (
-            <li
-              key={item}
-              className="flex items-start gap-3 rounded-xl border border-orange/12 px-4 py-3 text-sm text-ink/85 sm:text-[0.9375rem]"
-            >
-              <span className="text-orange" aria-hidden>
-                ✔
-              </span>
-              {item}
             </li>
           ))}
         </ul>
       </section>
 
-      {/* FAQ */}
-      <section className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "max-w-6xl")}>
+      <section id="nri-training" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <div className="nri-split">
+          <motion.div {...rise(0.04)}>
+            <SectionHead
+              eyebrow={tx(nri, lang, "trainingEyebrow") || "Fashion Training"}
+              title={tx(nri, lang, "trainingTitle") || "Learn Fashion Designing from India, Even While Living Abroad"}
+              subtitle={tx(nri, lang, "trainingSubtitle")}
+              center={false}
+            />
+            <div className="nri-pair">
+              <article className="nri-card nri-card--soft">
+                <h3 className="nri-card__title">{tx(nri, lang, "trainingOnlineTitle") || "Online 1-to-1"}</h3>
+                <p className="nri-card__body">{tx(nri, lang, "trainingOnlineDesc")}</p>
+              </article>
+              <article className="nri-card nri-card--soft">
+                <h3 className="nri-card__title">{tx(nri, lang, "trainingOfflineTitle") || "Offline 1-to-1"}</h3>
+                <p className="nri-card__body">{tx(nri, lang, "trainingOfflineDesc")}</p>
+              </article>
+            </div>
+            {tx(nri, lang, "trainingNote") && <p className="nri-note">{tx(nri, lang, "trainingNote")}</p>}
+            <a href={classHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY, "mt-6 inline-flex")}>
+              {tx(nri, lang, "trainingCta") || "Join 1-to-1 Fashion Class"}
+            </a>
+          </motion.div>
+          <motion.div {...rise(0.1)} className="min-w-0">
+            <CardImage
+              src={trainingImage}
+              alt={tx(nri, lang, "trainingImageAlt") || title}
+              ratio="4/3"
+              className="nri-photo"
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="nri-learn" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
         <SectionHead
-          eyebrow={hi ? "FAQ" : "FAQ"}
-          title={hi ? "Frequently Asked Questions" : "Frequently Asked Questions"}
+          eyebrow={tx(nri, lang, "learnEyebrow") || "Curriculum"}
+          title={tx(nri, lang, "learnTitle") || "What Can You Learn?"}
+          subtitle={tx(nri, lang, "learnSubtitle")}
         />
-        <NriFaqAccordion />
+        <ul className="nri-chips">
+          {learnTopics.map((topic) => {
+            const label = typeof topic === "string" ? topic : localized(topic, hi, "label", "labelHi");
+            if (!label) return null;
+            return (
+              <li key={label} className="nri-chip">
+                {label}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section id="nri-saree" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <div className="nri-split nri-split--flip">
+          <motion.div {...rise(0.04)} className="min-w-0 nri-split__media">
+            <CardImage
+              src={rtwImage}
+              alt={tx(nri, lang, "rtwImageAlt") || "Ready-to-wear saree training in Patna"}
+              ratio="4/3"
+              className="nri-photo"
+            />
+          </motion.div>
+          <motion.div {...rise(0.08)}>
+            <SectionHead
+              eyebrow={tx(nri, lang, "rtwEyebrow") || "Specialty"}
+              title={tx(nri, lang, "rtwTitle") || "Ready-to-Wear Saree: Learn How to Prepare and Design"}
+              subtitle={tx(nri, lang, "rtwSubtitle")}
+              center={false}
+            />
+            <ul className="nri-points">
+              {rtwPoints.map((point) => {
+                const text = localized(point, hi, "text", "textHi");
+                if (!text) return null;
+                return (
+                  <li key={text}>
+                    <span aria-hidden>✦</span>
+                    {text}
+                  </li>
+                );
+              })}
+            </ul>
+            {tx(nri, lang, "rtwKeywords") && <p className="nri-keywords">{tx(nri, lang, "rtwKeywords")}</p>}
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="nri-remote" className={cn(PAGE_CONTAINER, PAGE_SECTION, "nri-block max-w-6xl")}>
+        <motion.div className="nri-banner" {...rise(0.04)}>
+          <AmbientGlows variant="section" />
+          <p className="nri-kicker nri-kicker--light">{tx(nri, lang, "remoteKicker") || "India to the world"}</p>
+          <h2 className="nri-banner__title">{tx(nri, lang, "remoteTitle") || "Learn from Patna, Wherever You Are"}</h2>
+          <p className="nri-banner__script">{tx(nri, lang, "remoteScript")}</p>
+          <p className="nri-banner__body">{tx(nri, lang, "remoteBody")}</p>
+          <div className="nri-ctas nri-ctas--center">
+            <Link href={nri.remotePrimaryHref || "/courses"} className={BTN_SECONDARY}>
+              {tx(nri, lang, "remotePrimaryLabel") || (hi ? "कोर्स देखें" : "View Courses")}
+            </Link>
+            <a href={classHref} target="_blank" rel="noopener noreferrer" className={BTN_PRIMARY}>
+              {tx(nri, lang, "remoteSecondaryLabel") || (hi ? "1-to-1 क्लास जॉइन करें" : "Join 1-to-1 Class")}
+            </a>
+          </div>
+        </motion.div>
+      </section>
+
+      <section id="nri-classes" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <SectionHead
+          eyebrow={tx(nri, lang, "classesEyebrow") || "Process"}
+          title={tx(nri, lang, "classesTitle") || "How NRI 1-to-1 Classes Work"}
+          subtitle={tx(nri, lang, "classesSubtitle")}
+        />
+        <ol className="nri-steps nri-steps--wide">
+          {classSteps.map((item) => (
+            <li key={item.step || item.title} className="nri-step">
+              <span className="nri-step__no">{item.step}</span>
+              <h3 className="nri-card__title">{localized(item, hi, "title", "titleHi") || item.title}</h3>
+              <p className="nri-card__body">{localized(item, hi, "desc", "descHi") || item.desc}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section id="nri-bridal" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <div className="nri-split">
+          <motion.div {...rise(0.04)}>
+            <SectionHead
+              eyebrow={tx(nri, lang, "bridalEyebrow") || "Bridal Special"}
+              title={tx(nri, lang, "bridalTitle") || "NRI Bridal & Wedding Special"}
+              center={false}
+            />
+            {tx(nri, lang, "bridalQuote") && (
+              <blockquote className="nri-quote">“{tx(nri, lang, "bridalQuote")}”</blockquote>
+            )}
+            <p className="nri-lead nri-lead--left">{tx(nri, lang, "bridalBody")}</p>
+            <div className="nri-ctas">
+              <a href={stitchHref} target="_blank" rel="noopener noreferrer" className={BTN_PRIMARY}>
+                {tx(nri, lang, "bridalCta") || "Book Custom Stitching"}
+              </a>
+              <Link href={nri.bridalSecondaryHref || "/portfolio"} className={BTN_SECONDARY}>
+                {tx(nri, lang, "bridalSecondaryLabel") || (hi ? "ब्राइडल पोर्टफोलियो" : "Bridal Portfolio")}
+              </Link>
+            </div>
+          </motion.div>
+          <motion.div {...rise(0.1)} className="min-w-0">
+            <CardImage
+              src={bridalImage}
+              alt={tx(nri, lang, "bridalImageAlt") || "NRI bridal stitching in Patna"}
+              ratio="4/3"
+              className="nri-photo"
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="nri-why" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <SectionHead
+          eyebrow={tx(nri, lang, "whyEyebrow") || "Why Us"}
+          title={tx(nri, lang, "whyTitle") || "Why NRI Clients Choose Shreya Creation"}
+          subtitle={tx(nri, lang, "whySubtitle")}
+        />
+        <ul className="nri-checks">
+          {whyPoints.map((item) => {
+            const text = typeof item === "string" ? item : localized(item, hi, "text", "textHi");
+            if (!text) return null;
+            return (
+              <li key={text} className="nri-check">
+                <span aria-hidden>✔</span>
+                {text}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section id="nri-faq" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <SectionHead
+          eyebrow={tx(nri, lang, "faqEyebrow") || "FAQ"}
+          title={tx(nri, lang, "faqTitle") || "Frequently Asked Questions"}
+          subtitle={tx(nri, lang, "faqSubtitle")}
+        />
+        <NriFaqAccordion faqs={faqs} />
       </section>
     </div>
   );

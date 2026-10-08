@@ -1,6 +1,6 @@
 "use client";
 
-import { PAGE_CONTAINER, REVEAL } from "@/lib/ui";
+import { PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/components/LanguageProvider";
 import LocalizedSectionHeader from "@/components/LocalizedSectionHeader";
@@ -86,6 +86,12 @@ function normalizeSteps(raw) {
 
 export default function NriClientsHighlights({
   highlights,
+  highlightEyebrow,
+  highlightEyebrowHi,
+  highlightTitle,
+  highlightTitleHi,
+  highlightSubtitle,
+  highlightSubtitleHi,
   processEyebrow,
   processEyebrowHi,
   processTitle,
@@ -101,22 +107,32 @@ export default function NriClientsHighlights({
 
   return (
     <>
-      <div className={cn(PAGE_CONTAINER, "mx-auto", "max-w-5xl", "pb-10", "sm:pb-14", "relative", "z-20")}>
-        <ul className="grid gap-6 sm:grid-cols-3">
-          {items.map((item) => (
-            <li key={item.title} className={cn(REVEAL, "border-t border-orange/20 pt-5")}>
-              <h2 className="font-display text-lg text-ink sm:text-xl">
-                {hi && item.titleHi ? item.titleHi : item.title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-ink/70 sm:text-[0.9375rem]">
-                {hi && item.bodyHi ? item.bodyHi : item.body}
-              </p>
+      <section id="nri-support" className={cn(PAGE_CONTAINER, PAGE_SECTION, "nri-block max-w-6xl")}>
+        <LocalizedSectionHeader
+          eyebrow={highlightEyebrow || "For families abroad"}
+          eyebrowHi={highlightEyebrowHi || "विदेश में परिवारों के लिए"}
+          title={highlightTitle || "Stitching Support Built for NRI Clients"}
+          titleHi={highlightTitleHi || "NRI क्लाइंट्स के लिए सिलाई सपोर्ट"}
+          subtitle={
+            highlightSubtitle ||
+            "Measurements, bridal wear and shipping — planned around your travel and wedding dates."
+          }
+          subtitleHi={highlightSubtitleHi}
+        />
+        <ul className="nri-highlights">
+          {items.map((item, index) => (
+            <li key={item.title} className="nri-card">
+              <span className="nri-card__index" aria-hidden>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="nri-card__title">{hi && item.titleHi ? item.titleHi : item.title}</h3>
+              <p className="nri-card__body">{hi && item.bodyHi ? item.bodyHi : item.body}</p>
             </li>
           ))}
         </ul>
-      </div>
+      </section>
 
-      <section className={cn(PAGE_CONTAINER, "mx-auto", "max-w-5xl", "pb-12", "sm:pb-16", "relative", "z-20")}>
+      <section id="nri-process" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
         <LocalizedSectionHeader
           eyebrow={processEyebrow || "How it works"}
           eyebrowHi={processEyebrowHi || "कैसे काम करता है"}
@@ -128,16 +144,12 @@ export default function NriClientsHighlights({
           }
           subtitleHi={processSubtitleHi}
         />
-        <ol className="mt-8 grid gap-6 sm:grid-cols-2">
+        <ol className="nri-steps">
           {steps.map((item) => (
-            <li key={item.step} className={cn(REVEAL, "rounded-2xl border border-orange/15 bg-orange/[0.03] p-5 sm:p-6")}>
-              <span className="font-display text-sm tracking-widest text-orange">{item.step}</span>
-              <h3 className="mt-2 font-display text-lg text-ink sm:text-xl">
-                {hi && item.titleHi ? item.titleHi : item.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink/70">
-                {hi && item.descHi ? item.descHi : item.desc}
-              </p>
+            <li key={item.step} className="nri-step">
+              <span className="nri-step__no">{item.step}</span>
+              <h3 className="nri-card__title">{hi && item.titleHi ? item.titleHi : item.title}</h3>
+              <p className="nri-card__body">{hi && item.descHi ? item.descHi : item.desc}</p>
             </li>
           ))}
         </ol>

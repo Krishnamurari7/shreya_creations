@@ -13,6 +13,12 @@ import {
   LANDING_PROCESS_FIELDS,
   LANDING_FAQ_FIELDS,
   LANDING_SEARCH_FIELDS,
+  NRI_HIGHLIGHT_FIELDS,
+  NRI_STEP_FIELDS,
+  NRI_POINT_FIELDS,
+  NRI_SERVICE_FIELDS,
+  NRI_TOPIC_FIELDS,
+  NRI_RAIL_FIELDS,
 } from "@/lib/cms/defaults";
 import {
   CATEGORY_CARD_FIELDS,
@@ -110,15 +116,14 @@ export function CtaEditor({ page, onChange, showHighlight = false, showWaMessage
       </div>
       <BilingualField label="Secondary button" enKey={fk("secondary_label")} hiKey={fk("secondary_label_hi")} values={page} onChange={onChange} />
       {showWaMessage && (
-        <div>
-          <label className={ADMIN_LABEL}>WhatsApp message (optional)</label>
-          <textarea
-            rows={2}
-            value={page[fk("wa_message")] || ""}
-            onChange={(e) => onChange(fk("wa_message"), e.target.value)}
-            className={ADMIN_INPUT}
-          />
-        </div>
+        <BilingualTextarea
+          label="WhatsApp message"
+          enKey={fk("wa_message")}
+          hiKey={fk("wa_message_hi")}
+          values={page}
+          onChange={onChange}
+          rows={3}
+        />
       )}
     </>
   );
@@ -722,6 +727,280 @@ export function HomeTab({ home, patchPage }) {
       <p className="admin-muted">
         Testimonial cards: <a href="/admin/testimonials" className="text-gold hover:underline">Testimonials admin</a>.
       </p>
+    </>
+  );
+}
+
+function ImageAltFields({ label, enKey, hiKey, page, onChange }) {
+  return (
+    <BilingualField label={label} enKey={enKey} hiKey={hiKey} values={page} onChange={onChange} />
+  );
+}
+
+/** Full CMS editor for /nri-clients. Header title is the page H1; section titles are H2. */
+export function NriPageEditor({ page, onChange }) {
+  return (
+    <>
+      <SectionHeading>SEO</SectionHeading>
+      <p className="admin-muted">
+        Public URL: <code>/nri-clients</code> and <code>/hi/nri-clients</code>. Meta title and description
+        power search results. The page header title is the only H1. Each section title is an H2.
+      </p>
+      <BilingualField label="Meta title" enKey="meta_title" hiKey="meta_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea
+        label="Meta description"
+        enKey="meta_description"
+        hiKey="meta_description_hi"
+        values={page}
+        onChange={onChange}
+        rows={3}
+      />
+      <div>
+        <label className={ADMIN_LABEL}>OG / social image (optional — falls back to hero image)</label>
+        <ImageUploader value={page.og_image || ""} onChange={(url) => onChange("og_image", url)} />
+      </div>
+      <ImageAltFields label="Social image alt" enKey="image_alt" hiKey="image_alt_hi" page={page} onChange={onChange} />
+
+      <HeaderSimple page={page} onChange={onChange} />
+      <p className="admin-muted">Header title = on-page H1. Keep the main keyword in this heading.</p>
+      <BilingualTextarea
+        label="Hero lead paragraph"
+        enKey="hero_subtitle"
+        hiKey="hero_subtitle_hi"
+        values={page}
+        onChange={onChange}
+        rows={3}
+      />
+      <div>
+        <label className={ADMIN_LABEL}>Hero image</label>
+        <ImageUploader multiple={false} value={page.hero_image || ""} onChange={(url) => onChange("hero_image", url)} />
+      </div>
+      <ImageAltFields label="Hero image alt" enKey="hero_image_alt" hiKey="hero_image_alt_hi" page={page} onChange={onChange} />
+      <SectionHeading>Hero buttons</SectionHeading>
+      <BilingualField label="Stitching button" enKey="hero_cta_stitch" hiKey="hero_cta_stitch_hi" values={page} onChange={onChange} />
+      <BilingualField label="Class button" enKey="hero_cta_class" hiKey="hero_cta_class_hi" values={page} onChange={onChange} />
+      <BilingualField label="WhatsApp button" enKey="hero_cta_wa" hiKey="hero_cta_wa_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Hero badges"
+        items={page.rail || []}
+        onChange={(v) => onChange("rail", v)}
+        addLabel="Add badge"
+        fields={NRI_RAIL_FIELDS}
+      />
+
+      <SectionHeading>Highlight cards (H2 + H3)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="highlights_eyebrow" hiKey="highlights_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="highlights_title" hiKey="highlights_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="highlights_subtitle" hiKey="highlights_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Highlight cards"
+        items={page.highlights || []}
+        onChange={(v) => onChange("highlights", v)}
+        addLabel="Add highlight"
+        fields={NRI_HIGHLIGHT_FIELDS}
+      />
+
+      <SectionHeading>Order process (H2 + H3)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="process_eyebrow" hiKey="process_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="process_title" hiKey="process_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="process_subtitle" hiKey="process_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Process steps"
+        items={page.process_steps || []}
+        onChange={(v) => onChange("process_steps", v)}
+        addLabel="Add step"
+        fields={NRI_STEP_FIELDS}
+      />
+
+      <SectionHeading>Feature strip (H2 + H3)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="features_eyebrow" hiKey="features_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="features_title" hiKey="features_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="features_subtitle" hiKey="features_subtitle_hi" values={page} onChange={onChange} />
+      <FeaturesEditor page={page} onChange={onChange} />
+
+      <SectionHeading>Concept (H2)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="concept_eyebrow" hiKey="concept_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="concept_title" hiKey="concept_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="concept_subtitle" hiKey="concept_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Points"
+        items={page.concept_points || []}
+        onChange={(v) => onChange("concept_points", v)}
+        addLabel="Add point"
+        fields={NRI_POINT_FIELDS}
+      />
+
+      <SectionHeading>Services (H2 + H3)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="services_eyebrow" hiKey="services_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="services_title" hiKey="services_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="services_subtitle" hiKey="services_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Service cards"
+        items={page.services || []}
+        onChange={(v) => onChange("services", v)}
+        addLabel="Add service"
+        fields={NRI_SERVICE_FIELDS}
+      />
+
+      <SectionHeading>Fashion training (H2 + H3)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="training_eyebrow" hiKey="training_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="training_title" hiKey="training_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="training_subtitle" hiKey="training_subtitle_hi" values={page} onChange={onChange} />
+      <BilingualField label="Online card title" enKey="training_online_title" hiKey="training_online_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Online card text" enKey="training_online_desc" hiKey="training_online_desc_hi" values={page} onChange={onChange} />
+      <BilingualField label="Offline card title" enKey="training_offline_title" hiKey="training_offline_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Offline card text" enKey="training_offline_desc" hiKey="training_offline_desc_hi" values={page} onChange={onChange} />
+      <BilingualField label="Note" enKey="training_note" hiKey="training_note_hi" values={page} onChange={onChange} />
+      <BilingualField label="Button" enKey="training_cta" hiKey="training_cta_hi" values={page} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Training image</label>
+        <ImageUploader multiple={false} value={page.training_image || ""} onChange={(url) => onChange("training_image", url)} />
+      </div>
+      <ImageAltFields label="Training image alt" enKey="training_image_alt" hiKey="training_image_alt_hi" page={page} onChange={onChange} />
+
+      <SectionHeading>Learn topics (H2)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="learn_eyebrow" hiKey="learn_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="learn_title" hiKey="learn_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="learn_subtitle" hiKey="learn_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Topics"
+        items={page.learn_topics || []}
+        onChange={(v) => onChange("learn_topics", v)}
+        addLabel="Add topic"
+        fields={NRI_TOPIC_FIELDS}
+      />
+
+      <SectionHeading>Ready-to-wear saree (H2)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="rtw_eyebrow" hiKey="rtw_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="rtw_title" hiKey="rtw_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="rtw_subtitle" hiKey="rtw_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Points"
+        items={page.rtw_points || []}
+        onChange={(v) => onChange("rtw_points", v)}
+        addLabel="Add point"
+        fields={NRI_POINT_FIELDS}
+      />
+      <BilingualTextarea label="Keyword line" enKey="rtw_keywords" hiKey="rtw_keywords_hi" values={page} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Section image</label>
+        <ImageUploader multiple={false} value={page.rtw_image || ""} onChange={(url) => onChange("rtw_image", url)} />
+      </div>
+      <ImageAltFields label="Image alt" enKey="rtw_image_alt" hiKey="rtw_image_alt_hi" page={page} onChange={onChange} />
+
+      <SectionHeading>Remote learning banner (H2)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="remote_kicker" hiKey="remote_kicker_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="remote_title" hiKey="remote_title_hi" values={page} onChange={onChange} />
+      <BilingualField label="Script line" enKey="remote_script" hiKey="remote_script_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Body" enKey="remote_body" hiKey="remote_body_hi" values={page} onChange={onChange} />
+      <BilingualField label="Courses button" enKey="remote_primary_label" hiKey="remote_primary_label_hi" values={page} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Courses link</label>
+        <input
+          value={page.remote_primary_href || "/courses"}
+          onChange={(e) => onChange("remote_primary_href", e.target.value)}
+          className={ADMIN_INPUT}
+        />
+      </div>
+      <BilingualField label="Class button" enKey="remote_secondary_label" hiKey="remote_secondary_label_hi" values={page} onChange={onChange} />
+
+      <SectionHeading>Class steps (H2 + H3)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="classes_eyebrow" hiKey="classes_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="classes_title" hiKey="classes_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="classes_subtitle" hiKey="classes_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Class steps"
+        items={page.class_steps || []}
+        onChange={(v) => onChange("class_steps", v)}
+        addLabel="Add step"
+        fields={NRI_STEP_FIELDS}
+      />
+
+      <SectionHeading>Bridal (H2)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="bridal_eyebrow" hiKey="bridal_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="bridal_title" hiKey="bridal_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Quote" enKey="bridal_quote" hiKey="bridal_quote_hi" values={page} onChange={onChange} rows={2} />
+      <BilingualTextarea label="Body" enKey="bridal_body" hiKey="bridal_body_hi" values={page} onChange={onChange} />
+      <BilingualField label="Stitching button" enKey="bridal_cta" hiKey="bridal_cta_hi" values={page} onChange={onChange} />
+      <BilingualField label="Portfolio button" enKey="bridal_secondary_label" hiKey="bridal_secondary_label_hi" values={page} onChange={onChange} />
+      <div>
+        <label className={ADMIN_LABEL}>Portfolio link</label>
+        <input
+          value={page.bridal_secondary_href || "/portfolio"}
+          onChange={(e) => onChange("bridal_secondary_href", e.target.value)}
+          className={ADMIN_INPUT}
+        />
+      </div>
+      <div>
+        <label className={ADMIN_LABEL}>Bridal image</label>
+        <ImageUploader multiple={false} value={page.bridal_image || ""} onChange={(url) => onChange("bridal_image", url)} />
+      </div>
+      <ImageAltFields label="Bridal image alt" enKey="bridal_image_alt" hiKey="bridal_image_alt_hi" page={page} onChange={onChange} />
+
+      <SectionHeading>Why choose (H2)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="why_eyebrow" hiKey="why_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="why_title" hiKey="why_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="why_subtitle" hiKey="why_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Reasons"
+        items={page.why_points || []}
+        onChange={(v) => onChange("why_points", v)}
+        addLabel="Add reason"
+        fields={NRI_POINT_FIELDS}
+      />
+
+      <SectionHeading>FAQ (H2 + H3)</SectionHeading>
+      <BilingualField label="Eyebrow" enKey="faq_eyebrow" hiKey="faq_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Heading" enKey="faq_title" hiKey="faq_title_hi" values={page} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="faq_subtitle" hiKey="faq_subtitle_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Questions"
+        items={page.faqs || []}
+        onChange={(v) => onChange("faqs", v)}
+        addLabel="Add question"
+        fields={LANDING_FAQ_FIELDS}
+      />
+
+      <SectionHeading>WhatsApp messages</SectionHeading>
+      <p className="admin-muted">
+        Text that opens in WhatsApp when someone taps a button on this page. Stitching buttons share one message.
+        Class buttons share another.
+      </p>
+      <BilingualTextarea
+        label="Custom stitching buttons"
+        enKey="wa_stitch_message"
+        hiKey="wa_stitch_message_hi"
+        values={page}
+        onChange={onChange}
+        rows={3}
+      />
+      <BilingualTextarea
+        label="1-to-1 class buttons"
+        enKey="wa_class_message"
+        hiKey="wa_class_message_hi"
+        values={page}
+        onChange={onChange}
+        rows={3}
+      />
+      <BilingualTextarea
+        label="General WhatsApp button"
+        enKey="wa_general_message"
+        hiKey="wa_general_message_hi"
+        values={page}
+        onChange={onChange}
+        rows={3}
+      />
+
+      <CtaEditor page={page} onChange={onChange} showWaMessage />
+      <BilingualField label="Bottom CTA eyebrow" enKey="cta_eyebrow" hiKey="cta_eyebrow_hi" values={page} onChange={onChange} />
+      <BilingualField label="Reply line" enKey="cta_reply" hiKey="cta_reply_hi" values={page} onChange={onChange} />
+      <RepeaterField
+        label="Bottom CTA perks"
+        items={page.cta_perks || []}
+        onChange={(v) => onChange("cta_perks", v)}
+        addLabel="Add perk"
+        fields={NRI_POINT_FIELDS}
+      />
     </>
   );
 }

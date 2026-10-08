@@ -219,7 +219,16 @@ export function pageCtaProps(page) {
     secondaryHref: secondaryHref === "" ? null : secondaryHref ?? "/contact",
     secondaryLabel: page.ctaSecondaryLabel,
     secondaryLabelHi: page.ctaSecondaryLabelHi,
+    eyebrow: page.ctaEyebrow,
+    eyebrowHi: page.ctaEyebrowHi,
+    reply: page.ctaReply,
+    replyHi: page.ctaReplyHi,
+    perks: Array.isArray(page.ctaPerks) ? page.ctaPerks.map((item) => item.text).filter(Boolean) : undefined,
+    perksHi: Array.isArray(page.ctaPerks)
+      ? page.ctaPerks.map((item) => item.textHi || item.text).filter(Boolean)
+      : undefined,
     waMessage: page.ctaWaMessage,
+    waMessageHi: page.ctaWaMessageHi,
   };
 }
 

@@ -16,14 +16,12 @@ import {
   CtaEditor,
   HomeTab,
   BoutiquePageEditor,
+  NriPageEditor,
 } from "@/components/admin/PageEditorForm";
 import {
   PAGE_DEFAULTS,
   DEFAULT_PILLARS,
   PAGE_EDITOR_KEYS,
-  FEATURE_FIELDS,
-  NRI_HIGHLIGHT_FIELDS,
-  NRI_STEP_FIELDS,
 } from "@/lib/cms/defaults";
 import {
   mergeJourneyCardsForEditor,
@@ -114,6 +112,13 @@ export default function PagesAdmin() {
           }
           if (key === "about") {
             base[key].journey_steps = mergeAboutJourneyForEditor(base[key].journey_steps);
+          }
+          if (key === "nri") {
+            const legacyTitle = "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna";
+            const hindiTitle = PAGE_DEFAULTS.nri.header_title_hi;
+            if (!base[key].header_title_hi || base[key].header_title_hi === legacyTitle) {
+              base[key].header_title_hi = hindiTitle;
+            }
           }
           if (BOUTIQUE_SERVICES.some((s) => s.cmsKey === key)) {
             const def = PAGE_DEFAULTS[key] || {};
@@ -446,51 +451,7 @@ export default function PagesAdmin() {
           </>
         )}
 
-        {tab === "nri" && (
-          <>
-            <HeaderSimple page={page} onChange={onChange} />
-            <BilingualTextarea
-              label="Hero lead paragraph"
-              enKey="hero_subtitle"
-              hiKey="hero_subtitle_hi"
-              values={page}
-              onChange={onChange}
-              rows={3}
-            />
-            <div>
-              <label className={ADMIN_LABEL}>Hero image</label>
-              <ImageUploader multiple={false} value={page.hero_image || ""} onChange={(url) => onChange("hero_image", url)} />
-            </div>
-            <SectionHeading>Service highlights</SectionHeading>
-            <RepeaterField
-              label="Highlight cards"
-              items={page.highlights || []}
-              onChange={(v) => onChange("highlights", v)}
-              addLabel="Add highlight"
-              fields={NRI_HIGHLIGHT_FIELDS}
-            />
-            <SectionHeading>Process section</SectionHeading>
-            <BilingualField label="Eyebrow" enKey="process_eyebrow" hiKey="process_eyebrow_hi" values={page} onChange={onChange} />
-            <BilingualField label="Title" enKey="process_title" hiKey="process_title_hi" values={page} onChange={onChange} />
-            <BilingualTextarea label="Subtitle" enKey="process_subtitle" hiKey="process_subtitle_hi" values={page} onChange={onChange} />
-            <RepeaterField
-              label="Process steps"
-              items={page.process_steps || []}
-              onChange={(v) => onChange("process_steps", v)}
-              addLabel="Add step"
-              fields={NRI_STEP_FIELDS}
-            />
-            <SectionHeading>Feature strip</SectionHeading>
-            <RepeaterField
-              label="Feature cards"
-              items={page.features || []}
-              onChange={(v) => onChange("features", v)}
-              addLabel="Add feature"
-              fields={FEATURE_FIELDS}
-            />
-            <CtaEditor page={page} onChange={onChange} showWaMessage />
-          </>
-        )}
+        {tab === "nri" && <NriPageEditor page={page} onChange={onChange} />}
 
         {tab === "faq" && (
           <>

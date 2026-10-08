@@ -1,4 +1,8 @@
 export { default } from "../../nri-clients/page";
-import { buildHiPageMetadata } from "@/lib/hi-seo";
+import { getSiteSettings } from "@/lib/data";
+import { buildNriPageMetadata } from "@/lib/nri-seo";
 
-export const metadata = buildHiPageMetadata("nriClients");
+export async function generateMetadata() {
+  const site = await getSiteSettings();
+  return buildNriPageMetadata(site.pages?.nri || {}, "hi");
+}
