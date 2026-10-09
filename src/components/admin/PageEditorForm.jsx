@@ -743,8 +743,9 @@ export function NriPageEditor({ page, onChange }) {
     <>
       <SectionHeading>SEO</SectionHeading>
       <p className="admin-muted">
-        Public URL: <code>/nri-clients</code> and <code>/hi/nri-clients</code>. Meta title and description
-        power search results. The page header title is the only H1. Each section title is an H2.
+        Public URL: <code>/nri-clients</code> and <code>/hi/nri-clients</code> — NRI Fashion Designing Course
+        landing. Meta title and description power search results. The page header title is the only H1. Each
+        section title is an H2.
       </p>
       <BilingualField label="Meta title" enKey="meta_title" hiKey="meta_title_hi" values={page} onChange={onChange} />
       <BilingualTextarea
@@ -777,8 +778,8 @@ export function NriPageEditor({ page, onChange }) {
       </div>
       <ImageAltFields label="Hero image alt" enKey="hero_image_alt" hiKey="hero_image_alt_hi" page={page} onChange={onChange} />
       <SectionHeading>Hero buttons</SectionHeading>
-      <BilingualField label="Stitching button" enKey="hero_cta_stitch" hiKey="hero_cta_stitch_hi" values={page} onChange={onChange} />
-      <BilingualField label="Class button" enKey="hero_cta_class" hiKey="hero_cta_class_hi" values={page} onChange={onChange} />
+      <BilingualField label="Admission enquiry button" enKey="hero_cta_stitch" hiKey="hero_cta_stitch_hi" values={page} onChange={onChange} />
+      <BilingualField label="Call button" enKey="hero_cta_class" hiKey="hero_cta_class_hi" values={page} onChange={onChange} />
       <BilingualField label="WhatsApp button" enKey="hero_cta_wa" hiKey="hero_cta_wa_hi" values={page} onChange={onChange} />
       <RepeaterField
         label="Hero badges"

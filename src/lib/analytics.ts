@@ -205,6 +205,7 @@ export function inferCtaLabel(target: EventTarget | null): string {
   if (root.closest(".category-cards") || root.closest(".explore-card")) return "category_card";
   if (root.closest(".inquiry-popup-root")) return "inquiry_popup";
   if (root.closest(".boutique-client")) return "boutique";
+  if (root.closest(".nri-page")) return "nri_course";
 
   const aria = root.getAttribute("aria-label");
   if (aria && !PHONE_RE.test(aria) && !EMAIL_RE.test(aria)) {

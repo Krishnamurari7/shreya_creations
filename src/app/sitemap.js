@@ -17,7 +17,7 @@ const STATIC_PATHS = [
   })),
   { path: "/portfolio", changeFrequency: "weekly", priority: 0.7 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.6 },
-  { path: "/nri-clients", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/nri-clients", changeFrequency: "weekly", priority: 0.85 },
   { path: "/ladies-tailor-patna", changeFrequency: "monthly", priority: 0.75 },
   { path: "/boutique-boring-road", changeFrequency: "monthly", priority: 0.75 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.8 },

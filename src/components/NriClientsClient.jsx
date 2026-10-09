@@ -23,7 +23,16 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
 import { resolveMediaSrc, MEDIA } from "@/lib/media";
 import { waLink, nriStitchMessage, nriClassMessage, nriClientMessage } from "@/lib/whatsapp";
-import { NRI_FAQS, nriServices, nriLearnTopics, nriClassSteps, nriWhyChoose } from "@/lib/nri-content";
+import { telHref } from "@/lib/site-config";
+import {
+  NRI_FAQS,
+  NRI_RELATED_COURSES,
+  STALE_NRI_H1S,
+  nriServices,
+  nriLearnTopics,
+  nriClassSteps,
+  nriWhyChoose,
+} from "@/lib/nri-content";
 import { pickFaq } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -135,31 +144,33 @@ export default function NriClientsClient({ site, nriPage }) {
   const stitchHref = waLink(site.whatsapp, tx(nri, lang, "waStitchMessage") || nriStitchMessage(lang));
   const classHref = waLink(site.whatsapp, tx(nri, lang, "waClassMessage") || nriClassMessage(lang));
   const waHref = waLink(site.whatsapp, tx(nri, lang, "waGeneralMessage") || nriClientMessage(lang));
+  const phoneHref = telHref(site.phonePrimary || site.phone1 || site.phone);
+  const registerHref = "/register";
 
-  const eyebrow = tx(nri, lang, "headerEyebrow") || (hi ? "NRI क्लाइंट्स और ग्लोबल फैशन सेवाएँ" : "NRI Clients & Global Fashion Services");
-  const legacyEnglishTitle = "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna";
-  const hindiTitle = "पटना से NRI बुटीक, कस्टम सिलाई और फैशन डिजाइनिंग सेवाएँ";
+  const eyebrow = tx(nri, lang, "headerEyebrow") || (hi ? "NRI फैशन डिजाइनिंग कोर्स" : "NRI Fashion Designing Course");
+  const englishTitle = "NRI Fashion Designing Course — Online & Hybrid Training from Patna, Bihar";
+  const hindiTitle = "NRI फैशन डिजाइनिंग कोर्स — पटना, बिहार से ऑनलाइन और हाइब्रिड ट्रेनिंग";
   const storedTitle = tx(nri, lang, "headerTitle");
   const title =
-    (hi && (!storedTitle || storedTitle === legacyEnglishTitle) ? hindiTitle : storedTitle) ||
-    (hi ? hindiTitle : legacyEnglishTitle);
+    (storedTitle && !STALE_NRI_H1S.includes(storedTitle) ? storedTitle : null) ||
+    (hi ? hindiTitle : englishTitle);
   const heroLine =
     tx(nri, lang, "headerSubtitle") ||
     (hi
-      ? "विदेश में रहते हैं? Shreya Creation के साथ Indian fashion design, stitch या learn करें।"
-      : "Living Abroad? Design, Stitch or Learn Indian Fashion with Shreya Creation.");
+      ? "ओवरसीज़ इंडियंस और इंटरनेशनल स्टूडेंट्स के लिए — भारत से सीखें।"
+      : "For overseas Indians and international students who want to learn from India.");
   const heroLead =
     tx(nri, lang, "heroSubtitle") ||
     (hi
-      ? "NRI clients के लिए designer blouse, bridal wear, lehenga, suit, ready-to-wear saree और customised outfits — साथ ही 1-to-1 online/offline fashion designing classes।"
-      : "Designer blouses, bridal wear, lehengas, suits, ready-to-wear sarees and customised outfits for NRI clients — plus 1-to-1 online and offline fashion designing classes.");
+      ? "Flexible timings, online guidance, international payment options, remote support और सर्टिफिकेट — साथ में Bihar के boutique training institute से India-based boutique expertise।"
+      : "Flexible timings, online guidance, international payment options, remote support and a certificate — plus India-based boutique expertise from a boutique training institute in Bihar.");
 
   const rail = Array.isArray(nri.rail) && nri.rail.length
     ? nri.rail
     : [
-        { emoji: "🌍", label: "Global Clients", labelHi: "ग्लोबल क्लाइंट्स" },
-        { emoji: "👗", label: "Custom Stitching", labelHi: "कस्टम सिलाई" },
-        { emoji: "🎓", label: "1-to-1 Classes", labelHi: "1-to-1 क्लासेस" },
+        { emoji: "🌍", label: "Overseas Indians", labelHi: "ओवरसीज़ इंडियंस" },
+        { emoji: "🕐", label: "Flexible Timings", labelHi: "लचीली टाइमिंग" },
+        { emoji: "📜", label: "Certificate", labelHi: "सर्टिफिकेट" },
       ];
 
   const features = Array.isArray(nri.features) ? nri.features : [];
@@ -235,13 +246,32 @@ export default function NriClientsClient({ site, nriPage }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.32, ease: EASE }}
             >
-              <a href={stitchHref} target="_blank" rel="noopener noreferrer" className={BTN_PRIMARY}>
-                {tx(nri, lang, "heroCtaStitch") || (hi ? "कस्टम सिलाई बुक करें" : "Book Custom Stitching")}
-              </a>
-              <a href={classHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY, "nri-cta-wa")}>
-                {tx(nri, lang, "heroCtaClass") || (hi ? "1-to-1 क्लास जॉइन करें" : "Join 1-to-1 Class")}
-              </a>
-              <a href={waHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_SECONDARY, "inline-flex items-center gap-2")}>
+              <Link
+                href={registerHref}
+                className={BTN_PRIMARY}
+                data-track-cta="nri_admission_form"
+                data-track-item="NRI Fashion Designing Course"
+              >
+                {tx(nri, lang, "heroCtaStitch") || (hi ? "एडमिशन पूछें" : "Enquire for Admission")}
+              </Link>
+              {phoneHref ? (
+                <a
+                  href={phoneHref}
+                  className={cn(BTN_PRIMARY, "nri-cta-call")}
+                  data-track-cta="nri_phone"
+                  data-track-item="NRI Fashion Designing Course"
+                >
+                  {tx(nri, lang, "heroCtaClass") || (hi ? "अभी कॉल करें" : "Call Now")}
+                </a>
+              ) : null}
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(BTN_SECONDARY, "inline-flex items-center gap-2")}
+                data-track-cta="nri_whatsapp"
+                data-track-item="NRI Fashion Designing Course"
+              >
                 <WhatsAppGlyph />
                 {tx(nri, lang, "heroCtaWa") || "WhatsApp"}
               </a>
@@ -386,8 +416,15 @@ export default function NriClientsClient({ site, nriPage }) {
               </article>
             </div>
             {tx(nri, lang, "trainingNote") && <p className="nri-note">{tx(nri, lang, "trainingNote")}</p>}
-            <a href={classHref} target="_blank" rel="noopener noreferrer" className={cn(BTN_PRIMARY, "mt-6 inline-flex")}>
-              {tx(nri, lang, "trainingCta") || "Join 1-to-1 Fashion Class"}
+            <a
+              href={classHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(BTN_PRIMARY, "mt-6 inline-flex")}
+              data-track-cta="nri_training_whatsapp"
+              data-track-item="NRI Fashion Designing Course"
+            >
+              {tx(nri, lang, "trainingCta") || (hi ? "एडमिशन पूछें" : "Enquire for Admission")}
             </a>
           </motion.div>
           <motion.div {...rise(0.1)} className="min-w-0">
@@ -463,10 +500,17 @@ export default function NriClientsClient({ site, nriPage }) {
           <p className="nri-banner__body">{tx(nri, lang, "remoteBody")}</p>
           <div className="nri-ctas nri-ctas--center">
             <Link href={nri.remotePrimaryHref || "/courses"} className={BTN_SECONDARY}>
-              {tx(nri, lang, "remotePrimaryLabel") || (hi ? "कोर्स देखें" : "View Courses")}
+              {tx(nri, lang, "remotePrimaryLabel") || (hi ? "अन्य कोर्स देखें" : "View Other Courses")}
             </Link>
-            <a href={classHref} target="_blank" rel="noopener noreferrer" className={BTN_PRIMARY}>
-              {tx(nri, lang, "remoteSecondaryLabel") || (hi ? "1-to-1 क्लास जॉइन करें" : "Join 1-to-1 Class")}
+            <a
+              href={classHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={BTN_PRIMARY}
+              data-track-cta="nri_remote_whatsapp"
+              data-track-item="NRI Fashion Designing Course"
+            >
+              {tx(nri, lang, "remoteSecondaryLabel") || (hi ? "एडमिशन पूछें" : "Enquire for Admission")}
             </a>
           </div>
         </motion.div>
@@ -502,8 +546,15 @@ export default function NriClientsClient({ site, nriPage }) {
             )}
             <p className="nri-lead nri-lead--left">{tx(nri, lang, "bridalBody")}</p>
             <div className="nri-ctas">
-              <a href={stitchHref} target="_blank" rel="noopener noreferrer" className={BTN_PRIMARY}>
-                {tx(nri, lang, "bridalCta") || "Book Custom Stitching"}
+              <a
+                href={stitchHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={BTN_PRIMARY}
+                data-track-cta="nri_stitch_whatsapp"
+                data-track-item="NRI custom stitching"
+              >
+                {tx(nri, lang, "bridalCta") || (hi ? "कस्टम सिलाई पूछें" : "Ask About Custom Stitching")}
               </a>
               <Link href={nri.bridalSecondaryHref || "/portfolio"} className={BTN_SECONDARY}>
                 {tx(nri, lang, "bridalSecondaryLabel") || (hi ? "ब्राइडल पोर्टफोलियो" : "Bridal Portfolio")}
@@ -538,6 +589,32 @@ export default function NriClientsClient({ site, nriPage }) {
               </li>
             );
           })}
+        </ul>
+      </section>
+
+      <section id="nri-related" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
+        <SectionHead
+          eyebrow={hi ? "अन्य कोर्स" : "Related courses"}
+          title={hi ? "पटना और बिहार में और boutique training" : "More boutique training in Patna & Bihar"}
+          subtitle={
+            hi
+              ? "हर कोर्स की audience अलग है — Basic, Advanced और 9-month Commando training के पेज देखें।"
+              : "Each course targets a different audience — Basic, Advanced, and 9-month Commando training."
+          }
+        />
+        <ul className="nri-features">
+          {NRI_RELATED_COURSES.map((course) => (
+            <li key={course.href}>
+              <Link href={course.href} className="nri-card nri-card--soft block">
+                <h3 className="nri-card__title">{hi ? course.titleHi : course.title}</h3>
+                <p className="nri-card__body">
+                  <strong>{course.fee}</strong>
+                  {" — "}
+                  {hi ? course.audienceHi : course.audience}
+                </p>
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
 

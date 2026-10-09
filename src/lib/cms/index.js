@@ -1,4 +1,5 @@
 import { PAGE_DEFAULTS, DEFAULT_PILLARS, DEFAULT_JOURNEY_CARDS } from "@/lib/cms/defaults";
+import { STALE_NRI_H1S, STALE_NRI_META_TITLES } from "@/lib/nri-content";
 import {
   DEFAULT_ABOUT_JOURNEY,
   DEFAULT_CATEGORY_CARDS,
@@ -46,11 +47,26 @@ function mergePreferFilled(base, fromDb) {
   return out;
 }
 
+function isStaleNriPage(fromDb = {}) {
+  const meta = fromDb.metaTitle || "";
+  const h1 = fromDb.headerTitle || "";
+  const stitchCta = fromDb.heroCtaStitch || "";
+  return (
+    STALE_NRI_META_TITLES.includes(meta) ||
+    STALE_NRI_H1S.includes(h1) ||
+    stitchCta === "Book Custom Stitching"
+  );
+}
+
 export function mergePageDefaults(pages = {}) {
   const merged = {};
   for (const slug of Object.keys(PAGE_DEFAULTS)) {
     const base = keysToCamel(PAGE_DEFAULTS[slug]);
     const fromDb = pages[slug] && typeof pages[slug] === "object" ? keysToCamel(pages[slug]) : {};
+    if (slug === "nri" && isStaleNriPage(fromDb)) {
+      merged[slug] = base;
+      continue;
+    }
     merged[slug] = mergePreferFilled(base, fromDb);
   }
   return merged;

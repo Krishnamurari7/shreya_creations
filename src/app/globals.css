@@ -7253,6 +7253,15 @@ html.dark .nav-desktop-links--minimal a.is-active {
   z-index: 80;
 }
 
+.nav-drop__panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 0.9rem;
+}
+
 .nav-drop__panel.is-open,
 .nav-drop:hover .nav-drop__panel {
   opacity: 1;

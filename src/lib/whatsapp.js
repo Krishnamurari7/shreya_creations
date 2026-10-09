@@ -118,9 +118,9 @@ export function portfolioMessage(lang = "en") {
 
 export function nriClientMessage(lang = "en") {
   if (lang === "hi") {
-    return "नमस्ते श्रेया क्रिएशन! 👋 मैं NRI क्लाइंट हूँ। ब्राइडल/कस्टम सिलाई और शिपिंग के बारे में जानकारी चाहिए। कृपया प्रोसेस बताएँ।";
+    return "नमस्ते श्रेया क्रिएशन! 👋 मुझे NRI फैशन डिजाइनिंग कोर्स (Patna से online / hybrid) की admission enquiry करनी है। कृपया अगले कदम बताएँ।";
   }
-  return "Hi Shreya Creation! 👋 I'm an NRI client. I'd like details on bridal/custom stitching and shipping support. Please share the process.";
+  return "Hi Shreya Creation! 👋 I'd like an admission enquiry for the NRI Fashion Designing Course (online / hybrid from Patna). Please share the next steps.";
 }
 
 /** NRI page — book custom stitching from abroad. */
@@ -134,9 +134,9 @@ export function nriStitchMessage(lang = "en") {
 /** NRI page — join 1-to-1 fashion class (online or offline). */
 export function nriClassMessage(lang = "en") {
   if (lang === "hi") {
-    return "नमस्ते श्रेया क्रिएशन! 👋 मैं NRI हूँ और 1-to-1 fashion designing / stitching class join करना चाहती/चाहता हूँ। कृपया online/offline options, topics और fees बताएँ।";
+    return "नमस्ते श्रेया क्रिएशन! 👋 मैं NRI / ओवरसीज़ इंडियन हूँ। NRI फैशन डिजाइनिंग कोर्स के एडमिशन डिटेल्स चाहिए। कृपया online/hybrid options, flexible timings, फीस, international payment options और सर्टिफिकेट बताएँ।";
   }
-  return "Hi Shreya Creation! 👋 I'm an NRI and would like to join a 1-to-1 fashion designing / stitching class. Please share online/offline options, topics and fees.";
+  return "Hi Shreya Creation! 👋 I'm an NRI / overseas Indian and would like admission details for the NRI Fashion Designing Course. Please share online/hybrid options, flexible timings, fees, international payment options and certificate info.";
 }
 
 export function lookbookMessage(lang = "en") {

@@ -6,7 +6,7 @@ import { getSiteSettings } from "@/lib/data";
 import { pageCtaProps } from "@/lib/cms";
 import { getRequestLocale } from "@/lib/locale";
 import { breadcrumbJsonLd, breadcrumbLabel, faqJsonLd } from "@/lib/seo";
-import { buildNriPageMetadata } from "@/lib/nri-seo";
+import { buildNriPageMetadata, nriCourseJsonLd } from "@/lib/nri-seo";
 import { NRI_FAQS } from "@/lib/nri-content";
 import { nriClientMessage } from "@/lib/whatsapp";
 
@@ -37,6 +37,7 @@ export default async function NriClientsPage() {
 
   return (
     <PageShell>
+      <JsonLdScript data={nriCourseJsonLd(nri, site, locale)} />
       <JsonLdScript data={faqJsonLd(faqs, locale)} />
       <JsonLdScript
         data={breadcrumbJsonLd(

@@ -7,53 +7,53 @@ import LocalizedSectionHeader from "@/components/LocalizedSectionHeader";
 
 const DEFAULT_HIGHLIGHTS = [
   {
-    title: "WhatsApp measurements",
-    titleHi: "WhatsApp माप",
-    body: "Share photos, reference looks and body measurements — we guide you step by step from abroad.",
-    bodyHi: "फ़ोटो, रेफ़रेंस लुक और माप भेजें — विदेश से भी हम स्टेप-बाय-स्टेप गाइड करेंगे।",
+    title: "Flexible timings",
+    titleHi: "लचीली टाइमिंग",
+    body: "Live slots planned around overseas time zones so international students can join without leaving their country.",
+    bodyHi: "ओवरसीज़ टाइम ज़ोन के हिसाब से लाइव स्लॉट — इंटरनेशनल स्टूडेंट्स अपने देश से join कर सकते हैं।",
   },
   {
-    title: "Bridal & custom stitching",
-    titleHi: "ब्राइडल और कस्टम सिलाई",
-    body: "Lehengas, blouses, suits and designer wear stitched in Patna for your wedding or festive dates.",
-    bodyHi: "लहंगा, ब्लाउज, सूट और डिज़ाइनर वियर — शादी या त्योहार की डेट के हिसाब से पटना में सिले।",
+    title: "Online guidance & remote support",
+    titleHi: "Online guidance और remote support",
+    body: "1-to-1 teaching plus WhatsApp help between classes for practice, fitting and boutique techniques.",
+    bodyHi: "1-to-1 टीचिंग और क्लास के बीच WhatsApp मदद — प्रैक्टिस, fitting और boutique techniques के लिए।",
   },
   {
-    title: "Secure shipping support",
-    titleHi: "सुरक्षित शिपिंग सपोर्ट",
-    body: "Packaging and courier coordination so your outfit reaches family in India or abroad safely.",
-    bodyHi: "पैकेजिंग और कूरियर कोऑर्डिनेशन — आउटफ़िट भारत या विदेश में परिवार तक सुरक्षित पहुँचे।",
+    title: "Certificate & boutique expertise",
+    titleHi: "सर्टिफिकेट और boutique expertise",
+    body: "Finish agreed modules for a certificate from a boutique training institute in Bihar, rooted in real Patna studio work.",
+    bodyHi: "तय मॉड्यूल पूरा करें — बिहार के boutique training institute से सर्टिफिकेट, असली Patna स्टूडियो के काम के साथ।",
   },
 ];
 
 const DEFAULT_STEPS = [
   {
     step: "01",
-    title: "Share your brief",
-    titleHi: "अपना ब्रीफ भेजें",
-    desc: "Occasion date, city for delivery/pickup, budget and reference photos on WhatsApp.",
-    descHi: "अवसर की डेट, डिलीवरी/पिकअप शहर, बजट और रेफ़रेंस फ़ोटो WhatsApp पर।",
+    title: "Share your enquiry",
+    titleHi: "Enquiry भेजें",
+    desc: "Country, time zone, skill level and whether you want online or hybrid training in Patna.",
+    descHi: "देश, टाइम ज़ोन, स्किल लेवल और online या Patna में hybrid training।",
   },
   {
     step: "02",
-    title: "Confirm design & fit",
-    titleHi: "डिज़ाइन और फिट कन्फर्म",
-    desc: "We guide measurements, fabric options and timeline before we start stitching.",
-    descHi: "सिलाई शुरू करने से पहले माप, कपड़ा और टाइमलाइन गाइड करते हैं।",
+    title: "Confirm syllabus & fees",
+    titleHi: "Syllabus और फीस कन्फर्म",
+    desc: "We share modules, duration, international payment options and certificate details.",
+    descHi: "मॉड्यूल, अवधि, international payment options और सर्टिफिकेट की जानकारी।",
   },
   {
     step: "03",
-    title: "Stitch in Patna",
-    titleHi: "पटना में सिलाई",
-    desc: "Your outfit is cut and finished at our Boring Road atelier to the agreed plan.",
-    descHi: "आउटफ़िट बोरिंग रोड एटेलियर में तय प्लान के अनुसार कट और फिनिश होता है।",
+    title: "Start live training",
+    titleHi: "लाइव ट्रेनिंग शुरू",
+    desc: "Online guidance from our Patna faculty, with remote support between sessions.",
+    descHi: "Patna फैकल्टी से online guidance — सेशन्स के बीच remote support।",
   },
   {
     step: "04",
-    title: "Ship or family pickup",
-    titleHi: "शिप या परिवार पिकअप",
-    desc: "Secure packaging with courier support — or family collects from the studio.",
-    descHi: "सुरक्षित पैकेजिंग व कूरियर — या परिवार स्टूडियो से ले जाएँ।",
+    title: "Certificate & next steps",
+    titleHi: "सर्टिफिकेट और अगला कदम",
+    desc: "Project review, certificate, and optional in-studio practicals when you visit Bihar.",
+    descHi: "प्रोजेक्ट रिव्यू, सर्टिफिकेट, और Bihar visit पर optional in-studio practicals।",
   },
 ];
 
@@ -109,13 +109,13 @@ export default function NriClientsHighlights({
     <>
       <section id="nri-support" className={cn(PAGE_CONTAINER, PAGE_SECTION, "nri-block max-w-6xl")}>
         <LocalizedSectionHeader
-          eyebrow={highlightEyebrow || "For families abroad"}
-          eyebrowHi={highlightEyebrowHi || "विदेश में परिवारों के लिए"}
-          title={highlightTitle || "Stitching Support Built for NRI Clients"}
-          titleHi={highlightTitleHi || "NRI क्लाइंट्स के लिए सिलाई सपोर्ट"}
+          eyebrow={highlightEyebrow || "Built for learners abroad"}
+          eyebrowHi={highlightEyebrowHi || "विदेश में सीखने वालों के लिए"}
+          title={highlightTitle || "A Fashion Designing Course Made for NRI Students"}
+          titleHi={highlightTitleHi || "NRI विद्यार्थियों के लिए फैशन डिजाइनिंग कोर्स"}
           subtitle={
             highlightSubtitle ||
-            "Measurements, bridal wear and shipping — planned around your travel and wedding dates."
+            "Online guidance, flexible timings and remote support — with India-based boutique expertise from Patna."
           }
           subtitleHi={highlightSubtitleHi}
         />
@@ -134,13 +134,13 @@ export default function NriClientsHighlights({
 
       <section id="nri-process" className={cn(PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, "nri-block max-w-6xl")}>
         <LocalizedSectionHeader
-          eyebrow={processEyebrow || "How it works"}
-          eyebrowHi={processEyebrowHi || "कैसे काम करता है"}
-          title={processTitle || "From WhatsApp to doorstep"}
-          titleHi={processTitleHi || "WhatsApp से डोरस्टेप तक"}
+          eyebrow={processEyebrow || "Admission path"}
+          eyebrowHi={processEyebrowHi || "एडमिशन पथ"}
+          title={processTitle || "From enquiry to certificate"}
+          titleHi={processTitleHi || "Enquiry से सर्टिफिकेट तक"}
           subtitle={
             processSubtitle ||
-            "A clear process so NRI families can plan outfits around travel and wedding dates."
+            "A clear admission path for overseas Indians joining online or hybrid fashion designing training."
           }
           subtitleHi={processSubtitleHi}
         />

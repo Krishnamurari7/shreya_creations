@@ -257,6 +257,7 @@ export default function Navbar({ site }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
+  const [boutiquePinned, setBoutiquePinned] = useState(false);
   const [mobileBoutiqueOpen, setMobileBoutiqueOpen] = useState(false);
   const pathname = usePathname();
   const prevPath = useRef(pathname);
@@ -272,7 +273,25 @@ export default function Navbar({ site }) {
     setMobileBoutiqueOpen(false);
   }, []);
 
-  const closeBoutique = useCallback(() => setBoutiqueOpen(false), []);
+  const closeBoutique = useCallback(() => {
+    setBoutiqueOpen(false);
+    setBoutiquePinned(false);
+  }, []);
+
+  const pinBoutique = useCallback(() => {
+    setBoutiquePinned((pinned) => {
+      if (pinned) {
+        setBoutiqueOpen(false);
+        return false;
+      }
+      setBoutiqueOpen(true);
+      return true;
+    });
+  }, []);
+
+  const leaveBoutique = useCallback(() => {
+    if (!boutiquePinned) setBoutiqueOpen(false);
+  }, [boutiquePinned]);
 
   useEffect(() => {
     if (prevPath.current !== pathname) {
@@ -416,7 +435,7 @@ export default function Navbar({ site }) {
                       className={cn("nav-drop", boutiqueOpen && "is-open")}
                       ref={boutiqueRef}
                       onMouseEnter={() => setBoutiqueOpen(true)}
-                      onMouseLeave={() => setBoutiqueOpen(false)}
+                      onMouseLeave={leaveBoutique}
                     >
                       <button
                         type="button"
@@ -424,7 +443,7 @@ export default function Navbar({ site }) {
                         aria-expanded={boutiqueOpen}
                         aria-haspopup="true"
                         aria-controls="boutique-nav-menu"
-                        onClick={() => setBoutiqueOpen((v) => !v)}
+                        onClick={pinBoutique}
                       >
                         <NavLinkIcon type={r.key} />
                         <span className="nav-link-label">{t[r.key]}</span>
