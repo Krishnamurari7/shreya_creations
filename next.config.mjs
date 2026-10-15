@@ -25,7 +25,19 @@ const nextConfig = {
   },
   async redirects() {
     // Public nav uses Blog at /blog; keep /lookbook working for old inbound links.
-    return [{ source: "/lookbook", destination: "/blog", permanent: true }];
+    return [
+      { source: "/lookbook", destination: "/blog", permanent: true },
+      {
+        source: "/courses/fashion-designing-course",
+        destination: "/courses/boutique-master-commando-training",
+        permanent: true,
+      },
+      {
+        source: "/hi/courses/fashion-designing-course",
+        destination: "/hi/courses/boutique-master-commando-training",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     const securityHeaders = [

@@ -7436,10 +7436,16 @@ html.dark .nav-drop-item.is-active {
 
 .nav-mobile-drop__list {
   list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;
+  gap: 0.25rem;
+}
+
+.nav-mobile-drop__list.is-open {
+  display: grid;
   margin: 0.15rem 0 0.35rem;
   padding: 0 0.35rem 0.35rem;
-  display: grid;
-  gap: 0.25rem;
 }
 
 .nav-mobile-drop__list a {
@@ -14734,6 +14740,47 @@ html.dark .explore-cat-card__count {
   line-height: 1.75;
   color: var(--text-muted);
   white-space: pre-line;
+}
+
+.course-landing__copy p + p,
+.course-landing__copy .course-landing__people,
+.course-landing__copy .course-landing__bullets {
+  margin-top: 0.9rem;
+}
+
+.course-landing__people {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course-landing__people li {
+  padding: 0.85rem 1rem;
+  border-radius: 0.875rem;
+  background: rgba(var(--orange-rgb), 0.06);
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.course-landing__people h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.course-landing__people p {
+  margin: 0;
+}
+
+.course-landing__bullets {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.course-landing__bullets li + li {
+  margin-top: 0.4rem;
 }
 
 .course-detail__read-more {

@@ -11,6 +11,8 @@ import { SITE_STATS } from "@/lib/seed";
 import { DEFAULT_STUDENTS_TAUGHT } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { addonCourseLabel, comingSoonLabel, isAddonCourse, isComingSoon } from "@/lib/courses";
+import { getCourseLanding } from "@/lib/course-landings.mjs";
+import CourseLandingSections from "@/components/CourseLandingSections";
 import CoursePdfModal, { coursePdfUrl } from "@/components/CoursePdfModal";
 import { trackLead, trackViewContent } from "@/lib/analytics";
 
@@ -38,13 +40,19 @@ function ratingFromSlug(slug = "") {
   return (4.7 + (hash % 3) * 0.1).toFixed(1);
 }
 
-function buildIncludes(course, lang) {
-  if (Array.isArray(course.includes) && course.includes.length) {
+function buildIncludes(course, lang, landing) {
+  const landingHighlights =
+    lang === "hi" && landing?.highlightsHi?.length ? landing.highlightsHi : landing?.highlights;
+  if (Array.isArray(course.includes) && course.includes.length && lang !== "hi") {
     return course.includes;
   }
   if (Array.isArray(course.includes_hi) && lang === "hi" && course.includes_hi.length) {
     return course.includes_hi;
   }
+  if (Array.isArray(course.includes) && course.includes.length) {
+    return course.includes;
+  }
+  if (landingHighlights?.length) return landingHighlights;
 
   const syllabusCount = Array.isArray(course.syllabus)
     ? course.syllabus.length
@@ -148,7 +156,7 @@ function RegisterFormLink({ slug, label, className, lang }) {
 
 function CourseFaq({ faqs, lang }) {
   const [open, setOpen] = useState(0);
-  const items = faqs.slice(0, 6);
+  const items = faqs.slice(0, 12);
 
   if (!items.length) return null;
 
@@ -190,8 +198,11 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
   const [aboutExpanded, setAboutExpanded] = useState(false);
   const [pdfOpen, setPdfOpen] = useState(false);
 
+  const landing = getCourseLanding(course.slug);
   const title =
-    lang === "hi" ? course.title_hi ?? course.titleHi ?? course.title : course.title;
+    lang === "hi"
+      ? course.title_hi ?? course.titleHi ?? landing?.h1Hi ?? course.title
+      : landing?.h1 ?? course.title;
   const description =
     lang === "hi"
       ? course.description_hi ?? course.descriptionHi ?? course.description
@@ -207,7 +218,8 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
   const discountPct = showCompare ? Math.round((1 - price / Number(comparePrice)) * 100) : null;
   const reviews = reviewCountFromSlug(course.slug);
   const rating = ratingFromSlug(course.slug);
-  const includes = buildIncludes(course, lang);
+  const includes = buildIncludes(course, lang, landing);
+  const syllabus = Array.isArray(course.syllabus) ? course.syllabus.filter(Boolean) : [];
   const addon = isAddonCourse(course);
 
   const pageUrl = usePageUrl();
@@ -273,7 +285,7 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={course.image}
-                    alt={course.image_alt || course.imageAlt || `${title} Patna`}
+                    alt={course.image_alt || course.imageAlt || landing?.imageAlt || `${title} Patna`}
                     className="course-detail__image"
                   />
                 ) : (
@@ -393,21 +405,38 @@ export default function CourseDetailClient({ course, site, faqs = [] }) {
           </ul>
         </section>
 
-        <section className="course-detail__section">
-          <h2 className="course-detail__section-title">{t.about}</h2>
-          <div className="course-detail__about">
-            <p>{aboutExpanded ? aboutLong : aboutPreview}</p>
-            {showAboutToggle && (
-              <button
-                type="button"
-                className="course-detail__read-more"
-                onClick={() => setAboutExpanded((v) => !v)}
-              >
-                {aboutExpanded ? t.readLess : t.readMore}
-              </button>
-            )}
-          </div>
-        </section>
+        {landing ? (
+          <CourseLandingSections landing={landing} lang={lang} />
+        ) : (
+          <section className="course-detail__section">
+            <h2 className="course-detail__section-title">{t.about}</h2>
+            <div className="course-detail__about">
+              <p>{aboutExpanded ? aboutLong : aboutPreview}</p>
+              {showAboutToggle && (
+                <button
+                  type="button"
+                  className="course-detail__read-more"
+                  onClick={() => setAboutExpanded((v) => !v)}
+                >
+                  {aboutExpanded ? t.readLess : t.readMore}
+                </button>
+              )}
+            </div>
+          </section>
+        )}
+
+        {syllabus.length > 0 && (
+          <section className="course-detail__section">
+            <h2 className="course-detail__section-title">
+              {lang === "hi" ? "कोर्स मॉड्यूल" : "Course modules"}
+            </h2>
+            <ol className="course-landing__people">
+              {syllabus.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ol>
+          </section>
+        )}
 
         {faqs.length > 0 && (
           <section className="course-detail__section">

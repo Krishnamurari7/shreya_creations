@@ -15,12 +15,13 @@ import {
   itemImage,
   itemImageAlt,
 } from "@/lib/seo";
+import { getCourseLanding, withLandingSeo } from "@/lib/course-landings.mjs";
 
 export const revalidate = 3600;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const course = await getCourseBySlug(slug);
+  const course = withLandingSeo(await getCourseBySlug(slug));
   if (!course) {
     return buildMetadata({
       title: "Course | Shreya Creation",
@@ -44,20 +45,24 @@ export async function generateMetadata({ params }) {
 export default async function CourseDetail({ params }) {
   const { slug } = await params;
   const locale = await getRequestLocale();
-  const [course, site, faqs] = await Promise.all([
+  const [courseRow, site, faqs] = await Promise.all([
     getCourseBySlug(slug),
     getSiteSettings(),
     getFaqs(),
   ]);
+  const course = withLandingSeo(courseRow);
   if (!course || course.published === false) return notFound();
 
+  const landing = getCourseLanding(course.slug);
   const courseFaqs = faqs.filter(
     (f) =>
       !f.category ||
       f.category === "course" ||
       f.category === course.category?.toLowerCase()
   );
-  const faqSlice = (courseFaqs.length ? courseFaqs : faqs).slice(0, 6);
+  const faqSlice = landing?.faqs?.length
+    ? landing.faqs
+    : (courseFaqs.length ? courseFaqs : faqs).slice(0, 6);
   const courseTitle =
     locale === "hi" && (course.title_hi || course.titleHi)
       ? course.title_hi || course.titleHi

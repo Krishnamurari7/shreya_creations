@@ -121,9 +121,19 @@ function enrichCourseFromSeed(dbCourse) {
   }
   if (dbCourse.price == null && seedCourse.price != null) merged.price = seedCourse.price;
   if (!dbCourse.course_pdf && seedCourse.course_pdf) merged.course_pdf = seedCourse.course_pdf;
-  if (!dbCourse.about && seedCourse.about) merged.about = seedCourse.about;
-  if (!dbCourse.about_hi && seedCourse.about_hi) merged.about_hi = seedCourse.about_hi;
-  if (!dbCourse.description_hi && seedCourse.description_hi) merged.description_hi = seedCourse.description_hi;
+  const blank = (value) => value == null || (typeof value === "string" && !value.trim());
+  for (const key of [
+    "about",
+    "about_hi",
+    "description",
+    "description_hi",
+    "meta_title",
+    "meta_description",
+    "image_alt",
+    "focus_keyword",
+  ]) {
+    if (blank(dbCourse[key]) && !blank(seedCourse[key])) merged[key] = seedCourse[key];
+  }
   if ((!Array.isArray(dbCourse.includes) || !dbCourse.includes.length) && seedCourse.includes?.length) {
     merged.includes = seedCourse.includes;
   }
@@ -162,7 +172,7 @@ async function query(supabase, table, options = {}) {
  */
 const getSiteSettingsCached = unstable_cache(
   async () => getSiteSettingsUncached(),
-  ["site-settings"],
+  ["site-settings-v3"],
   { tags: [SITE_CONTENT_TAG], revalidate: PUBLIC_REVALIDATE }
 );
 

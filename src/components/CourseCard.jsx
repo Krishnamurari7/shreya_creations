@@ -4,14 +4,22 @@ import Link from "next/link";
 import CardImage from "@/components/CardImage";
 import { CardGlow, glassCardStyles } from "@/components/Glass3DCard";
 import { comingSoonLabel, isCourseAvailable, isAddonCourse, addonCourseLabel, courseStartingPrice } from "@/lib/courses";
+import { getCourseLanding } from "@/lib/course-landings.mjs";
 import { cn } from "@/lib/utils";
 
 function courseTitle(course, lang) {
-  if (lang === "hi") return course.title_hi ?? course.titleHi ?? course.title;
-  return course.title;
+  const landing = getCourseLanding(course.slug);
+  if (lang === "hi") return course.title_hi ?? course.titleHi ?? landing?.h1Hi ?? course.title;
+  return landing?.h1 ?? course.title;
 }
 
 function courseDescription(course, lang) {
+  const landing = getCourseLanding(course.slug);
+  const fromLanding =
+    lang === "hi"
+      ? landing?.sections?.[0]?.paragraphsHi?.[0]
+      : landing?.sections?.[0]?.paragraphs?.[0];
+  if (fromLanding) return fromLanding;
   if (lang === "hi") {
     return course.description_hi ?? course.descriptionHi ?? course.description ?? "";
   }

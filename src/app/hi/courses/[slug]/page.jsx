@@ -7,10 +7,11 @@ import {
   itemImage,
   itemImageAlt,
 } from "@/lib/seo";
+import { withLandingSeo } from "@/lib/course-landings.mjs";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const course = await getCourseBySlug(slug);
+  const course = withLandingSeo(await getCourseBySlug(slug));
   if (!course) {
     return buildMetadata({
       title: "कोर्स | Shreya Creation",

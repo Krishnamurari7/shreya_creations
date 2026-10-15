@@ -280,8 +280,13 @@ export const COURSES = [
   {
     id: "c1",
     slug: "basic-boutique-course",
-    title: "Basic Boutique Mastery Course",
-    titleHi: "बेसिक बुटीक मास्टरी कोर्स",
+    title: "Boutique Master Basic Course in Patna",
+    titleHi: "पटना में बुटीक मास्टर बेसिक कोर्स",
+    meta_title: "Boutique Master Basic Course in Patna | Shreya Creation",
+    meta_description:
+      "Join Shreya Creation’s Boutique Master Basic Course in Patna for ₹15,000. Learn stitching and boutique basics. Enquire today for course details and admission!",
+    image_alt: "Boutique Master Basic Course in Patna at Shreya Creation",
+    focus_keyword: "boutique master basic course in patna",
     category: "Boutique",
     price: 15000,
     price_confirmed: true,
@@ -290,7 +295,7 @@ export const COURSES = [
     published: true,
     course_pdf: "/courses/pdfs/Basic Boutique Mastery Course 15000.pdf",
     description:
-      "Complete 3-month programme from beginner to professional boutique owner — foundation, petticoat, salwar, kurti, frock, gown, blouse, lehenga & boutique business. 3 days/week, 3 hours/day.",
+      "Want to start boutique work without a high fee? Shreya Creation offers the Boutique Master Basic Course in Patna at ₹15,000 for beginners, homemakers, and aspiring stitching learners.",
     description_hi:
       "शुरुआती स्तर से प्रोफेशनल बुटीक ओनर बनने तक का पूरा 3 महीने का प्रोग्राम — फाउंडेशन, पेटीकोट, सलवार, कुर्ती, फ्रॉक, गाउन, ब्लाउज, लहंगा और बुटीक बिज़नेस। सप्ताह में 3 दिन, दिन में 3 घंटे।",
     about:
@@ -341,16 +346,28 @@ export const COURSES = [
   {
     id: "c2",
     slug: "advanced-boutique-course",
-    title: "Advanced Boutique Course",
-    titleHi: "एडवांस्ड बुटीक कोर्स",
+    title: "Advanced Boutique Course in Patna",
+    titleHi: "पटना में एडवांस्ड बुटीक कोर्स",
     category: "Boutique",
-    price: 45000,
-    price_tbd: true, // TODO(owner): confirm starting price
-    duration: "12 months",
+    price: 32000,
+    price_confirmed: true,
+    duration: "9 months",
     language: "Hindi",
     published: true,
+    meta_title: "Advanced Boutique Course in Patna | Shreya Creation",
+    meta_description:
+      "Explore the Advanced Boutique Course in Patna at Shreya Creation for ₹32,000. Develop advanced stitching, professional designing, and pattern-making skills. Enquire today!",
+    image_alt: "Advanced Boutique Course in Patna at Shreya Creation",
+    focus_keyword: "advanced boutique course in patna",
     description:
-      "A complete year-long boutique programme covering advanced cutting, designer garments, boutique management, and business skills to run your own fashion outlet.",
+      "The Advanced Boutique Course in Patna is for learners who want stronger skills in stitching, pattern making, professional garment design, and boutique growth. Course fee: ₹32,000.",
+    includes: [
+      "Advanced sewing: better construction, fit, finishing, and detailing",
+      "Professional clothing design: turn ideas into wearable garments",
+      "Pattern making for measurement, construction, and design development",
+      "Finishing skills that make clothes look professionally done",
+      "Boutique business basics: customers, pricing, and presentation",
+    ],
     syllabus: [
       "Advanced pattern making & designer cuts",
       "Bridal, ethnic & party-wear construction",

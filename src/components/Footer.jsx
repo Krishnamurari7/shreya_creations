@@ -38,12 +38,12 @@ const POLICY_ROUTES = [
 
 const COURSE_LINKS = [
   {
-    href: "/courses/fashion-designing-course",
+    href: "/courses/boutique-master-commando-training",
     icon: "dress",
-    title: "Fashion Designing Course",
-    titleHi: "फैशन डिज़ाइनिंग कोर्स",
-    note: "From Basic to Advance",
-    noteHi: "बेसिक से एडवांस तक",
+    title: "Boutique Master Commando",
+    titleHi: "बुटीक मास्टर कमांडो",
+    note: "₹55,000 · 9 months",
+    noteHi: "₹55,000 · 9 महीने",
   },
   {
     href: "/courses/blouse-suit-making-course",

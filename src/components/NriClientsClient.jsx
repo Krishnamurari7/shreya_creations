@@ -148,8 +148,8 @@ export default function NriClientsClient({ site, nriPage }) {
   const registerHref = "/register";
 
   const eyebrow = tx(nri, lang, "headerEyebrow") || (hi ? "NRI फैशन डिजाइनिंग कोर्स" : "NRI Fashion Designing Course");
-  const englishTitle = "NRI Fashion Designing Course — Online & Hybrid Training from Patna, Bihar";
-  const hindiTitle = "NRI फैशन डिजाइनिंग कोर्स — पटना, बिहार से ऑनलाइन और हाइब्रिड ट्रेनिंग";
+  const englishTitle = "NRI Fashion Designing Course in Patna – Learn From Anywhere";
+  const hindiTitle = "पटना में NRI फैशन डिजाइनिंग कोर्स – कहीं से भी सीखें";
   const storedTitle = tx(nri, lang, "headerTitle");
   const title =
     (storedTitle && !STALE_NRI_H1S.includes(storedTitle) ? storedTitle : null) ||
