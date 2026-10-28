@@ -27,6 +27,9 @@ function courseDescription(course, lang) {
 }
 
 function courseIncludes(course, lang) {
+  const landing = getCourseLanding(course.slug);
+  const fromLanding = lang === "hi" ? landing?.highlightsHi : landing?.highlights;
+  if (fromLanding?.length) return fromLanding;
   if (lang === "hi") {
     const hi = course.includes_hi ?? course.includesHi;
     if (Array.isArray(hi) && hi.length) return hi;

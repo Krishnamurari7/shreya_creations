@@ -157,13 +157,13 @@ export default function NriClientsClient({ site, nriPage }) {
   const heroLine =
     tx(nri, lang, "headerSubtitle") ||
     (hi
-      ? "ओवरसीज़ इंडियंस और इंटरनेशनल स्टूडेंट्स के लिए — भारत से सीखें।"
-      : "For overseas Indians and international students who want to learn from India.");
+      ? "क्या आपको भारतीय फैशन का शौक है और आप NRI हैं?"
+      : "Are you an NRI with a passion for Indian fashion?");
   const heroLead =
     tx(nri, lang, "heroSubtitle") ||
     (hi
-      ? "Flexible timings, online guidance, international payment options, remote support और सर्टिफिकेट — साथ में Bihar के boutique training institute से India-based boutique expertise।"
-      : "Flexible timings, online guidance, international payment options, remote support and a certificate — plus India-based boutique expertise from a boutique training institute in Bihar.");
+      ? "Shreya Creation NRI और इंटरनेशनल स्टूडेंट्स को भारत के एक्सपर्ट से फैशन डिज़ाइन और बुटीक स्किल में मदद करती है। Online, hybrid, टाइमिंग और प्रैक्टिकल ज़रूरतें पहले कन्फर्म करें।"
+      : "Shreya Creation makes it easier for NRIs and international students to gain fashion design and boutique skills with India-based experts. Confirm online, hybrid, timings, and practical requirements before you enrol.");
 
   const rail = Array.isArray(nri.rail) && nri.rail.length
     ? nri.rail

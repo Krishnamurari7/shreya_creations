@@ -43,6 +43,7 @@ function ratingFromSlug(slug = "") {
 function buildIncludes(course, lang, landing) {
   const landingHighlights =
     lang === "hi" && landing?.highlightsHi?.length ? landing.highlightsHi : landing?.highlights;
+  if (landingHighlights?.length) return landingHighlights;
   if (Array.isArray(course.includes) && course.includes.length && lang !== "hi") {
     return course.includes;
   }
@@ -52,7 +53,6 @@ function buildIncludes(course, lang, landing) {
   if (Array.isArray(course.includes) && course.includes.length) {
     return course.includes;
   }
-  if (landingHighlights?.length) return landingHighlights;
 
   const syllabusCount = Array.isArray(course.syllabus)
     ? course.syllabus.length

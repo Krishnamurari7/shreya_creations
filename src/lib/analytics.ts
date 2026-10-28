@@ -38,8 +38,11 @@ export function getGa4MeasurementId(): string | undefined {
   return process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID?.trim() || undefined;
 }
 
+/** Installed in the root layout head + body noscript snippet. */
+export const GTM_CONTAINER_ID = "GTM-KR5S7H2V";
+
 export function getGtmId(): string | undefined {
-  return process.env.NEXT_PUBLIC_GTM_ID?.trim() || undefined;
+  return process.env.NEXT_PUBLIC_GTM_ID?.trim() || GTM_CONTAINER_ID;
 }
 
 /** Indian SMB default: analytics allowed; user may opt out without blocking first paint. */
@@ -334,13 +337,10 @@ export function initMetaPixel(): void {
   metaInitialized = true;
 }
 
-/** Bootstrap GTM dataLayer — container script loaded separately via next/script. */
+/** Ensure dataLayer exists. The root-layout snippet already pushes gtm.start and loads gtm.js. */
 export function initGtmDataLayer(): void {
   if (typeof window === "undefined" || gtmBootstrapped) return;
   window.dataLayer = window.dataLayer || [];
-  if (getGtmId()) {
-    window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-  }
   gtmBootstrapped = true;
 }
 

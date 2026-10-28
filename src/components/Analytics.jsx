@@ -2,9 +2,7 @@
 
 import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import Script from "next/script";
 import {
-  getGtmId,
   getMetaPixelId,
   initGa4Fallback,
   initGtmDataLayer,
@@ -91,19 +89,10 @@ function AnalyticsClickTracking() {
 }
 
 export default function Analytics() {
-  const gtmId = getGtmId();
   const pixelId = getMetaPixelId();
 
   return (
     <>
-      {gtmId ? (
-        <Script
-          id="gtm-container"
-          src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
-          strategy="lazyOnload"
-        />
-      ) : null}
-
       {pixelId ? (
         <noscript>
           <img
