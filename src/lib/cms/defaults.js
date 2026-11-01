@@ -841,6 +841,9 @@ export const PAGE_DEFAULTS = {
     concept_title_hi: "NRI फैशन डिजाइनिंग कोर्स कौन देख सकता है?",
     concept_subtitle: "Talk to Shreya Creation about eligibility, the syllabus, and whether the format fits where you live.",
     concept_subtitle_hi: "एलिजिबिलिटी, सिलेबस, और आपके देश के हिसाब से फॉर्मेट Shreya Creation से पूछें।",
+    concept_image: "",
+    concept_image_alt: "Who the NRI Fashion Designing Course is for",
+    concept_image_alt_hi: "NRI फैशन डिजाइनिंग कोर्स किसके लिए है",
     concept_points: [
       { text: "Overseas Indians who want to learn Indian clothing, ethnic wear, and design — ask if this course can support that from where you live.", text_hi: "भारतीय कपड़े, एथनिक वियर और डिज़ाइन सीखने वाले ओवरसीज़ इंडियन — पूछें कि यह कोर्स आपके देश से सपोर्ट कर सकता है या नहीं।" },
       { text: "International students who want Indian garment and clothing design — confirm eligibility, course content, and training options.", text_hi: "भारतीय गारमेंट और कपड़ा डिज़ाइन सीखने वाले इंटरनेशनल स्टूडेंट — एलिजिबिलिटी, कंटेंट और ट्रेनिंग विकल्प कन्फर्म करें।" },
@@ -879,6 +882,8 @@ export const PAGE_DEFAULTS = {
     training_note_hi: "रिमोट विद्यार्थी यह भी पूछें कि टीचर कैसे गाइड करते हैं, विदेश से कौन सा प्रैक्टिकल काम होगा, और रिमोट प्रैक्टिकल गाइडेंस है या नहीं। Online क्लास, hybrid, वीडियो या रिमोट प्रैक्टिकल ट्रेनिंग एडमिशन से पहले साफ करें।",
     training_cta: "Enquire for Admission",
     training_cta_hi: "एडमिशन पूछें",
+    training_online_image: "",
+    training_offline_image: "",
     training_image: MEDIA.categories.fashionDesigning,
     training_image_alt: "NRI Fashion Designing Course — online and hybrid training in Patna Bihar",
     training_image_alt_hi: "NRI फैशन डिजाइनिंग कोर्स — पटना, बिहार में online और hybrid training",
@@ -888,6 +893,9 @@ export const PAGE_DEFAULTS = {
     learn_title_hi: "फैशन डिजाइनिंग ट्रेनिंग में क्या सीखेंगे?",
     learn_subtitle: "Designing clothes is creative, and it also needs technical skill and precision. Confirm which of these topics are in the NRI course, and which are not.",
     learn_subtitle_hi: "कपड़ा डिज़ाइन क्रिएटिव है, और इसमें तकनीकी स्किल भी चाहिए। कन्फर्म करें कि NRI कोर्स में इनमें से कौन से विषय हैं, और कौन से नहीं।",
+    learn_image: "",
+    learn_image_alt: "What you learn in the NRI Fashion Designing Course",
+    learn_image_alt_hi: "NRI फैशन डिजाइनिंग कोर्स में क्या सीखेंगे",
     learn_topics: [
       { label: "Indian garment styles and design concepts", label_hi: "भारतीय गारमेंट स्टाइल और डिज़ाइन" },
       { label: "Stitching and garment construction", label_hi: "सिलाई और गारमेंट कंस्ट्रक्शन" },
@@ -923,6 +931,9 @@ export const PAGE_DEFAULTS = {
     remote_primary_label: "View Other Courses",
     remote_primary_label_hi: "अन्य कोर्स देखें",
     remote_primary_href: "/courses",
+    remote_image: "",
+    remote_image_alt: "Start fashion education from anywhere with Shreya Creation",
+    remote_image_alt_hi: "Shreya Creation के साथ कहीं से भी फैशन शिक्षा शुरू करें",
     remote_secondary_label: "Enquire for Admission",
     remote_secondary_label_hi: "एडमिशन पूछें",
     classes_eyebrow: "Process",
@@ -931,6 +942,9 @@ export const PAGE_DEFAULTS = {
     classes_title_hi: "टाइमिंग, पेमेंट और सर्टिफिकेट",
     classes_subtitle: "Time zones, overseas payment, and whether a certificate is issued all need a direct answer before you pay.",
     classes_subtitle_hi: "टाइम ज़ोन, विदेश से पेमेंट, और सर्टिफिकेट मिलता है या नहीं — पेमेंट से पहले सीधा जवाब लें।",
+    classes_image: "",
+    classes_image_alt: "Timings, payments and certificate for the NRI course",
+    classes_image_alt_hi: "NRI कोर्स की टाइमिंग, पेमेंट और सर्टिफिकेट",
     class_steps: [
       { step: "01", title: "Flexible time options", title_hi: "लचीले समय के विकल्प", desc: "Tell us your country, time zone, and availability. Ask if a batch fits your hours, or if scheduled online sessions can.", desc_hi: "देश, टाइम ज़ोन और उपलब्धता बताएँ। पूछें कि कोई बैच आपके समय से मेल खाता है, या तय online सेशन हो सकते हैं।" },
       { step: "02", title: "International payments", title_hi: "इंटरनेशनल पेमेंट", desc: "Confirm documents, fee currency, bank transfer, charges, due dates, instalments, refunds, and rescheduling before you transfer money.", desc_hi: "पैसे भेजने से पहले दस्तावेज़, करेंसी, बैंक ट्रांसफर, चार्ज, तारीख, किस्त, रिफंड और रीशेड्यूल कन्फर्म करें।" },
@@ -959,6 +973,38 @@ export const PAGE_DEFAULTS = {
     why_title_hi: "Shreya Creation क्यों चुनें?",
     why_subtitle: "Especially when you are enquiring as an NRI, confirm the curriculum, format, timings, fees, documents, and certificate before you decide.",
     why_subtitle_hi: "NRI के रूप में पूछ रहे हैं तो फैसला करने से पहले सिलेबस, फॉर्मेट, टाइमिंग, फीस, दस्तावेज़ और सर्टिफिकेट कन्फर्म करें।",
+    why_image: "",
+    why_image_alt: "Why choose Shreya Creation for the NRI Fashion Designing Course",
+    why_image_alt_hi: "NRI फैशन डिजाइनिंग कोर्स के लिए Shreya Creation क्यों चुनें",
+    related_courses: [
+      {
+        image: "",
+        href: "/courses/basic-boutique-course",
+        title: "Boutique Master Basic Course",
+        title_hi: "बुटीक मास्टर बेसिक कोर्स",
+        fee: "₹15,000",
+        audience: "Beginners, homemakers, and first-time stitching learners in Patna.",
+        audience_hi: "पटना में शुरुआती विद्यार्थी, गृहिणियाँ और पहली बार सिलाई सीखने वाले।",
+      },
+      {
+        image: "",
+        href: "/courses/advanced-boutique-course",
+        title: "Advanced Boutique Course",
+        title_hi: "एडवांस्ड बुटीक कोर्स",
+        fee: "₹32,000",
+        audience: "Boutique owners and students who want pattern making and business growth.",
+        audience_hi: "बुटीक ओनर्स और विद्यार्थी जो पैटर्न मेकिंग और बिज़नेस ग्रोथ चाहते हैं।",
+      },
+      {
+        image: "",
+        href: "/courses/boutique-master-commando-training",
+        title: "Boutique Master Commando Training",
+        title_hi: "बुटीक मास्टर कमांडो ट्रेनिंग",
+        fee: "₹55,000 · 9 months",
+        audience: "Serious career seekers who want long-term fashion training in Bihar.",
+        audience_hi: "गंभीर करियर सीकर्स जो बिहार में लंबी फैशन ट्रेनिंग चाहते हैं।",
+      },
+    ],
     why_points: [
       { text: "Full curriculum and how long the course lasts", text_hi: "पूरा सिलेबस और कोर्स की अवधि" },
       { text: "Whether online, hybrid, or offline learning is available", text_hi: "Online, hybrid या offline लर्निंग उपलब्ध है या नहीं" },
@@ -1242,6 +1288,7 @@ export const LANDING_SEARCH_FIELDS = [
   { key: "href", label: "Link (e.g. /boutique/blouse)" },
 ];
 export const NRI_HIGHLIGHT_FIELDS = [
+  { key: "image", label: "Image", type: "image", wide: true },
   { key: "title", label: "Title (EN)" },
   { key: "title_hi", label: "Title (HI)" },
   { key: "body", label: "Body (EN)", type: "textarea", wide: true },
@@ -1249,6 +1296,7 @@ export const NRI_HIGHLIGHT_FIELDS = [
 ];
 
 export const NRI_STEP_FIELDS = [
+  { key: "image", label: "Image", type: "image", wide: true },
   { key: "step", label: "Step no.", default: "01" },
   { key: "title", label: "Title (EN)" },
   { key: "title_hi", label: "Title (HI)" },
@@ -1262,6 +1310,16 @@ export const NRI_POINT_FIELDS = [
 ];
 
 export const NRI_SERVICE_FIELDS = [
+  { key: "image", label: "Image", type: "image", wide: true },
+  { key: "emoji", label: "Emoji", default: "✦" },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+  { key: "desc", label: "Description (EN)", type: "textarea", wide: true },
+  { key: "desc_hi", label: "Description (HI)", type: "textarea", wide: true },
+];
+
+export const NRI_FEATURE_FIELDS = [
+  { key: "image", label: "Image", type: "image", wide: true },
   { key: "emoji", label: "Emoji", default: "✦" },
   { key: "title", label: "Title (EN)" },
   { key: "title_hi", label: "Title (HI)" },
@@ -1270,8 +1328,19 @@ export const NRI_SERVICE_FIELDS = [
 ];
 
 export const NRI_TOPIC_FIELDS = [
+  { key: "image", label: "Image", type: "image", wide: true },
   { key: "label", label: "Topic (EN)" },
   { key: "label_hi", label: "Topic (HI)" },
+];
+
+export const NRI_COURSE_FIELDS = [
+  { key: "image", label: "Image", type: "image", wide: true },
+  { key: "title", label: "Title (EN)" },
+  { key: "title_hi", label: "Title (HI)" },
+  { key: "fee", label: "Fee" },
+  { key: "href", label: "Link", wide: true },
+  { key: "audience", label: "Audience (EN)", type: "textarea", wide: true },
+  { key: "audience_hi", label: "Audience (HI)", type: "textarea", wide: true },
 ];
 
 export const NRI_RAIL_FIELDS = [

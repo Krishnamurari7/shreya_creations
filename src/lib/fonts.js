@@ -1,8 +1,6 @@
 import {
   Cormorant_Garamond,
-  Dancing_Script,
   Kaushan_Script,
-  Montserrat,
   Noto_Sans_Devanagari,
   Noto_Serif_Devanagari,
   Playfair_Display,
@@ -25,27 +23,11 @@ export const playfair = Playfair_Display({
   preload: false,
 });
 
-export const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["800"],
-  display: "swap",
-  variable: "--font-montserrat",
-  preload: false,
-});
-
 export const kaushan = Kaushan_Script({
   subsets: ["latin"],
   weight: ["400"],
   display: "swap",
   variable: "--font-kaushan",
-  preload: false,
-});
-
-export const dancing = Dancing_Script({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  display: "swap",
-  variable: "--font-dancing",
   preload: false,
 });
 
@@ -78,9 +60,7 @@ export const notoSansHi = Noto_Sans_Devanagari({
 export const latinFontVariables = [
   poppins.variable,
   playfair.variable,
-  montserrat.variable,
   kaushan.variable,
-  dancing.variable,
   cormorant.variable,
 ].join(" ");
 

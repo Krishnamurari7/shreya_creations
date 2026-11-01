@@ -10,7 +10,7 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
-  transpilePackages: ["three", "react-pdf", "pdfjs-dist"],
+  transpilePackages: ["react-pdf", "pdfjs-dist"],
   images: {
     formats: ["image/avif", "image/webp"],
     // OpenNext Cloudflare only serves qualities listed here (default is [75]).

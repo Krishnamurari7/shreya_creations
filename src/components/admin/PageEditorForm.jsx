@@ -17,7 +17,9 @@ import {
   NRI_STEP_FIELDS,
   NRI_POINT_FIELDS,
   NRI_SERVICE_FIELDS,
+  NRI_FEATURE_FIELDS,
   NRI_TOPIC_FIELDS,
+  NRI_COURSE_FIELDS,
   NRI_RAIL_FIELDS,
 } from "@/lib/cms/defaults";
 import {
@@ -737,6 +739,16 @@ function ImageAltFields({ label, enKey, hiKey, page, onChange }) {
   );
 }
 
+function SingleImage({ label, pageKey, page, onChange, hint }) {
+  return (
+    <div>
+      <label className={ADMIN_LABEL}>{label}</label>
+      {hint ? <p className="admin-muted mb-2">{hint}</p> : null}
+      <ImageUploader multiple={false} value={page[pageKey] || ""} onChange={(url) => onChange(pageKey, url || "")} />
+    </div>
+  );
+}
+
 /** Full CMS editor for /nri-clients. Header title is the page H1; section titles are H2. */
 export function NriPageEditor({ page, onChange }) {
   return (
@@ -745,7 +757,8 @@ export function NriPageEditor({ page, onChange }) {
       <p className="admin-muted">
         Public URL: <code>/nri-clients</code> and <code>/hi/nri-clients</code> — NRI Fashion Designing Course
         landing. Meta title and description power search results. The page header title is the only H1. Each
-        section title is an H2.
+        section title is an H2. Highlight, feature, service, topic, step, and related-course cards each have an Image
+        upload. Section images are optional.
       </p>
       <BilingualField label="Meta title" enKey="meta_title" hiKey="meta_title_hi" values={page} onChange={onChange} />
       <BilingualTextarea
@@ -817,7 +830,13 @@ export function NriPageEditor({ page, onChange }) {
       <BilingualField label="Eyebrow" enKey="features_eyebrow" hiKey="features_eyebrow_hi" values={page} onChange={onChange} />
       <BilingualField label="Heading" enKey="features_title" hiKey="features_title_hi" values={page} onChange={onChange} />
       <BilingualTextarea label="Subtitle" enKey="features_subtitle" hiKey="features_subtitle_hi" values={page} onChange={onChange} />
-      <FeaturesEditor page={page} onChange={onChange} />
+      <RepeaterField
+        label="Feature cards"
+        items={page.features || []}
+        onChange={(v) => onChange("features", v)}
+        addLabel="Add feature"
+        fields={NRI_FEATURE_FIELDS}
+      />
 
       <SectionHeading>Concept (H2)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="concept_eyebrow" hiKey="concept_eyebrow_hi" values={page} onChange={onChange} />
@@ -830,6 +849,14 @@ export function NriPageEditor({ page, onChange }) {
         addLabel="Add point"
         fields={NRI_POINT_FIELDS}
       />
+      <SingleImage
+        label="Section image"
+        pageKey="concept_image"
+        page={page}
+        onChange={onChange}
+        hint="Optional. Shows above the checklist."
+      />
+      <ImageAltFields label="Section image alt" enKey="concept_image_alt" hiKey="concept_image_alt_hi" page={page} onChange={onChange} />
 
       <SectionHeading>Services (H2 + H3)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="services_eyebrow" hiKey="services_eyebrow_hi" values={page} onChange={onChange} />
@@ -849,8 +876,10 @@ export function NriPageEditor({ page, onChange }) {
       <BilingualTextarea label="Subtitle" enKey="training_subtitle" hiKey="training_subtitle_hi" values={page} onChange={onChange} />
       <BilingualField label="Online card title" enKey="training_online_title" hiKey="training_online_title_hi" values={page} onChange={onChange} />
       <BilingualTextarea label="Online card text" enKey="training_online_desc" hiKey="training_online_desc_hi" values={page} onChange={onChange} />
+      <SingleImage label="Online card image" pageKey="training_online_image" page={page} onChange={onChange} hint="Optional." />
       <BilingualField label="Offline card title" enKey="training_offline_title" hiKey="training_offline_title_hi" values={page} onChange={onChange} />
       <BilingualTextarea label="Offline card text" enKey="training_offline_desc" hiKey="training_offline_desc_hi" values={page} onChange={onChange} />
+      <SingleImage label="Offline card image" pageKey="training_offline_image" page={page} onChange={onChange} hint="Optional." />
       <BilingualField label="Note" enKey="training_note" hiKey="training_note_hi" values={page} onChange={onChange} />
       <BilingualField label="Button" enKey="training_cta" hiKey="training_cta_hi" values={page} onChange={onChange} />
       <div>
@@ -870,6 +899,14 @@ export function NriPageEditor({ page, onChange }) {
         addLabel="Add topic"
         fields={NRI_TOPIC_FIELDS}
       />
+      <SingleImage
+        label="Section image"
+        pageKey="learn_image"
+        page={page}
+        onChange={onChange}
+        hint="Optional. Shows above the topic list."
+      />
+      <ImageAltFields label="Section image alt" enKey="learn_image_alt" hiKey="learn_image_alt_hi" page={page} onChange={onChange} />
 
       <SectionHeading>Ready-to-wear saree (H2)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="rtw_eyebrow" hiKey="rtw_eyebrow_hi" values={page} onChange={onChange} />
@@ -904,6 +941,14 @@ export function NriPageEditor({ page, onChange }) {
         />
       </div>
       <BilingualField label="Class button" enKey="remote_secondary_label" hiKey="remote_secondary_label_hi" values={page} onChange={onChange} />
+      <SingleImage
+        label="Banner image"
+        pageKey="remote_image"
+        page={page}
+        onChange={onChange}
+        hint="Optional. Shows at the top of the banner."
+      />
+      <ImageAltFields label="Banner image alt" enKey="remote_image_alt" hiKey="remote_image_alt_hi" page={page} onChange={onChange} />
 
       <SectionHeading>Class steps (H2 + H3)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="classes_eyebrow" hiKey="classes_eyebrow_hi" values={page} onChange={onChange} />
@@ -916,6 +961,14 @@ export function NriPageEditor({ page, onChange }) {
         addLabel="Add step"
         fields={NRI_STEP_FIELDS}
       />
+      <SingleImage
+        label="Section image"
+        pageKey="classes_image"
+        page={page}
+        onChange={onChange}
+        hint="Optional. Shows above the steps."
+      />
+      <ImageAltFields label="Section image alt" enKey="classes_image_alt" hiKey="classes_image_alt_hi" page={page} onChange={onChange} />
 
       <SectionHeading>Bridal (H2)</SectionHeading>
       <BilingualField label="Eyebrow" enKey="bridal_eyebrow" hiKey="bridal_eyebrow_hi" values={page} onChange={onChange} />
@@ -948,6 +1001,23 @@ export function NriPageEditor({ page, onChange }) {
         onChange={(v) => onChange("why_points", v)}
         addLabel="Add reason"
         fields={NRI_POINT_FIELDS}
+      />
+      <SingleImage
+        label="Section image"
+        pageKey="why_image"
+        page={page}
+        onChange={onChange}
+        hint="Optional. Shows above the reasons."
+      />
+      <ImageAltFields label="Section image alt" enKey="why_image_alt" hiKey="why_image_alt_hi" page={page} onChange={onChange} />
+
+      <SectionHeading>Related courses (H2 + H3)</SectionHeading>
+      <RepeaterField
+        label="Course cards"
+        items={page.related_courses || []}
+        onChange={(v) => onChange("related_courses", v)}
+        addLabel="Add course"
+        fields={NRI_COURSE_FIELDS}
       />
 
       <SectionHeading>FAQ (H2 + H3)</SectionHeading>

@@ -2,7 +2,6 @@ import HomepageClient from "@/components/HomepageClient";
 import HeroBackgroundImage from "@/components/HeroBackgroundImage";
 import WebMcpRegister from "@/components/WebMcpRegister";
 import {
-  getProducts,
   getCourses,
   getPortfolio,
   getTestimonials,
@@ -12,6 +11,7 @@ import {
 import { PROCESS } from "@/lib/seed";
 import { buildMetadata } from "@/lib/seo";
 import { MEDIA } from "@/lib/media";
+import { chromeSiteProps } from "@/lib/site-config";
 
 export const revalidate = 3600;
 
@@ -41,9 +41,8 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const [site, products, courses, portfolio, testimonials, trust] = await Promise.all([
+  const [site, courses, portfolio, testimonials, trust] = await Promise.all([
     getSiteSettings(),
-    getProducts(),
     getCourses(),
     getPortfolio(),
     getTestimonials(),
@@ -58,8 +57,7 @@ export default async function HomePage() {
       <HomepageClient
       heroBackground={<HeroBackgroundImage />}
       home={home}
-      site={site}
-      products={products}
+      site={chromeSiteProps(site)}
       courses={courses}
       portfolio={portfolio}
       testimonials={testimonials}

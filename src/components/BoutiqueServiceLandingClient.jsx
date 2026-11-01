@@ -75,20 +75,32 @@ function UspIcon({ name }) {
 }
 
 function ServiceIcon({ name }) {
+  const common = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.6",
+    className: "h-5 w-5",
+    "aria-hidden": true,
+  };
+  const path = {
+    express: "M13 3L6 14h5l-1 7 8-12h-5l1-6z",
+    hand: "M9 11V6a2 2 0 114 0v5m4 0V8a2 2 0 10-4 0m-4 3V9a2 2 0 10-4 0v7a5 5 0 005 5h2a5 5 0 005-5v-5a2 2 0 10-4 0",
+    clock: "M12 7v5l3 2M12 21a9 9 0 110-18 9 9 0 010 18z",
+    fit: "M4 7h16M7 7v10a2 2 0 002 2h6a2 2 0 002-2V7M9 11h6",
+    finish: "M12 3l2.2 4.5L19 9l-3.5 3.4.9 5.6L12 15.6 7.6 18l.9-5.6L5 9l4.8-1.5L12 3z",
+    bridal: "M12 3c2 3 3 5 3 7a3 3 0 11-6 0c0-2 1-4 3-7zM8 20c0-2.5 1.8-4 4-4s4 1.5 4 4",
+    needle: "M15 4l5 5M14 5l-9 9 2 2 9-9M5 16l3 3",
+    alter: "M4 20l6-6M14 4l6 6M9 15l6-6",
+    match: "M7 8h10M7 12h7M7 16h10M5 4h14v16H5z",
+    pad: "M6 4h12v16H6zM9 8h6M9 12h6",
+    saree: "M8 4h8l1 4H7l1-4zM7 8l1.5 12h7L17 8",
+  };
+  const d = path[name] || path.needle;
   return (
     <span className="blouse-landing__service-icon" aria-hidden>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-5 w-5">
-        {name === "express" ? (
-          <path strokeLinecap="round" strokeLinejoin="round" d="M13 3L6 14h5l-1 7 8-12h-5l1-6z" />
-        ) : name === "hand" ? (
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M9 11V6a2 2 0 114 0v5m4 0V8a2 2 0 10-4 0m-4 3V9a2 2 0 10-4 0v7a5 5 0 005 5h2a5 5 0 005-5v-5a2 2 0 10-4 0"
-          />
-        ) : (
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5v14M7 8l2 2-2 2m10-4l-2 2 2 2" />
-        )}
+      <svg {...common}>
+        <path strokeLinecap="round" strokeLinejoin="round" d={d} />
       </svg>
     </span>
   );
@@ -378,7 +390,7 @@ export default function BoutiqueServiceLandingClient({
             ratio="fill"
             priority
             className="blouse-landing__hero-img"
-            imgClassName="object-cover object-[70%_center]"
+            imgClassName={cn("object-cover", content.heroPosition || "object-[70%_center]")}
           />
           <div className="blouse-landing__hero-shade" />
         </div>
@@ -448,7 +460,12 @@ export default function BoutiqueServiceLandingClient({
             {gallery.map((item, i) => (
               <motion.article key={item.id} className={cn(REVEAL, "blouse-landing__card", "in")} {...rise(0.04 * i)}>
                 <div className="blouse-landing__card-media">
-                  <CardImage src={item.image} alt={hi ? item.titleHi : item.title} ratio="4/5" />
+                  <CardImage
+                    src={item.image}
+                    alt={hi ? item.titleHi : item.title}
+                    ratio="4/5"
+                    imgClassName={cn("object-cover", item.position || "object-center")}
+                  />
                 </div>
                 <h3 className="blouse-landing__card-title">{hi ? item.titleHi : item.title}</h3>
                 <button

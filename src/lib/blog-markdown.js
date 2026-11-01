@@ -1,13 +1,82 @@
-/** Lightweight markdown → block parser for blog posts (headings, lists, bold). */
+/** Lightweight markdown → block parser for blog posts (headings, lists, bold, links). */
+
+const SITE_HOSTS = new Set(["shreyacreation.com", "www.shreyacreation.com", "localhost"]);
+
+/** Keep a blog URL as a real link, and turn this site's absolute URLs into in-app paths. */
+export function safeBlogHref(raw) {
+  let href = String(raw || "").trim();
+  if (!href || /[\s\\<>"']/.test(href)) return null;
+  if (/^(javascript|data|vbscript):/i.test(href)) return null;
+
+  if (href.startsWith("/") && !href.startsWith("//")) return href;
+  if (/^mailto:[^\s@]+@[^\s@]+$/i.test(href)) return href;
+  if (/^tel:\+?[\d().-]+$/i.test(href)) return href;
+  if (/^www\./i.test(href)) href = `https://${href}`;
+  if (!/^https?:\/\//i.test(href)) return null;
+
+  try {
+    const url = new URL(href);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    if (SITE_HOSTS.has(url.hostname)) {
+      return `${url.pathname}${url.search}${url.hash}` || "/";
+    }
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
+function peelTrailingPunctuation(url) {
+  let href = url;
+  let trailing = "";
+  while (href && /[.,!?;:)]$/.test(href)) {
+    if (href.endsWith(")")) {
+      const opens = (href.match(/\(/g) || []).length;
+      const closes = (href.match(/\)/g) || []).length;
+      if (closes <= opens) break;
+    }
+    trailing = href.slice(-1) + trailing;
+    href = href.slice(0, -1);
+  }
+  return { href, trailing };
+}
 
 function parseInline(text = "") {
-  const parts = String(text).split(/(\*\*.+?\*\*)/g).filter(Boolean);
-  return parts.map((part, i) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
-      return { type: "strong", text: part.slice(2, -2) };
+  const source = String(text);
+  const re =
+    /\[([^\]]+)\]\(([^)\s]+)\)|(https?:\/\/[^\s<]+|www\.[^\s<]+|(?<=^|\s|\()\/(?!\/)[A-Za-z0-9][^\s<]*)|\*\*([\s\S]+?)\*\*/g;
+  const parts = [];
+  let last = 0;
+  let match;
+
+  while ((match = re.exec(source))) {
+    if (match.index > last) {
+      parts.push({ type: "text", text: source.slice(last, match.index) });
     }
-    return { type: "text", text: part };
-  });
+
+    if (match[1] != null && match[2] != null) {
+      const href = safeBlogHref(match[2]);
+      if (href) parts.push({ type: "link", href, text: match[1] });
+      else parts.push({ type: "text", text: match[0] });
+    } else if (match[3]) {
+      const { href, trailing } = peelTrailingPunctuation(match[3]);
+      const safe = safeBlogHref(href);
+      if (safe) {
+        parts.push({ type: "link", href: safe, text: href });
+        if (trailing) parts.push({ type: "text", text: trailing });
+      } else {
+        parts.push({ type: "text", text: match[0] });
+      }
+    } else if (match[4] != null) {
+      parts.push({ type: "strong", children: parseInline(match[4]) });
+    }
+
+    last = re.lastIndex;
+  }
+
+  if (last < source.length) parts.push({ type: "text", text: source.slice(last) });
+  if (!parts.length && source) parts.push({ type: "text", text: source });
+  return parts;
 }
 
 function isListLine(line = "") {

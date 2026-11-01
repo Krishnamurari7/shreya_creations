@@ -172,7 +172,7 @@ async function query(supabase, table, options = {}) {
  */
 const getSiteSettingsCached = unstable_cache(
   async () => getSiteSettingsUncached(),
-  ["site-settings-v3"],
+  ["site-settings-v6"],
   { tags: [SITE_CONTENT_TAG], revalidate: PUBLIC_REVALIDATE }
 );
 

@@ -6,5 +6,8 @@ export function createPublicClient() {
   if (!isSupabaseConfigured()) return null;
   return createClient(getSupabaseUrl()!, getSupabaseAnonKey()!, {
     auth: { persistSession: false, autoRefreshToken: false },
+    global: {
+      fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
+    },
   });
 }

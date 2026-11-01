@@ -31,7 +31,7 @@
   --font-sans: var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
   --font-body: var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-brand-script: var(--font-kaushan), var(--font-dancing), "Brush Script MT", cursive;
+  --font-brand-script: var(--font-kaushan), "Brush Script MT", cursive;
   --font-brand-serif: var(--font-cormorant), var(--font-playfair), Georgia, serif;
   --font-brand-hi: var(--font-noto-serif-hi), "Nirmala UI", "Mangal", serif;
   --font-brand-hi-sans: var(--font-noto-sans-hi), "Nirmala UI", "Segoe UI", sans-serif;
@@ -26741,6 +26741,46 @@ html.dark .nri-rail__item {
   font-family: var(--font-display);
   font-size: 0.78rem;
   letter-spacing: 0.12em;
+}
+
+.nri-card__media {
+  margin: -1.15rem -1.15rem 0.85rem;
+  border-radius: 1.05rem 1.05rem 0 0;
+  overflow: hidden;
+}
+
+.nri-service > .nri-card__media {
+  margin: -1.1rem -1.1rem 0.85rem;
+}
+
+.nri-section-photo {
+  max-width: 46rem;
+  margin: 1.35rem auto 0;
+}
+
+.nri-banner__photo {
+  margin: calc(clamp(2rem, 5vw, 3.5rem) * -1) calc(clamp(1.2rem, 4vw, 2.5rem) * -1) 1.35rem;
+  border-radius: 1.6rem 1.6rem 0 0;
+  overflow: hidden;
+}
+
+.nri-topic-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: min(100%, 220px);
+  padding: 0.55rem 0.55rem 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid var(--nri-line);
+  background: var(--nri-card);
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.nri-topic-card__media {
+  border-radius: 0.75rem;
+  overflow: hidden;
 }
 
 .nri-card__title {

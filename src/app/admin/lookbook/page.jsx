@@ -18,9 +18,14 @@ const FIELDS = [
     name: "body",
     label: "Full article (English)",
     type: "textarea",
-    hint: "Main post content on /blog/slug. Separate paragraphs with a blank line.",
+    hint: "Separate paragraphs with a blank line. A pasted URL (https://… or /courses) becomes a clickable link. For custom text use [Course page](/courses).",
   },
-  { name: "body_hi", label: "Full article (Hindi)", type: "textarea" },
+  {
+    name: "body_hi",
+    label: "Full article (Hindi)",
+    type: "textarea",
+    hint: "URL yahan paste karne par blog par clickable link ban jayega.",
+  },
   { name: "image", label: "Cover image", type: "image" },
   { name: "published", label: "Published on site", type: "checkbox" },
   {

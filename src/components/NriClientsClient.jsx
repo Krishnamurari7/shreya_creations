@@ -48,6 +48,22 @@ function localized(item, hi, enKey, hiKey) {
   return hi && hiVal ? hiVal : enVal || "";
 }
 
+function OptionalPhoto({ src, alt, className, ratio = "16/9" }) {
+  const resolved = resolveMediaSrc(src);
+  if (!resolved) return null;
+  return <CardImage src={resolved} alt={alt || ""} ratio={ratio} className={className || "nri-card__media"} />;
+}
+
+function SectionPhoto({ src, alt }) {
+  const resolved = resolveMediaSrc(src);
+  if (!resolved) return null;
+  return (
+    <div className="nri-section-photo">
+      <CardImage src={resolved} alt={alt || ""} ratio="16/9" className="nri-photo" />
+    </div>
+  );
+}
+
 function SectionHead({ eyebrow, title, subtitle, center = true, id }) {
   return (
     <div id={id} className={cn("boutique-v2-head nri-head", center && "boutique-v2-head--center")}>
@@ -187,6 +203,9 @@ export default function NriClientsClient({ site, nriPage }) {
     ? nri.whyPoints
     : nriWhyChoose(hi).map((text) => ({ text, textHi: text }));
   const faqs = Array.isArray(nri.faqs) && nri.faqs.length ? nri.faqs : NRI_FAQS;
+  const relatedCourses = Array.isArray(nri.relatedCourses) && nri.relatedCourses.length
+    ? nri.relatedCourses
+    : NRI_RELATED_COURSES;
 
   const rise = (delay = 0) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 22 },
@@ -340,6 +359,7 @@ export default function NriClientsClient({ site, nriPage }) {
           <ul className="nri-features">
             {features.map((item) => (
               <li key={item.title} className="nri-card nri-card--soft">
+                <OptionalPhoto src={item.image} alt={localized(item, hi, "title", "titleHi")} />
                 <span className="nri-emoji" aria-hidden>
                   {item.emoji || "✦"}
                 </span>
@@ -358,6 +378,7 @@ export default function NriClientsClient({ site, nriPage }) {
             title={tx(nri, lang, "conceptTitle") || "More Than a Boutique: A Fashion Partner for NRI Clients"}
             subtitle={tx(nri, lang, "conceptSubtitle")}
           />
+          <SectionPhoto src={nri.conceptImage} alt={tx(nri, lang, "conceptImageAlt")} />
           {conceptPoints.length > 0 && (
             <ul className="nri-checks">
               {conceptPoints.map((item) => {
@@ -385,6 +406,7 @@ export default function NriClientsClient({ site, nriPage }) {
           {services.map((svc) => (
             <li key={svc.title}>
               <a href={stitchHref} target="_blank" rel="noopener noreferrer" className="nri-service">
+                <OptionalPhoto src={svc.image} alt={localized(svc, hi, "title", "titleHi")} />
                 <span className="nri-emoji" aria-hidden>
                   {svc.emoji || "✦"}
                 </span>
@@ -407,10 +429,12 @@ export default function NriClientsClient({ site, nriPage }) {
             />
             <div className="nri-pair">
               <article className="nri-card nri-card--soft">
+                <OptionalPhoto src={nri.trainingOnlineImage} alt={tx(nri, lang, "trainingOnlineTitle")} />
                 <h3 className="nri-card__title">{tx(nri, lang, "trainingOnlineTitle") || "Online 1-to-1"}</h3>
                 <p className="nri-card__body">{tx(nri, lang, "trainingOnlineDesc")}</p>
               </article>
               <article className="nri-card nri-card--soft">
+                <OptionalPhoto src={nri.trainingOfflineImage} alt={tx(nri, lang, "trainingOfflineTitle")} />
                 <h3 className="nri-card__title">{tx(nri, lang, "trainingOfflineTitle") || "Offline 1-to-1"}</h3>
                 <p className="nri-card__body">{tx(nri, lang, "trainingOfflineDesc")}</p>
               </article>
@@ -444,10 +468,20 @@ export default function NriClientsClient({ site, nriPage }) {
           title={tx(nri, lang, "learnTitle") || "What Can You Learn?"}
           subtitle={tx(nri, lang, "learnSubtitle")}
         />
+        <SectionPhoto src={nri.learnImage} alt={tx(nri, lang, "learnImageAlt")} />
         <ul className="nri-chips">
           {learnTopics.map((topic) => {
             const label = typeof topic === "string" ? topic : localized(topic, hi, "label", "labelHi");
+            const image = typeof topic === "string" ? "" : topic.image;
             if (!label) return null;
+            if (image) {
+              return (
+                <li key={label} className="nri-topic-card">
+                  <OptionalPhoto src={image} alt={label} ratio="1/1" className="nri-topic-card__media" />
+                  <span>{label}</span>
+                </li>
+              );
+            }
             return (
               <li key={label} className="nri-chip">
                 {label}
@@ -494,6 +528,12 @@ export default function NriClientsClient({ site, nriPage }) {
       <section id="nri-remote" className={cn(PAGE_CONTAINER, PAGE_SECTION, "nri-block max-w-6xl")}>
         <motion.div className="nri-banner" {...rise(0.04)}>
           <AmbientGlows variant="section" />
+          <OptionalPhoto
+            src={nri.remoteImage}
+            alt={tx(nri, lang, "remoteImageAlt")}
+            className="nri-banner__photo"
+            ratio="16/9"
+          />
           <p className="nri-kicker nri-kicker--light">{tx(nri, lang, "remoteKicker") || "India to the world"}</p>
           <h2 className="nri-banner__title">{tx(nri, lang, "remoteTitle") || "Learn from Patna, Wherever You Are"}</h2>
           <p className="nri-banner__script">{tx(nri, lang, "remoteScript")}</p>
@@ -522,9 +562,11 @@ export default function NriClientsClient({ site, nriPage }) {
           title={tx(nri, lang, "classesTitle") || "How NRI 1-to-1 Classes Work"}
           subtitle={tx(nri, lang, "classesSubtitle")}
         />
+        <SectionPhoto src={nri.classesImage} alt={tx(nri, lang, "classesImageAlt")} />
         <ol className="nri-steps nri-steps--wide">
           {classSteps.map((item) => (
             <li key={item.step || item.title} className="nri-step">
+              <OptionalPhoto src={item.image} alt={localized(item, hi, "title", "titleHi") || item.title} />
               <span className="nri-step__no">{item.step}</span>
               <h3 className="nri-card__title">{localized(item, hi, "title", "titleHi") || item.title}</h3>
               <p className="nri-card__body">{localized(item, hi, "desc", "descHi") || item.desc}</p>
@@ -578,6 +620,7 @@ export default function NriClientsClient({ site, nriPage }) {
           title={tx(nri, lang, "whyTitle") || "Why NRI Clients Choose Shreya Creation"}
           subtitle={tx(nri, lang, "whySubtitle")}
         />
+        <SectionPhoto src={nri.whyImage} alt={tx(nri, lang, "whyImageAlt")} />
         <ul className="nri-checks">
           {whyPoints.map((item) => {
             const text = typeof item === "string" ? item : localized(item, hi, "text", "textHi");
@@ -603,18 +646,26 @@ export default function NriClientsClient({ site, nriPage }) {
           }
         />
         <ul className="nri-features">
-          {NRI_RELATED_COURSES.map((course) => (
-            <li key={course.href}>
-              <Link href={course.href} className="nri-card nri-card--soft block">
-                <h3 className="nri-card__title">{hi ? course.titleHi : course.title}</h3>
-                <p className="nri-card__body">
-                  <strong>{course.fee}</strong>
-                  {" — "}
-                  {hi ? course.audienceHi : course.audience}
-                </p>
-              </Link>
-            </li>
-          ))}
+          {relatedCourses.map((course) => {
+            const title = hi && (course.titleHi || course.title_hi) ? course.titleHi || course.title_hi : course.title;
+            const audience =
+              hi && (course.audienceHi || course.audience_hi)
+                ? course.audienceHi || course.audience_hi
+                : course.audience;
+            return (
+              <li key={course.href || title}>
+                <Link href={course.href || "/courses"} className="nri-card nri-card--soft block">
+                  <OptionalPhoto src={course.image} alt={title} />
+                  <h3 className="nri-card__title">{title}</h3>
+                  <p className="nri-card__body">
+                    {course.fee ? <strong>{course.fee}</strong> : null}
+                    {course.fee && audience ? " — " : null}
+                    {audience}
+                  </p>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </section>
 

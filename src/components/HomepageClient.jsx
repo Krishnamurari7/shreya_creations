@@ -3,12 +3,15 @@
 import dynamic from "next/dynamic";
 import { HAIRLINE, HIGHLIGHT_SHIMMER, HOME_BAND_BRAND, HOME_BAND_WHITE, PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED, REVEAL, SECTION_EYEBROW, SECTION_HEADER_GLASS, SECTION_LEAD, SECTION_MUTED, SECTION_ORNAMENT, SECTION_TITLE, SPARKLE_PULSE } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { DesignProcess } from "@/components/FashionSections";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pageBottomCtaProps, pickPage } from "@/lib/cms";
 import LazyWhenVisible from "@/components/LazyWhenVisible";
 import HeroSection from "@/components/HeroSection";
 import PageCTA from "@/components/PageCTA";
+
+const DesignProcess = dynamic(() =>
+  import("@/components/FashionSections").then((mod) => mod.DesignProcess)
+);
 
 const HomeCategoryCards = dynamic(() => import("@/components/CategoryCards"), {
   loading: () => <div className="category-cards-skeleton min-h-[320px]" aria-hidden />,

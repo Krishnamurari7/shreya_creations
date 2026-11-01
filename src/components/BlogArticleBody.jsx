@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { INTERACTIVE_CARD, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { Glass3DCard, Float3D } from "@/components/Glass3DCard";
@@ -8,16 +9,45 @@ import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import { useLanguage } from "@/components/LanguageProvider";
 import { parseBlogMarkdown } from "@/lib/blog-markdown";
 
-function InlineText({ parts = [] }) {
-  return parts.map((part, i) =>
-    part.type === "strong" ? (
-      <strong key={i} className="font-semibold text-ink">
-        {part.text}
-      </strong>
-    ) : (
-      <span key={i}>{part.text}</span>
-    )
+const LINK_CLASS =
+  "blog-article__link font-medium text-orange underline decoration-orange/40 underline-offset-[3px] hover:decoration-orange";
+
+function BlogLink({ href, children }) {
+  const internal = href.startsWith("/") && !href.startsWith("//");
+  if (internal) {
+    return (
+      <Link href={href} className={LINK_CLASS}>
+        {children}
+      </Link>
+    );
+  }
+
+  const newTab = /^https?:\/\//i.test(href);
+  return (
+    <a href={href} className={LINK_CLASS} {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      {children}
+    </a>
   );
+}
+
+function InlineText({ parts = [] }) {
+  return parts.map((part, i) => {
+    if (part.type === "strong") {
+      return (
+        <strong key={i} className="font-semibold text-ink">
+          {part.children?.length ? <InlineText parts={part.children} /> : part.text}
+        </strong>
+      );
+    }
+    if (part.type === "link" && part.href) {
+      return (
+        <BlogLink key={i} href={part.href}>
+          {part.text}
+        </BlogLink>
+      );
+    }
+    return <span key={i}>{part.text}</span>;
+  });
 }
 
 function Block({ block, index }) {

@@ -2,8 +2,10 @@
 
 import { PAGE_CONTAINER, PAGE_SECTION, PAGE_SECTION_BORDERED } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+import CardImage from "@/components/CardImage";
 import { useLanguage } from "@/components/LanguageProvider";
 import LocalizedSectionHeader from "@/components/LocalizedSectionHeader";
+import { resolveMediaSrc } from "@/lib/media";
 
 const DEFAULT_HIGHLIGHTS = [
   {
@@ -66,8 +68,15 @@ function normalizeHighlights(raw) {
       titleHi: item.titleHi || item.title_hi || fallback.titleHi,
       body: item.body || fallback.body,
       bodyHi: item.bodyHi || item.body_hi || fallback.bodyHi,
+      image: item.image || "",
     };
   });
+}
+
+function CardPhoto({ src, alt }) {
+  const resolved = resolveMediaSrc(src);
+  if (!resolved) return null;
+  return <CardImage src={resolved} alt={alt || ""} ratio="16/9" className="nri-card__media" />;
 }
 
 function normalizeSteps(raw) {
@@ -80,6 +89,7 @@ function normalizeSteps(raw) {
       titleHi: item.titleHi || item.title_hi || fallback.titleHi,
       desc: item.desc || fallback.desc,
       descHi: item.descHi || item.desc_hi || fallback.descHi,
+      image: item.image || "",
     };
   });
 }
@@ -122,6 +132,7 @@ export default function NriClientsHighlights({
         <ul className="nri-highlights">
           {items.map((item, index) => (
             <li key={item.title} className="nri-card">
+              <CardPhoto src={item.image} alt={hi && item.titleHi ? item.titleHi : item.title} />
               <span className="nri-card__index" aria-hidden>
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -147,6 +158,7 @@ export default function NriClientsHighlights({
         <ol className="nri-steps">
           {steps.map((item) => (
             <li key={item.step} className="nri-step">
+              <CardPhoto src={item.image} alt={hi && item.titleHi ? item.titleHi : item.title} />
               <span className="nri-step__no">{item.step}</span>
               <h3 className="nri-card__title">{hi && item.titleHi ? item.titleHi : item.title}</h3>
               <p className="nri-card__body">{hi && item.descHi ? item.descHi : item.desc}</p>
