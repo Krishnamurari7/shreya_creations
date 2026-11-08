@@ -25773,6 +25773,107 @@ html.dark .institute-seo-block__cta--demo-pulse {
   border-radius: 0 !important;
 }
 
+.blouse-landing__hero-media img {
+  object-fit: cover;
+  object-position: var(--hero-object-position, center 18%);
+}
+
+/* Wide CMS banners keep their real frame. Copy sits on the open side. */
+.blouse-landing__hero--banner {
+  min-height: 0;
+  display: block;
+  padding-top: var(--header-offset, 5.5rem);
+  padding-bottom: 0;
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-media {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: var(--hero-banner-ratio, 3 / 1);
+  overflow: hidden;
+  background: var(--hero-cream, #fff5e6);
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-media .card-media,
+.blouse-landing__hero--banner .blouse-landing__hero-img {
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-media img {
+  object-fit: cover;
+  object-position: center center;
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-shade {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 248, 240, 0.78) 0%,
+    rgba(255, 248, 240, 0.42) 36%,
+    rgba(255, 248, 240, 0.05) 54%,
+    transparent 66%
+  );
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-inner {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  top: var(--header-offset, 5.5rem);
+  bottom: 0;
+  width: auto;
+  height: auto;
+  display: grid;
+  align-content: center;
+  grid-template-columns: minmax(0, 34rem);
+  justify-content: start;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.blouse-landing__hero--banner .blouse-landing__h1 {
+  font-size: clamp(1.65rem, 3vw, 2.45rem);
+}
+
+.blouse-landing__hero--banner .blouse-landing__tagline {
+  margin-top: 0.4rem;
+}
+
+.blouse-landing__hero--banner .blouse-landing__usps {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 32rem;
+  gap: 0.4rem 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-ctas {
+  margin-top: 0.75rem;
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-quote {
+  justify-self: start;
+  max-width: 28rem;
+  margin-top: 0;
+  padding-top: 0.15rem;
+  padding-bottom: 0;
+  text-align: left;
+  color: var(--bl-maroon);
+  text-shadow: none;
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-quote p {
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.blouse-landing__hero--banner .blouse-landing__hero-quote span {
+  color: var(--orange-text);
+}
+
 .blouse-landing__hero-shade {
   position: absolute;
   inset: 0;
@@ -26445,6 +26546,39 @@ html.dark .institute-seo-block__cta--demo-pulse {
  background:
  linear-gradient(180deg, rgba(250, 246, 238, 0.88) 0%, rgba(250, 246, 238, 0.78) 48%, rgba(250, 246, 238, 0.55) 100%),
  linear-gradient(to top, rgba(20, 10, 6, 0.25) 0%, transparent 35%);
+ }
+
+ .blouse-landing__hero--banner {
+ display: flex;
+ flex-direction: column;
+ }
+
+ .blouse-landing__hero--banner .blouse-landing__hero-media {
+ position: relative;
+ grid-area: auto;
+ aspect-ratio: 16 / 9;
+ max-height: 46vh;
+ }
+
+ .blouse-landing__hero--banner .blouse-landing__hero-media img {
+ object-position: right center;
+ }
+
+ .blouse-landing__hero--banner .blouse-landing__hero-shade {
+ background: linear-gradient(to top, rgba(20, 10, 6, 0.18), transparent 36%);
+ }
+
+ .blouse-landing__hero--banner .blouse-landing__hero-inner {
+ position: relative;
+ top: auto;
+ right: auto;
+ bottom: auto;
+ left: auto;
+ width: 100%;
+ height: auto;
+ grid-area: auto;
+ padding-top: 1.5rem;
+ padding-bottom: 1.75rem;
  }
 }
 

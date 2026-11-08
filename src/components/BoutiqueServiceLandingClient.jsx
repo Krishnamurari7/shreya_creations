@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -25,6 +25,47 @@ import { trackLead, trackWhatsAppClick } from "@/lib/analytics";
 import { getBoutiqueLanding, resolveBoutiqueLanding } from "@/lib/boutique-service-landing";
 
 const EASE = [0.16, 1, 0.3, 1];
+
+/** Wide promo banners (about 2:1 or wider). Taller lookbook shots stay full-bleed. */
+const BANNER_RATIO = 2;
+
+function cssObjectPosition(positionClass = "") {
+  const arbitrary = String(positionClass).match(/object-\[([^\]]+)\]/);
+  if (arbitrary) return arbitrary[1].replace(/_/g, " ");
+  if (positionClass.includes("object-top")) return "center top";
+  if (positionClass.includes("object-left")) return "left center";
+  if (positionClass.includes("object-right")) return "right center";
+  if (positionClass.includes("object-bottom")) return "center bottom";
+  return "center center";
+}
+
+function useHeroFrame(src) {
+  const [frame, setFrame] = useState(null);
+
+  useEffect(() => {
+    if (!src) {
+      setFrame(null);
+      return undefined;
+    }
+
+    let cancelled = false;
+    const img = new window.Image();
+    img.onload = () => {
+      if (cancelled) return;
+      const w = img.naturalWidth;
+      const h = img.naturalHeight;
+      if (!w || !h) return;
+      setFrame({ w, h, banner: w / h >= BANNER_RATIO });
+    };
+    img.src = src;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [src]);
+
+  return frame;
+}
 
 function UspIcon({ name }) {
   const common = {
@@ -356,6 +397,11 @@ export default function BoutiqueServiceLandingClient({
 
   const whatsapp = site.whatsapp;
   const heroImage = resolveMediaSrc(content.heroImage);
+  const heroFrame = useHeroFrame(heroImage);
+  const isBanner = Boolean(heroFrame?.banner);
+  const heroObjectPosition = isBanner
+    ? "center center"
+    : cssObjectPosition(content.heroPosition || "object-[70%_center]");
   const address = site.address || DEFAULT_ADDRESS_LINE;
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
   const bookMsg = hi ? content.bookMsgHi : content.bookMsg;
@@ -382,7 +428,13 @@ export default function BoutiqueServiceLandingClient({
 
   return (
     <div className="blouse-landing boutique-page relative min-w-0 w-full overflow-x-clip">
-      <section className="blouse-landing__hero">
+      <section
+        className={cn("blouse-landing__hero", isBanner && "blouse-landing__hero--banner")}
+        style={{
+          "--hero-object-position": heroObjectPosition,
+          ...(isBanner ? { "--hero-banner-ratio": `${heroFrame.w} / ${heroFrame.h}` } : {}),
+        }}
+      >
         <div className="blouse-landing__hero-media" aria-hidden>
           <CardImage
             src={heroImage}
@@ -390,7 +442,7 @@ export default function BoutiqueServiceLandingClient({
             ratio="fill"
             priority
             className="blouse-landing__hero-img"
-            imgClassName={cn("object-cover", content.heroPosition || "object-[70%_center]")}
+            imgClassName={cn("object-cover", !isBanner && (content.heroPosition || "object-[70%_center]"))}
           />
           <div className="blouse-landing__hero-shade" />
         </div>
