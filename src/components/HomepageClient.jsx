@@ -94,6 +94,7 @@ export default function HomepageClient({
   heroBackground,
   home: homeProp,
   site,
+  ctaOverrides,
   courses,
   portfolio = [],
   testimonials,
@@ -180,7 +181,7 @@ export default function HomepageClient({
         </section>
       )}
 
-      <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} />
+      <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} overrides={ctaOverrides} />
 
       <InquiryPopup source="home_popup" whatsapp={site.whatsapp} />
     </div>

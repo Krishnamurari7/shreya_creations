@@ -83,7 +83,7 @@ export default async function CourseDetail({ params }) {
       />
       <JsonLdScript data={faqJsonLd(faqSlice, locale)} />
       <CourseDetailClient course={course} site={site} faqs={faqSlice} />
-      <PageCTA whatsapp={site.whatsapp} />
+      <PageCTA whatsapp={site.whatsapp} overrides={site.pages?.ctaBoxes?.entries} />
     </>
   );
 }

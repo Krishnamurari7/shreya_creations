@@ -50,7 +50,7 @@ export default async function FaqPage() {
         subtitleHi={faqPage.headerSubtitleHi}
       />
       <FaqList faqs={faqs} />
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(faqPage)} />
+      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(faqPage)} overrides={site.pages?.ctaBoxes?.entries} />
     </PageShell>
   );
 }

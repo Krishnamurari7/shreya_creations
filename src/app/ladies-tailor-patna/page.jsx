@@ -45,6 +45,7 @@ export default async function LadiesTailorPatnaPage() {
       <SeoLandingClient content={LADIES_TAILOR_PATNA} site={site} cmsPage={cmsPage} />
       <PageCTA
         whatsapp={site.whatsapp}
+        overrides={site.pages?.ctaBoxes?.entries}
         {...cta}
         waMessage={cta.waMessage || LADIES_TAILOR_PATNA.waMessage}
       />

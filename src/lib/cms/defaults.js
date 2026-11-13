@@ -1207,6 +1207,7 @@ export const PAGE_DEFAULTS = {
       "Hi Shreya Creation! 👋 I found your boutique on Boring Road and would like custom stitching / designer wear. Please share options and timings.",
   },
   ...BOUTIQUE_PAGE_DEFAULTS_WITH_LANDING,
+  ctaBoxes: { entries: [] },
 };
 
 export const PAGE_EDITOR_KEYS = [
@@ -1222,6 +1223,7 @@ export const PAGE_EDITOR_KEYS = [
   "ladiesTailor",
   "boutiqueBoringRoad",
   ...Object.keys(BOUTIQUE_PAGE_DEFAULTS_WITH_LANDING),
+  "ctaBoxes",
 ];
 
 export const FEATURE_FIELDS = [

@@ -66,7 +66,7 @@ export default async function CoursesPage() {
       <CoursesIntroStrip coursesPage={coursesPage} />
       <CoursesPageClient courses={courses} whatsapp={site.whatsapp} />
       <InstituteSeoBlocks coursesPage={coursesPage} />
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(coursesPage)} />
+      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(coursesPage)} overrides={site.pages?.ctaBoxes?.entries} />
     </PageShell>
   );
 }

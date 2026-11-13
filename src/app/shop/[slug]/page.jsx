@@ -64,7 +64,7 @@ export default async function ProductDetail({ params }) {
         )}
       />
       <ProductDetailClient product={product} site={site} images={images} />
-      <PageCTA whatsapp={site.whatsapp} />
+      <PageCTA whatsapp={site.whatsapp} overrides={site.pages?.ctaBoxes?.entries} />
     </>
   );
 }

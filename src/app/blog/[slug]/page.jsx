@@ -160,6 +160,7 @@ export default async function BlogPostPage({ params }) {
 
       <PageCTA
         whatsapp={site.whatsapp}
+        overrides={site.pages?.ctaBoxes?.entries}
         title={BLOG_CTA.cta_title}
         titleHi={BLOG_CTA.cta_title_hi}
         subtitle={BLOG_CTA.cta_subtitle}

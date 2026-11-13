@@ -51,6 +51,7 @@ export default async function NriClientsPage() {
       <NriClientsClient site={site} nriPage={nri} />
       <PageCTA
         whatsapp={site.whatsapp}
+        overrides={site.pages?.ctaBoxes?.entries}
         {...cta}
         waMessage={cta.waMessage || nriClientMessage("en")}
         waMessageHi={cta.waMessageHi || nriClientMessage("hi")}

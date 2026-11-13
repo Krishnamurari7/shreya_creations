@@ -7,6 +7,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
+import CtaBoxesEditor from "@/components/admin/CtaBoxesEditor";
 import {
   BilingualField,
   BilingualTextarea,
@@ -52,7 +53,58 @@ const TABS = [
   { id: "faq", label: "FAQ" },
   { id: "ladiesTailor", label: "Ladies Tailor" },
   { id: "boutiqueBoringRoad", label: "Boutique Boring Road" },
+  { id: "ctaBoxes", label: "CTA Boxes" },
 ];
+
+const CTA_PAGE_OPTIONS = [
+  { path: "/", label: "Home" },
+  { path: "/about", label: "About" },
+  { path: "/contact", label: "Contact" },
+  { path: "/shop", label: "Boutique" },
+  { path: "/courses", label: "Courses" },
+  { path: "/portfolio", label: "Portfolio" },
+  { path: "/blog", label: "Blog" },
+  { path: "/nri-clients", label: "NRI Clients" },
+  { path: "/faq", label: "FAQ" },
+  { path: "/ladies-tailor-patna", label: "Ladies Tailor" },
+  { path: "/boutique-boring-road", label: "Boutique Boring Road" },
+  { path: "/shop/*", label: "All product pages" },
+  { path: "/courses/*", label: "All course pages" },
+  { path: "/portfolio/*", label: "All portfolio detail pages" },
+  { path: "/blog/*", label: "All blog posts" },
+];
+
+const CTA_PAGE_KEYS = {
+  "/": "home",
+  "/about": "about",
+  "/contact": "contact",
+  "/shop": "shop",
+  "/courses": "courses",
+  "/portfolio": "portfolio",
+  "/blog": "lookbook",
+  "/nri-clients": "nri",
+  "/faq": "faq",
+  "/ladies-tailor-patna": "ladiesTailor",
+  "/boutique-boring-road": "boutiqueBoringRoad",
+};
+
+const CTA_COPY_FIELDS = [
+  "eyebrow", "eyebrow_hi", "title", "title_hi", "title_highlight", "title_highlight_hi",
+  "subtitle", "subtitle_hi", "primary_label", "primary_label_hi", "secondary_label",
+  "secondary_label_hi", "reply", "reply_hi", "wa_message", "wa_message_hi", "perks",
+];
+
+function currentCtaCopy(path, pages) {
+  const key = CTA_PAGE_KEYS[path];
+  const page = pages[key] || {};
+  const prefix = key === "home" ? "bottom_cta_" : "cta_";
+  const copy = {};
+  for (const field of CTA_COPY_FIELDS) {
+    const value = page[`${prefix}${field}`];
+    if (value != null) copy[field] = structuredClone(value);
+  }
+  return copy;
+}
 
 function emptyPages() {
   const pages = {};
@@ -222,6 +274,15 @@ export default function PagesAdmin() {
 
       <div className={cn(GLASS, "admin-form-card", "admin-form-card--wide", "space-y-5")}>
         {tab === "home" && <HomeTab home={pages.home} patchPage={patchPage} />}
+
+        {tab === "ctaBoxes" && (
+          <CtaBoxesEditor
+            entries={pages.ctaBoxes?.entries || []}
+            onChange={(entries) => patchPage("ctaBoxes", "entries", entries)}
+            options={CTA_PAGE_OPTIONS}
+            initialValues={(path) => currentCtaCopy(path, pages)}
+          />
+        )}
 
         {tab === "about" && (
           <>

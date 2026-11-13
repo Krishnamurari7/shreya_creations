@@ -74,7 +74,7 @@ export default async function ShopPage() {
         products={products}
         testimonials={testimonials}
       />
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(shop)} />
+      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(shop)} overrides={site.pages?.ctaBoxes?.entries} />
     </PageShell>
   );
 }

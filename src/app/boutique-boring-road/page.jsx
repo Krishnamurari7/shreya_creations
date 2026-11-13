@@ -45,6 +45,7 @@ export default async function BoutiqueBoringRoadPage() {
       <SeoLandingClient content={BOUTIQUE_BORING_ROAD} site={site} cmsPage={cmsPage} />
       <PageCTA
         whatsapp={site.whatsapp}
+        overrides={site.pages?.ctaBoxes?.entries}
         {...cta}
         waMessage={cta.waMessage || BOUTIQUE_BORING_ROAD.waMessage}
       />

@@ -4,9 +4,24 @@ import { PAGE_CONTAINER, PAGE_SECTION, REVEAL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/components/LanguageProvider";
 import { waLink, greetingMessage } from "@/lib/whatsapp";
 import { fadeUp } from "@/lib/motion";
+import { findCtaBox } from "@/lib/cms/cta-boxes";
+
+function textOverride(box, key, fallback) {
+  const value = box?.[key];
+  return typeof value === "string" && value.trim() ? value : fallback;
+}
+
+function safeLink(value) {
+  if (typeof value !== "string") return null;
+  const href = value.trim();
+  return (href.startsWith("/") && !href.startsWith("//")) || /^https:\/\//i.test(href)
+    ? href
+    : null;
+}
 
 /** Canonical studio-visit CTA copy — used site-wide unless a page overrides. */
 export const STUDIO_CTA = {
@@ -98,27 +113,59 @@ export default function PageCTA({
   eyebrowHi,
   reply,
   replyHi,
+  overrides = [],
 }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
+  const box = findCtaBox(overrides, pathname);
   const t = STUDIO_CTA[lang] || STUDIO_CTA.en;
 
-  const heading = lang === "hi" && titleHi ? titleHi : title || t.title;
-  const highlight = lang === "hi" && titleHighlightHi ? titleHighlightHi : titleHighlight;
-  const body = lang === "hi" && subtitleHi ? subtitleHi : subtitle || t.subtitle;
-  const primary = lang === "hi" && primaryLabelHi ? primaryLabelHi : primaryLabel || t.primary;
-  const secondary = lang === "hi" && secondaryLabelHi ? secondaryLabelHi : secondaryLabel || t.secondary;
-  const waText = lang === "hi" && waMessageHi ? waMessageHi : waMessage || greetingMessage(lang);
+  const headingEn = textOverride(box, "title", title);
+  const headingHi = textOverride(box, "titleHi", titleHi);
+  const highlightEn = textOverride(box, "titleHighlight", titleHighlight);
+  const highlightHi = textOverride(box, "titleHighlightHi", titleHighlightHi);
+  const bodyEn = textOverride(box, "subtitle", subtitle);
+  const bodyHi = textOverride(box, "subtitleHi", subtitleHi);
+  const primaryEn = textOverride(box, "primaryLabel", primaryLabel);
+  const primaryHi = textOverride(box, "primaryLabelHi", primaryLabelHi);
+  const secondaryEn = textOverride(box, "secondaryLabel", secondaryLabel);
+  const secondaryHi = textOverride(box, "secondaryLabelHi", secondaryLabelHi);
+  const waEn = textOverride(box, "waMessage", waMessage);
+  const waHi = textOverride(box, "waMessageHi", waMessageHi);
+  const primaryTarget = box?.primaryAction === "whatsapp"
+    ? null
+    : box?.primaryAction === "link" ? safeLink(box.primaryHref) : primaryHref;
+  const secondaryTarget = box?.secondaryAction === "hide"
+    ? null
+    : box?.secondaryAction === "link" ? safeLink(box.secondaryHref) : secondaryHref;
+
+  const heading = lang === "hi" && headingHi ? headingHi : headingEn || t.title;
+  const highlight = lang === "hi" && highlightHi ? highlightHi : highlightEn;
+  const body = lang === "hi" && bodyHi ? bodyHi : bodyEn || t.subtitle;
+  const primary = lang === "hi" && primaryHi ? primaryHi : primaryEn || t.primary;
+  const secondary = lang === "hi" && secondaryHi ? secondaryHi : secondaryEn || t.secondary;
+  const waText = lang === "hi" && waHi ? waHi : waEn || greetingMessage(lang);
   const wa = waLink(whatsapp, waText);
-  const replyText = (lang === "hi" && replyHi ? replyHi : reply) || t.reply;
+  const replyEn = textOverride(box, "reply", reply);
+  const replyHiText = textOverride(box, "replyHi", replyHi);
+  const replyText = (lang === "hi" && replyHiText ? replyHiText : replyEn) || t.reply;
+  const eyebrowEn = textOverride(box, "eyebrow", eyebrowProp);
+  const eyebrowHiText = textOverride(box, "eyebrowHi", eyebrowHi);
+  const eyebrow = (lang === "hi" && eyebrowHiText ? eyebrowHiText : eyebrowEn) || t.eyebrow;
 
-  const eyebrow =
-    (lang === "hi" && eyebrowHi ? eyebrowHi : eyebrowProp) || t.eyebrow;
+  const boxPerks = Array.isArray(box?.perks) ? box.perks.filter((item) => item?.text) : [];
+  const boxPerksEn = boxPerks.map((item) => item.text);
+  const boxPerksHi = boxPerks.map((item) => item.textHi || item.text);
 
-  const perksList =
+  const inheritedPerks =
+    (lang === "hi" && boxPerksHi.length ? boxPerksHi : null) ||
+    (boxPerksEn.length ? boxPerksEn : null) ||
     (lang === "hi" && perksHi?.length ? perksHi : null) ||
-    (perks?.length ? perks : null) ||
-    t.perks;
+    (perks?.length ? perks : null) || t.perks;
+  const perksList = box?.hidePerks ? [] : inheritedPerks;
+
+  if (box?.enabled === false) return null;
 
   return (
     <section
@@ -168,25 +215,25 @@ export default function PageCTA({
 
           <p className="page-cta__subtitle text-pretty">{body}</p>
 
-          <ul className="page-cta__perks" aria-label={lang === "hi" ? "हम क्या मदद करते हैं" : "What we help with"}>
-            {perksList.map((perk) => (
-              <li key={perk} className="page-cta__perk">
+          {perksList.length > 0 && <ul className="page-cta__perks" aria-label={lang === "hi" ? "हम क्या मदद करते हैं" : "What we help with"}>
+            {perksList.map((perk, index) => (
+              <li key={`${perk}-${index}`} className="page-cta__perk">
                 <span className="page-cta__perk-gem" aria-hidden>
                   ✦
                 </span>
                 {perk}
               </li>
             ))}
-          </ul>
+          </ul>}
 
-          <p className="page-cta__reply">
+          {!box?.hideReply && <p className="page-cta__reply">
             <span className="page-cta__reply-dot" aria-hidden />
             {replyText}
-          </p>
+          </p>}
 
           <div className="page-cta__actions">
-            {primaryHref ? (
-              <Link href={primaryHref} className="page-cta__btn page-cta__btn--primary">
+            {primaryTarget ? (
+              <Link href={primaryTarget} className="page-cta__btn page-cta__btn--primary">
                 <span className="page-cta__btn-shine" aria-hidden />
                 <span className="page-cta__btn-label">{primary}</span>
               </Link>
@@ -207,8 +254,8 @@ export default function PageCTA({
                 <span className="page-cta__btn-label">{primary}</span>
               </a>
             )}
-            {secondaryHref && (
-              <Link href={secondaryHref} className="page-cta__btn page-cta__btn--secondary">
+            {secondaryTarget && (
+              <Link href={secondaryTarget} className="page-cta__btn page-cta__btn--secondary">
                 <span className="page-cta__btn-label">{secondary}</span>
                 <span className="page-cta__btn-arrow" aria-hidden>
                   →

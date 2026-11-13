@@ -49,7 +49,7 @@ export default async function AboutPage() {
         )}
       />
       <AboutClient site={site} aboutPage={about} />
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(about)} />
+      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(about)} overrides={site.pages?.ctaBoxes?.entries} />
     </PageShell>
   );
 }

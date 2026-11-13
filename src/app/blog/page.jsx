@@ -120,6 +120,7 @@ export default async function BlogPage() {
 
       <PageCTA
         whatsapp={site.whatsapp}
+        overrides={site.pages?.ctaBoxes?.entries}
         {...cta}
         title={isLegacyLookbookCopy(cta.title) ? BLOG_DEFAULTS.cta_title : cta.title}
         titleHi={isLegacyLookbookCopy(cta.titleHi) ? BLOG_DEFAULTS.cta_title_hi : cta.titleHi}

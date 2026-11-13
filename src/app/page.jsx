@@ -58,6 +58,7 @@ export default async function HomePage() {
       heroBackground={<HeroBackgroundImage />}
       home={home}
       site={chromeSiteProps(site)}
+      ctaOverrides={site.pages?.ctaBoxes?.entries}
       courses={courses}
       portfolio={portfolio}
       testimonials={testimonials}

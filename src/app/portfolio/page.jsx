@@ -109,7 +109,7 @@ export default async function PortfolioPage() {
         <FeatureStrip items={portfolio.craftHighlights || []} />
       </section>
 
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(portfolio)} />
+      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(portfolio)} overrides={site.pages?.ctaBoxes?.entries} />
     </PageShell>
   );
 }

@@ -73,7 +73,7 @@ export default async function ContactPage() {
 
       <ContactPageSections site={site} wa={wa} />
 
-      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(contact)} />
+      <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(contact)} overrides={site.pages?.ctaBoxes?.entries} />
     </PageShell>
   );
 }

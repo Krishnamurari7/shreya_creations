@@ -102,6 +102,7 @@ export default async function PortfolioDetailPage({ params }) {
       </div>
       <PageCTA
         whatsapp={site.whatsapp}
+        overrides={site.pages?.ctaBoxes?.entries}
         title="Want to visit our studio?"
         titleHi="हमारा स्टूडियो देखना चाहते हैं?"
         subtitle="Share a reference photo on WhatsApp — or book a studio visit for a custom consultation."
