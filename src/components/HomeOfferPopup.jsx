@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLanguage } from "@/components/LanguageProvider";
 import { DEFAULT_HOME_POPUP, validHomePopupLink } from "@/lib/home-popup";
+import { resolveMediaSrc } from "@/lib/media";
 
 const SEEN_PREFIX = "shreya_home_popup_seen_";
 
@@ -21,6 +22,7 @@ export default function HomeOfferPopup({ settings, previewOpen = false, onPrevie
   const previousFocusRef = useRef(null);
   const open = previewOpen || autoOpen;
   const href = typeof config.href === "string" ? config.href.trim() : "";
+  const imageSrc = resolveMediaSrc(config.image);
   const title = copyForLanguage(config, lang, "title") || "Your popup title";
   const eyebrow = copyForLanguage(config, lang, "eyebrow") || (config.kind === "course" ? "New course" : "Special offer");
   const description = copyForLanguage(config, lang, "description");
@@ -44,11 +46,8 @@ export default function HomeOfferPopup({ settings, previewOpen = false, onPrevie
   useEffect(() => {
     if (!mounted || !autoShow || previewOpen || !config.enabled || !config.title?.trim() || !validHomePopupLink(href)) return;
     try { if (sessionStorage.getItem(seenKey)) return; } catch { /* Show the popup when storage is unavailable. */ }
-    const timer = window.setTimeout(() => {
-      previousFocusRef.current = document.activeElement;
-      setAutoOpen(true);
-    }, 500);
-    return () => window.clearTimeout(timer);
+    previousFocusRef.current = document.activeElement;
+    setAutoOpen(true);
   }, [mounted, autoShow, previewOpen, config.enabled, config.title, href, seenKey]);
 
   useEffect(() => {
@@ -90,16 +89,16 @@ export default function HomeOfferPopup({ settings, previewOpen = false, onPrevie
     <div className="fixed inset-0 z-[10000] flex items-center justify-center overflow-y-auto bg-black/75 p-3 sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}>
       <div ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="home-offer-title" aria-describedby={description ? "home-offer-description" : undefined} className="relative my-auto w-full max-w-2xl overflow-hidden rounded-[1.75rem] bg-[#fff9f3] text-[#24180f] shadow-2xl">
         <button type="button" onClick={close} aria-label={lang === "hi" ? "बंद करें" : "Close popup"} className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-2xl leading-none shadow-md hover:bg-[#fff0e5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#d84c05]">×</button>
-        {config.image && (
+        {imageSrc && (
           validHomePopupLink(href) ? (
-            <a href={href} onClick={(event) => { if (previewOpen) event.preventDefault(); else { try { sessionStorage.setItem(seenKey, "1"); } catch { /* Ignore unavailable storage. */ } } }} aria-label={`${title} — ${buttonLabel}`} className="block bg-[#f8ede1]">
+            <a href={href} onClick={(event) => { if (previewOpen) event.preventDefault(); else { try { sessionStorage.setItem(seenKey, "1"); } catch { /* Ignore unavailable storage. */ } } }} aria-label={`${title} — ${buttonLabel}`} className="relative block aspect-[1920/819] max-h-[48vh] bg-[#f8ede1]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={config.image} alt={imageAlt} className="block max-h-[48vh] w-full object-contain" />
+              <img src={imageSrc} alt={imageAlt} fetchPriority="high" className="absolute inset-0 h-full w-full object-contain" />
             </a>
           ) : (
-            <div className="bg-[#f8ede1]">
+            <div className="relative aspect-[1920/819] max-h-[48vh] bg-[#f8ede1]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={config.image} alt={imageAlt} className="block max-h-[48vh] w-full object-contain" />
+              <img src={imageSrc} alt={imageAlt} fetchPriority="high" className="absolute inset-0 h-full w-full object-contain" />
             </div>
           )
         )}

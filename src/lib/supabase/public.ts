@@ -7,7 +7,10 @@ export function createPublicClient() {
   return createClient(getSupabaseUrl()!, getSupabaseAnonKey()!, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: {
-      fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
+      fetch: (input, init) => fetch(input, {
+        ...init,
+        next: { revalidate: 3600, tags: ["site-content"] },
+      }),
     },
   });
 }

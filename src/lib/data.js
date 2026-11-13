@@ -181,9 +181,11 @@ export async function getSiteSettings() {
 }
 
 async function getSiteSettingsUncached() {
-  const courses = await getCourses({ includeUnpublished: false });
+  const [courses, nextBatch] = await Promise.all([
+    getCourses({ includeUnpublished: false }),
+    getNextBatch(),
+  ]);
   const coursesCount = courses.filter((c) => !c.is_addon).length || courses.length;
-  const nextBatch = await getNextBatch();
 
   if (!isSupabaseConfigured()) {
     const site = buildSITE(

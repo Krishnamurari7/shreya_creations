@@ -15,7 +15,6 @@ import ThemeScript from "@/components/ThemeScript";
 import Analytics from "@/components/Analytics";
 import { getSiteSettings } from "@/lib/data";
 import { chromeSiteProps } from "@/lib/site-config";
-import { LOGO_SRC } from "@/lib/brand";
 import { getSiteUrl } from "@/lib/siteUrl";
 import JsonLd from "@/components/JsonLd";
 
@@ -55,11 +54,11 @@ export const metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: LOGO_SRC, sizes: "32x32", type: "image/png" },
-      { url: LOGO_SRC, sizes: "192x192", type: "image/png" },
-      { url: LOGO_SRC, sizes: "512x512", type: "image/png" },
+      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: LOGO_SRC,
+    apple: "/icon-192.png",
   },
   openGraph: {
     title: siteTitle,

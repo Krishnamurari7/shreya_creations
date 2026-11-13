@@ -18,7 +18,7 @@ import {
   DEFAULT_FOUNDING_YEAR,
   SITE_FACTS,
 } from "@/lib/site-config";
-import { MEDIA, heroServiceImageAlt } from "@/lib/media";
+import { MEDIA, heroServiceImageAlt, resolveMediaSrc } from "@/lib/media";
 import OptimizedImage from "@/components/OptimizedImage";
 
 const HERO_STATS_EN = [
@@ -163,42 +163,6 @@ function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }
     };
   }, []);
 
-  // Desktop only: autoplay muted when visible.
-  useEffect(() => {
-    if (hasStarted || typeof window === "undefined") return undefined;
-    if (window.matchMedia("(max-width: 767px)").matches) return undefined;
-
-    const video = videoRef.current;
-    if (!video) return undefined;
-
-    const start = () => {
-      if (!video.getAttribute("src")) {
-        video.src = src;
-      }
-      setHasStarted(true);
-      video.muted = true;
-      video.play().catch(() => {});
-    };
-
-    if (typeof IntersectionObserver === "undefined") {
-      start();
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          start();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "120px 0px" }
-    );
-
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, [hasStarted, src]);
-
   const startVideo = useCallback(
     (event) => {
       event.preventDefault();
@@ -284,7 +248,7 @@ function HeroLazyVideo({ src, poster, alt, lang = "en", priorityPoster = false }
         loop
         muted
         playsInline
-        preload={priorityPoster ? "metadata" : "none"}
+        preload="none"
         aria-label={alt}
       />
       {!hasStarted ? (
@@ -958,8 +922,8 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     }));
   }, [home.heroFeatureStrip, lang]);
 
-  const demoThumb = home.heroDemoThumb || MEDIA.slider1Poster;
-  const bookThumb = home.heroBookThumb || MEDIA.slider2Poster;
+  const demoThumb = resolveMediaSrc(home.heroDemoThumb || MEDIA.slider1Poster);
+  const bookThumb = resolveMediaSrc(home.heroBookThumb || MEDIA.slider2Poster);
   const heroLocalVideo = home.heroLocalVideo || "/video-1.mp4";
   const heroBookLocalVideo = home.heroBookLocalVideo || "/video-2.mp4";
 

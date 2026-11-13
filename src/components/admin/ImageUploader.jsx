@@ -4,6 +4,28 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { ADMIN_LABEL } from "@/lib/admin/formClasses";
 
+async function compressedUpload(file) {
+  if (file.size < 250_000 || !/^image\/(png|jpeg|webp|avif)$/.test(file.type) || typeof createImageBitmap !== "function") {
+    return file;
+  }
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, 1600 / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const context = canvas.getContext("2d");
+    if (!context) { bitmap.close?.(); return file; }
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close?.();
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/webp", 0.82));
+    if (!blob || blob.size >= file.size * 0.85) return file;
+    return new File([blob], `${file.name.replace(/\.[^.]+$/, "")}.webp`, { type: "image/webp" });
+  } catch {
+    return file;
+  }
+}
+
 // Uploads images to the public "media" bucket and returns their public URLs.
 export default function ImageUploader({ value = [], onChange, multiple = true, label = "Images" }) {
   const [busy, setBusy] = useState(false);
@@ -21,9 +43,10 @@ export default function ImageUploader({ value = [], onChange, multiple = true, l
     const next = [...urls];
     try {
       for (const file of files) {
-        const ext = file.name.split(".").pop();
+        const uploadFile = await compressedUpload(file);
+        const ext = uploadFile.name.split(".").pop();
         const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error } = await supabase.storage.from("media").upload(path, file, {
+        const { error } = await supabase.storage.from("media").upload(path, uploadFile, {
           cacheControl: "3600",
           upsert: false,
         });

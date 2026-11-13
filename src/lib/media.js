@@ -2,6 +2,14 @@
 const SB_MEDIA = "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media";
 const SB_DEFAULTS = `${SB_MEDIA}/site-defaults`;
 
+// Keep the current large CMS homepage images as editable settings while serving
+// compact local copies until an admin uploads a replacement.
+const OPTIMIZED_HOMEPAGE_IMAGES = {
+  [`${SB_MEDIA}/1782239288560-v7jdgv.png`]: "/hero-demo-poster.webp",
+  [`${SB_MEDIA}/1782239324371-pvtg8u.png`]: "/hero-book-poster.webp",
+  [`${SB_MEDIA}/1794594656732-mos6w1.png`]: "/home-popup-banner.webp",
+};
+
 /** Canonical media URLs (Supabase Storage). Local /public paths are remapped via resolveMediaSrc. */
 export const MEDIA = {
   heroStudioBanner: `${SB_DEFAULTS}/hero_studio_banner.webp`,
@@ -78,6 +86,7 @@ const LEGACY_PNG_EXT = /\.png$/i;
 /** Map legacy local paths to Supabase; leave already-remote URLs unchanged. */
 export function resolveMediaSrc(src) {
   if (!src || typeof src !== "string") return src;
+  if (OPTIMIZED_HOMEPAGE_IMAGES[src]) return OPTIMIZED_HOMEPAGE_IMAGES[src];
   if (src.includes("supabase.co/storage")) return src;
   if (LOCAL_TO_SUPABASE[src]) return LOCAL_TO_SUPABASE[src];
   if (src.startsWith("/") && !src.startsWith("//") && LEGACY_PNG_EXT.test(src)) {
