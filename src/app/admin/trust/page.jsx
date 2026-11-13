@@ -1,6 +1,7 @@
 "use client";
 
 import ResourceManager from "@/components/admin/ResourceManager";
+import Link from "next/link";
 
 const FIELDS = [
   { name: "label", label: "Label (English)", type: "text" },
@@ -13,13 +14,18 @@ const FIELDS = [
 
 export default function TrustAdmin() {
   return (
-    <ResourceManager
-      table="trust_stats"
-      title="Trust stats"
-      fields={FIELDS}
-      orderBy="sort_order"
-      orderAsc
-      listColumns={["label", "value"]}
-    />
+    <div>
+      <p className="admin-muted mb-4">
+        To edit the “Visit Our Studio” sections, open <Link href="/admin/cta-boxes" className="text-gold hover:underline">CTA Boxes</Link>.
+      </p>
+      <ResourceManager
+        table="trust_stats"
+        title="Trust stats"
+        fields={FIELDS}
+        orderBy="sort_order"
+        orderAsc
+        listColumns={["label", "value"]}
+      />
+    </div>
   );
 }

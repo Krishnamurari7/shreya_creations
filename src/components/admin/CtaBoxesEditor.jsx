@@ -11,7 +11,7 @@ const PERK_FIELDS = [
   { key: "text_hi", label: "Perk (Hindi)" },
 ];
 
-export default function CtaBoxesEditor({ entries = [], onChange, options = [], initialValues = () => ({}) }) {
+export default function CtaBoxesEditor({ entries = [], onChange, options = [], initialValues = () => ({}), showAdd = true }) {
   const [newPath, setNewPath] = useState("");
   const [error, setError] = useState("");
 
@@ -45,12 +45,10 @@ export default function CtaBoxesEditor({ entries = [], onChange, options = [], i
     <>
       <SectionHeading>CTA boxes by page</SectionHeading>
       <p className="admin-muted">
-        Add a page path to change the box shown at the bottom of that page. Use /shop/*, /courses/*,
-        /portfolio/*, or /blog/* for all detail pages, or enter one exact URL to customize it separately.
-        Hindi URLs use the same entry. Blank text fields keep the page&apos;s current copy. Filled fields here
-        take priority over the older CTA fields in the individual page tabs.
+        Edit the entire box shown at the bottom of this page. Hindi URLs use the same entry.
+        These fields take priority over the older CTA fields in the individual page tabs.
       </p>
-      <div className="flex flex-wrap items-end gap-3">
+      {showAdd && <div className="flex flex-wrap items-end gap-3">
         <div className="min-w-56 flex-1">
           <label className={ADMIN_LABEL} htmlFor="new-cta-path">Page path</label>
           <input
@@ -69,7 +67,7 @@ export default function CtaBoxesEditor({ entries = [], onChange, options = [], i
         <button type="button" onClick={add} className="text-sm text-gold hover:underline pb-2">
           + Add CTA box
         </button>
-      </div>
+      </div>}
       {error && <p className="text-sm text-marigold" role="alert">{error}</p>}
 
       {entries.length === 0 && <p className="admin-muted">No page overrides yet. Existing boxes still use their current page copy.</p>}

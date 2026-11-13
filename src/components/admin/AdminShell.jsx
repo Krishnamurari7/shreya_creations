@@ -9,6 +9,7 @@ import { BRAND_NAME, LOGO_SRC } from "@/lib/brand";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: "◆" },
+  { href: "/admin/cta-boxes", label: "CTA Boxes", icon: "↗" },
   { href: "/admin/products", label: "Shop", icon: "✦" },
   { href: "/admin/courses", label: "Courses", icon: "❖" },
   { href: "/admin/portfolio", label: "Portfolio", icon: "▣" },
