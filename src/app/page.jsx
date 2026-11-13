@@ -59,6 +59,7 @@ export default async function HomePage() {
       home={home}
       site={chromeSiteProps(site)}
       ctaOverrides={site.pages?.ctaBoxes?.entries}
+      homePopup={site.pages?.homePopup}
       courses={courses}
       portfolio={portfolio}
       testimonials={testimonials}

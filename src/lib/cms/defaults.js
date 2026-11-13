@@ -15,6 +15,7 @@ import {
   DEFAULT_HERO_SERVICE_CARDS,
 } from "@/lib/cms/home-blocks";
 import { MEDIA } from "@/lib/media";
+import { DEFAULT_HOME_POPUP } from "@/lib/home-popup";
 
 const BOUTIQUE_PAGE_DEFAULTS_WITH_LANDING = withLandingCmsDefaults(
   BOUTIQUE_PAGE_DEFAULTS,
@@ -1208,6 +1209,7 @@ export const PAGE_DEFAULTS = {
   },
   ...BOUTIQUE_PAGE_DEFAULTS_WITH_LANDING,
   ctaBoxes: { entries: [] },
+  homePopup: DEFAULT_HOME_POPUP,
 };
 
 export const PAGE_EDITOR_KEYS = [

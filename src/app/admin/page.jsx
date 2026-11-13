@@ -76,6 +76,11 @@ export default async function Dashboard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6")}>
+          <h2 className="text-gold uppercase tracking-[0.2em] text-xs mb-3">Homepage offer popup</h2>
+          <p className="admin-muted text-sm mb-4">Upload a banner, edit offer or course details, choose its link, and turn the popup on or off.</p>
+          <Link href="/admin/home-popup" className="inline-flex rounded-full bg-orange px-5 py-2.5 text-sm font-bold text-white hover:opacity-90">Edit popup</Link>
+        </div>
+        <div className={cn(GLASS, "rounded-2xl", "p-5", "sm:p-6")}>
           <h2 className="text-gold uppercase tracking-[0.2em] text-xs mb-3">WhatsApp number</h2>
           <p className="text-base sm:text-lg break-all">{site.whatsapp}</p>
           <p className="admin-muted mt-2">

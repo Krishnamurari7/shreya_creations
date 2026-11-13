@@ -36,6 +36,7 @@ const Testimonials = dynamic(() => import("@/components/Sections").then((mod) =>
   loading: () => <div className="testimonials-skeleton min-h-[240px]" aria-hidden />,
 });
 const InquiryPopup = dynamic(() => import("@/components/InquiryPopup"), { ssr: false });
+const HomeOfferPopup = dynamic(() => import("@/components/HomeOfferPopup"), { ssr: false });
 
 function SectionHeader({
   home,
@@ -95,6 +96,7 @@ export default function HomepageClient({
   home: homeProp,
   site,
   ctaOverrides,
+  homePopup,
   courses,
   portfolio = [],
   testimonials,
@@ -184,6 +186,7 @@ export default function HomepageClient({
       <PageCTA whatsapp={site.whatsapp} {...pageBottomCtaProps(home)} overrides={ctaOverrides} />
 
       <InquiryPopup source="home_popup" whatsapp={site.whatsapp} />
+      <HomeOfferPopup settings={homePopup} />
     </div>
   );
 }
