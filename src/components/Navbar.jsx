@@ -18,6 +18,7 @@ const ROUTES = [
   { href: "/", key: "home" },
   { href: "/about", key: "about" },
   { href: "/shop", key: "boutique", dropdown: "boutique" },
+  { href: "/student-store", key: "studentStore" },
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
   { href: "/hire-trained-professionals", key: "hireStaff" },
@@ -65,6 +66,8 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="M16 10a4 4 0 0 1-8 0" />
         </svg>
       );
+    case "studentStore":
+      return <svg {...props}><path d="M4 8h16l-1 12H5L4 8Z"/><path d="M8 9V6a4 4 0 0 1 8 0v3"/><path d="M9 14h6"/></svg>;
     case "institute":
       return (
         <svg {...props}>

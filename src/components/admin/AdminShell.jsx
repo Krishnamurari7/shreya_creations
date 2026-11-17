@@ -12,6 +12,7 @@ const NAV = [
   { href: "/admin/cta-boxes", label: "CTA Boxes", icon: "↗" },
   { href: "/admin/home-popup", label: "Home Popup", icon: "✦" },
   { href: "/admin/products", label: "Shop", icon: "✦" },
+  { href: "/admin/student-store", label: "Student Store", icon: "✦" },
   { href: "/admin/courses", label: "Courses", icon: "❖" },
   { href: "/admin/portfolio", label: "Portfolio", icon: "▣" },
   { href: "/admin/lookbook", label: "Blog", icon: "✧" },

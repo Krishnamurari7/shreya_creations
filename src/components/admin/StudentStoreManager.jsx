@@ -1,0 +1,104 @@
+"use client";
+import { useEffect, useState } from "react";
+import { formatMoney, statusLabel } from "@/lib/student-store/format";
+import StudentStoreReport from "./StudentStoreReport";
+
+const definitions = {
+  categories: { title: "Categories", fields: ["name","slug","description","display_order","published"] },
+  products: { title: "Products", fields: ["name","slug","category_id","description","usage","specifications","compatible_models","unit","published"] },
+  variants: { title: "Variants", fields: ["product_id","sku","attributes","price_paise","tax_rate_bps","active"] },
+  kits: { title: "Student kits", fields: ["course_id","name","slug","description","specifications","excluded_items","price_paise","tax_rate_bps","published"] },
+  components: { title: "Kit contents", fields: ["kit_id","variant_id","required_quantity"] },
+  recommendations: { title: "Course recommendations", fields: ["course_id","product_id","kit_id","display_order"] },
+  inventory: { title: "Inventory", fields: [] },
+  orders: { title: "Orders", fields: [] },
+  payments: { title: "Payments", fields: [] },
+  delivery: { title: "Delivery rules", fields: ["pin_code","charge_paise","tax_rate_bps","estimate_text","active"] },
+  settings: { title: "Store settings", fields: ["public_shopping","pickup_enabled","home_delivery_enabled","pay_at_pickup_enabled","cash_on_delivery_enabled","student_discount_enabled","student_discount_bps","pickup_address","pickup_hours","pickup_instructions","support_email","support_phone","return_policy","replacement_policy","cancellation_policy","store_terms"] },
+  students: { title: "Verified students", fields: [] },
+  receipts: { title: "Receipts", fields: [] },
+  reports: { title: "Reports", fields: [] },
+};
+const resources = ["categories","products","variants","kits","components","recommendations","inventory","orders","payments","delivery","settings","students","receipts","courses","registrations","movements"];
+const booleanFields = new Set(["published","active","public_shopping","pickup_enabled","home_delivery_enabled","pay_at_pickup_enabled","cash_on_delivery_enabled","student_discount_enabled"]);
+const numberFields = new Set(["display_order","price_paise","tax_rate_bps","required_quantity","charge_paise","student_discount_bps"]);
+const nullableFields = new Set(["description","usage","compatible_models","excluded_items","tax_rate_bps","student_discount_bps","pickup_address","pickup_hours","pickup_instructions","support_email","support_phone","return_policy","replacement_policy","cancellation_policy","store_terms","estimate_text","product_id","kit_id"]);
+const emptyFor = fields => Object.fromEntries(fields.map(f => [f, booleanFields.has(f) ? false : numberFields.has(f) ? (nullableFields.has(f) ? "" : 0) : ["attributes","specifications"].includes(f) ? "{}" : ""]));
+
+export default function StudentStoreManager() {
+  const [tab, setTab] = useState("products"), [rows, setRows] = useState({}), [form, setForm] = useState({}), [selected, setSelected] = useState(null), [message, setMessage] = useState(""), [busy, setBusy] = useState(false);
+  const [stock, setStock] = useState({ variant_id: "", delta: "", reason: "receive", notes: "" });
+  const [student, setStudent] = useState({ user_id: "", registration_id: "", batch_id: "" });
+  const [image, setImage] = useState({ kind: "product", id: "", alt: "", file: null });
+  const [receipt, setReceipt] = useState({ order_id: "", file: null });
+  const [orderId, setOrderId] = useState(""), [order, setOrder] = useState(null), [status, setStatus] = useState(""), [tracking, setTracking] = useState(""), [notes, setNotes] = useState("");
+  const [payment, setPayment] = useState({ reference: "", note: "" });
+  async function load() {
+    const results = await Promise.all(resources.map(async key => { const r = await fetch(`/api/admin/student-store/data/${key}`); const x = await r.json(); return [key, r.ok ? x.rows : []]; }));
+    setRows(Object.fromEntries(results));
+  }
+  useEffect(() => { load().catch(e => setMessage(e.message)); }, []);
+  useEffect(() => { const def = definitions[tab]; setSelected(null); setForm(emptyFor(def.fields)); setMessage(""); }, [tab]);
+  useEffect(() => { if (tab === "settings" && rows.settings?.[0]) choose(rows.settings[0]); }, [tab, rows.settings]);
+  function choose(row) { setSelected(row); setForm(Object.fromEntries(definitions[tab].fields.map(f => [f, ["attributes","specifications"].includes(f) ? JSON.stringify(row[f] || {}) : row[f] ?? (booleanFields.has(f) ? false : "")]))); }
+  async function send(url, body, multipart = false) {
+    setBusy(true); setMessage("");
+    try { const r = await fetch(url, { method: "POST", headers: multipart ? undefined : { "Content-Type": "application/json" }, body: multipart ? body : JSON.stringify(body) }); const x = await r.json(); if (!r.ok) throw new Error(x.error || "Save failed"); setMessage("Saved successfully"); await load(); return x; }
+    catch (e) { setMessage(e.message); return null; } finally { setBusy(false); }
+  }
+  function valueFor(f, value) { if (booleanFields.has(f)) return !!value; if (numberFields.has(f)) return value === "" && nullableFields.has(f) ? null : Number(value); if (["attributes","specifications"].includes(f)) return JSON.parse(value || "{}"); return value === "" && nullableFields.has(f) ? null : value; }
+  async function saveResource(e) {
+    e.preventDefault(); const payload = {};
+    try { for (const f of definitions[tab].fields) payload[f] = valueFor(f, form[f]); }
+    catch { setMessage("Attributes must be a JSON object"); return; }
+    if (selected?.id) payload.id = selected.id;
+    await send(`/api/admin/student-store/data/${tab}`, payload);
+  }
+  async function openOrder(id) { setOrderId(id); const r = await fetch(`/api/admin/student-store/orders/${id}`); const x = await r.json(); if (!r.ok) { setMessage(x.error); return; } setOrder(x); setStatus(""); setMessage(""); }
+  async function updateOrder(action) {
+    const result = await send(`/api/admin/student-store/orders/${orderId}`, action === "payment" ? { action, ...payment } : { action, status, notes, tracking_reference: tracking });
+    if (result) openOrder(orderId);
+  }
+  async function deleteSelected() {
+    if (!selected || !confirm("Remove this kit component or recommendation?")) return;
+    setBusy(true); setMessage("");
+    try {
+      const body = tab === "components" ? { kit_id: selected.kit_id, variant_id: selected.variant_id } : { id: selected.id };
+      const r = await fetch(`/api/admin/student-store/data/${tab}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const x = await r.json(); if (!r.ok) throw new Error(x.error);
+      setSelected(null); setForm(emptyFor(definitions[tab].fields)); setMessage("Removed"); await load();
+    } catch (e) { setMessage(e.message); } finally { setBusy(false); }
+  }
+  async function downloadReceipt(id) {
+    const r = await fetch(`/api/admin/student-store/receipts/${id}`); const x = await r.json();
+    if (!r.ok) setMessage(x.error); else location.href = x.url;
+  }
+  function optionsFor(f) {
+    if (f === "category_id") return (rows.categories || []).map(x => [x.id,x.name]);
+    if (f === "product_id" || f === "kit_id") return (rows[f === "product_id" ? "products" : "kits"] || []).map(x => [x.id,x.name]);
+    if (f === "variant_id") return (rows.variants || []).map(x => [x.id,`${x.sku} · ${formatMoney(x.price_paise)}`]);
+    if (f === "kit_id") return (rows.kits || []).map(x => [x.id,x.name]);
+    if (f === "course_id") return (rows.courses || []).map(x => [x.id,x.title]);
+    if (f === "unit") return [["piece","Per piece"],["set","Per set"],["metre","Per metre"]];
+    return null;
+  }
+  function renderField(f) {
+    const label = f.replaceAll("_", " ");
+    if (booleanFields.has(f)) return <label key={f} className="store-admin-check"><input type="checkbox" checked={!!form[f]} onChange={e => setForm(v => ({ ...v, [f]: e.target.checked }))} /> {label}</label>;
+    const options = optionsFor(f);
+    return <label key={f} className="store-admin-label">{label}{options ? <select className="store-admin-input" value={form[f] || ""} onChange={e => setForm(v => ({ ...v, [f]: e.target.value }))}><option value="">Select…</option>{options.map(([id,name]) => <option key={id} value={id}>{name}</option>)}</select> : ["description","usage","excluded_items","return_policy","replacement_policy","cancellation_policy","store_terms","pickup_instructions","specifications","attributes"].includes(f) ? <textarea className="store-admin-input min-h-24" value={form[f] ?? ""} onChange={e => setForm(v => ({ ...v, [f]: e.target.value }))} /> : <input className="store-admin-input" type={numberFields.has(f) ? "number" : "text"} step="1" value={form[f] ?? ""} onChange={e => setForm(v => ({ ...v, [f]: e.target.value }))} />}</label>;
+  }
+  const list = rows[tab] || [];
+  return <div className="space-y-6"><div className="flex gap-2 overflow-x-auto pb-3" role="tablist">{Object.entries(definitions).map(([key,x]) => <button key={key} onClick={() => setTab(key)} className={`shrink-0 rounded-full px-4 py-2 text-sm ${tab === key ? "bg-orange text-white" : "border border-orange/30"}`}>{x.title}</button>)}</div>
+    <h2 className="font-display text-2xl">{definitions[tab].title}</h2>{message && <p role="status" className="rounded-lg border border-orange/30 p-3 text-sm">{message}</p>}
+    {definitions[tab].fields.length > 0 && <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(300px,1fr)] gap-6"><div className="space-y-2"><p className="text-sm">Select a row to edit, or create a new record.</p>{tab !== "settings" && <button onClick={() => { setSelected(null); setForm(emptyFor(definitions[tab].fields)); }} className="admin-btn-ghost">New {tab.slice(0,-1)}</button>}<div className="max-h-[620px] overflow-y-auto space-y-2">{list.map((r,i) => <button key={String(r.id || `${r.kit_id}-${r.variant_id}` || i)} onClick={() => choose(r)} className="w-full text-left rounded-xl border border-orange/20 p-3 hover:border-orange/70"><strong>{r.name || r.sku || r.pin_code || (tab === "settings" ? "Store configuration" : r.id || `${r.kit_id} / ${r.variant_id}`)}</strong><span className="ml-2 text-xs opacity-70">{r.published === true ? "Published" : r.published === false ? "Draft" : r.active === false ? "Inactive" : ""}</span></button>)}{!list.length && <p className="text-sm opacity-70">No records yet.</p>}</div></div><form onSubmit={saveResource} className="grid sm:grid-cols-2 gap-3 rounded-2xl border border-orange/20 p-5"><h3 className="sm:col-span-2 font-semibold">{selected ? "Edit record" : "New record"}</h3>{definitions[tab].fields.map(renderField)}<button disabled={busy} className="sm:col-span-2 rounded-full bg-orange px-5 py-3 text-white disabled:opacity-40">{busy ? "Saving…" : "Save"}</button>{selected && ["products","kits"].includes(tab) && !selected.archived_at && <button type="button" className="sm:col-span-2 rounded-full border border-red-500 px-5 py-3 text-red-600" onClick={() => { if (confirm(`Archive ${selected.name}? It will no longer be purchasable.`)) send(`/api/admin/student-store/data/${tab}`, { ...Object.fromEntries(definitions[tab].fields.map(f => [f, valueFor(f, form[f])])), id: selected.id, archived_at: new Date().toISOString(), published: false }); }}>Archive item</button>}</form></div>}
+    {selected && ["components","recommendations"].includes(tab) && <button onClick={deleteSelected} disabled={busy} className="rounded-full border border-red-500 px-5 py-2 text-red-600">Remove selected {tab === "components" ? "kit item" : "recommendation"}</button>}
+    {tab === "inventory" && <div className="grid lg:grid-cols-2 gap-6"><div className="space-y-2">{(rows.inventory || []).map(i => { const v = (rows.variants || []).find(v => v.id === i.variant_id); return <div key={i.variant_id} className="rounded-xl border border-orange/20 p-3"><strong>{v?.sku || i.variant_id}</strong><p className="text-sm">On hand: {i.on_hand} · Reserved: {i.reserved} · Available: {i.on_hand-i.reserved}</p></div>; })}</div><form onSubmit={e => { e.preventDefault(); send("/api/admin/student-store/inventory", { ...stock, delta: Number(stock.delta) }); }} className="space-y-3 rounded-xl border border-orange/20 p-5"><h3 className="font-semibold">Audited stock movement</h3><select required className="store-admin-input" value={stock.variant_id} onChange={e => setStock(v => ({ ...v, variant_id: e.target.value }))}><option value="">Choose variant</option>{(rows.variants || []).map(v => <option key={v.id} value={v.id}>{v.sku}</option>)}</select><input required type="number" className="store-admin-input" placeholder="Quantity change (negative for correction)" value={stock.delta} onChange={e => setStock(v => ({ ...v, delta: e.target.value }))} /><select className="store-admin-input" value={stock.reason} onChange={e => setStock(v => ({ ...v, reason: e.target.value }))}><option value="receive">Receive stock</option><option value="adjust">Correct stock</option></select><textarea required minLength={4} className="store-admin-input" placeholder="Reason / source" value={stock.notes} onChange={e => setStock(v => ({ ...v, notes: e.target.value }))} /><button disabled={busy} className="rounded-full bg-orange px-5 py-3 text-white">Record movement</button></form></div>}
+    {tab === "orders" && <div className="grid lg:grid-cols-2 gap-6"><div className="space-y-2 max-h-[620px] overflow-y-auto">{(rows.orders || []).map(o => <button key={o.id} onClick={() => openOrder(o.id)} className="w-full text-left rounded-xl border border-orange/20 p-4"><strong>{o.id.slice(0,8).toUpperCase()}</strong><span className="ml-3">{formatMoney(o.total_paise)}</span><p className="text-xs mt-1">{o.customer_name} · {statusLabel(o.fulfillment_status)} · payment {statusLabel(o.payment_state)}</p></button>)}</div>{order && <div className="rounded-xl border border-orange/20 p-5 space-y-3"><h3 className="font-semibold">Order {orderId}</h3><p>{order.order.customer_name} · {order.order.mobile}</p><p>{statusLabel(order.order.delivery_method)} · {statusLabel(order.order.fulfillment_status)} · {statusLabel(order.order.payment_state)} payment</p>{order.items.map(i => <p key={i.id} className="text-sm">{i.name_snapshot} × {i.quantity} · {formatMoney(i.line_total_paise)}</p>)}<p className="font-bold">Total {formatMoney(order.order.total_paise)}</p><div className="border-t border-orange/20 pt-4 space-y-2"><h4 className="font-semibold">Fulfillment</h4><select className="store-admin-input" value={status} onChange={e => setStatus(e.target.value)}><option value="">Choose next status</option>{(order.order.delivery_method === "pickup" ? { order_placed: ["preparing","cancelled"], preparing: ["ready_for_pickup","cancelled"], ready_for_pickup: ["collected","cancelled"] } : { order_placed: ["processing","cancelled"], processing: ["shipped","cancelled"], shipped: ["delivered"] })[order.order.fulfillment_status]?.map(s => <option key={s} value={s}>{statusLabel(s)}</option>)}</select><input className="store-admin-input" placeholder="Tracking reference for shipped orders" value={tracking} onChange={e => setTracking(e.target.value)} /><textarea className="store-admin-input" placeholder="Staff note" value={notes} onChange={e => setNotes(e.target.value)} /><button disabled={busy || !status} onClick={() => updateOrder("status")} className="rounded-full bg-orange px-5 py-2 text-white disabled:opacity-40">Update status</button></div><div className="border-t border-orange/20 pt-4 space-y-2"><h4 className="font-semibold">Owner verified offline collection</h4><input className="store-admin-input" placeholder="Actual collection reference" value={payment.reference} onChange={e => setPayment(v => ({ ...v, reference: e.target.value }))} /><textarea className="store-admin-input" placeholder="Verification note (at least 8 characters)" value={payment.note} onChange={e => setPayment(v => ({ ...v, note: e.target.value }))} /><button disabled={busy || order.order.payment_state !== "pending"} onClick={() => updateOrder("payment")} className="rounded-full border border-orange px-5 py-2 disabled:opacity-40">Record verified payment</button></div></div>}</div>}
+    {tab === "payments" && <div className="space-y-2">{(rows.payments || []).map(p => <div key={p.id} className="rounded-xl border border-orange/20 p-3"><strong>{formatMoney(p.amount_paise)} · {statusLabel(p.state)}</strong><p className="text-sm">{p.provider} · Order {p.order_id} · {p.provider_reference || "No collection reference yet"}</p></div>)}{!(rows.payments || []).length && <p>No payments recorded yet.</p>}</div>}
+    {tab === "students" && <div className="grid lg:grid-cols-2 gap-6"><div>{(rows.students || []).map(s => <p key={s.id} className="rounded-xl border border-orange/20 p-3">User {s.user_id} · Registration {s.registration_id}</p>)}</div><form onSubmit={e => { e.preventDefault(); send("/api/admin/student-store/students", { ...student, batch_id: student.batch_id || null }); }} className="space-y-3 rounded-xl border border-orange/20 p-5"><p className="text-sm">Owner only. Admission must be approved, and the registration email must match the Auth user.</p><input required className="store-admin-input" placeholder="Supabase Auth user UUID" value={student.user_id} onChange={e => setStudent(v => ({ ...v, user_id: e.target.value }))} /><select required className="store-admin-input" value={student.registration_id} onChange={e => setStudent(v => ({ ...v, registration_id: e.target.value }))}><option value="">Admitted registration</option>{(rows.registrations || []).filter(r => r.status === "admitted").map(r => <option key={r.id} value={r.id}>{r.name} · {r.email} · {r.course_name}</option>)}</select><input className="store-admin-input" placeholder="Batch UUID (optional)" value={student.batch_id} onChange={e => setStudent(v => ({ ...v, batch_id: e.target.value }))} /><button disabled={busy} className="rounded-full bg-orange px-5 py-2 text-white">Verify link</button></form></div>}
+    {tab === "receipts" && <div className="grid lg:grid-cols-2 gap-6"><div>{(rows.receipts || []).map(r => <p key={r.id} className="rounded-xl border border-orange/20 p-3">{r.file_name} · Order {r.order_id}</p>)}</div><div className="space-y-7"><form onSubmit={e => { e.preventDefault(); const fd = new FormData(); fd.set("order_id",receipt.order_id); fd.set("file",receipt.file); send("/api/admin/student-store/receipts", fd, true); }} className="space-y-3 rounded-xl border border-orange/20 p-5"><h3 className="font-semibold">Attach a real PDF receipt</h3><select required className="store-admin-input" value={receipt.order_id} onChange={e => setReceipt(v => ({ ...v, order_id: e.target.value }))}><option value="">Choose order</option>{(rows.orders || []).map(o => <option key={o.id} value={o.id}>{o.id.slice(0,8)} · {o.customer_name}</option>)}</select><input type="file" accept="application/pdf" required onChange={e => setReceipt(v => ({ ...v, file: e.target.files[0] }))} /><button disabled={busy} className="rounded-full bg-orange px-5 py-2 text-white">Attach receipt</button></form><form onSubmit={e => { e.preventDefault(); const fd = new FormData(); fd.set("kind",image.kind); fd.set("id",image.id); fd.set("alt",image.alt); fd.set("file",image.file); send("/api/admin/student-store/images",fd,true); }} className="space-y-3 rounded-xl border border-orange/20 p-5"><h3 className="font-semibold">Upload catalog image</h3><select className="store-admin-input" value={image.kind} onChange={e => setImage(v => ({ ...v, kind: e.target.value, id: "" }))}><option value="product">Product</option><option value="kit">Kit</option><option value="category">Category</option></select><select required className="store-admin-input" value={image.id} onChange={e => setImage(v => ({ ...v, id: e.target.value }))}><option value="">Choose item</option>{(rows[image.kind === "product" ? "products" : image.kind === "kit" ? "kits" : "categories"] || []).map(x => <option key={x.id} value={x.id}>{x.name}</option>)}</select><input required className="store-admin-input" placeholder="Descriptive image alt text" value={image.alt} onChange={e => setImage(v => ({ ...v, alt: e.target.value }))} /><input type="file" accept="image/jpeg,image/png,image/webp" required onChange={e => setImage(v => ({ ...v, file: e.target.files[0] }))} /><button disabled={busy} className="rounded-full bg-orange px-5 py-2 text-white">Upload image</button></form></div></div>}
+    {tab === "receipts" && (rows.receipts || []).length > 0 && <div className="rounded-xl border border-orange/20 p-5"><h3 className="font-semibold mb-3">Download stored receipts</h3>{rows.receipts.map(r => <button key={r.id} onClick={() => downloadReceipt(r.id)} className="block text-orange underline mb-2">{r.file_name} · {r.order_id.slice(0,8)}</button>)}</div>}
+    {tab === "reports" && <StudentStoreReport />}
+  </div>;
+}

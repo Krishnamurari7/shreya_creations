@@ -2,6 +2,7 @@ export const UI = {
   en: {
     home: "Home",
     shop: "Shop",
+    studentStore: "Student Store",
     courses: "Courses",
     institute: "Institute",
     niftCoaching: "NIFT Coaching",
@@ -44,6 +45,7 @@ export const UI = {
   hi: {
     home: "होम",
     shop: "शॉप",
+    studentStore: "स्टूडेंट स्टोर",
     courses: "कोर्स",
     institute: "इंस्टिट्यूट",
     niftCoaching: "NIFT कोचिंग",
