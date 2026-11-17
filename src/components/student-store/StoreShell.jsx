@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CartBadge from "./CartBadge";
+import RecommendedForStudent from "./RecommendedForStudent";
 export default function StoreShell({ children, title, eyebrow, description, lang = "en" }) {
   const hi = lang === "hi";
   return <div className="min-h-screen bg-[#120d0b] text-[#f8f0e5] pt-32 pb-24">
@@ -9,6 +10,7 @@ export default function StoreShell({ children, title, eyebrow, description, lang
       </nav>
       {title && <header className="mb-10 max-w-3xl"><p className="text-[#e68b53] text-xs uppercase tracking-[.26em] font-bold mb-3">{eyebrow || "Shreya Student Store"}</p><h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-tight">{title}</h1>{description && <p className="mt-4 text-[#ddcaba] leading-relaxed">{description}</p>}</header>}
       {children}
+      {hi && <RecommendedForStudent lang="hi" />}
     </div>
   </div>;
 }

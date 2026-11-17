@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { formatMoney } from "@/lib/student-store/format";
+import QuickAdd from "./QuickAdd";
 export default function StoreCard({ item, kind = "product" }) {
   const href = `/student-store/${kind === "kit" ? "kits" : "product"}/${item.slug}`;
   return <article className="overflow-hidden rounded-2xl border border-[#634637] bg-[#211815] transition hover:border-[#d17a45] hover:-translate-y-1">
@@ -10,6 +11,7 @@ export default function StoreCard({ item, kind = "product" }) {
     <div className="p-5"><p className="text-[11px] uppercase tracking-[.17em] text-[#e5aa7d]">{kind === "kit" ? item.courses?.title || "Student kit" : item.category?.name || "Student essentials"}</p><h3 className="font-serif text-xl mt-2 min-h-14"><Link href={href}>{item.name}</Link></h3>
       {kind === "kit" && <p className="text-xs text-[#c6ada0] mt-1">{item.components?.length || 0} included items</p>}
       <div className="flex items-center justify-between gap-3 mt-5"><p className="font-semibold text-[#f3ad75]">{item.price_paise != null ? `${kind === "product" ? "From " : ""}${formatMoney(item.price_paise)}` : "Price pending"}</p><Link href={href} className="rounded-full border border-[#cb6932] px-4 py-2 text-xs font-bold text-[#ffbe8a] hover:bg-[#cb6932] hover:text-white">View details</Link></div>
+      <QuickAdd item={item} kind={kind} href={href} />
     </div>
   </article>;
 }

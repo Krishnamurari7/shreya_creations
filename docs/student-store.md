@@ -18,6 +18,7 @@ All 22 `store_*` tables have RLS. Published catalog metadata is public read only
 2. Review the five navigation categories. Add real products, variants, SKU, price in paise and an explicit tax rate. Stock starts at zero; record received stock in Inventory with a source note. Upload real product images and alt text.
 3. Create a draft kit linked to a real course, add component variants and quantities, then publish it. Kit availability derives from each variant's shared stock.
 4. The owner can link an Auth user to an admitted registration when their emails match. Admission records without a real course cannot be linked. Student discounts apply only to these verified links.
+   Once linked, the student's store home shows products explicitly recommended for their admitted course and kits linked to that course. The browser cannot choose or edit this eligibility.
 5. The owner enters an accurate pickup address and hours, or active PIN specific delivery rules with verified charges/tax. Then enable the corresponding offline payment and delivery flags in Store settings. Every flag starts off.
 6. Test with real authorized accounts and approved sellable catalog records before accepting customer orders. Do not turn on public shopping or discounts without a reviewed policy.
 
