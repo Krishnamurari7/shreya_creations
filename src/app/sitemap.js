@@ -9,7 +9,11 @@ const STATIC_PATHS = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/about", changeFrequency: "monthly", priority: 0.8 },
   { path: "/courses", changeFrequency: "weekly", priority: 0.9 },
+  // This seed-backed course is public even when it is absent from the CMS list.
+  { path: "/courses/kids-wear-course", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/register", changeFrequency: "monthly", priority: 0.8 },
   { path: "/shop", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/student-store", changeFrequency: "weekly", priority: 0.8 },
   ...BOUTIQUE_SERVICES.map((s) => ({
     path: s.href,
     changeFrequency: "weekly",
@@ -30,15 +34,33 @@ const STATIC_PATHS = [
   { path: "/policies/course-cancellation", changeFrequency: "yearly", priority: 0.3 },
 ];
 
+function localizedEntries(path, details) {
+  const english = sitemapWithAlternates(path, details);
+  return [
+    english,
+    { ...english, url: english.alternates.languages["hi-IN"] },
+  ];
+}
+
 export default async function sitemap() {
   const now = new Date();
 
-  const staticEntries = STATIC_PATHS.map(({ path, changeFrequency, priority }) =>
-    sitemapWithAlternates(path, {
-      lastModified: now,
+  const staticEntries = STATIC_PATHS.flatMap(({ path, changeFrequency, priority }) =>
+    localizedEntries(path, {
       changeFrequency,
       priority,
     })
+  );
+
+  // These catalog pages have no Hindi counterpart; do not advertise redirects as alternates.
+  const storeCatalogEntries = ["/student-store/products", "/student-store/categories"].map(
+    (path) => {
+      const { alternates, ...entry } = sitemapWithAlternates(path, {
+        changeFrequency: "weekly",
+        priority: 0.6,
+      });
+      return entry;
+    }
   );
 
   let courseEntries = [];
@@ -47,17 +69,20 @@ export default async function sitemap() {
   let blogEntries = [];
 
   try {
-    const [courses, products, portfolio, posts] = await Promise.all([
+    const results = await Promise.allSettled([
       getCourses(),
       getProducts(),
       getPortfolio(),
       getLookbookPosts(),
     ]);
+    const [courses, products, portfolio, posts] = results.map((result) =>
+      result.status === "fulfilled" ? result.value : []
+    );
     // Include published courses (Enrollable + Coming Soon); drafts are already excluded by getCourses.
     courseEntries = (courses || [])
       .filter((c) => c?.slug && c.published !== false)
-      .map((c) =>
-        sitemapWithAlternates(`/courses/${c.slug}`, {
+      .flatMap((c) =>
+        localizedEntries(`/courses/${c.slug}`, {
           lastModified: c.updated_at ? new Date(c.updated_at) : now,
           changeFrequency: "weekly",
           priority: 0.8,
@@ -65,8 +90,8 @@ export default async function sitemap() {
       );
     productEntries = (products || [])
       .filter((p) => p?.slug && p.published !== false)
-      .map((p) =>
-        sitemapWithAlternates(`/shop/${p.slug}`, {
+      .flatMap((p) =>
+        localizedEntries(`/shop/${p.slug}`, {
           lastModified: p.updated_at ? new Date(p.updated_at) : now,
           changeFrequency: "weekly",
           priority: 0.7,
@@ -74,8 +99,8 @@ export default async function sitemap() {
       );
     portfolioEntries = (portfolio || [])
       .filter((item) => item?.slug)
-      .map((item) =>
-        sitemapWithAlternates(`/portfolio/${item.slug}`, {
+      .flatMap((item) =>
+        localizedEntries(`/portfolio/${item.slug}`, {
           lastModified: item.updated_at ? new Date(item.updated_at) : now,
           changeFrequency: "monthly",
           priority: 0.6,
@@ -83,8 +108,8 @@ export default async function sitemap() {
       );
     blogEntries = (posts || [])
       .filter((post) => post?.slug && post.published !== false)
-      .map((post) =>
-        sitemapWithAlternates(`/blog/${post.slug}`, {
+      .flatMap((post) =>
+        localizedEntries(`/blog/${post.slug}`, {
           lastModified: post.updated_at
             ? new Date(post.updated_at)
             : post.created_at
@@ -95,14 +120,17 @@ export default async function sitemap() {
         })
       );
   } catch {
-    // Seed-backed data helpers already fall back; keep static URLs if anything fails.
+    // Keep the static URLs even if an unexpected mapping error occurs.
   }
 
-  return [
+  const entries = [
     ...staticEntries,
+    ...storeCatalogEntries,
     ...courseEntries,
     ...productEntries,
     ...portfolioEntries,
     ...blogEntries,
   ];
+
+  return [...new Map(entries.map((entry) => [entry.url, entry])).values()];
 }
