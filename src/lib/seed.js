@@ -1020,10 +1020,15 @@ We may share details only with service providers needed to deliver an order (e.g
 Enquiry records may be kept for follow-up and business records. You may request correction or deletion by contacting us.
 
 5. Contact
-For privacy requests: use the email and phone listed on our Contact page, or message us on WhatsApp.`,
+For privacy requests: use the email and phone listed on our Contact page, or message us on WhatsApp.
+
+6. Employer staffing requests
+When an employer submits a staffing request, we collect company and contact details, job location, roles, proposed salary, working conditions, consent choices and the time and version of accepted terms. Authorized team members use this information to review the inquiry, match consenting candidate records, arrange interviews and track outcomes. Candidate profiles and contact details are shared with an employer only with appropriate candidate permission. Recruitment records are kept for follow-up and business records; contact us to request correction or deletion, subject to applicable obligations.`,
     bodyHi: `अंतिम अपडेट: 2026
 
-श्रेया क्रिएशन पटना में बुटीक और सिलाई संस्थान चलाता है। WhatsApp, फोन, ईमेल या वेबसाइट फॉर्म से संपर्क करने पर हम नाम, फोन, ईमेल और आपके संदेश एकत्र कर सकते हैं — केवल पूछताछ, डेमो, ऑर्डर और कोर्स प्रवेश के लिए। हम आपका डेटा नहीं बेचते। गोपनीयता अनुरोध के लिए Contact पेज या WhatsApp से संपर्क करें।`,
+श्रेया क्रिएशन पटना में बुटीक और सिलाई संस्थान चलाता है। WhatsApp, फोन, ईमेल या वेबसाइट फॉर्म से संपर्क करने पर हम नाम, फोन, ईमेल और आपके संदेश एकत्र कर सकते हैं — केवल पूछताछ, डेमो, ऑर्डर और कोर्स प्रवेश के लिए। हम आपका डेटा नहीं बेचते। गोपनीयता अनुरोध के लिए Contact पेज या WhatsApp से संपर्क करें।
+
+नियोक्ता स्टाफ अनुरोध में हम व्यवसाय और संपर्क विवरण, कार्यस्थल, पद, प्रस्तावित वेतन, कार्य शर्तें और सहमति का रिकॉर्ड लेते हैं। अधिकृत टीम पूछताछ की समीक्षा, उम्मीदवार मिलान, इंटरव्यू और परिणाम के लिए इसका उपयोग करती है। उम्मीदवार की अनुमति के बाद ही उसकी प्रोफ़ाइल या संपर्क जानकारी नियोक्ता से साझा की जाती है। सुधार या हटाने का अनुरोध Contact पेज से करें।`,
   },
   shipping: {
     slug: "shipping",

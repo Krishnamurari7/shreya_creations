@@ -21,6 +21,7 @@ const STATIC_PATHS = [
   { path: "/ladies-tailor-patna", changeFrequency: "monthly", priority: 0.75 },
   { path: "/boutique-boring-road", changeFrequency: "monthly", priority: 0.75 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/hire-trained-professionals", changeFrequency: "monthly", priority: 0.8 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.5 },
   { path: "/policies/privacy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/policies/shipping", changeFrequency: "yearly", priority: 0.3 },

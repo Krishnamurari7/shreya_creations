@@ -121,3 +121,16 @@ supabase/schema.sql          # run this in Supabase SQL editor
 - ❌ No on-site order tracking or saved measurements
 
 Built with Next.js 14, Supabase, Three.js / react-three-fiber, and Tailwind CSS.
+
+## Employer staffing requests
+
+`/hire-trained-professionals` contains the public four-step employer form. Successful submission calls `/api/hiring`, which validates the data and uses a server-only Supabase service-role client to run the atomic `submit_employer_staff_request` function. The function creates a request, positions, consent evidence and an initial status record, then returns the database-generated Request ID. It also limits repeated requests from one mobile number; the API applies a short in-memory IP limit and a honeypot.
+
+The existing admin login protects `/admin/employer-staff-requests`. Existing owner/editor accounts can search requests, assign a real admin user, manage private candidate references, matches, interviews, placement details, notes, and status changes. RLS denies public access to all recruitment tables. Candidate profile disclosure requires a recorded candidate share-consent timestamp.
+
+Apply these additive migrations to the **existing** Supabase project, in order:
+
+1. `supabase/migrations/20261117000000_employer_staff_requests.sql`
+2. `supabase/migrations/20261117000001_employer_hiring_privacy.sql`
+
+The connected existing project has already received both migrations. For another environment, set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and the server-only `SUPABASE_SERVICE_ROLE_KEY`. On Cloudflare Workers, set the last variable as a Wrangler secret for the `shreyacreations` Worker before deploying. Never expose it with a `NEXT_PUBLIC_` prefix. The terms version is defined in `src/lib/hiring.js` and in the database submission function; update both when legal terms change.

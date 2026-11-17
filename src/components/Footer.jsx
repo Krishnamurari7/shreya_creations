@@ -19,6 +19,7 @@ const NAV_ROUTES = [
   { href: "/shop", key: "boutique" },
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
+  { href: "/hire-trained-professionals", key: "hireStaff" },
   { href: "/portfolio", key: "gallery" },
   { href: "/blog", key: "blog" },
   { href: "/faq", key: "faq" },
@@ -29,6 +30,7 @@ const NAV_ROUTES = [
 ];
 
 const POLICY_ROUTES = [
+  { href: "/hire-trained-professionals#employer-terms", key: "employerTerms" },
   { href: "/policies/privacy", key: "privacy" },
   { href: "/policies/shipping", key: "shipping" },
   { href: "/policies/returns", key: "returns" },

@@ -20,6 +20,7 @@ const ROUTES = [
   { href: "/shop", key: "boutique", dropdown: "boutique" },
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
+  { href: "/hire-trained-professionals", key: "hireStaff" },
   { href: "/portfolio", key: "gallery" },
   { href: "/blog", key: "blog" },
   { href: "/nri-clients", key: "nriClients" },
@@ -110,6 +111,13 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="M14 2v6h6" />
           <path d="M8 13h8" />
           <path d="M8 17h5" />
+        </svg>
+      );
+    case "hireStaff":
+      return (
+        <svg {...props}>
+          <circle cx="9" cy="8" r="3" />
+          <path d="M3 20v-2a6 6 0 0 1 12 0v2M17 8h5M19.5 5.5v5" />
         </svg>
       );
     default:
