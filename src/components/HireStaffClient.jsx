@@ -6,57 +6,133 @@ import HiringForm from "@/components/HiringForm";
 import { EMPLOYER_TERMS, STAFF_ROLES } from "@/lib/hiring";
 
 const CATEGORIES = [
-  ["Boutique Owners", "Master Ji, Tailor, Blouse Specialist"],
-  ["Fashion Designers & Studios", "Designer, Cutting Master, Sample Tailor"],
-  ["Clothing Brands", "Stitching, Finishing, Quality Staff"],
-  ["Garment Manufacturers", "Operators, Cutting, Production Staff"],
-  ["Export Houses & Textile Companies", "Role-specific trained staff"],
-  ["Tailoring Units", "Stitching, Fitting Staff"],
-  ["Fashion Designing Institutes", "Trainer and associated staff"],
-  ["Retail Clothing Companies", "Boutique Manager, Alteration Staff"],
-];
-const PROCESS = [
-  ["Share Your Requirement", "Tell us the roles, quantity, experience, salary and workplace."],
-  ["Requirement Review", "Our team reviews the details and contacts you."],
-  ["Candidate Matching", "We consider available candidates by skills, experience, location and interest."],
-  ["Interview & Skill Assessment", "Interview candidates and arrange appropriate practical assessments."],
-  ["Selection & Joining", "Agree compensation, terms and joining directly with the candidate."],
+  ["Boutique owners", "Tailors, blouse specialists and finishing staff"],
+  ["Fashion designers & studios", "Designers, cutting masters and sample makers"],
+  ["Clothing brands", "Stitching, finishing and quality teams"],
+  ["Garment manufacturers", "Operators, cutting and production staff"],
+  ["Export houses & textile companies", "Role-specific production support"],
+  ["Tailoring units", "Stitching and fitting professionals"],
+  ["Fashion designing institutes", "Trainers and associated staff"],
+  ["Retail clothing businesses", "Boutique managers and alteration staff"],
 ];
 
+const PROCESS = [
+  ["Share your brief", "Tell us the role, number of people, experience, salary and work location."],
+  ["We review the details", "Our team looks at your requirement and contacts you to understand it better."],
+  ["Explore possible matches", "We consider skills, experience, location, availability and candidate interest."],
+  ["Meet and assess", "Interview candidates and arrange a practical skill assessment where appropriate."],
+  ["Choose your team", "Agree the final role, compensation and joining terms with your selected candidate."],
+];
+
+function Eyebrow({ children, light = false }) {
+  return <p className={"flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.22em] " + (light ? "text-[#e7b184]" : "text-orange")}>
+    <span className={"h-px w-7 " + (light ? "bg-[#e7b184]" : "bg-orange")} aria-hidden="true" />{children}
+  </p>;
+}
+
 export default function HireStaffClient({ contactHref }) {
-  return <div className="text-ink">
-    <section className="relative isolate overflow-hidden border-b border-ink/10 bg-surface">
-      <div className="mx-auto grid max-w-page items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
-        <div className="relative z-10"><p className="text-xs font-semibold uppercase tracking-[.24em] text-orange">Shreya Creation · Hire Staff</p>
-          <h1 className="mt-5 max-w-2xl font-display text-4xl leading-tight sm:text-5xl xl:text-6xl">Hire Trained Professionals for Your Fashion Business</h1>
-          <p className="mt-6 text-lg font-semibold text-orange">Hire Skilled. Hire Trained. Hire with Confidence.</p>
-          <p className="mt-4 max-w-xl leading-relaxed text-muted">अपने Boutique, Fashion Studio, Clothing Brand या Garment Manufacturing Unit के लिए उपयुक्त स्टाफ खोजें। Shreya Creation आपकी जरूरत के अनुसार प्रशिक्षित विद्यार्थियों और अनुभवी पेशेवरों से जुड़ने, इंटरव्यू आयोजित करने और चयन प्रक्रिया में सहायता करता है।</p>
-          <div className="mt-8 flex flex-wrap gap-3"><a href="#staff-requirement-form" className="rounded-xl bg-orange px-6 py-3 font-semibold text-white shadow-card hover:bg-orange-dark">Submit Staff Requirement</a>
-            {contactHref && <a href={contactHref} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-orange px-6 py-3 font-semibold text-orange hover:bg-orange/10">Talk to Our Team</a>}</div>
+  return <div className="hiring-page text-ink">
+    <section className="relative isolate overflow-hidden bg-[#251a15] text-[#fff8ef]" aria-labelledby="hiring-hero-title">
+      <div className="pointer-events-none absolute -left-32 top-12 h-96 w-96 rounded-full bg-orange/10 blur-3xl" aria-hidden="true" />
+      <div className="mx-auto grid max-w-[96rem] lg:min-h-[670px] lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)]">
+        <div className="relative z-10 flex min-w-0 flex-col justify-center px-5 pb-14 pt-32 sm:px-8 sm:pb-20 sm:pt-36 lg:pl-[max(3rem,calc((100vw-80rem)/2))] lg:pr-10 xl:pr-16">
+          <Eyebrow light>Fashion staffing · Shreya Creation</Eyebrow>
+          <h1 id="hiring-hero-title" className="mt-7 max-w-3xl break-words font-display !text-[#fff8ef] text-[clamp(2.75rem,5.2vw,5.8rem)] font-semibold leading-[1.07] tracking-[-0.045em]">
+            Hire trained <span className="text-[#e7b184]">fashion professionals.</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-base leading-8 text-[#efe1d2] sm:text-lg">From a single specialist to a growing production team, tell us what your business needs. We help you move from a clear brief to candidate conversations and interviews.</p>
+          <p className="mt-3 max-w-xl text-sm leading-7 text-[#d8beaa]">Boutique, studio या garment unit के लिए अपनी staff requirement साझा करें।</p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href="#staff-requirement-form" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-orange px-7 py-3 font-semibold text-white shadow-[0_14px_32px_rgba(204,79,6,.24)] transition hover:bg-orange-light focus-visible:outline-white">Share your requirement <span aria-hidden="true">↗</span></a>
+            {contactHref && <a href={contactHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-[#c9ac95] px-7 py-3 font-semibold text-[#fff8ef] transition hover:bg-white/10 focus-visible:outline-white">Talk to our team <span aria-hidden="true">↗</span></a>}
+          </div>
+          <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-2 border-t border-white/15 pt-5 text-xs font-medium uppercase tracking-[0.15em] text-[#d9c2b0]">
+            <span>Boutiques</span><span>Fashion studios</span><span>Production units</span>
+          </div>
         </div>
-        <div className="relative min-h-[300px] overflow-hidden rounded-[2rem] shadow-card sm:min-h-[420px] lg:h-full"><Image src="/slider2.webp" alt="Fashion designer in a garment studio" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover object-right" priority /></div>
+        <div className="relative min-h-[340px] overflow-hidden sm:min-h-[440px] lg:min-h-full">
+          <Image src="/slider4.webp" alt="Fashion professional working in a studio beside a dress form" fill sizes="(max-width: 1024px) 100vw, 48vw" className="object-cover object-[55%_center] lg:object-[58%_center]" priority />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#251a15]/70 via-transparent to-transparent" aria-hidden="true" />
+          <div className="absolute bottom-5 left-5 right-5 max-w-sm rounded-2xl border border-white/25 bg-[#251a15]/75 p-5 text-[#fff8ef] backdrop-blur-md sm:bottom-8 sm:left-8">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#e7b184]">A more considered way to hire</p>
+            <p className="mt-2 font-display text-xl leading-snug">Your brief. The right conversation. Your decision.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section className="mx-auto max-w-page px-4 py-20 sm:px-6"><div className="mb-9 max-w-2xl"><p className="text-xs font-semibold uppercase tracking-[.2em] text-orange">Who we support</p><h2 className="mt-3 font-display text-3xl sm:text-4xl">Staffing Support for the Fashion Industry</h2></div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{CATEGORIES.map(([title, detail], i) => <article key={title} className="rounded-2xl border border-ink/10 bg-surface p-5 shadow-card"><span className="text-sm font-semibold text-orange">{String(i + 1).padStart(2, "0")}</span><h3 className="mt-4 font-display text-xl">{title}</h3><p className="mt-2 text-sm leading-relaxed text-muted">{detail}</p></article>)}</div>
-      <p className="mt-7 text-center text-sm text-muted">एक कर्मचारी की जरूरत हो या पूरी टीम की—अपनी आवश्यकता साझा करें।</p>
+    <div className="border-b border-ink/10 bg-[var(--surface-muted)]">
+      <div className="mx-auto grid max-w-page px-5 sm:grid-cols-3 sm:px-8">
+        {[
+          ["01", "Define the role", "Tell us what work needs doing."],
+          ["02", "Review together", "We discuss your brief and possible matches."],
+          ["03", "Meet candidates", "You make the final hiring decision."],
+        ].map(([number, title, detail]) => <div key={number} className="flex gap-4 border-b border-ink/10 py-5 last:border-b-0 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0 sm:last:pr-0">
+          <span className="font-display text-xl text-orange">{number}</span>
+          <div><p className="font-semibold leading-6">{title}</p><p className="mt-0.5 text-sm text-muted">{detail}</p></div>
+        </div>)}
+      </div>
+    </div>
+
+    <section className="bg-bg py-20 sm:py-24" aria-labelledby="hiring-industries-title">
+      <div className="mx-auto grid max-w-page gap-10 px-5 sm:px-8 lg:grid-cols-[minmax(0,.36fr)_minmax(0,.64fr)] lg:gap-16">
+        <div className="lg:pt-5"><Eyebrow>Who we work with</Eyebrow>
+          <h2 id="hiring-industries-title" className="mt-5 max-w-md font-display text-4xl leading-[1.15] sm:text-5xl">Made for the many sides of fashion.</h2>
+          <p className="mt-5 max-w-md leading-7 text-muted">Every business has a different floor, pace and team. Share the context behind your role so we can understand the kind of professional you are looking for.</p>
+          <a href="#staff-requirement-form" className="mt-6 inline-flex items-center gap-2 font-semibold text-orange underline decoration-orange/40 underline-offset-4 hover:decoration-orange">Start your brief <span aria-hidden="true">↗</span></a>
+        </div>
+        <div className="grid gap-x-9 sm:grid-cols-2">
+          {CATEGORIES.map(([title, detail], index) => <article key={title} className="flex min-w-0 gap-4 border-b border-ink/15 py-5 first:border-t sm:[&:nth-child(2)]:border-t">
+            <span className="min-w-7 pt-1 text-xs font-semibold tracking-wider text-orange">{String(index + 1).padStart(2, "0")}</span>
+            <div className="min-w-0"><h3 className="font-display text-xl leading-snug sm:text-2xl">{title}</h3><p className="mt-2 text-sm leading-6 text-muted">{detail}</p></div>
+          </article>)}
+        </div>
+      </div>
     </section>
 
-    <section className="bg-surface/70 py-20"><div className="mx-auto max-w-page px-4 sm:px-6"><div className="mb-9 max-w-2xl"><p className="text-xs font-semibold uppercase tracking-[.2em] text-orange">Possible roles</p><h2 className="mt-3 font-display text-3xl sm:text-4xl">Find Professionals for Your Requirements</h2></div>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{STAFF_ROLES.filter((r) => r !== "Other").map((role) => <div key={role} className="rounded-xl border border-ink/10 bg-bg px-5 py-4 text-sm font-medium">✦ <span className="ml-2">{role}</span></div>)}</div>
-      <p className="mt-6 text-sm text-muted">उम्मीदवारों की उपलब्धता पद, अनुभव, कार्यस्थल और प्रस्तावित वेतन के अनुसार होगी। ये अनुरोध के विकल्प हैं; किसी खास उम्मीदवार की मौजूदा उपलब्धता का दावा नहीं।</p>
-    </div></section>
-
-    <section className="mx-auto max-w-page px-4 py-20 sm:px-6"><div className="mb-10 max-w-2xl"><p className="text-xs font-semibold uppercase tracking-[.2em] text-orange">The process</p><h2 className="mt-3 font-display text-3xl sm:text-4xl">How Our Hiring Process Works</h2></div>
-      <ol className="grid gap-4 lg:grid-cols-5">{PROCESS.map(([title, detail], i) => <li key={title} className="relative rounded-2xl border border-ink/10 bg-surface p-5 shadow-card lg:before:absolute lg:before:left-full lg:before:top-10 lg:before:z-10 lg:before:h-px lg:before:w-4 lg:before:bg-orange/50 last:before:hidden"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange text-sm font-bold text-white">{i + 1}</span><h3 className="mt-4 font-display text-lg">{title}</h3><p className="mt-2 text-sm leading-relaxed text-muted">{detail}</p></li>)}</ol>
+    <section className="bg-[#2d211b] py-20 text-[#fff8ef] sm:py-24" aria-labelledby="hiring-roles-title">
+      <div className="mx-auto max-w-page px-5 sm:px-8">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,.55fr)_minmax(0,.45fr)] lg:items-end">
+          <div><Eyebrow light>Roles we can discuss</Eyebrow><h2 id="hiring-roles-title" className="mt-5 max-w-2xl font-display !text-[#fff8ef] text-4xl leading-[1.15] sm:text-5xl">From cutting table to collection floor.</h2></div>
+          <p className="max-w-lg leading-7 text-[#decbbd]">Select one or several positions in the form. Candidate availability depends on skills, experience, location, salary and interest.</p>
+        </div>
+        <div className="mt-11 grid border-t border-white/20 sm:grid-cols-2 lg:grid-cols-3">
+          {STAFF_ROLES.filter((role) => role !== "Other").map((role) => <div key={role} className="flex min-w-0 items-center gap-4 border-b border-white/20 py-4 pr-4">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#e7b184]" aria-hidden="true" /><span className="font-medium leading-6 text-[#fff8ef]">{role}</span>
+          </div>)}
+        </div>
+      </div>
     </section>
 
-    <HiringForm />
+    <section className="bg-surface py-20 sm:py-24" aria-labelledby="hiring-process-title">
+      <div className="mx-auto grid max-w-page gap-10 px-5 sm:px-8 lg:grid-cols-[minmax(0,.36fr)_minmax(0,.64fr)] lg:gap-16">
+        <div><Eyebrow>Our process</Eyebrow><h2 id="hiring-process-title" className="mt-5 max-w-md font-display text-4xl leading-[1.15] sm:text-5xl">A clear path from brief to joining.</h2><p className="mt-5 max-w-md leading-7 text-muted">You stay involved at every stage. Interviews, skill assessment and final selection depend on employer and candidate agreement.</p></div>
+        <ol className="border-t border-ink/15">
+          {PROCESS.map(([title, detail], index) => <li key={title} className="grid gap-4 border-b border-ink/15 py-5 sm:grid-cols-[4rem_minmax(0,1fr)] sm:py-6">
+            <span className="font-display text-3xl text-orange">{String(index + 1).padStart(2, "0")}</span>
+            <div><h3 className="font-display text-2xl">{title}</h3><p className="mt-2 max-w-xl text-sm leading-7 text-muted sm:text-base">{detail}</p></div>
+          </li>)}
+        </ol>
+      </div>
+    </section>
 
-    <section id="employer-terms" className="scroll-mt-28 border-y border-ink/10 bg-surface py-16"><div className="mx-auto max-w-4xl px-4 sm:px-6"><h2 className="font-display text-3xl">Employer Terms & Conditions</h2><p className="mt-3 text-sm text-muted">Please read before submitting a staffing inquiry. Placement and timelines are not guaranteed.</p><ol className="mt-6 list-decimal space-y-3 pl-5 text-sm leading-relaxed">{EMPLOYER_TERMS.map((term) => <li key={term}>{term}</li>)}</ol>
-      <p className="mt-6 text-sm text-muted">We use employer details to review and manage your request. Candidate information remains private until authorized disclosure with candidate permission. Read the <Link href="/policies/privacy" className="font-semibold text-orange underline">Privacy Policy</Link> for contact and data requests.</p></div></section>
+    <HiringForm contactHref={contactHref} />
 
-    <section className="mx-auto max-w-page px-4 py-20 text-center sm:px-6"><h2 className="font-display text-3xl sm:text-4xl">Ready to Build Your Fashion Team?</h2><p className="mx-auto mt-4 max-w-2xl text-muted">अपनी staff requirement साझा करें और अपने business के लिए उपयुक्त लोगों से जुड़ने की प्रक्रिया शुरू करें।</p><div className="mt-8 flex flex-wrap justify-center gap-3"><a href="#staff-requirement-form" className="rounded-xl bg-orange px-6 py-3 font-semibold text-white hover:bg-orange-dark">Submit Your Requirement</a>{contactHref && <a href={contactHref} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-orange px-6 py-3 font-semibold text-orange">Contact Our Team</a>}</div></section>
+    <section id="employer-terms" className="scroll-mt-28 border-t border-ink/10 bg-bg py-16 sm:py-20" aria-labelledby="employer-terms-title">
+      <div className="mx-auto grid max-w-page gap-8 px-5 sm:px-8 lg:grid-cols-[minmax(0,.36fr)_minmax(0,.64fr)] lg:gap-16">
+        <div><Eyebrow>Good to know</Eyebrow><h2 id="employer-terms-title" className="mt-5 font-display text-3xl sm:text-4xl">Clear terms from the start.</h2><p className="mt-4 leading-7 text-muted">A submitted request starts an inquiry. Placement, candidate availability and timelines are not guaranteed.</p></div>
+        <div className="rounded-3xl border border-ink/10 bg-surface p-6 shadow-card sm:p-8">
+          <details className="group">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold marker:hidden"><span>Read employer terms and conditions</span><span className="text-2xl leading-none text-orange transition group-open:rotate-45" aria-hidden="true">+</span></summary>
+            <ol className="mt-6 list-decimal space-y-3 border-t border-ink/10 pt-6 pl-5 text-sm leading-7 text-muted">{EMPLOYER_TERMS.map((term) => <li key={term}>{term}</li>)}</ol>
+          </details>
+          <p className="mt-5 border-t border-ink/10 pt-5 text-sm leading-6 text-muted">Employer details are used to review and manage your request. Candidate information stays private until authorized disclosure with candidate permission. Read our <Link href="/policies/privacy" className="font-semibold text-orange underline underline-offset-2">Privacy Policy</Link>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section className="bg-orange px-5 py-16 text-center text-white sm:px-8 sm:py-20" aria-labelledby="hiring-final-title">
+      <div className="mx-auto max-w-3xl"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Your next team starts here</p><h2 id="hiring-final-title" className="mt-4 font-display !text-white text-4xl leading-tight sm:text-5xl">Ready to share your hiring brief?</h2><p className="mx-auto mt-4 max-w-2xl leading-7 text-white/90">Tell us what you are building and the people you need to build it.</p><a href="#staff-requirement-form" className="mt-8 inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-white px-7 py-3 font-semibold text-orange-dark transition hover:bg-[#fff3e8]">Submit your requirement <span aria-hidden="true">↗</span></a></div>
+    </section>
   </div>;
 }

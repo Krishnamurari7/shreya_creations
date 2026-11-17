@@ -6,6 +6,7 @@ import { BUSINESS_TYPES, EMPLOYMENT_TYPES, EMPLOYER_TERMS, EXPERIENCE_OPTIONS, H
 import { hiringSchema } from "@/lib/hiring-validation";
 
 const STEPS = ["Company details", "Staff positions", "Workplace", "Consent"];
+const STEP_DETAILS = ["Tell us about your business and the best way to reach you.", "Add each position, quantity and the skills that matter.", "Share where, when and how your team will work.", "Review the terms and send your hiring brief."];
 const STEP_FIELDS = [
   ["companyName", "businessType", "businessTypeOther", "contactName", "ownerName", "mobile", "whatsapp", "email", "website", "businessAddress", "businessState", "businessCity", "pinCode"],
   ["positions"],
@@ -23,16 +24,16 @@ const initial = {
 };
 
 function Field({ label, name, error, required, children }) {
-  return <label className="block text-sm font-medium text-ink" htmlFor={name}>
+  return <label className="block text-[13px] font-semibold text-ink" htmlFor={name}>
     <span>{label}{required && <span className="text-orange" aria-hidden="true"> *</span>}</span>
     {children}
     {error && <span id={`${name}-error`} className="mt-1 block text-sm text-red-600" role="alert">{error}</span>}
   </label>;
 }
 
-const inputClass = "mt-2 w-full rounded-xl border border-ink/20 bg-surface px-3 py-3 text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-orange/60";
+const inputClass = "mt-2 min-h-12 w-full rounded-xl border border-ink/15 bg-[var(--surface-muted)] px-4 py-3 text-ink placeholder:text-muted transition focus:border-orange focus:outline-none focus:ring-4 focus:ring-orange/10 disabled:cursor-not-allowed disabled:opacity-60";
 
-export default function HiringForm() {
+export default function HiringForm({ contactHref }) {
   const [form, setForm] = useState(initial);
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState({});
@@ -118,7 +119,7 @@ export default function HiringForm() {
     finally { pendingRef.current = false; setPending(false); }
   }
 
-  if (requestId) return <section id="staff-requirement-form" className="mx-auto max-w-4xl scroll-mt-28 px-4 py-20 sm:px-6" aria-live="polite">
+  if (requestId) return <section id="staff-requirement-form" className="mx-auto max-w-4xl scroll-mt-10 px-4 py-20 sm:px-6" aria-live="polite">
     <div className="rounded-3xl border border-green/30 bg-surface p-8 text-center shadow-card sm:p-12">
       <div className="mb-4 text-4xl text-green">✓</div>
       <h2 className="font-display text-3xl text-ink">Thank you!</h2>
@@ -127,26 +128,47 @@ export default function HiringForm() {
     </div>
   </section>;
 
-  return <section id="staff-requirement-form" className="mx-auto max-w-5xl scroll-mt-28 px-4 py-20 sm:px-6">
-    <div className="mb-9 text-center"><span className="text-xs font-semibold uppercase tracking-[.2em] text-orange">Employer inquiry</span>
-      <h2 className="mt-3 font-display text-3xl text-ink sm:text-4xl">Tell Us Your Staffing Requirements</h2>
-      <p className="mx-auto mt-3 max-w-2xl text-muted">नीचे अपने business और staff requirement की जानकारी भरें। हमारी टीम विवरण की समीक्षा करके आपसे संपर्क करेगी।</p>
-    </div>
-    <form noValidate onSubmit={submit} className="rounded-3xl border border-ink/10 bg-surface p-5 shadow-card sm:p-8">
-      <div className="mb-8 grid grid-cols-4 gap-2" aria-label="Form progress">{STEPS.map((label, i) => <div key={label} className="min-w-0"><div className={`h-1.5 rounded-full ${i <= step ? "bg-orange" : "bg-ink/15"}`} /><span className={`mt-2 block text-xs ${i === step ? "font-semibold text-ink" : "text-muted"}`}>{i + 1}. {label}</span></div>)}</div>
-      <h3 ref={headingRef} tabIndex={-1} className="mb-6 font-display text-2xl text-ink focus:outline-none">{STEPS[step]}</h3>
+  return <section id="staff-requirement-form" className="scroll-mt-10 bg-[var(--surface-muted)] py-12 sm:py-24">
+    <div className="mx-auto grid max-w-page gap-10 px-5 sm:px-8 lg:grid-cols-[minmax(0,.34fr)_minmax(0,.66fr)] lg:gap-14">
+      <aside className="min-w-0 lg:sticky lg:top-28 lg:self-start">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-orange">Employer inquiry</p>
+        <h2 className="mt-5 max-w-md font-display text-4xl leading-[1.15] text-ink sm:text-5xl">Tell us what your team needs.</h2>
+        <p className="mt-5 max-w-md leading-7 text-muted">A thoughtful brief helps us understand the people and skills you are looking for. Complete the four short sections at your own pace.</p>
+        <div className="mt-8 hidden border-t border-ink/15 pt-6 lg:block">
+          <p className="text-sm font-semibold text-ink">What helps us get started</p>
+          <ul className="mt-4 space-y-3 text-sm leading-6 text-muted">
+            <li>✓ The roles and number of people you need</li>
+            <li>✓ Your work location and expected start date</li>
+            <li>✓ Skills, experience and salary range</li>
+          </ul>
+        </div>
+        {contactHref && <a href={contactHref} target="_blank" rel="noopener noreferrer" className="mt-8 hidden w-fit items-center gap-2 border-b border-orange pb-1 text-sm font-semibold text-orange lg:inline-flex">Need help? Talk to our team <span aria-hidden="true">↗</span></a>}
+      </aside>
+      <form noValidate onSubmit={submit} className="min-w-0 rounded-[2rem] border border-ink/10 bg-surface p-5 shadow-lift sm:p-8">
+      <div className="mb-8 rounded-2xl bg-[#251a15] p-5 text-[#fff8ef] sm:p-6" aria-label="Form progress">
+        <div className="flex items-center justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#e7b184]"><span>Step {String(step + 1).padStart(2, "0")} / 04</span><span>{(step + 1) * 25}% complete</span></div>
+        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/20" role="progressbar" aria-valuemin={1} aria-valuemax={4} aria-valuenow={step + 1} aria-label="Form step">
+          <div className="h-full rounded-full bg-[#e7b184] transition-all duration-300" style={{ width: ((step + 1) * 25) + "%" }} />
+        </div>
+        <ol className="mt-5 hidden grid-cols-4 gap-3 text-xs sm:grid">{STEPS.map((label, i) => <li key={label} className={"leading-5 " + (i === step ? "font-semibold text-white" : "text-[#c9b7aa]")}>{label}</li>)}</ol>
+        <p className="mt-4 text-sm font-semibold sm:hidden">{STEPS[step]}</p>
+      </div>
+      <h3 ref={headingRef} tabIndex={-1} className="font-display text-2xl text-ink focus:outline-none sm:text-3xl">{STEPS[step]}</h3>
+      <p className="mb-7 mt-2 text-sm leading-6 text-muted">{STEP_DETAILS[step]}</p>
       {serverError && <p role="alert" className="mb-5 rounded-xl border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-700">{serverError}</p>}
 
       {step === 0 && <div className="grid gap-5 sm:grid-cols-2">
+        <p className="sm:col-span-2 text-xs font-semibold uppercase tracking-[0.16em] text-orange">Business & contact</p>
         {input("companyName", "Company / Boutique Name", { required: true, maxLength: 200, autoComplete: "organization" })}
         {select("businessType", "Business Type", BUSINESS_TYPES)}
         {form.businessType === "Other" && input("businessTypeOther", "Describe business type", { required: true })}
         {input("contactName", "Contact Person Name", { required: true, autoComplete: "name" })}
         {input("ownerName", "Owner Name")}
         {input("mobile", "Mobile Number", { required: true, type: "tel", inputMode: "tel", autoComplete: "tel" })}
-        <div>{input("whatsapp", "WhatsApp Number", { type: "tel", inputMode: "tel" })}<label className="mt-2 flex items-center gap-2 text-sm text-muted"><input type="checkbox" checked={Boolean(form.mobile && form.whatsapp === form.mobile)} onChange={(e) => update("whatsapp", e.target.checked ? form.mobile : "")} /> Same as mobile</label></div>
+        <div>{input("whatsapp", "WhatsApp Number", { type: "tel", inputMode: "tel" })}<label className="mt-2 flex items-center gap-2 text-sm text-muted"><input type="checkbox" className="h-4 w-4 accent-orange" checked={Boolean(form.mobile && form.whatsapp === form.mobile)} onChange={(e) => update("whatsapp", e.target.checked ? form.mobile : "")} /> Same as mobile</label></div>
         {input("email", "Email Address", { type: "email", autoComplete: "email" })}
         {input("website", "Website / Business Profile Link", { type: "url", placeholder: "https://" })}
+        <p className="sm:col-span-2 border-t border-ink/10 pt-5 text-xs font-semibold uppercase tracking-[0.16em] text-orange">Business address</p>
         <div className="sm:col-span-2">{area("businessAddress", "Business Address", { required: true, maxLength: 1000 })}</div>
         {select("businessState", "State", INDIAN_STATES)}
         {input("businessCity", "City", { required: true, autoComplete: "address-level2" })}
@@ -154,24 +176,24 @@ export default function HiringForm() {
       </div>}
 
       {step === 1 && <div className="space-y-5">
-        {form.positions.map((p, i) => <fieldset key={i} className="rounded-2xl border border-ink/15 p-4 sm:p-5"><legend className="px-2 font-semibold text-ink">Position {i + 1}</legend>
+        {form.positions.map((p, i) => <fieldset key={i} className="rounded-2xl border border-ink/15 p-5 sm:p-6"><legend className="px-2 font-semibold text-ink">Position {i + 1}</legend>
           <div className="grid gap-5 sm:grid-cols-2">
             {[["role", "Staff Position", STAFF_ROLES], ["experience", "Experience Required", EXPERIENCE_OPTIONS]].map(([name, label, options]) => <Field key={name} label={label} name={`positions.${i}.${name}`} required error={errors[`positions.${i}.${name}`]}><select id={`positions.${i}.${name}`} className={inputClass} value={p[name]} onChange={(e) => updatePosition(i, name, e.target.value)}>{options.map((value) => <option key={value}>{value}</option>)}</select></Field>)}
             {p.role === "Other" && <Field label="Custom position" name={`positions.${i}.customRole`} required error={errors[`positions.${i}.customRole`]}><input id={`positions.${i}.customRole`} className={inputClass} value={p.customRole} onChange={(e) => updatePosition(i, "customRole", e.target.value)} /></Field>}
             <Field label="Number of Staff" name={`positions.${i}.quantity`} required error={errors[`positions.${i}.quantity`]}><input id={`positions.${i}.quantity`} className={inputClass} type="number" min="1" max="1000" step="1" value={p.quantity} onChange={(e) => updatePosition(i, "quantity", e.target.value === "" ? 0 : Number(e.target.value))} /></Field>
             <Field label="Required Skills" name={`positions.${i}.skills`} error={errors[`positions.${i}.skills`]}><input id={`positions.${i}.skills`} className={inputClass} value={p.skills} onChange={(e) => updatePosition(i, "skills", e.target.value)} placeholder="e.g. designer blouse, fitting" /></Field>
             {[["salaryMin", "Monthly Salary Minimum (₹)"], ["salaryMax", "Monthly Salary Maximum (₹)" ]].map(([name, label]) => <Field key={name} label={label} name={`positions.${i}.${name}`} error={errors[`positions.${i}.${name}`]}><input id={`positions.${i}.${name}`} className={inputClass} type="number" min="0" max="10000000" step="1" value={p[name]} onChange={(e) => updatePosition(i, name, e.target.value === "" ? "" : Number(e.target.value))} /></Field>)}
-            <label className="flex items-center gap-2 text-sm text-ink"><input type="checkbox" checked={p.negotiable} onChange={(e) => updatePosition(i, "negotiable", e.target.checked)} /> Salary negotiable</label>
+            <label className="flex items-center gap-2 text-sm text-ink"><input type="checkbox" className="h-4 w-4 accent-orange" checked={p.negotiable} onChange={(e) => updatePosition(i, "negotiable", e.target.checked)} /> Salary negotiable</label>
           </div>
           {form.positions.length > 1 && <button type="button" className="mt-5 text-sm font-semibold text-orange underline" onClick={() => setForm((old) => ({ ...old, positions: old.positions.filter((_, j) => j !== i) }))}>Remove position {i + 1}</button>}
         </fieldset>)}
         <button type="button" className="rounded-xl border border-orange px-4 py-2 text-sm font-semibold text-orange hover:bg-orange/10" onClick={() => setForm((old) => ({ ...old, positions: [...old.positions, newPosition()] }))} disabled={form.positions.length >= 20}>+ Add another position</button>
-        <p className="text-lg font-semibold text-ink">Total Staff Required: {total}</p>
+        <p className="flex items-center justify-between rounded-2xl bg-[var(--surface-muted)] px-5 py-4 text-sm font-semibold text-ink"><span>Total staff required</span><strong className="font-display text-3xl text-orange">{total}</strong></p>
         <p className="text-sm text-muted">यह Employer का प्रस्तावित बजट है। अंतिम वेतन Employer और उम्मीदवार की आपसी सहमति से तय होगा।</p>
       </div>}
 
       {step === 2 && <div className="grid gap-5 sm:grid-cols-2">
-        <label className="sm:col-span-2 flex items-center gap-2 text-sm text-ink"><input type="checkbox" checked={sameAddress} onChange={(e) => { setSameAddress(e.target.checked); if (e.target.checked) useBusinessAddress(); }} /> Same as business address</label>
+        <label className="sm:col-span-2 flex items-center gap-3 rounded-xl border border-ink/10 bg-[var(--surface-muted)] p-4 text-sm font-medium text-ink"><input type="checkbox" className="h-4 w-4 accent-orange" checked={sameAddress} onChange={(e) => { setSameAddress(e.target.checked); if (e.target.checked) useBusinessAddress(); }} /> Same as business address</label>
         <div className="sm:col-span-2">{area("workAddress", "Work Location / Address", { required: true, maxLength: 1000 })}</div>
         {select("workState", "Job State", INDIAN_STATES)}
         {input("workCity", "Job City", { required: true })}
@@ -188,17 +210,18 @@ export default function HiringForm() {
 
       {step === 3 && <div className="space-y-5">
         {area("details", "Describe Your Staff Requirements", { rows: 5, placeholder: "उदाहरण: हमें पटना स्थित Boutique के लिए 5 अनुभवी Blouse Masters चाहिए। Designer Blouse, Heavy Work और सही fitting का अनुभव जरूरी है। अपेक्षित joining अगले महीने है।" })}
-        <div className="rounded-2xl border border-ink/15 bg-bg/50 p-5"><h4 className="font-display text-xl text-ink">Employer Terms & Conditions</h4><p className="mt-1 text-xs text-muted">Version {HIRING_TERMS_VERSION}</p>
+        <div className="rounded-2xl border border-ink/15 bg-[var(--surface-muted)] p-5"><h4 className="font-display text-xl text-ink">Employer Terms & Conditions</h4><p className="mt-1 text-xs text-muted">Version {HIRING_TERMS_VERSION}</p>
           <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-ink">{EMPLOYER_TERMS.map((term) => <li key={term}>{term}</li>)}</ol>
           <p className="mt-4 text-sm text-muted">Read our <Link className="underline text-orange" href="/policies/privacy" target="_blank">Privacy Policy</Link>.</p>
         </div>
-        {[["consentAccuracy", "I confirm the information supplied is accurate to my knowledge."], ["consentTerms", "I have read and accept the Employer Terms & Conditions."], ["consentContact", "I consent to being contacted by Shreya Creation about this hiring request via phone, WhatsApp, or email."]].map(([name, label]) => <label key={name} className="block rounded-xl border border-ink/15 p-3 text-sm text-ink"><span className="flex items-start gap-3"><input type="checkbox" className="mt-1" checked={form[name]} onChange={(e) => update(name, e.target.checked)} aria-invalid={Boolean(errors[name])} aria-describedby={errors[name] ? `${name}-error` : undefined} /><span>{label}</span></span>{errors[name] && <span id={`${name}-error`} role="alert" className="mt-1 block pl-6 text-red-600">{errors[name]}</span>}</label>)}
+        {[["consentAccuracy", "I confirm the information supplied is accurate to my knowledge."], ["consentTerms", "I have read and accept the Employer Terms & Conditions."], ["consentContact", "I consent to being contacted by Shreya Creation about this hiring request via phone, WhatsApp, or email."]].map(([name, label]) => <label key={name} className="block rounded-xl border border-ink/15 bg-[var(--surface-muted)] p-4 text-sm text-ink"><span className="flex items-start gap-3"><input type="checkbox" className="mt-1 h-4 w-4 accent-orange" checked={form[name]} onChange={(e) => update(name, e.target.checked)} aria-invalid={Boolean(errors[name])} aria-describedby={errors[name] ? `${name}-error` : undefined} /><span>{label}</span></span>{errors[name] && <span id={`${name}-error`} role="alert" className="mt-1 block pl-6 text-red-600">{errors[name]}</span>}</label>)}
       </div>}
       <div className="absolute -left-[10000px]" aria-hidden="true"><label htmlFor="websiteTrap">Leave this empty</label><input id="websiteTrap" tabIndex={-1} autoComplete="off" value={form.websiteTrap} onChange={(e) => update("websiteTrap", e.target.value)} /></div>
-      <div className="mt-9 flex flex-wrap justify-between gap-3 border-t border-ink/10 pt-6">
-        {step > 0 ? <button type="button" className="rounded-xl border border-ink/20 px-5 py-3 font-semibold text-ink" onClick={() => goTo(step - 1)}>Back</button> : <span />}
-        {step < 3 ? <button type="button" className="rounded-xl bg-orange px-6 py-3 font-semibold text-white hover:bg-orange-dark" onClick={next}>Next →</button> : <button type="submit" disabled={pending} className="rounded-xl bg-orange px-6 py-3 font-semibold text-white hover:bg-orange-dark disabled:opacity-60">{pending ? "Submitting…" : "Submit Staff Requirement"}</button>}
+      <div className="mt-9 flex items-center justify-between gap-3 border-t border-ink/10 pt-6">
+        {step > 0 ? <button type="button" className="min-h-12 flex-1 rounded-full border border-ink/20 px-6 py-3 font-semibold text-ink transition hover:bg-[var(--surface-muted)] sm:flex-none" onClick={() => goTo(step - 1)}>Back</button> : <span />}
+        {step < 3 ? <button type="button" className="min-h-12 flex-1 rounded-full bg-orange px-7 py-3 font-semibold text-white transition hover:bg-orange-dark sm:flex-none" onClick={next}>Next →</button> : <button type="submit" disabled={pending} className="min-h-12 flex-1 rounded-full bg-orange px-7 py-3 font-semibold text-white transition hover:bg-orange-dark disabled:opacity-60 sm:flex-none">{pending ? "Submitting…" : "Submit Staff Requirement"}</button>}
       </div>
-    </form>
+      </form>
+    </div>
   </section>;
 }
