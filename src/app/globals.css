@@ -6657,9 +6657,9 @@ html.dark .trust-highlight__icon {
 }
 
 .nav-desktop-bar--luxury {
-  grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.75rem;
   overflow: visible;
 }
 
@@ -7037,7 +7037,7 @@ html.dark .site-header.site-header--luxury.is-scrolled::before {
   align-self: center;
   height: auto;
   min-height: 2.75rem;
-  max-width: min(52rem, 100%);
+  max-width: 100%;
   flex-wrap: nowrap;
 }
 
@@ -7133,6 +7133,9 @@ html.dark .nav-desktop-links--minimal a.is-active {
   justify-self: center;
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .nav-links-glow-wrap::before {
@@ -21339,6 +21342,29 @@ html.dark .sf-reason--hero .sf-reason__icon {
 .sf-link:hover .sf-link__arrow {
   border-color: rgba(var(--orange-rgb), 0.45);
   background: rgba(var(--orange-rgb), 0.12);
+}
+
+.sf-links-subheading {
+  margin: 1.1rem 0 0.5rem;
+  color: var(--orange-text);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 479px) {
+  .site-header--luxury .nav-enquire-btn--mobile {
+    display: none;
+  }
+
+  .site-header--luxury .nav-mobile-brand {
+    max-width: calc(100% - 6.5rem);
+  }
+
+  .sf-links-subheading {
+    text-align: center;
+  }
 }
 
 .sf-course {

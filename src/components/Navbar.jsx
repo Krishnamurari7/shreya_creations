@@ -14,19 +14,15 @@ import { NAV_LOGO_SRC, normalizeBrandName } from "@/lib/brand";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import { BOUTIQUE_OVERVIEW, BOUTIQUE_SERVICES } from "@/lib/boutique-services";
 
-const ROUTES = [
-  { href: "/", key: "home" },
-  { href: "/about", key: "about" },
+const PRIMARY_ROUTES = [
   { href: "/shop", key: "boutique", dropdown: "boutique" },
   { href: "/student-store", key: "studentStore" },
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
-  { href: "/hire-trained-professionals", key: "hireStaff" },
-  { href: "/portfolio", key: "gallery" },
-  { href: "/blog", key: "blog" },
-  { href: "/nri-clients", key: "nriClients" },
   { href: "/contact", key: "contact" },
 ];
+
+const MOBILE_ROUTES = [{ href: "/", key: "home" }, ...PRIMARY_ROUTES];
 
 function NavLinkIcon({ type, className = "nav-link-icon" }) {
   const props = {
@@ -438,7 +434,7 @@ export default function Navbar({ site }) {
 
           <div className="nav-links-glow-wrap">
             <ul className="nav-desktop-links nav-desktop-links--minimal nav-desktop-links--premium">
-              {ROUTES.map((r) => {
+              {PRIMARY_ROUTES.map((r) => {
                 if (r.dropdown === "boutique") {
                   return (
                     <li
@@ -577,7 +573,7 @@ export default function Navbar({ site }) {
         </div>
 
         <ul className="nav-mobile-drawer-list">
-          {ROUTES.map((r, i) => {
+          {MOBILE_ROUTES.map((r, i) => {
             if (r.dropdown === "boutique") {
               return (
                 <li key={r.href} style={{ "--nav-item-delay": `${i * 45}ms` }} className="nav-mobile-drop">

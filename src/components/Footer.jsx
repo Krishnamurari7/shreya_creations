@@ -13,12 +13,17 @@ import OptimizedImage from "@/components/OptimizedImage";
 import { PRODUCTION_URL, SITE_DOMAIN } from "@/lib/siteUrl";
 import { formatPhoneDisplay, telHref, EXPRESS_DELIVERY_DISCLAIMER, computeYearsExperience, DEFAULT_FOUNDING_YEAR, DEFAULT_STUDENTS_TAUGHT, DEFAULT_OUTFITS_DELIVERED, COURSE_COUNT } from "@/lib/site-config";
 
-const NAV_ROUTES = [
+const QUICK_ROUTES = [
   { href: "/", key: "home" },
-  { href: "/about", key: "about" },
   { href: "/shop", key: "boutique" },
+  { href: "/student-store", key: "studentStore" },
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
+  { href: "/contact", key: "contact" },
+];
+
+const MORE_ROUTES = [
+  { href: "/about", key: "about" },
   { href: "/hire-trained-professionals", key: "hireStaff" },
   { href: "/portfolio", key: "gallery" },
   { href: "/blog", key: "blog" },
@@ -26,7 +31,6 @@ const NAV_ROUTES = [
   { href: "/nri-clients", key: "nriClients" },
   { href: "/ladies-tailor-patna", key: "ladiesTailorPatna" },
   { href: "/boutique-boring-road", key: "boutiqueBoringRoad" },
-  { href: "/contact", key: "contact" },
 ];
 
 const POLICY_ROUTES = [
@@ -327,7 +331,8 @@ export default function Footer({ site }) {
   const { lang } = useLanguage();
   const t = UI[lang];
   const hi = lang === "hi";
-  const navLinks = NAV_ROUTES.map((r) => ({ href: localizedPath(r.href, lang), label: t[r.key] }));
+  const navLinks = QUICK_ROUTES.map((r) => ({ href: localizedPath(r.href, lang), label: t[r.key] }));
+  const moreLinks = MORE_ROUTES.map((r) => ({ href: localizedPath(r.href, lang), label: t[r.key] }));
   const policyLinks = POLICY_ROUTES.map((r) => ({ href: localizedPath(r.href, lang), label: t[r.key] }));
   const wa = waLink(site?.whatsapp, greetingMessage(lang));
   const brandMessage = pickBrandMessage(site);
@@ -485,6 +490,17 @@ export default function Footer({ site }) {
                       <span className="sf-link__arrow" aria-hidden>
                         ›
                       </span>
+                      <span>{l.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <p className="sf-links-subheading">{hi ? "और देखें" : "Explore more"}</p>
+              <ul className="sf-links">
+                {moreLinks.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="sf-link">
+                      <span className="sf-link__arrow" aria-hidden>›</span>
                       <span>{l.label}</span>
                     </Link>
                   </li>
