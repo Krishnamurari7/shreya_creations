@@ -24,6 +24,7 @@ const NAV = [
   { href: "/admin/policies", label: "Policies", icon: "§" },
   { href: "/admin/inquiries", label: "Enquiries", icon: "✉" },
   { href: "/admin/employer-staff-requests", label: "Employer Staff Requests", icon: "♟" },
+  { href: "/admin/career-applications", label: "Career Applications", icon: "✉" },
   { href: "/admin/registrations", label: "Registrations", icon: "🎓" },
   { href: "/admin/media", label: "Media", icon: "🖼" },
   { href: "/admin/settings", label: "Settings", icon: "⚙" },

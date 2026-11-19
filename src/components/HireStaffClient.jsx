@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HiringForm from "@/components/HiringForm";
+import CareerApplicationForm from "@/components/CareerApplicationForm";
 import { STAFF_ROLES } from "@/lib/hiring";
 import { HIRING_COPY, hiringOptionLabel } from "@/lib/hiring-copy";
 
@@ -35,6 +36,7 @@ export default function HireStaffClient({ contactHref, locale = "en" }) {
             <a href="#staff-requirement-form" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-orange px-7 py-3 font-semibold text-white shadow-[0_14px_32px_rgba(204,79,6,.24)] transition hover:bg-orange-light focus-visible:outline-white">{t.shareRequirement} <span aria-hidden="true">↗</span></a>
             {contactHref && <a href={contactHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-[#c9ac95] px-7 py-3 font-semibold text-[#fff8ef] transition hover:bg-white/10 focus-visible:outline-white">{t.talkToTeam} <span aria-hidden="true">↗</span></a>}
           </div>
+          <a href="#career-application" className="mt-5 inline-flex min-h-11 items-center gap-2 self-start border-b border-[#e7b184] py-2 font-semibold text-[#fff8ef] hover:text-[#e7b184]">{locale === "hi" ? "इंटर्नशिप / नौकरी के लिए आवेदन करें" : "Looking for an internship or job? Apply here"} <span aria-hidden="true">↗</span></a>
           <div className="mt-11 flex flex-wrap items-center gap-x-7 gap-y-2 border-t border-white/15 pt-5 text-xs font-medium uppercase tracking-[0.15em] text-[#d9c2b0]">
             {t.heroTags.map((tag) => <span key={tag}>{tag}</span>)}
           </div>
@@ -101,6 +103,7 @@ export default function HireStaffClient({ contactHref, locale = "en" }) {
       </div>
     </section>
 
+    <CareerApplicationForm locale={locale} />
     <HiringForm contactHref={contactHref} locale={locale} terms={t.terms} />
 
     <section id="employer-terms" className="scroll-mt-28 border-t border-ink/10 bg-bg py-16 sm:py-20" aria-labelledby="employer-terms-title">
