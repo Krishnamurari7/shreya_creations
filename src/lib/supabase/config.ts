@@ -3,8 +3,13 @@ export function getSupabaseUrl(): string | undefined {
   return process.env.NEXT_PUBLIC_SUPABASE_URL;
 }
 
+// This is a public browser key. Keep a working fallback in source because
+// Cloudflare's automatic build can still inject a disabled legacy anon key.
+const PROJECT_PUBLISHABLE_KEY = "sb_publishable_BadWqkhTg_KoW8goxUKxUQ_OQYgbUVm";
+
 export function getSupabaseAnonKey(): string | undefined {
-  return process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const configured = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  return configured?.startsWith("sb_publishable_") ? configured : PROJECT_PUBLISHABLE_KEY;
 }
 
 export function isSupabaseConfigured(): boolean {
