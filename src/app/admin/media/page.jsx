@@ -9,6 +9,7 @@ import AdminModal from "@/components/admin/AdminModal";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 import { revalidateSiteContent } from "@/lib/admin/revalidate";
 import { listStorageGalleryImages } from "@/lib/supabase/storage-gallery";
+import { uploadAdminImage } from "@/lib/supabase/upload-admin-image";
 
 export default function MediaAdmin() {
   const configured = isSupabaseConfigured();
@@ -50,12 +51,9 @@ export default function MediaAdmin() {
     setUploading(true);
     setError("");
     try {
-      const form = new FormData();
-      form.append("file", file);
-      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed");
+      const result = await uploadAdminImage(file);
       await load();
+      if (result.warning) setError(result.warning);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -105,7 +103,7 @@ export default function MediaAdmin() {
     <div>
       <AdminPageHeader
         title="Media library"
-        subtitle="Uploads are compressed to WebP with a thumbnail. Public URLs use the media bucket."
+        subtitle="Images are saved to Supabase Storage and listed in the Media Library."
         action={
           <label className={cn(BTN_PRIMARY, "cursor-pointer")}>
             {uploading ? "Uploading…" : "+ Upload"}

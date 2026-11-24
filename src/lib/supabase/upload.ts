@@ -1,12 +1,16 @@
 import "server-only";
-import sharp from "sharp";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-const MAX_WIDTH = 1920;
-const THUMB_WIDTH = 400;
+const IMAGE_EXTENSIONS: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/avif": "avif",
+};
+const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 
 /**
- * Compress image to WebP, upload to `media` bucket, register in media_library.
+ * Upload the original image to `media` and register it in media_library.
  * Server-only — call from admin route handlers.
  */
 export async function uploadMediaImage(
@@ -21,59 +25,36 @@ export async function uploadMediaImage(
   const admin = createAdminClient();
   if (!admin) throw new Error("Supabase admin client not configured.");
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const meta = await sharp(buffer).metadata();
-  const webp = await sharp(buffer)
-    .rotate()
-    .resize({ width: MAX_WIDTH, withoutEnlargement: true })
-    .webp({ quality: 82 })
-    .toBuffer();
+  const extension = IMAGE_EXTENSIONS[file.type];
+  if (!extension) throw new Error("Choose a JPG, PNG, WebP or AVIF image.");
+  if (file.size > MAX_IMAGE_BYTES) throw new Error("Choose an image smaller than 15 MB.");
 
-  const thumb = await sharp(buffer)
-    .rotate()
-    .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
-    .webp({ quality: 75 })
-    .toBuffer();
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const mainPath = `uploads/${Date.now()}-${crypto.randomUUID()}.${extension}`;
 
-  const base = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  const mainPath = `uploads/${base}.webp`;
-  const thumbPath = `uploads/${base}-thumb.webp`;
-
-  const { error: upErr } = await admin.storage.from("media").upload(mainPath, webp, {
-    contentType: "image/webp",
-    cacheControl: "31536000",
+  const { error: upErr } = await admin.storage.from("media").upload(mainPath, bytes, {
+    contentType: file.type,
+    cacheControl: "3600",
     upsert: false,
   });
   if (upErr) throw upErr;
 
-  await admin.storage.from("media").upload(thumbPath, thumb, {
-    contentType: "image/webp",
-    cacheControl: "31536000",
-    upsert: false,
-  });
-
   const { data: pub } = admin.storage.from("media").getPublicUrl(mainPath);
-  const { data: thumbPub } = admin.storage.from("media").getPublicUrl(thumbPath);
 
   if (options.register !== false) {
-    await admin.from("media_library").insert({
+    const { error: libraryError } = await admin.from("media_library").insert({
       file_path: mainPath,
       public_url: pub.publicUrl,
       alt_text_en: options.altEn || null,
       alt_text_hi: options.altHi || null,
-      width: meta.width || null,
-      height: meta.height || null,
       uploaded_by: options.uploadedBy || null,
     });
+    if (libraryError) throw libraryError;
   }
 
   return {
     path: mainPath,
-    thumbPath,
     url: pub.publicUrl,
-    thumbUrl: thumbPub.publicUrl,
-    width: meta.width,
-    height: meta.height,
   };
 }
 

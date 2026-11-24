@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ADMIN_LABEL } from "@/lib/admin/formClasses";
+import { uploadAdminImage } from "@/lib/supabase/upload-admin-image";
 
 const BANNERS = [
   { key: "hero_image_mobile", label: "Mobile", width: 750, height: 900, screens: "up to 639px" },
@@ -10,37 +11,34 @@ const BANNERS = [
 ];
 
 export default function BoutiqueHeroBannerEditor({ page, onChange, onBusyChange }) {
-  const [busyKey, setBusyKey] = useState("");
-  const [error, setError] = useState("");
+  const activeUploads = useRef(new Set());
+  const [busyKeys, setBusyKeys] = useState(new Set());
+  const [messages, setMessages] = useState({});
   const [dimensions, setDimensions] = useState({});
 
   async function upload(key, file) {
-    if (!file) return;
-    setError("");
-    if (!/^image\/(jpeg|png|webp|avif)$/.test(file.type)) {
-      setError("Choose a JPG, PNG, WebP or AVIF image.");
-      return;
-    }
-    if (file.size > 15 * 1024 * 1024) {
-      setError("Choose an image smaller than 15 MB.");
-      return;
-    }
+    if (!file || activeUploads.current.has(key)) return;
+    setMessages((current) => ({ ...current, [key]: null }));
 
-    setBusyKey(key);
+    activeUploads.current.add(key);
+    setBusyKeys(new Set(activeUploads.current));
     onBusyChange?.(true);
     try {
-      const form = new FormData();
-      form.append("file", file);
-      const response = await fetch("/api/admin/upload", { method: "POST", body: form });
-      const result = await response.json();
-      if (!response.ok || !result.url) throw new Error(result.error || "Upload failed.");
+      const result = await uploadAdminImage(file, { folder: "banners" });
       onChange(key, result.url);
       setDimensions((current) => ({ ...current, [key]: null }));
+      if (result.warning) {
+        setMessages((current) => ({ ...current, [key]: { text: result.warning, warning: true } }));
+      }
     } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : "Upload failed.");
+      setMessages((current) => ({
+        ...current,
+        [key]: { text: uploadError instanceof Error ? uploadError.message : "Upload failed." },
+      }));
     } finally {
-      setBusyKey("");
-      onBusyChange?.(false);
+      activeUploads.current.delete(key);
+      setBusyKeys(new Set(activeUploads.current));
+      onBusyChange?.(activeUploads.current.size > 0);
     }
   }
 
@@ -87,17 +85,17 @@ export default function BoutiqueHeroBannerEditor({ page, onChange, onBusyChange 
                       {ratioMismatch ? "Its shape differs from the recommended banner and may be cropped." : ""}
                     </p>
                   )}
-                  <button type="button" className="text-sm text-rose underline" disabled={Boolean(busyKey)} onClick={() => onChange(key, "")}>Remove banner</button>
+                  <button type="button" className="text-sm text-rose underline" disabled={busyKeys.has(key)} onClick={() => onChange(key, "")}>Remove banner</button>
                 </>
               ) : (
                 <p className="admin-muted">No banner uploaded yet.</p>
               )}
               <label className="block text-sm text-gold cursor-pointer">
-                {busyKey === key ? "Uploading…" : url ? "Replace banner" : "Upload banner"}
+                {busyKeys.has(key) ? "Uploading…" : url ? "Replace banner" : "Upload banner"}
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp,image/avif"
-                  disabled={Boolean(busyKey)}
+                  disabled={busyKeys.has(key)}
                   className="block w-full max-w-full mt-1 text-sm admin-muted file:mr-2 file:rounded-full file:border-0 file:bg-gold/20 file:px-3 file:py-2 file:text-gold file:cursor-pointer"
                   onChange={(event) => {
                     const file = event.target.files?.[0];
@@ -106,11 +104,15 @@ export default function BoutiqueHeroBannerEditor({ page, onChange, onBusyChange 
                   }}
                 />
               </label>
+              {messages[key] && (
+                <p className={`text-sm ${messages[key].warning ? "text-marigold" : "text-rose"}`} role={messages[key].warning ? "status" : "alert"}>
+                  {messages[key].text}
+                </p>
+              )}
             </div>
           );
         })}
       </div>
-      {error && <p className="text-sm text-rose" role="alert">{error}</p>}
     </div>
   );
 }
