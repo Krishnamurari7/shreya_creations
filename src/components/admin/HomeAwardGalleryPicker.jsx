@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 import { PORTFOLIO as SEED_PORTFOLIO } from "@/lib/seed";
 import { listStorageGalleryImages } from "@/lib/supabase/storage-gallery";
+import { deleteUnusedMediaImage } from "@/lib/admin/delete-media-image";
 
 function galleryAsset(row, source, index) {
   const image = source === "portfolio" ? row.image : row.public_url;
@@ -19,6 +20,7 @@ function galleryAsset(row, source, index) {
     id: String(row.id ?? image),
     source,
     image,
+    filePath: source === "media" ? row.file_path || "" : "",
     title,
     titleHi: source === "media" ? row.alt_text_hi || "" : row.title_hi || "",
     alt: source === "portfolio" ? row.image_alt || title : row.alt_text_en || title,
@@ -33,6 +35,8 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState({ portfolio: [], media: [] });
   const [loading, setLoading] = useState(false);
+  const [deletingPath, setDeletingPath] = useState("");
+  const [deleteErrors, setDeleteErrors] = useState({});
   const [error, setError] = useState("");
 
   const load = useCallback(async () => {
@@ -114,6 +118,28 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
     ]);
   };
 
+  const removeAsset = async (asset) => {
+    if (!asset.filePath || items.some((item) => item?.image === asset.image)) return;
+    if (!window.confirm(`Permanently delete ${asset.title} from Supabase Storage and the Media Library?`)) return;
+
+    setDeletingPath(asset.filePath);
+    setDeleteErrors((current) => ({ ...current, [asset.filePath]: "" }));
+    try {
+      await deleteUnusedMediaImage(asset.filePath);
+      setRows((current) => ({
+        ...current,
+        media: current.media.filter((row) => row.file_path !== asset.filePath),
+      }));
+    } catch (err) {
+      setDeleteErrors((current) => ({
+        ...current,
+        [asset.filePath]: err instanceof Error ? err.message : "Could not delete image.",
+      }));
+    } finally {
+      setDeletingPath("");
+    }
+  };
+
   return (
     <div className="rounded-xl border border-gold/20 p-4 space-y-3">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -167,20 +193,45 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
         <div className="grid max-h-[28rem] grid-cols-2 gap-3 overflow-y-auto pr-1 sm:grid-cols-3 lg:grid-cols-4">
           {matches.map((asset) => {
             const selected = isSelected(asset);
+            const usedHere = items.some((item) => item?.image === asset.image);
             return (
-              <button
+              <div
                 key={`${asset.source}:${asset.id}`}
-                type="button"
-                aria-pressed={selected}
-                aria-label={`${selected ? "Remove" : "Add"} ${asset.title} ${selected ? "from" : "to"} awards carousel`}
-                onClick={() => toggle(asset)}
-                className={cn("overflow-hidden rounded-xl border text-left transition hover:border-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold", selected ? "border-gold bg-gold/10" : "border-gold/20")}
+                className={cn("overflow-hidden rounded-xl border transition hover:border-gold", selected ? "border-gold bg-gold/10" : "border-gold/20")}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={asset.image} alt="" loading="lazy" className="aspect-square w-full object-cover" />
-                <span className="block truncate px-2 pt-2 text-sm font-medium" title={asset.title}>{asset.title}</span>
-                <span className={cn("block px-2 pb-2 text-xs", selected ? "text-gold" : "admin-muted")}>{selected ? "✓ Showing on homepage" : "Add to carousel"}</span>
-              </button>
+                <button
+                  type="button"
+                  aria-pressed={selected}
+                  aria-label={`${selected ? "Remove" : "Add"} ${asset.title} ${selected ? "from" : "to"} awards carousel`}
+                  onClick={() => toggle(asset)}
+                  className="block w-full text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={asset.image} alt="" loading="lazy" className="aspect-square w-full object-cover" />
+                  <span className="block truncate px-2 pt-2 text-sm font-medium" title={asset.title}>{asset.title}</span>
+                  <span className={cn("block px-2 pb-2 text-xs", selected ? "text-gold" : "admin-muted")}>{selected ? "✓ Showing on homepage" : "Add to carousel"}</span>
+                </button>
+                {asset.source === "media" && asset.filePath && (
+                  <div className="px-2 pb-2">
+                    {usedHere ? (
+                      <span className="admin-muted text-xs">Remove from carousel before deleting</span>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={Boolean(deletingPath)}
+                        onClick={() => removeAsset(asset)}
+                        className="text-xs text-rose underline disabled:opacity-50"
+                        aria-label={`Permanently delete ${asset.title}`}
+                      >
+                        {deletingPath === asset.filePath ? "Deleting…" : "Delete unused image"}
+                      </button>
+                    )}
+                    {deleteErrors[asset.filePath] && (
+                      <p className="mt-1 text-xs text-rose" role="alert">{deleteErrors[asset.filePath]}</p>
+                    )}
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>

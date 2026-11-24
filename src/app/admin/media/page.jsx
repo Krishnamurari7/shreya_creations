@@ -10,12 +10,15 @@ import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 import { revalidateSiteContent } from "@/lib/admin/revalidate";
 import { listStorageGalleryImages } from "@/lib/supabase/storage-gallery";
 import { uploadAdminImage } from "@/lib/supabase/upload-admin-image";
+import { deleteUnusedMediaImage } from "@/lib/admin/delete-media-image";
 
 export default function MediaAdmin() {
   const configured = isSupabaseConfigured();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [deletingPath, setDeletingPath] = useState("");
+  const [deleteErrors, setDeleteErrors] = useState({});
   const [editing, setEditing] = useState(null);
   const [error, setError] = useState("");
   const [storageFallback, setStorageFallback] = useState(false);
@@ -81,11 +84,21 @@ export default function MediaAdmin() {
   };
 
   const remove = async (row) => {
-    if (row.storage_only) return;
-    if (!confirm("Delete this media record? Storage file is kept until you remove it in Supabase.")) return;
-    const supabase = createClient();
-    await supabase.from("media_library").delete().eq("id", row.id);
-    await load();
+    if (!row.file_path) return;
+    if (!confirm("Permanently delete this unused image from Supabase Storage and the Media Library?")) return;
+    setDeletingPath(row.file_path);
+    setDeleteErrors((current) => ({ ...current, [row.file_path]: "" }));
+    try {
+      await deleteUnusedMediaImage(row.file_path);
+      setRows((current) => current.filter((item) => item.file_path !== row.file_path));
+    } catch (err) {
+      setDeleteErrors((current) => ({
+        ...current,
+        [row.file_path]: err instanceof Error ? err.message : "Could not delete image.",
+      }));
+    } finally {
+      setDeletingPath("");
+    }
   };
 
   if (!configured) {
@@ -128,19 +141,16 @@ export default function MediaAdmin() {
               <div className="p-2 space-y-2">
                 <p className="text-[10px] admin-muted truncate">{r.file_path}</p>
                 <div className="flex gap-2">
-                  {r.storage_only ? (
-                    <span className="admin-muted text-xs">Storage image</span>
-                  ) : (
-                    <>
-                      <button type="button" className={BTN_SECONDARY} onClick={() => setEditing({ ...r })}>
-                        Alt text
-                      </button>
-                      <button type="button" className="admin-btn-danger text-xs px-2" onClick={() => remove(r)}>
-                        Delete
-                      </button>
-                    </>
+                  {r.storage_only ? <span className="admin-muted text-xs">Storage image</span> : (
+                    <button type="button" className={BTN_SECONDARY} onClick={() => setEditing({ ...r })}>
+                      Alt text
+                    </button>
                   )}
+                  <button type="button" className="admin-btn-danger text-xs px-2" disabled={Boolean(deletingPath)} onClick={() => remove(r)}>
+                    {deletingPath === r.file_path ? "Deleting…" : "Delete"}
+                  </button>
                 </div>
+                {deleteErrors[r.file_path] && <p className="text-rose text-xs" role="alert">{deleteErrors[r.file_path]}</p>}
               </div>
             </div>
           ))}
