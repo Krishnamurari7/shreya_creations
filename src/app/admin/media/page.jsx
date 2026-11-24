@@ -10,15 +10,14 @@ import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 import { revalidateSiteContent } from "@/lib/admin/revalidate";
 import { listStorageGalleryImages } from "@/lib/supabase/storage-gallery";
 import { uploadAdminImage } from "@/lib/supabase/upload-admin-image";
-import { deleteUnusedMediaImage } from "@/lib/admin/delete-media-image";
+import MediaDeleteDialog from "@/components/admin/MediaDeleteDialog";
 
 export default function MediaAdmin() {
   const configured = isSupabaseConfigured();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [deletingPath, setDeletingPath] = useState("");
-  const [deleteErrors, setDeleteErrors] = useState({});
+  const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [editing, setEditing] = useState(null);
   const [error, setError] = useState("");
   const [storageFallback, setStorageFallback] = useState(false);
@@ -83,24 +82,6 @@ export default function MediaAdmin() {
     }
   };
 
-  const remove = async (row) => {
-    if (!row.file_path) return;
-    if (!confirm("Permanently delete this unused image from Supabase Storage and the Media Library?")) return;
-    setDeletingPath(row.file_path);
-    setDeleteErrors((current) => ({ ...current, [row.file_path]: "" }));
-    try {
-      await deleteUnusedMediaImage(row.file_path);
-      setRows((current) => current.filter((item) => item.file_path !== row.file_path));
-    } catch (err) {
-      setDeleteErrors((current) => ({
-        ...current,
-        [row.file_path]: err instanceof Error ? err.message : "Could not delete image.",
-      }));
-    } finally {
-      setDeletingPath("");
-    }
-  };
-
   if (!configured) {
     return (
       <div>
@@ -146,15 +127,22 @@ export default function MediaAdmin() {
                       Alt text
                     </button>
                   )}
-                  <button type="button" className="admin-btn-danger text-xs px-2" disabled={Boolean(deletingPath)} onClick={() => remove(r)}>
-                    {deletingPath === r.file_path ? "Deleting…" : "Delete"}
+                  <button type="button" className="admin-btn-danger text-xs px-2" disabled={!r.file_path} onClick={() => setDeleteCandidate({ filePath: r.file_path, image: r.public_url, title: r.alt_text_en || r.file_path })}>
+                    Delete
                   </button>
                 </div>
-                {deleteErrors[r.file_path] && <p className="text-rose text-xs" role="alert">{deleteErrors[r.file_path]}</p>}
               </div>
             </div>
           ))}
         </div>
+      )}
+
+      {deleteCandidate && (
+        <MediaDeleteDialog
+          asset={deleteCandidate}
+          onClose={() => setDeleteCandidate(null)}
+          onDeleted={(path) => setRows((current) => current.filter((item) => item.file_path !== path))}
+        />
       )}
 
       <AdminModal

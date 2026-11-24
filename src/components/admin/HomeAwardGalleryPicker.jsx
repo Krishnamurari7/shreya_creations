@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 import { PORTFOLIO as SEED_PORTFOLIO } from "@/lib/seed";
 import { listStorageGalleryImages } from "@/lib/supabase/storage-gallery";
-import { deleteUnusedMediaImage } from "@/lib/admin/delete-media-image";
+import MediaDeleteDialog from "@/components/admin/MediaDeleteDialog";
 
 function galleryAsset(row, source, index) {
   const image = source === "portfolio" ? row.image : row.public_url;
@@ -35,8 +35,7 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
   const [search, setSearch] = useState("");
   const [rows, setRows] = useState({ portfolio: [], media: [] });
   const [loading, setLoading] = useState(false);
-  const [deletingPath, setDeletingPath] = useState("");
-  const [deleteErrors, setDeleteErrors] = useState({});
+  const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [error, setError] = useState("");
 
   const load = useCallback(async () => {
@@ -118,28 +117,6 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
     ]);
   };
 
-  const removeAsset = async (asset) => {
-    if (!asset.filePath || items.some((item) => item?.image === asset.image)) return;
-    if (!window.confirm(`Permanently delete ${asset.title} from Supabase Storage and the Media Library?`)) return;
-
-    setDeletingPath(asset.filePath);
-    setDeleteErrors((current) => ({ ...current, [asset.filePath]: "" }));
-    try {
-      await deleteUnusedMediaImage(asset.filePath);
-      setRows((current) => ({
-        ...current,
-        media: current.media.filter((row) => row.file_path !== asset.filePath),
-      }));
-    } catch (err) {
-      setDeleteErrors((current) => ({
-        ...current,
-        [asset.filePath]: err instanceof Error ? err.message : "Could not delete image.",
-      }));
-    } finally {
-      setDeletingPath("");
-    }
-  };
-
   return (
     <div className="rounded-xl border border-gold/20 p-4 space-y-3">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -193,7 +170,6 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
         <div className="grid max-h-[28rem] grid-cols-2 gap-3 overflow-y-auto pr-1 sm:grid-cols-3 lg:grid-cols-4">
           {matches.map((asset) => {
             const selected = isSelected(asset);
-            const usedHere = items.some((item) => item?.image === asset.image);
             return (
               <div
                 key={`${asset.source}:${asset.id}`}
@@ -213,28 +189,31 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
                 </button>
                 {asset.source === "media" && asset.filePath && (
                   <div className="px-2 pb-2">
-                    {usedHere ? (
-                      <span className="admin-muted text-xs">Remove from carousel before deleting</span>
-                    ) : (
-                      <button
-                        type="button"
-                        disabled={Boolean(deletingPath)}
-                        onClick={() => removeAsset(asset)}
-                        className="text-xs text-rose underline disabled:opacity-50"
-                        aria-label={`Permanently delete ${asset.title}`}
-                      >
-                        {deletingPath === asset.filePath ? "Deleting…" : "Delete unused image"}
-                      </button>
-                    )}
-                    {deleteErrors[asset.filePath] && (
-                      <p className="mt-1 text-xs text-rose" role="alert">{deleteErrors[asset.filePath]}</p>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => setDeleteCandidate(asset)}
+                      className="text-xs text-rose underline"
+                      aria-label={`Check usage before deleting ${asset.title}`}
+                    >
+                      Delete image
+                    </button>
                   </div>
                 )}
               </div>
             );
           })}
         </div>
+      )}
+      {deleteCandidate && (
+        <MediaDeleteDialog
+          asset={deleteCandidate}
+          localUsage={items.some((item) => item?.image === deleteCandidate.image) ? "Home page > Awards carousel (current changes)" : ""}
+          onClose={() => setDeleteCandidate(null)}
+          onDeleted={(path) => setRows((current) => ({
+            ...current,
+            media: current.media.filter((row) => row.file_path !== path),
+          }))}
+        />
       )}
       <p className="admin-muted text-xs">Use the list below to change captions or order, then Save all pages to publish.</p>
     </div>

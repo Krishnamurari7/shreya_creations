@@ -1,45 +1,147 @@
-[
-  "1780590251090-nq4von.jpeg",
-  "1780590285921-cgi8gy.jpeg",
-  "1780726183809-7pla6l.jpeg",
-  "1780726223713-3bw2q1.jpeg",
-  "1780726249320-wwg256.jpeg",
-  "1780726309151-06rmye.jpeg",
-  "1781196462114-6xdquf.jpeg",
-  "1781886543737-7cnjnu.jpeg",
-  "1782239288560-v7jdgv.png",
-  "1782239324371-pvtg8u.png",
-  "1782239492897-mjp2s2.jpeg",
-  "1783526726411-yegh8h.jpeg",
-  "1783526973254-2wibuc.jpeg",
-  "1783527025222-bn0dlg.jpeg",
-  "1783527043668-lzyi5k.jpeg",
-  "1783527063710-jwvmxg.jpeg",
-  "1783527085090-0toedw.jpeg",
-  "1783527114529-jmf764.jpeg",
-  "1786290945897-ewbdy9.jpg",
-  "1786637606091-jfhnwy.jpeg",
-  "1786638759113-b35gaz.jpeg",
-  "1788540494073-kna8pv.jpg",
-  "1789472263820-q5c1b0.jpg",
-  "1792462825238-pr320l.jpeg",
-  "1792546249752-ccl6ts.jpeg",
-  "1792546489879-h21y9l.jpeg",
-  "1794594656732-mos6w1.png",
-  "site-defaults/atelier_details.webp",
-  "site-defaults/boutique.webp",
-  "site-defaults/categories/beauty.webp",
-  "site-defaults/categories/bridal.webp",
-  "site-defaults/categories/ethnic-wear.webp",
-  "site-defaults/categories/fashion-designing.webp",
-  "site-defaults/categories/stitching.webp",
-  "site-defaults/hero_studio_banner.webp",
-  "site-defaults/institute.webp",
-  "site-defaults/job.webp",
-  "site-defaults/slider1-poster.webp",
-  "site-defaults/slider1.webp",
-  "site-defaults/slider2-poster.webp",
-  "site-defaults/slider2.webp",
-  "site-defaults/slider3.webp",
-  "site-defaults/slider4.webp"
-]
+{
+  "1780590251090-nq4von.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1780590285921-cgi8gy.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1780726183809-7pla6l.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1780726223713-3bw2q1.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1780726249320-wwg256.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1780726309151-06rmye.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1781196462114-6xdquf.jpeg": [
+    "lib/media.js"
+  ],
+  "1781886543737-7cnjnu.jpeg": [
+    "lib/media.js"
+  ],
+  "1782239288560-v7jdgv.png": [
+    "app/shop/page.jsx",
+    "lib/boutique-services.js",
+    "lib/cms/defaults.js",
+    "lib/hi-seo.js",
+    "lib/media.js"
+  ],
+  "1782239324371-pvtg8u.png": [
+    "lib/media.js"
+  ],
+  "1782239492897-mjp2s2.jpeg": [
+    "lib/seed.js"
+  ],
+  "1783526726411-yegh8h.jpeg": [
+    "lib/boutique-service-landing.js",
+    "lib/seed.js"
+  ],
+  "1783526973254-2wibuc.jpeg": [
+    "lib/boutique-service-landing.js",
+    "lib/seed.js"
+  ],
+  "1783527025222-bn0dlg.jpeg": [
+    "lib/boutique-service-landing.js",
+    "lib/seed.js"
+  ],
+  "1783527043668-lzyi5k.jpeg": [
+    "lib/boutique-service-landing.js",
+    "lib/seed.js"
+  ],
+  "1783527063710-jwvmxg.jpeg": [
+    "lib/boutique-service-landing.js",
+    "lib/seed.js"
+  ],
+  "1783527085090-0toedw.jpeg": [
+    "lib/boutique-service-landing.js",
+    "lib/seed.js"
+  ],
+  "1783527114529-jmf764.jpeg": [
+    "lib/json-ld.js",
+    "lib/seed.js"
+  ],
+  "1786290945897-ewbdy9.jpg": [
+    "app/courses/page.jsx",
+    "lib/boutique-service-landing.js",
+    "lib/cms/defaults.js",
+    "lib/hi-seo.js",
+    "lib/seed.js"
+  ],
+  "1786637606091-jfhnwy.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1786638759113-b35gaz.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1788540494073-kna8pv.jpg": [
+    "lib/boutique-service-landing.js",
+    "lib/seed.js"
+  ],
+  "1789472263820-q5c1b0.jpg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1792462825238-pr320l.jpeg": [
+    "lib/boutique-service-landing.js"
+  ],
+  "1792546249752-ccl6ts.jpeg": [
+    "lib/cms/defaults.js"
+  ],
+  "1792546489879-h21y9l.jpeg": [
+    "lib/cms/defaults.js"
+  ],
+  "1794594656732-mos6w1.png": [
+    "lib/media.js"
+  ],
+  "site-defaults/atelier_details.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/boutique.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/categories/beauty.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/categories/bridal.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/categories/ethnic-wear.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/categories/fashion-designing.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/categories/stitching.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/hero_studio_banner.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/institute.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/job.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/slider1-poster.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/slider1.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/slider2-poster.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/slider2.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/slider3.webp": [
+    "lib/media.js"
+  ],
+  "site-defaults/slider4.webp": [
+    "lib/media.js"
+  ]
+}
