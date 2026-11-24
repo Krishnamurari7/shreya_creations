@@ -2,24 +2,31 @@
 
 import { FIELD_SURFACE, FILTER_PILL, FILTER_PILL_ACTIVE, FILTER_PILLS, PAGE_CONTAINER, REVEAL } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
 import { Glass3DCard } from "@/components/Glass3DCard";
 import { staggerDelay } from "@/lib/motion";
 
-export default function ShopBrowser({ products, whatsapp }) {
+export default function ShopBrowser({ products, whatsapp, initialCategory = "" }) {
+  const [active, setActive] = useState(initialCategory || "All");
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    setActive(initialCategory || "All");
+  }, [initialCategory]);
+
   const categories = useMemo(() => {
     const set = new Set(products.map((p) => p.category).filter(Boolean));
+    if (active !== "All" && ![...set].some((category) => category.toLowerCase() === active.toLowerCase())) {
+      set.add(active);
+    }
     return ["All", ...set];
-  }, [products]);
-
-  const [active, setActive] = useState("All");
-  const [query, setQuery] = useState("");
+  }, [products, active]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return products.filter((p) => {
-      const okCat = active === "All" || p.category === active;
+      const okCat = active === "All" || String(p.category || "").toLowerCase() === active.toLowerCase();
       const okQ =
         !q ||
         p.title?.toLowerCase().includes(q) ||
@@ -35,7 +42,7 @@ export default function ShopBrowser({ products, whatsapp }) {
         {/* Category selection */}
         <div className={cn(FILTER_PILLS, "justify-start", "w-full", "lg:w-auto", "lg:flex-wrap")}>
           {categories.map((c) => {
-            const isSelected = active === c;
+            const isSelected = active.toLowerCase() === c.toLowerCase();
             return (
               <button
                 key={c}

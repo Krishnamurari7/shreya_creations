@@ -12,6 +12,7 @@ import { LOGO_SRC, normalizeBrandName } from "@/lib/brand";
 import OptimizedImage from "@/components/OptimizedImage";
 import { PRODUCTION_URL, SITE_DOMAIN } from "@/lib/siteUrl";
 import { formatPhoneDisplay, telHref, EXPRESS_DELIVERY_DISCLAIMER, computeYearsExperience, DEFAULT_FOUNDING_YEAR, DEFAULT_STUDENTS_TAUGHT, DEFAULT_OUTFITS_DELIVERED, COURSE_COUNT } from "@/lib/site-config";
+import { MORE_ROUTES } from "@/lib/more-routes";
 
 const QUICK_ROUTES = [
   { href: "/", key: "home" },
@@ -20,17 +21,6 @@ const QUICK_ROUTES = [
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
   { href: "/contact", key: "contact" },
-];
-
-const MORE_ROUTES = [
-  { href: "/about", key: "about" },
-  { href: "/hire-trained-professionals", key: "hireStaff" },
-  { href: "/portfolio", key: "gallery" },
-  { href: "/blog", key: "blog" },
-  { href: "/faq", key: "faq" },
-  { href: "/nri-clients", key: "nriClients" },
-  { href: "/ladies-tailor-patna", key: "ladiesTailorPatna" },
-  { href: "/boutique-boring-road", key: "boutiqueBoringRoad" },
 ];
 
 const POLICY_ROUTES = [

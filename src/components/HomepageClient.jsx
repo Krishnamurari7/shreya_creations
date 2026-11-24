@@ -6,20 +6,16 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/components/LanguageProvider";
 import { pageBottomCtaProps, pickPage } from "@/lib/cms";
 import LazyWhenVisible from "@/components/LazyWhenVisible";
-import HeroSection from "@/components/HeroSection";
+import HomeBridalHero from "@/components/HomeBridalHero";
+import HomeAwardsMarquee from "@/components/HomeAwardsMarquee";
+import HomeCategoryCards from "@/components/CategoryCards";
+import HomeCoursesPreview from "@/components/HomeCoursesPreview";
 import PageCTA from "@/components/PageCTA";
 
 const DesignProcess = dynamic(() =>
   import("@/components/FashionSections").then((mod) => mod.DesignProcess)
 );
 
-const HomeCategoryCards = dynamic(() => import("@/components/CategoryCards"), {
-  loading: () => <div className="category-cards-skeleton min-h-[320px]" aria-hidden />,
-});
-
-const HomeCoursesPreview = dynamic(() => import("@/components/HomeCoursesPreview"), {
-  loading: () => <div className="home-courses-preview-skeleton min-h-[480px]" aria-hidden />,
-});
 const HomePortfolioPreview = dynamic(() => import("@/components/HomePortfolioPreview"), {
   loading: () => <div className="home-portfolio-skeleton min-h-[360px]" aria-hidden />,
 });
@@ -92,7 +88,6 @@ function SectionHeader({
 }
 
 export default function HomepageClient({
-  heroBackground,
   home: homeProp,
   site,
   ctaOverrides,
@@ -108,28 +103,13 @@ export default function HomepageClient({
 
   return (
     <div className="home-page relative z-10 w-full min-w-0 max-w-full overflow-x-clip">
-      <section
-        className={`home-hero home-hero--boutique${lang === "hi" ? " home-hero--hi" : ""}`}
-        aria-label={lang === "hi" ? "मुख्य बैनर" : "Hero banner"}
-      >
-        {heroBackground}
-        <HeroSection
-          home={home}
-          lang={lang}
-          phone={site.phone}
-          whatsapp={site.whatsapp}
-          site={site}
-          embedded
-        />
-      </section>
+      <HomeBridalHero home={home} lang={lang} site={site} />
 
-      <LazyWhenVisible fallback={<div className="category-cards-skeleton min-h-[320px]" aria-hidden />}>
-        <HomeCategoryCards lang={lang} site={site} whatsapp={site.whatsapp} home={home} />
-      </LazyWhenVisible>
+      <HomeAwardsMarquee home={home} lang={lang} />
 
-      <LazyWhenVisible fallback={<div className="home-courses-preview-skeleton min-h-[480px]" aria-hidden />}>
-        <HomeCoursesPreview courses={courses} home={home} site={site} />
-      </LazyWhenVisible>
+      <HomeCategoryCards lang={lang} site={site} whatsapp={site.whatsapp} home={home} />
+
+      <HomeCoursesPreview courses={courses} home={home} site={site} />
 
       <LazyWhenVisible fallback={<div className="home-portfolio-skeleton min-h-[360px]" aria-hidden />}>
         <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />

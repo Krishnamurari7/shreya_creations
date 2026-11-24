@@ -11,6 +11,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { openInquiryPopup } from "@/lib/inquiryPopup";
+import SeoDisclosure from "@/components/SeoDisclosure";
 
 const DEFAULTS = PAGE_DEFAULTS.courses;
 
@@ -32,15 +33,19 @@ function openDemo(message) {
 const SEO_BLOCK_TITLE =
   "institute-seo-block__title font-sans text-balance font-bold leading-snug tracking-tight text-ink";
 
-function SeoBlock({ title, paragraphs, tagline, steps, cta, ctaAction, className }) {
+function SeoBlock({ title, paragraphs, tagline, steps, cta, ctaAction, className, lang }) {
   return (
     <article className={cn("institute-seo-block", REVEAL, className)}>
       <h2 className={SEO_BLOCK_TITLE}>{title}</h2>
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph.slice(0, 48)} className={cn(SECTION_LEAD, "institute-seo-block__body text-pretty")}>
-          {paragraph}
-        </p>
-      ))}
+      {paragraphs.length > 0 && (
+        <SeoDisclosure lang={lang}>
+          {paragraphs.map((paragraph) => (
+            <p key={paragraph.slice(0, 48)} className={cn(SECTION_LEAD, "institute-seo-block__body text-pretty")}>
+              {paragraph}
+            </p>
+          ))}
+        </SeoDisclosure>
+      )}
       {tagline && <p className="institute-seo-block__tagline">{tagline}</p>}
       {steps && <p className="institute-seo-block__steps">{steps}</p>}
       {cta && (
@@ -137,7 +142,9 @@ export function CoursesIntroStrip({ coursesPage = {} }) {
 
   return (
     <div className={cn(PAGE_CONTAINER, "institute-seo-intro", "relative", "z-20", "max-w-3xl", REVEAL)}>
-      <p className={cn(SECTION_LEAD, "text-center text-pretty mx-auto max-w-2xl")}>{introBody}</p>
+      <SeoDisclosure lang={hi ? "hi" : "en"}>
+        <p className={cn(SECTION_LEAD, "text-center text-pretty mx-auto max-w-2xl")}>{introBody}</p>
+      </SeoDisclosure>
       <div className="institute-seo-intro__ctas">
         <button
           type="button"
@@ -158,7 +165,7 @@ export function CoursesIntroStrip({ coursesPage = {} }) {
 }
 
 export function InstituteSeoBlocks({ coursesPage = {} }) {
-  const { sections } = useCoursesSeoContent(coursesPage);
+  const { sections, hi } = useCoursesSeoContent(coursesPage);
 
   return (
     <section
@@ -177,6 +184,7 @@ export function InstituteSeoBlocks({ coursesPage = {} }) {
             <SeoBlock
               key={section.key}
               title={section.title}
+              lang={hi ? "hi" : "en"}
               paragraphs={splitParagraphs(section.body)}
               tagline={section.tagline}
               steps={section.steps}

@@ -1027,6 +1027,9 @@ export function landingToCms(landing) {
   if (!landing) return {};
   return {
     hero_image: landing.heroImage || "",
+    hero_image_mobile: "",
+    hero_image_tablet: "",
+    hero_image_desktop: "",
     header_eyebrow: landing.eyebrow || "",
     header_eyebrow_hi: landing.eyebrowHi || "",
     header_title: landing.h1 || "",
@@ -1261,6 +1264,9 @@ export function resolveBoutiqueLanding(slug, cmsPage = {}) {
   return {
     ...base,
     heroImage: filled(p.heroImage, base.heroImage),
+    heroImageMobile: p.heroImageMobile || "",
+    heroImageTablet: p.heroImageTablet || "",
+    heroImageDesktop: p.heroImageDesktop || "",
     heroPosition: filled(p.landingHeroPosition, base.heroPosition || "object-[70%_center]"),
     eyebrow: filled(p.landingEyebrow || p.headerEyebrow, base.eyebrow),
     eyebrowHi: filled(p.landingEyebrowHi || p.headerEyebrowHi, base.eyebrowHi),

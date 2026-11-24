@@ -1,16 +1,11 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
 import {
   motion,
   useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
 } from "framer-motion";
 import {
-  BTN_PRIMARY,
   BTN_SECONDARY,
   PAGE_CONTAINER,
   PAGE_SECTION,
@@ -23,21 +18,15 @@ import {
 } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 import CardImage from "@/components/CardImage";
-import AmbientGlows from "@/components/AmbientGlows";
+import BoutiqueHeroBanner from "@/components/BoutiqueHeroBanner";
+import SeoDisclosure from "@/components/SeoDisclosure";
 import ShopBrowser from "@/components/ShopBrowser";
 import { Testimonials } from "@/components/Sections";
 import { useLanguage } from "@/components/LanguageProvider";
-import { resolveMediaSrc, MEDIA } from "@/lib/media";
+import { MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { waLink, stitchOrderMessage } from "@/lib/whatsapp";
-import {
-  DEFAULT_OUTFITS_DELIVERED,
-  computeYearsExperience,
-  DEFAULT_FOUNDING_YEAR,
-  EXPRESS_DELIVERY_DISCLAIMER,
-  formatCountPlus,
-} from "@/lib/site-config";
 
 const EASE = [0.16, 1, 0.3, 1];
 const SHOP_DEFAULTS = PAGE_DEFAULTS.shop;
@@ -257,52 +246,17 @@ function SectionHead({ eyebrow, title, subtitle, center = true }) {
   );
 }
 
-function WhatsAppGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden>
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-    </svg>
-  );
-}
-
-export default function BoutiqueClient({ site, shopPage, products = [], testimonials = [] }) {
+export default function BoutiqueClient({ site, shopPage, products = [], testimonials = [], initialCategory = "" }) {
   const { lang } = useLanguage();
   const reduceMotion = useReducedMotion();
   const hi = lang === "hi";
   const shop = shopPage || site.pages?.shop || {};
 
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start end", "end start"],
-  });
-  const rawY = useTransform(scrollYProgress, [0, 1], [-20, 20]);
-  const imageY = useSpring(rawY, { stiffness: 90, damping: 24 });
-  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.05, 1, 1.05]);
-
-  const years = site.yearsExperience ?? computeYearsExperience(site.foundingYear ?? DEFAULT_FOUNDING_YEAR);
-  const outfits = site.outfitsDelivered || DEFAULT_OUTFITS_DELIVERED;
   const hours = site.expressDeliveryHours || 24;
 
   const title =
     pickPage(shop, lang, "headerTitle", "headerTitleHi") ||
     (hi ? SHOP_DEFAULTS.header_title_hi : SHOP_DEFAULTS.header_title);
-  const tagline =
-    pickPage(shop, lang, "headerTagline", "headerTaglineHi") ||
-    (hi ? SHOP_DEFAULTS.header_tagline_hi : SHOP_DEFAULTS.header_tagline);
-  const heroLead =
-    pickPage(shop, lang, "headerSubtitle", "headerSubtitleHi") ||
-    (hi ? SHOP_DEFAULTS.header_subtitle_hi : SHOP_DEFAULTS.header_subtitle);
-  const heroIntro =
-    pickPage(shop, lang, "introBody", "introBodyHi") ||
-    (hi ? SHOP_DEFAULTS.intro_body_hi : SHOP_DEFAULTS.intro_body);
-  const heroCtaPrimary =
-    pickPage(shop, lang, "heroCtaPrimaryLabel", "heroCtaPrimaryLabelHi") ||
-    (hi ? SHOP_DEFAULTS.hero_cta_primary_label_hi : SHOP_DEFAULTS.hero_cta_primary_label);
-  const heroCtaPrimaryHref = shop.heroCtaPrimaryHref || SHOP_DEFAULTS.hero_cta_primary_href || "/portfolio";
-  const heroCtaSecondary =
-    pickPage(shop, lang, "heroCtaSecondaryLabel", "heroCtaSecondaryLabelHi") ||
-    (hi ? SHOP_DEFAULTS.hero_cta_secondary_label_hi : SHOP_DEFAULTS.hero_cta_secondary_label);
   const aboutTitle =
     pickPage(shop, lang, "aboutTitle", "aboutTitleHi") ||
     (hi ? SHOP_DEFAULTS.about_title_hi : SHOP_DEFAULTS.about_title);
@@ -317,35 +271,7 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
     pickPage(shop, lang, "closingTagline", "closingTaglineHi") ||
     (hi ? SHOP_DEFAULTS.closing_tagline_hi : SHOP_DEFAULTS.closing_tagline);
 
-  const heroImage = resolveMediaSrc(shop.heroImage || MEDIA.boutique);
   const waHref = waLink(site.whatsapp, stitchOrderMessage(lang));
-
-  const heroPerks = hi
-    ? [
-        { icon: "measure", text: "परफेक्ट माप और फिट" },
-        { icon: "hand", text: "आरी / ज़रदोज़ी हैंडवर्क" },
-        { icon: "clock", text: `${hours} घंटे एक्सप्रेस सिलाई*` },
-      ]
-    : [
-        { icon: "measure", text: "Perfect measurement & fit" },
-        { icon: "hand", text: "Aari / Zardozi handwork" },
-        { icon: "clock", text: `${hours}-hour express stitching*` },
-      ];
-
-  const trustRail = [
-    {
-      value: formatCountPlus(years, computeYearsExperience(DEFAULT_FOUNDING_YEAR)),
-      label: hi ? "वर्षों का भरोसा" : "Years of Trust",
-    },
-    {
-      value: formatCountPlus(outfits, DEFAULT_OUTFITS_DELIVERED),
-      label: hi ? "कस्टम आउटफ़िट्स" : "Outfits Customised",
-    },
-    {
-      value: "100%",
-      label: hi ? "क्लाइंट संतुष्टि" : "Client Satisfaction",
-    },
-  ];
 
   const trustStrip = hi
     ? [
@@ -438,153 +364,16 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
   return (
     <div className="boutique-page boutique-page--v2 relative min-w-0 w-full">
       {/* ——— Hero ——— */}
-      <section
-        ref={heroRef}
-        className={cn(
-          PAGE_CONTAINER,
-          "boutique-v2-hero",
-          "max-w-6xl",
-          "pt-[calc(var(--header-offset)+0.75rem)]",
-          "sm:pt-[calc(var(--header-offset)+1.25rem)]",
-          "pb-8 sm:pb-10",
-          "relative z-20 min-w-0 w-full"
-        )}
-      >
-        <AmbientGlows variant="header" />
+      <BoutiqueHeroBanner
+        fallbackImage={shop.heroImage || MEDIA.boutique}
+        mobileImage={shop.heroImageMobile}
+        tabletImage={shop.heroImageTablet}
+        desktopImage={shop.heroImageDesktop}
+        alt={title}
+      />
+      <h1 className="sr-only">{title}</h1>
 
-        <div className="grid lg:grid-cols-12 gap-7 sm:gap-9 lg:gap-10 items-center">
-          <div className="lg:col-span-6 min-w-0 text-center lg:text-left space-y-4 sm:space-y-5">
-            <motion.span
-              className={cn(SECTION_EYEBROW, "boutique-v2-eyebrow")}
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: EASE }}
-            >
-              <span className={cn(SPARKLE_PULSE, "text-gold", "text-[10px]")} aria-hidden>
-                ✦
-              </span>
-              {hi ? "श्रेया क्रिएशन" : "Shreya Creation"}
-            </motion.span>
-
-            <motion.h1
-              className="boutique-v2-title"
-              initial={reduceMotion ? false : { opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.75, delay: 0.08, ease: EASE }}
-            >
-              {title}
-            </motion.h1>
-
-            <motion.p
-              className="boutique-v2-script"
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.18, ease: EASE }}
-            >
-              {tagline}
-            </motion.p>
-
-            <motion.p
-              className="boutique-v2-lead"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.28, ease: EASE }}
-            >
-              {heroLead}
-            </motion.p>
-
-            {heroIntro && (
-              <motion.p
-                className="boutique-v2-lead mt-3"
-                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.32, ease: EASE }}
-              >
-                {heroIntro}
-              </motion.p>
-            )}
-
-            <motion.ul
-              className="boutique-v2-perks"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.36, ease: EASE }}
-            >
-              {heroPerks.map((perk) => (
-                <li key={perk.text} className="boutique-v2-perk">
-                  <GoldIcon name={perk.icon} />
-                  <span>{perk.text}</span>
-                </li>
-              ))}
-            </motion.ul>
-
-            <p className="boutique-v2-express-note text-subtle text-xs mt-2">
-              {EXPRESS_DELIVERY_DISCLAIMER[hi ? "hi" : "en"]}
-            </p>
-
-            <motion.div
-              className="boutique-v2-hero-ctas"
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.44, ease: EASE }}
-            >
-              <Link href={heroCtaPrimaryHref} className={cn(BTN_PRIMARY)}>
-                {heroCtaPrimary}
-              </Link>
-              <a
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(BTN_SECONDARY, "boutique-v2-wa")}
-              >
-                <WhatsAppGlyph />
-                {heroCtaSecondary}
-              </a>
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="lg:col-span-6 relative min-w-0"
-            initial={reduceMotion ? false : { opacity: 0, x: 28 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.85, ease: EASE }}
-            style={reduceMotion ? undefined : { y: imageY }}
-          >
-            <div className="boutique-v2-media group">
-              <motion.div
-                className="boutique-v2-media__inner"
-                style={reduceMotion ? undefined : { scale: imageScale }}
-              >
-                <CardImage
-                  src={heroImage}
-                  alt={
-                    hi
-                      ? "श्रेया क्रिएशन बुटीक — डिज़ाइनर आउटफ़िट"
-                      : "Shreya Creation Boutique — designer outfit"
-                  }
-                  ratio="4/5"
-                  position="center"
-                  className="boutique-v2-media__img rounded-2xl sm:rounded-3xl"
-                  loading="eager"
-                />
-              </motion.div>
-              <span className="boutique-v2-media__frame" aria-hidden />
-              <span className="boutique-v2-media__sheen" aria-hidden />
-            </div>
-
-            <aside className="boutique-v2-rail" aria-label={hi ? "ट्रस्ट आँकड़े" : "Trust stats"}>
-              {trustRail.map((item) => (
-                <div key={item.label} className="boutique-v2-rail__item">
-                  <span className="boutique-v2-rail__value">{item.value}</span>
-                  <span className="boutique-v2-rail__label">{item.label}</span>
-                </div>
-              ))}
-            </aside>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ——— Trust strip ——— */}
+      {/* Trust strip */}
       <section className={cn(PAGE_CONTAINER, "boutique-v2-strip-wrap", "max-w-6xl", "relative z-20")}>
         <motion.div className="boutique-v2-strip" {...rise(0.05)}>
           {trustStrip.map((item, i) => (
@@ -612,7 +401,9 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
               title={aboutTitle}
               center={false}
             />
-            <p className="boutique-v2-about__text mt-4">{aboutText}</p>
+            <SeoDisclosure lang={lang} className="seo-disclosure--left mt-4">
+              <p className="boutique-v2-about__text">{aboutText}</p>
+            </SeoDisclosure>
             <Link href="/portfolio" className={cn(BTN_SECONDARY, "mt-6")}>
               {hi ? "हमारा काम देखें" : "Our Work Speaks"}
             </Link>
@@ -752,7 +543,7 @@ export default function BoutiqueClient({ site, shopPage, products = [], testimon
             }
           />
         </div>
-        <ShopBrowser products={products} whatsapp={site.whatsapp} />
+        <ShopBrowser products={products} whatsapp={site.whatsapp} initialCategory={initialCategory} />
       </section>
 
       {/* ——— Testimonials ——— */}

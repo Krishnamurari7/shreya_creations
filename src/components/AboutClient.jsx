@@ -21,6 +21,7 @@ import {
 import CardImage from "@/components/CardImage";
 import AmbientGlows from "@/components/AmbientGlows";
 import FounderMessageSection from "@/components/FounderMessageSection";
+import SeoDisclosure from "@/components/SeoDisclosure";
 import { useLanguage } from "@/components/LanguageProvider";
 import { resolveMediaSrc, MEDIA } from "@/lib/media";
 import { pickPage } from "@/lib/cms";
@@ -537,7 +538,9 @@ export default function AboutClient({ site, aboutPage }) {
             </span>
             {boutiqueEyebrow}
           </span>
-          <p className="about-v2-boutique__body">{boutiqueBody}</p>
+          <SeoDisclosure lang={lang}>
+            <p className="about-v2-boutique__body">{boutiqueBody}</p>
+          </SeoDisclosure>
         </motion.div>
       </section>
 

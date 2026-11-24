@@ -27,6 +27,7 @@ export async function revalidateSiteContent(paths = []) {
     "/boutique-boring-road",
     "/hi/boutique-boring-road",
     ...boutiquePaths,
+    ...boutiquePaths.map((path) => `/hi${path}`),
   ];
   const all = [...new Set([...defaults, ...paths])];
   try {

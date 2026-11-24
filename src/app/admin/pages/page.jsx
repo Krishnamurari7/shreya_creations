@@ -7,6 +7,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
+import { boutiqueNavForEditor } from "@/components/admin/BoutiqueNavEditor";
 import {
   BilingualField,
   BilingualTextarea,
@@ -26,7 +27,6 @@ import {
 import {
   mergeJourneyCardsForEditor,
   mergeHeroServiceCardsForEditor,
-  mergeHeroFeatureStripForEditor,
   mergeAboutJourneyForEditor,
   categoryCardsForEditor,
   categoryCardsFromEditor,
@@ -60,7 +60,6 @@ function emptyPages() {
     pages[key] = structuredClone(PAGE_DEFAULTS[key]);
   }
   pages.home.hero_service_cards = mergeHeroServiceCardsForEditor(pages.home.hero_service_cards);
-  pages.home.hero_feature_strip = mergeHeroFeatureStripForEditor(pages.home.hero_feature_strip);
   pages.home.category_cards = categoryCardsForEditor(pages.home.category_cards);
   pages.about.journey_steps = mergeAboutJourneyForEditor(pages.about.journey_steps);
   return pages;
@@ -82,6 +81,7 @@ export default function PagesAdmin() {
   const [pillars, setPillars] = useState(DEFAULT_PILLARS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [bannerUploading, setBannerUploading] = useState(false);
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
@@ -101,17 +101,25 @@ export default function PagesAdmin() {
             ...(pageFromDb && typeof pageFromDb === "object" ? pageFromDb : {}),
           };
           if (key === "home") {
+            const videoSlides = Array.isArray(base[key].hero_bridal_slides)
+              ? base[key].hero_bridal_slides.filter((slide) => slide?.video_url || slide?.videoUrl)
+              : [];
+            base[key].hero_bridal_slides = videoSlides.length
+              ? videoSlides
+              : structuredClone(PAGE_DEFAULTS.home.hero_bridal_slides);
             base[key].academy_perks = normalizeAcademyPerks(
               base[key].academy_perks,
               base[key].academy_perks_hi,
             );
             base[key].journey_cards = mergeJourneyCardsForEditor(base[key].journey_cards);
             base[key].hero_service_cards = mergeHeroServiceCardsForEditor(base[key].hero_service_cards);
-            base[key].hero_feature_strip = mergeHeroFeatureStripForEditor(base[key].hero_feature_strip);
             base[key].category_cards = categoryCardsForEditor(base[key].category_cards);
           }
           if (key === "about") {
             base[key].journey_steps = mergeAboutJourneyForEditor(base[key].journey_steps);
+          }
+          if (key === "shop") {
+            base[key].boutique_nav = boutiqueNavForEditor(base[key].boutique_nav);
           }
           if (key === "nri") {
             const legacyTitle = "NRI Boutique, Custom Stitching & Fashion Designing Services from Patna";
@@ -169,6 +177,51 @@ export default function PagesAdmin() {
     const payload = structuredClone(pages);
     if (payload.home) {
       payload.home.category_cards = categoryCardsFromEditor(payload.home.category_cards);
+      const slides = payload.home.hero_bridal_slides || [];
+      if (!slides.length || slides.some((slide) => !String(slide.video_url || slide.videoUrl || "").trim())) {
+        setMsg("Add at least one hero slide and a desktop video for every slide.");
+        setSaving(false);
+        return;
+      }
+      if ((payload.home.hero_bridal_ctas || []).some((cta) => !String(cta.label || "").trim() || !/^(\/(?!\/)|https?:\/\/)/i.test(String(cta.href || "").trim()))) {
+        setMsg("Each hero button needs English text and a valid internal path or web link.");
+        setSaving(false);
+        return;
+      }
+    }
+    const boutiqueNav = payload.shop?.boutique_nav || [];
+    if (!boutiqueNav.length) {
+      setMsg("Add at least one boutique menu category before saving.");
+      setSaving(false);
+      return;
+    }
+    const seenDestinations = new Set();
+    for (const item of boutiqueNav) {
+      item.href = String(item.href || "").trim();
+      item.nav_label = String(item.nav_label || "").trim();
+      item.nav_label_hi = String(item.nav_label_hi || "").trim();
+      item.nav_desc = String(item.nav_desc || "").trim();
+      item.nav_desc_hi = String(item.nav_desc_hi || "").trim();
+      if (item.href.startsWith("/shop?category=")) {
+        const categoryName = new URLSearchParams(item.href.slice("/shop?".length)).get("category")?.trim();
+        if (!categoryName) {
+          setMsg("Enter a product category after /shop?category=.");
+          setSaving(false);
+          return;
+        }
+        item.href = `/shop?category=${encodeURIComponent(categoryName)}`;
+      }
+      if (!item.nav_label || !item.href.startsWith("/") || item.href.startsWith("//") || /\s/.test(item.href)) {
+        setMsg("Each boutique category needs an English name and a valid internal destination path.");
+        setSaving(false);
+        return;
+      }
+      if (seenDestinations.has(item.href)) {
+        setMsg(`Duplicate boutique category destination: ${item.href}`);
+        setSaving(false);
+        return;
+      }
+      seenDestinations.add(item.href);
     }
     const { data: latest, error: readError } = await supabase.from("settings").select("pages").eq("id", 1).single();
     if (readError) {
@@ -299,7 +352,7 @@ export default function PagesAdmin() {
           </>
         )}
 
-        {tab === "shop" && <BoutiquePageEditor page={page} onChange={onChange} publicPath="/shop" variant="shop" />}
+        {tab === "shop" && <BoutiquePageEditor page={page} onChange={onChange} publicPath="/shop" variant="shop" onBannerBusyChange={setBannerUploading} />}
 
         {BOUTIQUE_SERVICES.some((s) => s.cmsKey === tab) && (
           <BoutiquePageEditor
@@ -307,6 +360,7 @@ export default function PagesAdmin() {
             onChange={onChange}
             publicPath={BOUTIQUE_SERVICES.find((s) => s.cmsKey === tab)?.href || "/shop"}
             variant="service"
+            onBannerBusyChange={setBannerUploading}
           />
         )}
 
@@ -532,8 +586,8 @@ export default function PagesAdmin() {
         )}
 
         <div className="admin-form-actions pt-4">
-          <button type="button" onClick={save} disabled={saving} className={BTN_PRIMARY}>
-            {saving ? "Saving…" : "Save all pages"}
+          <button type="button" onClick={save} disabled={saving || bannerUploading} className={BTN_PRIMARY}>
+            {bannerUploading ? "Uploading banner…" : saving ? "Saving…" : "Save all pages"}
           </button>
           {msg && <p className="text-sm text-gold break-words">{msg}</p>}
         </div>

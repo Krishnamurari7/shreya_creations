@@ -2,6 +2,57 @@
 
 import { MEDIA } from "@/lib/media";
 
+export const DEFAULT_HOME_BRIDAL_SLIDES = [
+  {
+    image: "/home-bridal-slide.webp",
+    video_url: "/video-1.mp4",
+    video_tablet: "",
+    video_mobile: "",
+    label: "INSIDE SHREYA CREATION",
+    label_hi: "श्रेया क्रिएशन के अंदर",
+    caption: "Crafted for your special moments.",
+    caption_hi: "आपके खास पलों के लिए बनाया गया।",
+    image_alt: "Bride in a red embroidered sari inside Shreya Creation boutique",
+    image_alt_hi: "श्रेया क्रिएशन बुटीक में लाल कढ़ाई वाली साड़ी पहने दुल्हन",
+  },
+  {
+    image: MEDIA.slider4,
+    video_url: "/video-2.mp4",
+    video_tablet: "",
+    video_mobile: "",
+    label: "DESIGNED WITH CARE",
+    label_hi: "खास डिज़ाइन",
+    caption: "From first sketch to perfect fit.",
+    caption_hi: "पहले स्केच से परफेक्ट फिट तक।",
+    image_alt: "Designer boutique studio at Shreya Creation",
+    image_alt_hi: "श्रेया क्रिएशन का डिज़ाइनर बुटीक स्टूडियो",
+  },
+];
+
+export const DEFAULT_HOME_BRIDAL_CTAS = [
+  { label: "Fashion Design", label_hi: "फैशन डिज़ाइन", href: "/courses/fashion-designing-course", variant: "gold" },
+  { label: "Boutique Master", label_hi: "बुटीक मास्टर", href: "/courses/basic-boutique-course", variant: "dark" },
+  { label: "Book Stitching", label_hi: "सिलाई बुक करें", href: "/shop", variant: "outline" },
+];
+
+export const HOME_BRIDAL_SLIDE_FIELDS = [
+  { key: "video_url", label: "Desktop video (required MP4/WebM)", type: "video", wide: true },
+  { key: "video_tablet", label: "Tablet video (optional MP4/WebM)", type: "video", wide: true },
+  { key: "video_mobile", label: "Mobile video (optional MP4/WebM)", type: "video", wide: true },
+  { key: "image", label: "Poster image (optional, shown while video loads)", type: "image", wide: true },
+  { key: "label", label: "Top label (EN)" },
+  { key: "label_hi", label: "Top label (HI)" },
+  { key: "caption", label: "Bottom caption (EN)", wide: true },
+  { key: "caption_hi", label: "Bottom caption (HI)", wide: true },
+];
+
+export const HOME_BRIDAL_CTA_FIELDS = [
+  { key: "label", label: "Button text (EN)" },
+  { key: "label_hi", label: "Button text (HI)" },
+  { key: "href", label: "Destination path", default: "/contact", wide: true },
+  { key: "variant", label: "Style", type: "select", options: ["gold", "dark", "outline"], default: "outline" },
+];
+
 export const DEFAULT_HERO_SERVICE_CARDS = [
   {
     key: "fashion",
@@ -262,7 +313,9 @@ export const DEFAULT_ABOUT_JOURNEY = [
 export const HERO_SERVICE_FIELDS = [
   { key: "key", label: "Key", default: "service" },
   { key: "icon", label: "Icon key", default: "fashion" },
-  { key: "image", label: "Image path", wide: true },
+  { key: "image", label: "Card image", type: "image", wide: true },
+  { key: "image_alt", label: "Image description (EN)", wide: true },
+  { key: "image_alt_hi", label: "Image description (HI)", wide: true },
   { key: "title", label: "Title (EN)", wide: true },
   { key: "title_hi", label: "Title (HI)", wide: true },
   { key: "desc", label: "Description (EN)", wide: true },
@@ -270,6 +323,14 @@ export const HERO_SERVICE_FIELDS = [
   { key: "cta", label: "CTA (EN)", default: "BOOK NOW" },
   { key: "cta_hi", label: "CTA (HI)", default: "अभी बुक करें" },
   { key: "source", label: "Inquiry source", default: "hero_service" },
+];
+
+export const HOME_AWARD_FIELDS = [
+  { key: "image", label: "Award or media photo", type: "image", wide: true },
+  { key: "title", label: "Caption (EN)", wide: true },
+  { key: "title_hi", label: "Caption (HI)", wide: true },
+  { key: "image_alt", label: "Image description (EN)", wide: true },
+  { key: "image_alt_hi", label: "Image description (HI)", wide: true },
 ];
 
 export const HERO_FEATURE_FIELDS = [

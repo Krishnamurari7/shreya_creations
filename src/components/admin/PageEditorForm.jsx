@@ -2,10 +2,12 @@
 
 import RepeaterField from "@/components/admin/RepeaterField";
 import ImageUploader from "@/components/admin/ImageUploader";
+import BoutiqueHeroBannerEditor from "@/components/admin/BoutiqueHeroBannerEditor";
+import BoutiqueNavEditor from "@/components/admin/BoutiqueNavEditor";
+import HomeAwardGalleryPicker from "@/components/admin/HomeAwardGalleryPicker";
 import {
   FEATURE_FIELDS,
   PROCESS_FEATURE_FIELDS,
-  LANDING_USP_FIELDS,
   LANDING_DESIGN_FIELDS,
   LANDING_SERVICE_FIELDS,
   LANDING_PRICE_FIELDS,
@@ -24,8 +26,9 @@ import {
 } from "@/lib/cms/defaults";
 import {
   CATEGORY_CARD_FIELDS,
-  HERO_FEATURE_FIELDS,
-  HERO_SERVICE_FIELDS,
+  HOME_AWARD_FIELDS,
+  HOME_BRIDAL_CTA_FIELDS,
+  HOME_BRIDAL_SLIDE_FIELDS,
 } from "@/lib/cms/home-blocks";
 
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
@@ -147,7 +150,7 @@ export function FeaturesEditor({ page, onChange }) {
  *  variant="service" → conversion landing fields (images + copy editable).
  *  variant="shop" → classic boutique overview fields.
  */
-export function BoutiquePageEditor({ page, onChange, publicPath = "/shop", variant = "shop" }) {
+export function BoutiquePageEditor({ page, onChange, publicPath = "/shop", variant = "shop", onBannerBusyChange }) {
   const isService = variant === "service";
 
   return (
@@ -179,31 +182,13 @@ export function BoutiquePageEditor({ page, onChange, publicPath = "/shop", varia
         <ImageUploader value={page.og_image || ""} onChange={(url) => onChange("og_image", url)} />
       </div>
 
-      <HeaderWithHighlight page={page} onChange={onChange} />
-      <p className="admin-muted">
-        {isService
-          ? "Header title = landing H1. Eyebrow + tagline show in the hero."
-          : "Header copy for the boutique overview page."}
-      </p>
-      <BilingualField
-        label="Hero tagline"
-        enKey="header_tagline"
-        hiKey="header_tagline_hi"
-        values={page}
-        onChange={onChange}
-      />
-      {!isService && (
-        <BilingualTextarea
-          label="Intro body"
-          enKey="intro_body"
-          hiKey="intro_body_hi"
-          values={page}
-          onChange={onChange}
-          rows={4}
-        />
-      )}
+      <SectionHeading>Page title</SectionHeading>
+      <p className="admin-muted">This title is available to screen readers and search engines. The visible hero contains only the banner.</p>
+      <BilingualField label="Page title" enKey="header_title" hiKey="header_title_hi" values={page} onChange={onChange} />
+      <SectionHeading>Hero banners by screen size</SectionHeading>
+      <BoutiqueHeroBannerEditor page={page} onChange={onChange} onBusyChange={onBannerBusyChange} />
       <div>
-        <label className={ADMIN_LABEL}>Hero image</label>
+        <label className={ADMIN_LABEL}>Fallback hero image</label>
         <ImageUploader
           multiple={false}
           value={page.hero_image || ""}
@@ -211,57 +196,16 @@ export function BoutiquePageEditor({ page, onChange, publicPath = "/shop", varia
         />
       </div>
 
-      <SectionHeading>Hero CTAs</SectionHeading>
-      <BilingualField
-        label="Primary button"
-        enKey="hero_cta_primary_label"
-        hiKey="hero_cta_primary_label_hi"
-        values={page}
-        onChange={onChange}
-      />
       {!isService && (
-        <div>
-          <label className={ADMIN_LABEL}>Primary link</label>
-          <input
-            value={page.hero_cta_primary_href || ""}
-            onChange={(e) => onChange("hero_cta_primary_href", e.target.value)}
-            className={ADMIN_INPUT}
-            placeholder="/portfolio"
-          />
-        </div>
+        <>
+          <SectionHeading>Boutique menu categories</SectionHeading>
+          <BoutiqueNavEditor items={page.boutique_nav || []} onChange={(items) => onChange("boutique_nav", items)} />
+        </>
       )}
-      <BilingualField
-        label="Secondary button"
-        enKey="hero_cta_secondary_label"
-        hiKey="hero_cta_secondary_label_hi"
-        values={page}
-        onChange={onChange}
-      />
 
       {isService && (
         <>
-          <SectionHeading>Landing hero extras</SectionHeading>
-          <BilingualField
-            label="Side quote"
-            enKey="landing_hero_quote"
-            hiKey="landing_hero_quote_hi"
-            values={page}
-            onChange={onChange}
-          />
-          <BilingualField
-            label="Quote CTA line"
-            enKey="landing_hero_quote_cta"
-            hiKey="landing_hero_quote_cta_hi"
-            values={page}
-            onChange={onChange}
-          />
-          <RepeaterField
-            label="Hero USPs (4 recommended)"
-            items={page.landing_usps || []}
-            onChange={(v) => onChange("landing_usps", v)}
-            addLabel="Add USP"
-            fields={LANDING_USP_FIELDS}
-          />
+          <SectionHeading>Booking message</SectionHeading>
           <BilingualTextarea
             label="WhatsApp booking message"
             enKey="cta_wa_message"
@@ -541,59 +485,44 @@ export function HomeTab({ home, patchPage }) {
         Brand name, tagline &amp; logo text: <a href="/admin/settings" className="text-gold hover:underline">Settings</a>.
       </p>
 
-      <SectionHeading>Hero banner (live homepage)</SectionHeading>
-      <BilingualField label="Badge" enKey="hero_boutique_badge" hiKey="hero_boutique_badge_hi" values={home} onChange={onChange} />
-      <BilingualField label="Title" enKey="hero_boutique_title" hiKey="hero_boutique_title_hi" values={home} onChange={onChange} />
-      <BilingualField label="Title highlight" enKey="hero_boutique_title_highlight" hiKey="hero_boutique_title_highlight_hi" values={home} onChange={onChange} />
-      <BilingualTextarea label="Subtitle" enKey="hero_boutique_subtitle" hiKey="hero_boutique_subtitle_hi" values={home} onChange={onChange} rows={3} />
-      <div>
-        <label className={ADMIN_LABEL}>Demo video thumbnail</label>
-        <ImageUploader multiple={false} value={home.hero_demo_thumb || ""} onChange={(url) => onChange("hero_demo_thumb", url)} />
-      </div>
-      <div>
-        <label className={ADMIN_LABEL}>Booking video thumbnail</label>
-        <ImageUploader multiple={false} value={home.hero_book_thumb || ""} onChange={(url) => onChange("hero_book_thumb", url)} />
-      </div>
-      <div>
-        <label className={ADMIN_LABEL}>Demo video path</label>
-        <input
-          value={home.hero_local_video || ""}
-          onChange={(e) => onChange("hero_local_video", e.target.value)}
-          placeholder="/video-1.mp4"
-          className={ADMIN_INPUT}
-        />
-      </div>
-      <div>
-        <label className={ADMIN_LABEL}>Booking video path</label>
-        <input
-          value={home.hero_book_local_video || ""}
-          onChange={(e) => onChange("hero_book_local_video", e.target.value)}
-          placeholder="/video-2.mp4"
-          className={ADMIN_INPUT}
-        />
-      </div>
+      <SectionHeading>Homepage bridal carousel hero</SectionHeading>
+      <p className="admin-muted">Edit the text on the left and add, remove, or reorder video slides on the right. Use <code>{"{{year}}"}</code> in the badge to show the founding year from Settings.</p>
+      <BilingualField label="Badge" enKey="hero_bridal_badge" hiKey="hero_bridal_badge_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Main title (line breaks allowed)" enKey="hero_bridal_title" hiKey="hero_bridal_title_hi" values={home} onChange={onChange} rows={2} />
+      <BilingualField label="Gold title line" enKey="hero_bridal_highlight" hiKey="hero_bridal_highlight_hi" values={home} onChange={onChange} />
+      <BilingualTextarea label="Subtitle" enKey="hero_bridal_subtitle" hiKey="hero_bridal_subtitle_hi" values={home} onChange={onChange} rows={3} />
+      <BilingualField label="Location" enKey="hero_bridal_location" hiKey="hero_bridal_location_hi" values={home} onChange={onChange} />
+      <RepeaterField
+        label="Hero buttons"
+        items={home.hero_bridal_ctas || []}
+        onChange={(items) => onChange("hero_bridal_ctas", items)}
+        addLabel="Add button"
+        fields={HOME_BRIDAL_CTA_FIELDS}
+      />
+      <RepeaterField
+        label="Carousel slides"
+        items={home.hero_bridal_slides || []}
+        onChange={(items) => onChange("hero_bridal_slides", items)}
+        addLabel="Add slide"
+        fields={HOME_BRIDAL_SLIDE_FIELDS}
+      />
+      <p className="admin-muted">Upload a desktop video for each slide. Tablet and mobile videos are optional overrides. The poster image appears only while the video loads. Each video plays fully before the next slide. Save all pages to publish.</p>
       <p className="admin-muted">
         Stat bar numbers (years / students / outfits) come from{" "}
         <a href="/admin/settings" className="text-gold hover:underline">Settings → Facts</a>.
       </p>
 
-      <SectionHeading>Hero service cards</SectionHeading>
+      <SectionHeading>Awards and recognition carousel</SectionHeading>
+      <BilingualField label="Section heading" enKey="awards_heading" hiKey="awards_heading_hi" values={home} onChange={onChange} />
+      <HomeAwardGalleryPicker items={home.award_items || []} onChange={(items) => onChange("award_items", items)} />
       <RepeaterField
-        label="Service cards (scroll row under hero)"
-        items={home.hero_service_cards || []}
-        onChange={(v) => onChange("hero_service_cards", v)}
-        addLabel="Add service card"
-        fields={HERO_SERVICE_FIELDS}
+        label="Carousel photos and captions"
+        items={home.award_items || []}
+        onChange={(v) => onChange("award_items", v)}
+        addLabel="Add award photo"
+        fields={HOME_AWARD_FIELDS}
       />
-
-      <SectionHeading>Hero feature strip</SectionHeading>
-      <RepeaterField
-        label="Feature strip (under service cards)"
-        items={home.hero_feature_strip || []}
-        onChange={(v) => onChange("hero_feature_strip", v)}
-        addLabel="Add feature"
-        fields={HERO_FEATURE_FIELDS}
-      />
+      <p className="admin-muted">Selected Gallery photos appear here. You can also upload a new photo, edit captions, remove photos or change their order. Use Save all pages to publish changes.</p>
 
       <SectionHeading>Quick explore cards</SectionHeading>
       <BilingualField label="Eyebrow" enKey="category_eyebrow" hiKey="category_eyebrow_hi" values={home} onChange={onChange} />

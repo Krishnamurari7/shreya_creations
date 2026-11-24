@@ -12,17 +12,20 @@ import { UI } from "@/lib/i18n";
 import { alternateLanguagePath, localizedPath } from "@/lib/locale";
 import { NAV_LOGO_SRC, normalizeBrandName } from "@/lib/brand";
 import AnnouncementBar from "@/components/AnnouncementBar";
-import { BOUTIQUE_OVERVIEW, BOUTIQUE_SERVICES } from "@/lib/boutique-services";
+import { normalizeBoutiqueNavItems } from "@/lib/boutique-services";
+import { MORE_ROUTES } from "@/lib/more-routes";
 
 const PRIMARY_ROUTES = [
+  { href: "/", key: "home" },
   { href: "/shop", key: "boutique", dropdown: "boutique" },
   { href: "/student-store", key: "studentStore" },
   { href: "/courses", key: "institute" },
   { href: "/register", key: "register" },
   { href: "/contact", key: "contact" },
+  { href: "/about", key: "more", dropdown: "more" },
 ];
 
-const MOBILE_ROUTES = [{ href: "/", key: "home" }, ...PRIMARY_ROUTES];
+const MOBILE_ROUTES = PRIMARY_ROUTES;
 
 function NavLinkIcon({ type, className = "nav-link-icon" }) {
   const props = {
@@ -87,6 +90,22 @@ function NavLinkIcon({ type, className = "nav-link-icon" }) {
           <path d="M8 7h8" />
           <path d="M8 11h8" />
           <path d="M8 15h5" />
+        </svg>
+      );
+    case "faq":
+      return (
+        <svg {...props}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M9.5 9a2.5 2.5 0 1 1 4.3 1.7c-1.1 1-1.8 1.3-1.8 2.8" />
+          <circle cx="12" cy="17" r="0.7" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "more":
+      return (
+        <svg {...props}>
+          <circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none" />
+          <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+          <circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none" />
         </svg>
       );
     case "nriClients":
@@ -266,9 +285,13 @@ export default function Navbar({ site }) {
   const [boutiqueOpen, setBoutiqueOpen] = useState(false);
   const [boutiquePinned, setBoutiquePinned] = useState(false);
   const [mobileBoutiqueOpen, setMobileBoutiqueOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [morePinned, setMorePinned] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const pathname = usePathname();
   const prevPath = useRef(pathname);
   const boutiqueRef = useRef(null);
+  const moreRef = useRef(null);
   const wa = waLink(site?.whatsapp, greetingMessage(lang));
   const enquireHref = localizedPath("/contact", lang);
   const langToggleHref = alternateLanguagePath(pathname);
@@ -278,6 +301,7 @@ export default function Navbar({ site }) {
   const closeMenu = useCallback(() => {
     setOpen(false);
     setMobileBoutiqueOpen(false);
+    setMobileMoreOpen(false);
   }, []);
 
   const closeBoutique = useCallback(() => {
@@ -285,7 +309,13 @@ export default function Navbar({ site }) {
     setBoutiquePinned(false);
   }, []);
 
+  const closeMore = useCallback(() => {
+    setMoreOpen(false);
+    setMorePinned(false);
+  }, []);
+
   const pinBoutique = useCallback(() => {
+    closeMore();
     setBoutiquePinned((pinned) => {
       if (pinned) {
         setBoutiqueOpen(false);
@@ -294,19 +324,32 @@ export default function Navbar({ site }) {
       setBoutiqueOpen(true);
       return true;
     });
-  }, []);
+  }, [closeMore]);
 
   const leaveBoutique = useCallback(() => {
     if (!boutiquePinned) setBoutiqueOpen(false);
   }, [boutiquePinned]);
 
+  const pinMore = useCallback(() => {
+    closeBoutique();
+    setMorePinned((pinned) => {
+      setMoreOpen(!pinned);
+      return !pinned;
+    });
+  }, [closeBoutique]);
+
+  const leaveMore = useCallback(() => {
+    if (!morePinned) setMoreOpen(false);
+  }, [morePinned]);
+
   useEffect(() => {
     if (prevPath.current !== pathname) {
       closeMenu();
       closeBoutique();
+      closeMore();
       prevPath.current = pathname;
     }
-  }, [pathname, closeMenu, closeBoutique]);
+  }, [pathname, closeMenu, closeBoutique, closeMore]);
 
   useEffect(() => {
     document.body.classList.toggle("nav-open", open);
@@ -318,16 +361,17 @@ export default function Navbar({ site }) {
   }, [open]);
 
   useEffect(() => {
-    if (!open && !boutiqueOpen) return;
+    if (!open && !boutiqueOpen && !moreOpen) return;
     const onKey = (e) => {
       if (e.key === "Escape") {
         closeMenu();
         closeBoutique();
+        closeMore();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, boutiqueOpen, closeMenu, closeBoutique]);
+  }, [open, boutiqueOpen, moreOpen, closeMenu, closeBoutique, closeMore]);
 
   useEffect(() => {
     if (!boutiqueOpen) return;
@@ -339,6 +383,15 @@ export default function Navbar({ site }) {
     document.addEventListener("pointerdown", onPointer);
     return () => document.removeEventListener("pointerdown", onPointer);
   }, [boutiqueOpen, closeBoutique]);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onPointer = (e) => {
+      if (moreRef.current && !moreRef.current.contains(e.target)) closeMore();
+    };
+    document.addEventListener("pointerdown", onPointer);
+    return () => document.removeEventListener("pointerdown", onPointer);
+  }, [moreOpen, closeMore]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -360,7 +413,8 @@ export default function Navbar({ site }) {
     .join(" ");
 
   const isActiveLink = (href) => {
-    const localized = localizedPath(href, lang);
+    if (href.includes("?")) return false;
+    const localized = localizedPath(href.split("?")[0], lang);
     if (href === "/") return pathname === localized || pathname === "/hi";
     if (href.startsWith("/#")) return pathname === "/" || pathname === "/hi";
     return pathname === localized || pathname.startsWith(`${localized}/`);
@@ -370,21 +424,12 @@ export default function Navbar({ site }) {
     isActiveLink("/shop") ||
     pathname.includes("/boutique/") ||
     pathname.includes("/boutique-boring-road");
+  const isMoreActive = MORE_ROUTES.some((route) => isActiveLink(route.href));
 
-  const boutiqueItems = [
-    BOUTIQUE_OVERVIEW,
-    ...BOUTIQUE_SERVICES.map((s) => ({
-      href: s.href,
-      navLabel: s.navLabel,
-      navLabelHi: s.navLabelHi,
-      navDesc: s.navDesc,
-      navDescHi: s.navDescHi,
-      icon: s.icon,
-    })),
-  ];
+  const boutiqueItems = normalizeBoutiqueNavItems(site?.boutiqueNav);
 
-  const labelFor = (item) => (lang === "hi" ? item.navLabelHi : item.navLabel);
-  const descFor = (item) => (lang === "hi" ? item.navDescHi : item.navDesc);
+  const labelFor = (item) => (lang === "hi" ? item.navLabelHi || item.navLabel : item.navLabel);
+  const descFor = (item) => (lang === "hi" ? item.navDescHi || item.navDesc : item.navDesc);
 
   return (
     <>
@@ -441,7 +486,7 @@ export default function Navbar({ site }) {
                       key={r.href}
                       className={cn("nav-drop", boutiqueOpen && "is-open")}
                       ref={boutiqueRef}
-                      onMouseEnter={() => setBoutiqueOpen(true)}
+                      onMouseEnter={() => { closeMore(); setBoutiqueOpen(true); }}
                       onMouseLeave={leaveBoutique}
                     >
                       <button
@@ -493,6 +538,58 @@ export default function Navbar({ site }) {
                                 </li>
                               );
                             })}
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                }
+
+                if (r.dropdown === "more") {
+                  return (
+                    <li
+                      key="more"
+                      className={cn("nav-drop", "nav-drop--more", moreOpen && "is-open")}
+                      ref={moreRef}
+                      onMouseEnter={() => { closeBoutique(); setMoreOpen(true); }}
+                      onMouseLeave={leaveMore}
+                    >
+                      <button
+                        type="button"
+                        className={cn("nav-drop__trigger", isMoreActive && "is-active")}
+                        aria-expanded={moreOpen}
+                        aria-haspopup="true"
+                        aria-controls="more-nav-menu"
+                        onClick={pinMore}
+                      >
+                        <NavLinkIcon type="more" />
+                        <span className="nav-link-label">{t.more}</span>
+                        <ChevronDownIcon className="nav-drop__chevron" />
+                      </button>
+                      <div
+                        id="more-nav-menu"
+                        className={cn("nav-drop__panel", moreOpen && "is-open")}
+                        role="menu"
+                        aria-label={t.more}
+                        hidden={!moreOpen}
+                      >
+                        <div className="nav-drop__panel-inner">
+                          <p className="nav-drop__eyebrow"><span aria-hidden>✦</span>{lang === "hi" ? "और देखें" : "Explore more"}</p>
+                          <ul className="nav-drop__grid">
+                            {MORE_ROUTES.map((item) => (
+                              <li key={item.href}>
+                                <Link
+                                  href={localizedPath(item.href, lang)}
+                                  role="menuitem"
+                                  className={cn("nav-drop-item", isActiveLink(item.href) && "is-active")}
+                                  onClick={closeMore}
+                                >
+                                  <span className="nav-drop-item__icon-wrap"><NavLinkIcon type={item.icon} className="nav-drop-item__icon" /></span>
+                                  <span className="nav-drop-item__copy"><span className="nav-drop-item__title">{t[item.key]}</span></span>
+                                  <span className="nav-drop-item__arrow" aria-hidden>→</span>
+                                </Link>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </div>
@@ -581,7 +678,7 @@ export default function Navbar({ site }) {
                     type="button"
                     className={cn("nav-mobile-drop__trigger", isBoutiqueActive && "is-active")}
                     aria-expanded={mobileBoutiqueOpen}
-                    onClick={() => setMobileBoutiqueOpen((v) => !v)}
+                    onClick={() => { setMobileMoreOpen(false); setMobileBoutiqueOpen((v) => !v); }}
                     tabIndex={open ? 0 : -1}
                   >
                     <span className="nav-mobile-link-icon-wrap" aria-hidden>
@@ -604,6 +701,40 @@ export default function Navbar({ site }) {
                             <span className="nav-mobile-drop__title">{labelFor(item)}</span>
                             <span className="nav-mobile-drop__desc">{descFor(item)}</span>
                           </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            }
+
+            if (r.dropdown === "more") {
+              return (
+                <li key="more" style={{ "--nav-item-delay": `${i * 45}ms` }} className="nav-mobile-drop">
+                  <button
+                    type="button"
+                    className={cn("nav-mobile-drop__trigger", isMoreActive && "is-active")}
+                    aria-expanded={mobileMoreOpen}
+                    aria-controls="mobile-more-links"
+                    onClick={() => { setMobileBoutiqueOpen(false); setMobileMoreOpen((v) => !v); }}
+                    tabIndex={open ? 0 : -1}
+                  >
+                    <span className="nav-mobile-link-icon-wrap" aria-hidden><NavLinkIcon type="more" className="nav-mobile-link-icon" /></span>
+                    <span className="nav-mobile-link-text">{t.more}</span>
+                    <ChevronDownIcon className={cn("nav-mobile-drop__chevron", mobileMoreOpen && "is-open")} />
+                  </button>
+                  <ul id="mobile-more-links" className={cn("nav-mobile-drop__list", mobileMoreOpen && "is-open")} hidden={!mobileMoreOpen}>
+                    {MORE_ROUTES.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={localizedPath(item.href, lang)}
+                          onClick={closeMenu}
+                          className={isActiveLink(item.href) ? "is-active" : undefined}
+                          tabIndex={open && mobileMoreOpen ? 0 : -1}
+                        >
+                          <NavLinkIcon type={item.icon} className="nav-drop-item__icon" />
+                          <span className="nav-mobile-drop__title">{t[item.key]}</span>
                         </Link>
                       </li>
                     ))}

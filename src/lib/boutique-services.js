@@ -202,6 +202,33 @@ export const BOUTIQUE_OVERVIEW = {
   icon: "boutique",
 };
 
+/** Shared menu defaults. Admin overrides live in settings.pages.shop.boutique_nav. */
+export const DEFAULT_BOUTIQUE_NAV_ITEMS = [
+  BOUTIQUE_OVERVIEW,
+  ...BOUTIQUE_SERVICES.map(({ href, navLabel, navLabelHi, navDesc, navDescHi, icon }) => ({
+    href,
+    navLabel,
+    navLabelHi,
+    navDesc,
+    navDescHi,
+    icon,
+  })),
+];
+
+export function normalizeBoutiqueNavItems(items) {
+  if (!Array.isArray(items)) return DEFAULT_BOUTIQUE_NAV_ITEMS;
+  return items
+    .map((item) => ({
+      href: String(item?.href || "").trim(),
+      navLabel: String(item?.navLabel || item?.nav_label || "").trim(),
+      navLabelHi: String(item?.navLabelHi || item?.nav_label_hi || item?.navLabel || item?.nav_label || "").trim(),
+      navDesc: String(item?.navDesc || item?.nav_desc || "").trim(),
+      navDescHi: String(item?.navDescHi || item?.nav_desc_hi || item?.navDesc || item?.nav_desc || "").trim(),
+      icon: String(item?.icon || "boutique"),
+    }))
+    .filter((item) => item.navLabel && item.href.startsWith("/") && !item.href.startsWith("//"));
+}
+
 export const BOUTIQUE_SERVICE_SLUGS = BOUTIQUE_SERVICES.map((s) => s.slug);
 
 export function getBoutiqueService(slug) {

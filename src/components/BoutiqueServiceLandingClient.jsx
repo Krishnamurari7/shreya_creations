@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useId, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   BTN_PRIMARY,
-  BTN_SECONDARY,
   PAGE_CONTAINER,
   PAGE_SECTION,
   PAGE_SECTION_BORDERED,
@@ -18,16 +17,13 @@ import CardImage from "@/components/CardImage";
 import { Testimonials } from "@/components/Sections";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedPath } from "@/lib/locale";
-import { resolveMediaSrc } from "@/lib/media";
+import BoutiqueHeroBanner from "@/components/BoutiqueHeroBanner";
 import { DEFAULT_ADDRESS_LINE } from "@/lib/site-config";
 import { waLink } from "@/lib/whatsapp";
 import { trackLead, trackWhatsAppClick } from "@/lib/analytics";
 import { getBoutiqueLanding, resolveBoutiqueLanding } from "@/lib/boutique-service-landing";
 
 const EASE = [0.16, 1, 0.3, 1];
-
-/** Wide promo banners (about 2:1 or wider). Taller lookbook shots stay full-bleed. */
-const BANNER_RATIO = 2;
 
 function cssObjectPosition(positionClass = "") {
   const arbitrary = String(positionClass).match(/object-\[([^\]]+)\]/);
@@ -37,82 +33,6 @@ function cssObjectPosition(positionClass = "") {
   if (positionClass.includes("object-right")) return "right center";
   if (positionClass.includes("object-bottom")) return "center bottom";
   return "center center";
-}
-
-function useHeroFrame(src) {
-  const [frame, setFrame] = useState(null);
-
-  useEffect(() => {
-    if (!src) {
-      setFrame(null);
-      return undefined;
-    }
-
-    let cancelled = false;
-    const img = new window.Image();
-    img.onload = () => {
-      if (cancelled) return;
-      const w = img.naturalWidth;
-      const h = img.naturalHeight;
-      if (!w || !h) return;
-      setFrame({ w, h, banner: w / h >= BANNER_RATIO });
-    };
-    img.src = src;
-
-    return () => {
-      cancelled = true;
-    };
-  }, [src]);
-
-  return frame;
-}
-
-function UspIcon({ name }) {
-  const common = {
-    className: "blouse-landing__usp-svg",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "1.75",
-    "aria-hidden": true,
-  };
-  switch (name) {
-    case "clock":
-      return (
-        <svg {...common}>
-          <circle cx="12" cy="12" r="9" />
-          <path strokeLinecap="round" d="M12 7v5l3 2" />
-        </svg>
-      );
-    case "fit":
-      return (
-        <svg {...common}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M7 7v10a2 2 0 002 2h6a2 2 0 002-2V7M9 11h6" />
-        </svg>
-      );
-    case "finish":
-      return (
-        <svg {...common}>
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 3l2.2 4.5L19 9l-3.5 3.4L16.4 18 12 15.6 7.6 18l.9-5.6L5 9l4.8-1.5L12 3z"
-          />
-        </svg>
-      );
-    case "match":
-      return (
-        <svg {...common}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h7M7 16h10M5 4h14v16H5z" />
-        </svg>
-      );
-    default:
-      return (
-        <svg {...common}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8 4h8l1 4H7l1-4zM7 8l1.5 12h7L17 8M10 12h4" />
-        </svg>
-      );
-  }
 }
 
 function ServiceIcon({ name }) {
@@ -396,16 +316,9 @@ export default function BoutiqueServiceLandingClient({
   if (!content) return null;
 
   const whatsapp = site.whatsapp;
-  const heroImage = resolveMediaSrc(content.heroImage);
-  const heroFrame = useHeroFrame(heroImage);
-  const isBanner = Boolean(heroFrame?.banner);
-  const heroObjectPosition = isBanner
-    ? "center center"
-    : cssObjectPosition(content.heroPosition || "object-[70%_center]");
+  const fallbackPosition = cssObjectPosition(content.heroPosition || "object-[70%_center]");
   const address = site.address || DEFAULT_ADDRESS_LINE;
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-  const bookMsg = hi ? content.bookMsgHi : content.bookMsg;
-  const waHref = waLink(whatsapp, bookMsg);
   const formId = content.formId || "boutique-booking";
 
   const gallery = content.designs;
@@ -428,74 +341,15 @@ export default function BoutiqueServiceLandingClient({
 
   return (
     <div className="blouse-landing boutique-page relative min-w-0 w-full overflow-x-clip">
-      <section
-        className={cn("blouse-landing__hero", isBanner && "blouse-landing__hero--banner")}
-        style={{
-          "--hero-object-position": heroObjectPosition,
-          ...(isBanner ? { "--hero-banner-ratio": `${heroFrame.w} / ${heroFrame.h}` } : {}),
-        }}
-      >
-        <div className="blouse-landing__hero-media" aria-hidden>
-          <CardImage
-            src={heroImage}
-            alt=""
-            ratio="fill"
-            priority
-            className="blouse-landing__hero-img"
-            imgClassName={cn("object-cover", !isBanner && (content.heroPosition || "object-[70%_center]"))}
-          />
-          <div className="blouse-landing__hero-shade" />
-        </div>
-
-        <div className={cn(PAGE_CONTAINER, "blouse-landing__hero-inner")}>
-          <motion.div
-            className="blouse-landing__hero-copy"
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE }}
-          >
-            <p className="blouse-landing__eyebrow">{hi ? content.eyebrowHi : content.eyebrow}</p>
-            <h1 className="blouse-landing__h1">{hi ? content.h1Hi : content.h1}</h1>
-            <p className="blouse-landing__tagline">{hi ? content.taglineHi : content.tagline}</p>
-
-            <ul className="blouse-landing__usps">
-              {content.usps.map((u) => (
-                <li key={u.en} className="blouse-landing__usp">
-                  <span className="blouse-landing__usp-icon">
-                    <UspIcon name={u.icon} />
-                  </span>
-                  <span>{hi ? u.hi : u.en}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="blouse-landing__hero-ctas">
-              <button type="button" onClick={scrollToForm} className={cn(BTN_PRIMARY, "blouse-landing__cta")}>
-                {hi ? content.primaryCtaHi : content.primaryCta}
-              </button>
-              <a
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(BTN_SECONDARY, "blouse-landing__cta blouse-landing__cta--wa")}
-                onClick={() =>
-                  trackWhatsAppClick(null, {
-                    cta_label: `${content.slug}_hero_whatsapp`,
-                    source_page: content.href,
-                  })
-                }
-              >
-                {hi ? content.secondaryCtaHi : content.secondaryCta}
-              </a>
-            </div>
-          </motion.div>
-
-          <aside className="blouse-landing__hero-quote" aria-label="Brand quote">
-            <p>{hi ? content.heroQuoteHi : content.heroQuote}</p>
-            <span>{hi ? content.heroQuoteCtaHi : content.heroQuoteCta}</span>
-          </aside>
-        </div>
-      </section>
+      <BoutiqueHeroBanner
+        fallbackImage={content.heroImage}
+        mobileImage={content.heroImageMobile}
+        tabletImage={content.heroImageTablet}
+        desktopImage={content.heroImageDesktop}
+        fallbackPosition={fallbackPosition}
+        alt={hi ? content.h1Hi : content.h1}
+      />
+      <h1 className="sr-only">{hi ? content.h1Hi : content.h1}</h1>
 
       <section className={cn(PAGE_SECTION, "blouse-landing__gallery-section")}>
         <div className={PAGE_CONTAINER}>

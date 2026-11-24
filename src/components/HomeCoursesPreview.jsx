@@ -18,6 +18,7 @@ import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { isAddonCourse, isCourseAvailable, isFlagshipCourse, FLAGSHIP_COURSE_SLUGS } from "@/lib/courses";
 import FeeStructureLeadMagnet from "@/components/FeeStructureLeadMagnet";
 import NextBatchBanner from "@/components/NextBatchBanner";
+import SeoDisclosure from "@/components/SeoDisclosure";
 import { useLanguage } from "@/components/LanguageProvider";
 import { openInquiryPopup } from "@/lib/inquiryPopup";
 import { demoClassMessage } from "@/lib/whatsapp";
@@ -488,11 +489,15 @@ export default function HomeCoursesPreview({ courses = [], home = {}, site = {} 
             ))}
           </ul>
 
-          {introParagraphs.map((para, index) => (
-            <p key={`courses-lead-${index}`} className="home-courses-preview__lead">
-              {para}
-            </p>
-          ))}
+          {introParagraphs.length > 0 && (
+            <SeoDisclosure lang={lang}>
+              {introParagraphs.map((para, index) => (
+                <p key={`courses-lead-${index}`} className="home-courses-preview__lead">
+                  {para}
+                </p>
+              ))}
+            </SeoDisclosure>
+          )}
         </div>
 
         {/* Category tabs */}

@@ -36,7 +36,9 @@ export async function generateMetadata() {
   });
 }
 
-export default async function ShopPage() {
+export default async function ShopPage({ searchParams }) {
+  const params = await searchParams;
+  const initialCategory = typeof params?.category === "string" ? params.category.trim() : "";
   const locale = await getRequestLocale();
   const [products, site, testimonials] = await Promise.all([
     getProducts(),
@@ -73,6 +75,7 @@ export default async function ShopPage() {
         shopPage={shopPage}
         products={products}
         testimonials={testimonials}
+        initialCategory={initialCategory}
       />
       <PageCTA whatsapp={site.whatsapp} {...pageCtaProps(shop)} overrides={site.pages?.ctaBoxes?.entries} />
     </PageShell>

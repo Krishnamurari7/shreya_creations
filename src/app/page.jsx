@@ -1,5 +1,4 @@
 import HomepageClient from "@/components/HomepageClient";
-import HeroBackgroundImage from "@/components/HeroBackgroundImage";
 import WebMcpRegister from "@/components/WebMcpRegister";
 import {
   getCourses,
@@ -55,7 +54,6 @@ export default async function HomePage() {
     <>
       <WebMcpRegister courses={courses} />
       <HomepageClient
-      heroBackground={<HeroBackgroundImage />}
       home={home}
       site={chromeSiteProps(site)}
       ctaOverrides={site.pages?.ctaBoxes?.entries}

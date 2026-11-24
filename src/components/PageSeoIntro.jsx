@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedPath } from "@/lib/locale";
+import SeoDisclosure from "@/components/SeoDisclosure";
 
 /**
  * Keyword-rich intro for listing pages — keeps one H1 in the header above,
@@ -16,7 +17,11 @@ export default function PageSeoIntro({ children, childrenHi, links = [], classNa
 
   return (
     <div className={cn(PAGE_CONTAINER, "max-w-3xl", "relative", "z-20", "pb-4", "sm:pb-6", className)}>
-      <p className={cn(SECTION_LEAD, "text-center", "mx-auto", "text-pretty")}>{body}</p>
+      {body && (
+        <SeoDisclosure lang={lang}>
+          <p className={cn(SECTION_LEAD, "text-center", "mx-auto", "text-pretty")}>{body}</p>
+        </SeoDisclosure>
+      )}
       {links.length > 0 && (
         <p className="mt-3 text-center text-sm text-ink/80">
           {links.map((link, i) => {

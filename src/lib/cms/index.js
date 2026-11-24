@@ -171,6 +171,7 @@ function mergeKeyedList(raw, defaults) {
 }
 
 export function mergeHeroServiceCardsForEditor(raw) {
+  if (Array.isArray(raw) && raw.length === 0) return [];
   return mergeKeyedList(raw, DEFAULT_HERO_SERVICE_CARDS);
 }
 

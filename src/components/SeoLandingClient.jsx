@@ -20,6 +20,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { pickPage } from "@/lib/cms";
 import { localizedPath } from "@/lib/locale";
 import { waLink } from "@/lib/whatsapp";
+import SeoDisclosure from "@/components/SeoDisclosure";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -57,15 +58,15 @@ function SectionHead({ eyebrow, title, subtitle, center = true, as: TitleTag = "
   );
 }
 
-function Prose({ paragraphs, className }) {
+function Prose({ paragraphs, className, lang }) {
   return (
-    <div className={cn("seo-landing__prose mx-auto max-w-3xl space-y-3.5 sm:space-y-4", className)}>
+    <SeoDisclosure lang={lang} className={className} contentClassName="seo-landing__prose mx-auto max-w-3xl space-y-3.5 sm:space-y-4">
       {paragraphs.map((p) => (
         <p key={p.slice(0, 56)} className={cn(SECTION_LEAD, "text-pretty text-ink/80 text-[0.9375rem] sm:text-base md:text-lg")}>
           {p}
         </p>
       ))}
-    </div>
+    </SeoDisclosure>
   );
 }
 
@@ -163,27 +164,31 @@ export default function SeoLandingClient({ content, site, cmsPage = {} }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
         >
-          {headerLead && (
-            <p
-              className={cn(
-                SECTION_LEAD,
-                "mx-auto max-w-2xl text-pretty text-ink/80 text-[0.9375rem] sm:text-base md:text-lg"
+          {(headerLead || intro.length > 0) && (
+            <SeoDisclosure lang={lang}>
+              {headerLead && (
+                <p
+                  className={cn(
+                    SECTION_LEAD,
+                    "mx-auto max-w-2xl text-pretty text-ink/80 text-[0.9375rem] sm:text-base md:text-lg"
+                  )}
+                >
+                  {headerLead}
+                </p>
               )}
-            >
-              {headerLead}
-            </p>
+              {intro.map((p) => (
+                <p
+                  key={p.slice(0, 48)}
+                  className={cn(
+                    SECTION_LEAD,
+                    "mx-auto max-w-2xl text-pretty text-ink/80 text-[0.9375rem] sm:text-base md:text-lg"
+                  )}
+                >
+                  {p}
+                </p>
+              ))}
+            </SeoDisclosure>
           )}
-          {intro.map((p) => (
-            <p
-              key={p.slice(0, 48)}
-              className={cn(
-                SECTION_LEAD,
-                "mx-auto max-w-2xl text-pretty text-ink/80 text-[0.9375rem] sm:text-base md:text-lg"
-              )}
-            >
-              {p}
-            </p>
-          ))}
         </motion.div>
 
         <motion.div
@@ -205,12 +210,12 @@ export default function SeoLandingClient({ content, site, cmsPage = {} }) {
           PAGE_CONTAINER,
           PAGE_SECTION,
           PAGE_SECTION_BORDERED,
-          "seo-landing__section max-w-6xl py-10 sm:py-14 md:py-24"
+          "seo-landing__section max-w-6xl py-8 sm:py-10 md:py-12"
         )}
       >
         <motion.div {...rise(0.05)}>
           <SectionHead title={content.story.title} />
-          <Prose paragraphs={content.story.body} className="mt-5 text-left sm:mt-6 sm:text-left" />
+          <Prose paragraphs={content.story.body} lang={lang} className="mt-5 sm:mt-6" />
         </motion.div>
       </section>
 
@@ -234,12 +239,12 @@ export default function SeoLandingClient({ content, site, cmsPage = {} }) {
           PAGE_CONTAINER,
           PAGE_SECTION,
           PAGE_SECTION_BORDERED,
-          "seo-landing__section max-w-6xl py-10 sm:py-14 md:py-24"
+          "seo-landing__section max-w-6xl py-8 sm:py-10 md:py-12"
         )}
       >
         <motion.div {...rise(0.05)}>
           <SectionHead title={content.destination.title} />
-          <Prose paragraphs={content.destination.body} className="mt-5 text-left sm:mt-6" />
+          <Prose paragraphs={content.destination.body} lang={lang} className="mt-5 sm:mt-6" />
         </motion.div>
       </section>
 
@@ -277,12 +282,12 @@ export default function SeoLandingClient({ content, site, cmsPage = {} }) {
           PAGE_CONTAINER,
           PAGE_SECTION,
           PAGE_SECTION_BORDERED,
-          "seo-landing__section max-w-6xl py-10 sm:py-14 md:py-24"
+          "seo-landing__section max-w-6xl py-8 sm:py-10 md:py-12"
         )}
       >
         <motion.div {...rise(0.05)}>
           <SectionHead title={content.why.title} />
-          <Prose paragraphs={content.why.body} className="mt-5 text-left sm:mt-6" />
+          <Prose paragraphs={content.why.body} lang={lang} className="mt-5 sm:mt-6" />
         </motion.div>
 
         {content.whyItemsTitle && (

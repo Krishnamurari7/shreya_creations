@@ -1,5 +1,5 @@
 /** Default CMS content per public page (merged with Supabase settings.pages). */
-import { BOUTIQUE_PAGE_DEFAULTS, BOUTIQUE_SERVICES } from "@/lib/boutique-services";
+import { BOUTIQUE_PAGE_DEFAULTS, BOUTIQUE_SERVICES, DEFAULT_BOUTIQUE_NAV_ITEMS } from "@/lib/boutique-services";
 import { withLandingCmsDefaults } from "@/lib/boutique-service-landing";
 
 import {
@@ -13,6 +13,8 @@ import {
   DEFAULT_CATEGORY_CARDS,
   DEFAULT_HERO_FEATURE_STRIP,
   DEFAULT_HERO_SERVICE_CARDS,
+  DEFAULT_HOME_BRIDAL_SLIDES,
+  DEFAULT_HOME_BRIDAL_CTAS,
 } from "@/lib/cms/home-blocks";
 import { MEDIA } from "@/lib/media";
 import { DEFAULT_HOME_POPUP } from "@/lib/home-popup";
@@ -180,6 +182,18 @@ export const PAGE_DEFAULTS = {
     hero_boutique_title_highlight_hi: HERO_TITLE_HIGHLIGHT_HI,
     hero_boutique_subtitle: HERO_SUBHEADING,
     hero_boutique_subtitle_hi: HERO_SUBHEADING_HI,
+    hero_bridal_badge: "SHREYA CREATION · SINCE {{year}}",
+    hero_bridal_badge_hi: "श्रेया क्रिएशन · {{year}} से",
+    hero_bridal_title: "Designer Boutique.\nFashion Institute.",
+    hero_bridal_title_hi: "डिज़ाइनर बुटीक.\nफैशन इंस्टिट्यूट.",
+    hero_bridal_highlight: "Right here in Patna.",
+    hero_bridal_highlight_hi: "यहीं पटना में।",
+    hero_bridal_subtitle: "Learn fashion design, master boutique skills,\nor get your perfect outfit stitched.",
+    hero_bridal_subtitle_hi: "फैशन डिज़ाइन सीखें, बुटीक का कौशल बढ़ाएँ\nया अपना मनपसंद पहनावा सिलवाएँ।",
+    hero_bridal_location: "Boring Road, Patna",
+    hero_bridal_location_hi: "बोरिंग रोड, पटना",
+    hero_bridal_ctas: DEFAULT_HOME_BRIDAL_CTAS.map((item) => ({ ...item })),
+    hero_bridal_slides: DEFAULT_HOME_BRIDAL_SLIDES.map((item) => ({ ...item })),
     hero_boutique_keywords: "Course / Boutique / Institute",
     hero_boutique_keywords_hi: "कोर्स / बुटीक / इंस्टिट्यूट",
     hero_boutique_cta: "Your Career Starts Here",
@@ -189,6 +203,24 @@ export const PAGE_DEFAULTS = {
     hero_local_video: "/video-1.mp4",
     hero_book_local_video: "/video-2.mp4",
     hero_service_cards: DEFAULT_HERO_SERVICE_CARDS.map((card) => ({ ...card })),
+    awards_heading: "RECOGNIZED & AWARD WINNING",
+    awards_heading_hi: "सम्मान और पुरस्कार",
+    award_items: [
+      {
+        image: "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1792546489879-h21y9l.jpeg",
+        title: "Media Recognition",
+        title_hi: "मीडिया में पहचान",
+        image_alt: "Shreya Creation media recognition and event photographs",
+        image_alt_hi: "Shreya Creation के मीडिया सम्मान और कार्यक्रमों की तस्वीरें",
+      },
+      {
+        image: "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1792546249752-ccl6ts.jpeg",
+        title: "Featured in Media",
+        title_hi: "मीडिया में प्रकाशित",
+        image_alt: "Shreya Creation press coverage and recognition collage",
+        image_alt_hi: "Shreya Creation की मीडिया कवरेज और सम्मान की तस्वीरें",
+      },
+    ],
     hero_feature_strip: DEFAULT_HERO_FEATURE_STRIP.map((item) => ({ ...item })),
     category_eyebrow: "Where Fashion Meets Creativity, Craft, & Opportunity",
     category_eyebrow_hi: "क्विक एक्सप्लोर",
@@ -480,10 +512,21 @@ export const PAGE_DEFAULTS = {
   },
   shop: {
     meta_title: "Best Designer Boutique in Patna | Shreya Creation",
+    boutique_nav: DEFAULT_BOUTIQUE_NAV_ITEMS.map((item) => ({
+      href: item.href,
+      nav_label: item.navLabel,
+      nav_label_hi: item.navLabelHi,
+      nav_desc: item.navDesc,
+      nav_desc_hi: item.navDescHi,
+      icon: item.icon,
+    })),
     meta_description:
       "Discover Shreya Creation, the best designer boutique in Patna for bridal wear, designer blouses, lehengas, custom stitching, Aari-Zari handwork, & a perfect fit.",
     og_image:
       "https://mvnllmfidxslxfqexkxs.supabase.co/storage/v1/object/public/media/1782239288560-v7jdgv.png",
+    hero_image_mobile: "",
+    hero_image_tablet: "",
+    hero_image_desktop: "",
     header_eyebrow: "Boutique",
     header_eyebrow_hi: "बुटीक",
     header_title: "Boutique",

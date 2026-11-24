@@ -376,6 +376,7 @@ export const SITE_DEFAULTS = buildSITE({}, { coursesCount: DEFAULT_COURSES_COUNT
  */
 export function chromeSiteProps(site) {
   if (!site || typeof site !== "object") return site;
+  const boutiqueNav = site.pages?.shop?.boutiqueNav;
   const {
     pages: _pages,
     aboutBody: _aboutBody,
@@ -387,5 +388,5 @@ export function chromeSiteProps(site) {
     introHi: _introHi,
     ...chrome
   } = site;
-  return chrome;
+  return { ...chrome, boutiqueNav };
 }

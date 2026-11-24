@@ -11,14 +11,10 @@ import {
   premiumStitchingCourseMessage,
 } from "@/lib/whatsapp";
 import {
-  DEFAULT_HERO_FEATURE_STRIP,
-  DEFAULT_HERO_SERVICE_CARDS,
-} from "@/lib/cms/home-blocks";
-import {
   DEFAULT_FOUNDING_YEAR,
   SITE_FACTS,
 } from "@/lib/site-config";
-import { MEDIA, heroServiceImageAlt, resolveMediaSrc } from "@/lib/media";
+import { MEDIA, resolveMediaSrc } from "@/lib/media";
 import OptimizedImage from "@/components/OptimizedImage";
 
 const HERO_STATS_EN = [
@@ -336,150 +332,6 @@ function SewingMachineIcon() {
     </svg>
   );
 }
-
-function CtaArrowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M5 12h14M13 6l6 6-6 6" />
-    </svg>
-  );
-}
-
-function ServiceIcon({ type }) {
-  const props = {
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "1.6",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    "aria-hidden": true,
-  };
-
-  switch (type) {
-    case "fashion":
-      return (
-        <svg {...props}>
-          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-          <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
-        </svg>
-      );
-    case "boutique":
-      return (
-        <svg {...props}>
-          <path d="M9 4h6l1.5 4H7.5L9 4z" />
-          <path d="M8 8v12h8V8" />
-          <path d="M10 12h4M10 16h4" />
-        </svg>
-      );
-    case "blouse":
-      return (
-        <svg {...props}>
-          <path d="M9 3.5 6 6.5 3.5 8l2 2.5V20h13V10.5l2-2.5L18 6.5 15 3.5" />
-          <path d="M9 3.5c.8 1.2 1.7 1.8 3 1.8s2.2-.6 3-1.8" />
-        </svg>
-      );
-    case "lehenga":
-      return (
-        <svg {...props}>
-          <path d="M10 3h4v5l3.5 12h-11L10 8V3z" />
-          <path d="M9 8h6" />
-        </svg>
-      );
-    case "suit":
-      return (
-        <svg {...props}>
-          <path d="M9 3.5 6.5 6.5 4 8l2 2v10h12V10l2-2-2.5-1.5L15 3.5" />
-          <path d="M9 3.5c.7 1 1.6 1.5 3 1.5s2.3-.5 3-1.5" />
-          <path d="M12 5v15" />
-        </svg>
-      );
-    case "handwork":
-      return (
-        <svg {...props}>
-          <path d="M5 19 14.5 9.5" />
-          <path d="M13 8l3 3" />
-          <circle cx="16.5" cy="7.5" r="2" />
-          <path d="M4 20h4" />
-        </svg>
-      );
-    case "express":
-      return (
-        <svg {...props}>
-          <circle cx="12" cy="12" r="8.5" />
-          <path d="M12 7.5v5l3.2 1.8" />
-        </svg>
-      );
-    default:
-      return null;
-  }
-}
-
-const FEATURE_STRIP_FALLBACK = DEFAULT_HERO_FEATURE_STRIP;
-
-function FeatureStripIcon({ type }) {
-  const props = {
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "1.5",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    "aria-hidden": true,
-  };
-
-  switch (type) {
-    case "sewing":
-      return (
-        <svg {...props}>
-          <path d="M3.5 17.5h11.5a2 2 0 0 0 2-2v-1.2H9a2 2 0 0 1-2-2V8.5h10.5" />
-          <path d="M3.5 17.5v2a1 1 0 0 0 1 1h2.2" />
-          <circle cx="17.5" cy="8" r="2.2" />
-          <path d="M8.5 8.5V6.2a1 1 0 0 1 1-1h2.2" />
-          <path d="M13.5 17.5v3" />
-          <path d="M5.2 14.2h2.8" />
-        </svg>
-      );
-    case "dress":
-      return (
-        <svg {...props}>
-          <path d="M12 3.2v2.4" />
-          <circle cx="12" cy="2.4" r="0.7" fill="currentColor" stroke="none" />
-          <path d="M9.2 5.6h5.6l1.6 3.4-2.1 1.1v3.6l3.2 7.1H6.5l3.2-7.1V10.1L7.6 9l1.6-3.4z" />
-          <path d="M10.2 10.1h3.6" />
-        </svg>
-      );
-    case "mannequin":
-      return (
-        <svg {...props}>
-          <path d="M12 3.2v2.1" />
-          <circle cx="12" cy="2.4" r="0.7" fill="currentColor" stroke="none" />
-          <path d="M8.2 5.3h7.6l1.1 2.4-1.9.9v6.2l-2.8 6.6h-1.4l-2.8-6.6V8.6L7.1 7.7l1.1-2.4z" />
-          <path d="M9.4 8.8h5.2M9.8 12.2h4.4" />
-        </svg>
-      );
-    case "certificate":
-      return (
-        <svg {...props}>
-          <path d="M5.5 3.5h13v13.5H5.5z" />
-          <path d="M8.2 7.2h7.6M8.2 10.2h5.2" />
-          <circle cx="14.8" cy="14.2" r="2.4" />
-          <path d="M13.6 16.1 12.4 20.2l2.4-1.2 2.4 1.2-1.2-4.1" />
-        </svg>
-      );
-    case "book":
-      return (
-        <svg {...props}>
-          <path d="M12 6.2c-1.4-1-3.2-1.5-5.2-1.5H4.5v13.2H6.8c2 0 3.8.5 5.2 1.5 1.4-1 3.2-1.5 5.2-1.5h2.3V4.7H17.2c-2 0-3.8.5-5.2 1.5z" />
-          <path d="M12 6.2v13.2" />
-        </svg>
-      );
-    default:
-      return null;
-  }
-}
-
-const SERVICE_CARDS_FALLBACK = DEFAULT_HERO_SERVICE_CARDS;
 
 function HeroCourseCta({ variant = "outline", icon, line1, line2, onClick, visibility = "both" }) {
   return (
@@ -890,38 +742,6 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
     });
   }, [lang, site.yearsExperience, site.studentsTaught, site.outfitsDelivered, site.foundingYear]);
 
-  const serviceCards = useMemo(() => {
-    const raw =
-      Array.isArray(home.heroServiceCards) && home.heroServiceCards.length
-        ? home.heroServiceCards
-        : SERVICE_CARDS_FALLBACK;
-    return raw.map((card) => ({
-      key: card.key,
-      icon: card.icon,
-      image: card.image || null,
-      source: card.source || `hero_service_${card.key}`,
-      title: lang === "hi" && (card.titleHi || card.title_hi) ? card.titleHi || card.title_hi : card.title,
-      desc: lang === "hi" && (card.descHi || card.desc_hi) ? card.descHi || card.desc_hi : card.desc,
-      cta: lang === "hi" && (card.ctaHi || card.cta_hi) ? card.ctaHi || card.cta_hi : card.cta,
-    }));
-  }, [home.heroServiceCards, lang]);
-
-  const featureStrip = useMemo(() => {
-    const raw =
-      Array.isArray(home.heroFeatureStrip) && home.heroFeatureStrip.length
-        ? home.heroFeatureStrip
-        : FEATURE_STRIP_FALLBACK;
-    return raw.map((item) => ({
-      key: item.key,
-      icon: item.icon,
-      title: lang === "hi" && (item.titleHi || item.title_hi) ? item.titleHi || item.title_hi : item.title,
-      subtitle:
-        lang === "hi" && (item.subtitleHi || item.subtitle_hi)
-          ? item.subtitleHi || item.subtitle_hi
-          : item.subtitle,
-    }));
-  }, [home.heroFeatureStrip, lang]);
-
   const demoThumb = resolveMediaSrc(home.heroDemoThumb || MEDIA.slider1Poster);
   const bookThumb = resolveMediaSrc(home.heroBookThumb || MEDIA.slider2Poster);
   const heroLocalVideo = home.heroLocalVideo || "/video-1.mp4";
@@ -940,13 +760,6 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
 
   const openHeroInquiryForm = (source, message) => {
     openInquiryPopup({ source, message });
-  };
-
-  const serviceBookMessage = (card) => {
-    if (lang === "hi") {
-      return `नमस्ते श्रेया क्रिएशन! 👋 मुझे *${card.title}* बुक करना है। कृपया विवरण भेजें।`;
-    }
-    return `Hi Shreya Creation! 👋 I want to BOOK *${card.title}*. Please share the details.`;
   };
 
   const courseCtas =
@@ -1154,71 +967,6 @@ export default function HeroSection({ home = {}, lang = "en", phone: _phone = ""
           </div>
         </div>
 
-        <div className="home-hero__paths" aria-label={lang === "hi" ? "हमारी सेवाएँ" : "Our services"}>
-          <div className={cn(PAGE_CONTAINER, "home-hero__paths-inner")}>
-            <ul className="home-hero__services-track">
-              {serviceCards.map((card) => (
-                <li key={card.key} className="home-hero__service-card">
-                  <div
-                    className={cn(
-                      "home-hero__service-media",
-                      card.key === "express" && "home-hero__service-media--express"
-                    )}
-                  >
-                    {card.image ? (
-                      <OptimizedImage
-                        src={card.image}
-                        alt={heroServiceImageAlt(card.key, lang)}
-                        fill
-                        quality={65}
-                        sizes="(max-width: 768px) 45vw, 200px"
-                        loading="lazy"
-                        className="home-hero__service-img"
-                        imgClassName="home-hero__service-img"
-                      />
-                    ) : (
-                      <div className="home-hero__service-clock" aria-hidden>
-                        <span className="home-hero__service-clock-face">
-                          <span className="home-hero__service-clock-24">24h</span>
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="home-hero__service-body">
-                    <span className="home-hero__service-icon" aria-hidden>
-                      <ServiceIcon type={card.icon} />
-                    </span>
-                    <h2 className="home-hero__service-title">{card.title}</h2>
-                    <p className="home-hero__service-desc">{card.desc}</p>
-                    <button
-                      type="button"
-                      className="home-hero__service-cta"
-                      onClick={() => openHeroInquiryForm(card.source, serviceBookMessage(card))}
-                    >
-                      {card.cta}
-                      <CtaArrowIcon />
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <div className="home-hero__feature-strip" aria-label={lang === "hi" ? "मुख्य विशेषताएँ" : "Key features"}>
-              {featureStrip.map((item) => (
-                <article key={item.key} className="home-hero__feature-card">
-                  <span className="home-hero__feature-icon" aria-hidden>
-                    <FeatureStripIcon type={item.icon} />
-                  </span>
-                  <div className="home-hero__feature-copy">
-                    <h3 className="home-hero__feature-title">{item.title}</h3>
-                    <p className="home-hero__feature-sub">{item.subtitle}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
     </>
   );

@@ -28,6 +28,7 @@ import { formatPhoneDisplay, telHref } from "@/lib/site-config";
 import { DEFAULT_CATEGORY_CARDS } from "@/lib/cms/home-blocks";
 import { PAGE_DEFAULTS } from "@/lib/cms/defaults";
 import { pickPage } from "@/lib/cms";
+import SeoDisclosure from "@/components/SeoDisclosure";
 
 function splitParagraphs(text) {
   if (!text) return [];
@@ -423,30 +424,32 @@ export default function CategoryCards({ lang = "en", site = {}, whatsapp, home =
           {titleHighlight ? <span className={HIGHLIGHT_SHIMMER}>{titleHighlight}</span> : null}
           {titleAfter}
         </h2>
-        {subtitleParagraphs.map((para, index) => (
-          <p key={`category-sub-${index}`} className="quick-explore__subtitle">
-            {para}
+        <SeoDisclosure lang={lang} className="quick-explore__details">
+          {subtitleParagraphs.map((para, index) => (
+            <p key={`category-sub-${index}`} className="quick-explore__subtitle">
+              {para}
+            </p>
+          ))}
+          <p className="quick-explore__context">
+            {lang === "hi" ? (
+              <>
+                बोरिंग रोड, पटना में{" "}
+                <Link href="/shop" className="quick-explore__context-link">
+                  डिज़ाइनर बुटीक
+                </Link>{" "}
+                और कस्टम सिलाई की सेवाएँ देखें।
+              </>
+            ) : (
+              <>
+                Explore our{" "}
+                <Link href="/shop" className="quick-explore__context-link">
+                  designer boutique
+                </Link>{" "}
+                and custom stitching services on Boring Road, Patna.
+              </>
+            )}
           </p>
-        ))}
-        <p className="quick-explore__context">
-          {lang === "hi" ? (
-            <>
-              बोरिंग रोड, पटना में{" "}
-              <Link href="/shop" className="quick-explore__context-link">
-                डिज़ाइनर बुटीक
-              </Link>{" "}
-              और कस्टम सिलाई की सेवाएँ देखें।
-            </>
-          ) : (
-            <>
-              Explore our{" "}
-              <Link href="/shop" className="quick-explore__context-link">
-                designer boutique
-              </Link>{" "}
-              and custom stitching services on Boring Road, Patna.
-            </>
-          )}
-        </p>
+        </SeoDisclosure>
       </div>
 
       <motion.div

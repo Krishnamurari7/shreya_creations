@@ -47,6 +47,8 @@ export async function generateMetadata({ params }) {
     image:
       page.ogImage ||
       page.og_image ||
+      page.heroImageDesktop ||
+      page.hero_image_desktop ||
       page.heroImage ||
       page.hero_image ||
       defaults.og_image ||
