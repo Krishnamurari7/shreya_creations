@@ -5,6 +5,7 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { ADMIN_INPUT, ADMIN_LABEL } from "@/lib/admin/formClasses";
 import { PORTFOLIO as SEED_PORTFOLIO } from "@/lib/seed";
+import { listStorageGalleryImages } from "@/lib/supabase/storage-gallery";
 
 function galleryAsset(row, source, index) {
   const image = source === "portfolio" ? row.image : row.public_url;
@@ -40,17 +41,27 @@ export default function HomeAwardGalleryPicker({ items = [], onChange }) {
     setError("");
     try {
       const supabase = createClient();
-      const [portfolio, media] = await Promise.all([
+      const [portfolio, media, stored] = await Promise.all([
         supabase.from("portfolio").select("*").order("sort_order", { ascending: true }),
         supabase.from("media_library").select("*").order("created_at", { ascending: false }),
+        listStorageGalleryImages(supabase)
+          .then((data) => ({ data, error: null }))
+          .catch((error) => ({ data: [], error })),
       ]);
+      const mediaRows = [...(media.data || [])];
+      const registered = new Set(mediaRows.map((row) => row.file_path || row.public_url));
+      for (const row of stored.data) {
+        if (!registered.has(row.file_path) && !registered.has(row.public_url)) mediaRows.push(row);
+      }
       setRows({
         portfolio: portfolio.data?.length ? portfolio.data : SEED_PORTFOLIO,
-        media: media.data || [],
+        media: mediaRows,
       });
       const problems = [];
       if (portfolio.error) problems.push(`Portfolio Gallery: ${portfolio.error.message}`);
-      if (media.error) problems.push(`Media Library: ${media.error.message}`);
+      if (media.error && stored.data.length) problems.push("Media Library metadata is unavailable; photos are loaded from Supabase Storage.");
+      else if (media.error) problems.push(`Media Library: ${media.error.message}`);
+      if (stored.error && !mediaRows.length) problems.push(`Media Storage: ${stored.error.message}`);
       setError(problems.join(" · "));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load Gallery photos.");
