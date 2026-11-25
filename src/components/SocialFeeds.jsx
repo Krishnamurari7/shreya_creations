@@ -33,6 +33,11 @@ function socialHandle(url, fallback) {
   }
 }
 
+function displayHandle(value, fallback) {
+  const handle = String(value || "").trim().replace(/^@+/, "");
+  return handle ? `@${handle}` : fallback;
+}
+
 function SocialMark({ kind }) {
   if (kind === "instagram") return <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="4" y="4" width="24" height="24" rx="7" /><circle cx="16" cy="16" r="5.5" /><circle cx="23.5" cy="8.5" r="1.4" fill="currentColor" stroke="none" /></svg>;
   if (kind === "youtube") return <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m10 6 17 10-17 10V6Z" fill="currentColor" /></svg>;
@@ -51,11 +56,11 @@ export default function SocialFeeds({ site, lang = "en" }) {
   const whatsappNumber = String(site?.whatsapp || "").replace(/\D/g, "");
   const whatsapp = whatsappNumber ? `https://wa.me/${whatsappNumber}` : "";
   const channels = [
-    { kind: "instagram", name: "Instagram", href: instagram, subline: socialHandle(instagram, "@shreya.creationss"), detail: hi ? "डिज़ाइन, बारीकियाँ और हर दिन नई प्रेरणा।" : "Designs, details & everyday inspiration.", action: hi ? "Instagram पर फ़ॉलो करें" : "Follow on Instagram" },
-    { kind: "youtube", name: "YouTube", href: youtube, subline: socialHandle(youtube, "@ShreyaCreations111"), detail: hi ? "सीखें, बनाएँ और अपनी कला निखारें।" : "Learn, create & make it your own.", action: hi ? "YouTube पर देखें" : "Watch on YouTube" },
-    { kind: "whatsapp", name: "WhatsApp", href: whatsapp, subline: hi ? "बातचीत शुरू करें" : "Let’s start a conversation", detail: hi ? "कोर्स, कस्टम आउटफ़िट और आपके सवाल।" : "Courses, custom outfits & your questions.", action: hi ? "WhatsApp पर चैट करें" : "Chat on WhatsApp" },
-    { kind: "facebook", name: "Facebook", href: facebook, subline: hi ? "हमारी रचनात्मक दुनिया" : "Our creative community", detail: hi ? "स्टूडियो की कहानियाँ, अपडेट और यादें।" : "Studio stories, updates & shared moments.", action: hi ? "Facebook पर जाएँ" : "Visit Facebook" },
-    { kind: "x", name: "X / Twitter", href: x, subline: socialHandle(x, "Our latest updates"), detail: hi ? "ताज़ा खबरें और रचनात्मक विचार।" : "Fresh news & creative thoughts.", action: hi ? "X पर फ़ॉलो करें" : "Follow on X" },
+    { kind: "instagram", name: "Instagram", href: instagram, subline: displayHandle(socials.instagramDisplayId, socialHandle(instagram, "@shreya.creationss")), detail: hi ? "डिज़ाइन, बारीकियाँ और हर दिन नई प्रेरणा।" : "Designs, details & everyday inspiration.", action: hi ? "Instagram पर फ़ॉलो करें" : "Follow on Instagram" },
+    { kind: "youtube", name: "YouTube", href: youtube, subline: displayHandle(socials.youtubeDisplayId, socialHandle(youtube, "@ShreyaCreations111")), detail: hi ? "सीखें, बनाएँ और अपनी कला निखारें।" : "Learn, create & make it your own.", action: hi ? "YouTube पर देखें" : "Watch on YouTube" },
+    { kind: "whatsapp", name: "WhatsApp", href: whatsapp, subline: socials.whatsappDisplayId || (hi ? "बातचीत शुरू करें" : "Let’s start a conversation"), detail: hi ? "कोर्स, कस्टम आउटफ़िट और आपके सवाल।" : "Courses, custom outfits & your questions.", action: hi ? "WhatsApp पर चैट करें" : "Chat on WhatsApp" },
+    { kind: "facebook", name: "Facebook", href: facebook, subline: socials.facebookDisplayId || (hi ? "हमारी रचनात्मक दुनिया" : "Our creative community"), detail: hi ? "स्टूडियो की कहानियाँ, अपडेट और यादें।" : "Studio stories, updates & shared moments.", action: hi ? "Facebook पर जाएँ" : "Visit Facebook" },
+    { kind: "x", name: "X / Twitter", href: x, subline: displayHandle(socials.xDisplayId, socialHandle(x, "Our latest updates")), detail: hi ? "ताज़ा खबरें और रचनात्मक विचार।" : "Fresh news & creative thoughts.", action: hi ? "X पर फ़ॉलो करें" : "Follow on X" },
   ].filter((channel) => channel.href);
 
   return (

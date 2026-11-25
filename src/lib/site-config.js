@@ -340,10 +340,15 @@ export function buildSITE(raw = {}, opts = {}) {
     googleReviewCount,
     socials: {
       instagram: str(socialsIn.instagram, DEFAULT_SOCIALS.instagram),
+      instagramDisplayId: str(socialsIn.instagramDisplayId, ""),
       youtube: str(socialsIn.youtube, DEFAULT_SOCIALS.youtube),
+      youtubeDisplayId: str(socialsIn.youtubeDisplayId, ""),
       youtubeChannelId: str(socialsIn.youtubeChannelId, ""),
+      whatsappDisplayId: str(socialsIn.whatsappDisplayId, ""),
       facebook: str(socialsIn.facebook, DEFAULT_SOCIALS.facebook),
+      facebookDisplayId: str(socialsIn.facebookDisplayId, ""),
       x: str(socialsIn.x ?? socialsIn.twitter, ""),
+      xDisplayId: str(socialsIn.xDisplayId, ""),
       whatsappNumber,
     },
     heroMarquee: Array.isArray(raw.hero_marquee ?? raw.heroMarquee)

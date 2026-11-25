@@ -53,10 +53,15 @@ const CONTACT_FIELDS = [
 
 const SOCIAL_FIELDS = [
   { name: "instagram", label: "Instagram URL", path: ["socials", "instagram"] },
+  { name: "instagramDisplayId", label: "Instagram ID on social card", path: ["socials", "instagramDisplayId"], hint: "Shown below Instagram heading. Enter the username with or without @. Leave blank to use the URL." },
   { name: "youtube", label: "YouTube URL", path: ["socials", "youtube"] },
+  { name: "youtubeDisplayId", label: "YouTube ID on social card", path: ["socials", "youtubeDisplayId"], hint: "Shown below YouTube heading. Enter the @handle; leave blank to use the URL." },
   { name: "youtubeChannelId", label: "YouTube channel ID", path: ["socials", "youtubeChannelId"], hint: "Optional. Required to show latest videos if you change the YouTube channel URL. Starts with UC." },
+  { name: "whatsappDisplayId", label: "WhatsApp line on social card", path: ["socials", "whatsappDisplayId"], hint: "Shown below WhatsApp heading. Leave blank for the default conversation line." },
   { name: "facebook", label: "Facebook URL", path: ["socials", "facebook"] },
+  { name: "facebookDisplayId", label: "Facebook ID or line on social card", path: ["socials", "facebookDisplayId"], hint: "Shown below Facebook heading. Leave blank for the default community line." },
   { name: "x", label: "X / Twitter URL", path: ["socials", "x"], hint: "Add your official profile URL to show its card on the homepage." },
+  { name: "xDisplayId", label: "X / Twitter ID on social card", path: ["socials", "xDisplayId"], hint: "Shown below X heading when its URL is set. Leave blank to use the URL." },
 ];
 
 function emptyForm() {
