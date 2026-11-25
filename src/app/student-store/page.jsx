@@ -41,7 +41,7 @@ export default async function StudentStoreHome() {
   const db = storeDb();
   let products = [], kits = [], error = false;
   if (db) { try { [products, kits] = await Promise.all([productCards(db, { limit: 4 }), kitCards(db, { limit: 4 })]); } catch { error = true; } }
-  return <StoreShell>
+  return <StoreShell siteTheme>
     <div className="student-store-home">
       <section className="ss-hero" aria-labelledby="store-heading">
         <div className="ss-hero-copy">

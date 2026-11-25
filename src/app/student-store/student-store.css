@@ -1,11 +1,18 @@
 .student-store-home {
+  --ss-copper: #a33d04;
+  --ss-peach: #a33d04;
+  --ss-cream: #fbf1e5;
+  --ss-muted: var(--text-muted);
+  --ss-line: rgba(141, 85, 46, 0.24);
+  color: var(--text);
+  overflow: hidden;
+}
+
+html.dark .student-store-home {
   --ss-copper: #e78a50;
   --ss-peach: #ffc093;
-  --ss-cream: #fbf1e5;
   --ss-muted: #cdb7a8;
   --ss-line: rgba(238, 166, 116, 0.22);
-  color: var(--ss-cream);
-  overflow: hidden;
 }
 
 .student-store-home * {
@@ -85,17 +92,23 @@
 .ss-hero h1 em {
   display: block;
   margin-top: 0.2em;
-  color: #e98850;
+  color: #a33d04;
   font-weight: 400;
-  background: linear-gradient(105deg, #f8bd89 0%, #e67c43 55%, #b95b32 100%);
+  background: linear-gradient(105deg, #a33d04 0%, #cc4f06 55%, #9d3a03 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+html.dark .ss-hero h1 em {
+  background: linear-gradient(105deg, #f8bd89 0%, #e67c43 55%, #b95b32 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 .ss-hero-lead {
   margin: 1.9rem 0 0;
-  color: #f6e4d3;
+  color: var(--text);
   font-size: clamp(1.1rem, 1.6vw, 1.35rem);
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -160,7 +173,7 @@
 }
 
 .ss-button-outline {
-  border-color: rgba(238, 166, 116, 0.55);
+  border-color: rgba(var(--orange-rgb), 0.45);
   color: var(--ss-peach);
   background: rgba(231, 138, 80, 0.04);
 }
@@ -175,9 +188,13 @@
   align-items: center;
   gap: 0.7rem;
   margin-top: 2.4rem;
-  color: #b89f8f;
+  color: #604b3e;
   font-size: 0.76rem;
   letter-spacing: 0.06em;
+}
+
+html.dark .ss-hero-note {
+  color: #b89f8f;
 }
 
 .ss-note-mark {
@@ -262,6 +279,7 @@
 }
 
 .ss-art-caption strong {
+  color: #fff;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(1.5rem, 2.4vw, 2.45rem);
   font-weight: 400;
@@ -326,11 +344,15 @@
   padding: 1rem 0;
   border-top: 1px solid var(--ss-line);
   border-bottom: 1px solid var(--ss-line);
-  color: #c89877;
+  color: #8f4a26;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.25em;
   white-space: nowrap;
+}
+
+html.dark .ss-marquee {
+  color: #c89877;
 }
 
 .ss-marquee > div {
@@ -405,7 +427,7 @@
   padding: 1.45rem;
   border: 1px solid rgba(219, 151, 105, 0.2);
   border-radius: 19px;
-  color: var(--ss-cream);
+  color: #fbf1e5;
   background: radial-gradient(circle at 78% 83%, rgba(173, 83, 40, 0.2), transparent 42%), linear-gradient(135deg, #2b1e19, #1b1513);
   text-decoration: none;
   transition: transform 320ms cubic-bezier(.2,.7,.2,1), border-color 320ms ease, box-shadow 320ms ease;
@@ -547,16 +569,29 @@
 
 .ss-promise-strip small {
   margin-top: 0.2rem;
-  color: #bca393;
+  color: #765c4b;
   font-size: 0.76rem;
+}
+
+html.dark .ss-promise-strip small {
+  color: #bca393;
 }
 
 .ss-recommendations > section {
   padding: 4rem 0;
 }
 
+.ss-recommendations > section > p:first-child {
+  color: var(--ss-copper);
+}
+
 .ss-recommendations > p {
   margin: 3rem 0 0;
+  color: var(--text);
+}
+
+.ss-recommendations article {
+  color: #f8f0e5;
 }
 
 .ss-product-grid {
@@ -566,6 +601,7 @@
 }
 
 .ss-product-grid article {
+  color: #f8f0e5;
   border-color: rgba(219, 151, 105, 0.24);
   border-radius: 19px;
   background: #251a16;
@@ -588,6 +624,7 @@
 }
 
 .ss-empty-state {
+  color: #f8f0e5;
   display: flex;
   min-height: 180px;
   align-items: center;
@@ -625,7 +662,7 @@
 .ss-empty-state p {
   max-width: 580px;
   margin: 0.4rem 0 0;
-  color: var(--ss-muted);
+  color: #dec6b5;
   font-size: 0.88rem;
   line-height: 1.7;
 }
@@ -645,8 +682,12 @@
   justify-content: center;
   gap: 1.5rem;
   padding: 1.4rem 0 0;
-  color: #b89179;
+  color: #704b39;
   text-align: center;
+}
+
+html.dark .ss-endnote {
+  color: #b89179;
 }
 
 .ss-endnote span {
