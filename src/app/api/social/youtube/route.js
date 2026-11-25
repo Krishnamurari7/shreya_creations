@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { DEFAULT_YOUTUBE_CHANNEL_ID } from "@/lib/site-config";
+import { getSiteSettings } from "@/lib/data";
 
 export const revalidate = 1800;
 
@@ -36,8 +37,15 @@ function parseYoutubeRss(xml) {
 
 export async function GET() {
   try {
+    const site = await getSiteSettings();
+    const configuredId = String(site.socials?.youtubeChannelId || "").trim();
+    const defaultChannel = /youtube\.com\/@ShreyaCreations111\/?$/i.test(String(site.socials?.youtube || ""));
+    const channelId = /^UC[A-Za-z0-9_-]{22}$/.test(configuredId)
+      ? configuredId
+      : defaultChannel ? DEFAULT_YOUTUBE_CHANNEL_ID : "";
+    if (!channelId) return NextResponse.json({ name: "", videos: [] });
     const res = await fetch(
-      `https://www.youtube.com/feeds/videos.xml?channel_id=${DEFAULT_YOUTUBE_CHANNEL_ID}`,
+      `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
       {
         headers: { Accept: "application/atom+xml,text/xml" },
         next: { revalidate: 1800 },

@@ -83,6 +83,7 @@ function sharedSocials(site) {
     site?.socials?.facebook || "https://www.facebook.com/shreyascreation",
     site?.socials?.instagram || "https://www.instagram.com/shreya.creationss/",
     site?.socials?.youtube || "https://www.youtube.com/@ShreyaCreations111",
+    site?.socials?.x,
   ].filter(Boolean);
 }
 

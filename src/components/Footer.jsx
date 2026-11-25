@@ -612,6 +612,13 @@ export default function Footer({ site }) {
                     </svg>
                   </SocialIcon>
                 )}
+                {site?.socials?.x && (
+                  <SocialIcon href={site.socials.x} label="Shreya Creation on X">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 32 32" aria-hidden="true">
+                      <path d="M5 4h6.4l5.8 8.1L24 4h3l-8.5 10 9.2 14h-6.3l-6.5-9.3L7 28H4l9.5-11.4L5 4Zm4 2 13.7 20h1.8L10.8 6H9Z" />
+                    </svg>
+                  </SocialIcon>
+                )}
                 {site?.socials?.youtube && (
                   <SocialIcon href={site.socials.youtube} label="Shreya Creation on YouTube">
                     <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">

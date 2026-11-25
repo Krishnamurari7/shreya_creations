@@ -8,6 +8,7 @@ import { pageBottomCtaProps, pickPage } from "@/lib/cms";
 import LazyWhenVisible from "@/components/LazyWhenVisible";
 import HomeBridalHero from "@/components/HomeBridalHero";
 import HomeAwardsMarquee from "@/components/HomeAwardsMarquee";
+import SocialFeeds from "@/components/SocialFeeds";
 import HomeCategoryCards from "@/components/CategoryCards";
 import HomeCoursesPreview from "@/components/HomeCoursesPreview";
 import PageCTA from "@/components/PageCTA";
@@ -18,14 +19,6 @@ const DesignProcess = dynamic(() =>
 
 const HomePortfolioPreview = dynamic(() => import("@/components/HomePortfolioPreview"), {
   loading: () => <div className="home-portfolio-skeleton min-h-[360px]" aria-hidden />,
-});
-const SocialFeeds = dynamic(() => import("@/components/SocialFeeds"), {
-  ssr: false,
-  loading: () => (
-    <div className="social-feeds-skeleton min-h-[280px] flex items-center justify-center text-sm text-muted" aria-busy="true">
-      Loading social feeds…
-    </div>
-  ),
 });
 const Testimonials = dynamic(() => import("@/components/Sections").then((mod) => mod.Testimonials), {
   ssr: false,
@@ -107,24 +100,14 @@ export default function HomepageClient({
 
       <HomeAwardsMarquee home={home} lang={lang} />
 
+      <SocialFeeds site={site} lang={lang} />
+
       <HomeCategoryCards lang={lang} site={site} whatsapp={site.whatsapp} home={home} />
 
       <HomeCoursesPreview courses={courses} home={home} site={site} />
 
       <LazyWhenVisible fallback={<div className="home-portfolio-skeleton min-h-[360px]" aria-hidden />}>
         <HomePortfolioPreview portfolio={portfolio} home={home} lang={lang} />
-      </LazyWhenVisible>
-
-      <LazyWhenVisible
-        fallback={
-          <section className="home-instagram-band relative z-20 overflow-hidden">
-            <div className="social-feeds-skeleton min-h-[280px]" aria-hidden />
-          </section>
-        }
-      >
-        <section className="home-instagram-band relative z-20 overflow-hidden">
-          <SocialFeeds site={site} lang={lang} />
-        </section>
       </LazyWhenVisible>
 
       {/* ===== STUDENT SUCCESS ===== */}

@@ -54,7 +54,9 @@ const CONTACT_FIELDS = [
 const SOCIAL_FIELDS = [
   { name: "instagram", label: "Instagram URL", path: ["socials", "instagram"] },
   { name: "youtube", label: "YouTube URL", path: ["socials", "youtube"] },
+  { name: "youtubeChannelId", label: "YouTube channel ID", path: ["socials", "youtubeChannelId"], hint: "Optional. Required to show latest videos if you change the YouTube channel URL. Starts with UC." },
   { name: "facebook", label: "Facebook URL", path: ["socials", "facebook"] },
+  { name: "x", label: "X / Twitter URL", path: ["socials", "x"], hint: "Add your official profile URL to show its card on the homepage." },
 ];
 
 function emptyForm() {
@@ -212,6 +214,19 @@ export default function SettingsAdmin() {
     };
     const { error } = await supabase.from("settings").upsert(payload);
     setSaving(false);
+    if (!error) {
+      try {
+        const response = await fetch("/api/admin/revalidate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paths: ["/", "/hi", "/api/social/youtube"], tags: ["site-content"] }),
+        });
+        if (!response.ok) throw new Error("Cache refresh failed");
+      } catch {
+        setMsg("Saved, but the homepage cache could not refresh. The change may take a little longer to appear.");
+        return;
+      }
+    }
     setMsg(
       error
         ? error.message.includes("permission denied")

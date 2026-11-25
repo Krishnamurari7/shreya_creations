@@ -341,7 +341,9 @@ export function buildSITE(raw = {}, opts = {}) {
     socials: {
       instagram: str(socialsIn.instagram, DEFAULT_SOCIALS.instagram),
       youtube: str(socialsIn.youtube, DEFAULT_SOCIALS.youtube),
+      youtubeChannelId: str(socialsIn.youtubeChannelId, ""),
       facebook: str(socialsIn.facebook, DEFAULT_SOCIALS.facebook),
+      x: str(socialsIn.x ?? socialsIn.twitter, ""),
       whatsappNumber,
     },
     heroMarquee: Array.isArray(raw.hero_marquee ?? raw.heroMarquee)

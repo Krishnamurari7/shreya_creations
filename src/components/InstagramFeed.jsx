@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { PAGE_CONTAINER, REVEAL, SECTION_EYEBROW, SECTION_TITLE } from "@/lib/ui";
-import { DEFAULT_SOCIALS } from "@/lib/site-config";
 
 const INSTAGRAM_EMBED_BASE = "https://www.instagram.com";
 
-export default function InstagramFeed({ handle = "shreya.creationss", lang = "en", compact = false }) {
+export default function InstagramFeed({ handle = "shreya.creationss", profileUrl: profileUrlProp, lang = "en", compact = false }) {
   const cleanHandle = String(handle || "shreya.creationss").replace(/^@/, "");
-  const profileUrl = DEFAULT_SOCIALS.instagram || `${INSTAGRAM_EMBED_BASE}/${cleanHandle}/`;
+  const profileUrl = profileUrlProp || `${INSTAGRAM_EMBED_BASE}/${cleanHandle}/`;
   const embedSrc = `${INSTAGRAM_EMBED_BASE}/${cleanHandle}/embed`;
   const rootRef = useRef(null);
   const [active, setActive] = useState(false);
