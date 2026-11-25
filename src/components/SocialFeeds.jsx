@@ -2,8 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { PAGE_CONTAINER, REVEAL } from "@/lib/ui";
-import InstagramFeed from "@/components/InstagramFeed";
-import YouTubeFeed from "@/components/YouTubeFeed";
 import "./social-feeds.css";
 
 function safeUrl(value) {
@@ -12,15 +10,6 @@ function safeUrl(value) {
     return ["https:", "http:"].includes(url.protocol) ? url.href : "";
   } catch {
     return "";
-  }
-}
-
-function instagramHandle(url, fallback) {
-  try {
-    const handle = new URL(url).pathname.split("/").filter(Boolean)[0];
-    return handle && !["p", "reel", "stories"].includes(handle) ? handle : fallback;
-  } catch {
-    return fallback;
   }
 }
 
@@ -84,13 +73,6 @@ export default function SocialFeeds({ site, lang = "en" }) {
           </a>)}
         </div>
         <p className="home-social-section__closing">{hi ? "थोड़ी सी प्रेरणा, जहाँ भी आप हों।" : "A little inspiration, wherever you are."}</p>
-        {(instagram || youtube) && <div className="home-social-section__feeds">
-          <div className="home-social-section__feeds-heading"><span>{hi ? "हमारे चैनलों से" : "FROM OUR CHANNELS"}</span><span aria-hidden="true">✦</span></div>
-          <div className="social-feeds__row">
-            {instagram && <InstagramFeed compact handle={instagramHandle(instagram, site?.instagramHandle || "shreya.creationss")} profileUrl={instagram} lang={lang} />}
-            {youtube && <YouTubeFeed compact channelUrl={youtube} lang={lang} />}
-          </div>
-        </div>}
       </div>
     </section>
   );

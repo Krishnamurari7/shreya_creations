@@ -235,29 +235,10 @@
   letter-spacing: .16em;
   text-align: center;
 }
-.home-social-section__feeds {
-  margin-top: clamp(3.5rem, 6vw, 5.5rem);
-  padding-top: 2rem;
-  border-top: 1px solid rgba(133,33,91,.16);
-}
-.home-social-section__feeds-heading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .8rem;
-  margin-bottom: 1.65rem;
-  color: #7a174d;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .21em;
-}
-.home-social-section__feeds .social-feeds__row { justify-content: center; }
-.home-social-section__feeds .social-feed-card { border-radius: 20px; }
 html.dark .home-social-section { background: radial-gradient(ellipse at 50% 40%, rgba(118,37,98,.3), transparent 70%), #211623; color: #fff0f9; }
 html.dark .home-social-card { border-color: rgba(255,255,255,.14); background: rgba(70,34,62,.79); color: #fff0f9; }
 html.dark .home-social-card__body small, html.dark .home-social-section__closing { color: #e6bfd6; }
 html.dark .home-social-section__intro h2 em { color: #ff8ebd; }
-html.dark .home-social-section__feeds-heading { color: #ffadd1; }
 @keyframes social-icon-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 @media (max-width: 850px) {
   .home-social-section__intro { gap: 1.5rem; }
