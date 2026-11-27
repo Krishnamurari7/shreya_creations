@@ -112,17 +112,15 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={latinFontVariables} suppressHydrationWarning>
       <head>
-        {/* Google Tag Manager */}
+        {/* Google tag */}
+        <script async src="https://www.googletagmanager.com/gtm.js?id=AW-11033186057"></script>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KR5S7H2V');`,
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());`,
           }}
         />
-        {/* End Google Tag Manager */}
         <link
           rel="preload"
           as="image"
@@ -145,16 +143,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <link rel="alternate" type="text/markdown" href={`${siteUrl}/llms.txt`} title="LLM site index" />
       </head>
       <body className={cn(BG_ATMOSPHERE, "has-mobile-contact-bar")} suppressHydrationWarning>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-KR5S7H2V"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
